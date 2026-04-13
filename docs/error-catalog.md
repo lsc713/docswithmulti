@@ -1,0 +1,118 @@
+# Error catalog
+
+모든 에러 응답은 아래 포맷을 따른다.
+
+## 응답 포맷
+
+```json
+{
+  "code": "ERROR_CODE",
+  "message": "사람이 읽을 수 있는 설명",
+  "detail": {}
+}
+```
+
+`detail`은 에러 유형에 따라 다른 필드를 포함한다.
+정보가 없는 에러는 `detail`을 생략한다.
+
+---
+
+## HTTP 상태코드 기준
+
+| 상태코드 | 사용 기준 |
+|---------|---------|
+| 400 | 요청 형식/구조 오류 |
+| 403 | 인가 실패 (권한 없음) |
+| 404 | 리소스 없음 |
+| 409 | 멱등 중복 요청 |
+| 422 | 비즈니스 규칙 위반 |
+| 500 | 서버 내부 오류 |
+| 503 | 외부 모듈 장애 |
+
+---
+
+## 에러 코드 목록
+
+### 요청 형식 오류 (400)
+
+| code | message | detail |
+|------|---------|--------|
+| `INVALID_REQUEST` | 요청 형식이 올바르지 않습니다. | `{ "fields": ["cancelAmount"] }` |
+| `CANCEL_AMOUNT_MISMATCH` | 취소 항목 합계가 총 취소 금액과 일치하지 않습니다. | `{ "requestedTotal": 500000, "itemsTotal": 400000 }` |
+| `DUPLICATE_PAYMENT_ITEM` | 동일한 항목이 중복 포함되어 있습니다. | `{ "duplicatedItemId": 12 }` |
+| `EMPTY_CANCEL_ITEMS` | 취소 항목이 비어있습니다. | 생략 |
+| `INVALID_CANCEL_AMOUNT` | 취소 금액은 1원 이상이어야 합니다. | `{ "cancelAmount": 0 }` |
+
+### 인가 오류 (403)
+
+| code | message | detail |
+|------|---------|--------|
+| `FORBIDDEN_PAYMENT` | 해당 결제에 대한 취소 권한이 없습니다. | 생략 |
+
+### 리소스 없음 (404)
+
+| code | message | detail |
+|------|---------|--------|
+| `PAYMENT_NOT_FOUND` | 결제 정보를 찾을 수 없습니다. | `{ "paymentKey": "pay_xyz" }` |
+| `PAYMENT_ITEM_NOT_FOUND` | 취소 항목을 찾을 수 없습니다. | `{ "paymentItemId": 99 }` |
+
+### 멱등 중복 (409)
+
+| code | message | detail |
+|------|---------|--------|
+| `IDEMPOTENT_DUPLICATION` | 이미 처리된 요청입니다. | `{ "originalStatus": "COMPLETED", "cancelRequestId": "cr_abc" }` |
+
+### 비즈니스 규칙 위반 (422)
+
+| code | message | detail |
+|------|---------|--------|
+| `INVALID_PAYMENT_STATUS` | 현재 결제 상태에서는 취소할 수 없습니다. | `{ "currentStatus": "CANCELLED" }` |
+| `INVALID_PAYMENT_ITEM_STATUS` | 이미 취소된 항목입니다. | `{ "paymentItemId": 12, "currentStatus": "CANCELLED" }` |
+| `CANCEL_AMOUNT_EXCEEDED` | 취소 금액이 잔여 취소 가능액을 초과했습니다. | `{ "paymentItemId": 12, "requestedAmount": 500000, "availableAmount": 300000 }` |
+| `MERCHANT_CANCEL_LIMIT_EXCEEDED` | 가맹점 일일 취소한도를 초과했습니다. | `{ "requestedAmount": 500000, "remainingLimit": 300000, "dailyLimit": 1000000 }` |
+| `MERCHANT_CANCEL_LIMIT_NOT_FOUND` | 가맹점 취소한도가 설정되지 않았습니다. | `{ "merchantId": 123 }` |
+| `CANCEL_PERIOD_EXCEEDED` | 취소 가능 기간이 지났습니다. | `{ "paymentCreatedAt": "2025-12-01T00:00:00Z", "cancelPeriodDays": 90 }` |
+| `INVALID_ORDER_STATUS` | 현재 주문 상태에서는 취소할 수 없습니다. | `{ "currentStatus": "DELIVERING" }` |
+| `MERCHANT_SUSPENDED` | 정지된 가맹점의 취소 요청은 처리할 수 없습니다. | 생략 |
+| `RISK_REJECTED` | 위험관리 정책에 의해 취소가 거부되었습니다. | 생략 (보안상 상세 노출 금지) |
+
+### 서버 오류 (500)
+
+| code | message | detail |
+|------|---------|--------|
+| `INTERNAL_ERROR` | 서버 오류가 발생했습니다. | 생략 (내부 정보 노출 금지) |
+
+### 외부 모듈 장애 (503)
+
+| code | message | detail |
+|------|---------|--------|
+| `MERCHANT_LIMIT_SERVICE_UNAVAILABLE` | 취소한도 서비스가 일시적으로 이용 불가합니다. | `{ "retryAfterSeconds": 30 }` |
+| `RISK_SERVICE_UNAVAILABLE` | 위험관리 서비스가 일시적으로 이용 불가합니다. | `{ "retryAfterSeconds": 30 }` |
+
+---
+
+## 규칙
+
+- `code`는 대문자 SNAKE_CASE로 통일한다.
+- `message`는 한국어로 작성한다.
+- `detail`에 스택트레이스, SQL, 내부 경로를 절대 포함하지 않는다.
+- `RISK_REJECTED`는 거부 사유를 detail에 포함하지 않는다.
+- 500 에러는 서버 로그에만 상세 내용을 기록한다.
+- 503 에러는 `retryAfterSeconds`를 포함해 클라이언트가 재시도 시점을 알 수 있게 한다.
+
+---
+
+## 에러 우선순위
+
+```
+1. 요청 형식 오류 (400)
+2. 인가 오류 (403)
+3. 리소스 없음 (404)
+4. 멱등 중복 (409)
+5. 비즈니스 규칙 (422) — 순서대로
+     Payment 상태 확인
+     PaymentItem 상태 확인
+     취소 금액 검증
+     가맹점 한도 검증
+     위험관리 검증
+```
