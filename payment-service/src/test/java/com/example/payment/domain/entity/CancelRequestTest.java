@@ -1,5 +1,6 @@
 package com.example.payment.domain.entity;
 
+import com.example.payment.common.exception.ErrorCode;
 import com.example.payment.domain.exception.InvalidCancelAmountException;
 import com.example.payment.domain.exception.InvalidCancelStateTransitionException;
 import org.junit.jupiter.api.DisplayName;
@@ -54,7 +55,7 @@ class CancelRequestTest {
                 "고객 변심", CancellerType.USER, 10L
             )
         );
-        assertEquals("INVALID_CANCEL_AMOUNT", ex.getErrorCode());
+        assertEquals(ErrorCode.INVALID_CANCEL_AMOUNT, ex.getErrorCode());
     }
 
     @Test
@@ -69,7 +70,7 @@ class CancelRequestTest {
                 "고객 변심", CancellerType.USER, 10L
             )
         );
-        assertEquals("INVALID_CANCEL_AMOUNT", ex.getErrorCode());
+        assertEquals(ErrorCode.INVALID_CANCEL_AMOUNT, ex.getErrorCode());
     }
 
     @Test
@@ -144,13 +145,13 @@ class CancelRequestTest {
             InvalidCancelStateTransitionException.class,
             cancelRequest::toProcessing
         );
-        assertEquals("INVALID_PAYMENT_STATUS", ex1.getErrorCode());
+        assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, ex1.getErrorCode());
 
         InvalidCancelStateTransitionException ex2 = assertThrows(
             InvalidCancelStateTransitionException.class,
             () -> cancelRequest.toFailed("reason")
         );
-        assertEquals("INVALID_PAYMENT_STATUS", ex2.getErrorCode());
+        assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, ex2.getErrorCode());
     }
 
     @Test
@@ -169,13 +170,13 @@ class CancelRequestTest {
             InvalidCancelStateTransitionException.class,
             cancelRequest::toProcessing
         );
-        assertEquals("INVALID_PAYMENT_STATUS", ex1.getErrorCode());
+        assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, ex1.getErrorCode());
 
         InvalidCancelStateTransitionException ex2 = assertThrows(
             InvalidCancelStateTransitionException.class,
             cancelRequest::toCompleted
         );
-        assertEquals("INVALID_PAYMENT_STATUS", ex2.getErrorCode());
+        assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, ex2.getErrorCode());
     }
 
     @Test
@@ -194,7 +195,7 @@ class CancelRequestTest {
             InvalidCancelStateTransitionException.class,
             cancelRequest::toProcessing
         );
-        assertEquals("INVALID_PAYMENT_STATUS", ex.getErrorCode());
+        assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, ex.getErrorCode());
     }
 
     @Test
@@ -211,6 +212,6 @@ class CancelRequestTest {
             InvalidCancelStateTransitionException.class,
             cancelRequest::toCompleted
         );
-        assertEquals("INVALID_PAYMENT_STATUS", ex.getErrorCode());
+        assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, ex.getErrorCode());
     }
 }

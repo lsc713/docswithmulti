@@ -1,6 +1,7 @@
 package com.example.payment.domain.exception;
 
 import com.example.payment.common.exception.BusinessException;
+import com.example.payment.common.exception.ErrorCode;
 
 /**
  * 도메인 계층의 비즈니스 규칙 위반을 나타내는 기본 예외
@@ -10,11 +11,11 @@ import com.example.payment.common.exception.BusinessException;
  */
 public abstract class DomainException extends BusinessException {
 
-    protected DomainException(String errorCode, String message) {
+    protected DomainException(ErrorCode errorCode, String message) {
         super(errorCode, message);
     }
 
-    protected DomainException(String errorCode, String message, Throwable cause) {
+    protected DomainException(ErrorCode errorCode, String message, Throwable cause) {
         super(errorCode, message, cause);
     }
 }

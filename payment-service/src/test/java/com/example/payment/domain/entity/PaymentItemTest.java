@@ -2,6 +2,7 @@ package com.example.payment.domain.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.payment.common.exception.ErrorCode;
 import com.example.payment.domain.exception.CancelAmountExceededException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
@@ -118,7 +119,7 @@ class PaymentItemTest {
                 () -> item.cancelPartially(BigDecimal.valueOf(100001))
             );
 
-            assertEquals("CANCEL_AMOUNT_EXCEEDED", exception.getErrorCode());
+            assertEquals(ErrorCode.CANCEL_AMOUNT_EXCEEDED, exception.getErrorCode());
             assertEquals(BigDecimal.valueOf(100001), exception.getRequestedAmount());
             assertEquals(BigDecimal.valueOf(100000), exception.getAvailableAmount());
         }
@@ -200,7 +201,7 @@ class PaymentItemTest {
                 () -> item.cancelPartially(BigDecimal.valueOf(70001))
             );
 
-            assertEquals("CANCEL_AMOUNT_EXCEEDED", exception.getErrorCode());
+            assertEquals(ErrorCode.CANCEL_AMOUNT_EXCEEDED, exception.getErrorCode());
             assertEquals(BigDecimal.valueOf(70001), exception.getRequestedAmount());
             assertEquals(BigDecimal.valueOf(70000), exception.getAvailableAmount());
         }
@@ -240,7 +241,7 @@ class PaymentItemTest {
                 () -> item.cancelPartially(BigDecimal.valueOf(1))
             );
 
-            assertEquals("CANCEL_AMOUNT_EXCEEDED", exception.getErrorCode());
+            assertEquals(ErrorCode.CANCEL_AMOUNT_EXCEEDED, exception.getErrorCode());
         }
     }
 }

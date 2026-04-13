@@ -2,6 +2,7 @@ package com.example.payment.domain.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.example.payment.common.exception.ErrorCode;
 import com.example.payment.domain.exception.CancelNotAllowedException;
 import com.example.payment.domain.exception.CancelPeriodExceededException;
 import java.math.BigDecimal;
@@ -190,7 +191,7 @@ class PaymentTest {
                 CancelNotAllowedException.class,
                 pendingPayment::validateCancellable
             );
-            assertEquals("INVALID_PAYMENT_STATUS", exception.getErrorCode());
+            assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, exception.getErrorCode());
             assertEquals(PaymentStatus.PENDING, exception.getCurrentStatus());
         }
 
@@ -201,7 +202,7 @@ class PaymentTest {
                 CancelNotAllowedException.class,
                 cancelledPayment::validateCancellable
             );
-            assertEquals("INVALID_PAYMENT_STATUS", exception.getErrorCode());
+            assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, exception.getErrorCode());
         }
 
         @Test
@@ -211,7 +212,7 @@ class PaymentTest {
                 CancelNotAllowedException.class,
                 cancelFailedPayment::validateCancellable
             );
-            assertEquals("INVALID_PAYMENT_STATUS", exception.getErrorCode());
+            assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, exception.getErrorCode());
         }
     }
 
@@ -259,7 +260,7 @@ class PaymentTest {
                 CancelPeriodExceededException.class,
                 payment::validateCancelPeriod
             );
-            assertEquals("CANCEL_PERIOD_EXCEEDED", exception.getErrorCode());
+            assertEquals(ErrorCode.CANCEL_PERIOD_EXCEEDED, exception.getErrorCode());
             assertEquals(90, exception.getCancelPeriodDays());
         }
 
