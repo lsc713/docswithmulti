@@ -130,7 +130,7 @@ public Optional<CancelRequest> findById(Long id) {
 // 또는 예외로 표현
 public CancelRequest getById(Long id) {
     return repository.findById(id)
-        .orElseThrow(() -> new CancelRequestNotFoundException(id));
+            .orElseThrow(() -> new CancelRequestNotFoundException(id));
 }
 ```
 
@@ -263,21 +263,21 @@ public class CancelAmountPolicy {
 ```java
 public class CancelRequest {
     public static CancelRequest create(
-        Payment payment,
-        Money cancelAmount,
-        String reason,
-        CancellerType cancellerType,
-        Long cancelledBy,
-        String idempotencyKey
+            Payment payment,
+            Money cancelAmount,
+            String reason,
+            CancellerType cancellerType,
+            Long cancelledBy,
+            String idempotencyKey
     ) {
         return new CancelRequest(
-            payment.getId(),
-            cancelAmount,
-            reason,
-            cancellerType,
-            cancelledBy,
-            idempotencyKey,
-            CancelRequestStatus.PENDING
+                payment.getId(),
+                cancelAmount,
+                reason,
+                cancellerType,
+                cancelledBy,
+                idempotencyKey,
+                CancelRequestStatus.PENDING
         );
     }
 }
@@ -311,10 +311,10 @@ public class MerchantLimitHttpClient implements MerchantLimitPort {
 ```java
 @Lock(LockModeType.PESSIMISTIC_WRITE)
 @Query("SELECT m FROM MerchantCancelUsage m " +
-       "WHERE m.merchantId = :merchantId " +
-       "AND m.kstDate = :kstDate")
+        "WHERE m.merchantId = :merchantId " +
+        "AND m.kstDate = :kstDate")
 Optional<MerchantCancelUsage> findByMerchantIdAndDateForUpdate(
-    Long merchantId, LocalDate kstDate);
+                Long merchantId, LocalDate kstDate);
 ```
 
 ### 멱등성 처리
@@ -323,9 +323,9 @@ UK 제약 위반을 잡아서 멱등 응답으로 변환한다.
 
 ```java
 try {
-    idempotencyKeyRepository.save(idempotencyKey);
+        idempotencyKeyRepository.save(idempotencyKey);
 } catch (DataIntegrityViolationException e) {
-    return idempotencyKeyRepository
+        return idempotencyKeyRepository
         .findByIdemKey(key)
         .map(IdempotencyKey::getResponseBody)
         .orElseThrow();
@@ -359,14 +359,14 @@ void should_reject_entire_amount_when_merchant_daily_limit_exceeded() { }
 void should_throw_exception_when_cancel_amount_exceeds_available_amount() {
     // given
     PaymentItem item = PaymentItem.builder()
-        .amount(Money.of(new BigDecimal("100000"), "KRW"))
-        .cancelledAmount(Money.of(new BigDecimal("70000"), "KRW"))
-        .build();
+            .amount(Money.of(new BigDecimal("100000"), "KRW"))
+            .cancelledAmount(Money.of(new BigDecimal("70000"), "KRW"))
+            .build();
     Money cancelAmount = Money.of(new BigDecimal("50000"), "KRW");
 
     // when & then
     assertThatThrownBy(() -> policy.validate(item, cancelAmount))
-        .isInstanceOf(CancelAmountExceededException.class);
+            .isInstanceOf(CancelAmountExceededException.class);
 }
 ```
 
@@ -421,12 +421,12 @@ class CancelControllerTest { }
 @Getter
 @Builder(access = AccessLevel.PRIVATE)
 public class CancelRequest {
- 
+
     private final Long id;
     private final Long paymentId;
     private final BigDecimal cancelAmount;
     private final CancelRequestStatus status;
- 
+
     // 외부에서는 정적 팩토리 메서드로만 생성
     public static CancelRequest create(Long paymentId, BigDecimal amount) {
         return CancelRequest.builder()
@@ -436,14 +436,69 @@ public class CancelRequest {
             .build();
     }
 }
- 
+
 // 서비스 (의존성 주입)
 @Slf4j
 @RequiredArgsConstructor
 public class CancelPaymentService implements CancelPaymentUseCase {
- 
+
     private final CancelRequestRepository cancelRequestRepository;
     private final MerchantLimitPort merchantLimitPort;
+}
+```
+
+---
+
+## 예외 작성 규칙
+
+### 예외 위치
+
+```
+common/exception
+  BusinessException          모든 커스텀 예외의 부모 (errorCode, httpStatus 포함)
+
+domain/exception             비즈니스 규칙 위반만
+  예: InvalidCancelAmountException
+      InvalidPaymentStatusException
+      CancelPeriodExceededException
+
+application/exception        리소스 없음, 멱등 중복
+  예: PaymentNotFoundException
+      IdempotentDuplicationException
+
+infrastructure/exception     외부 연동 실패
+  예: MerchantLimitServiceException
+      RiskServiceException
+```
+
+### 예외 사용 규칙
+
+```
+- IllegalStateException, IllegalArgumentException 직접 사용 금지
+  → error-catalog.md 예외 클래스 매핑 확인 후 커스텀 예외 사용
+- 비즈니스 규칙 위반이 아닌 예외를 domain/exception에 두지 않음
+- 새 예외가 필요하면 error-catalog.md에 먼저 추가 후 구현
+```
+
+### BusinessException 구현
+
+```java
+public abstract class BusinessException extends RuntimeException {
+    private final String errorCode;
+    private final int httpStatus;
+
+    protected BusinessException(String errorCode, int httpStatus, String message) {
+        super(message);
+        this.errorCode = errorCode;
+        this.httpStatus = httpStatus;
+    }
+}
+
+// 예시
+public class InvalidCancelAmountException extends BusinessException {
+    public InvalidCancelAmountException() {
+        super("INVALID_CANCEL_AMOUNT", 400, "취소 금액은 1원 이상이어야 합니다.");
+    }
 }
 ```
 
