@@ -82,6 +82,35 @@ public class Payment {
     }
 
     /**
+     * 특정 생성 시각으로 Payment를 생성한다
+     * Fixture 또는 과거 데이터 import 등에서 사용
+     */
+    public static Payment of(
+        String paymentKey,
+        long merchantId,
+        long userId,
+        String pgType,
+        BigDecimal totalAmount,
+        String currency,
+        int cancelPeriodDays,
+        LocalDateTime createdAt
+    ) {
+        return new Payment(
+            0,
+            paymentKey,
+            merchantId,
+            userId,
+            pgType,
+            totalAmount,
+            currency,
+            cancelPeriodDays,
+            PaymentStatus.COMPLETED,
+            createdAt,
+            createdAt
+        );
+    }
+
+    /**
      * PENDING 상태의 Payment를 생성한다 (테스트 용도)
      */
     public static Payment ofPending(
