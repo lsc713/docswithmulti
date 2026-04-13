@@ -392,6 +392,63 @@ class CancelControllerTest { }
 
 ---
 
+## Lombok 사용 정책
+
+### 허용 어노테이션
+
+| 어노테이션 | 용도 |
+|-----------|------|
+| `@Getter` | 필드 조회 |
+| `@Builder` | 객체 생성 (access = PRIVATE 권장) |
+| `@ToString` | 디버깅 |
+| `@EqualsAndHashCode` | 값객체 동등성 비교 |
+| `@Slf4j` | 로거 생성 |
+| `@RequiredArgsConstructor` | 인프라/설정 클래스의 의존성 주입 |
+
+### 금지 어노테이션
+
+| 어노테이션 | 금지 이유 |
+|-----------|---------|
+| `@Setter` | 불변성 원칙 위반 |
+| `@Data` | @Setter 포함 |
+| `@AllArgsConstructor` | 정적 팩토리 메서드 원칙 위반 |
+| `@NoArgsConstructor` | 도메인 엔티티에서 의미 없는 생성 허용 |
+
+### 사용 예시
+
+```java
+// 도메인 엔티티
+@Getter
+@Builder(access = AccessLevel.PRIVATE)
+public class CancelRequest {
+ 
+    private final Long id;
+    private final Long paymentId;
+    private final BigDecimal cancelAmount;
+    private final CancelRequestStatus status;
+ 
+    // 외부에서는 정적 팩토리 메서드로만 생성
+    public static CancelRequest create(Long paymentId, BigDecimal amount) {
+        return CancelRequest.builder()
+            .paymentId(paymentId)
+            .cancelAmount(amount)
+            .status(CancelRequestStatus.PENDING)
+            .build();
+    }
+}
+ 
+// 서비스 (의존성 주입)
+@Slf4j
+@RequiredArgsConstructor
+public class CancelPaymentService implements CancelPaymentUseCase {
+ 
+    private final CancelRequestRepository cancelRequestRepository;
+    private final MerchantLimitPort merchantLimitPort;
+}
+```
+
+---
+
 ## 커밋 메시지 컨벤션
 
 ```
