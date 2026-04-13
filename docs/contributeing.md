@@ -263,21 +263,21 @@ public class CancelAmountPolicy {
 ```java
 public class CancelRequest {
     public static CancelRequest create(
-            Payment payment,
-            Money cancelAmount,
-            String reason,
-            CancellerType cancellerType,
-            Long cancelledBy,
-            String idempotencyKey
+        Payment payment,
+        Money cancelAmount,
+        String reason,
+        CancellerType cancellerType,
+        Long cancelledBy,
+        String idempotencyKey
     ) {
         return new CancelRequest(
-                payment.getId(),
-                cancelAmount,
-                reason,
-                cancellerType,
-                cancelledBy,
-                idempotencyKey,
-                CancelRequestStatus.PENDING
+            payment.getId(),
+            cancelAmount,
+            reason,
+            cancellerType,
+            cancelledBy,
+            idempotencyKey,
+            CancelRequestStatus.PENDING
         );
     }
 }
@@ -311,10 +311,10 @@ public class MerchantLimitHttpClient implements MerchantLimitPort {
 ```java
 @Lock(LockModeType.PESSIMISTIC_WRITE)
 @Query("SELECT m FROM MerchantCancelUsage m " +
-        "WHERE m.merchantId = :merchantId " +
-        "AND m.kstDate = :kstDate")
+       "WHERE m.merchantId = :merchantId " +
+       "AND m.kstDate = :kstDate")
 Optional<MerchantCancelUsage> findByMerchantIdAndDateForUpdate(
-                Long merchantId, LocalDate kstDate);
+    Long merchantId, LocalDate kstDate);
 ```
 
 ### 멱등성 처리
@@ -323,9 +323,9 @@ UK 제약 위반을 잡아서 멱등 응답으로 변환한다.
 
 ```java
 try {
-        idempotencyKeyRepository.save(idempotencyKey);
+    idempotencyKeyRepository.save(idempotencyKey);
 } catch (DataIntegrityViolationException e) {
-        return idempotencyKeyRepository
+    return idempotencyKeyRepository
         .findByIdemKey(key)
         .map(IdempotencyKey::getResponseBody)
         .orElseThrow();
@@ -352,6 +352,90 @@ void should_return_existing_result_when_same_idempotency_key_requested() { }
 void should_reject_entire_amount_when_merchant_daily_limit_exceeded() { }
 ```
 
+### @BeforeEach와 @Nested 활용
+
+공통 초기화는 `@BeforeEach`로 추출한다.
+상태 전이 테스트처럼 "어떤 상태에서" 가 핵심인 경우 `@Nested`로 상태별 컨텍스트를 분리한다.
+
+```java
+@DisplayName("CancelRequest 도메인 엔티티")
+class CancelRequestTest {
+
+    // 공통 초기화 — PENDING 상태
+    private CancelRequest cancelRequest;
+
+    @BeforeEach
+    void setUp() {
+        cancelRequest = CancelRequest.create(
+            1L, "idem-123", new BigDecimal("100000"),
+            "고객 변심", CancellerType.USER, 10L
+        );
+    }
+
+    @Nested
+    @DisplayName("PENDING 상태일 때")
+    class WhenPending {
+
+        @Test
+        void should_transition_to_processing() {
+            cancelRequest.toProcessing();
+            assertEquals(CancelStatus.PROCESSING, cancelRequest.getStatus());
+        }
+
+        @Test
+        void should_reject_transition_to_completed() {
+            assertThrows(InvalidCancelStateTransitionException.class,
+                cancelRequest::toCompleted);
+        }
+    }
+
+    @Nested
+    @DisplayName("PROCESSING 상태일 때")
+    class WhenProcessing {
+
+        @BeforeEach
+        void toProcessing() {
+            cancelRequest.toProcessing();  // 부모 setUp() 이후 실행
+        }
+
+        @Test
+        void should_transition_to_completed() {
+            cancelRequest.toCompleted();
+            assertEquals(CancelStatus.COMPLETED, cancelRequest.getStatus());
+        }
+
+        @Test
+        void should_transition_to_failed() {
+            cancelRequest.toFailed("DB 타임아웃");
+            assertEquals(CancelStatus.FAILED, cancelRequest.getStatus());
+        }
+    }
+
+    @Nested
+    @DisplayName("COMPLETED 상태일 때")
+    class WhenCompleted {
+
+        @BeforeEach
+        void toCompleted() {
+            cancelRequest.toProcessing();
+            cancelRequest.toCompleted();
+        }
+
+        @Test
+        void should_reject_any_transition() {
+            assertThrows(InvalidCancelStateTransitionException.class,
+                cancelRequest::toProcessing);
+            assertThrows(InvalidCancelStateTransitionException.class,
+                () -> cancelRequest.toFailed("reason"));
+        }
+    }
+}
+```
+
+@Nested 활용 기준:
+- 상태 전이, 조건 분기처럼 "전제 조건"이 다른 테스트 그룹에 사용
+- 단순 단위 테스트는 @Nested 없이 @BeforeEach만으로 충분
+
 ### Given / When / Then
 
 ```java
@@ -359,14 +443,14 @@ void should_reject_entire_amount_when_merchant_daily_limit_exceeded() { }
 void should_throw_exception_when_cancel_amount_exceeds_available_amount() {
     // given
     PaymentItem item = PaymentItem.builder()
-            .amount(Money.of(new BigDecimal("100000"), "KRW"))
-            .cancelledAmount(Money.of(new BigDecimal("70000"), "KRW"))
-            .build();
+        .amount(Money.of(new BigDecimal("100000"), "KRW"))
+        .cancelledAmount(Money.of(new BigDecimal("70000"), "KRW"))
+        .build();
     Money cancelAmount = Money.of(new BigDecimal("50000"), "KRW");
 
     // when & then
     assertThatThrownBy(() -> policy.validate(item, cancelAmount))
-            .isInstanceOf(CancelAmountExceededException.class);
+        .isInstanceOf(CancelAmountExceededException.class);
 }
 ```
 
@@ -475,29 +559,68 @@ infrastructure/exception     외부 연동 실패
 
 ```
 - IllegalStateException, IllegalArgumentException 직접 사용 금지
-  → error-catalog.md 예외 클래스 매핑 확인 후 커스텀 예외 사용
+  → error-catalog.md의 ErrorCode enum 확인 후 커스텀 예외 사용
 - 비즈니스 규칙 위반이 아닌 예외를 domain/exception에 두지 않음
-- 새 예외가 필요하면 error-catalog.md에 먼저 추가 후 구현
+- 새 예외가 필요하면 error-catalog.md에 ErrorCode 먼저 추가 후 구현
+- 에러 코드는 문자열 리터럴로 쓰지 않는다 → ErrorCode enum 사용
 ```
 
 ### BusinessException 구현
 
 ```java
+// common/exception/BusinessException.java
+@Getter
 public abstract class BusinessException extends RuntimeException {
-    private final String errorCode;
-    private final int httpStatus;
+    private final ErrorCode errorCode;
 
-    protected BusinessException(String errorCode, int httpStatus, String message) {
+    protected BusinessException(ErrorCode errorCode) {
+        super(errorCode.getDefaultMessage());
+        this.errorCode = errorCode;
+    }
+
+    // 상태값 등 상세 메시지가 필요할 때
+    protected BusinessException(ErrorCode errorCode, String message) {
         super(message);
         this.errorCode = errorCode;
-        this.httpStatus = httpStatus;
     }
 }
 
-// 예시
+// domain/exception/InvalidPaymentStatusException.java
+public class InvalidPaymentStatusException extends BusinessException {
+
+    public InvalidPaymentStatusException(PaymentStatus currentStatus) {
+        super(
+            ErrorCode.INVALID_PAYMENT_STATUS,
+            String.format("현재 결제 상태(%s)에서는 취소할 수 없습니다.", currentStatus.name())
+        );
+    }
+}
+
+// domain/exception/InvalidCancelAmountException.java
 public class InvalidCancelAmountException extends BusinessException {
+
     public InvalidCancelAmountException() {
-        super("INVALID_CANCEL_AMOUNT", 400, "취소 금액은 1원 이상이어야 합니다.");
+        super(ErrorCode.INVALID_CANCEL_AMOUNT);
+        // defaultMessage 그대로 사용 → 별도 메시지 불필요
+    }
+}
+```
+
+### presentation 예외 처리
+
+```java
+// presentation/controller/advice/GlobalExceptionHandler.java
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handle(BusinessException e) {
+        return ResponseEntity
+                .status(e.getErrorCode().getHttpStatus())
+                .body(ErrorResponse.of(
+                        e.getErrorCode().getCode(),
+                        e.getMessage()
+                ));
     }
 }
 ```

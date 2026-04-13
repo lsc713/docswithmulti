@@ -119,45 +119,107 @@
 
 ---
 
-## 예외 클래스 매핑
+## ErrorCode enum
 
-에러 코드와 구현 예외 클래스의 1:1 매핑이다.
-새 예외가 필요하면 여기에 먼저 추가 후 구현한다.
+에러 코드는 문자열이 아닌 `ErrorCode` enum으로 관리한다.
+이 목록이 코드 레벨 원본이다. 새 에러가 필요하면 여기에 먼저 추가한다.
+
+```java
+// common/exception/ErrorCode.java
+@Getter
+@RequiredArgsConstructor
+public enum ErrorCode {
+
+    // 400 - 요청 형식 오류
+    INVALID_REQUEST("INVALID_REQUEST", 400, "요청 형식이 올바르지 않습니다."),
+    CANCEL_AMOUNT_MISMATCH("CANCEL_AMOUNT_MISMATCH", 400, "취소 항목 합계가 총 취소 금액과 일치하지 않습니다."),
+    DUPLICATE_PAYMENT_ITEM("DUPLICATE_PAYMENT_ITEM", 400, "동일한 항목이 중복 포함되어 있습니다."),
+    EMPTY_CANCEL_ITEMS("EMPTY_CANCEL_ITEMS", 400, "취소 항목이 비어있습니다."),
+    INVALID_CANCEL_AMOUNT("INVALID_CANCEL_AMOUNT", 400, "취소 금액은 1원 이상이어야 합니다."),
+
+    // 403 - 인가 오류
+    FORBIDDEN_PAYMENT("FORBIDDEN_PAYMENT", 403, "해당 결제에 대한 취소 권한이 없습니다."),
+
+    // 404 - 리소스 없음
+    PAYMENT_NOT_FOUND("PAYMENT_NOT_FOUND", 404, "결제 정보를 찾을 수 없습니다."),
+    PAYMENT_ITEM_NOT_FOUND("PAYMENT_ITEM_NOT_FOUND", 404, "취소 항목을 찾을 수 없습니다."),
+
+    // 409 - 멱등 중복
+    IDEMPOTENT_DUPLICATION("IDEMPOTENT_DUPLICATION", 409, "이미 처리된 요청입니다."),
+
+    // 422 - 비즈니스 규칙 위반
+    INVALID_PAYMENT_STATUS("INVALID_PAYMENT_STATUS", 422, "현재 결제 상태에서는 취소할 수 없습니다."),
+    INVALID_PAYMENT_ITEM_STATUS("INVALID_PAYMENT_ITEM_STATUS", 422, "이미 취소된 항목입니다."),
+    CANCEL_AMOUNT_EXCEEDED("CANCEL_AMOUNT_EXCEEDED", 422, "취소 금액이 잔여 취소 가능액을 초과했습니다."),
+    MERCHANT_CANCEL_LIMIT_EXCEEDED("MERCHANT_CANCEL_LIMIT_EXCEEDED", 422, "가맹점 일일 취소한도를 초과했습니다."),
+    MERCHANT_CANCEL_LIMIT_NOT_FOUND("MERCHANT_CANCEL_LIMIT_NOT_FOUND", 422, "가맹점 취소한도가 설정되지 않았습니다."),
+    CANCEL_PERIOD_EXCEEDED("CANCEL_PERIOD_EXCEEDED", 422, "취소 가능 기간이 지났습니다."),
+    INVALID_ORDER_STATUS("INVALID_ORDER_STATUS", 422, "현재 주문 상태에서는 취소할 수 없습니다."),
+    MERCHANT_SUSPENDED("MERCHANT_SUSPENDED", 422, "정지된 가맹점의 취소 요청은 처리할 수 없습니다."),
+    RISK_REJECTED("RISK_REJECTED", 422, "위험관리 정책에 의해 취소가 거부되었습니다."),
+
+    // 500 - 서버 오류
+    INTERNAL_ERROR("INTERNAL_ERROR", 500, "서버 오류가 발생했습니다."),
+
+    // 503 - 외부 모듈 장애
+    MERCHANT_LIMIT_SERVICE_UNAVAILABLE("MERCHANT_LIMIT_SERVICE_UNAVAILABLE", 503, "취소한도 서비스가 일시적으로 이용 불가합니다."),
+    RISK_SERVICE_UNAVAILABLE("RISK_SERVICE_UNAVAILABLE", 503, "위험관리 서비스가 일시적으로 이용 불가합니다.");
+
+    private final String code;
+    private final int httpStatus;
+    private final String defaultMessage;
+}
+```
+
+---
+
+## 예외 클래스 매핑
 
 ### common/exception
 
 ```java
+@Getter
 public abstract class BusinessException extends RuntimeException {
-    private final String errorCode;
-    private final int httpStatus;
+    private final ErrorCode errorCode;
+
+    protected BusinessException(ErrorCode errorCode) {
+        super(errorCode.getDefaultMessage());
+        this.errorCode = errorCode;
+    }
+
+    // 상세 메시지가 필요할 때 (예: 현재 상태값 포함)
+    protected BusinessException(ErrorCode errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }
 ```
 
 ### domain/exception — 비즈니스 규칙 위반
 
-| 예외 클래스 | 에러 코드 | HTTP |
-|------------|---------|------|
-| `InvalidCancelAmountException` | `INVALID_CANCEL_AMOUNT` | 400 |
-| `InvalidPaymentStatusException` | `INVALID_PAYMENT_STATUS` | 422 |
-| `InvalidPaymentItemStatusException` | `INVALID_PAYMENT_ITEM_STATUS` | 422 |
-| `CancelAmountExceededException` | `CANCEL_AMOUNT_EXCEEDED` | 422 |
-| `CancelPeriodExceededException` | `CANCEL_PERIOD_EXCEEDED` | 422 |
-| `InvalidCancelStateTransitionException` | `INVALID_PAYMENT_STATUS` | 422 |
-| `MerchantSuspendedException` | `MERCHANT_SUSPENDED` | 422 |
+| 예외 클래스 | ErrorCode |
+|------------|---------|
+| `InvalidCancelAmountException` | `INVALID_CANCEL_AMOUNT` |
+| `InvalidPaymentStatusException` | `INVALID_PAYMENT_STATUS` |
+| `InvalidPaymentItemStatusException` | `INVALID_PAYMENT_ITEM_STATUS` |
+| `CancelAmountExceededException` | `CANCEL_AMOUNT_EXCEEDED` |
+| `CancelPeriodExceededException` | `CANCEL_PERIOD_EXCEEDED` |
+| `InvalidCancelStateTransitionException` | `INVALID_PAYMENT_STATUS` |
+| `MerchantSuspendedException` | `MERCHANT_SUSPENDED` |
 
 ### application/exception — 리소스 없음, 멱등 중복
 
-| 예외 클래스 | 에러 코드 | HTTP |
-|------------|---------|------|
-| `PaymentNotFoundException` | `PAYMENT_NOT_FOUND` | 404 |
-| `PaymentItemNotFoundException` | `PAYMENT_ITEM_NOT_FOUND` | 404 |
-| `IdempotentDuplicationException` | `IDEMPOTENT_DUPLICATION` | 409 |
-| `MerchantCancelLimitNotFoundException` | `MERCHANT_CANCEL_LIMIT_NOT_FOUND` | 422 |
-| `MerchantCancelLimitExceededException` | `MERCHANT_CANCEL_LIMIT_EXCEEDED` | 422 |
+| 예외 클래스 | ErrorCode |
+|------------|---------|
+| `PaymentNotFoundException` | `PAYMENT_NOT_FOUND` |
+| `PaymentItemNotFoundException` | `PAYMENT_ITEM_NOT_FOUND` |
+| `IdempotentDuplicationException` | `IDEMPOTENT_DUPLICATION` |
+| `MerchantCancelLimitNotFoundException` | `MERCHANT_CANCEL_LIMIT_NOT_FOUND` |
+| `MerchantCancelLimitExceededException` | `MERCHANT_CANCEL_LIMIT_EXCEEDED` |
 
 ### infrastructure/exception — 외부 연동 실패
 
-| 예외 클래스 | 에러 코드 | HTTP |
-|------------|---------|------|
-| `MerchantLimitServiceException` | `MERCHANT_LIMIT_SERVICE_UNAVAILABLE` | 503 |
-| `RiskServiceException` | `RISK_SERVICE_UNAVAILABLE` | 503 |
+| 예외 클래스 | ErrorCode |
+|------------|---------|
+| `MerchantLimitServiceException` | `MERCHANT_LIMIT_SERVICE_UNAVAILABLE` |
+| `RiskServiceException` | `RISK_SERVICE_UNAVAILABLE` |
