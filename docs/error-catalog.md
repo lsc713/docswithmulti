@@ -116,3 +116,48 @@
      가맹점 한도 검증
      위험관리 검증
 ```
+
+---
+
+## 예외 클래스 매핑
+
+에러 코드와 구현 예외 클래스의 1:1 매핑이다.
+새 예외가 필요하면 여기에 먼저 추가 후 구현한다.
+
+### common/exception
+
+```java
+public abstract class BusinessException extends RuntimeException {
+    private final String errorCode;
+    private final int httpStatus;
+}
+```
+
+### domain/exception — 비즈니스 규칙 위반
+
+| 예외 클래스 | 에러 코드 | HTTP |
+|------------|---------|------|
+| `InvalidCancelAmountException` | `INVALID_CANCEL_AMOUNT` | 400 |
+| `InvalidPaymentStatusException` | `INVALID_PAYMENT_STATUS` | 422 |
+| `InvalidPaymentItemStatusException` | `INVALID_PAYMENT_ITEM_STATUS` | 422 |
+| `CancelAmountExceededException` | `CANCEL_AMOUNT_EXCEEDED` | 422 |
+| `CancelPeriodExceededException` | `CANCEL_PERIOD_EXCEEDED` | 422 |
+| `InvalidCancelStateTransitionException` | `INVALID_PAYMENT_STATUS` | 422 |
+| `MerchantSuspendedException` | `MERCHANT_SUSPENDED` | 422 |
+
+### application/exception — 리소스 없음, 멱등 중복
+
+| 예외 클래스 | 에러 코드 | HTTP |
+|------------|---------|------|
+| `PaymentNotFoundException` | `PAYMENT_NOT_FOUND` | 404 |
+| `PaymentItemNotFoundException` | `PAYMENT_ITEM_NOT_FOUND` | 404 |
+| `IdempotentDuplicationException` | `IDEMPOTENT_DUPLICATION` | 409 |
+| `MerchantCancelLimitNotFoundException` | `MERCHANT_CANCEL_LIMIT_NOT_FOUND` | 422 |
+| `MerchantCancelLimitExceededException` | `MERCHANT_CANCEL_LIMIT_EXCEEDED` | 422 |
+
+### infrastructure/exception — 외부 연동 실패
+
+| 예외 클래스 | 에러 코드 | HTTP |
+|------------|---------|------|
+| `MerchantLimitServiceException` | `MERCHANT_LIMIT_SERVICE_UNAVAILABLE` | 503 |
+| `RiskServiceException` | `RISK_SERVICE_UNAVAILABLE` | 503 |
