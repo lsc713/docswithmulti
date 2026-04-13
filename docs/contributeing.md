@@ -354,14 +354,65 @@ void should_reject_entire_amount_when_merchant_daily_limit_exceeded() { }
 
 ### @BeforeEach와 @Nested 활용
 
-공통 초기화는 `@BeforeEach`로 추출한다.
-상태 전이 테스트처럼 "어떤 상태에서" 가 핵심인 경우 `@Nested`로 상태별 컨텍스트를 분리한다.
+**@BeforeEach 사용 기준**
+
+```
+동일한 픽스처 생성 코드가 2개 이상 테스트에 반복되면 → @BeforeEach로 추출
+@Nested 여부, 단순/복잡 여부와 무관하게 적용
+```
 
 ```java
+// 나쁜 예 — 동일한 PaymentItem 생성이 반복됨
+@Test
+void should_reject_when_exceeds() {
+    PaymentItem item = PaymentItem.of(1L, 1L, 100L, 100L, "상품A", BigDecimal.valueOf(10000));
+    // ...
+}
+
+@Test
+void should_pass_when_within() {
+    PaymentItem item = PaymentItem.of(1L, 1L, 100L, 100L, "상품A", BigDecimal.valueOf(10000));
+    // ...
+}
+
+// 좋은 예 — 공통 픽스처는 @BeforeEach로 추출
+class CancelAmountPolicyTest {
+
+    private PaymentItem item;
+
+    @BeforeEach
+    void setUp() {
+        item = PaymentItem.of(1L, 1L, 100L, 100L, "상품A", BigDecimal.valueOf(10000));
+    }
+
+    @Test
+    void should_reject_when_exceeds() {
+        BigDecimal cancelAmount = BigDecimal.valueOf(15000);
+        assertThrows(CancelAmountExceededException.class,
+            () -> CancelAmountPolicy.validateItemCancelAmount(item, cancelAmount));
+    }
+
+    @Test
+    void should_pass_when_within() {
+        BigDecimal cancelAmount = BigDecimal.valueOf(5000);
+        assertDoesNotThrow(
+            () -> CancelAmountPolicy.validateItemCancelAmount(item, cancelAmount));
+    }
+}
+```
+
+**@Nested 사용 기준**
+
+```
+전제 조건(상태, 컨텍스트)이 다른 테스트 그룹이 존재할 때 → @Nested로 분리
+단순 단위 테스트에서 공통 픽스처만 있는 경우 → @Nested 불필요, @BeforeEach만 사용
+```
+
+```java
+// @Nested가 필요한 경우 — 상태 전이처럼 전제 조건이 다를 때
 @DisplayName("CancelRequest 도메인 엔티티")
 class CancelRequestTest {
 
-    // 공통 초기화 — PENDING 상태
     private CancelRequest cancelRequest;
 
     @BeforeEach
@@ -381,12 +432,6 @@ class CancelRequestTest {
             cancelRequest.toProcessing();
             assertEquals(CancelStatus.PROCESSING, cancelRequest.getStatus());
         }
-
-        @Test
-        void should_reject_transition_to_completed() {
-            assertThrows(InvalidCancelStateTransitionException.class,
-                cancelRequest::toCompleted);
-        }
     }
 
     @Nested
@@ -395,7 +440,7 @@ class CancelRequestTest {
 
         @BeforeEach
         void toProcessing() {
-            cancelRequest.toProcessing();  // 부모 setUp() 이후 실행
+            cancelRequest.toProcessing();
         }
 
         @Test
@@ -403,38 +448,132 @@ class CancelRequestTest {
             cancelRequest.toCompleted();
             assertEquals(CancelStatus.COMPLETED, cancelRequest.getStatus());
         }
-
-        @Test
-        void should_transition_to_failed() {
-            cancelRequest.toFailed("DB 타임아웃");
-            assertEquals(CancelStatus.FAILED, cancelRequest.getStatus());
-        }
-    }
-
-    @Nested
-    @DisplayName("COMPLETED 상태일 때")
-    class WhenCompleted {
-
-        @BeforeEach
-        void toCompleted() {
-            cancelRequest.toProcessing();
-            cancelRequest.toCompleted();
-        }
-
-        @Test
-        void should_reject_any_transition() {
-            assertThrows(InvalidCancelStateTransitionException.class,
-                cancelRequest::toProcessing);
-            assertThrows(InvalidCancelStateTransitionException.class,
-                () -> cancelRequest.toFailed("reason"));
-        }
     }
 }
 ```
 
-@Nested 활용 기준:
-- 상태 전이, 조건 분기처럼 "전제 조건"이 다른 테스트 그룹에 사용
-- 단순 단위 테스트는 @Nested 없이 @BeforeEach만으로 충분
+### 테스트 픽스처 클래스
+
+도메인 클래스에 테스트 전용 팩토리 메서드를 추가하지 않는다.
+공통 픽스처는 `test` 디렉토리의 전용 클래스로 분리한다.
+
+```
+src/test/java/com/example/payment/fixture/
+  PaymentFixture.java
+  PaymentItemFixture.java
+  CancelRequestFixture.java
+```
+
+```java
+// test/fixture/PaymentFixture.java
+public class PaymentFixture {
+
+    public static Payment completedPayment() {
+        return Payment.of(
+            "pay_test", 1L, 1L, "TOSS",
+            BigDecimal.valueOf(100000), "KRW", 90,
+            LocalDateTime.of(2026, 1, 1, 0, 0, 0)
+        );
+    }
+
+    public static Payment partialCancelledPayment() {
+        Payment payment = completedPayment();
+        payment.toPartialCancelled();
+        return payment;
+    }
+}
+
+// 테스트에서 사용
+@BeforeEach
+void setUp() {
+    payment = PaymentFixture.completedPayment();
+}
+```
+
+프로덕션 코드는 테스트를 위한 메서드를 갖지 않는다.
+`ofWithCreatedAt`, `forTest` 등의 네이밍은 금지한다.
+
+### Clock 주입 패턴
+
+"현재 시각"에 의존하는 로직은 `Clock`을 주입받아 처리한다.
+테스트에서 시각을 고정하면 실행 시각과 무관하게 항상 동일한 결과를 얻는다.
+
+```java
+// 프로덕션 코드
+public class CancelPeriodPolicy {
+
+    private final Clock clock;
+
+    public CancelPeriodPolicy(Clock clock) {
+        this.clock = clock;
+    }
+
+    public void validate(Payment payment) {
+        LocalDateTime now = LocalDateTime.now(clock);  // clock에게 시각을 물어봄
+        LocalDateTime expiredAt = payment.getCreatedAt()
+            .plusDays(payment.getCancelPeriodDays());
+
+        if (now.isAfter(expiredAt)) {
+            throw new CancelPeriodExceededException();
+        }
+    }
+}
+
+// 실제 운영 — 시스템 시각 사용
+CancelPeriodPolicy policy = new CancelPeriodPolicy(Clock.systemUTC());
+
+// 테스트 — 원하는 시각으로 고정
+Clock fixedClock = Clock.fixed(
+    LocalDateTime.of(2026, 4, 13, 0, 0, 0).toInstant(ZoneOffset.UTC),
+    ZoneOffset.UTC
+);
+CancelPeriodPolicy policy = new CancelPeriodPolicy(fixedClock);
+// LocalDateTime.now(fixedClock) → 항상 2026-04-13T00:00:00 반환
+```
+
+```java
+// CancelPeriodPolicyTest.java
+class CancelPeriodPolicyTest {
+
+    // 결제일: 2026-01-01, 취소 기간: 90일, 만료일: 2026-04-01
+    private Payment payment;
+
+    @BeforeEach
+    void setUp() {
+        payment = PaymentFixture.completedPayment(); // createdAt = 2026-01-01
+    }
+
+    @Test
+    void should_pass_when_within_cancel_period() {
+        // 만료일(4/1) 이전인 3/15로 고정
+        Clock clock = Clock.fixed(
+            LocalDateTime.of(2026, 3, 15, 0, 0, 0).toInstant(ZoneOffset.UTC),
+            ZoneOffset.UTC
+        );
+        CancelPeriodPolicy policy = new CancelPeriodPolicy(clock);
+
+        assertDoesNotThrow(() -> policy.validate(payment));
+    }
+
+    @Test
+    void should_reject_when_cancel_period_exceeded() {
+        // 만료일(4/1) 이후인 4/13으로 고정
+        Clock clock = Clock.fixed(
+            LocalDateTime.of(2026, 4, 13, 0, 0, 0).toInstant(ZoneOffset.UTC),
+            ZoneOffset.UTC
+        );
+        CancelPeriodPolicy policy = new CancelPeriodPolicy(clock);
+
+        assertThrows(CancelPeriodExceededException.class,
+            () -> policy.validate(payment));
+    }
+}
+```
+
+Clock 주입이 필요한 대상:
+- 취소 가능 기간 검증 (`CancelPeriodPolicy`)
+- 가맹점 취소한도 KST 날짜 계산
+- 복구 스케줄러 "5분 초과" 판단
 
 ### Given / When / Then
 
