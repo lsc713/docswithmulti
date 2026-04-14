@@ -1,0 +1,59 @@
+package com.example.payment.infrastructure.config;
+
+import com.example.payment.application.interfaces.CancelRequestRepository;
+import com.example.payment.application.interfaces.PaymentItemRepository;
+import com.example.payment.application.interfaces.PaymentRepository;
+import com.example.payment.infrastructure.persistence.CancelRequestJpaRepository;
+import com.example.payment.infrastructure.persistence.CancelRequestRepositoryImpl;
+import com.example.payment.infrastructure.persistence.PaymentItemJpaRepository;
+import com.example.payment.infrastructure.persistence.PaymentItemRepositoryImpl;
+import com.example.payment.infrastructure.persistence.PaymentJpaRepository;
+import com.example.payment.infrastructure.persistence.PaymentRepositoryImpl;
+import jakarta.persistence.EntityManagerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+/**
+ * JPA/영속성 설정
+ */
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "com.example.payment.infrastructure.persistence")
+public class PersistenceConfig {
+
+    /**
+     * 트랜잭션 관리자 설정
+     */
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
+        return new JpaTransactionManager(entityManagerFactory);
+    }
+
+    /**
+     * PaymentRepository 구현체 주입
+     */
+    @Bean
+    public PaymentRepository paymentRepository(PaymentJpaRepository jpaRepository) {
+        return new PaymentRepositoryImpl(jpaRepository);
+    }
+
+    /**
+     * PaymentItemRepository 구현체 주입
+     */
+    @Bean
+    public PaymentItemRepository paymentItemRepository(PaymentItemJpaRepository jpaRepository) {
+        return new PaymentItemRepositoryImpl(jpaRepository);
+    }
+
+    /**
+     * CancelRequestRepository 구현체 주입
+     */
+    @Bean
+    public CancelRequestRepository cancelRequestRepository(CancelRequestJpaRepository jpaRepository) {
+        return new CancelRequestRepositoryImpl(jpaRepository);
+    }
+}
