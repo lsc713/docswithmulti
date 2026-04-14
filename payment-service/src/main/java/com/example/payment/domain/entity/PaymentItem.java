@@ -1,7 +1,11 @@
 package com.example.payment.domain.entity;
 
+import com.example.payment.domain.BaseEntity;
 import com.example.payment.domain.exception.CancelAmountExceededException;
+import lombok.Getter;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
@@ -9,7 +13,8 @@ import java.util.Objects;
  *
  * 개별 상품/서비스에 대한 결제 정보와 취소 추적을 관리한다.
  */
-public class PaymentItem {
+@Getter
+public class PaymentItem extends BaseEntity {
 
     private final long id;
     private final long paymentId;
@@ -111,42 +116,6 @@ public class PaymentItem {
         return status.isCancellable();
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public long getPaymentId() {
-        return paymentId;
-    }
-
-    public long getOrderItemId() {
-        return orderItemId;
-    }
-
-    public long getProductId() {
-        return productId;
-    }
-
-    public long getProductAutoId() {
-        return productAutoId;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public BigDecimal getItemAmount() {
-        return itemAmount;
-    }
-
-    public BigDecimal getCancelledAmount() {
-        return cancelledAmount;
-    }
-
-    public PaymentItemStatus getStatus() {
-        return status;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -158,5 +127,10 @@ public class PaymentItem {
     @Override
     public int hashCode() {
         return Objects.hash(id, paymentId);
+    }
+
+    public void updateStatusAndDate(PaymentItemStatus status) {
+        this.status = status;
+        this.updatedAt = LocalDateTime.now();
     }
 }
