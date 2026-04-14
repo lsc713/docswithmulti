@@ -12,12 +12,8 @@ import com.example.payment.application.interfaces.PaymentItemRepository;
 import com.example.payment.application.interfaces.PaymentRepository;
 import com.example.payment.application.interfaces.RiskManagementService;
 import com.example.payment.domain.entity.CancelRequest;
-import com.example.payment.domain.entity.CancelStatus;
-import com.example.payment.domain.entity.CancellerType;
 import com.example.payment.domain.entity.Payment;
 import com.example.payment.domain.entity.PaymentItem;
-import com.example.payment.domain.entity.PaymentItemStatus;
-import com.example.payment.domain.entity.PaymentStatus;
 import com.example.payment.domain.exception.CancelAmountExceededException;
 import com.example.payment.domain.exception.CancelPeriodExceededException;
 import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
@@ -28,7 +24,6 @@ import com.example.payment.fixture.CancelRequestFixture;
 import com.example.payment.fixture.PaymentFixture;
 import com.example.payment.fixture.PaymentItemFixture;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -46,7 +41,6 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("CancelPaymentService 테스트")
 class CancelPaymentServiceTest {
 
     @Mock
@@ -73,7 +67,6 @@ class CancelPaymentServiceTest {
     private static final String PAYMENT_KEY = "pay_test_001";
     private static final Long USER_ID = 1L;
     private static final String IDEMPOTENCY_KEY = "idem_001";
-    private static final Long MERCHANT_ID = 1L;
     private static final BigDecimal CANCEL_AMOUNT = BigDecimal.valueOf(50000);
 
     @BeforeEach
@@ -97,8 +90,7 @@ class CancelPaymentServiceTest {
     }
 
     @Test
-    @DisplayName("정상 취소: 멱등키 없음 → 취소 완료")
-    void testCancelPaymentSuccess() {
+    void should_complete_cancel_when_no_duplicate_idempotency_key() {
         // Given
         Payment payment = PaymentFixture.completedPayment();
         PaymentItem item = PaymentItemFixture.activeItem(payment.getId(), 100L, CANCEL_AMOUNT);
@@ -116,8 +108,6 @@ class CancelPaymentServiceTest {
             payment.getMerchantId(), payment.getId(), CANCEL_AMOUNT
         )).thenReturn(1L);
 
-        // cancelRequestRepository.save는 입력된 CancelRequest 객체를 그대로 반환
-        // (실제 영속성 처리는 repository에서 함)
         when(cancelRequestRepository.save(any(CancelRequest.class)))
             .thenAnswer(inv -> inv.getArgument(0));
 
@@ -137,8 +127,7 @@ class CancelPaymentServiceTest {
         // Then
         assertThat(response).isNotNull();
         assertThat(response.cancelAmount()).isEqualTo(CANCEL_AMOUNT);
-        // Status는 도메인 로직에서 COMPLETED가 되므로 검증
-        assertThat(response.status()).isIn("COMPLETED", "PROCESSING", "PENDING");
+        assertThat(response.status()).isEqualTo("COMPLETED");
 
         verify(riskManagementService).validateAndReserveLimit(
             payment.getMerchantId(), payment.getId(), CANCEL_AMOUNT
@@ -149,8 +138,7 @@ class CancelPaymentServiceTest {
     }
 
     @Test
-    @DisplayName("Payment 없음: PaymentNotFoundException 발생")
-    void testCancelPaymentNotFound() {
+    void should_throw_payment_not_found_when_payment_does_not_exist() {
         // Given
         when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
             .thenReturn(Optional.empty());
@@ -158,11 +146,12 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
             .thenReturn(Optional.empty());
 
+        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
         // When & Then
         assertThatThrownBy(() ->
             cancelPaymentService.cancel(
                 PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                createCancelRequest()
+                cancelPaymentRequest
             )
         ).isInstanceOf(PaymentNotFoundException.class);
 
@@ -170,34 +159,32 @@ class CancelPaymentServiceTest {
     }
 
     @Test
-    @DisplayName("Payment 상태 불가: InvalidPaymentStatusException 발생")
-    void testCancelPaymentInvalidStatus() {
+    void should_throw_invalid_payment_status_when_payment_is_already_cancelled() {
         // Given
-        Payment payment = PaymentFixture.completedPayment();
-        payment.updateStatus(PaymentStatus.CANCELLED);
+        Payment payment = PaymentFixture.cancelledPayment();
         PaymentItem item = PaymentItemFixture.activeItem(payment.getId(), 100L, CANCEL_AMOUNT);
 
         when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
             .thenReturn(Optional.empty());
 
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
+        when(paymentRepository.findByPaymentKey("pay_test_cancelled"))
             .thenReturn(Optional.of(payment));
 
         when(paymentItemRepository.findAllByPaymentId(payment.getId()))
             .thenReturn(List.of(item));
+        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
 
         // When & Then
         assertThatThrownBy(() ->
             cancelPaymentService.cancel(
-                PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                createCancelRequest()
+                "pay_test_cancelled", USER_ID, IDEMPOTENCY_KEY,
+                cancelPaymentRequest
             )
         ).isInstanceOf(InvalidPaymentStatusException.class);
     }
 
     @Test
-    @DisplayName("PaymentItem 상태 불가: InvalidPaymentItemStatusException 발생")
-    void testCancelPaymentItemInvalidStatus() {
+    void should_throw_invalid_payment_item_status_when_item_is_already_cancelled() {
         // Given
         Payment payment = PaymentFixture.completedPayment();
         PaymentItem item = PaymentItemFixture.cancelledItem(payment.getId(), 100L, CANCEL_AMOUNT);
@@ -211,18 +198,19 @@ class CancelPaymentServiceTest {
         when(paymentItemRepository.findAllByPaymentId(payment.getId()))
             .thenReturn(List.of(item));
 
+        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
+
         // When & Then
         assertThatThrownBy(() ->
             cancelPaymentService.cancel(
                 PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                createCancelRequest()
+                cancelPaymentRequest
             )
         ).isInstanceOf(InvalidPaymentItemStatusException.class);
     }
 
     @Test
-    @DisplayName("취소액 초과: CancelAmountExceededException 발생")
-    void testCancelPaymentAmountExceeded() {
+    void should_throw_cancel_amount_exceeded_when_cancel_exceeds_item_amount() {
         // Given
         Payment payment = PaymentFixture.completedPayment();
         PaymentItem item = PaymentItemFixture.activeItem(
@@ -252,8 +240,7 @@ class CancelPaymentServiceTest {
     }
 
     @Test
-    @DisplayName("기간 초과: CancelPeriodExceededException 발생")
-    void testCancelPaymentPeriodExceeded() {
+    void should_throw_cancel_period_exceeded_when_cancel_period_is_over() {
         // Given - 과거 결제로 기간 만료
         Payment payment = PaymentFixture.completedPaymentWith1DayPeriod();  // 1일 기간
         // 2026-01-01 결제, 1일 기간, 현재 2026-03-15 (기간 초과)
@@ -263,24 +250,24 @@ class CancelPaymentServiceTest {
         when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
             .thenReturn(Optional.empty());
 
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
+        when(paymentRepository.findByPaymentKey("pay_test_002"))
             .thenReturn(Optional.of(payment));
 
         when(paymentItemRepository.findAllByPaymentId(payment.getId()))
             .thenReturn(List.of(item));
-
+        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
         // When & Then
         assertThatThrownBy(() ->
             cancelPaymentService.cancel(
-                PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                createCancelRequest()
+                "pay_test_002", USER_ID, IDEMPOTENCY_KEY,
+                cancelPaymentRequest
+
             )
         ).isInstanceOf(CancelPeriodExceededException.class);
     }
 
     @Test
-    @DisplayName("한도 초과: MerchantCancelLimitExceededException 발생")
-    void testCancelPaymentLimitExceeded() {
+    void should_throw_merchant_cancel_limit_exceeded_when_daily_limit_exhausted() {
         // Given
         Payment payment = PaymentFixture.completedPayment();
         PaymentItem item = PaymentItemFixture.activeItem(payment.getId(), 100L, CANCEL_AMOUNT);
@@ -310,18 +297,19 @@ class CancelPaymentServiceTest {
 
         doNothing().when(idempotencyKeyManager).recordIdempotencyKey(any(), any());
 
+        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
+
         // When & Then
         assertThatThrownBy(() ->
             cancelPaymentService.cancel(
                 PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                createCancelRequest()
+                cancelPaymentRequest
             )
         ).isInstanceOf(MerchantCancelLimitExceededException.class);
     }
 
     @Test
-    @DisplayName("멱등키 중복: 이미 처리된 요청")
-    void testCancelPaymentIdempotentDuplication() {
+    void should_throw_idempotent_duplication_when_idempotency_key_already_processed() {
         // Given
         CancelRequest existingRequest = CancelRequestFixture.cancelRequest(
             1L, CANCEL_AMOUNT, IDEMPOTENCY_KEY
@@ -333,11 +321,12 @@ class CancelPaymentServiceTest {
         when(cancelRequestRepository.findById(1L))
             .thenReturn(Optional.of(existingRequest));
 
+        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
         // When & Then
         assertThatThrownBy(() ->
             cancelPaymentService.cancel(
                 PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                createCancelRequest()
+                cancelPaymentRequest
             )
         ).isInstanceOf(IdempotentDuplicationException.class);
     }
