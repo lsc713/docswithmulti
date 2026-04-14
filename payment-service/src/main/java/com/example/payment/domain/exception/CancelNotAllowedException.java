@@ -1,14 +1,17 @@
 package com.example.payment.domain.exception;
 
+import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;
 import com.example.payment.domain.entity.PaymentStatus;
+import lombok.Getter;
 
 /**
  * 취소 불가능한 상태에서 취소를 시도했을 때 발생
  *
  * 현재 Payment 상태가 PENDING, CANCELLED, CANCEL_FAILED인 경우
  */
-public class CancelNotAllowedException extends DomainException {
+@Getter
+public class CancelNotAllowedException extends BusinessException {
 
     private final PaymentStatus currentStatus;
 
@@ -20,7 +23,4 @@ public class CancelNotAllowedException extends DomainException {
         this.currentStatus = currentStatus;
     }
 
-    public PaymentStatus getCurrentStatus() {
-        return currentStatus;
-    }
 }

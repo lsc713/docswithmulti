@@ -1,12 +1,16 @@
 package com.example.payment.domain.exception;
 
+import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
 /**
  * 취소 금액이 1원 미만일 때 발생
  */
-public class InvalidCancelAmountException extends DomainException {
+@Getter
+public class InvalidCancelAmountException extends BusinessException {
 
     private final BigDecimal cancelAmount;
 
@@ -18,7 +22,4 @@ public class InvalidCancelAmountException extends DomainException {
         this.cancelAmount = cancelAmount;
     }
 
-    public BigDecimal getCancelAmount() {
-        return cancelAmount;
-    }
 }

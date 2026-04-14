@@ -1,6 +1,9 @@
 package com.example.payment.domain.exception;
 
+import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;
+import lombok.Getter;
+
 import java.math.BigDecimal;
 
 /**
@@ -8,7 +11,8 @@ import java.math.BigDecimal;
  *
  * cancelAmount > (item_amount - cancelled_amount)인 경우
  */
-public class CancelAmountExceededException extends DomainException {
+@Getter
+public class CancelAmountExceededException extends BusinessException {
 
     private final long paymentItemId;
     private final BigDecimal requestedAmount;
@@ -31,15 +35,4 @@ public class CancelAmountExceededException extends DomainException {
         this.availableAmount = availableAmount;
     }
 
-    public long getPaymentItemId() {
-        return paymentItemId;
-    }
-
-    public BigDecimal getRequestedAmount() {
-        return requestedAmount;
-    }
-
-    public BigDecimal getAvailableAmount() {
-        return availableAmount;
-    }
 }

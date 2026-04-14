@@ -3,6 +3,7 @@ package com.example.payment.domain.service;
 import com.example.payment.domain.entity.Payment;
 import com.example.payment.domain.entity.PaymentItem;
 import com.example.payment.domain.entity.PaymentStatus;
+import com.example.payment.domain.exception.PaymentItemNotFoundException;
 import com.example.payment.domain.policy.CancelAmountPolicy;
 import com.example.payment.domain.policy.CancelPeriodPolicy;
 import com.example.payment.domain.policy.PaymentItemStatusPolicy;
@@ -81,9 +82,11 @@ public class CancelDomainService {
         List<PaymentItem> allPaymentItems,
         Map<Long, BigDecimal> cancelAmountMap
     ) {
-        for (Long orderItemId : cancelAmountMap.keySet()) {
+        for (Map.Entry<Long, BigDecimal> entry : cancelAmountMap.entrySet()) {
+            Long orderItemId = entry.getKey();
+            BigDecimal cancelAmount = entry.getValue();
+
             PaymentItem item = findPaymentItemByOrderItemId(allPaymentItems, orderItemId);
-            BigDecimal cancelAmount = cancelAmountMap.get(orderItemId);
 
             // 항목 상태 검증
             PaymentItemStatusPolicy.validateCancellableStatus(item);
@@ -104,7 +107,7 @@ public class CancelDomainService {
             .filter(item -> item.getOrderItemId() == orderItemId)
             .findFirst()
             .orElseThrow(() ->
-                new IllegalStateException("PaymentItem not found for orderItemId: " + orderItemId)
+                new PaymentItemNotFoundException(orderItemId)
             );
     }
 
