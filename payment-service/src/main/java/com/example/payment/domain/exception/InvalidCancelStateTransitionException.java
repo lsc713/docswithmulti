@@ -1,14 +1,17 @@
 package com.example.payment.domain.exception;
 
+import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;
 import com.example.payment.domain.entity.CancelStatus;
+import lombok.Getter;
 
 /**
  * 취소 요청의 상태 전이가 불가능할 때 발생
  *
  * 예: COMPLETED 상태에서 PROCESSING으로 전이 시도
  */
-public class InvalidCancelStateTransitionException extends DomainException {
+@Getter
+public class InvalidCancelStateTransitionException extends BusinessException {
 
     private final CancelStatus currentStatus;
     private final CancelStatus requestedStatus;
@@ -28,11 +31,4 @@ public class InvalidCancelStateTransitionException extends DomainException {
         this.requestedStatus = requestedStatus;
     }
 
-    public CancelStatus getCurrentStatus() {
-        return currentStatus;
-    }
-
-    public CancelStatus getRequestedStatus() {
-        return requestedStatus;
-    }
 }

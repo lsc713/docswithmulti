@@ -1,6 +1,9 @@
 package com.example.payment.domain.exception;
 
+import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
 /**
@@ -8,7 +11,8 @@ import java.time.LocalDateTime;
  *
  * Payment.created_at + cancel_period_days를 초과한 경우
  */
-public class CancelPeriodExceededException extends DomainException {
+@Getter
+public class CancelPeriodExceededException extends BusinessException {
 
     private final LocalDateTime createdAt;
     private final int cancelPeriodDays;
@@ -25,11 +29,4 @@ public class CancelPeriodExceededException extends DomainException {
         this.cancelPeriodDays = cancelPeriodDays;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public int getCancelPeriodDays() {
-        return cancelPeriodDays;
-    }
 }

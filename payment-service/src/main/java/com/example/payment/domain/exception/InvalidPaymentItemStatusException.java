@@ -1,7 +1,9 @@
 package com.example.payment.domain.exception;
 
+import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;
 import com.example.payment.domain.entity.PaymentItemStatus;
+import lombok.Getter;
 
 /**
  * PaymentItem 상태가 취소 불가능한 상태일 때 발생
@@ -9,7 +11,8 @@ import com.example.payment.domain.entity.PaymentItemStatus;
  * domain-rules.md 1-2: PaymentItem 상태 조건
  * CANCELLED 상태인 PaymentItem을 포함한 요청은 전액 거부한다.
  */
-public class InvalidPaymentItemStatusException extends DomainException {
+@Getter
+public class InvalidPaymentItemStatusException extends BusinessException {
 
     private final long paymentItemId;
     private final PaymentItemStatus currentStatus;
@@ -27,11 +30,4 @@ public class InvalidPaymentItemStatusException extends DomainException {
         this.currentStatus = currentStatus;
     }
 
-    public long getPaymentItemId() {
-        return paymentItemId;
-    }
-
-    public PaymentItemStatus getCurrentStatus() {
-        return currentStatus;
-    }
 }
