@@ -402,8 +402,8 @@ UPDATE payment_item
 SET cancelled_amount = cancelled_amount + ?,
     version = version + 1
 WHERE id = ?
-  AND version = ?                              -- 내가 읽은 시점의 version
-  AND cancelled_amount + ? <= item_amount      -- 언더플로우 방어
+AND version = ?                              -- 내가 읽은 시점의 version
+AND cancelled_amount + ? <= item_amount      -- 언더플로우 방어
 ```
 
 ```
@@ -538,13 +538,13 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     private final CompensationRetryRepository compensationRetryRepository;
 
     public CancelPaymentResponse cancel(
-            String paymentKey, Long userId,
-            String idempotencyKey, CancelPaymentRequest request
+        String paymentKey, Long userId,
+        String idempotencyKey, CancelPaymentRequest request
     ) {
         // ── Step 1. 멱등성 체크 ──────────────────────────────
         // idempotency_key 테이블 조회 (DB 조회, TX 없음)
         Optional<CancelPaymentResponse> existing =
-                idempotencyKeyManager.findResponse(idempotencyKey);
+            idempotencyKeyManager.findResponse(idempotencyKey);
         if (existing.isPresent()) {
             return existing.get();  // 기존 응답 그대로 반환 (재처리 없음)
         }
@@ -552,27 +552,27 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         // ── Step 2. Payment/PaymentItem 검증 ────────────────
         // TX 없음 — 조회만 수행
         Payment payment = paymentRepository.findByPaymentKey(paymentKey)
-                .orElseThrow(() -> new PaymentNotFoundException(paymentKey));
+            .orElseThrow(() -> new PaymentNotFoundException(paymentKey));
 
         payment.validateCancellable();  // 도메인 객체가 상태 검증
 
         List<PaymentItem> items =
-                paymentItemRepository.findAllByPaymentId(payment.getId());
+            paymentItemRepository.findAllByPaymentId(payment.getId());
 
         cancelDomainService.validateCancelItems(items, request.cancelItems());
 
         // ── Step 3. TX 1 — CancelRequest PENDING INSERT ──────
         // risk 호출 전에 별도 커밋 (스케줄러 추적 가능하도록)
         CancelRequest cancelRequest = saveCancelRequestAsPending(
-                payment, idempotencyKey, request, userId
+            payment, idempotencyKey, request, userId
         );
 
         // ── Step 4. risk-management-service 호출 (HTTP) ──────
         // TX 없음 — 외부 HTTP 호출
         try {
             riskManagementService.validateAndReserveLimit(
-                    payment.getMerchantId(),
-                    request.cancelAmount()
+                payment.getMerchantId(),
+                request.cancelAmount()
             );
         } catch (MerchantCancelLimitExceededException e) {
             // 한도 초과 — risk는 호출 안 됐거나 차감 없이 에러 반환
@@ -594,15 +594,15 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         // PG사 성공 후에만 DB 처리 수행
         try {
             pgCancelClient.cancel(
-                    payment.getPaymentKey(),
-                    payment.getPgType(),
-                    request.cancelAmount()
+                payment.getPaymentKey(),
+                payment.getPgType(),
+                request.cancelAmount()
             );
         } catch (PgCancelFailedException e) {
             // PG사 취소 실패
             // risk에서 선차감한 used_amount 원복 필요
             failWithCompensation(cancelRequest, payment.getMerchantId(),
-                    request.cancelAmount(), e.getMessage());
+                request.cancelAmount(), e.getMessage());
             throw e;
         } catch (PgCancelTimeoutException e) {
             // PG사 타임아웃 — 실제로 취소됐는지 불명확
@@ -617,13 +617,13 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     // TX 1
     @Transactional
     private CancelRequest saveCancelRequestAsPending(
-            Payment payment, String idempotencyKey,
-            CancelPaymentRequest request, Long userId
+        Payment payment, String idempotencyKey,
+        CancelPaymentRequest request, Long userId
     ) {
         CancelRequest cancelRequest = CancelRequest.create(
-                payment.getId(), idempotencyKey,
-                request.cancelAmount(), request.cancelReason(),
-                CancellerType.USER, userId
+            payment.getId(), idempotencyKey,
+            request.cancelAmount(), request.cancelReason(),
+            CancellerType.USER, userId
         );
         return cancelRequestRepository.save(cancelRequest);
     }
@@ -638,13 +638,13 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     // TX 3
     @Transactional
     private CancelPaymentResponse completeCancel(
-            CancelRequest cancelRequest, Payment payment,
-            List<PaymentItem> items, CancelPaymentRequest request,
-            String idempotencyKey
+        CancelRequest cancelRequest, Payment payment,
+        List<PaymentItem> items, CancelPaymentRequest request,
+        String idempotencyKey
     ) {
         // PaymentItem 상태 변경 (낙관적 락)
         List<PaymentItem> updatedItems =
-                cancelDomainService.applyCancelToItems(items, request.cancelItems());
+            cancelDomainService.applyCancelToItems(items, request.cancelItems());
         paymentItemRepository.saveAll(updatedItems);
 
         // Payment 상태 집계
@@ -667,22 +667,22 @@ public class CancelPaymentService implements CancelPaymentUseCase {
 
     // 보상 트랜잭션
     private void failWithCompensation(
-            CancelRequest cancelRequest, Long merchantId,
-            BigDecimal restoreAmount, String reason
+        CancelRequest cancelRequest, Long merchantId,
+        BigDecimal restoreAmount, String reason
     ) {
         failCancelRequest(cancelRequest, reason);
 
         try {
             // risk-management-service에 HTTP로 보상 요청
             riskManagementService.compensate(
-                    cancelRequest.getId().toString(), restoreAmount
+                cancelRequest.getId().toString(), restoreAmount
             );
         } catch (Exception e) {
             // 보상도 실패 → 스케줄러에 위임
             compensationRetryRepository.save(
-                    CompensationRetry.create(
-                            cancelRequest.getId().toString(), merchantId, restoreAmount
-                    )
+                CompensationRetry.create(
+                    cancelRequest.getId().toString(), merchantId, restoreAmount
+                )
             );
         }
     }
@@ -754,24 +754,24 @@ PG사 중복 취소 요청:
 // → 보상 트랜잭션 실행하지 않음 → 스케줄러에 위임
 
 try {
-        pgCancelClient.cancel(payment.getPaymentKey(), ...);
-        } catch (PgCancelFailedException e) {
-// PG사 실패 → 보상 + FAILED
-failWithCompensation(cancelRequest, ...);
+    pgCancelClient.cancel(payment.getPaymentKey(), ...);
+} catch (PgCancelFailedException e) {
+    // PG사 실패 → 보상 + FAILED
+    failWithCompensation(cancelRequest, ...);
     throw e;
 }
 
 // PG사 성공
-        try {
-completeCancel(cancelRequest, payment, items, request, idempotencyKey);
+try {
+    completeCancel(cancelRequest, payment, items, request, idempotencyKey);
 } catch (Exception e) {
-        // TX 3 실패
-        // CancelRequest는 PROCESSING으로 남음 (TX 2에서 커밋됨)
-        // 보상 트랜잭션 실행하지 않음 (PG사 이미 완료됨)
-        // 스케줄러가 PG사 조회 후 TX 3만 재시도
-        log.error("TX 3 실패 - PG사 취소는 완료됨. 스케줄러 재처리 대기: " +
-                          "cancelRequestId={}", cancelRequest.getId(), e);
-        throw e;
+    // TX 3 실패
+    // CancelRequest는 PROCESSING으로 남음 (TX 2에서 커밋됨)
+    // 보상 트랜잭션 실행하지 않음 (PG사 이미 완료됨)
+    // 스케줄러가 PG사 조회 후 TX 3만 재시도
+    log.error("TX 3 실패 - PG사 취소는 완료됨. 스케줄러 재처리 대기: " +
+        "cancelRequestId={}", cancelRequest.getId(), e);
+    throw e;
 }
 ```
 
@@ -781,7 +781,7 @@ completeCancel(cancelRequest, payment, items, request, idempotencyKey);
 @Transactional
 public void recoverProcessing(CancelRequest request) {
     PgCancelResult pgResult =
-            pgCancelClient.getResult(request.getPaymentKey());
+        pgCancelClient.getResult(request.getPaymentKey());
 
     if (pgResult.isSuccess()) {
         // PG사 취소 완료 → TX 3만 재시도
@@ -795,8 +795,8 @@ public void recoverProcessing(CancelRequest request) {
         request.toFailed("PG사 취소 미완료");
         cancelRequestRepository.save(request);
         riskManagementService.compensate(
-                request.getId().toString(),
-                request.getCancelAmount()
+            request.getId().toString(),
+            request.getCancelAmount()
         );
     }
 }
@@ -836,7 +836,7 @@ idempotency_key:
 public void save(String idemKey, CancelPaymentResponse response) {
     try {
         idempotencyKeyRepository.save(
-                IdempotencyKey.create(idemKey, response)
+            IdempotencyKey.create(idemKey, response)
         );
     } catch (DataIntegrityViolationException e) {
         // UK 중복 → 이미 처리된 요청
@@ -846,7 +846,7 @@ public void save(String idemKey, CancelPaymentResponse response) {
 
 public Optional<CancelPaymentResponse> findResponse(String idemKey) {
     return idempotencyKeyRepository.findByIdemKey(idemKey)
-            .map(key -> deserialize(key.getResponseBody()));
+        .map(key -> deserialize(key.getResponseBody()));
 }
 ```
 
@@ -865,9 +865,9 @@ UNIQUE KEY uk_idempotency_idem_key (idem_key)
 // MerchantCancelUsageRepository.java
 @Lock(LockModeType.PESSIMISTIC_WRITE)
 @Query("SELECT u FROM MerchantCancelUsage u " +
-        "WHERE u.merchantId = :merchantId AND u.kstDate = :kstDate")
+       "WHERE u.merchantId = :merchantId AND u.kstDate = :kstDate")
 Optional<MerchantCancelUsage> findByMerchantIdAndDateForUpdate(
-        Long merchantId, LocalDate kstDate
+    Long merchantId, LocalDate kstDate
 );
 ```
 
@@ -875,8 +875,8 @@ Optional<MerchantCancelUsage> findByMerchantIdAndDateForUpdate(
 // RiskManagementCancelService.java
 @Transactional
 public void validateAndReserveLimit(
-        Long merchantId,
-        BigDecimal cancelAmount
+    Long merchantId,
+    BigDecimal cancelAmount
 ) {
     LocalDate kstToday = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
@@ -887,9 +887,9 @@ public void validateAndReserveLimit(
     if (usage.getUsedAmount().add(cancelAmount)
             .compareTo(usage.getDailyLimit()) > 0) {
         throw new MerchantCancelLimitExceededException(
-                cancelAmount,
-                usage.getDailyLimit().subtract(usage.getUsedAmount()),
-                usage.getDailyLimit()
+            cancelAmount,
+            usage.getDailyLimit().subtract(usage.getUsedAmount()),
+            usage.getDailyLimit()
         );
     }
 
@@ -922,8 +922,8 @@ public class PaymentItem {
         if (this.cancelledAmount.add(cancelAmount)
                 .compareTo(this.itemAmount) > 0) {
             throw new CancelAmountExceededException(
-                    this.id, cancelAmount,
-                    this.itemAmount.subtract(this.cancelledAmount)
+                this.id, cancelAmount,
+                this.itemAmount.subtract(this.cancelledAmount)
             );
         }
         this.cancelledAmount = this.cancelledAmount.add(cancelAmount);
@@ -939,7 +939,7 @@ SET cancelled_amount = cancelled_amount + ?,
     status = ?,
     version = version + 1
 WHERE id = ?
-  AND version = ?;  -- 내가 읽은 시점의 version과 다르면 0 rows updated
+AND version = ?;  -- 내가 읽은 시점의 version과 다르면 0 rows updated
 
 -- 0 rows updated → OptimisticLockException 발생
 ```
@@ -947,11 +947,11 @@ WHERE id = ?
 ```java
 // 낙관적 락 실패 처리
 try {
-        paymentItemRepository.saveAll(updatedItems);
+    paymentItemRepository.saveAll(updatedItems);
 } catch (OptimisticLockingFailureException e) {
-        // 다른 트랜잭션이 먼저 수정함
-        // 재조회 후 재검증
-        throw new CancelConflictException("동시 취소 요청이 발생했습니다. 다시 시도해주세요.");
+    // 다른 트랜잭션이 먼저 수정함
+    // 재조회 후 재검증
+    throw new CancelConflictException("동시 취소 요청이 발생했습니다. 다시 시도해주세요.");
 }
 ```
 
@@ -973,10 +973,10 @@ public class CancelRecoveryScheduler {
     @SchedulerLock(name = "cancel-recovery", lockAtMostFor = "55s")
     public void recover() {
         LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC)
-                .minusMinutes(5);
+            .minusMinutes(5);
 
         List<CancelRequest> stuckRequests =
-                cancelRequestRepository.findStuckProcessingRequests(threshold);
+            cancelRequestRepository.findStuckProcessingRequests(threshold);
 
         for (CancelRequest request : stuckRequests) {
             try {
@@ -1005,7 +1005,7 @@ public class CancelRecoveryService {
             request.toFailed("복구 스케줄러: PG사 취소 미완료");
             cancelRequestRepository.save(request);
             riskManagementService.compensate(
-                    request.getId().toString(), request.getCancelAmount()
+                request.getId().toString(), request.getCancelAmount()
             );
         }
     }
@@ -1028,15 +1028,15 @@ public class CancelEventOutboxScheduler {
     @SchedulerLock(name = "outbox-publisher", lockAtMostFor = "9s")
     public void publish() {
         List<CancelEventOutbox> pendingEvents =
-                outboxRepository.findByStatusOrderByCreatedAt(
-                        OutboxStatus.PENDING, PageRequest.of(0, 100)
-                );
+            outboxRepository.findByStatusOrderByCreatedAt(
+                OutboxStatus.PENDING, PageRequest.of(0, 100)
+            );
 
         for (CancelEventOutbox outbox : pendingEvents) {
             try {
                 kafkaEventPublisher.publish(
-                        "payment.cancelled",
-                        outbox.getPayload()
+                    "payment.cancelled",
+                    outbox.getPayload()
                 );
                 // 발행 성공 → PUBLISHED 업데이트
                 outbox.markAsPublished();
@@ -1068,12 +1068,12 @@ public class CompensationRetryScheduler {
         LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
 
         List<CompensationRetry> retries =
-                compensationRetryRepository.findPendingRetries(now, 100);
+            compensationRetryRepository.findPendingRetries(now, 100);
 
         for (CompensationRetry retry : retries) {
             try {
                 riskManagementService.compensate(
-                        retry.getCancelRequestId(), retry.getRestoreAmount()
+                    retry.getCancelRequestId(), retry.getRestoreAmount()
                 );
                 // 보상 성공
                 retry.markAsDone();
@@ -1194,17 +1194,17 @@ payment-service 처리:
 ```java
 // payment-service — risk HTTP 호출 catch
 try {
-        riskManagementService.validateAndReserveLimit(
+    riskManagementService.validateAndReserveLimit(
         payment.getMerchantId(),
         request.cancelAmount()
     );
-            } catch (ResourceAccessException e) {
-// 타임아웃 또는 네트워크 유실
-// risk가 커밋됐을 수도, 안 됐을 수도 있음
-// 안전하게 보상 시도 (risk 측에서 멱등하게 처리)
-failWithCompensation(cancelRequest, payment.getMerchantId(),
+} catch (ResourceAccessException e) {
+    // 타임아웃 또는 네트워크 유실
+    // risk가 커밋됐을 수도, 안 됐을 수도 있음
+    // 안전하게 보상 시도 (risk 측에서 멱등하게 처리)
+    failWithCompensation(cancelRequest, payment.getMerchantId(),
         request.cancelAmount(), "risk 응답 유실: " + e.getMessage());
-        throw new RiskServiceUnavailableException();
+    throw new RiskServiceUnavailableException();
 }
 ```
 
@@ -1216,7 +1216,7 @@ public void compensate(String cancelRequestId, BigDecimal restoreAmount) {
     // 멱등 체크: 이미 보상됐으면 no-op
     // cancel_usage_compensation UK로 중복 방어
     int inserted = compensationRepository.insertIfAbsent(
-            cancelRequestId, restoreAmount
+        cancelRequestId, restoreAmount
     );
 
     if (inserted == 0) {
@@ -1228,7 +1228,7 @@ public void compensate(String cancelRequestId, BigDecimal restoreAmount) {
     // 실제 원복
     // used_amount가 restoreAmount 미만이면 0으로 (언더플로우 방어)
     merchantCancelUsageRepository.decreaseUsedAmount(
-            cancelRequestId, restoreAmount
+        cancelRequestId, restoreAmount
     );
 }
 ```
@@ -1243,7 +1243,7 @@ VALUES (?, ?, ?, 'COMPLETED');
 UPDATE merchant_cancel_usage
 SET used_amount = GREATEST(0, used_amount - ?)
 WHERE merchant_id = ?
-  AND kst_date = ?;
+AND kst_date = ?;
 ```
 
 **케이스 3 핵심 — 보상이 실제로 필요한지 불명확한 경우:**
@@ -1300,27 +1300,27 @@ private CancelPaymentResponse completeCancel(...) {
 
 // TX 3 외부 (CancelPaymentService.cancel)에서 처리
 try {
-completeCancel(cancelRequest, payment, items, request, idempotencyKey);
+    completeCancel(cancelRequest, payment, items, request, idempotencyKey);
 } catch (Exception e) {
-        // TX 3 실패 → CancelRequest가 PROCESSING 상태로 남아있음
-        // 방법 1: 즉시 보상 시도
-        try {
-failCancelRequestDirectly(cancelRequest.getId()); // PROCESSING → FAILED
+    // TX 3 실패 → CancelRequest가 PROCESSING 상태로 남아있음
+    // 방법 1: 즉시 보상 시도
+    try {
+        failCancelRequestDirectly(cancelRequest.getId()); // PROCESSING → FAILED
         riskManagementService.compensate(
-        cancelRequest.getId().toString(), request.cancelAmount()
+            cancelRequest.getId().toString(), request.cancelAmount()
         );
-                } catch (Exception compensateEx) {
+    } catch (Exception compensateEx) {
         // 보상도 실패 → compensation_retry에 기록
         // 스케줄러가 재시도
         compensationRetryRepository.save(
-        CompensationRetry.create(
+            CompensationRetry.create(
                 cancelRequest.getId().toString(),
                 payment.getMerchantId(),
                 request.cancelAmount()
             )
-                    );
-                    }
-                    throw e;
+        );
+    }
+    throw e;
 }
 ```
 
@@ -1390,22 +1390,22 @@ Redis TTL:
 // findOrCreateUsage — Redis 우선 + HTTP 폴백 + DB 폴백
 @Transactional
 private MerchantCancelUsage findOrCreateUsage(
-        Long merchantId, LocalDate kstDate
+    Long merchantId, LocalDate kstDate
 ) {
     return merchantCancelUsageRepository
-            .findByMerchantIdAndDateForUpdate(merchantId, kstDate)  // FOR UPDATE
-            .orElseGet(() -> {
-                // 당일 첫 요청 → daily_limit 조회 (Redis 우선)
-                BigDecimal dailyLimit = getDailyLimitWithFallback(merchantId, kstDate);
+        .findByMerchantIdAndDateForUpdate(merchantId, kstDate)  // FOR UPDATE
+        .orElseGet(() -> {
+            // 당일 첫 요청 → daily_limit 조회 (Redis 우선)
+            BigDecimal dailyLimit = getDailyLimitWithFallback(merchantId, kstDate);
 
-                return merchantCancelUsageRepository.save(
-                        MerchantCancelUsage.create(merchantId, kstDate, dailyLimit)
-                );
-            });
+            return merchantCancelUsageRepository.save(
+                MerchantCancelUsage.create(merchantId, kstDate, dailyLimit)
+            );
+        });
 }
 
 private BigDecimal getDailyLimitWithFallback(
-        Long merchantId, LocalDate kstDate
+    Long merchantId, LocalDate kstDate
 ) {
     String key = "daily_limit:" + merchantId + ":" + kstDate;
 
@@ -1421,9 +1421,9 @@ private BigDecimal getDailyLimitWithFallback(
 
         // KST 자정까지 TTL 계산 후 Redis 저장
         Duration ttl = Duration.between(
-                LocalDateTime.now(ZoneId.of("Asia/Seoul")),
-                kstDate.plusDays(1).atStartOfDay(ZoneId.of("Asia/Seoul"))
-                        .toLocalDateTime()
+            LocalDateTime.now(ZoneId.of("Asia/Seoul")),
+            kstDate.plusDays(1).atStartOfDay(ZoneId.of("Asia/Seoul"))
+                   .toLocalDateTime()
         );
         redisTemplate.opsForValue().set(key, limit.toString(), ttl);
 
@@ -1533,18 +1533,18 @@ TPS가 1,000을 넘어가는 시점에:
 -- cancel_request에 이미 idempotency_key UK가 있음
 -- response_body, expires_at 컬럼만 추가하면 됨
 ALTER TABLE cancel_request
-    ADD COLUMN response_body JSON NULL,
+  ADD COLUMN response_body JSON NULL,
   ADD COLUMN expires_at DATETIME(3) NULL;
 ```
 
 ```java
 // 재시도 시 조회
 Optional<CancelRequest> existing =
-        cancelRequestRepository.findByIdempotencyKey(idempotencyKey);
+    cancelRequestRepository.findByIdempotencyKey(idempotencyKey);
 
 if (existing.isPresent() && existing.get().isCompleted()) {
-        return deserialize(existing.get().getResponseBody());
-        }
+    return deserialize(existing.get().getResponseBody());
+}
 ```
 
 **두 방식 비교:**
@@ -1619,10 +1619,10 @@ A, B, C 모두 cancelRequestId=1 재처리 시도
 
 ```sql
 CREATE TABLE shedlock (
-                          name       VARCHAR(64)  PRIMARY KEY,
-                          lock_until DATETIME(3)  NOT NULL,
-                          locked_at  DATETIME(3)  NOT NULL,
-                          locked_by  VARCHAR(255) NOT NULL
+    name       VARCHAR(64)  PRIMARY KEY,
+    lock_until DATETIME(3)  NOT NULL,
+    locked_at  DATETIME(3)  NOT NULL,
+    locked_by  VARCHAR(255) NOT NULL
 );
 ```
 
