@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "qmd": {
+      "command": "/usr/local/Cellar/node/25.9.0_2/bin/node",
+      "args": ["/usr/local/Cellar/node/25.9.0_2/libexec/lib/node_modules/npm/bin/npx-cli.js", "@tobilu/qmd", "mcp"]
+    },
+    "github": {
+      "command": "/opt/homebrew/bin/npx",
+      "args": ["-y", "@github/mcp-server"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "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"
+      }
+    }
+  }
+}
