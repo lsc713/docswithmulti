@@ -85,26 +85,47 @@ infrastructure → JPA 구현체, Kafka, HTTP 클라이언트
 ## 3. 취소 플로우 요약
 
 ```
-Step 1. 멱등성 체크 (idempotency_key 테이블)
-Step 2. Payment/PaymentItem 검증 (도메인 객체)
-Step 3. TX 1 — CancelRequest PENDING INSERT
-Step 4. risk-management-service HTTP 호출
-         → findOrCreateUsage (Redis 우선 → HTTP 폴백)
+Step 1. Payment/PaymentItem 조회 (ORDER BY id ASC)
+
+Step 2. request_hash 생성 + 멱등성 체크
+         hash = SHA-256(paymentKey + paymentItemIds 정렬)
+         cancel_request 조회:
+           COMPLETED → 기존 응답 반환
+           PENDING/PROCESSING → 처리 중 응답 반환
+           FAILED → PENDING으로 UPDATE (재처리)
+                    cancel_request_history INSERT (이력 기록)
+           없음 → 신규 처리
+
+Step 3. Payment/PaymentItem 상태 검증
+
+Step 4. TX 1 — CancelRequest PENDING INSERT
+         (payment_id, request_hash) UK → 따닥 요청 차단
+         cancel_request_history INSERT (이력 기록)
+
+Step 5. risk-management-service HTTP 호출
+         → Redis 우선 조회 → Miss 시 merchant-limit HTTP 폴백
          → merchant_cancel_usage FOR UPDATE
+         → cancelRequestId 중복 체크 (이중 차감 방어)
          → used_amount 선차감 커밋
-Step 5. TX 2 — CancelRequest PROCESSING
-Step 6. PG사 취소 API 호출
-Step 7. TX 3 — PaymentItem + Payment + COMPLETED + Outbox + idempotencyKey
-Step 8. Outbox 스케줄러 → Kafka 발행 → order-service consume
+
+Step 6. TX 2 — CancelRequest PROCESSING
+         cancel_request_history INSERT (이력 기록)
+
+Step 7. PG사 취소 API 호출
+
+Step 8. TX 3 — PaymentItem(CANCELLED) + Payment + CancelRequest(COMPLETED) + Outbox
+         cancel_request_history INSERT (이력 기록)
+
+Step 9. Outbox 스케줄러 → Kafka 발행 → order-service consume
 ```
 
 **실패 시 복구:**
 
-| CancelRequest 상태 | 의미 | 스케줄러 재처리 |
-|-------------------|------|--------------|
-| PENDING | risk 호출 전 | 처음부터 재처리 |
-| PROCESSING | risk 완료, PG사 호출 완료 또는 불명확 | PG사 조회 후 TX 3만 재처리 |
-| FAILED | 실패 확정 | 보상 트랜잭션 확인 |
+| CancelRequest 상태 | 의미 | 처리 |
+|-------------------|------|------|
+| PENDING | risk 호출 전 실패 | 스케줄러 → FAILED + 보상 트랜잭션 |
+| PROCESSING | risk 완료, PG사 결과 불명확 | 스케줄러 → PG사 조회 후 TX 3 재처리 |
+| FAILED | 실패 확정 | 재시도 시 PENDING으로 UPDATE + 이력 기록 |
 
 ---
 
