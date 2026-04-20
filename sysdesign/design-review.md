@@ -96,13 +96,13 @@ sequenceDiagram
   P->>P: cancel_request 조회 (payment_id, request_hash)
   alt COMPLETED
     P-->>C: 200 기존 응답 반환
-  end
-  alt PENDING/PROCESSING
+  else PENDING/PROCESSING
     P-->>C: 처리 중 응답 반환
-  end
-  alt FAILED
-    P->>P: PENDING으로 UPDATE
-    P->>P: cancel_request_history INSERT (이력 기록)
+  else FAILED
+    Note over P: @Transactional
+    P->>P: PENDING으로 UPDATE + cancel_request_history INSERT
+  else 없음
+    Note over P: 신규 처리 진행
   end
 
   Note over P: Step 3. Payment/PaymentItem 상태 검증
@@ -111,8 +111,10 @@ sequenceDiagram
 
   Note over P: Step 4. CancelRequest PENDING (TX 1)
   P->>P: CancelRequest PENDING + request_hash save
-  P->>P: cancel_request_history INSERT (이력 기록)
   Note over P: (payment_id, request_hash) UK → 따닥 요청 차단
+  Note over P: TX 1 커밋 후 별도
+  P->>P: cancel_request_history INSERT
+  Note over P: 실패해도 PENDING 유지됨
 
   Note over P,M: Step 5. risk-management-service 호출
   P->>R: validateAndReserveLimit(merchantId, cancelRequestId, cancelAmount)
@@ -126,47 +128,39 @@ sequenceDiagram
   R->>R: 한도 검증 + used_amount 선차감 커밋
   alt risk 명확한 에러 (한도 초과 등)
     R-->>P: 에러 응답
-    P->>P: CancelRequest FAILED
-    P->>P: cancel_request_history INSERT
+    Note over P: @Transactional
+    P->>P: CancelRequest FAILED + cancel_request_history INSERT
     P-->>C: 에러 반환
   else risk 타임아웃/네트워크 유실
     P->>R: compensate 호출 시도
     alt 보상 성공
-      P->>P: CancelRequest FAILED
-      P->>P: cancel_request_history INSERT
+      Note over P: @Transactional
+      P->>P: CancelRequest FAILED + cancel_request_history INSERT
     else 보상 실패
       P->>P: compensation_retry INSERT
-      Note over P: 스케줄러가 지수 백오프로 재시도
-      P->>P: CancelRequest FAILED
-      P->>P: cancel_request_history INSERT
+      Note over P: @Transactional
+      P->>P: CancelRequest FAILED + cancel_request_history INSERT
     end
     P-->>C: 에러 반환
   end
   R-->>P: 승인
 
   Note over P: Step 6. CancelRequest PROCESSING (TX 2)
-  alt TX 2 실패
-    Note over P: CancelRequest PENDING 유지
-    Note over P: 스케줄러 5분 초과 감지
-    P->>R: compensate 호출
-    alt 보상 성공
-      P->>P: CancelRequest FAILED
-      P->>P: cancel_request_history INSERT
-    else 보상 실패
-      P->>P: compensation_retry INSERT
-      Note over P: 스케줄러 지수 백오프 재시도
-    end
-  end
-  P->>P: cancel_request_history INSERT (이력 기록)
+  Note over P: TX 2 실패 시 PENDING 유지 → 스케줄러 처리
+  Note over P: TX 2 커밋 후 별도
+  P->>P: cancel_request_history INSERT
+  Note over P: 실패해도 PROCESSING 유지됨
 
   Note over P: Step 7. PG사 취소 API 호출
   alt PG사 명확한 실패
     P->>R: compensate (보상 트랜잭션)
     alt 보상 성공
-      P->>P: CancelRequest FAILED
-      P->>P: cancel_request_history INSERT
+      Note over P: @Transactional
+      P->>P: CancelRequest FAILED + cancel_request_history INSERT
     else 보상 실패
       P->>P: compensation_retry INSERT
+      Note over P: @Transactional
+      P->>P: CancelRequest FAILED + cancel_request_history INSERT
     end
     P-->>C: 에러 반환
   else PG사 타임아웃
@@ -179,7 +173,9 @@ sequenceDiagram
   P->>P: Payment 상태 변경
   P->>P: CancelRequest COMPLETED
   P->>P: Outbox INSERT
-  P->>P: cancel_request_history INSERT (이력 기록)
+  Note over P: TX 3 커밋 후 별도
+  P->>P: cancel_request_history INSERT
+  Note over P: 실패해도 취소는 완료 (이력은 보조 데이터)
 
   P-->>C: 200 취소 완료
 
@@ -291,6 +287,24 @@ idempotency_key 테이블 제거:
 | payload | JSON | 발행할 이벤트 |
 | status | VARCHAR(20) | PENDING / PUBLISHED |
 
+**compensation_retry (보상 재시도)**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | BIGINT PK | |
+| cancel_request_id | VARCHAR(64) UK | |
+| attempt_count | INT | |
+| next_retry_at | DATETIME(3) | 지수 백오프 |
+| status | VARCHAR(20) | PENDING / DONE / EXHAUSTED |
+
+```
+payment-service DB에 존재하는 이유:
+  보상 API를 호출하는 주체가 payment-service
+  "내가 못 한 일"을 내가 기록
+  compensation-retry 스케줄러도 payment-service에 존재
+  risk-service 장애 시에도 재시도 기록은 payment DB에 안전하게 보관
+```
+
 ### 3-2. risk-management-service DB
 
 **merchant_cancel_usage (가맹점 일일 소진 내역)**
@@ -319,16 +333,6 @@ idempotency_key 테이블 제거:
 | id | BIGINT PK | |
 | cancel_request_id | VARCHAR(64) UK | |
 | restore_amount | DECIMAL(19,2) | |
-
-**compensation_retry (보상 재시도)**
-
-| 컬럼 | 타입 | 설명 |
-|------|------|------|
-| id | BIGINT PK | |
-| cancel_request_id | VARCHAR(64) UK | |
-| attempt_count | INT | |
-| next_retry_at | DATETIME(3) | 지수 백오프 |
-| status | VARCHAR(20) | PENDING / DONE / EXHAUSTED |
 
 ### 3-3. merchant-limit-service DB
 
@@ -725,7 +729,19 @@ flowchart TD
 
 ## 6. 스케줄러 설계
 
-### 6-1. 스케줄러 3개
+### 6-1. 스케줄러 위치
+
+```
+payment-service:
+  cancel-recovery (60초)
+  outbox-publisher (10초)
+  compensation-retry (30초)
+
+risk-management-service:
+  스케줄러 없음
+```
+
+### 6-2. 스케줄러 3개 상세
 
 **스케줄러 1 — cancel-recovery (60초):**
 
@@ -734,23 +750,30 @@ flowchart TD
   risk가 커밋됐는지 알 수 없음
   → 안전하게 보상 API 호출
     risk: cancelRequestId 확인
-      차감 이력 없으면 → no-op
-      차감 이력 있으면 → used_amount 원복
-  → CancelRequest FAILED
-  → cancel_request_history INSERT
+      cancel_usage_history 없으면 → no-op
+      있으면 → used_amount 원복
+  보상 성공:
+    @Transactional
+    CancelRequest FAILED + cancel_request_history INSERT
+  보상 실패:
+    compensation_retry INSERT (payment DB)
+    @Transactional
+    CancelRequest FAILED + cancel_request_history INSERT
 
 대상 2: PROCESSING 5분 초과
   PG사 결과 조회
     성공 → TX 3 재실행
     실패 (재시도 가능) → PG사 재호출
-    실패 (재시도 불가) → FAILED + 보상
+    실패 (재시도 불가):
+      보상 API 호출
+      보상 성공: @Transactional FAILED + history
+      보상 실패: compensation_retry INSERT
     pending → pg_pending_since 기록
-              1시간 초과 시 FAILED + 보상 + 운영팀 알림
+              1시간 초과 시 보상 + FAILED + 운영팀 알림
 
 HTTP 호출 포함:
-  risk 보상 API 호출
+  risk 보상 API 호출 → risk 장애 시 영향받음
   PG사 조회/재호출
-  → risk 장애 시 스케줄러도 영향받음
   → 보상 실패 시 compensation_retry INSERT 후 다음 건으로
 ```
 
@@ -767,22 +790,27 @@ HTTP 호출 없음 (Kafka 발행만)
 **스케줄러 3 — compensation-retry (30초):**
 
 ```
-compensation_retry 테이블 조회
+payment-service DB의 compensation_retry 조회
 next_retry_at 도래한 건만
 → risk 보상 API 재호출
 → 성공: DONE
 → 실패: incrementAttempt + scheduleNextRetry (지수 백오프)
-→ EXHAUSTED: 운영팀 알림
+→ EXHAUSTED: 운영팀 알림 + 수동 보정
+
+compensation_retry가 payment DB에 있는 이유:
+  보상 API 호출 주체가 payment-service
+  risk 장애 시에도 재시도 기록은 payment DB에 안전하게 보관
+  risk 복구 후 스케줄러가 자동 재처리
 ```
 
-### 6-2. risk 장애 시 영향 격리
+### 6-3. risk 장애 시 영향 격리
 
 ```
-risk 서버 장애 발생:
+risk 서버 장애:
 
 cancel-recovery:
   보상 API 호출 실패
-  → compensation_retry INSERT
+  → compensation_retry INSERT (payment DB)
   → 다음 건으로 넘어감 (스케줄러 중단 없음)
 
 compensation-retry:
@@ -790,19 +818,18 @@ compensation-retry:
   risk 복구되면 자동 처리
   EXHAUSTED → 운영팀 알림 → 수동 보정
 
-장애 격리 구조:
-  스케줄러는 계속 동작
-  보상은 compensation_retry에 누적
-  risk 복구 시 한꺼번에 처리
+compensation_retry INSERT도 실패하면:
+  로그 + 운영팀 알림
+  수동 보정 필요 (극히 드문 케이스)
 ```
 
-### 6-3. ShedLock 설정
+### 6-4. ShedLock 설정
 
-| 스케줄러 | 주기 | lockAtMostFor |
-|---------|------|--------------|
-| cancel-recovery | 60초 | 55초 |
-| outbox-publisher | 10초 | 9초 |
-| compensation-retry | 30초 | 25초 |
+| 스케줄러 | 서비스 | 주기 | lockAtMostFor |
+|---------|--------|------|--------------|
+| cancel-recovery | payment-service | 60초 | 55초 |
+| outbox-publisher | payment-service | 10초 | 9초 |
+| compensation-retry | payment-service | 30초 | 25초 |
 
 ```
 lockAtMostFor < 실행 주기:

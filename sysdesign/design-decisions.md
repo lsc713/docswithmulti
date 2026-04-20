@@ -35,28 +35,17 @@
 **2단계: request_hash 기반 (개선된 설계)**
 
 ```
-hash = SHA-256(
-  paymentKey +
-  cancelItems (paymentItemId 정렬 +
-               cancelAmount +
-               현재 PaymentItem.cancelledAmount)
-)
+hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)
 
-이유:
-  전제 2 (아이템 단위 부분취소 허용) 시
-  같은 금액의 연속 부분취소를 구분해야 함
+아이템 단위 전액 취소만 가능:
+  cancelAmount 불필요 (항상 item_amount 전액)
+  cancelledAmount 불필요 (ACTIVE/CANCELLED 상태로만 구분)
+  paymentItemId만으로 동일 요청 식별 가능
 
-  예시:
-    B(90만원) 중 45만원 1차 취소:
-      hash = SHA-256(paymentKey + B:45만:0)
-    B(90만원) 중 나머지 45만원 2차 취소:
-      hash = SHA-256(paymentKey + B:45만:45만)
-      → 다른 hash → 신규 처리 ✓
-
-cancelled_amount를 hash에 포함하는 이유:
-  같은 금액의 연속 부분취소 구분 가능
-  추가 DB 조회 없음
-  (Payment, PaymentItem은 검증 목적으로 이미 조회됨)
+예시:
+  A(30만), B(50만) 아이템 취소:
+    hash = SHA-256(paymentKey + "A,B")
+  재시도: 동일 hash → 멱등 처리
 ```
 
 **hash 생성 코드:**
@@ -678,3 +667,27 @@ try {
 | 추가 인프라 | Redis | Redis | 없음 | 없음 |
 | 원자성 보장 | Lua 스크립트 | 직접 구현 | DB UPDATE | DB 세션 |
 | 채택 | Redis 도입 시 권장 | 비권장 | 현재 | - |
+
+---
+
+## 14. cancel_request_history 트랜잭션 처리
+
+```
+이력 테이블의 역할:
+  감사(audit), 추적 목적
+  비즈니스 로직에 영향 없음
+
+FAILED + 이력 → 트랜잭션으로 묶음:
+  FAILED 상태와 이력이 항상 일치해야 함
+  FAILED인데 이력 없으면 원인 추적 불가
+  → 원자적으로 처리
+
+COMPLETED + 이력 → 트랜잭션 밖으로 분리:
+  이력 저장 실패로 취소 전체 롤백되면
+  비즈니스 로직(실제 취소)을 희생하는 것
+  → 잘못된 설계
+
+  TX 3 커밋 후 별도로 이력 INSERT
+  이력 실패해도 취소는 완료
+  스케줄러 재처리 시 이력도 함께 기록됨
+```

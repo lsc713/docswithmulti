@@ -5,10 +5,10 @@
 ```mermaid
 stateDiagram-v2
   [*] --> COMPLETED : 결제 완료
-  COMPLETED --> PARTIAL_CANCELLED : 부분취소 성공
-  COMPLETED --> CANCELLED : 전액취소 성공
-  PARTIAL_CANCELLED --> PARTIAL_CANCELLED : 추가 부분취소
-  PARTIAL_CANCELLED --> CANCELLED : 잔액 전체 취소
+  COMPLETED --> PARTIAL_CANCELLED : 일부 아이템 취소
+  COMPLETED --> CANCELLED : 전체 아이템 취소
+  PARTIAL_CANCELLED --> PARTIAL_CANCELLED : 추가 아이템 취소
+  PARTIAL_CANCELLED --> CANCELLED : 나머지 아이템 전부 취소
   CANCELLED --> [*]
 ```
 
@@ -17,10 +17,17 @@ stateDiagram-v2
 ```mermaid
 stateDiagram-v2
   [*] --> ACTIVE
-  ACTIVE --> PARTIAL_CANCELLED : 일부 금액 취소
-  ACTIVE --> CANCELLED : 전액 취소
-  PARTIAL_CANCELLED --> CANCELLED : 잔액 전체 취소
+  ACTIVE --> CANCELLED : 아이템 단위 전액 취소
   CANCELLED --> [*]
+```
+
+```
+PaymentItem 부분취소 불가:
+  아이템 단위 전액 취소만 허용
+  PARTIAL_CANCELLED 상태 없음
+  cancelled_amount 컬럼 없음
+  version (낙관적 락) 없음
+  → cancel_request (payment_id, request_hash) UK로 동시성 제어
 ```
 
 ### 6-3. 취소 불가 상태
@@ -120,9 +127,9 @@ erDiagram
   PAYMENT ||--o{ PAYMENT_ITEM : contains
   PAYMENT ||--o{ PAYMENT_HISTORY : has
   PAYMENT ||--o{ CANCEL_REQUEST : has
-  CANCEL_REQUEST ||--o{ CANCEL_REQUEST_ITEM : includes
+  CANCEL_REQUEST ||--o{ CANCEL_REQUEST_HISTORY : has
   CANCEL_REQUEST ||--o| CANCEL_EVENT_OUTBOX : triggers
-  PAYMENT_ITEM ||--o{ CANCEL_REQUEST_ITEM : referenced_by
+  CANCEL_REQUEST ||--o{ COMPENSATION_RETRY : retries
 
   PAYMENT {
     bigint id PK
@@ -144,8 +151,6 @@ erDiagram
     bigint product_auto_id
     varchar item_name
     decimal item_amount
-    decimal cancelled_amount
-    int version
     varchar status
   }
   PAYMENT_HISTORY {
@@ -160,20 +165,21 @@ erDiagram
   CANCEL_REQUEST {
     bigint id PK
     bigint payment_id FK
-    varchar idempotency_key UK
+    varchar request_hash
     decimal cancel_amount
     varchar canceller_type
     bigint cancelled_by
     varchar status
-    datetime processing_started_at
+    datetime pg_pending_since
     datetime completed_at
     varchar failed_reason
   }
-  CANCEL_REQUEST_ITEM {
+  CANCEL_REQUEST_HISTORY {
     bigint id PK
     bigint cancel_request_id FK
-    bigint payment_item_id FK
-    decimal cancel_amount
+    varchar status
+    varchar reason
+    datetime created_at
   }
   CANCEL_EVENT_OUTBOX {
     bigint id PK
@@ -183,13 +189,6 @@ erDiagram
     datetime created_at
     datetime published_at
   }
-  IDEMPOTENCY_KEY {
-    bigint id PK
-    varchar idem_key UK
-    json response_body
-    datetime created_at
-    datetime expires_at
-  }
   COMPENSATION_RETRY {
     bigint id PK
     varchar cancel_request_id UK
@@ -198,12 +197,6 @@ erDiagram
     int attempt_count
     datetime next_retry_at
     varchar status
-  }
-  SHEDLOCK {
-    varchar name PK
-    datetime lock_until
-    datetime locked_at
-    varchar locked_by
   }
 ```
 
@@ -273,18 +266,13 @@ erDiagram
     bigint changed_by
     datetime created_at
   }
-  SHEDLOCK {
-    varchar name PK
-    datetime lock_until
-    datetime locked_at
-    varchar locked_by
-  }
 ```
 
 **risk-management-service**
 
 ```mermaid
 erDiagram
+  MERCHANT_CANCEL_USAGE ||--o{ CANCEL_USAGE_HISTORY : has
   MERCHANT_CANCEL_USAGE ||--o{ CANCEL_USAGE_COMPENSATION : compensated_by
 
   MERCHANT_CANCEL_USAGE {
@@ -296,6 +284,13 @@ erDiagram
     datetime created_at
     datetime updated_at
   }
+  CANCEL_USAGE_HISTORY {
+    bigint id PK
+    varchar cancel_request_id UK
+    bigint merchant_id
+    decimal cancel_amount
+    datetime created_at
+  }
   CANCEL_USAGE_COMPENSATION {
     bigint id PK
     varchar cancel_request_id UK
@@ -303,21 +298,6 @@ erDiagram
     decimal restore_amount
     varchar status
     datetime created_at
-  }
-  COMPENSATION_RETRY {
-    bigint id PK
-    varchar cancel_request_id UK
-    bigint merchant_id
-    decimal restore_amount
-    int attempt_count
-    datetime next_retry_at
-    varchar status
-  }
-  SHEDLOCK {
-    varchar name PK
-    datetime lock_until
-    datetime locked_at
-    varchar locked_by
   }
 ```
 
@@ -399,16 +379,19 @@ erDiagram
 ### 8-2. 핵심 테이블 관계
 
 ```
-payment (결제 원장)
-  └── payment_item (결제 항목, 부분취소 추적)
-  └── payment_history (상태 변경 이력)
-  └── cancel_request (취소 요청)
-      └── cancel_request_item (취소 항목)
-  └── cancel_event_outbox (Kafka 발행 보장)
+payment-service:
+  payment (결제 원장)
+    └── payment_item (결제 항목, 아이템 단위 취소)
+    └── payment_history (상태 변경 이력)
+    └── cancel_request (취소 요청, request_hash UK)
+        └── cancel_request_history (상태 변경 이력)
+    └── cancel_event_outbox (Kafka 발행 보장)
+    └── compensation_retry (보상 재시도 — payment-service 관리)
 
-idempotency_key (API 멱등성)
-compensation_retry (보상 재시도)
-shedlock (분산 스케줄러)
+risk-management-service:
+  merchant_cancel_usage (가맹점 일일 소진 내역)
+    └── cancel_usage_history (차감 이력, 이중 차감 방어)
+    └── cancel_usage_compensation (보상 멱등성)
 ```
 
 ### 8-2. 금액 타입
