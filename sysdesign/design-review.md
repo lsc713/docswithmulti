@@ -95,42 +95,56 @@ sequenceDiagram
   P->>P: request_hash = SHA-256(paymentKey + paymentItemIds 정렬)
   P->>P: cancel_request 조회 (payment_id, request_hash)
   alt COMPLETED
-    P-->>C: 200 기존 응답 반환
-  end
-  alt PENDING/PROCESSING
-    P-->>C: 처리 중 응답 반환
+      P-->>C: 200 기존 응답 반환
+  else PENDING/PROCESSING
+      P-->>C: 처리 중 응답 반환
+  else FAILED
+      P->>P: PENDING으로 UPDATE
+      P->>P: cancel_request_history INSERT
+  else 없음
+      Note over P: 신규 처리 진행
   end
 
   Note over P: Step 3. Payment/PaymentItem 상태 검증
   P->>P: Payment 상태 검증 (취소 가능 여부)
-  P->>P: PaymentItem 금액 검증
+  P->>P: PaymentItem 상태 검증 (CANCELLED 여부)
 
   Note over P: Step 4. CancelRequest PENDING (TX 1)
   P->>P: CancelRequest PENDING + request_hash save
+  P->>P: cancel_request_history INSERT (이력 기록)
   Note over P: (payment_id, request_hash) UK → 따닥 요청 차단
 
-  Note over P,M: Step 4. risk-management-service 호출
+  Note over P,M: Step 5. risk-management-service 호출
   P->>R: validateAndReserveLimit(merchantId, cancelRequestId, cancelAmount)
   R->>Redis: daily_limit 조회
   alt Redis Miss
     R->>M: daily_limit HTTP 조회
     R->>Redis: daily_limit 저장 (KST 자정 TTL)
   end
+  R->>R: cancelRequestId 중복 체크 (이중 차감 방어)
   R->>R: merchant_cancel_usage FOR UPDATE
   R->>R: 한도 검증 + used_amount 선차감 커밋
   R-->>P: 승인
 
-  Note over P: Step 5. CancelRequest PROCESSING (TX 2)
+  Note over P: Step 6. CancelRequest PROCESSING (TX 2)
+  P->>P: cancel_request_history INSERT (이력 기록)
 
-  Note over P: Step 6. PG사 취소 API 호출
+  Note over P: Step 7. PG사 취소 API 호출
   alt PG사 실패
     P->>R: compensate (보상 트랜잭션)
     P-->>C: 에러 반환
   end
 
-  Note over P: Step 7. TX 3 (PaymentItem + Payment + COMPLETED + Outbox)
+  Note over P: Step 8. TX 3
+  P->>P: PaymentItem CANCELLED
+  P->>P: Payment 상태 변경
+  P->>P: CancelRequest COMPLETED
+  P->>P: Outbox INSERT
+  P->>P: cancel_request_history INSERT (이력 기록)
 
-  Note over P,O: Step 8. Outbox 스케줄러
+  P-->>C: 200 취소 완료
+
+  Note over P,O: Step 9. Outbox 스케줄러
   P->>K: payment.cancelled 이벤트 발행
   K->>O: consume
   O->>O: processed_cancel_event UK 체크
@@ -218,6 +232,16 @@ idempotency_key 테이블 제거:
   재시도 시 cancel_request에서 COMPLETED 조회 후 응답 생성
   response_body 별도 저장 불필요
 ```
+
+**cancel_request_history (상태 변경 이력)**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | BIGINT PK | |
+| cancel_request_id | BIGINT FK | |
+| status | VARCHAR(20) | 변경된 상태 |
+| reason | VARCHAR(500) | 실패 사유 등 |
+| created_at | DATETIME(3) | 상태 변경 시각 |
 
 **cancel_event_outbox (Kafka 발행 보장)**
 
