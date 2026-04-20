@@ -85,19 +85,29 @@ sequenceDiagram
   participant K as Kafka
   participant O as order-service
 
-  C->>P: POST /payments/{key}/cancel (Idempotency-Key)
+  C->>P: POST /payments/{key}/cancel
 
-  Note over P: Step 1. 멱등성 체크
-  P->>P: idempotency_key 테이블 조회
-  alt 기존 요청 존재
-    P-->>C: 200 기존 응답 그대로 반환
+  Note over P: Step 1. Payment/PaymentItem 조회
+  P->>P: Payment 존재 확인 (없으면 404)
+  P->>P: PaymentItem 조회 (ORDER BY id ASC)
+
+  Note over P: Step 2. request_hash 생성 및 멱등성 체크
+  P->>P: request_hash = SHA-256(paymentKey + paymentItemIds 정렬)
+  P->>P: cancel_request 조회 (payment_id, request_hash)
+  alt COMPLETED
+    P-->>C: 200 기존 응답 반환
+  end
+  alt PENDING/PROCESSING
+    P-->>C: 처리 중 응답 반환
   end
 
-  Note over P: Step 2. Payment/PaymentItem 검증
-  P->>P: Payment 존재 및 상태 검증
+  Note over P: Step 3. Payment/PaymentItem 상태 검증
+  P->>P: Payment 상태 검증 (취소 가능 여부)
   P->>P: PaymentItem 금액 검증
 
-  Note over P: Step 3. CancelRequest PENDING (TX 1)
+  Note over P: Step 4. CancelRequest PENDING (TX 1)
+  P->>P: CancelRequest PENDING + request_hash save
+  Note over P: (payment_id, request_hash) UK → 따닥 요청 차단
 
   Note over P,M: Step 4. risk-management-service 호출
   P->>R: validateAndReserveLimit(merchantId, cancelRequestId, cancelAmount)
@@ -119,8 +129,6 @@ sequenceDiagram
   end
 
   Note over P: Step 7. TX 3 (PaymentItem + Payment + COMPLETED + Outbox)
-
-  P-->>C: 200 취소 완료
 
   Note over P,O: Step 8. Outbox 스케줄러
   P->>K: payment.cancelled 이벤트 발행
@@ -170,7 +178,7 @@ stateDiagram-v2
 | currency | VARCHAR(3) | KRW |
 | status | VARCHAR(20) | COMPLETED / PARTIAL_CANCELLED / CANCELLED |
 
-**payment_item (결제 항목 — 부분취소 추적)**
+**payment_item (결제 항목 — 아이템 단위 취소)**
 
 | 컬럼 | 타입 | 설명 |
 |------|------|------|
@@ -178,9 +186,19 @@ stateDiagram-v2
 | payment_id | BIGINT FK | |
 | item_name | VARCHAR(255) | 결제 시점 스냅샷 |
 | item_amount | DECIMAL(19,2) | 결제 시점 가격 |
-| cancelled_amount | DECIMAL(19,2) | 누적 취소액 |
-| version | INT | 낙관적 락 |
-| status | VARCHAR(20) | ACTIVE / PARTIAL_CANCELLED / CANCELLED |
+| status | VARCHAR(20) | ACTIVE / CANCELLED |
+
+```
+cancelled_amount 제거:
+  아이템 단위 전액 취소만 가능
+  → 누적 취소액 추적 불필요
+  → status로만 관리
+
+version (낙관적 락) 제거:
+  동일 PaymentItem 동시 수정 케이스 3이
+  아이템 단위 전액 취소로 단순화됨
+  → status UK로 방어 가능
+```
 
 **cancel_request (취소 요청)**
 
@@ -188,10 +206,18 @@ stateDiagram-v2
 |------|------|------|
 | id | BIGINT PK | |
 | payment_id | BIGINT FK | |
-| idempotency_key | VARCHAR(64) UK | 클라이언트 UUID |
+| request_hash | VARCHAR(64) | SHA-256(paymentKey + paymentItemIds 정렬) |
 | cancel_amount | DECIMAL(19,2) | |
 | status | VARCHAR(20) | PENDING / PROCESSING / COMPLETED / FAILED |
 | pg_pending_since | DATETIME(3) | PG사 pending 최초 감지 시각 |
+| UNIQUE KEY | (payment_id, request_hash) | TX 1에서 따닥 요청 차단 |
+
+```
+idempotency_key 테이블 제거:
+  cancel_request.request_hash UK가 중복 차단 담당 (TX 1)
+  재시도 시 cancel_request에서 COMPLETED 조회 후 응답 생성
+  response_body 별도 저장 불필요
+```
 
 **cancel_event_outbox (Kafka 발행 보장)**
 
@@ -201,15 +227,6 @@ stateDiagram-v2
 | cancel_request_id | BIGINT UK | |
 | payload | JSON | 발행할 이벤트 |
 | status | VARCHAR(20) | PENDING / PUBLISHED |
-
-**idempotency_key (API 멱등성)**
-
-| 컬럼 | 타입 | 설명 |
-|------|------|------|
-| id | BIGINT PK | |
-| idem_key | VARCHAR(64) UK | 클라이언트 UUID |
-| response_body | JSON | 기존 응답 저장 |
-| expires_at | DATETIME(3) | 24시간 TTL |
 
 ### 3-2. risk-management-service DB
 
@@ -475,13 +492,18 @@ flowchart TD
 **request_hash 생성:**
 
 ```
-paymentKey + cancelItems (paymentItemId 오름차순 정렬)
+hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)
 
-정렬이 필요한 이유:
-  [{ paymentItemId: 2 }, { paymentItemId: 1 }]
-  [{ paymentItemId: 1 }, { paymentItemId: 2 }]
-  내용은 같지만 순서가 달라서 hash가 달라질 수 있음
-  → paymentItemId 기준 정렬 후 해시 생성
+아이템 단위 전액 취소만 가능하므로:
+  cancelAmount 불필요 (항상 item_amount 전액)
+  cancelledAmount 불필요 (ACTIVE/CANCELLED 상태로만 구분)
+
+예시:
+  A(30만), B(50만) 취소 요청:
+    hash = SHA-256(paymentKey + "A,B")
+
+  재시도 (같은 아이템):
+    hash = SHA-256(paymentKey + "A,B") → 동일 → 멱등 처리
 ```
 
 **처리 흐름:**
@@ -492,25 +514,47 @@ flowchart TD
   B --> C{cancel_request 조회\nrequest_hash 기준}
   C -->|COMPLETED| D[기존 응답 반환]
   C -->|PENDING/PROCESSING| E[처리 중 응답 반환]
-  C -->|FAILED| F[신규 처리]
-  C -->|없음| F
-  F --> G[TX 1: CancelRequest INSERT\npayment_id + request_hash UK]
-  G -->|UK 충돌| H[기존 건 조회 후 상태별 처리]
-  G -->|성공| I[이후 플로우 진행]
+  C -->|FAILED| F[PENDING으로 UPDATE 후 재처리]
+  C -->|없음| G[TX 1: CancelRequest PENDING INSERT]
+  F --> H[이후 플로우 진행]
+  G -->|UK 충돌| I[기존 건 조회 후 상태별 처리]
+  G -->|성공| H
 ```
 
-**UK 충돌 시 처리:**
+**상태별 처리:**
+
+| 상태 | 처리 |
+|------|------|
+| 없음 | 신규 INSERT (PENDING) → 이후 플로우 |
+| PENDING | 처리 중 응답 반환 |
+| PROCESSING | 처리 중 응답 반환 |
+| COMPLETED | 기존 응답 반환 (멱등) |
+| FAILED | 기존 건 PENDING으로 UPDATE → 이후 플로우 재진행 |
+
+**FAILED → PENDING UPDATE 이유:**
 
 ```
-동시에 같은 request_hash로 요청이 들어온 경우:
-  A: INSERT 성공 → 정상 플로우 진행
-  B: INSERT 실패 (UK 충돌)
-     → 기존 CancelRequest 조회
-     → 상태에 따라 분기
-       COMPLETED → 기존 응답 반환
-       PENDING/PROCESSING → 처리 중 응답
-       FAILED → 신규 처리 허용
+FAILED = 취소가 안 된 상태 → 재시도 허용
+
+새 INSERT 시 UK 충돌 발생
+→ 기존 FAILED 건을 PENDING으로 UPDATE
+→ UK 충돌 없음, DELETE 없음
+→ 이후 정상 플로우 진행
+
+이력 보존:
+  cancel_request_history 테이블에
+  FAILED 시점 + PENDING 재시도 시점 기록
 ```
+
+**cancel_request_history (이력 보존):**
+
+| 컬럼 | 타입 | 설명 |
+|------|------|------|
+| id | BIGINT PK | |
+| cancel_request_id | BIGINT FK | |
+| status | VARCHAR(20) | 변경된 상태 |
+| reason | VARCHAR(500) | 실패 사유 등 |
+| created_at | DATETIME(3) | 상태 변경 시각 |
 
 **Idempotency-Key 헤더 제거:**
 
@@ -523,9 +567,9 @@ flowchart TD
 
 | 케이스 | 상황 | 해결 방법 |
 |--------|------|---------|
-| 케이스 1 | 동일 요청 중복 (같은 UUID) | idempotency_key UK |
+| 케이스 1 | 동일 요청 중복 (따닥 요청) | cancel_request (payment_id, request_hash) UK (TX 1) |
 | 케이스 2 | 가맹점 한도 동시 차감 | merchant_cancel_usage FOR UPDATE |
-| 케이스 3 | 동일 PaymentItem 동시 수정 | payment_item version 낙관적 락 |
+| 케이스 3 | 동일 PaymentItem 동시 취소 | cancel_request (payment_id, request_hash) UK (TX 1) |
 
 **케이스 2 — FOR UPDATE 선택 이유:**
 
@@ -535,12 +579,15 @@ flowchart TD
 | 낙관적 락 | 충돌 시 재시도, 한도 초과 시 재시도도 실패 | - |
 | Redis 분산 카운터 | 빠름, 락 없음 | TPS 급증 시 검토 |
 
-**케이스 3 — 낙관적 락 선택 이유:**
+**케이스 3 — cancel_request UK로 해결:**
 
-| 방법 | 설명 | 채택 |
-|------|------|------|
-| 낙관적 락 | 충돌 드문 경우 처리량 높음 | ✓ |
-| Payment FOR UPDATE | 일찍 차단 가능하나 모든 요청 직렬화 | 충돌 빈번 시 검토 |
+```
+아이템 단위 전액 취소만 가능
+동일 PaymentItem 동시 취소 시도:
+  request_hash = SHA-256(paymentKey + paymentItemId)
+  → 같은 hash → TX 1 UK 충돌 → 하나만 성공
+  → 낙관적 락 불필요
+```
 
 ---
 
@@ -669,15 +716,101 @@ flowchart TD
 
 ## 7. TPS 확장 전략
 
-| 단계 | TPS | 주요 변경 |
-|------|-----|---------|
-| 현재 | 100 | 단일 MySQL, Outbox 스케줄러 |
-| 1단계 | 1,000 | Read Replica, Redis 도입, Outbox 주기 단축 |
-| 2단계 | 5,000 | merchantId 기반 DB 샤딩, Redis 분산락 전환 |
-| 3단계 | 10,000+ | CDC(Debezium), CQRS |
+**TPS 100 (현재):**
 
-**예상 병목 순서:**
-1. merchant_cancel_usage FOR UPDATE (가맹점 집중 시)
-2. Outbox 스케줄러 처리량 한계
-3. payment DB 쓰기 부하
-4. Kafka Consumer Lag
+```
+HTTP:
+  스레드 풀 200개로 충분
+  인스턴스 2대
+
+DB:
+  단일 MySQL
+  FOR UPDATE, UK로 동시성 제어
+  Redis 도입 (daily_limit 캐시, merchant-limit 폴백)
+
+스케줄러:
+  Outbox 10초마다 100건 처리
+  TPS 100 = 10초에 1000건 발생
+  → 배치 크기 1000으로 즉시 조정 필요 (이미 문제)
+  복구/보상 스케줄러: 장애 케이스 드묾 → 문제 없음
+```
+
+**TPS 1000:**
+
+```
+HTTP:
+  인스턴스 4대 수평 확장
+  Virtual Thread 도입 검토
+
+DB:
+  Read Replica 추가 (쓰기 Primary, 읽기 Replica)
+  ShedLock → Redis 분산락 전환
+
+스케줄러:
+  Outbox 10초에 10000건 발생
+  → 스케줄러 주기 1초로 단축
+  복구/보상 스케줄러: 장애 케이스 증가 → 주기 조정
+```
+
+**TPS 5000:**
+
+```
+HTTP:
+  인스턴스 10대+
+  risk-service 수평 확장 필요
+  Circuit Breaker 강화
+
+DB:
+  merchantId 기준 DB 샤딩
+  FOR UPDATE → Redis 분산락 전환 필수
+  shedlock 전용 DB 분리
+
+스케줄러:
+  Outbox 스케줄러 한계
+  → CDC(Debezium) 전환 필수 (binlog 기반 실시간 발행)
+  복구/보상 스케줄러: Redis 분산락으로 안전하게 유지
+```
+
+**TPS 10000+:**
+
+```
+HTTP:
+  gRPC 전환 검토 (HTTP/2 멀티플렉싱)
+  비동기 전환 검토 (금융 도메인 위험 감수)
+  PG사 TPS 제한 협의 필요
+
+DB:
+  샤드 수 증가
+  각 샤드에 Read Replica 추가
+  CQRS 도입 (읽기/쓰기 완전 분리)
+
+스케줄러:
+  CDC 이미 도입됨
+  복구/보상 스케줄러 파티셔닝 검토
+```
+
+**예상 병목 발생 순서:**
+
+```
+1. Outbox 스케줄러 처리량 (TPS 100에서 이미 문제)
+2. 인스턴스 스레드 풀 고갈
+3. merchant_cancel_usage FOR UPDATE
+4. payment DB 쓰기 부하
+5. risk-service HTTP 처리량
+6. Kafka Consumer Lag
+7. PG사 TPS 제한
+```
+
+**동시성 제어 전환 계획:**
+
+```
+현재 (단일 DB):
+  FOR UPDATE → DB 트랜잭션과 락이 원자적
+  서버 다운 시 DB가 자동 롤백
+
+TPS 1000: ShedLock만 Redis 분산락 전환
+TPS 5000+: FOR UPDATE → Redis 분산락 전환 필수
+  (샤드 간 데드락 방지)
+  보상 트랜잭션 로직 강화 필요
+  전환 용이: TPS 1000에 Redis 이미 도입됨
+```

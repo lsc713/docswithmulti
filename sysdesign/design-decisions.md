@@ -22,15 +22,81 @@
   → 기존 성공 응답이 아닌 에러 반환 → 멱등성 위반
 ```
 
+### 1-1. 멱등성 설계 변천
+
+**1단계: 클라이언트 UUID (초기 설계)**
+
+```
+문제:
+  UUID가 다른 동일 요청은 새 요청으로 처리
+  → 완벽한 멱등성 보장 불가
+```
+
 **2단계: request_hash 기반 (개선된 설계)**
 
 ```
-paymentKey + cancelItems(paymentItemId 정렬) → SHA-256 해시
+hash = SHA-256(
+  paymentKey +
+  cancelItems (paymentItemId 정렬 +
+               cancelAmount +
+               현재 PaymentItem.cancelledAmount)
+)
 
-UUID가 달라도 같은 내용이면 같은 hash
-→ 기존 COMPLETED CancelRequest 조회
-→ 기존 응답 반환
-→ 완벽한 멱등성 달성
+이유:
+  전제 2 (아이템 단위 부분취소 허용) 시
+  같은 금액의 연속 부분취소를 구분해야 함
+
+  예시:
+    B(90만원) 중 45만원 1차 취소:
+      hash = SHA-256(paymentKey + B:45만:0)
+    B(90만원) 중 나머지 45만원 2차 취소:
+      hash = SHA-256(paymentKey + B:45만:45만)
+      → 다른 hash → 신규 처리 ✓
+
+cancelled_amount를 hash에 포함하는 이유:
+  같은 금액의 연속 부분취소 구분 가능
+  추가 DB 조회 없음
+  (Payment, PaymentItem은 검증 목적으로 이미 조회됨)
+```
+
+**hash 생성 코드:**
+
+```java
+// PaymentItem을 DB에서 정렬해서 조회
+List<PaymentItem> items = paymentItemRepository
+    .findAllByPaymentIdOrderByIdAsc(payment.getId());
+
+Map<Long, PaymentItem> itemMap = items.stream()
+    .collect(Collectors.toMap(PaymentItem::getId, i -> i));
+
+// cancelItems는 paymentItemId 정렬
+String requestHash = sha256(
+    paymentKey +
+    cancelItems.stream()
+        .sorted(Comparator.comparing(CancelItemRequest::paymentItemId))
+        .map(item -> {
+            PaymentItem pi = itemMap.get(item.paymentItemId());
+            return item.paymentItemId()
+                + ":" + item.cancelAmount()
+                + ":" + pi.getCancelledAmount();
+        })
+        .collect(Collectors.joining(","))
+);
+```
+
+**DB 정렬 활용:**
+```
+PaymentItem을 DB에서 ORDER BY id ASC로 가져옴
+→ index 활용, 추가 정렬 비용 없음
+cancelItems만 Service에서 정렬
+```
+
+**한계:**
+```
+멱등키 생성이 DB 상태에 의존
+Payment, PaymentItem 조회 후에만 생성 가능
+→ 어쩔 수 없는 최선
+  (어차피 검증 목적으로 필요한 조회를 활용)
 ```
 
 ### 1-2. 취약점 분석 및 해결
@@ -42,17 +108,47 @@ UUID가 달라도 같은 내용이면 같은 hash
 | PROCESSING 중 재요청 | COMPLETED만 체크 | PENDING/PROCESSING도 차단 |
 | cancelItems 순서 다름 | hash 달라짐 | paymentItemId 정렬 후 해시 |
 
-### 1-3. FAILED 처리
+### 1-3. FAILED 처리 및 재시도
 
 ```
-FAILED = 취소 안 된 상태
-→ 재시도 허용 (신규 처리)
+FAILED = 취소가 실제로 안 된 상태 → 재시도 허용
 
-COMPLETED = 취소 완료
-→ 기존 응답 반환
+재시도 시 처리:
+  request_hash로 cancel_request 조회 → FAILED 발견
+  새 INSERT 불가 (UK 충돌)
+  → 기존 FAILED 건을 PENDING으로 UPDATE
+  → 이후 정상 플로우 재진행
 
-PENDING/PROCESSING = 처리 중
-→ "처리 중" 응답 반환
+FAILED → PENDING UPDATE 선택 이유:
+  DELETE + 새 INSERT:
+    DELETE 실패 시 UK 충돌로 재시도 불가
+    이력 유실 위험
+  PENDING으로 UPDATE:
+    UK 충돌 없음
+    DELETE 없음 → 실패 걱정 없음
+    이력은 cancel_request_history에 보존
+```
+
+### 1-4. cancel_request_history 테이블
+
+```sql
+CREATE TABLE cancel_request_history (
+    id                BIGINT      PRIMARY KEY AUTO_INCREMENT,
+    cancel_request_id BIGINT      NOT NULL,
+    status            VARCHAR(20) NOT NULL,
+    reason            VARCHAR(500) NULL,
+    created_at        DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    INDEX idx_cancel_request_history_cancel_request_id (cancel_request_id)
+);
+```
+
+```
+상태 변경 시마다 INSERT:
+  PENDING 생성
+  PROCESSING 변경
+  FAILED 변경 (사유 포함)
+  FAILED → PENDING 재시도
+  COMPLETED 완료
 ```
 
 ### 1-4. Idempotency-Key 헤더 제거
@@ -72,21 +168,42 @@ PG사와의 관계:
 
 ```sql
 ALTER TABLE cancel_request
-  ADD COLUMN request_hash VARCHAR(64) NULL,
+  ADD COLUMN request_hash VARCHAR(64) NOT NULL,
   ADD UNIQUE KEY uk_cancel_request_hash (payment_id, request_hash);
+
+-- idempotency_key 테이블 제거
+DROP TABLE idempotency_key;
 ```
 
-### 1-6. cancel_request에 통합 가능한가
+### 1-6. TX 3에서 제거된 것
 
 ```
-idempotency_key 별도 테이블 → 제거
-cancel_request.request_hash로 통합
+기존 TX 3:
+  PaymentItem 변경
+  Payment 변경
+  CancelRequest COMPLETED
+  Outbox INSERT
+  idempotency_key 저장 ← 제거
+
+변경 후 TX 3:
+  PaymentItem 변경
+  Payment 변경
+  CancelRequest COMPLETED
+  Outbox INSERT
 
 이유:
-  request_hash가 cancel_request의 고유 식별자 역할
-  별도 테이블 불필요
-  단, 다른 API(결제, 환불)에도 멱등성 필요하면
-  별도 테이블 고려
+  idempotency_key 테이블 제거
+  재시도 시 cancel_request COMPLETED 조회 후 응답 생성
+  response_body 별도 저장 불필요
+```
+
+### 1-7. 재시도 시 응답 생성
+
+```
+cancel_request COMPLETED 건:
+  cancel_request 데이터로 응답 직접 생성
+  cancelAmount, status, completedAt 등 이미 보유
+  → response_body 저장 불필요
 ```
 
 ---
@@ -197,15 +314,105 @@ Outbox 선택 이유:
 
 ---
 
-## 8. ShedLock vs Redis 분산락
+## 8. ShedLock → Redis 분산락 전환
 
-| | ShedLock (현재) | Redis 분산락 |
+**비교:**
+
+| | ShedLock | Redis 분산락 |
 |--|-------------|------------|
 | 인프라 | MySQL (이미 있음) | Redis 필요 |
 | 장애 시 | MySQL 장애 = 스케줄러 의미 없음 | Redis 장애 = 스케줄러 중단 |
-| 전환 | RedisLockProvider 교체 지원 | - |
+| DB 샤딩 시 | shedlock 테이블 분리 필요 | 영향 없음 |
+| DB 부하 | 스케줄러 실행마다 DB 접근 | Redis 접근 (더 빠름) |
 
-**선택:** ShedLock — Redis 미도입 시 추가 인프라 없이 동일 효과
+**전환 결정:**
+
+```
+Redis 도입 시점에 ShedLock → Redis 분산락으로 전환
+
+이유:
+  Redis 이미 도입 → 추가 인프라 없음
+  DB 샤딩 시 shedlock 테이블 분리 문제 방지
+  AWS ElastiCache Multi-AZ로 고가용성 자동 보장
+  전환 비용 매우 낮음 (코드 3줄 + yml 설정)
+```
+
+**분산락 한계 — 단일 실패 지점:**
+
+```
+Redis 단일 노드:
+  Redis 다운 → 락 획득 불가
+  → 스케줄러 중단
+  → TPS 증가로 분산락 도입 시 결제 취소도 영향
+
+해결 방법:
+
+Redlock (Redis 다중 노드):
+  5대 중 3대 이상에서 락 획득 시 유효
+  1대 다운돼도 나머지로 동작
+  한계:
+    Clock Drift: 노드 시계 차이로 TTL 만료 시점 불일치
+    GC Pause: JVM GC 동안 TTL 만료
+              → 두 클라이언트 동시 락 보유 가능
+    Martin Kleppmann이 안전하지 않다고 비판
+
+AWS ElastiCache Multi-AZ (채택):
+  Primary 장애 시 자동 failover
+  Replica가 Primary로 승격
+  Redlock보다 단순하고 현실적
+  → 단일 실패 지점 해소
+
+Fencing Token (보완책):
+  락 획득 시 단조 증가 토큰 발급
+  DB 쓰기 시 토큰 검증 → 이전 토큰이면 거부
+  GC Pause, Clock Drift 문제 보완
+  구현 복잡도 있음
+```
+
+**분산락 실패 시 최후 방어선:**
+
+```
+분산락이 실패해도:
+  cancel_request (payment_id, request_hash) UK
+  PaymentItem 상태 검증
+  → 비즈니스 로직에서 최종 차단
+  → 분산락은 "앞단 최적화", UK가 최종 보장
+```
+
+**확장성 관점 — 분산락이 필요한 시점:**
+
+```
+단일 DB (현재):
+  UK, FOR UPDATE로 충분
+  분산락 불필요 (스케줄러 제외)
+
+DB 샤딩 시 (TPS 5000+):
+  cancel_request UK → 샤드 간 보장 안 됨
+  → 분산락으로 전환 필요
+  merchant_cancel_usage FOR UPDATE → 샤드 간 불가
+  → 분산락으로 전환 필요
+```
+
+**전환 방법:**
+
+```gradle
+implementation 'net.javacrumbs.shedlock:shedlock-provider-redisson'
+implementation 'org.redisson:redisson-spring-boot-starter:3.24.3'
+```
+
+```java
+@Bean
+public LockProvider lockProvider(RedissonClient redissonClient) {
+    return new RedissonLockProvider(redissonClient);
+}
+// RedissonClient, RedissonLockProvider는 라이브러리가 구현
+// 스케줄러 코드 변경 없음
+```
+
+```sql
+-- V9__drop_shedlock_table.sql
+DROP TABLE IF EXISTS shedlock;
+```
 
 ---
 
@@ -239,6 +446,38 @@ Redis 분산 카운터:
   TPS 100, 인스턴스 2대 수준: FOR UPDATE 유지
   트래픽 집중 대형 가맹점 발생 시: Redis 분산 카운터 검토
   인스턴스 10대+: 가맹점별 라우팅 검토
+```
+
+**확장성 관점 — FOR UPDATE → 분산락 전환 필요:**
+
+```
+DB 샤딩 시 FOR UPDATE의 한계:
+  merchantId 기준 샤딩
+  같은 가맹점은 같은 샤드 → FOR UPDATE 유지 가능
+
+  근데 여러 DB 샤드에 걸친 동시성 제어가 필요하면:
+  → 샤드 간 FOR UPDATE 불가
+  → 데드락 위험
+
+  예시:
+    유저 1: 샤드 1 락 획득 → 샤드 2 락 대기
+    유저 2: 샤드 2 락 획득 → 샤드 1 락 대기
+    → 데드락
+
+  분산락으로 전환:
+    lock("merchant:" + merchantId + ":" + kstDate)
+    Redis 하나로 전체 직렬화
+    DB 샤드 수와 무관
+
+분산락 전환 시 추가 위험:
+  FOR UPDATE: 락과 커밋이 원자적 → 서버 다운 시 자동 롤백
+  분산락: 락 해제와 커밋이 별개 → 서버 다운 시 정합성 위험
+  → 보상 트랜잭션으로 보완 (compensation_retry 구조 활용)
+
+전환 시점:
+  TPS 1000: Redis 도입 → ShedLock만 분산락 전환
+  TPS 5000+: DB 샤딩 → FOR UPDATE도 분산락으로 전환 필수
+  전환 용이: TPS 1000에 Redis 이미 도입됨
 ```
 
 ---
