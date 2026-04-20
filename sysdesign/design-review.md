@@ -621,19 +621,43 @@ UK 충돌 없음, DELETE 없음, 이력 보존
 
 ### 4-7. 동시성 처리
 
-| 케이스 | 상황 | 해결 방법 |
-|--------|------|---------|
-| 케이스 1 | 동일 요청 중복 (따닥 요청) | cancel_request (payment_id, request_hash) UK (TX 1) |
-| 케이스 2 | 가맹점 한도 동시 차감 | merchant_cancel_usage FOR UPDATE |
-| 케이스 3 | 동일 PaymentItem 동시 취소 | cancel_request (payment_id, request_hash) UK (TX 1) |
+| 케이스 | 상황 | 해결 방법 | 분산락 대체 |
+|--------|------|---------|-----------|
+| 케이스 1 | 동일 요청 중복 (따닥 요청) | cancel_request UK (TX 1) | 불필요 |
+| 케이스 2 | 가맹점 한도 동시 차감 | merchant_cancel_usage FOR UPDATE | 검토 가능 |
+| 케이스 3 | 동일 PaymentItem 동시 취소 | cancel_request UK (TX 1) | 불필요 |
 
-**케이스 2 — FOR UPDATE 선택 이유:**
+**케이스 1, 3 — UK 유지 이유:**
+
+```
+분산락으로 대체 가능하지만 UK 제거 불가:
+  락 해제와 DB INSERT가 별개
+  서버 다운 시 다른 인스턴스가 락 획득 후 INSERT 시도
+  → UK가 최종 방어선 역할
+  → 분산락 + UK 둘 다 필요 → 복잡도만 증가
+  → UK만 유지하는 게 단순하고 안전
+```
+
+**케이스 2 — FOR UPDATE vs 분산락:**
 
 | 방법 | 설명 | 채택 |
 |------|------|------|
-| FOR UPDATE | 조회+차감 원자적 처리, 직렬화 | ✓ |
-| 낙관적 락 | 충돌 시 재시도, 한도 초과 시 재시도도 실패 | - |
-| Redis 분산락 | DB 샤딩 시 샤드 간 동시성 제어 | DB 샤딩 시 전환 |
+| FOR UPDATE | 락과 커밋 원자적, DB 샤딩 전까지 안전 | ✓ (현재) |
+| 낙관적 락 | 한도 초과 시 재시도도 실패 | - |
+| Redis 분산락 | ElastiCache 이미 도입, 샤딩 대비 | 검토 가능 |
+
+```
+분산락 전환 검토 이유:
+  ElastiCache Multi-AZ 이미 도입 → 추가 인프라 없음
+  DB 샤딩 시 FOR UPDATE → 분산락 전환 필요
+  지금 전환하면 나중에 별도 작업 없음
+  오버엔지니어링 아님
+
+분산락 전환 시 주의:
+  FOR UPDATE: 락과 커밋이 원자적 → 서버 다운 시 자동 롤백
+  분산락: 락 해제와 커밋이 별개 → 보상 트랜잭션으로 보완
+  → 이미 compensation_retry 구조 있으므로 대응 가능
+```
 
 **케이스 3 — cancel_request UK로 해결:**
 
