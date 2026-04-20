@@ -480,14 +480,27 @@ public class CancelRecoveryScheduler {
         LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC)
             .minusMinutes(5);
 
-        List<CancelRequest> stuckRequests =
+        // PENDING 5분 초과 처리
+        List<CancelRequest> stuckPendingRequests =
+            cancelRequestRepository.findStuckPendingRequests(threshold);
+
+        for (CancelRequest request : stuckPendingRequests) {
+            try {
+                cancelRecoveryService.recoverPending(request);
+            } catch (Exception e) {
+                log.error("PENDING 복구 실패: cancelRequestId={}", request.getId(), e);
+            }
+        }
+
+        // PROCESSING 5분 초과 처리
+        List<CancelRequest> stuckProcessingRequests =
             cancelRequestRepository.findStuckProcessingRequests(threshold);
 
-        for (CancelRequest request : stuckRequests) {
+        for (CancelRequest request : stuckProcessingRequests) {
             try {
                 cancelRecoveryService.recoverProcessing(request);
             } catch (Exception e) {
-                log.error("복구 실패: cancelRequestId={}", request.getId(), e);
+                log.error("PROCESSING 복구 실패: cancelRequestId={}", request.getId(), e);
             }
         }
     }
@@ -496,6 +509,36 @@ public class CancelRecoveryScheduler {
 @Service
 public class CancelRecoveryService {
 
+    // PENDING 5분 초과 복구
+    public void recoverPending(CancelRequest request) {
+        // risk 차감 여부 확인
+        boolean charged = riskManagementService
+            .check(request.getId().toString());
+
+        if (charged) {
+            // 차감됐으면 보상
+            try {
+                riskManagementService.compensate(
+                    request.getId().toString(),
+                    request.getCancelAmount()
+                );
+            } catch (Exception e) {
+                // 보상 실패 시 compensation_retry INSERT
+                compensationRetryRepository.save(
+                    CompensationRetry.create(request)
+                );
+            }
+        }
+        // 차감 안 됐으면 보상 불필요
+
+        request.toFailed("PENDING 5분 초과");
+        cancelRequestRepository.save(request);
+        cancelRequestHistoryRepository.save(
+            CancelRequestHistory.of(request, "PENDING 5분 초과로 FAILED 처리")
+        );
+    }
+
+    // PROCESSING 5분 초과 복구
     @Transactional
     public void recoverProcessing(CancelRequest request) {
         // PROCESSING 건 = PG사 취소 호출까지 완료됐거나 타임아웃으로 결과 모르는 상태

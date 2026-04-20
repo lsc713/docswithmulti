@@ -123,8 +123,8 @@ Step 9. Outbox 스케줄러 → Kafka 발행 → order-service consume
 
 | CancelRequest 상태 | 의미 | 처리 |
 |-------------------|------|------|
-| PENDING | risk 호출 전 실패 | 스케줄러 → FAILED + 보상 트랜잭션 |
-| PROCESSING | risk 완료, PG사 결과 불명확 | 스케줄러 → PG사 조회 후 TX 3 재처리 |
+| PENDING | risk 호출 전 실패 | 스케줄러 recoverPending → risk check → 차감됐으면 보상 → FAILED |
+| PROCESSING | risk 완료, PG사 결과 불명확 | 스케줄러 recoverProcessing → PG사 조회 후 TX 3 재처리 또는 FAILED |
 | FAILED | 실패 확정 | 재시도 시 PENDING으로 UPDATE + 이력 기록 |
 
 ---

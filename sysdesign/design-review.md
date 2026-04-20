@@ -99,8 +99,8 @@ sequenceDiagram
   else PENDING/PROCESSING
     P-->>C: 처리 중 응답 반환
   else FAILED
-    Note over P: @Transactional
-    P->>P: PENDING으로 UPDATE + cancel_request_history INSERT
+    P->>P: PENDING으로 UPDATE
+    P->>P: cancel_request_history INSERT (별도)
   else 없음
     Note over P: 신규 처리 진행
   end
@@ -128,18 +128,18 @@ sequenceDiagram
   R->>R: 한도 검증 + used_amount 선차감 커밋
   alt risk 명확한 에러 (한도 초과 등)
     R-->>P: 에러 응답
-    Note over P: @Transactional
-    P->>P: CancelRequest FAILED + cancel_request_history INSERT
+    P->>P: CancelRequest FAILED UPDATE
+  P->>P: cancel_request_history INSERT (별도)
     P-->>C: 에러 반환
   else risk 타임아웃/네트워크 유실
     P->>R: compensate 호출 시도
     alt 보상 성공
-      Note over P: @Transactional
-      P->>P: CancelRequest FAILED + cancel_request_history INSERT
+      P->>P: CancelRequest FAILED UPDATE
+      P->>P: cancel_request_history INSERT (별도)
     else 보상 실패
       P->>P: compensation_retry INSERT
-      Note over P: @Transactional
-      P->>P: CancelRequest FAILED + cancel_request_history INSERT
+      P->>P: CancelRequest FAILED UPDATE
+      P->>P: cancel_request_history INSERT (별도)
     end
     P-->>C: 에러 반환
   end
@@ -155,12 +155,12 @@ sequenceDiagram
   alt PG사 명확한 실패
     P->>R: compensate (보상 트랜잭션)
     alt 보상 성공
-      Note over P: @Transactional
-      P->>P: CancelRequest FAILED + cancel_request_history INSERT
+      P->>P: CancelRequest FAILED UPDATE
+      P->>P: cancel_request_history INSERT (별도)
     else 보상 실패
       P->>P: compensation_retry INSERT
-      Note over P: @Transactional
-      P->>P: CancelRequest FAILED + cancel_request_history INSERT
+      P->>P: CancelRequest FAILED UPDATE
+      P->>P: cancel_request_history INSERT (별도)
     end
     P-->>C: 에러 반환
   else PG사 타임아웃
@@ -507,6 +507,31 @@ POST /internal/cancel-limit/compensate
 }
 ```
 
+**차감 이력 확인 (스케줄러 PENDING 재처리 시)**
+
+```
+GET /internal/cancel-limit/check?cancelRequestId=cr_abc123
+
+용도:
+  cancel-recovery 스케줄러가 PENDING 건 재처리 시
+  risk에 이미 차감됐는지 확인 후
+  보상 여부 판단
+
+응답 200 (차감된 경우):
+{
+  "cancelRequestId": "cr_abc123",
+  "charged": true,
+  "merchantId": 1,
+  "cancelAmount": 300000
+}
+
+응답 200 (차감 안 된 경우):
+{
+  "cancelRequestId": "cr_abc123",
+  "charged": false
+}
+```
+
 ### 4-4. Internal API — risk-management → merchant-limit
 
 **일일 한도 조회**
@@ -540,48 +565,36 @@ flowchart TD
   I --> J[취소 처리]
 ```
 
-### 4-6. 멱등성 처리 (개선된 설계)
-
-**핵심 설계 변경:**
-
-```
-기존: Idempotency-Key (클라이언트 UUID)
-개선: request_hash (서버가 생성)
-
-이유:
-  UUID가 다른 동일 요청은 새 요청으로 처리됨
-  → 완벽한 멱등성 보장 불가
-  request_hash로 요청 내용 자체를 식별
-  → UUID 없이도 멱등 처리 가능
-  → 클라이언트 구현 단순화
-```
+### 4-6. 멱등성 처리
 
 **request_hash 생성:**
 
 ```
 hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)
 
-아이템 단위 전액 취소만 가능하므로:
+아이템 단위 전액 취소만 가능:
   cancelAmount 불필요 (항상 item_amount 전액)
-  cancelledAmount 불필요 (ACTIVE/CANCELLED 상태로만 구분)
+  paymentItemIds 정렬로 동일 요청 식별
 
 예시:
-  A(30만), B(50만) 취소 요청:
+  A, B 아이템 취소:
     hash = SHA-256(paymentKey + "A,B")
-
-  재시도 (같은 아이템):
-    hash = SHA-256(paymentKey + "A,B") → 동일 → 멱등 처리
+  재시도: 동일 hash → 멱등 처리
+  
+생성 시점:
+  Payment/PaymentItem 조회 후 서버가 직접 생성
+  Idempotency-Key 헤더 불필요
 ```
 
 **처리 흐름:**
 
 ```mermaid
 flowchart TD
-  A[요청 수신] --> B[request_hash 생성\npaymentKey + cancelItems 정렬]
+  A[요청 수신] --> B[request_hash 생성\npaymentKey + paymentItemIds 정렬]
   B --> C{cancel_request 조회\nrequest_hash 기준}
   C -->|COMPLETED| D[기존 응답 반환]
   C -->|PENDING/PROCESSING| E[처리 중 응답 반환]
-  C -->|FAILED| F[PENDING으로 UPDATE 후 재처리]
+  C -->|FAILED| F[PENDING으로 UPDATE + 이력 기록]
   C -->|없음| G[TX 1: CancelRequest PENDING INSERT]
   F --> H[이후 플로우 진행]
   G -->|UK 충돌| I[기존 건 조회 후 상태별 처리]
@@ -596,39 +609,15 @@ flowchart TD
 | PENDING | 처리 중 응답 반환 |
 | PROCESSING | 처리 중 응답 반환 |
 | COMPLETED | 기존 응답 반환 (멱등) |
-| FAILED | 기존 건 PENDING으로 UPDATE → 이후 플로우 재진행 |
+| FAILED | PENDING으로 UPDATE → 이후 플로우 재진행 |
 
 **FAILED → PENDING UPDATE 이유:**
 
 ```
-FAILED = 취소가 안 된 상태 → 재시도 허용
-
-새 INSERT 시 UK 충돌 발생
-→ 기존 FAILED 건을 PENDING으로 UPDATE
-→ UK 충돌 없음, DELETE 없음
-→ 이후 정상 플로우 진행
-
-이력 보존:
-  cancel_request_history 테이블에
-  FAILED 시점 + PENDING 재시도 시점 기록
+FAILED = 취소 안 된 상태 → 재시도 허용
+새 INSERT 시 UK 충돌 → 기존 건 PENDING으로 UPDATE
+UK 충돌 없음, DELETE 없음, 이력 보존
 ```
-
-**cancel_request_history (이력 보존):**
-
-| 컬럼 | 타입 | 설명 |
-|------|------|------|
-| id | BIGINT PK | |
-| cancel_request_id | BIGINT FK | |
-| status | VARCHAR(20) | 변경된 상태 |
-| reason | VARCHAR(500) | 실패 사유 등 |
-| created_at | DATETIME(3) | 상태 변경 시각 |
-
-**Idempotency-Key 헤더 제거:**
-
-| 방식 | 장점 | 단점 | 채택 |
-|------|------|------|------|
-| 클라이언트 UUID | 업계 표준 | UUID 달라도 동일 요청 인식 불가 | - |
-| request_hash (서버 생성) | 완벽한 멱등성, 클라이언트 단순 | 클라이언트 UUID 포기 | ✓ |
 
 ### 4-7. 동시성 처리
 
@@ -644,7 +633,7 @@ FAILED = 취소가 안 된 상태 → 재시도 허용
 |------|------|------|
 | FOR UPDATE | 조회+차감 원자적 처리, 직렬화 | ✓ |
 | 낙관적 락 | 충돌 시 재시도, 한도 초과 시 재시도도 실패 | - |
-| Redis 분산 카운터 | 빠름, 락 없음 | TPS 급증 시 검토 |
+| Redis 분산락 | DB 샤딩 시 샤드 간 동시성 제어 | DB 샤딩 시 전환 |
 
 **케이스 3 — cancel_request UK로 해결:**
 
@@ -667,6 +656,47 @@ FAILED = 취소가 안 된 상태 → 재시도 허용
 | payment.cancelled | 10 | 7일 | 취소 완료 이벤트 |
 | payment.cancelled.retry | 10 | 7일 | Consumer 실패 재시도 |
 | payment.cancelled.DLQ | 3 | 30일 | 실패 격리 |
+| compensation.retry | 3 | 7일 | compensation_retry INSERT 실패 건 재처리 |
+| compensation.exhausted | 3 | 30일 | EXHAUSTED 자동 재시도 |
+| compensation.DLQ | 1 | 30일 | 보상 최종 실패 격리 |
+
+**compensation.retry 흐름:**
+
+```
+발행 시점:
+  보상 API 실패
+  → compensation_retry INSERT 시도
+  → DB INSERT 실패 시 compensation.retry 토픽 발행
+    { cancelRequestId, merchantId, restoreAmount }
+
+Consumer (payment-service):
+  compensation.retry consume
+  → compensation_retry INSERT 재시도
+    성공: ack → 스케줄러가 보상 재시도
+    UK 중복: ack (이미 처리됨)
+    DB 여전히 장애: ack 안 함 → 재전달
+  → 3회 초과: compensation.DLQ → 운영팀 알림
+```
+
+**compensation.exhausted 흐름:**
+
+```
+발행 시점:
+  compensation-retry 스케줄러에서 EXHAUSTED 감지
+  → compensation.exhausted 토픽 발행
+    { cancelRequestId, merchantId, restoreAmount }
+
+Consumer (payment-service):
+  compensation.exhausted consume
+  → risk 보상 API 재시도
+    성공: compensation_retry DONE 업데이트 + ack
+    실패: retry 토픽로 이동
+  → 3회 초과: compensation.DLQ → 운영팀 알림
+
+운영팀 개입 시점:
+  compensation.DLQ까지 도달한 건만 수동 처리
+  → used_amount 수동 원복
+```
 
 ### 5-2. 순서 보장
 
@@ -746,33 +776,29 @@ risk-management-service:
 **스케줄러 1 — cancel-recovery (60초):**
 
 ```
-대상 1: PENDING 5분 초과
-  risk가 커밋됐는지 알 수 없음
-  → 안전하게 보상 API 호출
-    risk: cancelRequestId 확인
-      cancel_usage_history 없으면 → no-op
-      있으면 → used_amount 원복
-  보상 성공:
-    @Transactional
-    CancelRequest FAILED + cancel_request_history INSERT
-  보상 실패:
-    compensation_retry INSERT (payment DB)
-    @Transactional
-    CancelRequest FAILED + cancel_request_history INSERT
+대상 1: PENDING 5분 초과 (recoverPending)
+  risk 차감 여부 확인:
+    GET /internal/cancel-limit/check?cancelRequestId=
+    charged=true → 보상 API 호출
+      보상 성공: CancelRequest FAILED UPDATE + 이력 기록
+      보상 실패: compensation_retry INSERT + FAILED UPDATE + 이력 기록
+    charged=false → 보상 불필요
+      CancelRequest FAILED UPDATE + 이력 기록
 
-대상 2: PROCESSING 5분 초과
+대상 2: PROCESSING 5분 초과 (recoverProcessing)
   PG사 결과 조회
     성공 → TX 3 재실행
     실패 (재시도 가능) → PG사 재호출
     실패 (재시도 불가):
       보상 API 호출
-      보상 성공: @Transactional FAILED + history
-      보상 실패: compensation_retry INSERT
+      보상 성공: FAILED UPDATE + 이력 기록
+      보상 실패: compensation_retry INSERT + FAILED UPDATE + 이력 기록
     pending → pg_pending_since 기록
               1시간 초과 시 보상 + FAILED + 운영팀 알림
 
 HTTP 호출 포함:
-  risk 보상 API 호출 → risk 장애 시 영향받음
+  risk check API (PENDING 처리)
+  risk 보상 API → risk 장애 시 영향받음
   PG사 조회/재호출
   → 보상 실패 시 compensation_retry INSERT 후 다음 건으로
 ```
@@ -795,7 +821,10 @@ next_retry_at 도래한 건만
 → risk 보상 API 재호출
 → 성공: DONE
 → 실패: incrementAttempt + scheduleNextRetry (지수 백오프)
-→ EXHAUSTED: 운영팀 알림 + 수동 보정
+→ EXHAUSTED:
+    compensation.exhausted 토픽 발행
+    → Consumer가 risk 복구 후 자동 재처리 시도
+    → 3회 실패 시 compensation.DLQ → 운영팀 알림
 
 compensation_retry가 payment DB에 있는 이유:
   보상 API 호출 주체가 payment-service
@@ -810,17 +839,24 @@ risk 서버 장애:
 
 cancel-recovery:
   보상 API 호출 실패
-  → compensation_retry INSERT (payment DB)
-  → 다음 건으로 넘어감 (스케줄러 중단 없음)
+  → compensation_retry INSERT 시도
+    성공: 스케줄러가 재처리
+    실패: compensation.retry 토픽 발행
+          Consumer가 INSERT 재시도
+          → 다음 건으로 넘어감 (스케줄러 중단 없음)
 
 compensation-retry:
   risk 장애 지속 → 지수 백오프로 계속 시도
-  risk 복구되면 자동 처리
-  EXHAUSTED → 운영팀 알림 → 수동 보정
+  EXHAUSTED:
+    compensation.exhausted 토픽 발행
+    → Consumer가 risk 복구 후 자동 재처리
+    → 3회 실패 시 compensation.DLQ
+    → 운영팀 알림 → 수동 보정
 
-compensation_retry INSERT도 실패하면:
-  로그 + 운영팀 알림
-  수동 보정 필요 (극히 드문 케이스)
+운영팀 개입 시점:
+  compensation.DLQ까지 도달한 건만 처리
+  → 자동화로 대부분 해결
+  → 극히 드문 케이스만 수동 처리
 ```
 
 ### 6-4. ShedLock 설정
