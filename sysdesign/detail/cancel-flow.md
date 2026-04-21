@@ -481,18 +481,17 @@ try {
 ```java
 @Component
 @RequiredArgsConstructor
-public class CancelRecoveryScheduler {
+public class PendingRecoveryScheduler {
 
     private final CancelRequestRepository cancelRequestRepository;
     private final CancelRecoveryService cancelRecoveryService;
 
-    @Scheduled(fixedDelay = 60_000)  // 60초마다
-    @SchedulerLock(name = "cancel-recovery", lockAtMostFor = "55s")
+    @Scheduled(fixedDelay = 60_000)
+    @SchedulerLock(name = "pending-recovery", lockAtMostFor = "55s")
     public void recover() {
         LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC)
             .minusMinutes(5);
 
-        // PENDING 5분 초과 처리
         List<CancelRequest> stuckPendingRequests =
             cancelRequestRepository.findStuckPendingRequests(threshold);
 
@@ -503,8 +502,21 @@ public class CancelRecoveryScheduler {
                 log.error("PENDING 복구 실패: cancelRequestId={}", request.getId(), e);
             }
         }
+    }
+}
 
-        // PROCESSING 5분 초과 처리
+@RequiredArgsConstructor
+public class ProcessingRecoveryScheduler {
+
+    private final CancelRequestRepository cancelRequestRepository;
+    private final CancelRecoveryService cancelRecoveryService;
+
+    @Scheduled(fixedDelay = 60_000)
+    @SchedulerLock(name = "processing-recovery", lockAtMostFor = "55s")
+    public void recover() {
+        LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC)
+            .minusMinutes(5);
+
         List<CancelRequest> stuckProcessingRequests =
             cancelRequestRepository.findStuckProcessingRequests(threshold);
 

@@ -547,7 +547,8 @@ DB 샤딩 시 FOR UPDATE의 한계:
 분산락 전환 시 추가 위험:
   FOR UPDATE: 락과 커밋이 원자적 → 서버 다운 시 자동 롤백
   분산락: 락 해제와 커밋이 별개 → 서버 다운 시 정합성 위험
-  → 보상 트랜잭션으로 보완 (compensation_retry 구조 활용)
+  → cancel_usage_history (cancelRequestId UK)로 이중 차감 방어
+  → 이미 차감된 건이면 no-op 반환
 
 전환 시점:
   TPS 1000: Redis 도입 → ShedLock만 분산락 전환
@@ -562,30 +563,35 @@ DB 샤딩 시 FOR UPDATE의 한계:
 ```
 TPS 100 (현재):
   단일 MySQL
-  Outbox 배치 크기 100 → 1000으로 조정 필요
+  Outbox 배치 크기 1000으로 조정 → TPS 100 충분
   인스턴스 2대
 
 TPS 1000:
   Read Replica 도입 (@Transactional(readOnly=true))
-  Redis 도입 (daily_limit 캐시)
-  ShedLock → Redis 분산락 전환 검토
-  Outbox 스케줄러 주기 단축
+  Redis 분산락 전환
+  Outbox → CDC(Debezium) 전환 필수
+    (분산락으로 단일 실행 → 스케줄러로 처리 불가)
 
 TPS 5000+:
   merchantId 기반 DB 샤딩
-  ShedLock → Redis 분산락 전환 (shedlock 전용 DB 분리)
-  가맹점별 인스턴스 라우팅 검토 (Consistent Hashing)
+  FOR UPDATE → Redis 분산락 전환 필수
+  CDC 이미 도입됨
 
 TPS 10000+:
   CDC (Debezium) 도입 → Outbox 스케줄러 대체
   CQRS (읽기/쓰기 분리)
-  Kafka 파티션 수 조정 (새 토픽으로 마이그레이션)
+  Kafka 파티션 수 조정
 
 병목 발생 순서:
-  1. merchant_cancel_usage FOR UPDATE (가맹점 집중 시)
-  2. Outbox 스케줄러 처리량 한계
-  3. payment DB 쓰기 부하
-  4. Kafka Consumer Lag
+  TPS 100: 배치 크기 조정으로 충분, 병목 없음
+  TPS 1000+: Outbox 스케줄러 한계 → CDC 전환 필수
+  TPS 증가 시:
+    1. 인스턴스 스레드 풀 고갈
+    2. merchant_cancel_usage FOR UPDATE
+    3. payment DB 쓰기 부하
+    4. risk-service HTTP 처리량
+    5. Kafka Consumer Lag
+    6. PG사 TPS 제한
 ```
 
 ---

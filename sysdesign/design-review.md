@@ -655,8 +655,11 @@ UK 충돌 없음, DELETE 없음, 이력 보존
 
 분산락 전환 시 주의:
   FOR UPDATE: 락과 커밋이 원자적 → 서버 다운 시 자동 롤백
-  분산락: 락 해제와 커밋이 별개 → 보상 트랜잭션으로 보완
-  → 이미 compensation_retry 구조 있으므로 대응 가능
+  분산락: 락 해제와 커밋이 별개
+    서버 다운 시 DB 커밋 완료 + 락 TTL 만료
+    다른 인스턴스가 락 획득 후 같은 건 처리 시도
+    → cancel_usage_history (cancelRequestId UK)로 이중 차감 방어
+    → 이미 차감된 건이면 no-op 반환
 ```
 
 **케이스 3 — cancel_request UK로 해결:**
@@ -885,7 +888,8 @@ flowchart TD
 
 ```
 payment-service:
-  cancel-recovery (60초)
+  pending-recovery (60초)
+  processing-recovery (60초)
   outbox-publisher (10초)
   compensation-retry (30초)
 
@@ -893,12 +897,12 @@ risk-management-service:
   스케줄러 없음
 ```
 
-### 6-2. 스케줄러 3개 상세
+### 6-2. 스케줄러 4개 상세
 
-**스케줄러 1 — cancel-recovery (60초):**
+**스케줄러 1 — pending-recovery (60초):**
 
 ```
-대상 1: PENDING 5분 초과 (recoverPending)
+대상: PENDING 5분 초과 (recoverPending)
   risk 차감 여부 확인:
     GET /internal/cancel-limit/check?cancelRequestId=
     charged=true → 보상 API 호출
@@ -907,25 +911,35 @@ risk-management-service:
     charged=false → 보상 불필요
       CancelRequest FAILED UPDATE + 이력 기록
 
-대상 2: PROCESSING 5분 초과 (recoverProcessing)
+HTTP 호출:
+  risk check API
+  risk 보상 API → risk 장애 시 영향받음
+```
+
+**스케줄러 2 — processing-recovery (60초):**
+
+```
+대상: PROCESSING 5분 초과 (recoverProcessing)
   PG사 결과 조회
     성공 → TX 3 재실행
-    실패 (재시도 가능) → PG사 재호출
+           (Outbox INSERT 시 cancel_request_id UK 중복 체크 후 skip)
+    실패 (재시도 가능) → PG사 재호출 (최대 재시도 횟수 제한)
     실패 (재시도 불가):
       보상 API 호출
       보상 성공: FAILED UPDATE + 이력 기록
       보상 실패: compensation_retry INSERT + FAILED UPDATE + 이력 기록
     pending → pg_pending_since 기록
               1시간 초과 시 보상 + FAILED + 운영팀 알림
+    PG사 GET 조회 실패:
+      PROCESSING 유지 → 다음 스케줄러 주기 재시도
 
-HTTP 호출 포함:
-  risk check API (PENDING 처리)
-  risk 보상 API → risk 장애 시 영향받음
+HTTP 호출:
   PG사 조회/재호출
+  risk 보상 API
   → 보상 실패 시 compensation_retry INSERT 후 다음 건으로
 ```
 
-**스케줄러 2 — outbox-publisher (10초):**
+**스케줄러 3 — outbox-publisher (10초):**
 
 ```
 Outbox PENDING 건 조회 (100건씩)
@@ -935,7 +949,7 @@ Outbox PENDING 건 조회 (100건씩)
 HTTP 호출 없음 (Kafka 발행만)
 ```
 
-**스케줄러 3 — compensation-retry (30초):**
+**스케줄러 4 — compensation-retry (30초):**
 
 ```
 payment-service DB의 compensation_retry 조회
@@ -956,7 +970,7 @@ compensation_retry가 payment DB에 있는 이유:
 ```
 risk 서버 장애:
 
-cancel-recovery:
+pending-recovery:
   보상 API 호출 실패
   → compensation_retry INSERT 시도
     성공: 스케줄러가 재처리
@@ -972,11 +986,17 @@ compensation-retry:
   compensation_retry INSERT 실패 건: 에러 로그 기반 수동 INSERT
 ```
 
-### 6-4. ShedLock 설정
+### 6-4. Redis 분산락 설정
+
+```
+ShedLock → Redis 분산락 전환 (ElastiCache Multi-AZ)
+shedlock 테이블 없음 → Redis 키로 대체
+```
 
 | 스케줄러 | 서비스 | 주기 | lockAtMostFor |
 |---------|--------|------|--------------|
-| cancel-recovery | payment-service | 60초 | 55초 |
+| pending-recovery | payment-service | 60초 | 55초 |
+| processing-recovery | payment-service | 60초 | 55초 |
 | outbox-publisher | payment-service | 10초 | 9초 |
 | compensation-retry | payment-service | 30초 | 25초 |
 
@@ -1034,16 +1054,6 @@ lockAtMostFor < 실행 주기:
 - risk-management-service가 consume → Redis 갱신 + DB 업데이트
 - 이유: Redis 직접 접근 시 서비스 간 강한 결합 발생
 
-### 6-4. 분산 스케줄러 (ShedLock)
-
-**결정: ShedLock**
-
-| 방법 | 인프라 | 장점 | 단점 | 채택 |
-|------|--------|------|------|------|
-| ShedLock | MySQL (이미 있음) | 추가 인프라 없음 | DB 의존 | ✓ |
-| Redis 분산락 | Redis 필요 | 빠름, TTL 자동 | Redis 장애 시 중단 | Redis 도입 시 |
-| Named Lock | MySQL | 추가 인프라 없음 | 가시성 낮음 | - |
-
 ---
 
 ## 7. TPS 확장 전략
@@ -1061,9 +1071,10 @@ DB:
   Redis 도입 (daily_limit 캐시, merchant-limit 폴백)
 
 스케줄러:
-  Outbox 10초마다 100건 처리
+  outbox-publisher 기본 배치 크기 100건
   TPS 100 = 10초에 1000건 발생
-  → 배치 크기 1000으로 즉시 조정 필요 (이미 문제)
+  → 배치 크기 1000으로 조정하면 TPS 100에서 충분
+  → DB I/O, Kafka 발행량 증가하지만 문제 없는 수준
   복구/보상 스케줄러: 장애 케이스 드묾 → 문제 없음
 ```
 
@@ -1076,11 +1087,13 @@ HTTP:
 
 DB:
   Read Replica 추가 (쓰기 Primary, 읽기 Replica)
-  ShedLock → Redis 분산락 전환
+  Redis 분산락 전환
 
 스케줄러:
   Outbox 10초에 10000건 발생
-  → 스케줄러 주기 1초로 단축
+  분산락으로 인스턴스 하나만 실행
+  → 배치 크기 늘려도 단일 실행 한계
+  → CDC(Debezium) 전환 필수
   복구/보상 스케줄러: 장애 케이스 증가 → 주기 조정
 ```
 
@@ -1095,11 +1108,9 @@ HTTP:
 DB:
   merchantId 기준 DB 샤딩
   FOR UPDATE → Redis 분산락 전환 필수
-  shedlock 전용 DB 분리
 
 스케줄러:
-  Outbox 스케줄러 한계
-  → CDC(Debezium) 전환 필수 (binlog 기반 실시간 발행)
+  CDC 이미 도입됨 (TPS 1000에서 전환)
   복구/보상 스케줄러: Redis 분산락으로 안전하게 유지
 ```
 
@@ -1124,13 +1135,21 @@ DB:
 **예상 병목 발생 순서:**
 
 ```
-1. Outbox 스케줄러 처리량 (TPS 100에서 이미 문제)
-2. 인스턴스 스레드 풀 고갈
-3. merchant_cancel_usage FOR UPDATE
-4. payment DB 쓰기 부하
-5. risk-service HTTP 처리량
-6. Kafka Consumer Lag
-7. PG사 TPS 제한
+TPS 100:
+  배치 크기 조정으로 Outbox 충분
+  병목 없음
+
+TPS 1000+:
+  Outbox 스케줄러 한계
+  분산락으로 단일 실행 → CDC 전환 필수
+
+TPS 증가 시 순서:
+1. 인스턴스 스레드 풀 고갈
+2. merchant_cancel_usage FOR UPDATE
+3. payment DB 쓰기 부하
+4. risk-service HTTP 처리량
+5. Kafka Consumer Lag
+6. PG사 TPS 제한
 ```
 
 **동시성 제어 전환 계획:**
