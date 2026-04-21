@@ -1066,3 +1066,142 @@ TX 3 재처리 시 주의:
 
 ---
 
+
+## 5. Circuit Breaker 설정
+
+### 5-1. 의존성
+
+```gradle
+implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.1.0'
+implementation 'org.springframework.boot:spring-boot-starter-aop'
+```
+
+### 5-2. application.yml
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    instances:
+      risk-management:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+        # 400대 에러는 실패로 카운트 안 함 (서버 정상 동작 중)
+        ignoreExceptions:
+          - feign.FeignException.UnprocessableEntity  # 422 한도 초과
+          - feign.FeignException.BadRequest           # 400 요청 오류
+      pg-cancel:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 2
+        minimumNumberOfCalls: 5
+```
+
+### 5-3. RiskManagementService
+
+```java
+@Service
+@RequiredArgsConstructor
+public class RiskManagementService {
+
+    private final RiskManagementClient riskManagementClient;
+    private final CompensationRetryRepository compensationRetryRepository;
+
+    @CircuitBreaker(name = "risk-management", fallbackMethod = "validateFallbackOpen")
+    public RiskResponse validateAndReserveLimit(
+        Long merchantId, String cancelRequestId, BigDecimal cancelAmount
+    ) {
+        return riskManagementClient.validateAndReserve(
+            merchantId, cancelRequestId, cancelAmount
+        );
+    }
+
+    // CB OPEN 상태 전용 (호출 자체가 차단됨)
+    // 보상 불필요 (실제 호출 안 됐으니까)
+    public RiskResponse validateFallbackOpen(
+        Long merchantId, String cancelRequestId, BigDecimal cancelAmount,
+        CallNotPermittedException e
+    ) {
+        throw new RiskServiceUnavailableException("risk-management CB OPEN 상태");
+    }
+
+    // 타임아웃, 5xx 등 나머지 예외
+    public RiskResponse validateFallbackOpen(
+        Long merchantId, String cancelRequestId, BigDecimal cancelAmount,
+        Exception e
+    ) {
+        throw new RiskServiceUnavailableException("risk-management 서비스 오류: " + e.getMessage());
+    }
+
+    @CircuitBreaker(name = "risk-management", fallbackMethod = "compensateFallback")
+    public void compensate(String cancelRequestId, BigDecimal restoreAmount) {
+        riskManagementClient.compensate(cancelRequestId, restoreAmount);
+    }
+
+    // 보상 실패 → compensation_retry INSERT (payment DB)
+    public void compensateFallback(
+        String cancelRequestId, BigDecimal restoreAmount, Exception e
+    ) {
+        compensationRetryRepository.save(
+            CompensationRetry.create(cancelRequestId, restoreAmount)
+        );
+        log.error("보상 API 실패, retry 등록: cancelRequestId={}", cancelRequestId, e);
+    }
+}
+```
+
+### 5-4. PgCancelClient
+
+```java
+@Service
+@RequiredArgsConstructor
+public class PgCancelClient {
+
+    private final PgCancelFeignClient feignClient;
+
+    @CircuitBreaker(name = "pg-cancel", fallbackMethod = "cancelFallback")
+    public PgCancelResult cancel(String paymentKey, String pgType, BigDecimal cancelAmount) {
+        return feignClient.cancel(paymentKey, pgType, cancelAmount);
+    }
+
+    // CB OPEN: 즉시 차단
+    public PgCancelResult cancelFallback(
+        String paymentKey, String pgType, BigDecimal cancelAmount,
+        CallNotPermittedException e
+    ) {
+        throw new PgServiceUnavailableException("PG사 CB OPEN 상태");
+    }
+
+    // 타임아웃 등: PROCESSING 유지 → 스케줄러 처리
+    public PgCancelResult cancelFallback(
+        String paymentKey, String pgType, BigDecimal cancelAmount,
+        Exception e
+    ) {
+        throw new PgCancelTimeoutException("PG사 응답 없음");
+    }
+}
+```
+
+### 5-5. CB 상태 변경 모니터링
+
+```java
+@Component
+public class CircuitBreakerEventListener {
+
+    @EventListener
+    public void onStateTransition(CircuitBreakerOnStateTransitionEvent event) {
+        log.warn("CircuitBreaker 상태 변경: name={}, {} → {}",
+            event.getCircuitBreakerName(),
+            event.getStateTransition().getFromState(),
+            event.getStateTransition().getToState()
+        );
+
+        if (event.getStateTransition().getToState() == CircuitBreaker.State.OPEN) {
+            alertService.send("CircuitBreaker OPEN: " + event.getCircuitBreakerName());
+        }
+    }
+}
+```

@@ -596,7 +596,74 @@ TPS 10000+:
 
 ---
 
-## 11. DLQ 설계
+## 11. Circuit Breaker 설계
+
+```
+적용 위치:
+  payment → risk-management 호출
+  payment → PG사 호출
+
+상태:
+  CLOSED: 정상 호출
+  OPEN: 호출 차단 → fallback 즉시 실행
+  HALF_OPEN: 복구 확인 중
+
+설정 (Resilience4j):
+  failureRateThreshold: 50% (10번 중 5번 실패 시 OPEN)
+  slidingWindowSize: 10
+  waitDurationInOpenState: 10초 (risk), 30초 (PG사)
+  minimumNumberOfCalls: 5
+
+400대 에러 처리:
+  서버 정상 동작 중 → CB 실패 카운트 안 됨
+  422 한도 초과: catch에서 직접 처리 → FAILED
+  400 요청 오류: catch에서 직접 처리 → FAILED
+
+500대 에러, 타임아웃:
+  CB 실패 카운트
+  임계치 초과 시 OPEN → fallback 실행
+
+fallback 종류:
+  CallNotPermittedException:
+    CB OPEN 상태 전용 예외
+    호출 자체가 차단된 것
+    보상 불필요 (실제 호출 안 됐으니까)
+
+  Exception:
+    타임아웃, 5xx 등 나머지 예외
+    보상 트랜잭션 필요할 수 있음
+
+OPEN 시:
+  운영팀 알림 발송
+  risk OPEN: CancelRequest FAILED + 보상 불필요
+  PG사 OPEN: CancelRequest PROCESSING 유지 → 스케줄러 처리
+```
+
+```yaml
+# application.yml
+resilience4j:
+  circuitbreaker:
+    instances:
+      risk-management:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+        ignoreExceptions:
+          - feign.FeignException.UnprocessableEntity  # 422 한도 초과
+          - feign.FeignException.BadRequest           # 400 요청 오류
+      pg-cancel:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 2
+        minimumNumberOfCalls: 5
+```
+
+---
+
+## 12. DLQ 설계
 
 ```
 즉시 DLQ (재시도 불필요):

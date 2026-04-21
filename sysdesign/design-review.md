@@ -712,6 +712,88 @@ UK 충돌 없음, DELETE 없음, 이력 보존
 
 ---
 
+### 4-8. Circuit Breaker
+
+**적용 위치:**
+
+| 호출 | CB 이름 | OPEN 시 처리 |
+|------|---------|------------|
+| payment → risk | risk-management | FAILED + 보상 불필요 |
+| payment → PG사 | pg-cancel | PROCESSING 유지 → 스케줄러 |
+
+**상태:**
+
+```
+CLOSED: 정상 호출
+OPEN: 호출 차단 → fallback 즉시 실행
+HALF_OPEN: 복구 확인 중 (일부 요청 허용)
+```
+
+**400대 vs 500대 에러 처리:**
+
+```
+400대 (422 한도 초과, 400 요청 오류):
+  서버 정상 동작 중 → CB 실패 카운트 안 됨
+  ignoreExceptions에 등록
+  catch에서 직접 처리 → FAILED
+
+500대, 타임아웃:
+  CB 실패 카운트
+  임계치 초과 시 OPEN → fallback
+
+이유:
+  한도 초과(422)가 자주 발생해도
+  CB OPEN되면 안 됨
+  정상적인 비즈니스 거부이기 때문
+```
+
+**fallback:**
+
+```java
+// CB OPEN 상태 전용 (호출 자체가 차단됨)
+// 보상 불필요 (실제 호출 안 됐으니까)
+public RiskResponse fallback(CallNotPermittedException e) {
+    throw new RiskServiceUnavailableException(...);
+}
+
+// 타임아웃, 5xx 등 나머지
+// 보상 트랜잭션 필요할 수 있음
+public RiskResponse fallback(Exception e) {
+    throw new RiskServiceUnavailableException(...);
+}
+
+// 보상 fallback
+// compensation_retry INSERT (payment DB)
+public void compensateFallback(Exception e) {
+    compensationRetryRepository.save(...);
+}
+```
+
+**설정 (application.yml):**
+
+```yaml
+resilience4j:
+  circuitbreaker:
+    instances:
+      risk-management:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+        ignoreExceptions:
+          - feign.FeignException.UnprocessableEntity  # 422
+          - feign.FeignException.BadRequest           # 400
+      pg-cancel:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 30s
+        permittedNumberOfCallsInHalfOpenState: 2
+        minimumNumberOfCalls: 5
+```
+
+---
+
 ## 5. Kafka Design
 
 ### 5-1. 토픽 구조
