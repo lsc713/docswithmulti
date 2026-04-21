@@ -274,7 +274,36 @@ Outbox 선택 이유:
 
 ---
 
-## 6. daily_limit 당일 즉시 반영
+## 6. Kafka 페이로드 설계 원칙
+
+```
+풍부한 페이로드 지향:
+  Consumer가 API 조회 없이 처리 가능
+  Producer 서버 장애와 무관하게 처리
+  새 서비스가 consume해도 페이로드 변경 불필요
+
+예외 — 대용량 데이터 (수십KB, 이미지 포함):
+  페이로드에 직접 포함 금지
+  S3 링크 또는 최소 식별자만 포함
+  Consumer가 필요 시 S3 또는 API로 조회
+  예시: { "receiptUrl": "s3://bucket/receipt/cr_abc123.pdf" }
+
+payment.cancelled 페이로드:
+  cancelRequestId, paymentKey, merchantId
+  cancelledItems (paymentItemId, orderItemId, itemAmount)
+  cancelledAt
+  → 모든 Consumer가 API 조회 없이 처리 가능
+
+merchant.limit.updated 페이로드:
+  merchantId, newLimit, kstDate
+  → 파티션 키 merchantId로 순서 보장
+  → kstDate: 당일 외 이전 날짜 한도 변경도 가능
+  → 자연 멱등 (UPDATE daily_limit = newLimit WHERE kst_date = kstDate)
+```
+
+---
+
+## 7. daily_limit 당일 즉시 반영
 
 ```
 요구사항 변경: 가맹점 한도 변경 시 당일 즉시 반영 필요
@@ -288,6 +317,17 @@ Outbox 선택 이유:
   Redis 직접 접근 → 서비스 간 강한 결합
   캐시 무효화 API → 서비스 간 동기 의존
   Kafka → 이미 인프라 존재, 느슨한 결합
+
+페이로드:
+  { "merchantId": 1, "newLimit": 3000000 }
+
+파티션 키 = merchantId:
+  같은 가맹점 연속 한도 변경 시 순서 보장
+  updatedAt, version 비교 불필요
+
+Consumer 멱등성:
+  UPDATE daily_limit = newLimit
+  → 몇 번 실행해도 동일한 결과 (자연 멱등)
 ```
 
 ---
@@ -304,6 +344,52 @@ Outbox 선택 이유:
 ---
 
 ## 8. ShedLock → Redis 분산락 전환
+
+**분산락이 필요한 케이스:**
+
+```
+1. DB 락 자체가 부하일 때
+   TPS 높아서 DB 커넥션을 아끼고 싶을 때
+   FOR UPDATE → DB 커넥션 점유 시간 증가
+   분산락 → DB 접근 전에 Redis로 차단
+   → DB 커넥션 절약
+
+   여러 DB 샤드를 활용할 때
+   샤드 간 FOR UPDATE 불가
+   분산락으로 샤드 무관하게 직렬화
+
+2. 데이터가 없는 경우
+   UK는 행이 존재해야 충돌 감지 가능
+   행이 없는 신규 INSERT 동시 요청:
+     둘 다 "없음" 확인 → 둘 다 INSERT 시도
+     UK로 하나 차단 (에러 발생)
+   분산락:
+     lock 획득 후 INSERT
+     → UK 에러 없이 깔끔하게 차단
+
+3. Master-Slave 정합성 보장
+   분산락 보유 중 코드에서 명시적으로 Master 라우팅
+   Replication lag으로 인한 오래된 값 읽기 방지
+   (분산락이 자동으로 해주는 게 아님
+    분산락 + 라우팅 로직 함께 구현 필요)
+
+4. 주문-재고 동시 요청 보상 비용 절감
+   분산락 없이:
+     주문 A, B 동시 생성
+     이후 재고 부족 확인
+     → 한 명은 보상 트랜잭션 (주문 취소)
+     → API 호출 2번 비용 + 보상 복잡도
+
+   분산락 있으면:
+     하나씩 처리
+     재고 부족이면 주문 자체를 막음
+     → 보상 트랜잭션 불필요
+     → 이런 충돌이 자주 발생하는 케이스에서 유리
+
+5. 분산 스케줄러 중복 실행 방지
+   여러 인스턴스에서 스케줄러 동시 실행 차단
+   → ShedLock → Redis 분산락으로 전환
+```
 
 **비교:**
 

@@ -129,19 +129,43 @@ Step 9. Outbox 스케줄러 → Kafka 발행 → order-service consume
 
 ---
 
-## 4. 아키텍처 패턴 정리
+## 4. Kafka 페이로드
+
+**payment.cancelled:**
+```json
+{
+  "cancelRequestId": "cr_abc123",
+  "paymentKey": "pay_xyz",
+  "merchantId": 1,
+  "cancelledItems": [
+    { "paymentItemId": 1, "orderItemId": 10, "itemAmount": 300000 }
+  ],
+  "cancelledAt": "2026-04-21T10:00:00.000Z"
+}
+```
+
+**merchant.limit.updated:**
+```json
+{
+  "merchantId": 1,
+  "newLimit": 3000000,
+  "kstDate": "2026-04-21"
+}
+```
+
+---
+
+## 5. 아키텍처 패턴 정리
 
 | 패턴 | 적용 위치 | 해결한 문제 |
 |------|---------|----------|
-| Idempotency Key | API 레이어 | 네트워크 재시도 중복 |
+| request_hash 멱등키 | cancel_request UK | 네트워크 재시도 중복 |
 | Pessimistic Lock | 가맹점 한도 차감 | 동시 한도 초과 |
-| Optimistic Lock | PaymentItem | 동일 항목 동시 수정 |
 | SAGA (Choreography) | 전체 취소 플로우 | HTTP 경계 분산 트랜잭션 |
 | Outbox Pattern | Kafka 이벤트 발행 | DB-Kafka 원자성 |
 | Compensation Transaction | used_amount 원복 | 부분 실패 복구 |
 | State Machine | CancelRequest | 서버 재시작 내구성 |
-| Circuit Breaker | 외부 서비스 호출 | 장애 격리 (Fail-closed) |
-| ShedLock | 스케줄러 | 분산 환경 중복 실행 방지 |
+| ShedLock → Redis 분산락 | 스케줄러 | 분산 환경 중복 실행 방지 |
 | Snapshot | 결제 시점 데이터 | 모듈 간 데이터 독립 |
 | DLQ + Retry Topic | Kafka Consumer | 처리 실패 격리 |
 

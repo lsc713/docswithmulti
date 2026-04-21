@@ -136,7 +136,19 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         cancelRequestRepository.save(cancelRequest);
 
         // Outbox INSERT
-        outboxRepository.save(CancelEventOutbox.of(cancelRequest, payment));
+        outboxRepository.save(CancelEventOutbox.of(cancelRequest, payment, updatedItems));
+        // payload 구성:
+        // {
+        //   "cancelRequestId": cancelRequest.getId(),
+        //   "paymentKey": payment.getPaymentKey(),
+        //   "merchantId": payment.getMerchantId(),
+        //   "cancelledItems": updatedItems.stream().map(item -> {
+        //     "paymentItemId": item.getId(),
+        //     "orderItemId": item.getOrderItemId(),
+        //     "itemAmount": item.getItemAmount()
+        //   }),
+        //   "cancelledAt": cancelRequest.getCompletedAt()
+        // }
 
         // 응답 저장 (재시도 시 동일 응답 반환)
         CancelPaymentResponse response = CancelPaymentResponse.of(cancelRequest, updatedItems);

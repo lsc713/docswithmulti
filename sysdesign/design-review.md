@@ -669,67 +669,165 @@ UK 충돌 없음, DELETE 없음, 이력 보존
   → 낙관적 락 불필요
 ```
 
+**분산락 활용이 유리한 일반 케이스:**
+
+```
+1. DB 커넥션 절약:
+   TPS 높을 때 FOR UPDATE는 DB 커넥션 점유 시간 증가
+   분산락은 Redis에서 차단 → DB 접근 전에 처리
+   → DB 커넥션 절약
+
+2. 여러 DB 샤드 활용 시:
+   샤드 간 FOR UPDATE 불가
+   분산락으로 샤드 무관하게 직렬화
+
+3. 데이터 없는 경우:
+   UK는 행이 존재해야 충돌 감지 가능
+   신규 INSERT 동시 요청 시 UK 에러 발생
+   분산락은 행 존재 여부와 무관하게 차단
+   → UK 에러 없이 깔끔하게 처리
+
+4. Master-Slave 정합성 보장:
+   분산락 보유 중 코드에서 명시적으로 Master 라우팅
+   Replication lag으로 인한 오래된 값 읽기 방지
+   (분산락이 자동으로 해주는 게 아님
+    분산락 + 라우팅 로직 함께 구현 필요)
+
+5. 주문-재고 동시 요청 보상 비용 절감:
+   분산락 없이:
+     주문 A, B 동시 생성 → 재고 부족 → 보상 트랜잭션
+     API 호출 2번 비용 + 보상 복잡도
+   분산락 있으면:
+     하나씩 처리 → 재고 부족 시 주문 자체를 막음
+     보상 트랜잭션 불필요
+     충돌이 자주 발생하는 케이스에서 유리
+
+6. 분산 스케줄러 중복 실행 방지:
+   여러 인스턴스에서 스케줄러 동시 실행 차단
+   ShedLock → Redis 분산락으로 전환
+```
+
 ---
 
 ## 5. Kafka Design
 
 ### 5-1. 토픽 구조
 
-| 토픽 | 파티션 | Retention | 용도 |
-|------|--------|-----------|------|
-| payment.cancelled | 10 | 7일 | 취소 완료 이벤트 |
-| payment.cancelled.retry | 10 | 7일 | Consumer 실패 재시도 |
-| payment.cancelled.DLQ | 3 | 30일 | 실패 격리 |
-| compensation.retry | 3 | 7일 | compensation_retry INSERT 실패 건 재처리 |
-| compensation.exhausted | 3 | 30일 | EXHAUSTED 자동 재시도 |
-| compensation.DLQ | 1 | 30일 | 보상 최종 실패 격리 |
+| 토픽 | 파티션 | Retention | 파티션 키 | 용도 |
+|------|--------|-----------|---------|------|
+| payment.cancelled | 10 | 7일 | paymentKey | 취소 완료 이벤트 |
+| payment.cancelled.retry | 10 | 7일 | paymentKey | Consumer 실패 재시도 |
+| payment.cancelled.DLQ | 3 | 30일 | - | 실패 격리 |
+| merchant.limit.updated | 3 | 7일 | merchantId | 가맹점 일일 한도 변경 이벤트 |
 
-**compensation.retry 흐름:**
+---
 
-```
-발행 시점:
-  보상 API 실패
-  → compensation_retry INSERT 시도
-  → DB INSERT 실패 시 compensation.retry 토픽 발행
-    { cancelRequestId, merchantId, restoreAmount }
+### 5-2. payment.cancelled 페이로드
 
-Consumer (payment-service):
-  compensation.retry consume
-  → compensation_retry INSERT 재시도
-    성공: ack → 스케줄러가 보상 재시도
-    UK 중복: ack (이미 처리됨)
-    DB 여전히 장애: ack 안 함 → 재전달
-  → 3회 초과: compensation.DLQ → 운영팀 알림
-```
-
-**compensation.exhausted 흐름:**
-
-```
-발행 시점:
-  compensation-retry 스케줄러에서 EXHAUSTED 감지
-  → compensation.exhausted 토픽 발행
-    { cancelRequestId, merchantId, restoreAmount }
-
-Consumer (payment-service):
-  compensation.exhausted consume
-  → risk 보상 API 재시도
-    성공: compensation_retry DONE 업데이트 + ack
-    실패: retry 토픽로 이동
-  → 3회 초과: compensation.DLQ → 운영팀 알림
-
-운영팀 개입 시점:
-  compensation.DLQ까지 도달한 건만 수동 처리
-  → used_amount 수동 원복
+```json
+{
+  "cancelRequestId": "cr_abc123",
+  "paymentKey": "pay_xyz",
+  "merchantId": 1,
+  "cancelledItems": [
+    {
+      "paymentItemId": 1,
+      "orderItemId": 10,
+      "itemAmount": 300000
+    }
+  ],
+  "cancelledAt": "2026-04-21T10:00:00.000Z"
+}
 ```
 
-### 5-2. 순서 보장
+```
+각 필드 설명:
+  cancelRequestId: Consumer 멱등성 (processed_cancel_event UK)
+    order-service가 수신 시 processed_cancel_event 조회
+    있으면 → no-op + ack (중복 처리 방지)
+    없으면 → OrderItem 상태 변경 + processed_cancel_event INSERT
+  paymentKey: 어떤 결제건인지
+  merchantId: 가맹점 구분
+  cancelledItems:
+    paymentItemId: payment-service 기준 아이템 식별자
+    orderItemId: order-service가 자기 DB에서 OrderItem 찾기 위해 필요
+    itemAmount: 취소된 금액
+  cancelledAt: 취소 완료 시각
+
+페이로드 설계 원칙:
+  풍부한 페이로드 지향:
+    Consumer가 API 조회 없이 처리 가능
+    payment-service 장애와 무관하게 처리
+    새 서비스가 consume해도 페이로드 변경 불필요
+
+  예외 — 대용량 데이터 (수십KB, 이미지 포함):
+    페이로드에 직접 포함 금지
+    대신 S3 링크 또는 최소 식별자만 페이로드에 포함
+    Consumer가 필요 시 S3 또는 API로 조회
+    예시: { "receiptUrl": "s3://bucket/receipt/cr_abc123.pdf" }
+```
+
+---
+
+### 5-3. merchant.limit.updated 페이로드 및 흐름
+
+```json
+{
+  "merchantId": 1,
+  "newLimit": 3000000,
+  "kstDate": "2026-04-21"
+}
+```
 
 ```
-파티션 키 = paymentKey
+파티션 키 = merchantId:
+  같은 가맹점 메시지는 항상 같은 파티션
+  → 하나의 Consumer가 순서대로 처리
+  → 순서 역전 없음
+  → version 불필요
 
-같은 결제건의 이벤트는 항상 같은 파티션
-→ 파티션 내 offset 순서 보장
-→ 동일 결제건 이벤트 처리 순서 보장
+kstDate 포함 이유:
+  당일 즉시 반영뿐 아니라
+  이전 날짜 한도 변경도 가능
+  Consumer가 어느 날짜 행을 UPDATE할지 알아야 함
+
+Consumer (risk-management-service):
+  Redis daily_limit 갱신
+    daily_limit:merchantId:kstDate → newLimit
+  merchant_cancel_usage UPDATE (당일 행 있으면):
+    SET daily_limit = newLimit
+    WHERE merchant_id = ? AND kst_date = 오늘
+
+재처리 멱등성:
+  UPDATE daily_limit = newLimit
+  → 몇 번 실행해도 동일한 결과 (자연 멱등)
+
+merchant-limit-service 장애 시:
+  Outbox Pattern으로 발행 보장
+  서버 복구 후 스케줄러가 자동 발행
+  서버 다운 동안 이전 한도로 동작 (허용 가능)
+
+TPS 증가 시:
+  CDC (Debezium)로 전환
+  binlog 감지 → 즉시 발행
+  스케줄러 불필요
+```
+
+---
+
+### 5-4. 순서 보장
+
+```
+payment.cancelled:
+  파티션 키 = paymentKey
+  같은 결제건 이벤트 → 항상 같은 파티션
+  → 동일 결제건 이벤트 처리 순서 보장
+
+merchant.limit.updated:
+  파티션 키 = merchantId
+  같은 가맹점 한도 변경 → 항상 같은 파티션
+  → 연속 한도 변경 시 순서 보장
+  → 순서 역전으로 인한 오래된 값 적용 방지
 ```
 
 ### 5-3. 멱등성 (Exactly-once)
@@ -845,10 +943,7 @@ next_retry_at 도래한 건만
 → risk 보상 API 재호출
 → 성공: DONE
 → 실패: incrementAttempt + scheduleNextRetry (지수 백오프)
-→ EXHAUSTED:
-    compensation.exhausted 토픽 발행
-    → Consumer가 risk 복구 후 자동 재처리 시도
-    → 3회 실패 시 compensation.DLQ → 운영팀 알림
+→ EXHAUSTED: 운영팀 알림 + 수동 보정
 
 compensation_retry가 payment DB에 있는 이유:
   보상 API 호출 주체가 payment-service
@@ -865,22 +960,16 @@ cancel-recovery:
   보상 API 호출 실패
   → compensation_retry INSERT 시도
     성공: 스케줄러가 재처리
-    실패: compensation.retry 토픽 발행
-          Consumer가 INSERT 재시도
-          → 다음 건으로 넘어감 (스케줄러 중단 없음)
+    실패: 에러 로그 + 운영팀 알림 (극히 드문 케이스)
+  → 다음 건으로 넘어감 (스케줄러 중단 없음)
 
 compensation-retry:
   risk 장애 지속 → 지수 백오프로 계속 시도
-  EXHAUSTED:
-    compensation.exhausted 토픽 발행
-    → Consumer가 risk 복구 후 자동 재처리
-    → 3회 실패 시 compensation.DLQ
-    → 운영팀 알림 → 수동 보정
+  EXHAUSTED → 운영팀 알림 → 수동 보정
 
 운영팀 개입 시점:
-  compensation.DLQ까지 도달한 건만 처리
-  → 자동화로 대부분 해결
-  → 극히 드문 케이스만 수동 처리
+  EXHAUSTED 건: used_amount 수동 원복
+  compensation_retry INSERT 실패 건: 에러 로그 기반 수동 INSERT
 ```
 
 ### 6-4. ShedLock 설정
