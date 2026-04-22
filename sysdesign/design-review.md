@@ -430,6 +430,7 @@ cancelAmount 없음:
 { "code": "CANCEL_LIMIT_EXCEEDED", "message": "가맹점 일일 취소 한도를 초과했습니다",
   "remainingLimit": 200000, "dailyLimit": 5000000 }
 { "code": "PAYMENT_ITEM_ALREADY_CANCELLED", "message": "이미 취소된 항목입니다" }
+{ "code": "CANCEL_PERIOD_EXPIRED", "message": "취소 가능 기간이 지났습니다. 마감일: 2026-04-21" }
 ```
 
 ### 4-2. 취소 조회 API (External)
@@ -573,9 +574,23 @@ flowchart TD
   D --> E[멱등키 중복 체크]
   E -->|중복| F[200 기존 응답 반환]
   E -->|신규| G[Payment 상태 검증 422]
-  G --> H[PaymentItem 금액 검증 422]
-  H --> I[가맹점 한도 검증 422]
-  I --> J[취소 처리]
+  G --> H[취소 기간 검증 422]
+  H --> I[PaymentItem 상태 검증 422]
+  I --> J[가맹점 한도 검증 422]
+  J --> K[취소 처리]
+```
+
+```
+취소 기간 검증:
+  payment.createdAt + payment.cancelPeriodDays >= 오늘
+  초과 시 → 422 CancelPeriodExpiredException
+
+cancelPeriodDays:
+  결제 시점에 가맹점 정책 스냅샷으로 저장
+  → 가맹점 정책 변경과 무관하게 결제 시점 기준 적용
+
+risk 호출 전에 차단:
+  취소 기간 초과 → 불필요한 HTTP 호출 없음
 ```
 
 ### 4-6. 멱등성 처리

@@ -33,7 +33,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         Payment payment = paymentRepository.findByPaymentKey(paymentKey)
             .orElseThrow(() -> new PaymentNotFoundException(paymentKey));
 
-        payment.validateCancellable();  // 도메인 객체가 상태 검증
+        payment.validateCancellable();  // 도메인 객체가 상태 + 기간 검증
 
         List<PaymentItem> items =
             paymentItemRepository.findAllByPaymentId(payment.getId());
@@ -478,6 +478,67 @@ public void validateAndReserveLimit(
 daily_limit 컬럼이 merchant_cancel_usage에 필요한 이유:
   Redis 장애 시 2순위 폴백으로 사용
   이 순서가 지켜져야 DB 스냅샷의 의미가 살아있음
+```
+
+---
+
+**Payment 도메인 — validateCancellable:**
+
+```java
+// Payment.java (도메인 엔티티)
+@Entity
+public class Payment {
+
+    private LocalDateTime createdAt;
+    private int cancelPeriodDays;  // 가맹점 취소 가능 기간
+    private PaymentStatus status;
+
+    // 상태 검증 + 취소 기간 검증
+    public void validateCancellable() {
+        // 1. 상태 검증
+        if (!isActive()) {
+            throw new PaymentAlreadyCancelledException();
+        }
+
+        // 2. 취소 기간 검증
+        LocalDate cancelDeadline = createdAt.toLocalDate()
+            .plusDays(cancelPeriodDays);
+
+        if (LocalDate.now(ZoneId.of("Asia/Seoul")).isAfter(cancelDeadline)) {
+            throw new CancelPeriodExpiredException(
+                "취소 가능 기간이 지났습니다. 마감일: " + cancelDeadline
+            );
+        }
+    }
+
+    public boolean isActive() {
+        return status == PaymentStatus.COMPLETED
+            || status == PaymentStatus.PARTIAL_CANCELLED;
+    }
+
+    public void recalculateStatus(List<PaymentItem> items) {
+        boolean allCancelled = items.stream()
+            .allMatch(item -> item.getStatus() == PaymentItemStatus.CANCELLED);
+        boolean anyCancelled = items.stream()
+            .anyMatch(item -> item.getStatus() == PaymentItemStatus.CANCELLED);
+
+        if (allCancelled) {
+            this.status = PaymentStatus.CANCELLED;
+        } else if (anyCancelled) {
+            this.status = PaymentStatus.PARTIAL_CANCELLED;
+        }
+    }
+}
+```
+
+```
+cancelPeriodDays:
+  결제 시점에 가맹점 정책 스냅샷으로 저장
+  (가맹점 정책이 나중에 바뀌어도 결제 시점 기준 적용)
+
+취소 기간 초과 시:
+  422 CancelPeriodExpiredException
+  risk 호출 전에 차단 → 불필요한 HTTP 호출 없음
 ```
 
 ---

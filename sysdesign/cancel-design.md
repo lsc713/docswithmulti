@@ -290,9 +290,24 @@ Payment 검증:
   isActive(): COMPLETED or PARTIAL_CANCELLED
   CANCELLED이면 → 422
 
+취소 기간 검증:
+  payment.createdAt + payment.cancelPeriodDays >= 오늘
+  초과 시 → 422 CANCEL_PERIOD_EXPIRED
+
 PaymentItem 검증:
   요청한 아이템이 모두 ACTIVE 상태인지
   이미 CANCELLED이면 → 422
+```
+
+**cancelPeriodDays 스냅샷:**
+
+```
+결제 시점에 가맹점 정책을 payment에 저장
+→ 나중에 가맹점 정책이 바뀌어도
+  결제 시점 기준으로 취소 기간 적용
+
+risk 호출 전에 차단:
+  취소 기간 초과 → 불필요한 HTTP 호출 없음
 ```
 
 **isActive() 도메인 메서드가 필요한 이유:**
@@ -320,6 +335,7 @@ isActive() 메서드:
 |--------|------|
 | Payment 없음 | 404 |
 | Payment 취소 불가 상태 | 422 |
+| 취소 기간 초과 | 422 CANCEL_PERIOD_EXPIRED |
 | PaymentItem 이미 취소됨 | 422 |
 | COMPLETED → 기존 응답 | 200 |
 | PENDING/PROCESSING | 처리 중 |
