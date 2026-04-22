@@ -120,8 +120,13 @@ sequenceDiagram
   P->>R: validateAndReserveLimit(merchantId, cancelRequestId, cancelAmount)
   R->>Redis: daily_limit 조회
   alt Redis Miss
-    R->>M: daily_limit HTTP 조회
-    R->>Redis: daily_limit 저장 (KST 자정 TTL)
+    R->>R: merchant_cancel_usage.daily_limit 조회 (DB 스냅샷)
+    alt DB 스냅샷 없음
+      R->>M: daily_limit HTTP 조회 (최초 요청 시)
+      R->>Redis: daily_limit 저장 (KST 자정 TTL)
+    else DB 스냅샷 있음
+      R->>Redis: daily_limit 저장 (KST 자정 TTL)
+    end
   end
   R->>R: cancelRequestId 중복 체크 (이중 차감 방어)
   R->>R: merchant_cancel_usage FOR UPDATE
@@ -383,16 +388,25 @@ POST /v1/payments/{paymentKey}/cancel
 
 헤더:
   Authorization: Bearer {token}
-  Idempotency-Key: {UUID}    ← 클라이언트가 생성
 
 요청:
 {
-  "cancelAmount": 300000,
   "cancelReason": "고객 단순 변심",
   "cancelItems": [
-    { "paymentItemId": 2, "cancelAmount": 300000 }
+    { "paymentItemId": 2 }
   ]
 }
+
+```
+Idempotency-Key 헤더 없음:
+  서버가 request_hash 직접 생성
+  hash = SHA-256(paymentKey + paymentItemIds 정렬)
+  클라이언트 UUID 불필요
+
+cancelAmount 없음:
+  아이템 단위 전액 취소만 가능
+  item_amount가 곧 cancelAmount
+```
 
 응답 200 (성공):
 {
@@ -401,13 +415,13 @@ POST /v1/payments/{paymentKey}/cancel
   "cancelAmount": 300000,
   "status": "COMPLETED",
   "cancelledItems": [
-    { "paymentItemId": 2, "cancelAmount": 300000, "status": "CANCELLED" }
+    { "paymentItemId": 2, "itemAmount": 300000, "status": "CANCELLED" }
   ],
   "completedAt": "2026-04-18T10:00:00.000Z"
 }
 
 응답 400 (형식 오류):
-{ "code": "INVALID_REQUEST", "message": "cancelAmount는 0보다 커야 합니다" }
+{ "code": "INVALID_REQUEST", "message": "cancelItems는 비어있을 수 없습니다" }
 
 응답 404 (결제 없음):
 { "code": "PAYMENT_NOT_FOUND", "message": "결제 정보를 찾을 수 없습니다" }
@@ -416,7 +430,6 @@ POST /v1/payments/{paymentKey}/cancel
 { "code": "CANCEL_LIMIT_EXCEEDED", "message": "가맹점 일일 취소 한도를 초과했습니다",
   "remainingLimit": 200000, "dailyLimit": 5000000 }
 { "code": "PAYMENT_ITEM_ALREADY_CANCELLED", "message": "이미 취소된 항목입니다" }
-{ "code": "CANCEL_AMOUNT_EXCEEDED", "message": "취소 금액이 잔여 금액을 초과합니다" }
 ```
 
 ### 4-2. 취소 조회 API (External)
@@ -710,6 +723,60 @@ UK 충돌 없음, DELETE 없음, 이력 보존
    ShedLock → Redis 분산락으로 전환
 ```
 
+**케이스 4 — 동시 취소 시 Payment 상태 불일치:**
+
+```
+유저: PaymentItem A 취소 요청
+가맹점: PaymentItem B 취소 요청 동시
+
+request_hash 다름 → 둘 다 TX 1 통과
+
+TX 1 이전에 각자 조회한 데이터 기반으로 TX 3 진행:
+  유저 TX 3: A(ACTIVE), B(ACTIVE) 기반 → PARTIAL_CANCELLED
+  가맹점 TX 3: A(ACTIVE), B(ACTIVE) 기반 → PARTIAL_CANCELLED
+
+둘 다 커밋:
+  실제 DB: A(CANCELLED), B(CANCELLED)
+  Payment: PARTIAL_CANCELLED ← 틀림 (CANCELLED여야 함)
+```
+
+**해결 — TX 3에서 PaymentItem 재조회 + FOR UPDATE:**
+
+```java
+@Transactional
+public void completeCancel(CancelRequest cancelRequest, List<Long> cancelItemIds) {
+
+    // TX 3에서 최신 PaymentItem 재조회 + 직렬화
+    List<PaymentItem> items =
+        paymentItemRepository
+            .findAllByPaymentIdForUpdate(cancelRequest.getPaymentId());
+
+    // 취소 대상 아이템 CANCELLED 처리
+    items.stream()
+        .filter(item -> cancelItemIds.contains(item.getId()))
+        .forEach(PaymentItem::cancel);
+
+    paymentItemRepository.saveAll(items);
+
+    // 최신 상태 기반으로 Payment 재계산
+    Payment payment = paymentRepository
+        .findByIdForUpdate(cancelRequest.getPaymentId());
+    payment.recalculateStatus(items);  // 전체 아이템 상태 기준
+    paymentRepository.save(payment);
+}
+```
+
+```
+TX 1 이전 FOR UPDATE를 안 하는 이유:
+  risk 호출 (수백ms) + PG사 호출 (수백ms~수초) 동안 락 유지
+  → 처리량 급감
+
+TX 3에서만 FOR UPDATE:
+  락 범위: TX 3 내부 (수ms)
+  DB 트랜잭션과 락이 원자적
+  → 최신 상태 재계산 + 처리량 유지
+```
+
 ---
 
 ### 4-8. Circuit Breaker
@@ -931,6 +998,26 @@ Consumer: processed_cancel_event UK → 중복 수신 시 no-op
 | acks=0 | 응답 안 기다림 | 높음 | - |
 | acks=1 | Leader만 확인 | Leader 다운 시 유실 | - |
 | acks=all | 모든 ISR 확인 | 없음 | ✓ |
+
+**확장 포인트 — 이벤트 타입 추가 시:**
+
+```
+현재:
+  processed_cancel_event (cancel_request_id UK)
+  payment.cancelled 토픽 전용 → 충돌 없음
+
+미래에 다른 이벤트 추가 시:
+  refund.completed, order.cancelled 등
+  같은 테이블에서 처리하면 ID 충돌 가능
+
+해결:
+  (event_type, event_id) 복합 UK로 변경
+  event_type: "CANCEL", "REFUND" 등
+  event_id: cancelRequestId, refundRequestId 등
+  → 타입이 달라도 UK 충돌 없음
+
+  또는: 이벤트별 별도 테이블 유지
+```
 
 ### 5-4. Outbox Pattern
 

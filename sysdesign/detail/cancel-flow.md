@@ -122,14 +122,28 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         List<PaymentItem> items, CancelPaymentRequest request,
         String idempotencyKey
     ) {
-        // PaymentItem 상태 변경 (낙관적 락)
-        List<PaymentItem> updatedItems =
-            cancelDomainService.applyCancelToItems(items, request.cancelItems());
-        paymentItemRepository.saveAll(updatedItems);
+        // TX 3에서 PaymentItem 최신 상태 재조회 + FOR UPDATE
+        // 이유: 동시 취소 요청 시 조회 시점 데이터로 재계산하면
+        //      Payment 상태 불일치 발생 가능 (CANCELLED가 아닌 PARTIAL_CANCELLED)
+        List<PaymentItem> latestItems =
+            paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId());
 
-        // Payment 상태 집계
-        payment.recalculateStatus(updatedItems);
-        paymentRepository.save(payment);
+        // 취소 대상 아이템 CANCELLED 처리
+        List<Long> cancelItemIds = request.cancelItems().stream()
+            .map(CancelItemRequest::paymentItemId)
+            .collect(Collectors.toList());
+
+        latestItems.stream()
+            .filter(item -> cancelItemIds.contains(item.getId()))
+            .forEach(PaymentItem::cancel);
+
+        paymentItemRepository.saveAll(latestItems);
+
+        // 최신 전체 아이템 상태 기반으로 Payment 재계산
+        Payment latestPayment =
+            paymentRepository.findByIdForUpdate(payment.getId());
+        latestPayment.recalculateStatus(latestItems);
+        paymentRepository.save(latestPayment);
 
         // CancelRequest COMPLETED
         cancelRequest.toCompleted();
@@ -390,38 +404,80 @@ public void validateAndReserveLimit(
     String cancelRequestId,
     BigDecimal cancelAmount
 ) {
-    // 이미 처리한 cancelRequestId면 skip (TX 2 실패 시 이중 차감 방어)
+    // 이미 처리한 cancelRequestId면 skip (이중 차감 방어)
     if (cancelUsageHistoryRepository.existsByCancelRequestId(cancelRequestId)) {
         return;  // no-op
     }
 
     LocalDate kstToday = LocalDate.now(ZoneId.of("Asia/Seoul"));
 
-    // 당일 첫 요청이면 merchant-limit-service에서 daily_limit 조회 후 행 생성
-    MerchantCancelUsage usage = findOrCreateUsage(merchantId, kstToday);
+    // 1순위: Redis 조회
+    BigDecimal dailyLimit = redisTemplate.opsForValue()
+        .get("daily_limit:" + merchantId + ":" + kstToday);
 
-    // FOR UPDATE로 이미 락이 걸린 상태에서 검증
+    if (dailyLimit == null) {
+        // 2순위: DB 스냅샷 조회 (Redis 장애 시 폴백)
+        // merchant-limit 호출 없이 처리 → 서버 간 의존성 최소화
+        MerchantCancelUsage snapshot =
+            merchantCancelUsageRepository
+                .findByMerchantIdAndDate(merchantId, kstToday);
+
+        if (snapshot != null && snapshot.getDailyLimit() != null) {
+            dailyLimit = snapshot.getDailyLimit();
+            // Redis 복구 시 재저장
+            redisTemplate.opsForValue().set(
+                "daily_limit:" + merchantId + ":" + kstToday,
+                dailyLimit,
+                Duration.until(kstMidnight())
+            );
+        } else {
+            // 3순위: merchant-limit HTTP 조회 (최초 요청 또는 스냅샷 없는 경우)
+            dailyLimit = merchantLimitClient.getDailyLimit(merchantId, kstToday);
+            redisTemplate.opsForValue().set(
+                "daily_limit:" + merchantId + ":" + kstToday,
+                dailyLimit,
+                Duration.until(kstMidnight())
+            );
+        }
+    }
+
+    // FOR UPDATE (한도 검증 + 선차감)
+    MerchantCancelUsage usage =
+        merchantCancelUsageRepository
+            .findByMerchantIdAndDateForUpdate(merchantId, kstToday)
+            .orElseGet(() -> MerchantCancelUsage.create(merchantId, kstToday, dailyLimit));
+
     if (usage.getUsedAmount().add(cancelAmount)
-            .compareTo(usage.getDailyLimit()) > 0) {
+            .compareTo(dailyLimit) > 0) {
         throw new MerchantCancelLimitExceededException(
             cancelAmount,
-            usage.getDailyLimit().subtract(usage.getUsedAmount()),
-            usage.getDailyLimit()
+            dailyLimit.subtract(usage.getUsedAmount()),
+            dailyLimit
         );
     }
 
-    // 검증 통과 → 선차감
     usage.addUsedAmount(cancelAmount);
     merchantCancelUsageRepository.save(usage);
-    // 트랜잭션 커밋 시 FOR UPDATE 락 해제
+
+    // 이력 저장 (cancelRequestId UK)
+    cancelUsageHistoryRepository.save(
+        CancelUsageHistory.create(cancelRequestId, merchantId, cancelAmount)
+    );
 }
 ```
 
 ```
-동작 방식:
-  사용자 A: FOR UPDATE → 락 획득 → 검증 → 차감 → 커밋 (락 해제)
-  사용자 B: FOR UPDATE → 대기 (A가 커밋될 때까지)
-            → A 커밋 후 락 획득 → 검증 → 한도 초과 시 에러
+조회 순서:
+  1순위: Redis (가장 빠름)
+  2순위: merchant_cancel_usage.daily_limit DB 스냅샷
+         Redis 장애 시 merchant-limit 호출 없이 처리
+         → 서버 간 의존성 최소화 (금융 도메인)
+  3순위: merchant-limit HTTP 조회
+         최초 요청 또는 스냅샷 없는 경우에만
+
+daily_limit 컬럼이 merchant_cancel_usage에 필요한 이유:
+  Redis 장애 시 2순위 폴백으로 사용
+  이 순서가 지켜져야 DB 스냅샷의 의미가 살아있음
 ```
 
 ---
