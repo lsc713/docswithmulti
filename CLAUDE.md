@@ -51,6 +51,13 @@ Claude Code가 세션 시작 시 가장 먼저 읽는 파일이다.
 @docs/agent.md             작업 행동 규칙
 ```
 
+취소 플로우 전체 설계는 반드시 읽어라.
+
+```
+@docs/cancel-design.md     취소 플로우 상세 설계
+                           (멱등성, TX 경계, 스케줄러, Kafka 페이로드 등)
+```
+
 DDL 확인 시 직접 파일을 읽어라.
 
 ```
@@ -59,6 +66,94 @@ order-service:           db/migration/V1__create_order_core.sql
 merchant-limit-service:  db/migration/V1__create_merchant_limit_core.sql
 risk-management-service: db/migration/V1__create_risk_core.sql
 product-service:         db/migration/V1__create_product_core.sql
+```
+
+---
+
+## 핵심 설계 원칙
+
+구현 전 반드시 숙지해라.
+cancel-design.md를 읽지 않고 취소 관련 코드를 작성하는 것을 금지한다.
+
+### 멱등성
+
+```
+request_hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)
+cancel_request (payment_id, request_hash) UNIQUE KEY
+→ TX 1에서 따닥 요청 차단
+→ Idempotency-Key 헤더 없음 (서버가 직접 생성)
+
+FAILED 건 재시도:
+  새 INSERT 금지 → 기존 FAILED 건을 PENDING으로 UPDATE
+```
+
+### TX 경계
+
+```
+TX 1: CancelRequest PENDING INSERT (risk 호출 전)
+TX 2: CancelRequest PROCESSING UPDATE (risk 성공 후)
+TX 3: PaymentItem + Payment + CancelRequest(COMPLETED) + Outbox
+      → 하나의 트랜잭션으로 원자적 처리
+
+이력(cancel_request_history):
+  항상 TX 밖에서 별도 실행
+  TX 1 커밋 후 별도 / TX 2 커밋 후 별도 / TX 3 커밋 후 별도
+  실패해도 상태 변경은 유지 (이력은 보조 데이터)
+```
+
+### TX 3 주의사항
+
+```
+PaymentItem 재조회 필수:
+  TX 1 이전 조회 데이터 사용 금지
+  TX 3에서 findAllByPaymentIdForUpdate() 로 최신 상태 재조회
+  → 동시 취소 시 Payment 상태 불일치 방지
+
+Payment 상태 재계산:
+  findByIdForUpdate() 후 전체 PaymentItem 기준으로 재계산
+  isActive(): COMPLETED or PARTIAL_CANCELLED → 취소 가능
+```
+
+### daily_limit 조회 순서
+
+```
+1순위: Redis (daily_limit:{merchantId}:{kstDate})
+2순위: merchant_cancel_usage.daily_limit (DB 스냅샷)
+       → Redis 장애 시 merchant-limit 호출 없이 처리
+       → 서버 간 의존성 최소화 (금융 도메인)
+3순위: merchant-limit HTTP 조회
+       → 최초 요청 또는 스냅샷 없는 경우에만
+
+2순위를 건너뛰고 바로 3순위 호출 금지
+```
+
+### 스케줄러 (payment-service, Redis 분산락)
+
+```
+pending-recovery (60초):
+  PENDING 5분 초과 → risk check → 차감됐으면 보상 → FAILED
+
+processing-recovery (60초):
+  PROCESSING 5분 초과 → PG사 조회 → TX 3 재실행 또는 보상
+
+outbox-publisher (10초):
+  Outbox PENDING → Kafka 발행 (배치 1000건)
+
+compensation-retry (30초):
+  compensation_retry 테이블 → risk 보상 API 재시도
+```
+
+### Kafka 페이로드
+
+```
+payment.cancelled:
+  { cancelRequestId, cancelledItems: [{ orderItemId }], cancelledAt }
+  현재 Consumer: order-service만 → 최소 페이로드
+  정산 서비스 추가 시 merchantId, itemAmount 등 확장 검토
+
+merchant.limit.updated:
+  { merchantId, newLimit, kstDate }
+  파티션 키: merchantId → 순서 보장
 ```
 
 ---
@@ -164,7 +259,7 @@ common/exception
 domain/exception             비즈니스 규칙 위반만
   InvalidCancelAmountException
   InvalidPaymentStatusException
-  CancelPeriodExceededException
+  CancelPeriodExpiredException
   InvalidCancelStateTransitionException
 
 application/exception        리소스 없음, 멱등 중복
@@ -195,6 +290,9 @@ infrastructure → domain (단방향, 역방향 금지)
 - [x] API 스펙 확정
 - [x] Kafka 설계 확정
 - [x] 전체 모듈 DDL 작성 (Flyway V1~V7)
+- [x] 취소 플로우 상세 설계 (cancel-design.md)
+- [x] Circuit Breaker 설계
+- [x] 스케줄러 4개 설계 (pending-recovery, processing-recovery, outbox-publisher, compensation-retry)
 
 ### 진행 중
 
@@ -207,7 +305,7 @@ infrastructure → domain (단방향, 역방향 금지)
 ### 구현 우선순위
 
 ```
-1. payment-service  핵심 취소 플로우
+1. payment-service          핵심 취소 플로우
 2. risk-management-service  취소 검증 + 한도 소진
 3. merchant-limit-service   한도 원본 관리
 4. order-service            Kafka Consumer + 상태 동기화
@@ -226,6 +324,18 @@ infrastructure → domain (단방향, 역방향 금지)
 - 시크릿/비밀번호 코드에 하드코딩 금지
 - 테스트 없이 구현 완료 처리 금지
 - domain-rules.md를 확인하지 않고 비즈니스 로직 작성 금지
+
+[취소 플로우 전용]
+- cancel-design.md를 읽지 않고 취소 관련 코드 작성 금지
+- request_hash 없이 CancelRequest INSERT 금지
+- 이력(cancel_request_history)을 TX 1/2/3 안에 포함 금지
+  (이력 실패로 비즈니스 로직 롤백 방지)
+- TX 3에서 조회 시점 데이터로 Payment 상태 재계산 금지
+  (반드시 findAllByPaymentIdForUpdate() 로 재조회)
+- daily_limit 조회 시 Redis Miss → 바로 merchant-limit HTTP 호출 금지
+  (DB 스냅샷 먼저 확인)
+- FAILED 건 재시도 시 새 INSERT 금지
+  (기존 FAILED 건을 PENDING으로 UPDATE)
 ```
 
 ---
@@ -233,7 +343,7 @@ infrastructure → domain (단방향, 역방향 금지)
 ## 모호한 요구사항 처리
 
 요구사항이 불명확할 때:
-1. domain-rules.md에서 관련 규칙 먼저 확인
+1. domain-rules.md와 cancel-design.md에서 관련 규칙 먼저 확인
 2. 문서에 없으면 가정을 1문장으로 명시 후 진행
 3. 가정 내용을 응답 첫 줄에 표시
 

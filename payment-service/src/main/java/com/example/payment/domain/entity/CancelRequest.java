@@ -2,7 +2,6 @@ package com.example.payment.domain.entity;
 
 import com.example.payment.domain.exception.InvalidCancelAmountException;
 import com.example.payment.domain.exception.InvalidCancelStateTransitionException;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 
@@ -11,103 +10,64 @@ import java.time.Instant;
  *
  * 상태 전이:
  * PENDING → PROCESSING → COMPLETED (또는 FAILED)
- * COMPLETED, FAILED는 최종 상태 (변경 불가)
+ * FAILED → PENDING (raiseToPending — 재시도)
+ * COMPLETED, FAILED는 최종 상태 (단, FAILED는 PENDING 재진입 가능)
  *
- * 비즈니스 규칙:
- * - cancelAmount는 1원 이상이어야 한다 (domain-rules.md 2-3)
- * - 도메인 계층에서 외부 시스템 호출 금지
+ * 멱등성: (payment_id, request_hash) UK로 중복 방어
+ * request_hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)
  */
 public class CancelRequest {
 
     private Long id;
     private Long paymentId;
-    private String idempotencyKey;
+    private String requestHash;
     private BigDecimal cancelAmount;
     private String cancelReason;
-    private CancellerType cancellerType;
-    private Long cancelledBy;
     private CancelStatus status;
     private Instant processingStartedAt;
     private Instant completedAt;
     private String failedReason;
+    private Instant pgPendingSince;
     private Instant createdAt;
     private Instant updatedAt;
 
-    private CancelRequest(
-        Long paymentId,
-        String idempotencyKey,
-        BigDecimal cancelAmount,
-        String cancelReason,
-        CancellerType cancellerType,
-        Long cancelledBy
-    ) {
+    private CancelRequest(Long paymentId, String requestHash,
+                          BigDecimal cancelAmount, String cancelReason) {
         validateCancelAmount(cancelAmount);
-
         this.paymentId = paymentId;
-        this.idempotencyKey = idempotencyKey;
+        this.requestHash = requestHash;
         this.cancelAmount = cancelAmount;
         this.cancelReason = cancelReason;
-        this.cancellerType = cancellerType;
-        this.cancelledBy = cancelledBy;
         this.status = CancelStatus.PENDING;
         this.createdAt = Instant.now();
     }
 
-    public static CancelRequest create(
-        Long paymentId,
-        String idempotencyKey,
-        BigDecimal cancelAmount,
-        String cancelReason,
-        CancellerType cancellerType,
-        Long cancelledBy
-    ) {
-        return new CancelRequest(
-            paymentId,
-            idempotencyKey,
-            cancelAmount,
-            cancelReason,
-            cancellerType,
-            cancelledBy
-        );
+    public static CancelRequest create(Long paymentId, String requestHash,
+                                       BigDecimal cancelAmount, String cancelReason) {
+        return new CancelRequest(paymentId, requestHash, cancelAmount, cancelReason);
     }
 
-    /**
-     * DB에서 조회한 데이터로 CancelRequest를 재구성한다 (infrastructure 계층용)
-     */
+    /** DB에서 조회한 데이터로 재구성 (infrastructure 계층용) */
     public static CancelRequest reconstruct(
-        Long id,
-        Long paymentId,
-        String idempotencyKey,
-        BigDecimal cancelAmount,
-        String cancelReason,
-        CancellerType cancellerType,
-        Long cancelledBy,
-        CancelStatus status,
-        Instant processingStartedAt,
-        Instant completedAt,
-        String failedReason,
-        Instant createdAt,
-        Instant updatedAt
+        Long id, Long paymentId, String requestHash,
+        BigDecimal cancelAmount, String cancelReason,
+        CancelStatus status, Instant processingStartedAt,
+        Instant completedAt, String failedReason,
+        Instant pgPendingSince, Instant createdAt, Instant updatedAt
     ) {
-        CancelRequest request = new CancelRequest(
-            paymentId,
-            idempotencyKey,
-            cancelAmount,
-            cancelReason,
-            cancellerType,
-            cancelledBy
-        );
-        // DB에서 재구성하므로 현재 상태 직접 설정
-        request.id = id;
-        request.status = status;
-        request.processingStartedAt = processingStartedAt;
-        request.completedAt = completedAt;
-        request.failedReason = failedReason;
-        request.createdAt = createdAt;
-        request.updatedAt = updatedAt;
-        return request;
+        CancelRequest r = new CancelRequest(paymentId, requestHash, cancelAmount, cancelReason);
+        r.id = id;
+        r.status = status;
+        r.processingStartedAt = processingStartedAt;
+        r.completedAt = completedAt;
+        r.failedReason = failedReason;
+        r.pgPendingSince = pgPendingSince;
+        r.createdAt = createdAt;
+        r.updatedAt = updatedAt;
+        return r;
     }
 
+    /** PENDING → PROCESSING */
     public void toProcessing() {
         if (status != CancelStatus.PENDING) {
             throw new InvalidCancelStateTransitionException(status, CancelStatus.PROCESSING);
@@ -116,6 +76,7 @@ public class CancelRequest {
         this.processingStartedAt = Instant.now();
     }
 
+    /** PROCESSING → COMPLETED */
     public void toCompleted() {
         if (status != CancelStatus.PROCESSING) {
             throw new InvalidCancelStateTransitionException(status, CancelStatus.COMPLETED);
@@ -124,12 +85,23 @@ public class CancelRequest {
         this.completedAt = Instant.now();
     }
 
-    public void toFailed(String failedReason) {
+    /** PROCESSING → FAILED */
+    public void toFailed(String reason) {
         if (status != CancelStatus.PROCESSING) {
             throw new InvalidCancelStateTransitionException(status, CancelStatus.FAILED);
         }
         this.status = CancelStatus.FAILED;
-        this.failedReason = failedReason;
+        this.failedReason = reason;
+    }
+
+    /** FAILED → PENDING (재시도: UK 유지, 새 INSERT 없음) */
+    public void raiseToPending() {
+        if (status != CancelStatus.FAILED) {
+            throw new InvalidCancelStateTransitionException(status, CancelStatus.PENDING);
+        }
+        this.status = CancelStatus.PENDING;
+        this.failedReason = null;
+        this.processingStartedAt = null;
     }
 
     private void validateCancelAmount(BigDecimal cancelAmount) {
@@ -138,56 +110,16 @@ public class CancelRequest {
         }
     }
 
-    // Getters (Setter는 도메인 규칙에 의해 상태 전이 메서드로만 변경)
-    public Long getId() {
-        return id;
-    }
-
-    public Long getPaymentId() {
-        return paymentId;
-    }
-
-    public String getIdempotencyKey() {
-        return idempotencyKey;
-    }
-
-    public BigDecimal getCancelAmount() {
-        return cancelAmount;
-    }
-
-    public String getCancelReason() {
-        return cancelReason;
-    }
-
-    public CancellerType getCancellerType() {
-        return cancellerType;
-    }
-
-    public Long getCancelledBy() {
-        return cancelledBy;
-    }
-
-    public CancelStatus getStatus() {
-        return status;
-    }
-
-    public Instant getProcessingStartedAt() {
-        return processingStartedAt;
-    }
-
-    public Instant getCompletedAt() {
-        return completedAt;
-    }
-
-    public String getFailedReason() {
-        return failedReason;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
-    }
+    public Long getId() { return id; }
+    public Long getPaymentId() { return paymentId; }
+    public String getRequestHash() { return requestHash; }
+    public BigDecimal getCancelAmount() { return cancelAmount; }
+    public String getCancelReason() { return cancelReason; }
+    public CancelStatus getStatus() { return status; }
+    public Instant getProcessingStartedAt() { return processingStartedAt; }
+    public Instant getCompletedAt() { return completedAt; }
+    public String getFailedReason() { return failedReason; }
+    public Instant getPgPendingSince() { return pgPendingSince; }
+    public Instant getCreatedAt() { return createdAt; }
+    public Instant getUpdatedAt() { return updatedAt; }
 }

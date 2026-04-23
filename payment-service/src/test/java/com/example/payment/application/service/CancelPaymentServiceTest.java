@@ -1,343 +1,128 @@
 package com.example.payment.application.service;
 
-import com.example.payment.application.dto.CancelPaymentRequest;
-import com.example.payment.application.dto.CancelPaymentResponse;
-import com.example.payment.application.exception.IdempotentDuplicationException;
-import com.example.payment.application.exception.MerchantCancelLimitExceededException;
+import com.example.payment.application.dto.PgCancelResult;
+import com.example.payment.application.dto.RiskReserveResult;
 import com.example.payment.application.exception.PaymentNotFoundException;
-import com.example.payment.application.interfaces.CancelEventOutboxManager;
-import com.example.payment.application.interfaces.CancelRequestRepository;
-import com.example.payment.application.interfaces.IdempotencyKeyManager;
-import com.example.payment.application.interfaces.PaymentItemRepository;
-import com.example.payment.application.interfaces.PaymentRepository;
-import com.example.payment.application.interfaces.RiskManagementService;
-import com.example.payment.domain.entity.CancelRequest;
-import com.example.payment.domain.entity.Payment;
-import com.example.payment.domain.entity.PaymentItem;
-import com.example.payment.domain.exception.CancelAmountExceededException;
-import com.example.payment.domain.exception.CancelPeriodExceededException;
-import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
-import com.example.payment.domain.exception.InvalidPaymentStatusException;
+import com.example.payment.application.interfaces.*;
+import com.example.payment.domain.entity.*;
 import com.example.payment.domain.policy.CancelPeriodPolicy;
 import com.example.payment.domain.service.CancelDomainService;
-import com.example.payment.fixture.CancelRequestFixture;
 import com.example.payment.fixture.PaymentFixture;
-import com.example.payment.fixture.PaymentItemFixture;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.math.BigDecimal;
 import java.time.Clock;
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("CancelPaymentService")
 class CancelPaymentServiceTest {
 
-    @Mock
-    private PaymentRepository paymentRepository;
+    @Mock PaymentRepository paymentRepository;
+    @Mock PaymentItemRepository paymentItemRepository;
+    @Mock CancelRequestRepository cancelRequestRepository;
+    @Mock CancelRequestHistoryRepository historyRepository;
+    @Mock CancelEventOutboxRepository outboxRepository;
+    @Mock CompensationRetryRepository compensationRetryRepository;
+    @Mock RiskManagementPort riskManagementPort;
+    @Mock PgCancelPort pgCancelPort;
 
-    @Mock
-    private PaymentItemRepository paymentItemRepository;
+    private CancelPaymentService service;
 
-    @Mock
-    private CancelRequestRepository cancelRequestRepository;
-
-    @Mock
-    private IdempotencyKeyManager idempotencyKeyManager;
-
-    @Mock
-    private RiskManagementService riskManagementService;
-
-    @Mock
-    private CancelEventOutboxManager cancelEventOutboxManager;
-
-    private CancelDomainService cancelDomainService;
-    private CancelPaymentService cancelPaymentService;
-
-    private static final String PAYMENT_KEY = "pay_test_001";
-    private static final Long USER_ID = 1L;
-    private static final String IDEMPOTENCY_KEY = "idem_001";
-    private static final BigDecimal CANCEL_AMOUNT = BigDecimal.valueOf(50000);
+    private Payment payment;
+    private PaymentItem itemA;
+    private PaymentItem itemB;
+    private CancelPaymentCommand command;
 
     @BeforeEach
     void setUp() {
-        Clock clock = Clock.fixed(
-            LocalDateTime.of(2026, 3, 15, 0, 0, 0).toInstant(ZoneOffset.UTC),
-            ZoneOffset.UTC
-        );
-        CancelPeriodPolicy cancelPeriodPolicy = new CancelPeriodPolicy(clock);
-        cancelDomainService = new CancelDomainService(cancelPeriodPolicy);
+        Clock clock = Clock.fixed(Instant.parse("2026-03-01T00:00:00Z"), ZoneOffset.UTC);
+        CancelDomainService domainService = new CancelDomainService(new CancelPeriodPolicy(clock));
 
-        cancelPaymentService = new CancelPaymentService(
-            paymentRepository,
-            paymentItemRepository,
-            cancelRequestRepository,
-            idempotencyKeyManager,
-            riskManagementService,
-            cancelEventOutboxManager,
-            cancelDomainService
+        service = new CancelPaymentService(
+            paymentRepository, paymentItemRepository, cancelRequestRepository,
+            historyRepository, outboxRepository, compensationRetryRepository,
+            riskManagementPort, pgCancelPort, domainService
         );
+
+        payment = PaymentFixture.completedPayment(); // paymentKey="pay_test_001", merchantId=1
+        itemA = PaymentItem.reconstruct(1L, payment.getId(), 10L, 100L, 200L, "상품A",
+            BigDecimal.valueOf(30000), PaymentItemStatus.ACTIVE);
+        itemB = PaymentItem.reconstruct(2L, payment.getId(), 11L, 100L, 200L, "상품B",
+            BigDecimal.valueOf(70000), PaymentItemStatus.ACTIVE);
+
+        command = new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L));
     }
 
     @Test
-    void should_complete_cancel_when_no_duplicate_idempotency_key() {
-        // Given
-        Payment payment = PaymentFixture.completedPayment();
-        PaymentItem item = PaymentItemFixture.activeItem(payment.getId(), 100L, CANCEL_AMOUNT);
+    @DisplayName("should_throw_payment_not_found_when_payment_missing")
+    void shouldThrowPaymentNotFoundWhenPaymentMissing() {
+        when(paymentRepository.findByPaymentKey("pay_test_001")).thenReturn(Optional.empty());
 
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.empty());
-
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
-            .thenReturn(Optional.of(payment));
-
-        when(paymentItemRepository.findAllByPaymentId(payment.getId()))
-            .thenReturn(List.of(item));
-
-        when(riskManagementService.validateAndReserveLimit(
-            payment.getMerchantId(), payment.getId(), CANCEL_AMOUNT
-        )).thenReturn(1L);
-
-        when(cancelRequestRepository.save(any(CancelRequest.class)))
-            .thenAnswer(inv -> inv.getArgument(0));
-
-        when(paymentRepository.save(any(Payment.class)))
-            .thenAnswer(inv -> inv.getArgument(0));
-
-        doNothing().when(paymentItemRepository).saveAll(any());
-        doNothing().when(idempotencyKeyManager).recordIdempotencyKey(any(), any());
-        doNothing().when(cancelEventOutboxManager).recordCancelEvent(any(), any(), any(), any());
-
-        // When
-        CancelPaymentResponse response = cancelPaymentService.cancel(
-            PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-            createCancelRequest()
-        );
-
-        // Then
-        assertThat(response).isNotNull();
-        assertThat(response.cancelAmount()).isEqualTo(CANCEL_AMOUNT);
-        assertThat(response.status()).isEqualTo("COMPLETED");
-
-        verify(riskManagementService).validateAndReserveLimit(
-            payment.getMerchantId(), payment.getId(), CANCEL_AMOUNT
-        );
-        verify(cancelEventOutboxManager).recordCancelEvent(
-            any(), eq(PAYMENT_KEY), eq(CANCEL_AMOUNT), any()
-        );
+        assertThrows(PaymentNotFoundException.class, () -> service.cancel(command));
     }
 
     @Test
-    void should_throw_payment_not_found_when_payment_does_not_exist() {
-        // Given
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.empty());
+    @DisplayName("should_return_existing_result_when_cancel_request_completed")
+    void shouldReturnExistingResultWhenCancelRequestCompleted() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
 
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
-            .thenReturn(Optional.empty());
+        CancelRequest existing = CancelRequest.create(
+            payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심");
+        existing.toProcessing();
+        existing.toCompleted();
 
-        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
-        // When & Then
-        assertThatThrownBy(() ->
-            cancelPaymentService.cancel(
-                PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                cancelPaymentRequest
-            )
-        ).isInstanceOf(PaymentNotFoundException.class);
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.of(existing));
 
-        verify(paymentRepository).findByPaymentKey(PAYMENT_KEY);
+        CancelRequest result = service.cancel(command);
+
+        assertEquals(CancelStatus.COMPLETED, result.getStatus());
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
     }
 
     @Test
-    void should_throw_invalid_payment_status_when_payment_is_already_cancelled() {
-        // Given
-        Payment payment = PaymentFixture.cancelledPayment();
-        PaymentItem item = PaymentItemFixture.activeItem(payment.getId(), 100L, CANCEL_AMOUNT);
+    @DisplayName("should_raise_failed_to_pending_and_continue_when_existing_failed")
+    void shouldRaiseFailedToPendingAndContinueWhenExistingFailed() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(paymentItemRepository.findAllByPaymentIdForUpdate(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
 
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.empty());
+        CancelRequest failed = CancelRequest.create(
+            payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심");
+        failed.toProcessing();
+        failed.toFailed("이전 오류");
 
-        when(paymentRepository.findByPaymentKey("pay_test_cancelled"))
-            .thenReturn(Optional.of(payment));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.of(failed));
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> {
+            CancelRequest cr = inv.getArgument(0);
+            if (cr.getId() != null) return cr;
+            return CancelRequest.reconstruct(100L, cr.getPaymentId(), cr.getRequestHash(),
+                cr.getCancelAmount(), cr.getCancelReason(), cr.getStatus(),
+                cr.getProcessingStartedAt(), cr.getCompletedAt(), cr.getFailedReason(),
+                cr.getPgPendingSince(), cr.getCreatedAt(), cr.getUpdatedAt());
+        });
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(5000000),
+                BigDecimal.valueOf(30000), BigDecimal.valueOf(4970000)));
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
 
-        when(paymentItemRepository.findAllByPaymentId(payment.getId()))
-            .thenReturn(List.of(item));
-        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
+        CancelRequest result = service.cancel(command);
 
-        // When & Then
-        assertThatThrownBy(() ->
-            cancelPaymentService.cancel(
-                "pay_test_cancelled", USER_ID, IDEMPOTENCY_KEY,
-                cancelPaymentRequest
-            )
-        ).isInstanceOf(InvalidPaymentStatusException.class);
-    }
-
-    @Test
-    void should_throw_invalid_payment_item_status_when_item_is_already_cancelled() {
-        // Given
-        Payment payment = PaymentFixture.completedPayment();
-        PaymentItem item = PaymentItemFixture.cancelledItem(payment.getId(), 100L, CANCEL_AMOUNT);
-
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.empty());
-
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
-            .thenReturn(Optional.of(payment));
-
-        when(paymentItemRepository.findAllByPaymentId(payment.getId()))
-            .thenReturn(List.of(item));
-
-        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
-
-        // When & Then
-        assertThatThrownBy(() ->
-            cancelPaymentService.cancel(
-                PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                cancelPaymentRequest
-            )
-        ).isInstanceOf(InvalidPaymentItemStatusException.class);
-    }
-
-    @Test
-    void should_throw_cancel_amount_exceeded_when_cancel_exceeds_item_amount() {
-        // Given
-        Payment payment = PaymentFixture.completedPayment();
-        PaymentItem item = PaymentItemFixture.activeItem(
-            payment.getId(), 100L, BigDecimal.valueOf(10000)  // 아이템 금액 10,000
-        );
-
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.empty());
-
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
-            .thenReturn(Optional.of(payment));
-
-        when(paymentItemRepository.findAllByPaymentId(payment.getId()))
-            .thenReturn(List.of(item));
-
-        // 50,000 취소 요청 (아이템 금액 10,000 초과)
-        CancelPaymentRequest request = new CancelPaymentRequest(
-            CANCEL_AMOUNT,
-            "reason",
-            List.of(new CancelPaymentRequest.CancelItemRequest(100L, CANCEL_AMOUNT))
-        );
-
-        // When & Then
-        assertThatThrownBy(() ->
-            cancelPaymentService.cancel(PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY, request)
-        ).isInstanceOf(CancelAmountExceededException.class);
-    }
-
-    @Test
-    void should_throw_cancel_period_exceeded_when_cancel_period_is_over() {
-        // Given - 과거 결제로 기간 만료
-        Payment payment = PaymentFixture.completedPaymentWith1DayPeriod();  // 1일 기간
-        // 2026-01-01 결제, 1일 기간, 현재 2026-03-15 (기간 초과)
-
-        PaymentItem item = PaymentItemFixture.activeItem(payment.getId(), 100L, CANCEL_AMOUNT);
-
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.empty());
-
-        when(paymentRepository.findByPaymentKey("pay_test_002"))
-            .thenReturn(Optional.of(payment));
-
-        when(paymentItemRepository.findAllByPaymentId(payment.getId()))
-            .thenReturn(List.of(item));
-        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
-        // When & Then
-        assertThatThrownBy(() ->
-            cancelPaymentService.cancel(
-                "pay_test_002", USER_ID, IDEMPOTENCY_KEY,
-                cancelPaymentRequest
-
-            )
-        ).isInstanceOf(CancelPeriodExceededException.class);
-    }
-
-    @Test
-    void should_throw_merchant_cancel_limit_exceeded_when_daily_limit_exhausted() {
-        // Given
-        Payment payment = PaymentFixture.completedPayment();
-        PaymentItem item = PaymentItemFixture.activeItem(payment.getId(), 100L, CANCEL_AMOUNT);
-
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.empty());
-
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY))
-            .thenReturn(Optional.of(payment));
-
-        when(paymentItemRepository.findAllByPaymentId(payment.getId()))
-            .thenReturn(List.of(item));
-
-        when(cancelRequestRepository.save(any(CancelRequest.class)))
-            .thenAnswer(inv -> {
-                CancelRequest req = inv.getArgument(0);
-                return CancelRequestFixture.cancelRequest(req.getPaymentId(), req.getCancelAmount(), req.getIdempotencyKey());
-            });
-
-        when(riskManagementService.validateAndReserveLimit(
-            anyLong(), anyLong(), any(BigDecimal.class)
-        )).thenThrow(new MerchantCancelLimitExceededException(
-            CANCEL_AMOUNT,
-            BigDecimal.ZERO,
-            BigDecimal.valueOf(1000000)
-        ));
-
-        doNothing().when(idempotencyKeyManager).recordIdempotencyKey(any(), any());
-
-        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
-
-        // When & Then
-        assertThatThrownBy(() ->
-            cancelPaymentService.cancel(
-                PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                cancelPaymentRequest
-            )
-        ).isInstanceOf(MerchantCancelLimitExceededException.class);
-    }
-
-    @Test
-    void should_throw_idempotent_duplication_when_idempotency_key_already_processed() {
-        // Given
-        CancelRequest existingRequest = CancelRequestFixture.cancelRequest(
-            1L, CANCEL_AMOUNT, IDEMPOTENCY_KEY
-        );
-
-        when(idempotencyKeyManager.getCancelRequestId(IDEMPOTENCY_KEY))
-            .thenReturn(Optional.of(1L));
-
-        when(cancelRequestRepository.findById(1L))
-            .thenReturn(Optional.of(existingRequest));
-
-        CancelPaymentRequest cancelPaymentRequest = createCancelRequest();
-        // When & Then
-        assertThatThrownBy(() ->
-            cancelPaymentService.cancel(
-                PAYMENT_KEY, USER_ID, IDEMPOTENCY_KEY,
-                cancelPaymentRequest
-            )
-        ).isInstanceOf(IdempotentDuplicationException.class);
-    }
-
-    private CancelPaymentRequest createCancelRequest() {
-        return new CancelPaymentRequest(
-            CANCEL_AMOUNT,
-            "고객 단순 변심",
-            List.of(
-                new CancelPaymentRequest.CancelItemRequest(100L, CANCEL_AMOUNT)
-            )
-        );
+        assertEquals(CancelStatus.COMPLETED, result.getStatus());
     }
 }

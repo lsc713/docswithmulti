@@ -46,7 +46,8 @@ public enum ErrorCode {
 
     // 503 - 외부 모듈 장애
     MERCHANT_LIMIT_SERVICE_UNAVAILABLE("MERCHANT_LIMIT_SERVICE_UNAVAILABLE", 503, "취소한도 서비스가 일시적으로 이용 불가합니다."),
-    RISK_SERVICE_UNAVAILABLE("RISK_SERVICE_UNAVAILABLE", 503, "위험관리 서비스가 일시적으로 이용 불가합니다.");
+    RISK_SERVICE_UNAVAILABLE("RISK_SERVICE_UNAVAILABLE", 503, "위험관리 서비스가 일시적으로 이용 불가합니다."),
+    PG_SERVICE_UNAVAILABLE("PG_SERVICE_UNAVAILABLE", 503, "PG 서비스가 일시적으로 이용 불가합니다.");
 
     private final String code;
     private final int httpStatus;

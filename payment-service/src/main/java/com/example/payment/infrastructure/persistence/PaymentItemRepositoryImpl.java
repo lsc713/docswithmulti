@@ -2,7 +2,6 @@ package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.application.interfaces.PaymentItemRepository;
 import com.example.payment.domain.entity.PaymentItem;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,24 +17,23 @@ public class PaymentItemRepositoryImpl implements PaymentItemRepository {
     }
 
     @Override
-    public List<PaymentItem> findAllByPaymentId(Long paymentId) {
-        return jpaRepository.findAllByPaymentId(paymentId).stream()
+    public List<PaymentItem> findAllByPaymentIdOrderByIdAsc(long paymentId) {
+        return jpaRepository.findAllByPaymentIdOrderByIdAsc(paymentId).stream()
             .map(PaymentItemJpaEntity::toDomain)
             .collect(Collectors.toList());
     }
 
     @Override
-    public PaymentItem save(PaymentItem item) {
-        PaymentItemJpaEntity entity = PaymentItemJpaEntity.from(item);
-        PaymentItemJpaEntity saved = jpaRepository.save(entity);
-        return saved.toDomain();
+    public List<PaymentItem> findAllByPaymentIdForUpdate(long paymentId) {
+        return jpaRepository.findAllByPaymentIdForUpdate(paymentId).stream()
+            .map(PaymentItemJpaEntity::toDomain)
+            .collect(Collectors.toList());
     }
 
     @Override
     public void saveAll(List<PaymentItem> items) {
-        List<PaymentItemJpaEntity> entities = items.stream()
+        jpaRepository.saveAll(items.stream()
             .map(PaymentItemJpaEntity::from)
-            .collect(Collectors.toList());
-        jpaRepository.saveAll(entities);
+            .collect(Collectors.toList()));
     }
 }

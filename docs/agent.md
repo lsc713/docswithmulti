@@ -15,6 +15,8 @@ Claude Code가 이 프로젝트에서 작업할 때 따르는 행동 규칙이�
 3. 관련 API 스펙 확인 (@docs/api-spec.md)
 4. 관련 DDL 확인 (db/migration/*.sql)
 5. 에러 코드 확인 (@docs/error-catalog.md)
+6. 취소 관련 작업이면 cancel-design.md 확인
+   (TX 경계, 이력 저장 원칙, daily_limit 조회 순서 등)
 ```
 
 문서를 읽지 않고 코드를 작성하지 않는다.
@@ -172,7 +174,12 @@ presentation 테스트:
   동일 가맹점에 동시 요청 시 한 건만 성공해야 함
 
 - 멱등키 중복 (UK 제약)
-  동일 Idempotency-Key 동시 요청 시 하나만 처리해야 함
+  동일 request_hash 동시 요청 시 하나만 처리해야 함
+
+- 동시 취소 시 Payment 상태 재계산 (TX 3 FOR UPDATE)
+  유저 A가 PaymentItem 1 취소 + 가맹점 B가 PaymentItem 2 동시 취소 시
+  Payment 최종 상태가 CANCELLED로 정확히 반영되어야 함
+  (TX 3에서 findAllByPaymentIdForUpdate() 재조회 검증)
 ```
 
 ---
@@ -208,4 +215,13 @@ presentation 테스트:
 - [ ] 중복이 제거됐는가?
 - [ ] null을 반환하거나 받는 곳이 없는가?
 - [ ] domain-rules.md와 충돌하는 로직이 없는가?
+
+[취소 플로우 전용]
+- [ ] 이력(cancel_request_history)이 TX 안에 포함됐는가?
+     (포함됐다면 TX 밖으로 분리 필요)
+- [ ] TX 3에서 PaymentItem을 findAllByPaymentIdForUpdate()로 재조회했는가?
+     (조회 시점 데이터 사용 금지)
+- [ ] daily_limit 조회 순서가 올바른가?
+     (Redis → DB 스냅샷 → merchant-limit HTTP 순서 준수)
+- [ ] FAILED 건 재시도 시 새 INSERT 대신 PENDING UPDATE를 했는가?
 ```

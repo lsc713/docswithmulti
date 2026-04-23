@@ -1,8 +1,8 @@
 package com.example.payment.application.interfaces;
 
 import com.example.payment.domain.entity.CancelRequest;
-
-import java.time.LocalDateTime;
+import com.example.payment.domain.entity.CancelStatus;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,29 +12,10 @@ import java.util.Optional;
  */
 public interface CancelRequestRepository {
 
-    /**
-     * CancelRequest 저장
-     */
+    Optional<CancelRequest> findByPaymentIdAndRequestHash(long paymentId, String requestHash);
+
     CancelRequest save(CancelRequest cancelRequest);
 
-    /**
-     * cancelRequestId로 조회
-     */
-    Optional<CancelRequest> findById(Long id);
-
-    /**
-     * paymentId로 해당 결제의 모든 취소 요청 조회
-     */
-    List<CancelRequest> findAllByPaymentId(Long paymentId);
-
-    /**
-     * paymentId로 COMPLETED 상태인 취소 요청만 조회
-     */
-    List<CancelRequest> findCompletedByPaymentId(Long paymentId);
-
-    /**
-     * 지정된 시간 이전에 PROCESSING 상태로 스택된 취소 요청 조회
-     * (서버 재시작 후 5분 초과 처리 중 건 찾기)
-     */
-    List<CancelRequest> findStuckProcessingRequests(LocalDateTime before);
+    /** 복구 스케줄러용: 특정 상태 + 기준 시각 이전 건 조회 */
+    List<CancelRequest> findByStatusAndCreatedAtBefore(CancelStatus status, Instant before);
 }
