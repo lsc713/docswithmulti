@@ -114,9 +114,10 @@ public class CancelUsageHistory {
     private Long id;
     private String cancelRequestId;   // UK — 이중 차감 방어
     private Long merchantId;
+    private LocalDate kstDate;        // 차감 시점 KST 날짜 (명시적 저장)
     private BigDecimal cancelAmount;
 
-    public static CancelUsageHistory record(String cancelRequestId, long merchantId, BigDecimal cancelAmount) { ... }
+    public static CancelUsageHistory record(String cancelRequestId, long merchantId, LocalDate kstDate, BigDecimal cancelAmount) { ... }
 }
 ```
 
@@ -177,6 +178,7 @@ CREATE TABLE cancel_usage_history (
     id                BIGINT        NOT NULL AUTO_INCREMENT,
     cancel_request_id VARCHAR(64)   NOT NULL,
     merchant_id       BIGINT        NOT NULL,
+    kst_date          DATE          NOT NULL,
     cancel_amount     DECIMAL(19,2) NOT NULL,
     created_at        DATETIME(3)   NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     PRIMARY KEY (id),
@@ -303,7 +305,7 @@ execute(merchantId, cancelRequestId, cancelAmount, kstDate):
 5. domainService.validateAndDeduct(usage, cancelAmount)
    → 한도 초과 시 CancelLimitExceededException
 6. merchantCancelUsageRepository.save(usage)
-7. cancelUsageHistoryRepository.save(CancelUsageHistory.record(...))
+7. cancelUsageHistoryRepository.save(CancelUsageHistory.record(cancelRequestId, merchantId, kstDate, cancelAmount))
 8. Redis 분산락 해제 (finally)
 9. ValidateAndReserveResult 반환
 ```
@@ -317,7 +319,7 @@ execute(cancelRequestId, merchantId, restoreAmount):
    → 있으면: CompensateResult(restored=false, reason=ALREADY_COMPENSATED) 반환
 2. cancel_usage_history에서 cancelRequestId 조회
    → 없으면: CompensateResult(restored=false, reason=NOT_CHARGED) 반환
-3. history에서 merchantId 확인. kstDate는 history.createdAt을 Asia/Seoul로 변환하여 파생.
+3. history에서 merchantId, kstDate 직접 조회.
    merchant_cancel_usage에서 merchantId+kstDate로 조회
 4. domainService.applyCompensation(usage, restoreAmount)
 5. merchantCancelUsageRepository.save(usage)
