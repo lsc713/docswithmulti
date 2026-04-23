@@ -1,7 +1,13 @@
 package com.example.merchantlimit.infrastructure.config;
 
+import com.example.merchantlimit.application.interfaces.LimitEventOutboxRepository;
+import com.example.merchantlimit.application.interfaces.LimitHistoryRepository;
 import com.example.merchantlimit.application.interfaces.MerchantCancelLimitRepository;
 import com.example.merchantlimit.application.interfaces.MerchantRepository;
+import com.example.merchantlimit.infrastructure.persistence.LimitEventOutboxJpaRepository;
+import com.example.merchantlimit.infrastructure.persistence.LimitEventOutboxRepositoryImpl;
+import com.example.merchantlimit.infrastructure.persistence.LimitHistoryJpaRepository;
+import com.example.merchantlimit.infrastructure.persistence.LimitHistoryRepositoryImpl;
 import com.example.merchantlimit.infrastructure.persistence.MerchantCancelLimitJpaRepository;
 import com.example.merchantlimit.infrastructure.persistence.MerchantCancelLimitRepositoryImpl;
 import com.example.merchantlimit.infrastructure.persistence.MerchantJpaRepository;
@@ -33,5 +39,16 @@ public class PersistenceConfig {
     public MerchantCancelLimitRepository merchantCancelLimitRepository(
         MerchantCancelLimitJpaRepository jpa) {
         return new MerchantCancelLimitRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public LimitHistoryRepository limitHistoryRepository(LimitHistoryJpaRepository jpa) {
+        return new LimitHistoryRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public LimitEventOutboxRepository limitEventOutboxRepository(
+        LimitEventOutboxJpaRepository jpa) {
+        return new LimitEventOutboxRepositoryImpl(jpa);
     }
 }
