@@ -1,4 +1,4 @@
-package com.example.riskmanagement.application.exception;
+package com.example.riskmanagement.domain.exception;
 
 import com.example.riskmanagement.common.exception.BusinessException;
 import com.example.riskmanagement.common.exception.ErrorCode;

@@ -1,7 +1,7 @@
 package com.example.riskmanagement.domain.service;
 
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
-import com.example.riskmanagement.application.exception.MerchantCancelLimitExceededException;
+import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ class CancelLimitDomainServiceTest {
     }
 
     @Test
-    @DisplayName("validateAndDeduct — 한도 초과 시 CancelLimitExceededException")
+    @DisplayName("validateAndDeduct — 한도 초과 시 MerchantCancelLimitExceededException")
     void validateAndDeduct_over_limit_throws() {
         MerchantCancelUsage usage = MerchantCancelUsage.reconstruct(
             1L, 1L, TODAY, BigDecimal.valueOf(5_000_000), BigDecimal.valueOf(4_800_000));
