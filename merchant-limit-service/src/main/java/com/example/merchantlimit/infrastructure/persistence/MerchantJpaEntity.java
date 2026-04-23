@@ -40,7 +40,9 @@ public class MerchantJpaEntity {
         e.name = m.getName();
         e.status = m.getStatus().name();
         e.cancelPeriodDays = m.getCancelPeriodDays();
-        e.createdAt = Instant.now();
+        if (m.getId() == null) {
+            e.createdAt = Instant.now();
+        }
         e.updatedAt = Instant.now();
         return e;
     }
