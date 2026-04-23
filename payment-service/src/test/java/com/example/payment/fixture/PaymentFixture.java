@@ -1,6 +1,7 @@
 package com.example.payment.fixture;
 
 import com.example.payment.domain.entity.Payment;
+import com.example.payment.domain.entity.PaymentStatus;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -62,6 +63,27 @@ public class PaymentFixture {
             "KRW",
             90
         );
+    }
+
+    /**
+     * 전액 취소된 결제 (CANCELLED 상태)
+     * - 결제일: 2026-01-01 00:00:00 UTC
+     * - 총액: 100,000원
+     * - 취소 기간: 90일
+     */
+    public static Payment cancelledPayment() {
+        Payment payment = Payment.of(
+            "pay_test_cancelled",
+            1L,
+            1L,
+            "TOSS",
+            BigDecimal.valueOf(100000),
+            "KRW",
+            90,
+            LocalDateTime.of(2026, 1, 1, 0, 0, 0)
+        );
+        payment.updateStatus(PaymentStatus.CANCELLED);
+        return payment;
     }
 
     private PaymentFixture() {

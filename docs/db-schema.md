@@ -62,11 +62,12 @@ V{버전}__{설명}.sql
 
 | 인덱스 | 이유 |
 |--------|------|
-| cancel_request.idempotency_key UK | 멱등성 보장 |
+| cancel_request(payment_id, request_hash) UK | 멱등성 보장 (서버 생성 SHA-256 해시) |
 | cancel_event_outbox(status) | Outbox 스케줄러 PENDING 조회 |
 | compensation_retry(status, next_retry_at) | 재시도 스케줄러 조회 |
 | merchant_cancel_usage(merchant_id, kst_date) UK | 한도 행 유일성 + FOR UPDATE |
 | cancel_request(status, created_at) | 복구 스케줄러 5분 초과 건 조회 |
+| cancel_usage_history(cancel_request_id) UK | risk-service 이중 차감 방어 |
 
 ## Soft delete 정책
 

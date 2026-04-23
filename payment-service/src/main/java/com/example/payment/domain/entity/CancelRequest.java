@@ -71,6 +71,43 @@ public class CancelRequest {
         );
     }
 
+    /**
+     * DB에서 조회한 데이터로 CancelRequest를 재구성한다 (infrastructure 계층용)
+     */
+    public static CancelRequest reconstruct(
+        Long id,
+        Long paymentId,
+        String idempotencyKey,
+        BigDecimal cancelAmount,
+        String cancelReason,
+        CancellerType cancellerType,
+        Long cancelledBy,
+        CancelStatus status,
+        Instant processingStartedAt,
+        Instant completedAt,
+        String failedReason,
+        Instant createdAt,
+        Instant updatedAt
+    ) {
+        CancelRequest request = new CancelRequest(
+            paymentId,
+            idempotencyKey,
+            cancelAmount,
+            cancelReason,
+            cancellerType,
+            cancelledBy
+        );
+        // DB에서 재구성하므로 현재 상태 직접 설정
+        request.id = id;
+        request.status = status;
+        request.processingStartedAt = processingStartedAt;
+        request.completedAt = completedAt;
+        request.failedReason = failedReason;
+        request.createdAt = createdAt;
+        request.updatedAt = updatedAt;
+        return request;
+    }
+
     public void toProcessing() {
         if (status != CancelStatus.PENDING) {
             throw new InvalidCancelStateTransitionException(status, CancelStatus.PROCESSING);

@@ -13,8 +13,11 @@
 | 헤더 | 필수 | 설명 |
 |------|------|------|
 | `Authorization` | 필수 | Bearer {token} |
-| `Idempotency-Key` | 필수 | 클라이언트 생성 UUID. 중복 요청 방어 |
 | `Content-Type` | 필수 | application/json |
+
+> **멱등성 처리**: 클라이언트 Idempotency-Key 헤더를 사용하지 않는다.
+> 서버가 `paymentKey + cancelItemIds 오름차순 정렬`을 SHA-256 해시하여 `request_hash`를 생성한다.
+> 동일 요청은 `cancel_request.request_hash` UK로 방어한다.
 
 ### 공통 에러 응답
 
@@ -51,12 +54,10 @@ POST /v1/payments/{paymentKey}/cancel
 
 ```json
 {
-  "cancelAmount": 300000,
   "cancelReason": "고객 단순 변심",
   "cancelItems": [
     {
-      "paymentItemId": 2,
-      "cancelAmount": 300000
+      "paymentItemId": 2
     }
   ]
 }
@@ -64,11 +65,13 @@ POST /v1/payments/{paymentKey}/cancel
 
 | 필드 | 타입 | 필수 | 설명 |
 |------|------|------|------|
-| `cancelAmount` | Decimal | 필수 | 총 취소 금액. cancelItems 합계와 일치해야 함 |
 | `cancelReason` | String | 선택 | 취소 사유. 최대 255자 |
 | `cancelItems` | Array | 필수 | 취소 항목 목록. 1개 이상 |
 | `cancelItems[].paymentItemId` | Long | 필수 | 취소할 결제 항목 ID |
-| `cancelItems[].cancelAmount` | Decimal | 필수 | 항목별 취소 금액 |
+
+> **아이템 단위 전액 취소**: 항목별 `cancelAmount`를 전달하지 않는다.
+> 취소 금액은 `payment_item.item_amount` 전액이며, 부분취소는 지원하지 않는다.
+> 총 취소 금액(`cancelAmount`)은 서버가 cancelItems의 `item_amount` 합계로 계산한다.
 
 ### Response 200
 
@@ -77,18 +80,15 @@ POST /v1/payments/{paymentKey}/cancel
   "cancelRequestId": "cr_abc123",
   "paymentKey": "pay_xyz",
   "cancelAmount": 300000,
-  "currency": "KRW",
   "status": "COMPLETED",
-  "cancellerType": "USER",
-  "cancelReason": "고객 단순 변심",
   "cancelledItems": [
     {
       "paymentItemId": 2,
-      "cancelAmount": 300000,
+      "itemAmount": 300000,
       "status": "CANCELLED"
     }
   ],
-  "completedAt": "2026-04-13T10:00:00.000Z"
+  "completedAt": "2026-04-18T10:00:00.000Z"
 }
 ```
 
@@ -96,29 +96,23 @@ POST /v1/payments/{paymentKey}/cancel
 |------|------|------|
 | `cancelRequestId` | String | 취소 요청 식별자 |
 | `paymentKey` | String | PG사 결제 키 |
-| `cancelAmount` | Decimal | 취소 금액 |
-| `currency` | String | 통화 코드 (ISO 4217) |
+| `cancelAmount` | Decimal | 총 취소 금액 |
 | `status` | String | 취소 상태 |
-| `cancellerType` | String | 취소 요청자 유형 (USER / MERCHANT / ADMIN) |
-| `cancelReason` | String | 취소 사유 |
 | `cancelledItems` | Array | 취소된 항목 목록 |
 | `cancelledItems[].paymentItemId` | Long | 결제 항목 ID |
-| `cancelledItems[].cancelAmount` | Decimal | 항목별 취소 금액 |
-| `cancelledItems[].status` | String | 항목 상태 (PARTIAL_CANCELLED / CANCELLED) |
+| `cancelledItems[].itemAmount` | Decimal | 항목 결제 금액 (= 취소 금액) |
+| `cancelledItems[].status` | String | 항목 상태 (CANCELLED) |
 | `completedAt` | DateTime | 취소 완료 시각 (UTC ISO-8601) |
 
-### Response 409 (멱등 중복)
+### 멱등성 처리 응답
 
-```json
-{
-  "code": "IDEMPOTENT_DUPLICATION",
-  "message": "이미 처리된 요청입니다.",
-  "detail": {
-    "originalStatus": "COMPLETED",
-    "cancelRequestId": "cr_abc123"
-  }
-}
-```
+request_hash 기준으로 기존 cancel_request가 있을 때 상태별 응답:
+
+| 상태 | 응답 |
+|------|------|
+| `COMPLETED` | 200 — 기존 취소 응답 그대로 반환 |
+| `PENDING` / `PROCESSING` | 200 — 처리 중 응답 반환 (`status: PENDING` or `PROCESSING`) |
+| `FAILED` | 재처리 진행 (FAILED → PENDING으로 UPDATE 후 플로우 재실행) |
 
 ### Response 422 (한도 초과)
 
@@ -134,16 +128,28 @@ POST /v1/payments/{paymentKey}/cancel
 }
 ```
 
-### Response 422 (취소 금액 초과)
+### Response 422 (취소 기간 초과)
 
 ```json
 {
-  "code": "CANCEL_AMOUNT_EXCEEDED",
-  "message": "취소 금액이 잔여 취소 가능액을 초과했습니다.",
+  "code": "CANCEL_PERIOD_EXCEEDED",
+  "message": "취소 가능 기간이 지났습니다.",
+  "detail": {
+    "paymentCreatedAt": "2025-12-01T00:00:00Z",
+    "cancelPeriodDays": 90
+  }
+}
+```
+
+### Response 422 (이미 취소된 항목)
+
+```json
+{
+  "code": "INVALID_PAYMENT_ITEM_STATUS",
+  "message": "이미 취소된 항목입니다.",
   "detail": {
     "paymentItemId": 2,
-    "requestedAmount": 500000,
-    "availableAmount": 300000
+    "currentStatus": "CANCELLED"
   }
 }
 ```
@@ -176,14 +182,11 @@ GET /v1/payments/{paymentKey}/cancel/{cancelRequestId}
   "cancelRequestId": "cr_abc123",
   "paymentKey": "pay_xyz",
   "cancelAmount": 300000,
-  "currency": "KRW",
   "status": "COMPLETED",
-  "cancellerType": "USER",
-  "cancelReason": "고객 단순 변심",
   "cancelledItems": [
     {
       "paymentItemId": 2,
-      "cancelAmount": 300000,
+      "itemAmount": 300000,
       "status": "CANCELLED"
     }
   ],
@@ -239,10 +242,7 @@ GET /v1/payments/{paymentKey}/cancels
     {
       "cancelRequestId": "cr_abc123",
       "cancelAmount": 300000,
-      "currency": "KRW",
       "status": "COMPLETED",
-      "cancellerType": "USER",
-      "cancelReason": "고객 단순 변심",
       "createdAt": "2026-04-13T10:00:00.000Z",
       "completedAt": "2026-04-13T10:00:01.000Z"
     }
@@ -272,13 +272,6 @@ GET /v1/payments/{paymentKey}/cancels
 | 값 | 설명 |
 |----|------|
 | `ACTIVE` | 취소 없음 |
-| `PARTIAL_CANCELLED` | 일부 취소됨 |
-| `CANCELLED` | 전액 취소됨 |
+| `CANCELLED` | 취소됨 (아이템 단위 전액 취소) |
 
-### canceller_type
-
-| 값 | 설명 |
-|----|------|
-| `USER` | 고객 본인 취소 |
-| `MERCHANT` | 가맹점 취소 |
-| `ADMIN` | 운영자 취소 |
+> 부분취소는 지원하지 않는다. 아이템은 ACTIVE → CANCELLED만 전이된다.

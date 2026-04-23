@@ -205,6 +205,17 @@ docker exec -it kafka1 kafka-console-consumer.sh \
   --from-beginning
 ```
 
+## 문서 검색 규칙
+
+파일을 직접 읽기 전에 항상 qmd로 먼저 검색한다.
+
+- query — 하이브리드 검색
+- get — 문서 조회 (경로 또는 ID)
+- multi_get — 배치 조회
+- status — 인덱스 상태
+
+qmd 결과가 충분하지 않을 때만 파일을 직접 읽는다.
+
 ---
 
 ## 패키지 구조
