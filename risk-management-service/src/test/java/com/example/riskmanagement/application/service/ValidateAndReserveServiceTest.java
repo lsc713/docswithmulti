@@ -134,4 +134,14 @@ class ValidateAndReserveServiceTest {
             new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY)))
             .isInstanceOf(MerchantCancelLimitExceededException.class);
     }
+
+    @Test
+    @DisplayName("Redis 락 획득 실패 — ServiceUnavailableException")
+    void execute_throws_when_lock_not_acquired() {
+        when(valueOps.setIfAbsent(anyString(), anyString(), any())).thenReturn(false);
+
+        assertThatThrownBy(() -> sut.execute(
+            new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY)))
+            .isInstanceOf(com.example.riskmanagement.application.exception.ServiceUnavailableException.class);
+    }
 }

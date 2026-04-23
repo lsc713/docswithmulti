@@ -50,7 +50,7 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
                 if (existing.isPresent()) {
                     MerchantCancelUsage usage = usageRepository
                         .findByMerchantIdAndKstDate(cmd.merchantId(), cmd.kstDate())
-                        .orElseThrow();
+                        .orElseThrow(() -> new IllegalStateException("MerchantCancelUsage not found for idempotent request: " + cmd.cancelRequestId()));
                     return toResult(usage);
                 }
 
