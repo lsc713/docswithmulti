@@ -73,6 +73,33 @@ public class PaymentItem extends BaseEntity {
     }
 
     /**
+     * DB에서 조회한 데이터로 PaymentItem을 재구성한다 (infrastructure 계층용)
+     */
+    public static PaymentItem reconstruct(
+        long id,
+        long paymentId,
+        long orderItemId,
+        long productId,
+        long productAutoId,
+        String itemName,
+        BigDecimal itemAmount,
+        BigDecimal cancelledAmount,
+        PaymentItemStatus status
+    ) {
+        return new PaymentItem(
+            id,
+            paymentId,
+            orderItemId,
+            productId,
+            productAutoId,
+            itemName,
+            itemAmount,
+            cancelledAmount,
+            status
+        );
+    }
+
+    /**
      * 취소 가능액을 계산한다
      * = itemAmount - cancelledAmount
      */

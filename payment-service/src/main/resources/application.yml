@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: payment-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: payment
+    password: payment
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        jdbc:
+          batch_size: 20
+          fetch_size: 50
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+  profiles:
+    active: local
+
+logging:
+  level:
+    com.example.payment: INFO
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql.BasicBinder: INFO

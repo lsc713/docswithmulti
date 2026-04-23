@@ -139,6 +139,37 @@ public class Payment {
     }
 
     /**
+     * DB에서 조회한 데이터로 Payment를 재구성한다 (infrastructure 계층용)
+     */
+    public static Payment reconstruct(
+        long id,
+        String paymentKey,
+        long merchantId,
+        long userId,
+        String pgType,
+        BigDecimal totalAmount,
+        String currency,
+        int cancelPeriodDays,
+        PaymentStatus status,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+    ) {
+        return new Payment(
+            id,
+            paymentKey,
+            merchantId,
+            userId,
+            pgType,
+            totalAmount,
+            currency,
+            cancelPeriodDays,
+            status,
+            createdAt,
+            updatedAt
+        );
+    }
+
+    /**
      * 취소 가능한 상태인지 확인
      */
     public boolean canBeCancelled() {
