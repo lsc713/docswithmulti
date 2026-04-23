@@ -427,10 +427,12 @@ cancelAmount 없음:
 { "code": "PAYMENT_NOT_FOUND", "message": "결제 정보를 찾을 수 없습니다" }
 
 응답 422 (비즈니스 오류):
-{ "code": "CANCEL_LIMIT_EXCEEDED", "message": "가맹점 일일 취소 한도를 초과했습니다",
-  "remainingLimit": 200000, "dailyLimit": 5000000 }
-{ "code": "PAYMENT_ITEM_ALREADY_CANCELLED", "message": "이미 취소된 항목입니다" }
-{ "code": "CANCEL_PERIOD_EXPIRED", "message": "취소 가능 기간이 지났습니다. 마감일: 2026-04-21" }
+{ "code": "MERCHANT_CANCEL_LIMIT_EXCEEDED", "message": "가맹점 일일 취소한도를 초과했습니다",
+  "detail": { "remainingLimit": 200000, "dailyLimit": 5000000 } }
+{ "code": "INVALID_PAYMENT_ITEM_STATUS", "message": "이미 취소된 항목입니다",
+  "detail": { "paymentItemId": 2, "currentStatus": "CANCELLED" } }
+{ "code": "CANCEL_PERIOD_EXCEEDED", "message": "취소 가능 기간이 지났습니다",
+  "detail": { "paymentCreatedAt": "2025-12-01T00:00:00Z", "cancelPeriodDays": 90 } }
 ```
 
 ### 4-2. 취소 조회 API (External)
@@ -997,7 +999,7 @@ merchant.limit.updated:
   → 순서 역전으로 인한 오래된 값 적용 방지
 ```
 
-### 5-3. 멱등성 (Exactly-once)
+### 5-5. 멱등성 (Exactly-once)
 
 ```
 At-least-once + Consumer 멱등성 = 결과적 Exactly-once
@@ -1034,7 +1036,7 @@ Consumer: processed_cancel_event UK → 중복 수신 시 no-op
   또는: 이벤트별 별도 테이블 유지
 ```
 
-### 5-4. Outbox Pattern
+### 5-6. Outbox Pattern
 
 **문제:** DB 커밋과 Kafka 발행 사이 서버 다운 시 이벤트 영구 유실
 
@@ -1049,7 +1051,7 @@ Consumer: processed_cancel_event UK → 중복 수신 시 no-op
 | Dual Write | - | 낮음 | 원자성 미보장 → 불가 |
 | Kafka Transactions | 수ms | 매우 높음 | - |
 
-### 5-5. DLQ 처리 흐름
+### 5-7. DLQ 처리 흐름
 
 ```mermaid
 flowchart TD
@@ -1198,7 +1200,7 @@ lockAtMostFor < 실행 주기:
 
 ## 7. 설계 결정 대안 분석
 
-### 6-1. 트랜잭션 경계 분리
+### 7-1. 트랜잭션 경계 분리
 
 **결정: TX 1 / TX 2 / TX 3 으로 분리**
 
@@ -1212,7 +1214,7 @@ lockAtMostFor < 실행 주기:
 - HTTP 호출 구간에도 DB 커넥션 점유 → 커넥션 풀 고갈
 - 단계별 커밋 불가 → 서버 재시작 시 복구 위치 파악 불가
 
-### 6-2. SAGA 패턴 (Choreography)
+### 7-2. SAGA 패턴 (Choreography)
 
 **결정: Choreography 방식**
 
@@ -1221,7 +1223,7 @@ lockAtMostFor < 실행 주기:
 | Choreography | 별도 오케스트레이터 불필요, 단순 | 흐름 추적 분산 | ✓ |
 | Orchestration | 흐름 가시성 좋음 | 오케스트레이터 단일 장애점 | - |
 
-### 6-3. daily_limit 조회 전략
+### 7-3. daily_limit 조회 전략
 
 **현재: DB 스냅샷**
 

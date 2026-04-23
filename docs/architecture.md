@@ -49,11 +49,17 @@ domain과 application은 프레임워크 없이 테스트 가능하게 유지한
 
 | 모듈 | 포트 | 소유 테이블 |
 |------|------|-----------|
-| `payment-service` | 8080 | payment, payment_item, payment_history, cancel_request, cancel_request_item, cancel_event_outbox, idempotency_key, compensation_retry, shedlock |
+| `payment-service` | 8080 | payment, payment_item, cancel_request, cancel_request_history, cancel_event_outbox, compensation_retry |
 | `order-service` | 8081 | order, order_item, processed_cancel_event |
-| `merchant-limit-service` | 8082 | merchant, merchant_cancel_limit, merchant_cancel_limit_history, shedlock |
-| `risk-management-service` | 8083 | merchant_cancel_usage, cancel_usage_compensation, compensation_retry, shedlock |
+| `merchant-limit-service` | 8082 | merchant, merchant_cancel_limit, merchant_cancel_limit_history |
+| `risk-management-service` | 8083 | merchant_cancel_usage, cancel_usage_history, cancel_usage_compensation |
 | `product-service` | 8084 | product, product_version, product_sku, product_sku_attribute, product_attribute_type, product_attribute_value, product_stock, product_image, category |
+
+> - `idempotency_key` 테이블 제거: `cancel_request.request_hash` UK가 중복 차단 담당
+> - `compensation_retry`는 payment-service DB에만 존재 (보상 API 호출 주체가 payment-service)
+> - `cancel_request_history`: 상태 변경 이력 (TX와 별도로 INSERT)
+> - `cancel_usage_history`: risk-service 이중 차감 방어용 차감 이력
+> - `shedlock` 테이블 없음: Redis 분산락으로 대체
 
 모듈 간 DB 직접 접근은 금지한다.
 데이터가 필요하면 HTTP 또는 Kafka를 경유한다.
@@ -98,9 +104,9 @@ payment-service → payment.cancelled → order-service
   ▼
 payment-service
   │
-  ├─ idempotency_key 중복 체크
+  ├─ request_hash 생성 및 멱등성 체크
   ├─ Payment 상태 검증
-  ├─ PaymentItem 금액 검증
+  ├─ PaymentItem 상태 검증 (CANCELLED 여부)
   │
   ▼
 risk-management-service (동기 HTTP)
@@ -187,15 +193,16 @@ FOR UPDATE
 - 동시 요청 폭주 시 재시도 루프가 DB 부하를 증가시킨다.
 - 취소한도 검증은 정확성이 처리량보다 중요하다.
 
-### 멱등키 — UK 제약
+### 멱등성 — request_hash UK 제약
 
 ```sql
-UNIQUE KEY uk_idempotency_idem_key (idem_key)
+UNIQUE KEY uk_cancel_request_hash (payment_id, request_hash)
 ```
 
-동시에 동일 키로 요청이 와도 하나만 INSERT 성공한다.
-실패 건은 DataIntegrityViolationException을 잡아
-기존 결과를 반환한다.
+`request_hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)`
+
+동시에 동일 요청이 와도 TX 1에서 하나만 INSERT 성공한다.
+실패 건은 DataIntegrityViolationException을 잡아 기존 cancel_request를 조회하고 상태별로 처리한다.
 
 ---
 
@@ -205,10 +212,10 @@ UNIQUE KEY uk_idempotency_idem_key (idem_key)
 
 | 레이어 | 보장 수단 |
 |--------|---------|
-| API | Idempotency-Key 헤더 → idempotency_key 테이블 UK |
+| API | 서버 생성 request_hash → cancel_request(payment_id, request_hash) UK |
 | used_amount 보상 | cancelRequestId → cancel_usage_compensation UK |
 | Kafka Consumer | cancelRequestId → processed_cancel_event UK |
-| 보상 재시도 | cancelRequestId → compensation_retry UK |
+| 이중 차감 방어 | cancelRequestId → cancel_usage_history UK |
 
 ---
 
@@ -216,22 +223,26 @@ UNIQUE KEY uk_idempotency_idem_key (idem_key)
 
 | 장애 | 방어 수단 |
 |------|---------|
-| 서버 재시작 (PENDING/PROCESSING 잔존) | 복구 스케줄러 (5분 초과 건 재처리) |
+| 서버 재시작 (PENDING 잔존) | pending-recovery 스케줄러 (5분 초과 PENDING 재처리) |
+| 서버 재시작 (PROCESSING 잔존) | processing-recovery 스케줄러 (PG사 조회 후 TX 3 재실행) |
 | Kafka 발행 실패 | Outbox Pattern |
 | Kafka Consumer 처리 실패 | Retry 토픽 (최대 3회) → DLQ |
 | risk-management-service 장애 | Circuit Breaker → Fail-closed |
 | merchant-limit-service 장애 | Circuit Breaker → Fail-closed |
 | 보상 트랜잭션 실패 | compensation_retry → 지수 백오프 재시도 |
 | 보상 5회 초과 (EXHAUSTED) | 운영팀 알림 → 수동 보정 |
-| 스케줄러 중복 실행 | ShedLock (DB 기반 분산 락) |
+| 스케줄러 중복 실행 | Redis 분산락 (ElastiCache Multi-AZ) |
 
-### ShedLock 대상 스케줄러
+### Redis 분산락 대상 스케줄러
 
-| 스케줄러 | lock name | 실행 주기 |
-|---------|-----------|---------|
-| 취소 복구 | `cancel-recovery` | 60초 |
-| Outbox 발행 | `outbox-publisher` | 10초 |
-| 보상 재시도 | `compensation-retry` | 30초 |
+| 스케줄러 | 서비스 | 실행 주기 | lockAtMostFor |
+|---------|--------|---------|--------------|
+| pending-recovery | payment-service | 60초 | 55초 |
+| processing-recovery | payment-service | 60초 | 55초 |
+| outbox-publisher | payment-service | 10초 | 9초 |
+| compensation-retry | payment-service | 30초 | 25초 |
+
+> ShedLock (DB 기반 분산락) 미사용. Redis 키로 대체하므로 `shedlock` 테이블 없음.
 
 ---
 
