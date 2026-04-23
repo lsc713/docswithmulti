@@ -15,6 +15,7 @@ import java.util.Optional;
 public class RedisDailyLimitCache implements DailyLimitCache {
 
     private final StringRedisTemplate redisTemplate;
+    // 25h: 자정 KST에 한도가 초기화됨. 24h + 1h 버퍼로 키가 당일 중에 만료되지 않도록 보장
     private static final Duration TTL = Duration.ofHours(25);
 
     @Override

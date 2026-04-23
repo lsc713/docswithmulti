@@ -1,5 +1,6 @@
 package com.example.riskmanagement.infrastructure.http;
 
+import com.example.riskmanagement.application.exception.MerchantCancelLimitNotFoundException;
 import com.example.riskmanagement.application.exception.ServiceUnavailableException;
 import com.example.riskmanagement.application.interfaces.MerchantLimitClient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -27,10 +28,13 @@ public class MerchantLimitRestClient implements MerchantLimitClient {
             .retrieve()
             .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {
                 if (res.getStatusCode().value() == 404)
-                    throw new MerchantNotFoundException(merchantId);
+                    throw new MerchantCancelLimitNotFoundException(merchantId);
                 throw new RuntimeException("merchant-limit 4xx: " + res.getStatusCode());
             })
             .body(MerchantLimitResponse.class);
+        if (response == null) {
+            throw ServiceUnavailableException.merchantLimitUnavailable();
+        }
         return response.dailyLimit();
     }
 
