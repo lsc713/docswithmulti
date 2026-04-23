@@ -1,6 +1,7 @@
 package com.example.riskmanagement.infrastructure.config;
 
 import com.example.riskmanagement.application.interfaces.*;
+import com.example.riskmanagement.domain.service.CancelLimitDomainService;
 import com.example.riskmanagement.infrastructure.persistence.*;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,11 @@ public class PersistenceConfig {
     @Bean
     public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
         return new TransactionTemplate(transactionManager);
+    }
+
+    @Bean
+    public CancelLimitDomainService cancelLimitDomainService() {
+        return new CancelLimitDomainService();
     }
 
     @Bean

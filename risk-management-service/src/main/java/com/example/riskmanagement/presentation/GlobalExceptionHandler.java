@@ -16,17 +16,19 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 한도 초과는 추가 필드(dailyLimit, usedAmount, remainingLimit, requestAmount) 포함
+    // 한도 초과 — error-catalog.md 포맷: code + message + detail{requestedAmount, remainingLimit, dailyLimit}
     @ExceptionHandler(MerchantCancelLimitExceededException.class)
     public ResponseEntity<Map<String, Object>> handleLimitExceeded(MerchantCancelLimitExceededException e) {
-        log.warn("한도 초과: dailyLimit={}, usedAmount={}, requestAmount={}",
+        log.warn("한도 초과: dailyLimit={}, usedAmount={}, requestedAmount={}",
             e.getDailyLimit(), e.getUsedAmount(), e.getRequestAmount());
+        Map<String, Object> detail = new LinkedHashMap<>();
+        detail.put("requestedAmount", e.getRequestAmount());
+        detail.put("remainingLimit", e.getDailyLimit().subtract(e.getUsedAmount()));
+        detail.put("dailyLimit", e.getDailyLimit());
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("code", e.getErrorCode().getCode());
-        body.put("dailyLimit", e.getDailyLimit());
-        body.put("usedAmount", e.getUsedAmount());
-        body.put("remainingLimit", e.getDailyLimit().subtract(e.getUsedAmount()));
-        body.put("requestAmount", e.getRequestAmount());
+        body.put("message", e.getMessage());
+        body.put("detail", detail);
         return ResponseEntity.status(422).body(body);
     }
 

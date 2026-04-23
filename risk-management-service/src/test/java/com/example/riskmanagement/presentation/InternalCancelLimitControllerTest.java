@@ -90,8 +90,9 @@ class InternalCancelLimitControllerTest {
                     }"""))
             .andExpect(status().isUnprocessableEntity())
             .andExpect(jsonPath("$.code").value("MERCHANT_CANCEL_LIMIT_EXCEEDED"))
-            .andExpect(jsonPath("$.dailyLimit").value(5000000))
-            .andExpect(jsonPath("$.requestAmount").value(300000));
+            .andExpect(jsonPath("$.detail.dailyLimit").value(5000000))
+            .andExpect(jsonPath("$.detail.requestedAmount").value(300000))
+            .andExpect(jsonPath("$.detail.remainingLimit").value(200000));
     }
 
     @Test

@@ -39,7 +39,7 @@ public class MerchantLimitRestClient implements MerchantLimitClient {
     }
 
     // CB OPEN 또는 5xx / 타임아웃 시 호출됨
-    // ignoreExceptions에 등록된 MerchantNotFoundException은 이 fallback을 거치지 않고 직접 전파됨
+    // ignoreExceptions에 등록된 MerchantCancelLimitNotFoundException은 이 fallback을 거치지 않고 직접 전파됨
     private BigDecimal fetchDailyLimitFallback(long merchantId, LocalDate kstDate, Exception e) {
         log.warn("merchant-limit CircuitBreaker fallback. merchantId={}, cause={}", merchantId, e.getMessage());
         throw ServiceUnavailableException.merchantLimitUnavailable();

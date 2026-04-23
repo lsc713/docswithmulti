@@ -33,6 +33,10 @@ public class CompensateService implements CompensateUseCase {
             return new Result(cmd.cancelRequestId(), false, "NOT_CHARGED");
 
         CancelUsageHistory history = historyOpt.get();
+        if (history.getMerchantId() != cmd.merchantId()) {
+            throw new IllegalArgumentException(
+                "merchantId 불일치: 요청=" + cmd.merchantId() + ", 이력=" + history.getMerchantId());
+        }
         MerchantCancelUsage usage = usageRepository
             .findByMerchantIdAndKstDateForUpdate(history.getMerchantId(), history.getKstDate())
             .orElseThrow(() -> new IllegalStateException("MerchantCancelUsage not found for history: " + history.getCancelRequestId()));

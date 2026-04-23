@@ -9,6 +9,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Slf4j
 @Component
@@ -18,6 +19,7 @@ public class MerchantLimitUpdatedConsumer {
     private final DailyLimitCache dailyLimitCache;
     private final MerchantCancelUsageRepository usageRepository;
     private final ObjectMapper objectMapper;
+    private final TransactionTemplate transactionTemplate;
 
     @KafkaListener(
         topics = "${kafka.topic.merchant-limit-updated}",
@@ -30,12 +32,14 @@ public class MerchantLimitUpdatedConsumer {
             // 1. Redis 갱신 (TTL 25h) — 자연 멱등
             dailyLimitCache.set(payload.merchantId(), payload.kstDate(), payload.newLimit());
 
-            // 2. DB 스냅샷 갱신 (행 있을 때만) — 자연 멱등
-            usageRepository.findByMerchantIdAndKstDate(payload.merchantId(), payload.kstDate())
-                .ifPresent(usage -> {
-                    usage.updateDailyLimit(payload.newLimit());
-                    usageRepository.save(usage);
-                });
+            // 2. DB 스냅샷 갱신 (행 있을 때만) — 자연 멱등, TX 필수
+            transactionTemplate.execute(status ->
+                usageRepository.findByMerchantIdAndKstDate(payload.merchantId(), payload.kstDate())
+                    .map(usage -> {
+                        usage.updateDailyLimit(payload.newLimit());
+                        return usageRepository.save(usage);
+                    })
+                    .orElse(null));
 
             ack.acknowledge();
             log.debug("merchant.limit.updated 처리 완료. merchantId={}, kstDate={}",
