@@ -1,0 +1,54 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: merchant-limit-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/merchant_limit_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: merchant
+    password: merchant
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        enable.idempotence: true
+        max.in.flight.requests.per.connection: 5
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+kafka:
+  topic:
+    merchant-limit-updated: merchant.limit.updated
+
+outbox:
+  scheduler:
+    batch-size: 1000
+    lock-key: lock:merchant-limit:outbox-publisher
+    lock-ttl-seconds: 9
+
+logging:
+  level:
+    com.example.merchantlimit: INFO
