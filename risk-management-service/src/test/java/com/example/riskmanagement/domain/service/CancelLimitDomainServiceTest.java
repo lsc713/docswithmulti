@@ -1,7 +1,7 @@
 package com.example.riskmanagement.domain.service;
 
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
-import com.example.riskmanagement.domain.exception.CancelLimitExceededException;
+import com.example.riskmanagement.application.exception.MerchantCancelLimitExceededException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -30,7 +30,7 @@ class CancelLimitDomainServiceTest {
         MerchantCancelUsage usage = MerchantCancelUsage.reconstruct(
             1L, 1L, TODAY, BigDecimal.valueOf(5_000_000), BigDecimal.valueOf(4_800_000));
         assertThatThrownBy(() -> sut.validateAndDeduct(usage, BigDecimal.valueOf(300_000)))
-            .isInstanceOf(CancelLimitExceededException.class);
+            .isInstanceOf(MerchantCancelLimitExceededException.class);
     }
 
     @Test
