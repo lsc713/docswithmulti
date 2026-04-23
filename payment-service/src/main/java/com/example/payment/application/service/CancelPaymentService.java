@@ -1,195 +1,213 @@
 package com.example.payment.application.service;
 
-import com.example.payment.application.dto.CancelPaymentRequest;
-import com.example.payment.application.dto.CancelPaymentResponse;
-import com.example.payment.application.exception.IdempotentDuplicationException;
+import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.application.exception.PaymentNotFoundException;
-import com.example.payment.application.interfaces.CancelEventOutboxManager;
-import com.example.payment.application.interfaces.CancelRequestRepository;
-import com.example.payment.application.interfaces.IdempotencyKeyManager;
-import com.example.payment.application.interfaces.PaymentItemRepository;
-import com.example.payment.application.interfaces.PaymentRepository;
-import com.example.payment.application.interfaces.RiskManagementService;
+import com.example.payment.application.interfaces.*;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
-import com.example.payment.domain.entity.CancelRequest;
-import com.example.payment.domain.entity.CancelStatus;
-import com.example.payment.domain.entity.CancellerType;
-import com.example.payment.domain.entity.Payment;
-import com.example.payment.domain.entity.PaymentItem;
-import com.example.payment.domain.entity.PaymentStatus;
+import com.example.payment.domain.entity.*;
 import com.example.payment.domain.service.CancelDomainService;
 import com.example.payment.domain.service.CancelItemCommand;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * 취소 유스케이스 구현체
+ * 결제 취소 유스케이스 구현체
  *
- * 책임:
- * 1. Idempotency-Key 중복 체크
- * 2. Payment & PaymentItem 조회
- * 3. CancelDomainService로 비즈니스 연산 위임
- * 4. RiskManagementService 호출 (동기 HTTP)
- * 5. CancelRequest 상태 전이 (PENDING → PROCESSING → COMPLETED)
- * 6. PaymentItem DB 업데이트
- * 7. CancelEventOutbox 생성
- * 8. DB 저장
- *
- * 트랜잭션 경계: 프레젠테이션 계층에서 @Transactional로 관리
- *
- * 의존성: application/interfaces에만 의존
+ * 플로우: TX1(PENDING INSERT) → Risk HTTP → TX2(PROCESSING) → PG HTTP → TX3(COMPLETED + Outbox)
+ * 이력은 각 TX 커밋 후 별도 트랜잭션으로 기록 (실패해도 비즈니스 영향 없음)
  */
+@Slf4j
+@Service
+@RequiredArgsConstructor
 public class CancelPaymentService implements CancelPaymentUseCase {
 
     private final PaymentRepository paymentRepository;
     private final PaymentItemRepository paymentItemRepository;
     private final CancelRequestRepository cancelRequestRepository;
-    private final IdempotencyKeyManager idempotencyKeyManager;
-    private final RiskManagementService riskManagementService;
-    private final CancelEventOutboxManager cancelEventOutboxManager;
+    private final CancelRequestHistoryRepository historyRepository;
+    private final CancelEventOutboxRepository outboxRepository;
+    private final CompensationRetryRepository compensationRetryRepository;
+    private final RiskManagementPort riskManagementPort;
+    private final PgCancelPort pgCancelPort;
     private final CancelDomainService cancelDomainService;
 
-    public CancelPaymentService(
-        PaymentRepository paymentRepository,
-        PaymentItemRepository paymentItemRepository,
-        CancelRequestRepository cancelRequestRepository,
-        IdempotencyKeyManager idempotencyKeyManager,
-        RiskManagementService riskManagementService,
-        CancelEventOutboxManager cancelEventOutboxManager,
-        CancelDomainService cancelDomainService
-    ) {
-        this.paymentRepository = paymentRepository;
-        this.paymentItemRepository = paymentItemRepository;
-        this.cancelRequestRepository = cancelRequestRepository;
-        this.idempotencyKeyManager = idempotencyKeyManager;
-        this.riskManagementService = riskManagementService;
-        this.cancelEventOutboxManager = cancelEventOutboxManager;
-        this.cancelDomainService = cancelDomainService;
-    }
-
     @Override
-    public CancelPaymentResponse cancel(
-        String paymentKey,
-        Long userId,
-        String idempotencyKey,
-        CancelPaymentRequest request
-    ) {
-        // 1단계: 멱등성 체크 (기존 요청 있으면 응답 재사용)
-        var existingCancelRequestId = idempotencyKeyManager.getCancelRequestId(idempotencyKey);
-        if (existingCancelRequestId.isPresent()) {
-            CancelRequest existing = cancelRequestRepository.findById(existingCancelRequestId.get())
-                .orElseThrow(() -> new RuntimeException("멱등키는 있는데 취소 요청이 없음"));
-            throw new IdempotentDuplicationException(
-                String.valueOf(existing.getId()),
-                existing.getStatus()
-            );
+    public CancelRequest cancel(CancelPaymentCommand command) {
+        // Step 1. Payment / PaymentItem 조회
+        Payment payment = paymentRepository.findByPaymentKey(command.paymentKey())
+            .orElseThrow(() -> new PaymentNotFoundException(command.paymentKey()));
+
+        List<PaymentItem> items =
+            paymentItemRepository.findAllByPaymentIdOrderByIdAsc(payment.getId());
+
+        // Step 2. request_hash 생성 및 멱등성 체크
+        String requestHash = RequestHashGenerator.generate(
+            command.paymentKey(), command.cancelPaymentItemIds());
+
+        var existing = cancelRequestRepository.findByPaymentIdAndRequestHash(
+            payment.getId(), requestHash);
+
+        if (existing.isPresent()) {
+            return handleExistingRequest(existing.get(), command, payment, items);
         }
 
-        // 2단계: Payment 조회
-        Payment payment = paymentRepository.findByPaymentKey(paymentKey)
-            .orElseThrow(() -> new PaymentNotFoundException(paymentKey));
+        return executeCancel(payment, items, requestHash, command);
+    }
 
-        // 3단계: PaymentItem 전체 조회
-        List<PaymentItem> allPaymentItems = paymentItemRepository.findAllByPaymentId(payment.getId());
+    /** 기존 cancel_request 상태별 처리 */
+    private CancelRequest handleExistingRequest(
+        CancelRequest cancelRequest, CancelPaymentCommand command,
+        Payment payment, List<PaymentItem> items
+    ) {
+        return switch (cancelRequest.getStatus()) {
+            case COMPLETED, PENDING, PROCESSING -> cancelRequest;
+            case FAILED -> {
+                cancelRequest.raiseToPending();
+                cancelRequestRepository.save(cancelRequest);
+                recordHistory(cancelRequest.getId(), CancelStatus.PENDING, "FAILED 재시도");
+                yield executeCancel(payment, items, cancelRequest.getRequestHash(), command);
+            }
+        };
+    }
 
-        // 4단계: 취소 항목을 도메인 서비스에 전달할 커맨드로 변환
-        List<CancelItemCommand> cancelItemCommands = request.cancelItems().stream()
-            .map(item -> CancelItemCommand.of(item.paymentItemId(), item.cancelAmount()))
-            .collect(Collectors.toList());
+    /** TX1 → Risk → TX2 → PG → TX3 */
+    private CancelRequest executeCancel(
+        Payment payment, List<PaymentItem> items,
+        String requestHash, CancelPaymentCommand command
+    ) {
+        // 사전 검증 (risk 호출 전 차단)
+        payment.validateCancellable();
+        validateTargetItemsActive(items, command.cancelPaymentItemIds());
 
-        // 5단계: 도메인 서비스로 비즈니스 검증 및 처리
-        PaymentStatus newPaymentStatus = cancelDomainService.apply(
-            payment,
-            cancelItemCommands,
-            allPaymentItems
-        );
-
-        // 6단계: CancelRequest 생성 및 상태 전이
+        // TX1: CancelRequest PENDING INSERT
+        BigDecimal cancelAmount = calculateCancelAmount(items, command.cancelPaymentItemIds());
         CancelRequest cancelRequest = CancelRequest.create(
-            payment.getId(),
-            idempotencyKey,
-            request.cancelAmount(),
-            request.cancelReason(),
-            CancellerType.USER,
-            userId
-        );
+            payment.getId(), requestHash, cancelAmount, command.cancelReason());
+        cancelRequest = saveTx1(cancelRequest);
+        recordHistory(cancelRequest.getId(), CancelStatus.PENDING, null);
 
-        // 7단계: 멱등키 기록 (실패하면 IdempotentDuplicationException)
-        // (DB UK 제약으로 동시성 보호)
-        CancelRequest savedCancelRequest = cancelRequestRepository.save(cancelRequest);
+        // Risk 호출
         try {
-            idempotencyKeyManager.recordIdempotencyKey(idempotencyKey, savedCancelRequest.getId());
-        } catch (IdempotentDuplicationException e) {
-            // 동시성으로 인해 다른 스레드가 먼저 기록한 경우
+            LocalDate kstDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
+            riskManagementPort.validateAndReserve(
+                payment.getMerchantId(), cancelRequest.getId(), cancelAmount, kstDate);
+        } catch (Exception e) {
+            tryCompensate(cancelRequest, payment.getMerchantId(), cancelAmount);
+            markFailed(cancelRequest, e.getMessage());
             throw e;
         }
 
-        // 8단계: 한도 검증 및 선차감 (동기 HTTP)
-        riskManagementService.validateAndReserveLimit(
-            payment.getMerchantId(),
-            payment.getId(),
-            request.cancelAmount()
-        );
+        // TX2: PROCESSING UPDATE
+        cancelRequest = saveTx2(cancelRequest);
+        recordHistory(cancelRequest.getId(), CancelStatus.PROCESSING, null);
 
-        // 9단계: CancelRequest 상태 전이 (PENDING → PROCESSING → COMPLETED)
-        cancelRequest.toProcessing();
+        // PG사 취소 API 호출
+        PgCancelResult pgResult = pgCancelPort.cancel(
+            payment.getPaymentKey(), cancelAmount, command.cancelReason());
 
-        // 10단계: PaymentItem 상태 업데이트 (도메인 서비스에서 이미 상태 변경함)
-        paymentItemRepository.saveAll(allPaymentItems);
+        if (pgResult.isFailed()) {
+            compensateAndFail(cancelRequest, payment.getMerchantId(), cancelAmount, "PG 취소 실패");
+            return cancelRequest;
+        }
 
-        // 11단계: Payment 상태 업데이트
-        paymentRepository.save(payment);
+        if (pgResult.isPending()) {
+            log.warn("PG 취소 PENDING 상태. cancelRequestId={}", cancelRequest.getId());
+            return cancelRequest;
+        }
 
-        // 12단계: CancelRequest 완료
-        cancelRequest.toCompleted();
-        CancelRequest completedCancelRequest = cancelRequestRepository.save(cancelRequest);
-
-        // 13단계: Kafka Outbox에 취소 이벤트 기록
-        List<Long> cancelledItemIds = allPaymentItems.stream()
-            .map(PaymentItem::getOrderItemId)
-            .collect(Collectors.toList());
-
-        cancelEventOutboxManager.recordCancelEvent(
-            completedCancelRequest.getId(),
-            paymentKey,
-            request.cancelAmount(),
-            cancelledItemIds
-        );
-
-        // 14단계: 응답 생성
-        return buildResponse(completedCancelRequest, payment, allPaymentItems, request.cancelReason());
+        // TX3: PaymentItem + Payment + COMPLETED + Outbox
+        return saveTx3(cancelRequest, payment, command.cancelPaymentItemIds());
     }
 
-    /**
-     * CancelPaymentResponse 생성
-     */
-    private CancelPaymentResponse buildResponse(
-        CancelRequest cancelRequest,
-        Payment payment,
-        List<PaymentItem> paymentItems,
-        String cancelReason
-    ) {
-        List<CancelPaymentResponse.CancelledItem> cancelledItems = paymentItems.stream()
-            .map(item -> new CancelPaymentResponse.CancelledItem(
-                item.getOrderItemId(),
-                item.getCancelledAmount(),
-                item.getStatus().toString()
-            ))
-            .collect(Collectors.toList());
+    @Transactional
+    protected CancelRequest saveTx1(CancelRequest cancelRequest) {
+        return cancelRequestRepository.save(cancelRequest);
+    }
 
-        return new CancelPaymentResponse(
-            String.valueOf(cancelRequest.getId()),
-            payment.getPaymentKey(),
-            cancelRequest.getCancelAmount(),
-            payment.getCurrency(),
-            cancelRequest.getStatus().toString(),
-            cancelRequest.getCancellerType().toString(),
-            cancelRequest.getCancelReason(),
-            cancelledItems,
-            cancelRequest.getCompletedAt()
-        );
+    @Transactional
+    protected CancelRequest saveTx2(CancelRequest cancelRequest) {
+        cancelRequest.toProcessing();
+        return cancelRequestRepository.save(cancelRequest);
+    }
+
+    @Transactional
+    protected CancelRequest saveTx3(
+        CancelRequest cancelRequest, Payment payment, List<Long> targetItemIds
+    ) {
+        // TX3: 최신 PaymentItem 재조회 (FOR UPDATE)
+        List<PaymentItem> freshItems =
+            paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId());
+
+        List<CancelItemCommand> commands = targetItemIds.stream()
+            .map(CancelItemCommand::of)
+            .toList();
+
+        cancelDomainService.apply(payment, commands, freshItems);
+        paymentItemRepository.saveAll(freshItems);
+
+        cancelRequest.toCompleted();
+        cancelRequest = cancelRequestRepository.save(cancelRequest);
+
+        outboxRepository.insertIfAbsent(cancelRequest, payment,
+            freshItems.stream()
+                .filter(i -> i.getStatus() == PaymentItemStatus.CANCELLED
+                    && targetItemIds.contains(i.getId()))
+                .toList());
+
+        return cancelRequest;
+    }
+
+    private void tryCompensate(CancelRequest cancelRequest, long merchantId, BigDecimal amount) {
+        try {
+            riskManagementPort.compensate(cancelRequest.getId(), merchantId, amount);
+        } catch (Exception ex) {
+            log.error("보상 트랜잭션 실패. cancelRequestId={}", cancelRequest.getId(), ex);
+            compensationRetryRepository.save(cancelRequest.getId(), merchantId, amount);
+        }
+    }
+
+    private void compensateAndFail(
+        CancelRequest cancelRequest, long merchantId, BigDecimal amount, String reason
+    ) {
+        tryCompensate(cancelRequest, merchantId, amount);
+        markFailed(cancelRequest, reason);
+    }
+
+    private void markFailed(CancelRequest cancelRequest, String reason) {
+        cancelRequest.toFailed(reason);
+        cancelRequestRepository.save(cancelRequest);
+        recordHistory(cancelRequest.getId(), CancelStatus.FAILED, reason);
+    }
+
+    private void recordHistory(Long cancelRequestId, CancelStatus status, String reason) {
+        try {
+            historyRepository.record(cancelRequestId, status, reason);
+        } catch (Exception e) {
+            log.warn("이력 기록 실패 (비즈니스 영향 없음). cancelRequestId={}", cancelRequestId, e);
+        }
+    }
+
+    private void validateTargetItemsActive(List<PaymentItem> items, List<Long> targetIds) {
+        items.stream()
+            .filter(i -> targetIds.contains(i.getId()))
+            .filter(i -> !i.isCancellable())
+            .findFirst()
+            .ifPresent(i -> {
+                throw new com.example.payment.domain.exception.InvalidPaymentItemStatusException(
+                    i.getId(), i.getStatus());
+            });
+    }
+
+    private BigDecimal calculateCancelAmount(List<PaymentItem> items, List<Long> targetIds) {
+        return items.stream()
+            .filter(i -> targetIds.contains(i.getId()))
+            .map(PaymentItem::getItemAmount)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }

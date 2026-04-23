@@ -27,6 +27,15 @@ spring:
   profiles:
     active: local
 
+server:
+  port: 8080
+
+external:
+  risk-management:
+    url: http://risk-management-service:8083
+  pg:
+    url: http://pg-gateway:443
+
 logging:
   level:
     com.example.payment: INFO

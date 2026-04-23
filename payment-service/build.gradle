@@ -1,2 +1,7 @@
 // payment-service build configuration
 // 부모 build.gradle의 subprojects 설정을 상속받음
+
+dependencies {
+    // Circuit Breaker
+    implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.2.0'
+}

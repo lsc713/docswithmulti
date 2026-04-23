@@ -19,48 +19,12 @@ class PaymentItemStatusPolicyTest {
     @DisplayName("ACTIVE 상태일 때")
     class WhenActive {
 
-        private PaymentItem item;
-
-        void setUp() {
-            item = PaymentItem.of(
-                1L, 100L, 10L, 1000L,
-                "상품명", ITEM_AMOUNT
-            );
-        }
-
         @Test
         @DisplayName("취소 가능 상태이므로 검증 통과")
         void should_validate_when_status_is_active() {
-            setUp();
+            PaymentItem item = PaymentItem.of(1L, 100L, 10L, 1000L, "상품명", ITEM_AMOUNT);
 
-            assertDoesNotThrow(
-                () -> PaymentItemStatusPolicy.validateCancellableStatus(item)
-            );
-        }
-    }
-
-    @Nested
-    @DisplayName("PARTIAL_CANCELLED 상태일 때")
-    class WhenPartialCancelled {
-
-        private PaymentItem item;
-
-        void setUp() {
-            item = PaymentItem.of(
-                1L, 100L, 10L, 1000L,
-                "상품명", ITEM_AMOUNT
-            );
-            item.cancelPartially(BigDecimal.valueOf(5000));
-        }
-
-        @Test
-        @DisplayName("취소 가능 상태이므로 검증 통과")
-        void should_validate_when_status_is_partial_cancelled() {
-            setUp();
-
-            assertDoesNotThrow(
-                () -> PaymentItemStatusPolicy.validateCancellableStatus(item)
-            );
+            assertDoesNotThrow(() -> PaymentItemStatusPolicy.validateCancellableStatus(item));
         }
     }
 
@@ -68,26 +32,16 @@ class PaymentItemStatusPolicyTest {
     @DisplayName("CANCELLED 상태일 때")
     class WhenCancelled {
 
-        private PaymentItem item;
-
-        void setUp() {
-            item = PaymentItem.of(
-                1L, 100L, 10L, 1000L,
-                "상품명", ITEM_AMOUNT
-            );
-            item.cancelPartially(ITEM_AMOUNT);
-        }
-
         @Test
         @DisplayName("취소 불가능 상태이므로 InvalidPaymentItemStatusException 발생")
         void should_reject_when_status_is_cancelled() {
-            setUp();
+            PaymentItem item = PaymentItem.of(1L, 100L, 10L, 1000L, "상품명", ITEM_AMOUNT);
+            item.cancel();
 
             InvalidPaymentItemStatusException exception = assertThrows(
                 InvalidPaymentItemStatusException.class,
                 () -> PaymentItemStatusPolicy.validateCancellableStatus(item)
             );
-            assertEquals(100L, exception.getPaymentItemId());
             assertEquals(PaymentItemStatus.CANCELLED, exception.getCurrentStatus());
         }
     }
