@@ -120,11 +120,12 @@ Exactly-once:
 
 ### 토픽 목록
 
-| 토픽 | 파티션 수 | Replication Factor | Retention | 용도 |
-|------|---------|-------------------|-----------|------|
-| `payment.cancelled` | 10 | 3 | 7일 | 취소 완료 이벤트 |
-| `payment.cancelled.retry` | 10 | 3 | 7일 | Consumer 실패 재시도 |
-| `payment.cancelled.DLQ` | 3 | 3 | 30일 | 3회 초과 실패 격리 |
+| 토픽 | 파티션 수 | Replication Factor | Retention | 파티션 키 | 용도 |
+|------|---------|-------------------|-----------|---------|------|
+| `payment.cancelled` | 10 | 3 | 7일 | paymentKey | 취소 완료 이벤트 |
+| `payment.cancelled.retry` | 10 | 3 | 7일 | paymentKey | Consumer 실패 재시도 |
+| `payment.cancelled.DLQ` | 3 | 3 | 30일 | - | 3회 초과 실패 격리 |
+| `merchant.limit.updated` | 3 | 3 | 7일 | merchantId | 가맹점 일일 한도 변경 이벤트 |
 
 ### 파티션 수 결정 근거
 
@@ -177,33 +178,54 @@ Value: String (JSON 직렬화)
 
 ```json
 {
-  "eventId": "550e8400-e29b-41d4-a716-446655440000",
-  "eventType": "PAYMENT_CANCELLED",
-  "paymentKey": "pay_xyz",
   "cancelRequestId": "cr_abc123",
-  "merchantId": 123,
-  "userId": 456,
-  "cancelAmount": 300000,
-  "currency": "KRW",
-  "cancellerType": "USER",
+  "paymentKey": "pay_xyz",
+  "merchantId": 1,
   "cancelledItems": [
     {
-      "paymentItemId": 2,
-      "orderItemId": 5,
-      "cancelAmount": 300000
+      "paymentItemId": 1,
+      "orderItemId": 10,
+      "itemAmount": 300000
     }
   ],
-  "occurredAt": "2026-04-13T10:00:00.000Z"
+  "cancelledAt": "2026-04-21T10:00:00.000Z"
 }
 ```
 
 | 필드 | 설명 |
 |------|------|
-| `eventId` | 이벤트 고유 ID (UUID). 중복 발행 방어용 |
-| `eventType` | 이벤트 유형 |
-| `paymentKey` | PG사 결제 키 |
-| `cancelRequestId` | Consumer 멱등키로 사용 |
-| `occurredAt` | 이벤트 발생 시각 (UTC) |
+| `cancelRequestId` | Consumer 멱등키로 사용 (processed_cancel_event UK) |
+| `paymentKey` | 어떤 결제건인지 |
+| `merchantId` | 가맹점 구분 |
+| `cancelledItems[].paymentItemId` | payment-service 기준 아이템 식별자 |
+| `cancelledItems[].orderItemId` | order-service가 자기 DB에서 OrderItem 찾기 위해 필요 |
+| `cancelledItems[].itemAmount` | 취소된 금액 |
+| `cancelledAt` | 취소 완료 시각 (UTC) |
+
+> **풍부한 페이로드 원칙**: Consumer가 API 조회 없이 처리 가능하도록 필요한 정보를 페이로드에 포함한다.
+> 대용량 데이터(수십KB, 이미지)는 포함 금지. 대신 S3 링크 또는 최소 식별자만 포함.
+
+### merchant.limit.updated 이벤트
+
+```json
+{
+  "merchantId": 1,
+  "newLimit": 3000000,
+  "kstDate": "2026-04-21"
+}
+```
+
+| 필드 | 설명 |
+|------|------|
+| `merchantId` | 가맹점 ID (파티션 키) |
+| `newLimit` | 변경된 일일 한도 |
+| `kstDate` | 적용 날짜 (KST) |
+
+Consumer (risk-management-service):
+- Redis `daily_limit:merchantId:kstDate` 갱신
+- `merchant_cancel_usage` 당일 행이 있으면 `daily_limit = newLimit` UPDATE
+
+재처리 멱등성: `SET daily_limit = newLimit`은 몇 번 실행해도 동일한 결과 (자연 멱등)
 
 ### 스키마 버전 관리 원칙
 

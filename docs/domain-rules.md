@@ -25,10 +25,12 @@
 
 | 허용 상태 | 설명 |
 |----------|------|
-| ACTIVE | 취소된 금액 없음 |
-| PARTIAL_CANCELLED | 일부 취소됨, 잔액 추가 취소 가능 |
+| ACTIVE | 취소되지 않음 |
 
 CANCELLED 상태인 PaymentItem을 포함한 요청은 전액 거부한다.
+
+> **아이템 단위 전액 취소만 가능**: 항목별 부분취소는 지원하지 않는다.
+> PARTIAL_CANCELLED 상태는 존재하지 않는다.
 
 ### 1-3. 취소 가능 기간
 Payment.created_at 기준으로 payment.cancel_period_days 이내에만 취소 가능하다.
@@ -54,18 +56,20 @@ CONFIRMED 이후는 취소/반품 모두 불가.
 ### 2-1. 검증 순서
 
 ```
-1. 요청 총액 일치 검증
-   sum(cancelItems.cancelAmount) == request.cancelAmount
-   → 불일치 시 400
+1. cancelItems 비어있으면 400 거부
 
-2. 항목별 취소 가능액 검증
-   PaymentItem.amount - PaymentItem.cancelled_amount >= cancelItem.cancelAmount
-   → 초과 시 422
+2. cancelItems에 동일한 paymentItemId 중복이면 400 거부
 
-3. 가맹점 취소한도 검증
-   잔여 취소 가능액 >= request.cancelAmount
+3. 대상 PaymentItem 상태 검증
+   CANCELLED 상태인 PaymentItem 포함 시 422 거부
+
+4. 가맹점 취소한도 검증
+   잔여 한도 >= 요청 취소 총액
    → 초과 시 422
 ```
+
+> **부분취소 미지원**: 항목별 cancelAmount를 검증하지 않는다.
+> 취소 금액은 대상 PaymentItem의 item_amount 전액이다.
 
 ### 2-2. 잔여 취소 가능액 계산
 
@@ -80,8 +84,7 @@ FAILED 건을 제외하는 이유:
   잔여 가능액에서 차감하면 안 된다.
 ```
 
-### 2-3. 부분취소 금액 조건
-- cancelAmount는 1원 이상이어야 한다.
+### 2-3. 취소 항목 조건
 - cancelItems가 비어있으면 400 거부한다.
 - cancelItems에 동일한 paymentItemId가 중복되면 400 거부한다.
 
@@ -157,7 +160,7 @@ PARTIAL_CANCELLED
 ```
 
 전이 조건:
-취소 후 PaymentItem 전체 cancelled_amount 합계
+취소 후 CANCELLED 상태인 PaymentItem.item_amount 합계
 = Payment.total_amount 이면 → CANCELLED
 미만이면 → PARTIAL_CANCELLED
 
@@ -165,12 +168,10 @@ PARTIAL_CANCELLED
 
 ```
 ACTIVE
-  ├─ 부분취소 → PARTIAL_CANCELLED
-  └─ 전액취소 → CANCELLED
-
-PARTIAL_CANCELLED
-  └─ 잔액 전체 취소 → CANCELLED
+  └─ 취소 → CANCELLED
 ```
+
+> 아이템 단위 전액 취소만 가능하므로 PARTIAL_CANCELLED 상태는 존재하지 않는다.
 
 ### 4-3. CancelRequest 상태 전이
 
@@ -212,8 +213,14 @@ payment_type별 상태 흐름:
 ## 5. 멱등성 규칙
 
 ### 5-1. API 레이어
-Idempotency-Key 유효 기간: 24시간
-24시간 경과 후 동일 키 사용 시 신규 요청으로 처리한다.
+서버가 `paymentKey + cancelItemIds 오름차순 정렬`을 SHA-256 해시하여 `request_hash`를 생성한다.
+`cancel_request(payment_id, request_hash)` UNIQUE KEY로 중복 요청을 방어한다.
+클라이언트 Idempotency-Key 헤더를 사용하지 않는다.
+
+기존 cancel_request 상태별 처리:
+- `COMPLETED` → 200 기존 응답 반환
+- `PENDING` / `PROCESSING` → 200 처리 중 응답 반환
+- `FAILED` → PENDING으로 UPDATE 후 재처리 진행
 
 ### 5-2. Kafka Consumer 레이어
 cancelRequestId 기준으로 processed_cancel_event 테이블에서 중복 방어한다.
