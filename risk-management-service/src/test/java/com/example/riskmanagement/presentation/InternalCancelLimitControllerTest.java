@@ -140,4 +140,22 @@ class InternalCancelLimitControllerTest {
             .andExpect(status().isServiceUnavailable())
             .andExpect(jsonPath("$.code").value("RISK_SERVICE_UNAVAILABLE"));
     }
+
+    @Test
+    @DisplayName("compensate 성공 — 200")
+    void compensate_returns_200() throws Exception {
+        when(compensateUseCase.execute(any())).thenReturn(
+            new CompensateUseCase.Result("cr_001", true, null));
+
+        mockMvc.perform(post("/internal/cancel-limit/compensate")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "cancelRequestId": "cr_001",
+                      "merchantId": 1,
+                      "restoreAmount": 300000
+                    }"""))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.restored").value(true));
+    }
 }

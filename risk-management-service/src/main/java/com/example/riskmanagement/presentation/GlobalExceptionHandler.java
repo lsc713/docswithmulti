@@ -19,6 +19,8 @@ public class GlobalExceptionHandler {
     // 한도 초과는 추가 필드(dailyLimit, usedAmount, remainingLimit, requestAmount) 포함
     @ExceptionHandler(MerchantCancelLimitExceededException.class)
     public ResponseEntity<Map<String, Object>> handleLimitExceeded(MerchantCancelLimitExceededException e) {
+        log.warn("한도 초과: dailyLimit={}, usedAmount={}, requestAmount={}",
+            e.getDailyLimit(), e.getUsedAmount(), e.getRequestAmount());
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("code", e.getErrorCode().getCode());
         body.put("dailyLimit", e.getDailyLimit());
