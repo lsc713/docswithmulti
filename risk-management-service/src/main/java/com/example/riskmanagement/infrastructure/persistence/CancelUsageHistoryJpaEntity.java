@@ -29,7 +29,7 @@ public class CancelUsageHistoryJpaEntity {
     @Column(name = "cancel_amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal cancelAmount;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
     protected CancelUsageHistoryJpaEntity() {}

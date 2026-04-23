@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface MerchantCancelUsageRepository {
     MerchantCancelUsage save(MerchantCancelUsage usage);
     Optional<MerchantCancelUsage> findByMerchantIdAndKstDate(long merchantId, LocalDate kstDate);
+    Optional<MerchantCancelUsage> findByMerchantIdAndKstDateForUpdate(long merchantId, LocalDate kstDate);
 }

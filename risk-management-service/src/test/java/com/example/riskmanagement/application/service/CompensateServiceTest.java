@@ -71,7 +71,7 @@ class CompensateServiceTest {
             1L, 1L, TODAY, BigDecimal.valueOf(5_000_000), BigDecimal.valueOf(300_000));
         when(compensationRepository.existsByCancelRequestId("cr_001")).thenReturn(false);
         when(historyRepository.findByCancelRequestId("cr_001")).thenReturn(Optional.of(history));
-        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.of(usage));
+        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.of(usage));
         when(usageRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         CompensateUseCase.Result result = sut.execute(

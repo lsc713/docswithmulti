@@ -63,7 +63,7 @@ class ValidateAndReserveServiceTest {
     @DisplayName("Redis hit — DB/HTTP 미호출, 차감 성공")
     void execute_redis_hit_skips_db_and_http() {
         when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.of(DAILY_LIMIT));
-        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.empty());
+        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.empty());
         when(usageRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
 
@@ -82,7 +82,7 @@ class ValidateAndReserveServiceTest {
         MerchantCancelUsage existing = MerchantCancelUsage.reconstruct(
             1L, 1L, TODAY, DAILY_LIMIT, BigDecimal.ZERO);
         when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.empty());
-        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.of(existing));
+        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.of(existing));
         when(usageRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
 
@@ -95,7 +95,7 @@ class ValidateAndReserveServiceTest {
     @DisplayName("Redis miss, DB miss → HTTP 호출")
     void execute_calls_http_when_no_cache_and_no_snapshot() {
         when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.empty());
-        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.empty());
+        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.empty());
         when(merchantLimitClient.fetchDailyLimit(1L, TODAY)).thenReturn(DAILY_LIMIT);
         when(usageRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
@@ -112,7 +112,7 @@ class ValidateAndReserveServiceTest {
         MerchantCancelUsage usage = MerchantCancelUsage.reconstruct(
             1L, 1L, TODAY, DAILY_LIMIT, CANCEL_AMOUNT);
         when(historyRepository.findByCancelRequestId("cr_001")).thenReturn(Optional.of(existing));
-        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.of(usage));
+        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.of(usage));
 
         ValidateAndReserveUseCase.Result result = sut.execute(
             new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY));
@@ -128,7 +128,7 @@ class ValidateAndReserveServiceTest {
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
         MerchantCancelUsage full = MerchantCancelUsage.reconstruct(
             1L, 1L, TODAY, DAILY_LIMIT, BigDecimal.valueOf(4_800_000));
-        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.of(full));
+        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.of(full));
 
         assertThatThrownBy(() -> sut.execute(
             new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY)))

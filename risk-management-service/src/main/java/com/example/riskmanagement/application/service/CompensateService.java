@@ -34,7 +34,7 @@ public class CompensateService implements CompensateUseCase {
 
         CancelUsageHistory history = historyOpt.get();
         MerchantCancelUsage usage = usageRepository
-            .findByMerchantIdAndKstDate(history.getMerchantId(), history.getKstDate())
+            .findByMerchantIdAndKstDateForUpdate(history.getMerchantId(), history.getKstDate())
             .orElseThrow(() -> new IllegalStateException("MerchantCancelUsage not found for history: " + history.getCancelRequestId()));
 
         domainService.applyCompensation(usage, cmd.restoreAmount());

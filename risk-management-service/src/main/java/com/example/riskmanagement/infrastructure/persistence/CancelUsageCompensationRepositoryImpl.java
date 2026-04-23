@@ -11,8 +11,7 @@ public class CancelUsageCompensationRepositoryImpl implements CancelUsageCompens
 
     @Override
     public CancelUsageCompensation save(CancelUsageCompensation compensation) {
-        jpa.save(CancelUsageCompensationJpaEntity.from(compensation));
-        return compensation;
+        return jpa.save(CancelUsageCompensationJpaEntity.from(compensation)).toDomain();
     }
 
     @Override

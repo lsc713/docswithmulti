@@ -49,14 +49,14 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
                     historyRepository.findByCancelRequestId(cmd.cancelRequestId());
                 if (existing.isPresent()) {
                     MerchantCancelUsage usage = usageRepository
-                        .findByMerchantIdAndKstDate(cmd.merchantId(), cmd.kstDate())
+                        .findByMerchantIdAndKstDateForUpdate(cmd.merchantId(), cmd.kstDate())
                         .orElseThrow(() -> new IllegalStateException("MerchantCancelUsage not found for idempotent request: " + cmd.cancelRequestId()));
                     return toResult(usage);
                 }
 
                 // 1회 조회로 DB 스냅샷과 upsert를 함께 처리
                 Optional<MerchantCancelUsage> usageOpt =
-                    usageRepository.findByMerchantIdAndKstDate(cmd.merchantId(), cmd.kstDate());
+                    usageRepository.findByMerchantIdAndKstDateForUpdate(cmd.merchantId(), cmd.kstDate());
 
                 BigDecimal dailyLimit = resolveDailyLimit(cmd.merchantId(), cmd.kstDate(), usageOpt);
 

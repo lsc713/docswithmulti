@@ -25,7 +25,7 @@ public class CancelUsageCompensationJpaEntity {
     @Column(name = "restore_amount", nullable = false, precision = 19, scale = 2)
     private BigDecimal restoreAmount;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
     protected CancelUsageCompensationJpaEntity() {}
@@ -37,5 +37,9 @@ public class CancelUsageCompensationJpaEntity {
         e.restoreAmount = compensation.getRestoreAmount();
         e.createdAt = Instant.now();
         return e;
+    }
+
+    public CancelUsageCompensation toDomain() {
+        return CancelUsageCompensation.reconstruct(id, cancelRequestId, merchantId, restoreAmount);
     }
 }
