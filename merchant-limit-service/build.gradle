@@ -1,1 +1,10 @@
 // merchant-limit-service build configuration
+// 부모 build.gradle의 subprojects 설정을 상속받음
+
+dependencies {
+    // Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // Redis (분산락)
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+}
