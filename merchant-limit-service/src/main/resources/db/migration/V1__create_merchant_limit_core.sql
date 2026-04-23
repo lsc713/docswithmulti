@@ -46,6 +46,5 @@ CREATE TABLE limit_event_outbox
     published_at DATETIME(3) NULL,
 
     PRIMARY KEY (id),
-    INDEX idx_limit_outbox_status (status),
     INDEX idx_limit_outbox_status_created_at (status, created_at)
 );
