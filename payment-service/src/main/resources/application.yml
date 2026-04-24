@@ -3,7 +3,7 @@ spring:
     name: payment-service
 
   datasource:
-    url: jdbc:mysql://localhost:3306/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3311/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
     username: payment
     password: payment
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -15,7 +15,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         jdbc:
           batch_size: 20
           fetch_size: 50

@@ -2,7 +2,7 @@ package com.example.riskmanagement.infrastructure.messaging;
 
 import com.example.riskmanagement.application.interfaces.DailyLimitCache;
 import com.example.riskmanagement.application.interfaces.MerchantCancelUsageRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

@@ -5,9 +5,9 @@ spring:
   application:
     name: order-service
   datasource:
-    url: jdbc:mysql://localhost:3306/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
+    url: jdbc:mysql://localhost:3307/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: order_user
+    password: order
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

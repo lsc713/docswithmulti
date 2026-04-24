@@ -1,7 +1,7 @@
 package com.example.order.infrastructure.config;
 
 import com.example.order.infrastructure.messaging.RetryRouter;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

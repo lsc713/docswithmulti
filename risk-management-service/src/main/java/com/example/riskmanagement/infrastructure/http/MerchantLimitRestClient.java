@@ -4,8 +4,8 @@ import com.example.riskmanagement.application.exception.MerchantCancelLimitNotFo
 import com.example.riskmanagement.application.exception.ServiceUnavailableException;
 import com.example.riskmanagement.application.interfaces.MerchantLimitClient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -15,10 +15,13 @@ import java.time.LocalDate;
 
 @Slf4j
 @Component
-@RequiredArgsConstructor
 public class MerchantLimitRestClient implements MerchantLimitClient {
 
     private final RestClient merchantLimitRestClient;
+
+    public MerchantLimitRestClient(@Qualifier("merchantLimitHttpClient") RestClient merchantLimitRestClient) {
+        this.merchantLimitRestClient = merchantLimitRestClient;
+    }
 
     @CircuitBreaker(name = "merchant-limit", fallbackMethod = "fetchDailyLimitFallback")
     @Override
