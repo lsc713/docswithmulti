@@ -1,1 +1,14 @@
 // risk-management-service build configuration
+// 부모 build.gradle의 subprojects 설정을 상속받음
+
+dependencies {
+    // Kafka Consumer
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // Redis (분산락 + 캐시)
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    // Resilience4j CircuitBreaker
+    implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.2.0'
+    implementation 'org.springframework.boot:spring-boot-starter-aspectj'
+}

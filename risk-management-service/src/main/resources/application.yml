@@ -1,0 +1,63 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: risk-management-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/risk_management_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: risk
+    password: risk
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: risk-management-service
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+external:
+  merchant-limit:
+    base-url: http://localhost:8082
+
+kafka:
+  topic:
+    merchant-limit-updated: merchant.limit.updated
+
+risk:
+  lock:
+    ttl-seconds: 5
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      merchant-limit:
+        failureRateThreshold: 50
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+        ignore-exceptions:
+          - com.example.riskmanagement.application.exception.MerchantCancelLimitNotFoundException
+
+logging:
+  level:
+    com.example.riskmanagement: INFO
