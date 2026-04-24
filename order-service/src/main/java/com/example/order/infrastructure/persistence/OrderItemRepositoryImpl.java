@@ -32,6 +32,9 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
         Map<Long, OrderItemStatus> statusMap = items.stream()
             .collect(Collectors.toMap(OrderItem::getId, OrderItem::getStatus));
         List<OrderItemJpaEntity> entities = jpa.findAllById(statusMap.keySet());
+        if (entities.size() != statusMap.size()) {
+            throw new IllegalStateException("Some OrderItemJpaEntities not found during saveAll");
+        }
         entities.forEach(e -> e.updateStatus(statusMap.get(e.getId())));
         jpa.saveAll(entities);
     }

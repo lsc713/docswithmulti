@@ -17,7 +17,9 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public void save(Order order) {
-        jpa.findById(order.getId())
-            .ifPresent(e -> e.updateStatus(order.getStatus()));
+        OrderJpaEntity entity = jpa.findById(order.getId())
+            .orElseThrow(() -> new IllegalStateException(
+                "OrderJpaEntity not found for id=" + order.getId()));
+        entity.updateStatus(order.getStatus());
     }
 }
