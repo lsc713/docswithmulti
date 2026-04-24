@@ -122,7 +122,9 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         }
 
         // TX3: PaymentItem + Payment + COMPLETED + Outbox
-        return cancelTxWriter.saveTx3(cancelRequest, payment, command.cancelPaymentItemIds());
+        CancelRequest savedTx3 = cancelTxWriter.saveTx3(cancelRequest, payment, command.cancelPaymentItemIds());
+        recordHistory(savedTx3.getId(), CancelStatus.COMPLETED, null);
+        return savedTx3;
     }
 
     private void tryCompensate(CancelRequest cancelRequest, long merchantId, BigDecimal amount) {

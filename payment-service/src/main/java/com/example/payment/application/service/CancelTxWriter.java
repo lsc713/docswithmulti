@@ -3,6 +3,7 @@ package com.example.payment.application.service;
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
 import com.example.payment.application.interfaces.CancelRequestRepository;
 import com.example.payment.application.interfaces.PaymentItemRepository;
+import com.example.payment.application.interfaces.PaymentRepository;
 import com.example.payment.domain.entity.*;
 import com.example.payment.domain.service.CancelDomainService;
 import com.example.payment.domain.service.CancelItemCommand;
@@ -30,6 +31,7 @@ public class CancelTxWriter {
 
     private final CancelRequestRepository cancelRequestRepository;
     private final PaymentItemRepository paymentItemRepository;
+    private final PaymentRepository paymentRepository;
     private final CancelEventOutboxRepository outboxRepository;
     private final CancelDomainService cancelDomainService;
 
@@ -57,6 +59,7 @@ public class CancelTxWriter {
 
         cancelDomainService.apply(payment, commands, freshItems);
         paymentItemRepository.saveAll(freshItems);
+        paymentRepository.save(payment);
 
         cancelRequest.toCompleted();
         cancelRequest = cancelRequestRepository.save(cancelRequest);
