@@ -33,6 +33,7 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_committed");
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 100);
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 300000);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
@@ -54,7 +55,9 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, retryGroupId);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_uncommitted");
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 50);
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 300000);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
