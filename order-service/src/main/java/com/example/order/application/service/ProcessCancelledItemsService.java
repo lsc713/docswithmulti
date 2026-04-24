@@ -26,31 +26,33 @@ public class ProcessCancelledItemsService implements ProcessCancelledItemsUseCas
             if (processedCancelEventRepository.existsByCancelRequestId(command.cancelRequestId())) {
                 return null;
             }
-
-            List<OrderItem> items = orderItemRepository.findAllByIdIn(command.cancelledOrderItemIds());
-            if (items.size() != command.cancelledOrderItemIds().size()) {
-                throw new OrderItemNotFoundException(command.cancelledOrderItemIds());
-            }
-
-            items.forEach(OrderItem::cancel);
-            orderItemRepository.saveAll(items);
-
-            long orderId = items.get(0).getOrderId();
-            Order order = orderRepository.findByIdForUpdate(orderId)
-                .orElseThrow(() -> new IllegalStateException("Order not found: orderId=" + orderId));
-
-            boolean allCancelled = orderItemRepository.findAllByOrderId(orderId)
-                .stream().allMatch(OrderItem::isCancelled);
-
-            if (allCancelled) {
-                order.cancel();
-            } else {
-                order.partialCancel();
-            }
-
-            orderRepository.save(order);
+            List<OrderItem> items = validateAndCancelItems(command.cancelledOrderItemIds());
+            syncOrderStatus(items.get(0).getOrderId());
             processedCancelEventRepository.save(command.cancelRequestId());
             return null;
         });
+    }
+
+    private List<OrderItem> validateAndCancelItems(List<Long> ids) {
+        List<OrderItem> items = orderItemRepository.findAllByIdIn(ids);
+        if (items.size() != ids.size()) {
+            throw new OrderItemNotFoundException(ids);
+        }
+        items.forEach(OrderItem::cancel);
+        orderItemRepository.saveAll(items);
+        return items;
+    }
+
+    private void syncOrderStatus(long orderId) {
+        Order order = orderRepository.findByIdForUpdate(orderId)
+            .orElseThrow(() -> new IllegalStateException("Order not found: orderId=" + orderId));
+        boolean allCancelled = orderItemRepository.findAllByOrderId(orderId)
+            .stream().allMatch(OrderItem::isCancelled);
+        if (allCancelled) {
+            order.cancel();
+        } else {
+            order.partialCancel();
+        }
+        orderRepository.save(order);
     }
 }
