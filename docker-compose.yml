@@ -1,6 +1,10 @@
 version: '3.8'
 
 services:
+  redis:
+    image: redis:7.2
+    ports:
+      - "6379:6379"
   # MySQL - 모듈별 독립 DB
   mysql-payment:
     image: mysql:8.0
@@ -10,7 +14,7 @@ services:
       MYSQL_USER: payment
       MYSQL_PASSWORD: payment
     ports:
-      - "3306:3306"
+      - "3311:3306"
     volumes:
       - mysql-payment-data:/var/lib/mysql
 

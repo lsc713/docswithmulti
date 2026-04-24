@@ -1,7 +1,7 @@
 package com.example.order.infrastructure.messaging;
 
 import com.example.order.application.usecase.ProcessCancelledItemsUseCase;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

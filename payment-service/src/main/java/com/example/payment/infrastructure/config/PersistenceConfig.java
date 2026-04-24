@@ -3,6 +3,8 @@ package com.example.payment.infrastructure.config;
 import com.example.payment.application.interfaces.CancelRequestRepository;
 import com.example.payment.application.interfaces.PaymentItemRepository;
 import com.example.payment.application.interfaces.PaymentRepository;
+import com.example.payment.domain.policy.CancelPeriodPolicy;
+import com.example.payment.domain.service.CancelDomainService;
 import com.example.payment.infrastructure.persistence.CancelRequestJpaRepository;
 import com.example.payment.infrastructure.persistence.CancelRequestRepositoryImpl;
 import com.example.payment.infrastructure.persistence.PaymentItemJpaRepository;
@@ -10,6 +12,7 @@ import com.example.payment.infrastructure.persistence.PaymentItemRepositoryImpl;
 import com.example.payment.infrastructure.persistence.PaymentJpaRepository;
 import com.example.payment.infrastructure.persistence.PaymentRepositoryImpl;
 import jakarta.persistence.EntityManagerFactory;
+import java.time.Clock;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -55,5 +58,20 @@ public class PersistenceConfig {
     @Bean
     public CancelRequestRepository cancelRequestRepository(CancelRequestJpaRepository jpaRepository) {
         return new CancelRequestRepositoryImpl(jpaRepository);
+    }
+
+    @Bean
+    public Clock clock() {
+        return Clock.systemUTC();
+    }
+
+    @Bean
+    public CancelPeriodPolicy cancelPeriodPolicy(Clock clock) {
+        return new CancelPeriodPolicy(clock);
+    }
+
+    @Bean
+    public CancelDomainService cancelDomainService(CancelPeriodPolicy cancelPeriodPolicy) {
+        return new CancelDomainService(cancelPeriodPolicy);
     }
 }

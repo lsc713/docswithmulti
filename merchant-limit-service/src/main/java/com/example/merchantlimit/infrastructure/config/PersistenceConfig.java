@@ -4,6 +4,7 @@ import com.example.merchantlimit.application.interfaces.LimitEventOutboxReposito
 import com.example.merchantlimit.application.interfaces.LimitHistoryRepository;
 import com.example.merchantlimit.application.interfaces.MerchantCancelLimitRepository;
 import com.example.merchantlimit.application.interfaces.MerchantRepository;
+import com.example.merchantlimit.domain.service.MerchantLimitDomainService;
 import com.example.merchantlimit.infrastructure.persistence.LimitEventOutboxJpaRepository;
 import com.example.merchantlimit.infrastructure.persistence.LimitEventOutboxRepositoryImpl;
 import com.example.merchantlimit.infrastructure.persistence.LimitHistoryJpaRepository;
@@ -50,5 +51,10 @@ public class PersistenceConfig {
     public LimitEventOutboxRepository limitEventOutboxRepository(
         LimitEventOutboxJpaRepository jpa) {
         return new LimitEventOutboxRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public MerchantLimitDomainService merchantLimitDomainService() {
+        return new MerchantLimitDomainService();
     }
 }
