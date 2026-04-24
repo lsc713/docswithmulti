@@ -1,6 +1,6 @@
 package com.example.order.infrastructure.messaging;
 
-import com.example.order.application.exception.OrderItemNotFoundException;
+import com.example.order.application.exception.NonRetryableException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -41,7 +41,7 @@ public class RetryRouter {
     }
 
     private boolean isDataError(Exception e) {
-        return e instanceof OrderItemNotFoundException;
+        return e instanceof NonRetryableException;
     }
 
     private void publishToRetry(ConsumerRecord<String, String> record, int retryCount, Exception e) {
@@ -57,7 +57,7 @@ public class RetryRouter {
             .add("next-retry-at", now.plus(retryDelay(newRetryCount)).toString().getBytes(StandardCharsets.UTF_8))
             .add("original-topic", record.topic().getBytes(StandardCharsets.UTF_8))
             .add("first-failed-at", firstFailedAt.getBytes(StandardCharsets.UTF_8))
-            .add("last-error", truncate(e.getMessage(), 200).getBytes(StandardCharsets.UTF_8));
+            .add("last-error", DlqMessage.truncate(e.getMessage(), 200).getBytes(StandardCharsets.UTF_8));
 
         kafkaTemplate.send(retryRecord);
         log.warn("retry 토픽 발행. retryCount={}, offset={}", newRetryCount, record.offset());
@@ -75,7 +75,14 @@ public class RetryRouter {
     }
 
     private int parseRetryCount(ConsumerRecord<String, String> record) {
-        return headerStringValue(record, "retry-count").map(Integer::parseInt).orElse(0);
+        return headerStringValue(record, "retry-count").map(v -> {
+            try {
+                return Integer.parseInt(v);
+            } catch (NumberFormatException ex) {
+                log.warn("retry-count 헤더 파싱 실패, 0으로 처리: {}", v);
+                return 0;
+            }
+        }).orElse(0);
     }
 
     private Optional<String> headerStringValue(ConsumerRecord<String, String> record, String key) {
@@ -90,10 +97,5 @@ public class RetryRouter {
             case 2 -> Duration.ofMinutes(5);
             default -> Duration.ofMinutes(10);
         };
-    }
-
-    private String truncate(String s, int max) {
-        if (s == null) return "unknown";
-        return s.length() <= max ? s : s.substring(0, max);
     }
 }

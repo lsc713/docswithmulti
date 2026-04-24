@@ -44,7 +44,7 @@ public record DlqMessage(String originalMessage, DlqMeta dlqMeta) {
         return Optional.of(new String(header.value(), StandardCharsets.UTF_8));
     }
 
-    private static String truncate(String s, int max) {
+    static String truncate(String s, int max) {
         if (s == null) return "unknown";
         return s.length() <= max ? s : s.substring(0, max);
     }
