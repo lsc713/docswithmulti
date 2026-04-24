@@ -34,6 +34,7 @@ class CancelPaymentServiceTest {
     @Mock CompensationRetryRepository compensationRetryRepository;
     @Mock RiskManagementPort riskManagementPort;
     @Mock PgCancelPort pgCancelPort;
+    @Mock CancelTxWriter cancelTxWriter;
 
     private CancelPaymentService service;
 
@@ -50,7 +51,7 @@ class CancelPaymentServiceTest {
         service = new CancelPaymentService(
             paymentRepository, paymentItemRepository, cancelRequestRepository,
             historyRepository, outboxRepository, compensationRetryRepository,
-            riskManagementPort, pgCancelPort, domainService
+            riskManagementPort, pgCancelPort, domainService, cancelTxWriter
         );
 
         payment = PaymentFixture.completedPayment(); // paymentKey="pay_test_001", merchantId=1
@@ -97,9 +98,6 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(paymentItemRepository.findAllByPaymentIdForUpdate(anyLong()))
-            .thenReturn(List.of(itemA, itemB));
-
         CancelRequest failed = CancelRequest.create(
             payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심");
         failed.toProcessing();
@@ -107,14 +105,25 @@ class CancelPaymentServiceTest {
 
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
             .thenReturn(Optional.of(failed));
-        when(cancelRequestRepository.save(any())).thenAnswer(inv -> {
+        // FAILED 재시도 시 raiseToPending 후 cancelRequestRepository.save() 직접 호출
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        CancelRequest withId = CancelRequest.reconstruct(100L, failed.getPaymentId(),
+            failed.getRequestHash(), failed.getCancelAmount(), failed.getCancelReason(),
+            CancelStatus.PENDING, null, null, null, null,
+            failed.getCreatedAt(), failed.getUpdatedAt());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(withId);
+        when(cancelTxWriter.saveTx2(any())).thenAnswer(inv -> {
             CancelRequest cr = inv.getArgument(0);
-            if (cr.getId() != null) return cr;
-            return CancelRequest.reconstruct(100L, cr.getPaymentId(), cr.getRequestHash(),
-                cr.getCancelAmount(), cr.getCancelReason(), cr.getStatus(),
-                cr.getProcessingStartedAt(), cr.getCompletedAt(), cr.getFailedReason(),
-                cr.getPgPendingSince(), cr.getCreatedAt(), cr.getUpdatedAt());
+            cr.toProcessing();
+            return cr;
         });
+        CancelRequest completed = CancelRequest.reconstruct(100L, withId.getPaymentId(),
+            withId.getRequestHash(), withId.getCancelAmount(), withId.getCancelReason(),
+            CancelStatus.COMPLETED, null, null, null, null,
+            withId.getCreatedAt(), withId.getUpdatedAt());
+        when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
+
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
             .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(5000000),
                 BigDecimal.valueOf(30000), BigDecimal.valueOf(4970000)));

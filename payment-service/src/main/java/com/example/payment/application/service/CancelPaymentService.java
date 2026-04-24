@@ -6,11 +6,10 @@ import com.example.payment.application.interfaces.*;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
 import com.example.payment.domain.entity.*;
 import com.example.payment.domain.service.CancelDomainService;
-import com.example.payment.domain.service.CancelItemCommand;
+import com.example.payment.domain.entity.CancelStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -36,6 +35,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     private final RiskManagementPort riskManagementPort;
     private final PgCancelPort pgCancelPort;
     private final CancelDomainService cancelDomainService;
+    private final CancelTxWriter cancelTxWriter;
 
     @Override
     public CancelRequest cancel(CancelPaymentCommand command) {
@@ -89,7 +89,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         BigDecimal cancelAmount = calculateCancelAmount(items, command.cancelPaymentItemIds());
         CancelRequest cancelRequest = CancelRequest.create(
             payment.getId(), requestHash, cancelAmount, command.cancelReason());
-        cancelRequest = saveTx1(cancelRequest);
+        cancelRequest = cancelTxWriter.saveTx1(cancelRequest);
         recordHistory(cancelRequest.getId(), CancelStatus.PENDING, null);
 
         // Risk 호출
@@ -104,7 +104,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         }
 
         // TX2: PROCESSING UPDATE
-        cancelRequest = saveTx2(cancelRequest);
+        cancelRequest = cancelTxWriter.saveTx2(cancelRequest);
         recordHistory(cancelRequest.getId(), CancelStatus.PROCESSING, null);
 
         // PG사 취소 API 호출
@@ -122,45 +122,9 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         }
 
         // TX3: PaymentItem + Payment + COMPLETED + Outbox
-        return saveTx3(cancelRequest, payment, command.cancelPaymentItemIds());
-    }
-
-    @Transactional
-    protected CancelRequest saveTx1(CancelRequest cancelRequest) {
-        return cancelRequestRepository.save(cancelRequest);
-    }
-
-    @Transactional
-    protected CancelRequest saveTx2(CancelRequest cancelRequest) {
-        cancelRequest.toProcessing();
-        return cancelRequestRepository.save(cancelRequest);
-    }
-
-    @Transactional
-    protected CancelRequest saveTx3(
-        CancelRequest cancelRequest, Payment payment, List<Long> targetItemIds
-    ) {
-        // TX3: 최신 PaymentItem 재조회 (FOR UPDATE)
-        List<PaymentItem> freshItems =
-            paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId());
-
-        List<CancelItemCommand> commands = targetItemIds.stream()
-            .map(CancelItemCommand::of)
-            .toList();
-
-        cancelDomainService.apply(payment, commands, freshItems);
-        paymentItemRepository.saveAll(freshItems);
-
-        cancelRequest.toCompleted();
-        cancelRequest = cancelRequestRepository.save(cancelRequest);
-
-        outboxRepository.insertIfAbsent(cancelRequest, payment,
-            freshItems.stream()
-                .filter(i -> i.getStatus() == PaymentItemStatus.CANCELLED
-                    && targetItemIds.contains(i.getId()))
-                .toList());
-
-        return cancelRequest;
+        CancelRequest savedTx3 = cancelTxWriter.saveTx3(cancelRequest, payment, command.cancelPaymentItemIds());
+        recordHistory(savedTx3.getId(), CancelStatus.COMPLETED, null);
+        return savedTx3;
     }
 
     private void tryCompensate(CancelRequest cancelRequest, long merchantId, BigDecimal amount) {
