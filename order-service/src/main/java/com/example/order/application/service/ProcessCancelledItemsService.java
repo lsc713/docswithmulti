@@ -38,6 +38,10 @@ public class ProcessCancelledItemsService implements ProcessCancelledItemsUseCas
         if (items.size() != ids.size()) {
             throw new OrderItemNotFoundException(ids);
         }
+        List<Long> orderIds = items.stream().map(OrderItem::getOrderId).distinct().toList();
+        if (orderIds.size() != 1) {
+            throw new IllegalStateException("단일 취소 이벤트에 복수 주문 아이템 포함: orderIds=" + orderIds);
+        }
         items.forEach(OrderItem::cancel);
         orderItemRepository.saveAll(items);
         return items;

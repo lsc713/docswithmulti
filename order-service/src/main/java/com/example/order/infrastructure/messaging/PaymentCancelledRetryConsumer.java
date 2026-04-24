@@ -37,6 +37,9 @@ public class PaymentCancelledRetryConsumer {
 
             log.info("payment.cancelled.retry 처리 완료. cancelRequestId={}", payload.cancelRequestId());
             ack.acknowledge();
+        } catch (org.springframework.dao.DataIntegrityViolationException e) {
+            log.info("중복 처리 감지 (UK 충돌). 멱등 처리로 ack. offset={}", record.offset());
+            ack.acknowledge();
         } catch (Exception e) {
             log.error("payment.cancelled.retry 처리 실패. offset={}", record.offset(), e);
             retryRouter.route(record, e);

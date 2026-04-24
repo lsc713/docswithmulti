@@ -55,6 +55,8 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, retryGroupId);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        // payment.cancelled.retry 토픽은 비트랜잭션 프로듀서가 발행하므로
+        // read_uncommitted 사용 (read_committed와 동일하게 동작하지만 의도를 명시)
         props.put(ConsumerConfig.ISOLATION_LEVEL_CONFIG, "read_uncommitted");
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 50);
         props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 300000);
