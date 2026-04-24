@@ -1,0 +1,6 @@
+package com.example.order.domain.entity;
+
+public enum OrderStatus {
+    PENDING, PAYMENT_VERIFYING, PAID, DELIVERY_WAITING,
+    DELIVERING, DELIVERED, CONFIRMED, PARTIAL_CANCELLED, CANCELLED
+}
