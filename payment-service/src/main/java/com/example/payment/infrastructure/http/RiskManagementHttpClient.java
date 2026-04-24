@@ -38,12 +38,12 @@ public class RiskManagementHttpClient implements RiskManagementPort {
     ) {
         try {
             return circuitBreaker.executeCheckedSupplier(() -> {
-                String url = baseUrl + "/internal/v1/cancel/reserve";
+                String url = baseUrl + "/internal/cancel-limit/validate-and-reserve";
                 Map<String, Object> request = Map.of(
                     "merchantId", merchantId,
-                    "cancelRequestId", cancelRequestId,
+                    "cancelRequestId", String.valueOf(cancelRequestId),
                     "cancelAmount", cancelAmount,
-                    "date", kstDate.toString()
+                    "kstDate", kstDate.toString()
                 );
                 ResponseEntity<RiskReserveResult> response =
                     restTemplate.postForEntity(url, request, RiskReserveResult.class);
