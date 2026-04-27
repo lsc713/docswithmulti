@@ -22,15 +22,16 @@ warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 
 # =============================================================
-# 1. 인프라 확인
+# 1. 인프라 초기화 및 재시작
 # =============================================================
-log "인프라 상태 확인 중..."
+log "Docker 컨테이너 및 볼륨 초기화 중..."
+docker-compose down -v 2>/dev/null || true
+sleep 3
 
-if ! docker ps | grep -q "mysql-payment"; then
-  warn "Docker 컨테이너가 없습니다. docker-compose up -d 실행 중..."
-  docker-compose up -d
-  sleep 10
-fi
+log "Docker 컨테이너 시작 중..."
+docker-compose up -d
+log "DB/Kafka 초기화 대기 중 (20초)..."
+sleep 20
 
 # =============================================================
 # 2. 서버 부팅

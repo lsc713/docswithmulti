@@ -39,15 +39,18 @@ query_payment_db() {
 }
 
 # =============================================================
-# 인프라 확인
+# 인프라 초기화 및 재시작
 # =============================================================
-section "인프라 확인"
+section "인프라 초기화"
 
-if ! docker ps | grep -q "mysql-payment"; then
-  warn "Docker 컨테이너가 없습니다. docker-compose up -d 실행 중..."
-  docker-compose up -d
-  sleep 10
-fi
+log "Docker 컨테이너 및 볼륨 초기화 중..."
+docker-compose down -v 2>/dev/null || true
+sleep 3
+
+log "Docker 컨테이너 시작 중..."
+docker-compose up -d
+log "DB/Kafka 초기화 대기 중 (20초)..."
+sleep 20
 
 # =============================================================
 # 기존 프로세스 정리 후 전체 서비스 기동
