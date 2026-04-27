@@ -1,0 +1,27 @@
+### 결제 생성 (V9 test_pay_001 동일 데이터)
+POST http://localhost:8080/v1/payments
+Content-Type: application/json
+
+{
+  "merchantId": 1001,
+  "userId": 9001,
+  "pgType": "TOSS",
+  "cancelPeriodDays": 30,
+  "items": [
+    { "orderItemId": 101, "productId": 201, "itemName": "흰 셔츠 M", "itemAmount": 30000 },
+    { "orderItemId": 102, "productId": 202, "itemName": "청바지 32", "itemAmount": 50000 }
+  ]
+}
+
+### 결제 취소 (위에서 생성된 paymentKey로 교체)
+POST http://localhost:8080/v1/payments/{{paymentKey}}/cancel
+Content-Type: application/json
+
+{
+  "cancelItems": [
+    { "paymentItemId": 1 },
+    { "paymentItemId": 2 }
+  ],
+  "cancelAmount": 80000,
+  "cancelReason": "단순 변심"
+}

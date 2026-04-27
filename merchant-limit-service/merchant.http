@@ -1,0 +1,30 @@
+### 가맹점 생성 (merchant + cancel_limit 동시 생성)
+POST http://localhost:8082/v1/merchants
+Content-Type: application/json
+
+{
+  "merchantKey": "merchant_001",
+  "name": "테스트 가맹점",
+  "cancelPeriodDays": 30,
+  "dailyLimit": 10000000
+}
+
+### 취소 한도 조회 (internal)
+GET http://localhost:8082/internal/merchants/1001/cancel-limit
+
+### 취소 한도 수정 (admin)
+PUT http://localhost:8082/admin/merchants/1001/cancel-limit
+Content-Type: application/json
+
+{
+  "dailyLimit": 20000000,
+  "reason": "한도 증액 요청"
+}
+
+### 가맹점 상태 변경 (admin)
+PATCH http://localhost:8082/admin/merchants/1001/status
+Content-Type: application/json
+
+{
+  "status": "ACTIVE"
+}

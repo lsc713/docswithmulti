@@ -1,0 +1,22 @@
+### 주문 생성
+POST http://localhost:8081/v1/orders
+Content-Type: application/json
+
+{
+  "userId": 9001,
+  "items": [
+    { "productId": 201, "itemName": "흰 셔츠 M", "price": 30000 },
+    { "productId": 202, "itemName": "청바지 32", "price": 50000 }
+  ]
+}
+
+### 응답 예시
+# {
+#   "orderId": 1,
+#   "status": "DELIVERY_WAITING",
+#   "items": [
+#     { "orderItemId": 1, "itemName": "흰 셔츠 M" },
+#     { "orderItemId": 2, "itemName": "청바지 32" }
+#   ]
+# }
+# → orderItemId를 payment.http의 결제 생성 API에 전달

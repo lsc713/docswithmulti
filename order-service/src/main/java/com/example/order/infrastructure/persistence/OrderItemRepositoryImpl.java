@@ -14,6 +14,16 @@ public class OrderItemRepositoryImpl implements OrderItemRepository {
     private final OrderItemJpaRepository jpa;
 
     @Override
+    public List<OrderItem> insertAll(List<OrderItem> items) {
+        List<OrderItemJpaEntity> entities = items.stream()
+            .map(OrderItemJpaEntity::from)
+            .toList();
+        return jpa.saveAll(entities).stream()
+            .map(OrderItemJpaEntity::toDomain)
+            .toList();
+    }
+
+    @Override
     public List<OrderItem> findAllByIdIn(List<Long> ids) {
         return jpa.findAllById(ids).stream()
             .map(OrderItemJpaEntity::toDomain)

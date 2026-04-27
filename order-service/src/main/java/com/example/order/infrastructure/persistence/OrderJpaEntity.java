@@ -13,6 +13,9 @@ public class OrderJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private OrderStatus status;
@@ -25,13 +28,22 @@ public class OrderJpaEntity {
 
     protected OrderJpaEntity() {}
 
+    public static OrderJpaEntity from(Order order) {
+        OrderJpaEntity e = new OrderJpaEntity();
+        e.userId = order.getUserId();
+        e.status = order.getStatus();
+        e.createdAt = Instant.now();
+        e.updatedAt = Instant.now();
+        return e;
+    }
+
     public void updateStatus(OrderStatus status) {
         this.status = status;
         this.updatedAt = Instant.now();
     }
 
     public Order toDomain() {
-        return Order.of(id, status);
+        return Order.of(id, userId != null ? userId : 0L, status);
     }
 
     public Long getId() { return id; }
