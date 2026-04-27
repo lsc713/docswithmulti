@@ -2,7 +2,7 @@ package com.example.payment.infrastructure.persistence;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(
@@ -30,8 +30,8 @@ public class CompensationRetryJpaEntity {
     @Column(name = "attempt_count", nullable = false)
     private int attemptCount;
 
-    @Column(name = "next_retry_at", nullable = false)
-    private Instant nextRetryAt;
+    @Column(name = "next_retry_at", nullable = false, columnDefinition = "DATETIME(3)")
+    private LocalDateTime nextRetryAt;
 
     @Column(name = "status", nullable = false, length = 20)
     private String status;
@@ -39,26 +39,27 @@ public class CompensationRetryJpaEntity {
     @Column(name = "last_error", length = 500)
     private String lastError;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt;
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "DATETIME(3)")
+    private LocalDateTime createdAt;
 
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
+    @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME(3)")
+    private LocalDateTime updatedAt;
 
     protected CompensationRetryJpaEntity() {}
 
     public static CompensationRetryJpaEntity pending(
         long cancelRequestId, long merchantId, BigDecimal restoreAmount
     ) {
+        LocalDateTime now = LocalDateTime.now();
         CompensationRetryJpaEntity e = new CompensationRetryJpaEntity();
         e.cancelRequestId = String.valueOf(cancelRequestId);
         e.merchantId = merchantId;
         e.restoreAmount = restoreAmount;
         e.attemptCount = 0;
-        e.nextRetryAt = Instant.now().plusSeconds(60); // 1분 후 첫 재시도
+        e.nextRetryAt = now.plusSeconds(60); // 1분 후 첫 재시도
         e.status = "PENDING";
-        e.createdAt = Instant.now();
-        e.updatedAt = e.createdAt;
+        e.createdAt = now;
+        e.updatedAt = now;
         return e;
     }
 
@@ -70,22 +71,24 @@ public class CompensationRetryJpaEntity {
 
     public void markDone() {
         this.status = "DONE";
-        this.updatedAt = Instant.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public void markFailed(int newAttemptCount, Instant nextRetryAt, String lastError) {
+    public void markFailed(int newAttemptCount, LocalDateTime nextRetryAt, String lastError) {
         this.attemptCount = newAttemptCount;
         this.nextRetryAt = nextRetryAt;
-        this.lastError = lastError != null && lastError.length() > 500
-            ? lastError.substring(0, 500) : lastError;
-        this.status = "PENDING"; // 최대 시도 초과 시 호출자가 FAILED로 설정
-        this.updatedAt = Instant.now();
+        this.lastError = truncate(lastError);
+        this.status = "PENDING";
+        this.updatedAt = LocalDateTime.now();
     }
 
     public void exhaust(String lastError) {
         this.status = "FAILED";
-        this.lastError = lastError != null && lastError.length() > 500
-            ? lastError.substring(0, 500) : lastError;
-        this.updatedAt = Instant.now();
+        this.lastError = truncate(lastError);
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    private static String truncate(String s) {
+        return s != null && s.length() > 500 ? s.substring(0, 500) : s;
     }
 }

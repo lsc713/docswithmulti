@@ -4,7 +4,7 @@ import com.example.payment.application.interfaces.CompensationRetryRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -24,7 +24,7 @@ public class CompensationRetryRepositoryImpl implements CompensationRetryReposit
     }
 
     @Override
-    public List<PendingCompensation> findDueForRetry(Instant now) {
+    public List<PendingCompensation> findDueForRetry(LocalDateTime now) {
         return jpaRepository.findDueForRetry(now).stream()
             .map(e -> new PendingCompensation(
                 e.getId(), e.getCancelRequestIdAsLong(),
@@ -41,7 +41,7 @@ public class CompensationRetryRepositoryImpl implements CompensationRetryReposit
     }
 
     @Override
-    public void markRetryLater(long id, int newAttemptCount, Instant nextRetryAt, String lastError) {
+    public void markRetryLater(long id, int newAttemptCount, LocalDateTime nextRetryAt, String lastError) {
         jpaRepository.findById(id).ifPresent(e -> {
             e.markFailed(newAttemptCount, nextRetryAt, lastError);
             jpaRepository.save(e);

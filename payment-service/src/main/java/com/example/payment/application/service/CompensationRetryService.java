@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -29,12 +29,12 @@ public class CompensationRetryService {
     private final RiskManagementPort riskManagementPort;
 
     public void retryAll() {
-        List<PendingCompensation> due = compensationRetryRepository.findDueForRetry(Instant.now());
+        LocalDateTime now = LocalDateTime.now();
+        List<PendingCompensation> due = compensationRetryRepository.findDueForRetry(now);
+        log.info("[compensation-retry] 실행 now={} 대상={}건", now, due.size());
         if (due.isEmpty()) {
-            log.debug("[compensation-retry] 처리 대상 없음");
             return;
         }
-        log.info("[compensation-retry] 재시도 대상: {}건", due.size());
         due.forEach(this::retryOne);
     }
 
@@ -55,7 +55,7 @@ public class CompensationRetryService {
                 log.error("[compensation-retry] 최대 시도({}) 초과 → 수동 처리 필요 cancelRequestId={}",
                     MAX_ATTEMPTS, pending.cancelRequestId());
             } else {
-                Instant nextRetryAt = Instant.now().plusSeconds((long) nextAttempt * 60);
+                LocalDateTime nextRetryAt = LocalDateTime.now().plusSeconds((long) nextAttempt * 60);
                 compensationRetryRepository.markRetryLater(
                     pending.id(), nextAttempt, nextRetryAt, e.getMessage());
             }

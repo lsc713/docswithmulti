@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface CompensationRetryJpaRepository
@@ -13,5 +13,5 @@ public interface CompensationRetryJpaRepository
     @Query("SELECT e FROM CompensationRetryJpaEntity e " +
            "WHERE e.status = 'PENDING' AND e.nextRetryAt <= :now " +
            "ORDER BY e.nextRetryAt ASC")
-    List<CompensationRetryJpaEntity> findDueForRetry(@Param("now") Instant now);
+    List<CompensationRetryJpaEntity> findDueForRetry(@Param("now") LocalDateTime now);
 }
