@@ -16,6 +16,6 @@ dependencies {
     // Kafka (Outbox 발행)
     implementation 'org.springframework.kafka:spring-kafka'
 
-    // Redisson (분산락)
-    implementation 'org.redisson:redisson-spring-boot-starter:3.27.2'
+    // Redisson (분산락) — Spring Boot 4.x / Spring Framework 7.x 호환
+    implementation 'org.redisson:redisson-spring-boot-starter:4.3.1'
 }
