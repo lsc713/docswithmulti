@@ -85,9 +85,12 @@ public class CancelRequest {
         this.completedAt = Instant.now();
     }
 
-    /** PROCESSING → FAILED */
+    /** PENDING or PROCESSING → FAILED
+     *  - PENDING: risk 호출 실패 (TX2 이전)
+     *  - PROCESSING: PG 호출 실패 (TX2 이후)
+     */
     public void toFailed(String reason) {
-        if (status != CancelStatus.PROCESSING) {
+        if (status != CancelStatus.PENDING && status != CancelStatus.PROCESSING) {
             throw new InvalidCancelStateTransitionException(status, CancelStatus.FAILED);
         }
         this.status = CancelStatus.FAILED;
