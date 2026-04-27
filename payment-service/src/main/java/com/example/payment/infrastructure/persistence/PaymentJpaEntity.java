@@ -91,7 +91,7 @@ public class PaymentJpaEntity {
      */
     public static PaymentJpaEntity from(Payment payment) {
         return new PaymentJpaEntity(
-            payment.getId(),
+            payment.getId() == 0 ? null : payment.getId(),
             payment.getPaymentKey(),
             payment.getMerchantId(),
             payment.getUserId(),
