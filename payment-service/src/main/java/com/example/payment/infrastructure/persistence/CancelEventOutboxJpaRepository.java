@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface CancelEventOutboxJpaRepository
     extends JpaRepository<CancelEventOutboxJpaEntity, Long> {
 
@@ -13,4 +15,6 @@ public interface CancelEventOutboxJpaRepository
     @Modifying
     @Query("UPDATE CancelEventOutboxJpaEntity o SET o.status = 'PUBLISHED', o.publishedAt = CURRENT_TIMESTAMP WHERE o.cancelRequestId = :cancelRequestId")
     int markPublished(@Param("cancelRequestId") Long cancelRequestId);
+
+    List<CancelEventOutboxJpaEntity> findTop1000ByStatusOrderByCreatedAtAsc(String status);
 }

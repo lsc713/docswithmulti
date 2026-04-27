@@ -1,17 +1,19 @@
 package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
+import com.example.payment.application.interfaces.PendingOutbox;
 import com.example.payment.domain.entity.CancelRequest;
 import com.example.payment.domain.entity.Payment;
 import com.example.payment.domain.entity.PaymentItem;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Outbox INSERT — cancel_request_id UK로 중복 방어.
- * TX3 내부에서 호출되므로 별도 @Transactional 없음.
+ * TX3 내부에서 호출되므로 insertIfAbsent는 별도 @Transactional 없음.
  */
 @Repository
 public class CancelEventOutboxRepositoryImpl implements CancelEventOutboxRepository {
@@ -29,6 +31,21 @@ public class CancelEventOutboxRepositoryImpl implements CancelEventOutboxReposit
         }
         String payload = buildPayload(cancelRequest, payment, cancelledItems);
         jpaRepository.save(CancelEventOutboxJpaEntity.pending(cancelRequest.getId(), payload));
+    }
+
+    @Override
+    public List<PendingOutbox> findPendingBatch(int limit) {
+        // limit 파라미터는 현재 1000 고정 (Top1000). 추후 동적 처리 시 @Query로 전환.
+        return jpaRepository.findTop1000ByStatusOrderByCreatedAtAsc("PENDING")
+            .stream()
+            .map(e -> new PendingOutbox(e.getCancelRequestId(), e.getPayload()))
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void markPublished(long cancelRequestId) {
+        jpaRepository.markPublished(cancelRequestId);
     }
 
     private String buildPayload(CancelRequest cancelRequest, Payment payment, List<PaymentItem> items) {
