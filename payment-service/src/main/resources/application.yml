@@ -27,6 +27,19 @@ spring:
   profiles:
     active: local
 
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      enable-idempotence: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
 server:
   port: 8080
 
@@ -42,3 +55,14 @@ logging:
     com.example.payment: INFO
     org.hibernate.SQL: INFO
     org.hibernate.type.descriptor.sql.BasicBinder: INFO
+
+kafka:
+  topic:
+    payment-cancelled: payment.cancelled
+
+scheduler:
+  lock:
+    outbox-publisher: lock:scheduler:outbox-publisher
+    pending-recovery: lock:scheduler:pending-recovery
+    processing-recovery: lock:scheduler:processing-recovery
+    compensation-retry: lock:scheduler:compensation-retry

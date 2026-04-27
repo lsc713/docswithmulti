@@ -26,6 +26,7 @@ class CancelTxWriterTest {
 
     @Mock CancelRequestRepository cancelRequestRepository;
     @Mock PaymentItemRepository paymentItemRepository;
+    @Mock PaymentRepository paymentRepository;
     @Mock CancelEventOutboxRepository outboxRepository;
 
     private CancelTxWriter writer;
@@ -39,7 +40,7 @@ class CancelTxWriterTest {
         CancelDomainService domainService = new CancelDomainService(new CancelPeriodPolicy(clock));
 
         writer = new CancelTxWriter(
-            cancelRequestRepository, paymentItemRepository, outboxRepository, domainService
+            cancelRequestRepository, paymentItemRepository, paymentRepository, outboxRepository, domainService
         );
 
         payment = PaymentFixture.completedPayment();
