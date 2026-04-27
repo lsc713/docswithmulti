@@ -1,5 +1,13 @@
 // order-service build configuration
-// 부모 build.gradle의 subprojects 설정을 상속받음
+
+apply plugin: 'org.flywaydb.flyway'
+
+flyway {
+    url      = 'jdbc:mysql://localhost:3307/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true'
+    user     = 'order_user'
+    password = 'order'
+    locations = ['classpath:db/migration']
+}
 
 dependencies {
     implementation 'org.springframework.kafka:spring-kafka'

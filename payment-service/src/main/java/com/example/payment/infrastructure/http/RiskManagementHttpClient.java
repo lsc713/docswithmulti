@@ -64,7 +64,7 @@ public class RiskManagementHttpClient implements RiskManagementPort {
     public void compensate(long cancelRequestId, long merchantId, BigDecimal restoreAmount) {
         try {
             circuitBreaker.executeCheckedSupplier(() -> {
-                String url = baseUrl + "/internal/v1/cancel/compensate";
+                String url = baseUrl + "/internal/cancel-limit/compensate";
                 Map<String, Object> request = Map.of(
                     "cancelRequestId", cancelRequestId,
                     "merchantId", merchantId,

@@ -60,6 +60,7 @@ public class PaymentJpaEntity {
     }
 
     private PaymentJpaEntity(
+        Long id,
         String paymentKey,
         Long merchantId,
         Long userId,
@@ -71,6 +72,7 @@ public class PaymentJpaEntity {
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
+        this.id = id;
         this.paymentKey = paymentKey;
         this.merchantId = merchantId;
         this.userId = userId;
@@ -85,9 +87,11 @@ public class PaymentJpaEntity {
 
     /**
      * 도메인 객체를 JPA 엔티티로 변환
+     * id가 있으면 UPDATE, null이면 INSERT로 동작
      */
     public static PaymentJpaEntity from(Payment payment) {
         return new PaymentJpaEntity(
+            payment.getId(),
             payment.getPaymentKey(),
             payment.getMerchantId(),
             payment.getUserId(),

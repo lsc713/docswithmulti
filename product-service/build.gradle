@@ -1,1 +1,10 @@
 // product-service build configuration
+
+apply plugin: 'org.flywaydb.flyway'
+
+flyway {
+    url      = 'jdbc:mysql://localhost:3310/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true'
+    user     = 'product'
+    password = 'product'
+    locations = ['classpath:db/migration']
+}
