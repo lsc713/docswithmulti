@@ -1,8 +1,8 @@
 package com.example.payment.application.service;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
+import com.example.payment.application.interfaces.OutboxEventPublisher;
 import com.example.payment.application.interfaces.PendingOutbox;
-import com.example.payment.infrastructure.messaging.KafkaOutboxPublisher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,7 +22,7 @@ class OutboxPublisherServiceTest {
     private CancelEventOutboxRepository outboxRepository;
 
     @Mock
-    private KafkaOutboxPublisher kafkaOutboxPublisher;
+    private OutboxEventPublisher outboxEventPublisher;
 
     @InjectMocks
     private OutboxPublisherService service;
@@ -37,7 +37,7 @@ class OutboxPublisherServiceTest {
         service.publish();
 
         // then
-        verify(kafkaOutboxPublisher).publish(1L, "{\"cancelRequestId\":1}");
+        verify(outboxEventPublisher).publish(1L, "{\"cancelRequestId\":1}");
         verify(outboxRepository).markPublished(1L);
     }
 
@@ -48,14 +48,15 @@ class OutboxPublisherServiceTest {
         var success = new PendingOutbox(2L, "payload2");
         given(outboxRepository.findPendingBatch(1000)).willReturn(List.of(fail, success));
         willThrow(new RuntimeException("Kafka 연결 오류"))
-            .given(kafkaOutboxPublisher).publish(1L, "payload1");
+            .given(outboxEventPublisher).publish(1L, "payload1");
 
         // when — 예외가 밖으로 전파되지 않아야 함
         service.publish();
 
         // then
+        verify(outboxEventPublisher).publish(1L, "payload1");  // 시도는 했음
         verify(outboxRepository, never()).markPublished(1L);   // 실패 건은 PENDING 유지
-        verify(kafkaOutboxPublisher).publish(2L, "payload2");  // 나머지는 계속 처리
+        verify(outboxEventPublisher).publish(2L, "payload2");  // 나머지는 계속 처리
         verify(outboxRepository).markPublished(2L);
     }
 
@@ -68,7 +69,7 @@ class OutboxPublisherServiceTest {
         service.publish();
 
         // then
-        verifyNoInteractions(kafkaOutboxPublisher);
+        verifyNoInteractions(outboxEventPublisher);
         verify(outboxRepository, never()).markPublished(anyLong());
     }
 }

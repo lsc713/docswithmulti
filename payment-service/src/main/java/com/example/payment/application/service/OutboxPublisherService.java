@@ -1,8 +1,8 @@
 package com.example.payment.application.service;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
+import com.example.payment.application.interfaces.OutboxEventPublisher;
 import com.example.payment.application.interfaces.PendingOutbox;
-import com.example.payment.infrastructure.messaging.KafkaOutboxPublisher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class OutboxPublisherService {
     private static final int BATCH_SIZE = 1000;
 
     private final CancelEventOutboxRepository outboxRepository;
-    private final KafkaOutboxPublisher kafkaOutboxPublisher;
+    private final OutboxEventPublisher outboxEventPublisher;
 
     public void publish() {
         List<PendingOutbox> pending = outboxRepository.findPendingBatch(BATCH_SIZE);
@@ -31,7 +31,7 @@ public class OutboxPublisherService {
 
         for (PendingOutbox outbox : pending) {
             try {
-                kafkaOutboxPublisher.publish(outbox.cancelRequestId(), outbox.payload());
+                outboxEventPublisher.publish(outbox.cancelRequestId(), outbox.payload());
                 outboxRepository.markPublished(outbox.cancelRequestId());
             } catch (Exception e) {
                 log.error("[outbox-publisher] 발행 실패 — 다음 주기 재시도. cancelRequestId={}, error={}",

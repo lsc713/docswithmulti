@@ -1,5 +1,6 @@
 package com.example.payment.infrastructure.messaging;
 
+import com.example.payment.application.interfaces.OutboxEventPublisher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-public class KafkaOutboxPublisher {
+public class KafkaOutboxPublisher implements OutboxEventPublisher {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final String topic;
