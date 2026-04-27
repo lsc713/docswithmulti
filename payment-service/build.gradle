@@ -1,5 +1,13 @@
 // payment-service build configuration
-// 부모 build.gradle의 subprojects 설정을 상속받음
+
+apply plugin: 'org.flywaydb.flyway'
+
+flyway {
+    url      = 'jdbc:mysql://localhost:3311/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true'
+    user     = 'payment'
+    password = 'payment'
+    locations = ['classpath:db/migration']
+}
 
 dependencies {
     // Circuit Breaker

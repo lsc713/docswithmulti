@@ -10,6 +10,9 @@ spring:
     username: risk
     password: risk
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      max-lifetime: 580000       # 580s — MySQL wait_timeout(28800s) 보다 충분히 짧음
+      keepalive-time: 60000      # 60s마다 keepalive 쿼리로 연결 유지
 
   jpa:
     hibernate:
