@@ -16,5 +16,6 @@ public interface CancelEventOutboxJpaRepository
     @Query("UPDATE CancelEventOutboxJpaEntity o SET o.status = 'PUBLISHED', o.publishedAt = CURRENT_TIMESTAMP WHERE o.cancelRequestId = :cancelRequestId")
     int markPublished(@Param("cancelRequestId") Long cancelRequestId);
 
-    List<CancelEventOutboxJpaEntity> findTop1000ByStatusOrderByCreatedAtAsc(String status);
+    @Query("SELECT o FROM CancelEventOutboxJpaEntity o WHERE o.status = 'PENDING' ORDER BY o.createdAt ASC LIMIT :limit")
+    List<CancelEventOutboxJpaEntity> findPendingBatch(@Param("limit") int limit);
 }

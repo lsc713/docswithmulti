@@ -35,11 +35,10 @@ public class CancelEventOutboxRepositoryImpl implements CancelEventOutboxReposit
 
     @Override
     public List<PendingOutbox> findPendingBatch(int limit) {
-        // limit 파라미터는 현재 1000 고정 (Top1000). 추후 동적 처리 시 @Query로 전환.
-        return jpaRepository.findTop1000ByStatusOrderByCreatedAtAsc("PENDING")
+        return jpaRepository.findPendingBatch(limit)
             .stream()
             .map(e -> new PendingOutbox(e.getCancelRequestId(), e.getPayload()))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     @Override
