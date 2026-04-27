@@ -11,6 +11,11 @@ public class OrderRepositoryImpl implements OrderRepository {
     private final OrderJpaRepository jpa;
 
     @Override
+    public Order insert(Order order) {
+        return jpa.save(OrderJpaEntity.from(order)).toDomain();
+    }
+
+    @Override
     public Optional<Order> findByIdForUpdate(long id) {
         return jpa.findByIdForUpdate(id).map(OrderJpaEntity::toDomain);
     }
