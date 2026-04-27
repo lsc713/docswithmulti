@@ -61,4 +61,31 @@ public class CompensationRetryJpaEntity {
         e.updatedAt = e.createdAt;
         return e;
     }
+
+    public Long getId() { return id; }
+    public long getCancelRequestIdAsLong() { return Long.parseLong(cancelRequestId); }
+    public Long getMerchantId() { return merchantId; }
+    public BigDecimal getRestoreAmount() { return restoreAmount; }
+    public int getAttemptCount() { return attemptCount; }
+
+    public void markDone() {
+        this.status = "DONE";
+        this.updatedAt = Instant.now();
+    }
+
+    public void markFailed(int newAttemptCount, Instant nextRetryAt, String lastError) {
+        this.attemptCount = newAttemptCount;
+        this.nextRetryAt = nextRetryAt;
+        this.lastError = lastError != null && lastError.length() > 500
+            ? lastError.substring(0, 500) : lastError;
+        this.status = "PENDING"; // 최대 시도 초과 시 호출자가 FAILED로 설정
+        this.updatedAt = Instant.now();
+    }
+
+    public void exhaust(String lastError) {
+        this.status = "FAILED";
+        this.lastError = lastError != null && lastError.length() > 500
+            ? lastError.substring(0, 500) : lastError;
+        this.updatedAt = Instant.now();
+    }
 }

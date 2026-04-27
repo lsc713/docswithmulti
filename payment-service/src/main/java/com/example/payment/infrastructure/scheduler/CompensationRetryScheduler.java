@@ -1,5 +1,6 @@
 package com.example.payment.infrastructure.scheduler;
 
+import com.example.payment.application.service.CompensationRetryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 public class CompensationRetryScheduler {
 
     private final RedissonClient redissonClient;
+    private final CompensationRetryService compensationRetryService;
 
     @Value("${scheduler.lock.compensation-retry}")
     private String lockKey;
@@ -38,7 +40,7 @@ public class CompensationRetryScheduler {
             return;
         }
         try {
-            // TODO: compensation_retry 보상 재시도
+            compensationRetryService.retryAll();
         } finally {
             if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
