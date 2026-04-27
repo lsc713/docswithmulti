@@ -31,9 +31,12 @@ public class PaymentItemRepositoryImpl implements PaymentItemRepository {
     }
 
     @Override
-    public void saveAll(List<PaymentItem> items) {
-        jpaRepository.saveAll(items.stream()
+    public List<PaymentItem> saveAll(List<PaymentItem> items) {
+        return jpaRepository.saveAll(items.stream()
             .map(PaymentItemJpaEntity::from)
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList()))
+            .stream()
+            .map(PaymentItemJpaEntity::toDomain)
+            .collect(Collectors.toList());
     }
 }

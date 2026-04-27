@@ -35,6 +35,24 @@ fi
 # =============================================================
 # 2. 서버 부팅
 # =============================================================
+log "기존 서비스 프로세스 종료 중..."
+
+kill_port() {
+  local port=$1
+  local pids
+  pids=$(lsof -ti :$port 2>/dev/null) || true
+  if [ -n "$pids" ]; then
+    echo "$pids" | xargs kill -9 2>/dev/null || true
+    log "포트 $port 프로세스 종료 완료"
+  fi
+}
+
+kill_port 8080
+kill_port 8081
+kill_port 8082
+kill_port 8083
+sleep 2
+
 log "서버 부팅 시작..."
 
 start_service() {
@@ -125,9 +143,9 @@ PAYMENT_RESPONSE=$(curl -s -X POST http://localhost:8080/v1/payments \
     ]
   }")
 echo "결제 응답: $PAYMENT_RESPONSE"
-PAYMENT_KEY=$(echo $PAYMENT_RESPONSE | grep -o '"paymentKey":"[^"]*"' | grep -o ':[^}]*' | tr -d ':"')
-PAYMENT_ITEM_ID_1=$(echo $PAYMENT_RESPONSE | grep -o '"paymentItemId":[0-9]*' | head -1 | grep -o '[0-9]*')
-PAYMENT_ITEM_ID_2=$(echo $PAYMENT_RESPONSE | grep -o '"paymentItemId":[0-9]*' | tail -1 | grep -o '[0-9]*')
+PAYMENT_KEY=$(echo $PAYMENT_RESPONSE | grep -o '"paymentKey":"[^"]*"' | grep -o '"[^"]*"$' | tr -d '"')
+PAYMENT_ITEM_ID_1=$(echo $PAYMENT_RESPONSE | grep -o '"paymentItemId":[0-9]*' | head -1 | grep -o '[0-9]*' || true)
+PAYMENT_ITEM_ID_2=$(echo $PAYMENT_RESPONSE | grep -o '"paymentItemId":[0-9]*' | tail -1 | grep -o '[0-9]*' || true)
 log "결제 키: $PAYMENT_KEY"
 log "결제 아이템 ID: $PAYMENT_ITEM_ID_1, $PAYMENT_ITEM_ID_2"
 

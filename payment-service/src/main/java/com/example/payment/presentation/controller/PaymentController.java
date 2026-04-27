@@ -2,7 +2,7 @@ package com.example.payment.presentation.controller;
 
 import com.example.payment.application.service.CreatePaymentCommand;
 import com.example.payment.application.usecase.CreatePaymentUseCase;
-import com.example.payment.domain.entity.Payment;
+import com.example.payment.application.usecase.CreatePaymentUseCase.Result;
 import com.example.payment.presentation.dto.CreatePaymentRequest;
 import com.example.payment.presentation.dto.CreatePaymentResponse;
 import jakarta.validation.Valid;
@@ -39,7 +39,7 @@ public class PaymentController {
                 .toList()
         );
 
-        Payment payment = createPaymentUseCase.create(command);
-        return ResponseEntity.ok(CreatePaymentResponse.from(payment));
+        Result result = createPaymentUseCase.create(command);
+        return ResponseEntity.ok(CreatePaymentResponse.from(result));
     }
 }

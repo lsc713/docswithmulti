@@ -5,6 +5,7 @@ import com.example.payment.application.interfaces.PaymentRepository;
 import com.example.payment.application.usecase.CreatePaymentUseCase;
 import com.example.payment.domain.entity.Payment;
 import com.example.payment.domain.entity.PaymentItem;
+import com.example.payment.application.usecase.CreatePaymentUseCase.Result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class CreatePaymentService implements CreatePaymentUseCase {
 
     @Override
     @Transactional
-    public Payment create(CreatePaymentCommand command) {
+    public Result create(CreatePaymentCommand command) {
         BigDecimal totalAmount = command.items().stream()
             .map(CreatePaymentCommand.Item::itemAmount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -50,8 +51,8 @@ public class CreatePaymentService implements CreatePaymentUseCase {
                 item.itemAmount()
             ))
             .toList();
-        paymentItemRepository.saveAll(items);
+        List<PaymentItem> savedItems = paymentItemRepository.saveAll(items);
 
-        return saved;
+        return new Result(saved, savedItems);
     }
 }

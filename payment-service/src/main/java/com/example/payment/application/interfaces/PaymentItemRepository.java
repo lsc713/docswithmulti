@@ -10,5 +10,5 @@ public interface PaymentItemRepository {
     /** TX3 내부에서 최신 상태 재조회 + 비관적 락 */
     List<PaymentItem> findAllByPaymentIdForUpdate(long paymentId);
 
-    void saveAll(List<PaymentItem> items);
+    List<PaymentItem> saveAll(List<PaymentItem> items);
 }
