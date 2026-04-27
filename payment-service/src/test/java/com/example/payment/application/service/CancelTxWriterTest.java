@@ -95,7 +95,7 @@ class CancelTxWriterTest {
 
         when(paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId()))
             .thenReturn(List.of(itemA));
-        doNothing().when(paymentItemRepository).saveAll(anyList());
+        when(paymentItemRepository.saveAll(anyList())).thenReturn(List.of(itemA));
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         CancelRequest result = writer.saveTx3(req, payment, List.of(1L));

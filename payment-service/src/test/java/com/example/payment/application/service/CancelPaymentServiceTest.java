@@ -5,9 +5,13 @@ import com.example.payment.application.dto.RiskReserveResult;
 import com.example.payment.application.exception.PaymentNotFoundException;
 import com.example.payment.application.interfaces.*;
 import com.example.payment.domain.entity.*;
+import com.example.payment.domain.exception.CancelPeriodExceededException;
+import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
 import com.example.payment.domain.policy.CancelPeriodPolicy;
 import com.example.payment.domain.service.CancelDomainService;
 import com.example.payment.fixture.PaymentFixture;
+import com.example.payment.fixture.PaymentItemFixture;
+import com.example.payment.infrastructure.exception.RiskServiceException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -92,6 +96,71 @@ class CancelPaymentServiceTest {
         verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
     }
 
+    // ──────────────────────────────────────────────────────────
+    // 정상 취소 (COMPLETED)
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("정상 취소 — risk·PG 모두 성공 시 COMPLETED 반환")
+    void shouldCompleteCancelSuccessfully() {
+        when(paymentRepository.findByPaymentKey("pay_test_001")).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
+                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
+
+        CancelRequest processingWithId = reconstruct(1L, payment.getId(), CancelStatus.PROCESSING);
+        when(cancelTxWriter.saveTx2(any())).thenReturn(processingWithId);
+
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+
+        CancelRequest completed = reconstruct(1L, payment.getId(), CancelStatus.COMPLETED);
+        when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
+
+        CancelRequest result = service.cancel(command);
+
+        assertEquals(CancelStatus.COMPLETED, result.getStatus());
+        verify(riskManagementPort).validateAndReserve(
+            eq(payment.getMerchantId()), anyLong(), eq(BigDecimal.valueOf(30_000)), any());
+        verify(pgCancelPort).cancel(eq("pay_test_001"), eq(BigDecimal.valueOf(30_000)), anyString());
+        verify(cancelTxWriter).saveTx1(any());
+        verify(cancelTxWriter).saveTx2(any());
+        verify(cancelTxWriter).saveTx3(any(), eq(payment), eq(List.of(1L)));
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 멱등성 — PENDING / PROCESSING 기존 건 재시도 시 즉시 반환
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("멱등성 — PENDING 기존 건 재시도 시 risk 호출 없이 즉시 반환")
+    void shouldReturnExistingResultWhenCancelRequestPending() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+
+        CancelRequest pending = pendingCancelRequest(1L, payment.getId());
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.of(pending));
+
+        CancelRequest result = service.cancel(command);
+
+        assertEquals(CancelStatus.PENDING, result.getStatus());
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // FAILED 재시도
+    // ──────────────────────────────────────────────────────────
+
     @Test
     @DisplayName("should_raise_failed_to_pending_and_continue_when_existing_failed")
     void shouldRaiseFailedToPendingAndContinueWhenExistingFailed() {
@@ -133,5 +202,116 @@ class CancelPaymentServiceTest {
         CancelRequest result = service.cancel(command);
 
         assertEquals(CancelStatus.COMPLETED, result.getStatus());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // Risk 실패 → FAILED + compensation_retry 저장
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("risk 실패 → cancel_request FAILED + compensation_retry 저장")
+    void shouldMarkFailedAndSaveCompensationRetryWhenRiskFails() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+
+        // Risk 호출 실패
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenThrow(new RiskServiceException("risk 서비스 다운"));
+        // 보상 호출도 실패 → compensation_retry 저장
+        doThrow(new RiskServiceException("보상 실패"))
+            .when(riskManagementPort).compensate(anyLong(), anyLong(), any());
+
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        assertThrows(RiskServiceException.class, () -> service.cancel(command));
+
+        // compensation_retry.save 호출 확인
+        verify(compensationRetryRepository).save(
+            eq(pendingWithId.getId()), eq(payment.getMerchantId()), any(BigDecimal.class));
+        // cancel_request FAILED 상태로 저장 확인
+        verify(cancelRequestRepository).save(
+            argThat(cr -> cr.getStatus() == CancelStatus.FAILED));
+        // TX2, TX3 호출 없음
+        verify(cancelTxWriter, never()).saveTx2(any());
+        verify(cancelTxWriter, never()).saveTx3(any(), any(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 이미 취소된 아이템 포함 → TX1 이전에 예외
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("이미 취소된 아이템 포함 → InvalidPaymentItemStatusException, TX1 미실행")
+    void shouldThrowWhenTargetItemAlreadyCancelled() {
+        PaymentItem cancelledItemA = PaymentItemFixture.cancelled(payment.getId(), 10L, BigDecimal.valueOf(30_000));
+        // id=1 인 cancelled 아이템을 reconstruct로 생성
+        PaymentItem cancelledWithId = PaymentItem.reconstruct(
+            1L, payment.getId(), 10L, 100L, 200L, "상품A",
+            BigDecimal.valueOf(30_000), PaymentItemStatus.CANCELLED);
+
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(cancelledWithId, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        assertThrows(InvalidPaymentItemStatusException.class, () -> service.cancel(command));
+
+        verify(cancelTxWriter, never()).saveTx1(any());
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 취소 기간 초과 → TX3에서 CancelPeriodExceededException 전파
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("취소 기간 초과 — TX3에서 CancelPeriodExceededException 전파")
+    void shouldPropagateCancelPeriodExceededFromTx3() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
+                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
+        when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+
+        // TX3에서 기간 초과 예외 발생
+        when(cancelTxWriter.saveTx3(any(), any(), any()))
+            .thenThrow(new CancelPeriodExceededException(
+                payment.getCreatedAt(), payment.getCancelPeriodDays()));
+
+        assertThrows(CancelPeriodExceededException.class, () -> service.cancel(command));
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 헬퍼 메서드
+    // ──────────────────────────────────────────────────────────
+
+    private CancelRequest pendingCancelRequest(long id, long paymentId) {
+        return CancelRequest.reconstruct(id, paymentId, "hash",
+            BigDecimal.valueOf(30_000), "변심",
+            CancelStatus.PENDING, null, null, null, null,
+            Instant.now(), Instant.now());
+    }
+
+    private CancelRequest reconstruct(long id, long paymentId, CancelStatus status) {
+        return CancelRequest.reconstruct(id, paymentId, "hash",
+            BigDecimal.valueOf(30_000), "변심",
+            status, Instant.now(), Instant.now(), null, null,
+            Instant.now(), Instant.now());
     }
 }
