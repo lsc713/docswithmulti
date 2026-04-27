@@ -8,15 +8,18 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
 public class RedisDailyLimitCache implements DailyLimitCache {
 
+    private static final ZoneId KST = ZoneId.of("Asia/Seoul");
+    private static final Duration MIN_TTL = Duration.ofMinutes(1);
+
     private final StringRedisTemplate redisTemplate;
-    // 25h: 자정 KST에 한도가 초기화됨. 24h + 1h 버퍼로 키가 당일 중에 만료되지 않도록 보장
-    private static final Duration TTL = Duration.ofHours(25);
 
     @Override
     public Optional<BigDecimal> get(long merchantId, LocalDate kstDate) {
@@ -26,7 +29,18 @@ public class RedisDailyLimitCache implements DailyLimitCache {
 
     @Override
     public void set(long merchantId, LocalDate kstDate, BigDecimal limit) {
-        redisTemplate.opsForValue().set(key(merchantId, kstDate), limit.toPlainString(), TTL);
+        Duration ttl = ttlUntilMidnight(kstDate);
+        redisTemplate.opsForValue().set(key(merchantId, kstDate), limit.toPlainString(), ttl);
+    }
+
+    /**
+     * kstDate 자정(다음날 00:00 KST)까지 남은 시간을 TTL로 반환.
+     * 자정이 이미 지난 경우(당일 요청이 아닌 경우) 최소 1분으로 보정.
+     */
+    private Duration ttlUntilMidnight(LocalDate kstDate) {
+        ZonedDateTime midnight = kstDate.plusDays(1).atStartOfDay(KST);
+        Duration remaining = Duration.between(ZonedDateTime.now(KST), midnight);
+        return remaining.compareTo(MIN_TTL) > 0 ? remaining : MIN_TTL;
     }
 
     private String key(long merchantId, LocalDate kstDate) {

@@ -90,7 +90,9 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
 
         if (usageOpt.isPresent()) return usageOpt.get().getDailyLimit();
 
-        return merchantLimitClient.fetchDailyLimit(merchantId, kstDate);
+        BigDecimal fetched = merchantLimitClient.fetchDailyLimit(merchantId, kstDate);
+        dailyLimitCache.set(merchantId, kstDate, fetched);
+        return fetched;
     }
 
     private Result toResult(MerchantCancelUsage usage) {
