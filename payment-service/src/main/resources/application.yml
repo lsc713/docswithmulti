@@ -7,6 +7,9 @@ spring:
     username: payment
     password: payment
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000          # 풀에서 연결 획득 대기 (30s)
+      initialization-fail-timeout: -1    # 시작 시 첫 연결 실패해도 재시도 (Docker DB 준비 대기)
 
   jpa:
     hibernate:
