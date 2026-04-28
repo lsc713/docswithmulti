@@ -9,7 +9,7 @@
  */
 
 import http from 'k6/http';
-import { check } from 'k6';
+import { check, sleep } from 'k6';
 import { Rate, Trend } from 'k6/metrics';
 import { BASE, HEADERS, POOL_SIZE } from './config.js';
 import { buildPaymentPool } from './helpers/data-factory.js';
@@ -34,7 +34,11 @@ export const options = {
 
 // ─── 테스트 데이터 준비 (1회) ────────────────────────────────
 export function setup() {
-  return buildPaymentPool(POOL_SIZE);
+  const data = buildPaymentPool(POOL_SIZE);
+  // CB waitDurationInOpenState(10초) 이후 HALF_OPEN → CLOSED 전환 대기
+  console.log('[setup] CB 초기화 대기 (10초)...');
+  sleep(10);
+  return data;
 }
 
 // ─── VU 메인 루프 ────────────────────────────────────────────
@@ -62,6 +66,11 @@ export default function (data) {
   );
   cancelDuration.add(Date.now() - start);
 
+  // 실패 시 로그 추가
+  if (res.status !== 200) {
+    console.log(`[실패] VU=${__VU} ITER=${__ITER} idx=${idx} paymentKey=${paymentKey} status=${res.status} body=${res.body}`);
+  }
+  
   const ok = check(res, {
     'HTTP 200':           r => r.status === 200,
     'cancelRequestId 존재': r => {

@@ -594,6 +594,36 @@ TPS 10000+:
     6. PG사 TPS 제한
 ```
 
+**부하 테스트 실증 결과 (2026-04-28, k6, docker-compose 환경):**
+
+```
+VU 1명:
+  p99 92ms, 성공률 100%
+  → FOR UPDATE 경합 없음, 단건 처리 정상
+
+VU 10명 (동시 취소):
+  merchant_cancel_usage FOR UPDATE 직렬화 → 락 대기 타임아웃
+  → risk-management-service RISK_SERVICE_UNAVAILABLE 반환
+  → payment-service Circuit Breaker 실패율 50% 초과 → CB OPEN
+  → 이후 모든 요청 즉시 차단
+  → 최종 성공률 0.06%
+
+결론:
+  설계 예측(TPS 100 수준 FOR UPDATE 유지)보다 훨씬 낮은 VU 10명에서 병목 발생.
+  단일 가맹점에 동시 취소가 집중되는 시나리오에서
+  merchant_cancel_usage FOR UPDATE가 즉각적인 병목이 됨.
+
+  CB OPEN 연쇄:
+    FOR UPDATE 타임아웃 → risk 에러율 급등 → CB OPEN
+    → 정상 요청까지 차단 (CB가 의도한 동작이나 근본 원인은 FOR UPDATE)
+
+전환 기준 하향 조정:
+  당초: TPS 1000에서 분산락 전환 검토
+  실증: 동시 취소 집중 가맹점 발생 시 VU 10 수준에서 이미 한계
+  → 대형 가맹점 온보딩 전 Redis 분산 카운터 또는 분산락 도입 필요
+  → CB 설정(failureRateThreshold, waitDurationInOpenState) 재검토 권고
+```
+
 ---
 
 ## 11. Circuit Breaker 설계

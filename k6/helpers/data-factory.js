@@ -8,6 +8,7 @@
  */
 
 import http from 'k6/http';
+import { sleep } from 'k6';
 import { BASE, HEADERS } from '../config.js';
 
 // ─── 단건 생성 ────────────────────────────────────────────────
@@ -68,25 +69,36 @@ export function createPayment(merchantId, userId, orderItemId) {
 
 // ─── Pool 배치 생성 ──────────────────────────────────────────
 //
-// 반환: { merchantId, pool: [{ paymentKey, paymentItemId }] }
+// 반환: { merchantIds, pool: [{ paymentKey, paymentItemId, merchantId }] }
 //
-// 배치 50건씩 주문 → 결제 순으로 생성.
-// POOL_SIZE=1500 기준 setup 약 30~40초 소요.
+// 가맹점 MERCHANT_COUNT개를 생성하고 poolSize건을 균등 분배.
+// → merchant_cancel_usage FOR UPDATE 경합을 가맹점 수만큼 분산.
+// → 가맹점당 약 poolSize / MERCHANT_COUNT 건 (150건 @ 1500/10).
+//
+// 배치 10건씩, 배치 간 sleep(0.2) — risk CB OPEN 방지.
+
+const MERCHANT_COUNT = 10;
 
 export function buildPaymentPool(poolSize) {
-  console.log(`[setup] payment pool 생성 시작: ${poolSize}건`);
+  console.log(`[setup] payment pool 생성 시작: ${poolSize}건 / 가맹점 ${MERCHANT_COUNT}개`);
 
-  const merchant = createMerchant();
-  const merchantId = merchant.merchantId ?? merchant.id;
-  console.log(`[setup] 가맹점 생성 완료 merchantId=${merchantId}`);
+  // ① 가맹점 MERCHANT_COUNT개 순차 생성
+  const merchantIds = [];
+  for (let m = 0; m < MERCHANT_COUNT; m++) {
+    const merchant = createMerchant(`_${m}`);
+    merchantIds.push(merchant.merchantId ?? merchant.id);
+  }
+  console.log(`[setup] 가맹점 생성 완료: [${merchantIds}]`);
 
   const pool = [];
-  const BATCH = 50;
+  const BATCH = 10; // risk CB 트리거 방지: 배치를 작게 유지
 
   for (let offset = 0; offset < poolSize; offset += BATCH) {
     const count = Math.min(BATCH, poolSize - offset);
+    // 배치 단위로 가맹점 라운드로빈 — 가맹점당 FOR UPDATE 경합 분산
+    const merchantId = merchantIds[Math.floor(offset / BATCH) % MERCHANT_COUNT];
 
-    // ① 주문 배치
+    // ② 주문 배치
     const orderReqs = Array.from({ length: count }, (_, i) => ({
       method: 'POST',
       url: `${BASE.ORDER}/v1/orders`,
@@ -98,7 +110,7 @@ export function buildPaymentPool(poolSize) {
     }));
     const orderResps = http.batch(orderReqs);
 
-    // ② 결제 배치 (주문 응답에서 orderItemId 추출)
+    // ③ 결제 배치 (주문 응답에서 orderItemId 추출)
     const paymentReqs = orderResps.map((r, i) => {
       const order = JSON.parse(r.body);
       const orderItemId = order.items[0].orderItemId;
@@ -117,17 +129,18 @@ export function buildPaymentPool(poolSize) {
     });
     const paymentResps = http.batch(paymentReqs);
 
-    // ③ pool에 추가
+    // ④ pool에 추가
     for (const r of paymentResps) {
       const p = JSON.parse(r.body);
       if (p.paymentKey && p.items?.length > 0) {
-        pool.push({ paymentKey: p.paymentKey, paymentItemId: p.items[0].paymentItemId });
+        pool.push({ paymentKey: p.paymentKey, paymentItemId: p.items[0].paymentItemId, merchantId });
       }
     }
 
-    console.log(`[setup] 진행: ${Math.min(offset + BATCH, poolSize)}/${poolSize}`);
+    console.log(`[setup] 진행: ${Math.min(offset + BATCH, poolSize)}/${poolSize} (merchantId=${merchantId})`);
+    sleep(0.2); // 배치 간 대기 — risk CB OPEN 방지
   }
 
   console.log(`[setup] pool 생성 완료: ${pool.length}건`);
-  return { merchantId, pool };
+  return { merchantIds, pool };
 }

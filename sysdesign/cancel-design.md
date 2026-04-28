@@ -1324,3 +1324,69 @@ compensation-retry:
 | compensation_retry INSERT 실패 | payment DB 장애 | 에러 로그 기반 수동 INSERT |
 | PG사 pending 1시간 초과 | PG사 장기 미처리 | PG사 확인 후 수동 처리 |
 | DLQ 메시지 | Kafka Consumer 실패 | 원인 파악 후 재발행 또는 폐기 |
+
+---
+
+## 8. TPS 확장 전략 및 병목 실증
+
+### 부하 테스트 결과 (2026-04-28, k6, docker-compose 단일 인스턴스)
+
+```
+VU 1명:
+  p99 92ms, 성공률 100%
+
+VU 10명 (동시 취소 집중):
+  merchant_cancel_usage FOR UPDATE 직렬화 → 락 대기 타임아웃
+  → risk-management-service RISK_SERVICE_UNAVAILABLE
+  → Circuit Breaker 실패율 50% 초과 → CB OPEN
+  → 이후 모든 요청 즉시 차단
+  → 최종 성공률 0.06%
+```
+
+### 병목 전파 경로
+
+```
+동시 취소 요청
+  └─ merchant_cancel_usage FOR UPDATE 대기
+       └─ DB 락 타임아웃
+            └─ risk-service RISK_SERVICE_UNAVAILABLE 반환
+                 └─ payment-service CB 실패율 누적
+                      └─ CB OPEN → 정상 요청까지 차단
+```
+
+FOR UPDATE 타임아웃이 CB에 의해 증폭된다.
+CB는 의도한 동작이나, 근본 원인은 FOR UPDATE 직렬화.
+
+### 전환 기준 (설계 예측 → 실증 반영)
+
+| 구분 | 설계 예측 | 실증 결과 |
+|------|---------|---------|
+| FOR UPDATE 한계 | TPS 1000+ | VU 10 수준 (동시 집중 시) |
+| 분산락 전환 시점 | TPS 1000 | 대형 가맹점 온보딩 전 |
+| CB 파라미터 | 기본값 유지 | failureRateThreshold / waitDurationInOpenState 재검토 권고 |
+
+### 단계별 확장 전략
+
+```
+현재 (TPS 100 목표):
+  단일 MySQL, FOR UPDATE 유지
+  가맹점별 트래픽 분산이 전제
+  특정 가맹점에 집중 시 병목 즉시 발생
+
+단기 (대형 가맹점 온보딩 시):
+  Redis 분산 카운터 도입 검토
+    INCRBY used_amount:{merchantId}:{kstDate} 원자적 연산
+    단, 장애 시 정합성 위험 → cancel_usage_history UK로 이중 차감 방어 필수
+  Circuit Breaker 파라미터 조정
+    waitDurationInOpenState: 락 타임아웃보다 짧게
+    slidingWindowSize: 충분히 크게 (일시적 스파이크에 CB OPEN 방지)
+
+중기 (TPS 1000+):
+  Read Replica 도입
+  Redis 분산락 전환 (스케줄러 → FOR UPDATE 모두)
+  Outbox → CDC(Debezium) 전환
+
+장기 (TPS 5000+):
+  merchantId 기반 DB 샤딩
+  FOR UPDATE 자체 제거 → 분산락만으로 직렬화
+```
