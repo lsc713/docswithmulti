@@ -8,14 +8,14 @@ class OrderTest {
 
     @Test
     void should_become_cancelled_when_cancel_called() {
-        Order order = Order.of(1L, OrderStatus.PAID);
+        Order order = Order.of(1L, 100L, OrderStatus.PAID);
         order.cancel();
         assertThat(order.getStatus()).isEqualTo(OrderStatus.CANCELLED);
     }
 
     @Test
     void should_become_partial_cancelled_when_partialCancel_called() {
-        Order order = Order.of(1L, OrderStatus.PAID);
+        Order order = Order.of(1L, 100L, OrderStatus.PAID);
         order.partialCancel();
         assertThat(order.getStatus()).isEqualTo(OrderStatus.PARTIAL_CANCELLED);
     }

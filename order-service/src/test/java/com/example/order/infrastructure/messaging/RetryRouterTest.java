@@ -1,7 +1,7 @@
 package com.example.order.infrastructure.messaging;
 
 import com.example.order.application.exception.OrderItemNotFoundException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.header.Header;

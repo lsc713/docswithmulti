@@ -2,7 +2,7 @@ package com.example.order.infrastructure.messaging;
 
 import com.example.order.application.exception.OrderItemNotFoundException;
 import com.example.order.application.usecase.ProcessCancelledItemsUseCase;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -104,5 +104,18 @@ class PaymentCancelledConsumerTest {
 
         verify(retryRouter).route(eq(rec), any(RuntimeException.class));
         verify(ack).acknowledge();
+    }
+
+    @Test
+    void consumer_should_ack_without_retry_on_duplicate_key_violation() {
+        Acknowledgment ack = mock(Acknowledgment.class);
+        ConsumerRecord<String, String> rec = record(validPayload("cr_dup", 10L));
+        doThrow(new org.springframework.dao.DataIntegrityViolationException("UK constraint violated"))
+            .when(processUseCase).execute(any());
+
+        consumer.consume(rec, ack);
+
+        verify(ack).acknowledge();
+        verifyNoInteractions(retryRouter);
     }
 }

@@ -66,11 +66,11 @@ class ProcessCancelledItemsServiceTest {
     void should_cancel_order_when_all_items_cancelled() {
         when(processedCancelEventRepository.existsByCancelRequestId("cr_3")).thenReturn(false);
 
-        OrderItem item1 = OrderItem.of(10L, 1L, OrderItemStatus.ACTIVE);
-        OrderItem item2 = OrderItem.of(11L, 1L, OrderItemStatus.ACTIVE);
+        OrderItem item1 = OrderItem.of(10L, 1L, 100L, "상품A", java.math.BigDecimal.valueOf(10000), OrderItemStatus.ACTIVE);
+        OrderItem item2 = OrderItem.of(11L, 1L, 101L, "상품B", java.math.BigDecimal.valueOf(20000), OrderItemStatus.ACTIVE);
         when(orderItemRepository.findAllByIdIn(List.of(10L, 11L))).thenReturn(List.of(item1, item2));
 
-        Order order = Order.of(1L, OrderStatus.PAID);
+        Order order = Order.of(1L, 100L, OrderStatus.PAID);
         when(orderRepository.findByIdForUpdate(1L)).thenReturn(Optional.of(order));
 
         // item1, item2 가 cancel() 호출 후 CANCELLED 상태가 됨
@@ -88,14 +88,14 @@ class ProcessCancelledItemsServiceTest {
     void should_partial_cancel_order_when_some_items_remain_active() {
         when(processedCancelEventRepository.existsByCancelRequestId("cr_4")).thenReturn(false);
 
-        OrderItem item1 = OrderItem.of(10L, 1L, OrderItemStatus.ACTIVE);
+        OrderItem item1 = OrderItem.of(10L, 1L, 100L, "상품A", java.math.BigDecimal.valueOf(10000), OrderItemStatus.ACTIVE);
         when(orderItemRepository.findAllByIdIn(List.of(10L))).thenReturn(List.of(item1));
 
-        Order order = Order.of(1L, OrderStatus.PAID);
+        Order order = Order.of(1L, 100L, OrderStatus.PAID);
         when(orderRepository.findByIdForUpdate(1L)).thenReturn(Optional.of(order));
 
         // item1 은 cancel() 후 CANCELLED, item2 는 여전히 ACTIVE
-        OrderItem item2 = OrderItem.of(11L, 1L, OrderItemStatus.ACTIVE);
+        OrderItem item2 = OrderItem.of(11L, 1L, 101L, "상품B", java.math.BigDecimal.valueOf(20000), OrderItemStatus.ACTIVE);
         when(orderItemRepository.findAllByOrderId(1L)).thenReturn(List.of(item1, item2));
 
         service.execute(new ProcessCancelledItemsUseCase.Command("cr_4", List.of(10L)));
