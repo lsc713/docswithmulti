@@ -1,5 +1,6 @@
 package com.example.payment.infrastructure.scheduler;
 
+import com.example.payment.application.service.ProcessingRecoveryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -10,16 +11,13 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * CancelRequest PROCESSING 5분 초과 복구 스케줄러
- * Redis 분산락으로 중복 실행 방지 (60초 주기)
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class ProcessingRecoveryScheduler {
 
     private final RedissonClient redissonClient;
+    private final ProcessingRecoveryService processingRecoveryService;
 
     @Value("${scheduler.lock.processing-recovery}")
     private String lockKey;
@@ -38,7 +36,7 @@ public class ProcessingRecoveryScheduler {
             return;
         }
         try {
-            // TODO: CancelRequest PROCESSING 5분 초과 복구
+            processingRecoveryService.recoverAll();
         } finally {
             if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
