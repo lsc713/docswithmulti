@@ -298,6 +298,191 @@ class CancelPaymentServiceTest {
     }
 
     // ──────────────────────────────────────────────────────────
+    // 멱등성 — PROCESSING 기존 건 즉시 반환
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("멱등성 — PROCESSING 기존 건 재시도 시 risk 호출 없이 즉시 반환")
+    void shouldReturnExistingResultWhenCancelRequestProcessing() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+
+        CancelRequest processing = reconstruct(1L, payment.getId(), CancelStatus.PROCESSING);
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.of(processing));
+
+        CancelRequest result = service.cancel(command);
+
+        assertEquals(CancelStatus.PROCESSING, result.getStatus());
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 취소 불가 결제 — validateCancellable TX1 이전 예외
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("CANCELLED 상태 Payment는 validateCancellable에서 예외 — TX1 미실행")
+    void shouldThrowWhenPaymentAlreadyCancelled() {
+        Payment cancelledPayment = PaymentFixture.cancelledPayment();
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(cancelledPayment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        assertThrows(com.example.payment.domain.exception.CancelNotAllowedException.class,
+            () -> service.cancel(command));
+
+        verify(cancelTxWriter, never()).saveTx1(any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // PG 취소 PENDING — TX3 건너뜀
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("PG 취소 결과가 PENDING이면 TX3 없이 PROCESSING 상태 반환")
+    void shouldReturnWithoutTx3WhenPgResultIsPending() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
+                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
+        when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(com.example.payment.application.dto.PgCancelResult.pending("pg-tx-pending"));
+
+        CancelRequest result = service.cancel(command);
+
+        verify(cancelTxWriter, never()).saveTx3(any(), any(), any());
+        // PG PENDING 시 saveTx2에서 반환된 PROCESSING 상태 그대로 반환
+        assertEquals(CancelStatus.PROCESSING, result.getStatus());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // PG 취소 실패 — compensateAndFail 호출
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("PG 취소 실패 + 보상 성공 → FAILED 저장, compensation_retry 미저장")
+    void shouldMarkFailedWhenPgFailsAndCompensateSucceeds() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
+                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
+        when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(com.example.payment.application.dto.PgCancelResult.failed("pg-tx-fail"));
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        service.cancel(command);
+
+        verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
+        verify(compensationRetryRepository, never()).save(anyLong(), anyLong(), any());
+        verify(cancelRequestRepository).save(argThat(cr -> cr.getStatus() == CancelStatus.FAILED));
+    }
+
+    @Test
+    @DisplayName("PG 취소 실패 + 보상 실패 → compensation_retry 저장")
+    void shouldSaveCompensationRetryWhenPgFailsAndCompensateFails() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
+                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
+        when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(com.example.payment.application.dto.PgCancelResult.failed("pg-tx-fail"));
+        doThrow(new com.example.payment.infrastructure.exception.RiskServiceException("보상 실패"))
+            .when(riskManagementPort).compensate(anyLong(), anyLong(), any());
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        service.cancel(command);
+
+        verify(compensationRetryRepository).save(
+            eq(pendingWithId.getId()), eq(payment.getMerchantId()), any(BigDecimal.class));
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // Risk 실패 + 보상 성공 — compensation_retry 미저장
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("risk 실패 + 보상 성공 → compensation_retry 저장 안 함")
+    void shouldNotSaveCompensationRetryWhenRiskFailsAndCompensateSucceeds() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 서비스 다운"));
+        // compensate는 성공 (예외 없음)
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        assertThrows(com.example.payment.infrastructure.exception.RiskServiceException.class,
+            () -> service.cancel(command));
+
+        verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
+        verify(compensationRetryRepository, never()).save(anyLong(), anyLong(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // recordHistory 예외 — 무시
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("이력 기록 실패해도 취소 플로우는 정상 완료된다")
+    void shouldCompleteSuccessfullyEvenWhenHistoryRecordingFails() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
+                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
+        when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(com.example.payment.application.dto.PgCancelResult.approved("pg-tx-001"));
+        CancelRequest completed = reconstruct(1L, payment.getId(), CancelStatus.COMPLETED);
+        when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
+        doThrow(new RuntimeException("이력 DB 장애"))
+            .when(historyRepository).record(anyLong(), any(), any());
+
+        CancelRequest result = assertDoesNotThrow(() -> service.cancel(command));
+
+        assertEquals(CancelStatus.COMPLETED, result.getStatus());
+    }
+
+    // ──────────────────────────────────────────────────────────
     // 헬퍼 메서드
     // ──────────────────────────────────────────────────────────
 

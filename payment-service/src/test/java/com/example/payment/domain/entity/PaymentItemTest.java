@@ -37,6 +37,46 @@ class PaymentItemTest {
     }
 
     @Nested
+    @DisplayName("equals / hashCode")
+    class EqualsAndHashCode {
+
+        @Test
+        @DisplayName("동일 객체는 equal이다")
+        void sameInstance_isEqual() {
+            assertEquals(item, item);
+        }
+
+        @Test
+        @DisplayName("null과는 equal이 아니다")
+        void nullIsNotEqual() {
+            assertNotEquals(null, item);
+        }
+
+        @Test
+        @DisplayName("다른 클래스와는 equal이 아니다")
+        void differentClassIsNotEqual() {
+            assertNotEquals("string", item);
+        }
+
+        @Test
+        @DisplayName("같은 id·paymentId이면 equal이다")
+        void sameIdAndPaymentId_isEqual() {
+            PaymentItem same = PaymentItem.reconstruct(0L, 1L, 10L, 100L, 200L, "상품B",
+                BigDecimal.valueOf(99999), PaymentItemStatus.CANCELLED);
+            assertEquals(item, same);
+            assertEquals(item.hashCode(), same.hashCode());
+        }
+
+        @Test
+        @DisplayName("id가 다르면 equal이 아니다")
+        void differentId_isNotEqual() {
+            PaymentItem other = PaymentItem.reconstruct(99L, 1L, 10L, 100L, 200L, "상품A",
+                BigDecimal.valueOf(30000), PaymentItemStatus.ACTIVE);
+            assertNotEquals(item, other);
+        }
+    }
+
+    @Nested
     @DisplayName("CANCELLED 상태일 때")
     class WhenCancelled {
 

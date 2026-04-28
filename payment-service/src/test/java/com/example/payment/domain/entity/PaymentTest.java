@@ -282,6 +282,57 @@ class PaymentTest {
     }
 
     @Nested
+    @DisplayName("equals / hashCode")
+    class EqualsAndHashCode {
+
+        @Test
+        @DisplayName("동일 객체는 equal이다")
+        void sameInstance_isEqual() {
+            Payment p = Payment.of("key1", 1L, 1L, "TOSS", BigDecimal.valueOf(10000), "KRW", 90);
+            assertEquals(p, p);
+        }
+
+        @Test
+        @DisplayName("null과는 equal이 아니다")
+        void nullIsNotEqual() {
+            Payment p = Payment.of("key1", 1L, 1L, "TOSS", BigDecimal.valueOf(10000), "KRW", 90);
+            assertNotEquals(null, p);
+        }
+
+        @Test
+        @DisplayName("다른 클래스와는 equal이 아니다")
+        void differentClassIsNotEqual() {
+            Payment p = Payment.of("key1", 1L, 1L, "TOSS", BigDecimal.valueOf(10000), "KRW", 90);
+            assertNotEquals("string", p);
+        }
+
+        @Test
+        @DisplayName("같은 id·paymentKey이면 equal이다")
+        void sameIdAndKey_isEqual() {
+            Payment p1 = Payment.reconstruct(1L, "key1", 1L, 1L, "TOSS",
+                BigDecimal.valueOf(10000), "KRW", 90, PaymentStatus.COMPLETED,
+                LocalDateTime.now(), LocalDateTime.now());
+            Payment p2 = Payment.reconstruct(1L, "key1", 2L, 2L, "KG",
+                BigDecimal.valueOf(99999), "USD", 30, PaymentStatus.CANCELLED,
+                LocalDateTime.now(), LocalDateTime.now());
+            assertEquals(p1, p2);
+            assertEquals(p1.hashCode(), p2.hashCode());
+        }
+
+        @Test
+        @DisplayName("id가 다르면 equal이 아니다")
+        void differentId_isNotEqual() {
+            Payment p1 = Payment.reconstruct(1L, "key1", 1L, 1L, "TOSS",
+                BigDecimal.valueOf(10000), "KRW", 90, PaymentStatus.COMPLETED,
+                LocalDateTime.now(), LocalDateTime.now());
+            Payment p2 = Payment.reconstruct(2L, "key1", 1L, 1L, "TOSS",
+                BigDecimal.valueOf(10000), "KRW", 90, PaymentStatus.COMPLETED,
+                LocalDateTime.now(), LocalDateTime.now());
+            assertNotEquals(p1, p2);
+        }
+    }
+
+    @Nested
     @DisplayName("잔여 취소 가능액 계산")
     class RemainingCancelAmount {
 

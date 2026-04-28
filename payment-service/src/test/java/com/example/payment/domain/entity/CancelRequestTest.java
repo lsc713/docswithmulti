@@ -139,4 +139,54 @@ class CancelRequestTest {
         cancelRequest.raiseToPending();
         assertEquals(0, cancelRequest.getPgRetryCount());
     }
+
+    // ──────────────────────────────────────────────────────────
+    // 생성자 검증 — null/empty 분기
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("cancelAmount가 null이면 InvalidCancelAmountException을 던진다")
+    void shouldRejectNullCancelAmount() {
+        assertThrows(InvalidCancelAmountException.class,
+            () -> CancelRequest.create(1L, "hash", null, "변심", List.of(1L)));
+    }
+
+    @Test
+    @DisplayName("cancelItemIds가 null이면 IllegalArgumentException을 던진다")
+    void shouldRejectNullCancelItemIds() {
+        assertThrows(IllegalArgumentException.class,
+            () -> CancelRequest.create(1L, "hash", new BigDecimal("100000"), "변심", null));
+    }
+
+    @Test
+    @DisplayName("cancelItemIds가 빈 리스트이면 IllegalArgumentException을 던진다")
+    void shouldRejectEmptyCancelItemIds() {
+        assertThrows(IllegalArgumentException.class,
+            () -> CancelRequest.create(1L, "hash", new BigDecimal("100000"), "변심", List.of()));
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 잘못된 상태 전이 — 추가 분기
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("PROCESSING 상태에서 toProcessing()을 호출하면 예외를 던진다")
+    void shouldRejectToProcessingFromProcessing() {
+        cancelRequest.toProcessing();
+        assertThrows(InvalidCancelStateTransitionException.class, cancelRequest::toProcessing);
+    }
+
+    @Test
+    @DisplayName("PENDING 상태에서 toCompleted()를 호출하면 예외를 던진다")
+    void shouldRejectToCompletedFromPending() {
+        assertThrows(InvalidCancelStateTransitionException.class, cancelRequest::toCompleted);
+    }
+
+    @Test
+    @DisplayName("FAILED 상태에서 toFailed()를 호출하면 예외를 던진다")
+    void shouldRejectToFailedFromFailed() {
+        cancelRequest.toProcessing();
+        cancelRequest.toFailed();
+        assertThrows(InvalidCancelStateTransitionException.class, cancelRequest::toFailed);
+    }
 }
