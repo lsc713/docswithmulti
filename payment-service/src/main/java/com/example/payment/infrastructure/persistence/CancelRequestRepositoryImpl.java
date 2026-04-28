@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * CancelRequestRepository 구현체
@@ -36,13 +35,13 @@ public class CancelRequestRepositoryImpl implements CancelRequestRepository {
     public List<CancelRequest> findPendingCreatedBefore(Instant before) {
         LocalDateTime beforeLdt = LocalDateTime.ofInstant(before, ZoneOffset.UTC);
         return jpaRepository.findByStatusAndCreatedAtBefore(CancelStatus.PENDING, beforeLdt)
-            .stream().map(CancelRequestJpaEntity::toDomain).collect(Collectors.toList());
+            .stream().map(CancelRequestJpaEntity::toDomain).toList();
     }
 
     @Override
     public List<CancelRequest> findProcessingUpdatedBefore(Instant before) {
         LocalDateTime beforeLdt = LocalDateTime.ofInstant(before, ZoneOffset.UTC);
         return jpaRepository.findByStatusAndUpdatedAtBefore(CancelStatus.PROCESSING, beforeLdt)
-            .stream().map(CancelRequestJpaEntity::toDomain).collect(Collectors.toList());
+            .stream().map(CancelRequestJpaEntity::toDomain).toList();
     }
 }

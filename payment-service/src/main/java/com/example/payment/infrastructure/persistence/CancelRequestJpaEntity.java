@@ -114,6 +114,7 @@ public class CancelRequestJpaEntity {
     public Long getPaymentId() { return paymentId; }
     public String getRequestHash() { return requestHash; }
     public BigDecimal getCancelAmount() { return cancelAmount; }
+    public List<Long> getCancelItemIds() { return cancelItemIds; }
     public String getCancelReason() { return cancelReason; }
     public CancelStatus getStatus() { return status; }
     public void setStatus(CancelStatus status) { this.status = status; }
