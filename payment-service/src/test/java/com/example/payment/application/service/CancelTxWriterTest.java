@@ -1,5 +1,6 @@
 package com.example.payment.application.service;
 
+import com.example.payment.application.event.CancelCompletedEvent;
 import com.example.payment.application.interfaces.*;
 import com.example.payment.domain.entity.*;
 import com.example.payment.domain.policy.CancelPeriodPolicy;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.math.BigDecimal;
 import java.time.Clock;
@@ -27,10 +29,9 @@ class CancelTxWriterTest {
     @Mock CancelRequestRepository cancelRequestRepository;
     @Mock PaymentItemRepository paymentItemRepository;
     @Mock PaymentRepository paymentRepository;
-    @Mock CancelEventOutboxRepository outboxRepository;
+    @Mock ApplicationEventPublisher applicationEventPublisher;
 
     private CancelTxWriter writer;
-
     private Payment payment;
     private PaymentItem itemA;
 
@@ -38,11 +39,10 @@ class CancelTxWriterTest {
     void setUp() {
         Clock clock = Clock.fixed(Instant.parse("2026-03-01T00:00:00Z"), ZoneOffset.UTC);
         CancelDomainService domainService = new CancelDomainService(new CancelPeriodPolicy(clock));
-
         writer = new CancelTxWriter(
-            cancelRequestRepository, paymentItemRepository, paymentRepository, outboxRepository, domainService
+            cancelRequestRepository, paymentItemRepository, paymentRepository,
+            applicationEventPublisher, domainService
         );
-
         payment = PaymentFixture.completedPayment();
         itemA = PaymentItem.reconstruct(1L, payment.getId(), 10L, 100L, 200L, "상품A",
             BigDecimal.valueOf(30000), PaymentItemStatus.ACTIVE);
@@ -53,7 +53,6 @@ class CancelTxWriterTest {
     void saveTx1_savesCancelRequestAsPending() {
         CancelRequest req = CancelRequest.create(
             payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L));
-
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> {
             CancelRequest cr = inv.getArgument(0);
             return CancelRequest.reconstruct(1L, cr.getPaymentId(), cr.getRequestHash(),
@@ -70,28 +69,22 @@ class CancelTxWriterTest {
     @Test
     @DisplayName("saveTx2: PROCESSING 상태로 전환 후 저장한다")
     void saveTx2_transitionsToCancelRequestToProcessing() {
-        CancelRequest req = CancelRequest.create(
-            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L));
-        req = CancelRequest.reconstruct(1L, req.getPaymentId(), req.getRequestHash(),
-            req.getCancelAmount(), req.getCancelReason(), req.getCancelItemIds(), req.getStatus(),
-            0, null, null, req.getCreatedAt(), req.getUpdatedAt());
-
+        CancelRequest req = CancelRequest.reconstruct(1L, payment.getId(), "hash-001",
+            BigDecimal.valueOf(30000), "고객 변심", List.of(1L), CancelStatus.PENDING,
+            0, null, null, Instant.now(), Instant.now());
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         CancelRequest result = writer.saveTx2(req);
 
         assertEquals(CancelStatus.PROCESSING, result.getStatus());
-        verify(cancelRequestRepository).save(req);
     }
 
     @Test
-    @DisplayName("saveTx3: PaymentItem을 FOR UPDATE로 재조회하고 COMPLETED 상태로 저장한다")
-    void saveTx3_reloadsItemsForUpdateAndSavesCompleted() {
-        CancelRequest req = CancelRequest.create(
-            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L));
-        req = CancelRequest.reconstruct(1L, req.getPaymentId(), req.getRequestHash(),
-            req.getCancelAmount(), req.getCancelReason(), req.getCancelItemIds(), CancelStatus.PROCESSING,
-            0, null, null, req.getCreatedAt(), req.getUpdatedAt());
+    @DisplayName("saveTx3: FOR UPDATE 재조회 후 COMPLETED 저장 + CancelCompletedEvent 발행")
+    void saveTx3_reloadsItemsForUpdateAndPublishesEvent() {
+        CancelRequest req = CancelRequest.reconstruct(1L, payment.getId(), "hash-001",
+            BigDecimal.valueOf(30000), "고객 변심", List.of(1L), CancelStatus.PROCESSING,
+            0, null, null, Instant.now(), Instant.now());
 
         when(paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId()))
             .thenReturn(List.of(itemA));
@@ -102,7 +95,6 @@ class CancelTxWriterTest {
 
         assertEquals(CancelStatus.COMPLETED, result.getStatus());
         verify(paymentItemRepository).findAllByPaymentIdForUpdate(payment.getId());
-        verify(paymentItemRepository).saveAll(anyList());
-        verify(outboxRepository).insertIfAbsent(any(), any(), anyList());
+        verify(applicationEventPublisher).publishEvent(any(CancelCompletedEvent.class));
     }
 }

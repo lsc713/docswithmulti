@@ -2,7 +2,6 @@ package com.example.payment.integration;
 
 import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.application.dto.RiskReserveResult;
-import com.example.payment.application.interfaces.OutboxEventPublisher;
 import com.example.payment.application.interfaces.PgCancelPort;
 import com.example.payment.application.interfaces.RiskManagementPort;
 import org.redisson.api.RedissonClient;
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.*;
 import org.mockito.InOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -24,6 +24,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +34,7 @@ import static org.mockito.Mockito.*;
 /**
  * 결제 취소 전체 플로우 통합 테스트 (Testcontainers + 실제 MySQL)
  *
- * TX1(PENDING) → Risk 호출 → TX2(PROCESSING) → PG 호출 → TX3(COMPLETED + Outbox)
+ * TX1(PENDING) → Risk 호출 → TX2(PROCESSING) → PG 호출 → TX3(COMPLETED + ApplicationEvent)
  * 각 트랜잭션 커밋 이후 DB 상태를 직접 검증한다.
  *
  * Redis/Kafka 의존성은 test/resources/application.yml 에서 auto-configure 제외.
@@ -59,14 +60,14 @@ class CancelFlowIntegrationTest {
     // ── 외부 의존성 Mock ────────────────────────────────────────
     @MockitoBean RiskManagementPort riskManagementPort;
     @MockitoBean PgCancelPort pgCancelPort;
-    @MockitoBean OutboxEventPublisher outboxEventPublisher; // Kafka 실제 발행 차단
-    @MockitoBean RedissonClient redissonClient;            // Redis 연결 없이 스케줄러 빈 생성
+    @MockitoBean KafkaTemplate<String, String> kafkaTemplate; // Kafka 실제 발행 차단
+    @MockitoBean RedissonClient redissonClient;               // Redis 연결 없이 스케줄러 빈 생성
 
     // ── 실제 JPA 레포지토리 (직접 조회용) ─────────────────────
     @Autowired PaymentJpaRepository paymentJpaRepository;
     @Autowired PaymentItemJpaRepository paymentItemJpaRepository;
     @Autowired CancelRequestJpaRepository cancelRequestJpaRepository;
-    @Autowired CancelEventOutboxJpaRepository cancelEventOutboxJpaRepository;
+    @Autowired FailedKafkaEventJpaRepository failedKafkaEventJpaRepository;
 
     // ── 테스트 대상 서비스 ─────────────────────────────────────
     @Autowired CancelPaymentService cancelPaymentService;
@@ -77,6 +78,8 @@ class CancelFlowIntegrationTest {
 
     @BeforeEach
     void insertTestData() {
+        when(kafkaTemplate.send(anyString(), anyString(), anyString()))
+            .thenReturn(CompletableFuture.completedFuture(null));
         PaymentJpaEntity savedPayment = paymentJpaRepository.save(
             PaymentJpaEntity.from(
                 Payment.of("it_pay_001", 1L, 1L, "TOSS",
@@ -102,7 +105,7 @@ class CancelFlowIntegrationTest {
 
     @AfterEach
     void cleanup() {
-        cancelEventOutboxJpaRepository.deleteAll();
+        failedKafkaEventJpaRepository.deleteAll();
         cancelRequestJpaRepository.deleteAll();
         paymentItemJpaRepository.deleteAll();
         paymentJpaRepository.deleteAll();
@@ -167,9 +170,8 @@ class CancelFlowIntegrationTest {
         assertThat(paymentItemJpaRepository.findById(itemBId).orElseThrow().getStatus())
             .isEqualTo(PaymentItemStatus.ACTIVE);
 
-        // Outbox 행 존재
-        assertThat(cancelEventOutboxJpaRepository
-            .existsByCancelRequestId(capturedCancelRequestId.get())).isTrue();
+        // AFTER_COMMIT Kafka 발행 성공 → failed_kafka_event 없음
+        assertThat(failedKafkaEventJpaRepository.findAll()).isEmpty();
     }
 
     // ──────────────────────────────────────────────────────────
@@ -236,7 +238,7 @@ class CancelFlowIntegrationTest {
     // ──────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("Risk 실패 — cancel_request FAILED, Outbox 미삽입, PaymentItem 상태 유지")
+    @DisplayName("Risk 실패 — cancel_request FAILED, TX3 미실행, PaymentItem 상태 유지")
     void shouldMarkCancelRequestFailedWhenRiskFails() {
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
             .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 다운"));
@@ -254,8 +256,8 @@ class CancelFlowIntegrationTest {
         assertThat(requests).hasSize(1);
         assertThat(requests.get(0).getStatus()).isEqualTo(CancelStatus.FAILED);
 
-        // Outbox 없음 (TX3 미실행)
-        assertThat(cancelEventOutboxJpaRepository.findAll()).isEmpty();
+        // TX3 미실행 → failed_kafka_event 없음
+        assertThat(failedKafkaEventJpaRepository.findAll()).isEmpty();
 
         // PaymentItem 상태 변경 없음
         assertThat(paymentItemJpaRepository.findById(itemAId).orElseThrow().getStatus())

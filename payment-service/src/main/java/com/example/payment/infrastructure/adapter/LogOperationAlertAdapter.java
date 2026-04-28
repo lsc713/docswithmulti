@@ -14,4 +14,9 @@ public class LogOperationAlertAdapter implements OperationAlertPort {
         log.error("[ALERT] PG pending 1시간 초과 — 수동 확인 필요. cancelRequestId={} paymentKey={} pgPendingSince={}",
             cancelRequestId, paymentKey, pgPendingSince);
     }
+
+    @Override
+    public void alert(String message) {
+        log.error("[ALERT] {}", message);
+    }
 }
