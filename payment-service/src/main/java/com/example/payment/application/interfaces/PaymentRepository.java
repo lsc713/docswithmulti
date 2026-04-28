@@ -1,7 +1,6 @@
 package com.example.payment.application.interfaces;
 
 import com.example.payment.domain.entity.Payment;
-
 import java.util.Optional;
 
 /**
@@ -11,13 +10,10 @@ import java.util.Optional;
  */
 public interface PaymentRepository {
 
-    /**
-     * paymentKey로 Payment 조회
-     */
     Optional<Payment> findByPaymentKey(String paymentKey);
 
-    /**
-     * Payment 저장 또는 업데이트
-     */
+    /** 복구 스케줄러에서 cancelRequest.getPaymentId()로 Payment 로드 */
+    Optional<Payment> findById(Long paymentId);
+
     Payment save(Payment payment);
 }

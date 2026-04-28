@@ -144,7 +144,7 @@ class CancelFlowIntegrationTest {
                 assertThat(tx2State).isPresent();
                 assertThat(tx2State.get().getStatus()).isEqualTo(CancelStatus.PROCESSING);
 
-                return new PgCancelResult("pg-tx-it-001", "APPROVED");
+                return PgCancelResult.approved("pg-tx-it-001");
             });
 
         CancelPaymentCommand command = new CancelPaymentCommand(
@@ -185,7 +185,7 @@ class CancelFlowIntegrationTest {
                 BigDecimal.valueOf(30_000),
                 BigDecimal.valueOf(9_970_000)));
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-it-002", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-it-002"));
 
         CancelPaymentCommand command = new CancelPaymentCommand(
             "it_pay_001", "중복 테스트", List.of(itemAId));
@@ -218,7 +218,7 @@ class CancelFlowIntegrationTest {
                 BigDecimal.valueOf(100_000),
                 BigDecimal.valueOf(9_900_000)));
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-it-003", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-it-003"));
 
         cancelPaymentService.cancel(new CancelPaymentCommand(
             "it_pay_001", "전액 취소", List.of(itemAId, itemBId)));
@@ -275,7 +275,7 @@ class CancelFlowIntegrationTest {
                 BigDecimal.valueOf(30_000),
                 BigDecimal.valueOf(9_970_000)));
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-it-004", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-it-004"));
 
         cancelPaymentService.cancel(new CancelPaymentCommand(
             "it_pay_001", "순서 테스트", List.of(itemAId)));

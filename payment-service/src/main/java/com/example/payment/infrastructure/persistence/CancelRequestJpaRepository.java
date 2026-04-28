@@ -2,8 +2,6 @@ package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.domain.entity.CancelStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,5 +14,9 @@ public interface CancelRequestJpaRepository extends JpaRepository<CancelRequestJ
 
     Optional<CancelRequestJpaEntity> findByPaymentIdAndRequestHash(Long paymentId, String requestHash);
 
+    // pending-recovery: PENDING + createdAt 기준
     List<CancelRequestJpaEntity> findByStatusAndCreatedAtBefore(CancelStatus status, LocalDateTime before);
+
+    // processing-recovery: PROCESSING + updatedAt 기준
+    List<CancelRequestJpaEntity> findByStatusAndUpdatedAtBefore(CancelStatus status, LocalDateTime before);
 }

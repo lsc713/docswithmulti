@@ -88,7 +88,8 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         // TX1: CancelRequest PENDING INSERT
         BigDecimal cancelAmount = calculateCancelAmount(items, command.cancelPaymentItemIds());
         CancelRequest cancelRequest = CancelRequest.create(
-            payment.getId(), requestHash, cancelAmount, command.cancelReason());
+            payment.getId(), requestHash, cancelAmount, command.cancelReason(),
+            command.cancelPaymentItemIds());
         cancelRequest = cancelTxWriter.saveTx1(cancelRequest);
         recordHistory(cancelRequest.getId(), CancelStatus.PENDING, null);
 
@@ -144,7 +145,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     }
 
     private void markFailed(CancelRequest cancelRequest, String reason) {
-        cancelRequest.toFailed(reason);
+        cancelRequest.toFailed();
         cancelRequestRepository.save(cancelRequest);
         recordHistory(cancelRequest.getId(), CancelStatus.FAILED, reason);
     }

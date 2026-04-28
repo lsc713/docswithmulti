@@ -83,7 +83,7 @@ class CancelPaymentServiceTest {
             .thenReturn(List.of(itemA, itemB));
 
         CancelRequest existing = CancelRequest.create(
-            payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심");
+            payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심", List.of(1L));
         existing.toProcessing();
         existing.toCompleted();
 
@@ -120,7 +120,7 @@ class CancelPaymentServiceTest {
         when(cancelTxWriter.saveTx2(any())).thenReturn(processingWithId);
 
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-001"));
 
         CancelRequest completed = reconstruct(1L, payment.getId(), CancelStatus.COMPLETED);
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
@@ -168,9 +168,9 @@ class CancelPaymentServiceTest {
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
         CancelRequest failed = CancelRequest.create(
-            payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심");
+            payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심", List.of(1L));
         failed.toProcessing();
-        failed.toFailed("이전 오류");
+        failed.toFailed();
 
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
             .thenReturn(Optional.of(failed));
@@ -179,7 +179,7 @@ class CancelPaymentServiceTest {
 
         CancelRequest withId = CancelRequest.reconstruct(100L, failed.getPaymentId(),
             failed.getRequestHash(), failed.getCancelAmount(), failed.getCancelReason(),
-            CancelStatus.PENDING, null, null, null, null,
+            failed.getCancelItemIds(), CancelStatus.PENDING, 0, null, null,
             failed.getCreatedAt(), failed.getUpdatedAt());
         when(cancelTxWriter.saveTx1(any())).thenReturn(withId);
         when(cancelTxWriter.saveTx2(any())).thenAnswer(inv -> {
@@ -189,7 +189,7 @@ class CancelPaymentServiceTest {
         });
         CancelRequest completed = CancelRequest.reconstruct(100L, withId.getPaymentId(),
             withId.getRequestHash(), withId.getCancelAmount(), withId.getCancelReason(),
-            CancelStatus.COMPLETED, null, null, null, null,
+            withId.getCancelItemIds(), CancelStatus.COMPLETED, 0, null, null,
             withId.getCreatedAt(), withId.getUpdatedAt());
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
 
@@ -197,7 +197,7 @@ class CancelPaymentServiceTest {
             .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(5000000),
                 BigDecimal.valueOf(30000), BigDecimal.valueOf(4970000)));
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-001"));
 
         CancelRequest result = service.cancel(command);
 
@@ -287,7 +287,7 @@ class CancelPaymentServiceTest {
                 BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
         when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-001"));
 
         // TX3에서 기간 초과 예외 발생
         when(cancelTxWriter.saveTx3(any(), any(), any()))
@@ -304,14 +304,14 @@ class CancelPaymentServiceTest {
     private CancelRequest pendingCancelRequest(long id, long paymentId) {
         return CancelRequest.reconstruct(id, paymentId, "hash",
             BigDecimal.valueOf(30_000), "변심",
-            CancelStatus.PENDING, null, null, null, null,
+            List.of(1L), CancelStatus.PENDING, 0, null, null,
             Instant.now(), Instant.now());
     }
 
     private CancelRequest reconstruct(long id, long paymentId, CancelStatus status) {
         return CancelRequest.reconstruct(id, paymentId, "hash",
             BigDecimal.valueOf(30_000), "변심",
-            status, Instant.now(), Instant.now(), null, null,
+            List.of(1L), status, 0, null, null,
             Instant.now(), Instant.now());
     }
 }

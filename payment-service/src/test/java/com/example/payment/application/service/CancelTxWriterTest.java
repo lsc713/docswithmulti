@@ -52,13 +52,13 @@ class CancelTxWriterTest {
     @DisplayName("saveTx1: PENDING 상태로 CancelRequest를 저장한다")
     void saveTx1_savesCancelRequestAsPending() {
         CancelRequest req = CancelRequest.create(
-            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심");
+            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L));
 
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> {
             CancelRequest cr = inv.getArgument(0);
             return CancelRequest.reconstruct(1L, cr.getPaymentId(), cr.getRequestHash(),
-                cr.getCancelAmount(), cr.getCancelReason(), cr.getStatus(),
-                null, null, null, null, cr.getCreatedAt(), cr.getUpdatedAt());
+                cr.getCancelAmount(), cr.getCancelReason(), cr.getCancelItemIds(), cr.getStatus(),
+                0, null, null, cr.getCreatedAt(), cr.getUpdatedAt());
         });
 
         CancelRequest result = writer.saveTx1(req);
@@ -71,10 +71,10 @@ class CancelTxWriterTest {
     @DisplayName("saveTx2: PROCESSING 상태로 전환 후 저장한다")
     void saveTx2_transitionsToCancelRequestToProcessing() {
         CancelRequest req = CancelRequest.create(
-            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심");
+            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L));
         req = CancelRequest.reconstruct(1L, req.getPaymentId(), req.getRequestHash(),
-            req.getCancelAmount(), req.getCancelReason(), req.getStatus(),
-            null, null, null, null, req.getCreatedAt(), req.getUpdatedAt());
+            req.getCancelAmount(), req.getCancelReason(), req.getCancelItemIds(), req.getStatus(),
+            0, null, null, req.getCreatedAt(), req.getUpdatedAt());
 
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
@@ -88,10 +88,10 @@ class CancelTxWriterTest {
     @DisplayName("saveTx3: PaymentItem을 FOR UPDATE로 재조회하고 COMPLETED 상태로 저장한다")
     void saveTx3_reloadsItemsForUpdateAndSavesCompleted() {
         CancelRequest req = CancelRequest.create(
-            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심");
+            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L));
         req = CancelRequest.reconstruct(1L, req.getPaymentId(), req.getRequestHash(),
-            req.getCancelAmount(), req.getCancelReason(), CancelStatus.PROCESSING,
-            null, null, null, null, req.getCreatedAt(), req.getUpdatedAt());
+            req.getCancelAmount(), req.getCancelReason(), req.getCancelItemIds(), CancelStatus.PROCESSING,
+            0, null, null, req.getCreatedAt(), req.getUpdatedAt());
 
         when(paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId()))
             .thenReturn(List.of(itemA));

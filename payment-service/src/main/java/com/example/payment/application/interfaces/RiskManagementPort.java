@@ -5,10 +5,15 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public interface RiskManagementPort {
-    /** 한도 검증 + 선차감. 422 한도초과 시 MerchantCancelLimitExceededException throw. */
+
     RiskReserveResult validateAndReserve(long merchantId, long cancelRequestId,
                                           BigDecimal cancelAmount, LocalDate kstDate);
 
-    /** 보상 트랜잭션. 멱등 (이미 보상됐으면 no-op). */
     void compensate(long cancelRequestId, long merchantId, BigDecimal restoreAmount);
+
+    /**
+     * 차감 여부 확인. pending-recovery에서 보상 필요 여부 판단에 사용.
+     * @return true: risk의 used_amount가 이미 차감된 상태
+     */
+    boolean isCharged(long cancelRequestId);
 }
