@@ -1,6 +1,23 @@
 // merchant-limit-service build configuration
 
 apply plugin: 'org.flywaydb.flyway'
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = '0.8.12'
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required = true
+        xml.required = false
+    }
+}
 
 flyway {
     url      = 'jdbc:mysql://localhost:3308/merchant_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true'
