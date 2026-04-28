@@ -80,7 +80,7 @@ public class RiskManagementHttpClient implements RiskManagementPort {
 
     @Override
     public boolean isCharged(long cancelRequestId) {
-        // TODO: implement in Task 7
+        // TODO: implement in Task 6
         throw new UnsupportedOperationException("isCharged not yet implemented");
     }
 }

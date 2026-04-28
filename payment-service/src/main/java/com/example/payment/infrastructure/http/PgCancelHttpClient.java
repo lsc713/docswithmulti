@@ -58,7 +58,7 @@ public class PgCancelHttpClient implements PgCancelPort {
 
     @Override
     public PgCancelResult getStatus(String paymentKey) {
-        // TODO: implement in Task 7
+        // TODO: implement in Task 6
         throw new UnsupportedOperationException("getStatus not yet implemented");
     }
 }
