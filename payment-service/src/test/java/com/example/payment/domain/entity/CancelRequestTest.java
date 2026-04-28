@@ -5,6 +5,8 @@ import com.example.payment.domain.exception.InvalidCancelAmountException;
 import com.example.payment.domain.exception.InvalidCancelStateTransitionException;
 import org.junit.jupiter.api.*;
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("CancelRequest 도메인 엔티티")
@@ -14,7 +16,7 @@ class CancelRequestTest {
 
     @BeforeEach
     void setUp() {
-        cancelRequest = CancelRequest.create(1L, "hash-abc123", new BigDecimal("100000"), "고객 변심");
+        cancelRequest = CancelRequest.create(1L, "hash-abc123", new BigDecimal("100000"), "고객 변심", List.of(1L, 2L));
     }
 
     @Test
@@ -31,7 +33,7 @@ class CancelRequestTest {
     @DisplayName("should_reject_zero_cancel_amount")
     void shouldRejectZeroCancelAmount() {
         InvalidCancelAmountException ex = assertThrows(InvalidCancelAmountException.class,
-            () -> CancelRequest.create(1L, "hash-xyz", BigDecimal.ZERO, "변심"));
+            () -> CancelRequest.create(1L, "hash-xyz", BigDecimal.ZERO, "변심", List.of(1L, 2L)));
         assertEquals(ErrorCode.INVALID_CANCEL_AMOUNT, ex.getErrorCode());
     }
 
@@ -40,7 +42,6 @@ class CancelRequestTest {
     void shouldTransitionPendingToProcessing() {
         cancelRequest.toProcessing();
         assertEquals(CancelStatus.PROCESSING, cancelRequest.getStatus());
-        assertNotNull(cancelRequest.getProcessingStartedAt());
     }
 
     @Test
@@ -56,19 +57,17 @@ class CancelRequestTest {
     @DisplayName("should_transition_processing_to_failed")
     void shouldTransitionProcessingToFailed() {
         cancelRequest.toProcessing();
-        cancelRequest.toFailed("DB 타임아웃");
+        cancelRequest.toFailed();
         assertEquals(CancelStatus.FAILED, cancelRequest.getStatus());
-        assertEquals("DB 타임아웃", cancelRequest.getFailedReason());
     }
 
     @Test
     @DisplayName("should_allow_failed_to_raise_to_pending_for_retry")
     void shouldAllowFailedToRaiseToPendingForRetry() {
         cancelRequest.toProcessing();
-        cancelRequest.toFailed("일시 오류");
+        cancelRequest.toFailed();
         cancelRequest.raiseToPending();
         assertEquals(CancelStatus.PENDING, cancelRequest.getStatus());
-        assertNull(cancelRequest.getFailedReason());
     }
 
     @Test
@@ -84,14 +83,14 @@ class CancelRequestTest {
         cancelRequest.toProcessing();
         cancelRequest.toCompleted();
         assertThrows(InvalidCancelStateTransitionException.class, cancelRequest::toProcessing);
-        assertThrows(InvalidCancelStateTransitionException.class, () -> cancelRequest.toFailed("x"));
+        assertThrows(InvalidCancelStateTransitionException.class, cancelRequest::toFailed);
     }
 
     @Test
     @DisplayName("should_reject_transition_from_failed_to_processing")
     void shouldRejectTransitionFromFailedToProcessing() {
         cancelRequest.toProcessing();
-        cancelRequest.toFailed("processing failed");
+        cancelRequest.toFailed();
 
         InvalidCancelStateTransitionException ex1 = assertThrows(
             InvalidCancelStateTransitionException.class,
@@ -104,5 +103,40 @@ class CancelRequestTest {
             cancelRequest::toCompleted
         );
         assertEquals(ErrorCode.INVALID_PAYMENT_STATUS, ex2.getErrorCode());
+    }
+
+    @Test
+    @DisplayName("markPgPending_setsTimestampWhenNull")
+    void markPgPending_setsTimestampWhenNull() {
+        assertNull(cancelRequest.getPgPendingSince());
+        cancelRequest.markPgPending();
+        assertNotNull(cancelRequest.getPgPendingSince());
+    }
+
+    @Test
+    @DisplayName("markPgPending_isIdempotent")
+    void markPgPending_isIdempotent() {
+        cancelRequest.markPgPending();
+        Instant first = cancelRequest.getPgPendingSince();
+        cancelRequest.markPgPending();
+        assertEquals(first, cancelRequest.getPgPendingSince());
+    }
+
+    @Test
+    @DisplayName("incrementPgRetryCount_incrementsFromZero")
+    void incrementPgRetryCount_incrementsFromZero() {
+        assertEquals(0, cancelRequest.getPgRetryCount());
+        cancelRequest.incrementPgRetryCount();
+        assertEquals(1, cancelRequest.getPgRetryCount());
+    }
+
+    @Test
+    @DisplayName("raiseToPending_resetsPgRetryCount")
+    void raiseToPending_resetsPgRetryCount() {
+        cancelRequest.incrementPgRetryCount();
+        cancelRequest.incrementPgRetryCount();
+        cancelRequest.toFailed();
+        cancelRequest.raiseToPending();
+        assertEquals(0, cancelRequest.getPgRetryCount());
     }
 }

@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 /**
  * CancelRequest JPA 엔티티
@@ -43,9 +44,16 @@ public class CancelRequestJpaEntity {
     @Column(name = "cancel_reason", length = 255)
     private String cancelReason;
 
+    @Column(name = "cancel_item_ids", nullable = false, columnDefinition = "JSON")
+    @Convert(converter = LongListConverter.class)
+    private List<Long> cancelItemIds;
+
     @Column(name = "status", nullable = false, length = 20)
     @Enumerated(EnumType.STRING)
     private CancelStatus status;
+
+    @Column(name = "pg_retry_count", nullable = false)
+    private int pgRetryCount;
 
     @Column(name = "pg_pending_since", columnDefinition = "DATETIME(3)")
     private LocalDateTime pgPendingSince;
@@ -68,7 +76,9 @@ public class CancelRequestJpaEntity {
         e.requestHash = request.getRequestHash();
         e.cancelAmount = request.getCancelAmount();
         e.cancelReason = request.getCancelReason();
+        e.cancelItemIds = request.getCancelItemIds();
         e.status = request.getStatus();
+        e.pgRetryCount = request.getPgRetryCount();
         e.pgPendingSince = toLocalDateTime(request.getPgPendingSince());
         e.completedAt = toLocalDateTime(request.getCompletedAt());
         e.createdAt = toLocalDateTime(request.getCreatedAt());
@@ -81,10 +91,9 @@ public class CancelRequestJpaEntity {
     public CancelRequest toDomain() {
         return CancelRequest.reconstruct(
             id, paymentId, requestHash,
-            cancelAmount, cancelReason, status,
-            null,  // processingStartedAt — not stored after V8
+            cancelAmount, cancelReason, cancelItemIds,
+            status, pgRetryCount,
             toInstant(completedAt),
-            null,  // failedReason — not stored after V8
             toInstant(pgPendingSince),
             toInstant(createdAt),
             toInstant(updatedAt)

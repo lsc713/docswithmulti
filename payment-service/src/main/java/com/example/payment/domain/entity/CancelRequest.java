@@ -36,6 +36,9 @@ public class CancelRequest {
                           BigDecimal cancelAmount, String cancelReason,
                           List<Long> cancelItemIds) {
         validateCancelAmount(cancelAmount);
+        if (cancelItemIds == null || cancelItemIds.isEmpty()) {
+            throw new IllegalArgumentException("cancelItemIds must not be null or empty");
+        }
         this.paymentId = paymentId;
         this.requestHash = requestHash;
         this.cancelAmount = cancelAmount;
