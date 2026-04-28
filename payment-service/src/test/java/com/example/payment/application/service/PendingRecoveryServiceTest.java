@@ -101,7 +101,7 @@ class PendingRecoveryServiceTest {
         service.recoverAll();
 
         // 두 번째 건은 정상 처리됨
-        verify(cancelRequestRepository, times(1)).save(any());
+        verify(cancelRequestRepository, times(1)).save(argThat(r -> r.getStatus() == CancelStatus.FAILED));
     }
 
     @Test
@@ -112,5 +112,17 @@ class PendingRecoveryServiceTest {
         service.recoverAll();
 
         verifyNoInteractions(riskManagementPort, paymentRepository, compensationRetryRepository);
+    }
+
+    @Test
+    @DisplayName("payment not found 시 해당 건 skip")
+    void payment_not_found_skips() {
+        when(cancelRequestRepository.findPendingCreatedBefore(any())).thenReturn(List.of(pendingRequest));
+        when(paymentRepository.findById(anyLong())).thenReturn(Optional.empty());
+
+        service.recoverAll();
+
+        verify(riskManagementPort, never()).isCharged(anyLong());
+        verify(cancelRequestRepository, never()).save(any());
     }
 }

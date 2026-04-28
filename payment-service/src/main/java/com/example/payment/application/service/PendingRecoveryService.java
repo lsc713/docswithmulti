@@ -51,6 +51,9 @@ public class PendingRecoveryService {
             cancelRequest.toFailed();
             cancelRequestRepository.save(cancelRequest);
             recordHistory(cancelRequest.getId(), CancelStatus.FAILED, "pending-recovery");
+        } catch (com.example.payment.common.exception.BusinessException e) {
+            log.error("[pending-recovery] 도메인 규칙 위반 — 데이터 정합성 문제 cancelRequestId={}: {}",
+                cancelRequest.getId(), e.getMessage(), e);
         } catch (Exception e) {
             log.warn("[pending-recovery] 처리 실패 cancelRequestId={}: {}", cancelRequest.getId(), e.getMessage());
         }
