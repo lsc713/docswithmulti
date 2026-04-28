@@ -2,15 +2,17 @@ package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.application.interfaces.CancelRequestRepository;
 import com.example.payment.domain.entity.CancelRequest;
-import lombok.extern.slf4j.Slf4j;
+import com.example.payment.domain.entity.CancelStatus;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * CancelRequestRepository 구현체
  */
-@Slf4j
 public class CancelRequestRepositoryImpl implements CancelRequestRepository {
 
     private final CancelRequestJpaRepository jpaRepository;
@@ -27,19 +29,20 @@ public class CancelRequestRepositoryImpl implements CancelRequestRepository {
 
     @Override
     public CancelRequest save(CancelRequest cancelRequest) {
-        CancelRequestJpaEntity entity = CancelRequestJpaEntity.from(cancelRequest);
-        return jpaRepository.save(entity).toDomain();
+        return jpaRepository.save(CancelRequestJpaEntity.from(cancelRequest)).toDomain();
     }
 
     @Override
     public List<CancelRequest> findPendingCreatedBefore(Instant before) {
-        log.warn("[stub] findPendingCreatedBefore: 미구현 — Task 5에서 완성");
-        return List.of();
+        LocalDateTime beforeLdt = LocalDateTime.ofInstant(before, ZoneOffset.UTC);
+        return jpaRepository.findByStatusAndCreatedAtBefore(CancelStatus.PENDING, beforeLdt)
+            .stream().map(CancelRequestJpaEntity::toDomain).collect(Collectors.toList());
     }
 
     @Override
     public List<CancelRequest> findProcessingUpdatedBefore(Instant before) {
-        log.warn("[stub] findProcessingUpdatedBefore: 미구현 — Task 5에서 완성");
-        return List.of();
+        LocalDateTime beforeLdt = LocalDateTime.ofInstant(before, ZoneOffset.UTC);
+        return jpaRepository.findByStatusAndUpdatedAtBefore(CancelStatus.PROCESSING, beforeLdt)
+            .stream().map(CancelRequestJpaEntity::toDomain).collect(Collectors.toList());
     }
 }

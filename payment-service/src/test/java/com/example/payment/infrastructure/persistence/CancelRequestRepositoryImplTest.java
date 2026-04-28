@@ -47,19 +47,44 @@ class CancelRequestRepositoryImplTest extends AbstractRepositoryTest {
     }
 
     @Test
-    void should_find_by_status_and_created_at_before() {
-        LocalDateTime past = LocalDateTime.now(ZoneOffset.UTC).minusMinutes(10);
-        LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC).minusMinutes(5);
-
-        CancelRequest old = CancelRequestFixture.pending(1L, BigDecimal.valueOf(50000));
-        CancelRequestJpaEntity oldEntity = CancelRequestJpaEntity.from(old);
-        jpaRepository.save(oldEntity);
+    void should_find_pending_created_before_threshold() {
+        CancelRequest request = CancelRequestFixture.pending(1L, BigDecimal.valueOf(50000));
+        jpaRepository.save(CancelRequestJpaEntity.from(request));
+        LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC).plusSeconds(60);
 
         List<CancelRequestJpaEntity> found =
             jpaRepository.findByStatusAndCreatedAtBefore(CancelStatus.PENDING, threshold);
 
-        // Note: test data createdAt is set at save time, so results depend on timing
-        assertThat(found).isNotNull();
+        assertThat(found).hasSize(1);
+        assertThat(found.get(0).getStatus()).isEqualTo(CancelStatus.PENDING);
+    }
+
+    @Test
+    void should_find_processing_updated_before_threshold() {
+        CancelRequest request = CancelRequestFixture.pending(2L, BigDecimal.valueOf(30000));
+        request.toProcessing();
+        jpaRepository.save(CancelRequestJpaEntity.from(request));
+        LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC).plusSeconds(60);
+
+        List<CancelRequestJpaEntity> found =
+            jpaRepository.findByStatusAndUpdatedAtBefore(CancelStatus.PROCESSING, threshold);
+
+        assertThat(found).hasSize(1);
+        assertThat(found.get(0).getStatus()).isEqualTo(CancelStatus.PROCESSING);
+    }
+
+    @Test
+    void should_not_find_completed_in_pending_query() {
+        CancelRequest request = CancelRequestFixture.pending(3L, BigDecimal.valueOf(20000));
+        request.toProcessing();
+        request.toCompleted();
+        jpaRepository.save(CancelRequestJpaEntity.from(request));
+        LocalDateTime threshold = LocalDateTime.now(ZoneOffset.UTC).plusSeconds(60);
+
+        List<CancelRequestJpaEntity> found =
+            jpaRepository.findByStatusAndCreatedAtBefore(CancelStatus.PENDING, threshold);
+
+        assertThat(found).isEmpty();
     }
 
     @Test
