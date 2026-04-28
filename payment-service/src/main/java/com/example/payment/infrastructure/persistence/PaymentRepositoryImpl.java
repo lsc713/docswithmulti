@@ -23,6 +23,12 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
+    public Optional<Payment> findById(Long paymentId) {
+        return jpaRepository.findById(paymentId)
+            .map(PaymentJpaEntity::toDomain);
+    }
+
+    @Override
     public Payment save(Payment payment) {
         PaymentJpaEntity entity = PaymentJpaEntity.from(payment);
         PaymentJpaEntity saved = jpaRepository.save(entity);

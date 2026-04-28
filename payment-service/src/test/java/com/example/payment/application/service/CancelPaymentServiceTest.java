@@ -120,7 +120,7 @@ class CancelPaymentServiceTest {
         when(cancelTxWriter.saveTx2(any())).thenReturn(processingWithId);
 
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-001"));
 
         CancelRequest completed = reconstruct(1L, payment.getId(), CancelStatus.COMPLETED);
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
@@ -197,7 +197,7 @@ class CancelPaymentServiceTest {
             .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(5000000),
                 BigDecimal.valueOf(30000), BigDecimal.valueOf(4970000)));
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-001"));
 
         CancelRequest result = service.cancel(command);
 
@@ -287,7 +287,7 @@ class CancelPaymentServiceTest {
                 BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
         when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
         when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(new PgCancelResult("pg-tx-001", "APPROVED"));
+            .thenReturn(PgCancelResult.approved("pg-tx-001"));
 
         // TX3에서 기간 초과 예외 발생
         when(cancelTxWriter.saveTx3(any(), any(), any()))

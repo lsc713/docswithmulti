@@ -77,4 +77,10 @@ public class RiskManagementHttpClient implements RiskManagementPort {
             throw new RiskServiceException("risk-management 보상 트랜잭션 실패", t);
         }
     }
+
+    @Override
+    public boolean isCharged(long cancelRequestId) {
+        // TODO: implement in Task 7
+        throw new UnsupportedOperationException("isCharged not yet implemented");
+    }
 }

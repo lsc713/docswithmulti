@@ -19,6 +19,13 @@ public class MockPgCancelClient implements PgCancelPort {
         String mockTxId = "mock-" + UUID.randomUUID();
         log.info("[MockPgCancelClient] PG 취소 성공 처리. paymentKey={}, cancelAmount={}, txId={}",
             paymentKey, cancelAmount, mockTxId);
-        return new PgCancelResult(mockTxId, "APPROVED");
+        return PgCancelResult.approved(mockTxId);
+    }
+
+    @Override
+    public PgCancelResult getStatus(String paymentKey) {
+        String mockTxId = "mock-status-" + UUID.randomUUID();
+        log.info("[MockPgCancelClient] PG 취소 상태 조회. paymentKey={}, txId={}", paymentKey, mockTxId);
+        return PgCancelResult.approved(mockTxId);
     }
 }
