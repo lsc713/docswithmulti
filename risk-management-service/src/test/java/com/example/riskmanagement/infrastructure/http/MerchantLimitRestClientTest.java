@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @SuppressWarnings("unchecked")
@@ -44,9 +45,9 @@ class MerchantLimitRestClientTest {
     MerchantLimitRestClient sut;
 
     @BeforeEach
-    void setUp() {
+    void setUp () {
         when(mockRestClient.get()).thenReturn((RestClient.RequestHeadersUriSpec) uriSpec);
-        when(uriSpec.uri(anyString(), anyLong())).thenReturn((RestClient.RequestHeadersSpec) headersSpec);
+        doReturn(headersSpec).when(uriSpec).uri(anyString(), anyLong());
         when(headersSpec.retrieve()).thenReturn(responseSpec);
         when(responseSpec.onStatus(any(), any())).thenReturn(responseSpec);
 
