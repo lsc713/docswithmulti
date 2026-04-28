@@ -1,4 +1,4 @@
-package com.example.payment.infrastructure.persistence;
+package com.example.payment.infrastructure.persistence.converter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

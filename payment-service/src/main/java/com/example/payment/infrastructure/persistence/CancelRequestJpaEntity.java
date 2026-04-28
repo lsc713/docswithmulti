@@ -2,6 +2,7 @@ package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.domain.entity.CancelRequest;
 import com.example.payment.domain.entity.CancelStatus;
+import com.example.payment.infrastructure.persistence.converter.LongListConverter;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.Instant;
