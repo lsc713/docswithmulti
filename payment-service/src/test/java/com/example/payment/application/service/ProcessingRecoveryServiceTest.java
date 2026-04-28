@@ -170,6 +170,29 @@ class ProcessingRecoveryServiceTest {
     }
 
     @Test
+    @DisplayName("PG FAILED retryable=true, pgRetryCount=4 → 재호출 예외 → count=5 → 보상 + FAILED")
+    void pg_failed_retryable_retry_exception_at_max_invokes_compensate() {
+        CancelRequest almostMax = CancelRequest.reconstruct(
+            10L, 1L, "hash_abc", BigDecimal.valueOf(50000), "고객 변심",
+            List.of(10L, 11L), CancelStatus.PROCESSING, 4,
+            null, null,
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            Instant.now().minus(10, ChronoUnit.MINUTES)
+        );
+        when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(almostMax));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
+        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
+        when(pgCancelPort.cancel(anyString(), any(), anyString()))
+            .thenThrow(new RuntimeException("PG 연결 실패"));
+
+        service.recoverAll();
+
+        // count incremented to 5, exception caught → compensate + FAILED
+        verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
+        verify(cancelRequestRepository, atLeastOnce()).save(argThat(r -> r.getStatus() == CancelStatus.FAILED));
+    }
+
+    @Test
     @DisplayName("대상 없으면 아무 작업 없음")
     void no_stale_processing_does_nothing() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of());

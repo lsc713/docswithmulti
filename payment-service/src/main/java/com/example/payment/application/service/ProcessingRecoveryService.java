@@ -84,7 +84,7 @@ public class ProcessingRecoveryService {
     }
 
     private void handleFailed(CancelRequest cancelRequest, Payment payment, PgCancelResult result) {
-        if (result.retryable() && cancelRequest.getPgRetryCount() < MAX_PG_RETRIES) {
+        if (result.isRetryable() && cancelRequest.getPgRetryCount() < MAX_PG_RETRIES) {
             retryPgCancel(cancelRequest, payment);
         } else {
             compensateAndFail(cancelRequest, payment);
@@ -117,13 +117,21 @@ public class ProcessingRecoveryService {
 
     private void handlePgPending(CancelRequest cancelRequest, Payment payment) {
         cancelRequest.markPgPending();
-        cancelRequestRepository.save(cancelRequest);
 
         if (cancelRequest.getPgPendingSince() != null
                 && cancelRequest.getPgPendingSince().plus(PG_PENDING_TIMEOUT).isBefore(Instant.now())) {
+            // Timeout: no need to save PENDING state, compensateAndFail will save FAILED
             compensateAndFail(cancelRequest, payment);
-            operationAlertPort.alertPgPendingTimeout(
-                cancelRequest.getId(), payment.getPaymentKey(), cancelRequest.getPgPendingSince());
+            try {
+                operationAlertPort.alertPgPendingTimeout(
+                    cancelRequest.getId(), payment.getPaymentKey(), cancelRequest.getPgPendingSince());
+            } catch (Exception ex) {
+                log.warn("[processing-recovery] 운영팀 알림 실패 cancelRequestId={}: {}",
+                    cancelRequest.getId(), ex.getMessage());
+            }
+        } else {
+            // Not timed out: persist the pgPendingSince timestamp
+            cancelRequestRepository.save(cancelRequest);
         }
     }
 
