@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 결제 취소 유스케이스 구현체
  *
- * 플로우: TX1(PENDING INSERT) → Risk HTTP → TX2(PROCESSING) → PG HTTP → TX3(COMPLETED + Outbox)
+ * 플로우: TX1(PENDING INSERT) → Risk HTTP → TX2(PROCESSING) → PG HTTP → TX3(COMPLETED + ApplicationEvent)
  * 이력은 각 TX 커밋 후 별도 트랜잭션으로 기록 (실패해도 비즈니스 영향 없음)
  */
 @Slf4j
@@ -30,7 +30,6 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     private final PaymentItemRepository paymentItemRepository;
     private final CancelRequestRepository cancelRequestRepository;
     private final CancelRequestHistoryRepository historyRepository;
-    private final CancelEventOutboxRepository outboxRepository;
     private final CompensationRetryRepository compensationRetryRepository;
     private final RiskManagementPort riskManagementPort;
     private final PgCancelPort pgCancelPort;
@@ -122,7 +121,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
             return cancelRequest;
         }
 
-        // TX3: PaymentItem + Payment + COMPLETED + Outbox
+        // TX3: PaymentItem + Payment + COMPLETED + ApplicationEvent
         CancelRequest savedTx3 = cancelTxWriter.saveTx3(cancelRequest, payment, command.cancelPaymentItemIds());
         recordHistory(savedTx3.getId(), CancelStatus.COMPLETED, null);
         return savedTx3;

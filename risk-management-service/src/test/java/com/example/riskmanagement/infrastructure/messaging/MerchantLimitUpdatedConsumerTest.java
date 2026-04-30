@@ -2,6 +2,7 @@ package com.example.riskmanagement.infrastructure.messaging;
 
 import com.example.riskmanagement.application.interfaces.DailyLimitCache;
 import com.example.riskmanagement.application.interfaces.MerchantCancelUsageRepository;
+import com.example.riskmanagement.application.interfaces.MerchantLimitClient;
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,7 @@ class MerchantLimitUpdatedConsumerTest {
 
     @Mock DailyLimitCache dailyLimitCache;
     @Mock MerchantCancelUsageRepository usageRepository;
+    @Mock MerchantLimitClient merchantLimitClient;
     @Mock TransactionTemplate transactionTemplate;
     @Mock Acknowledgment ack;
     @Mock MerchantCancelUsage usage;
@@ -38,15 +40,13 @@ class MerchantLimitUpdatedConsumerTest {
     ObjectMapper objectMapper = new ObjectMapper();
 
     private static final long MERCHANT_ID = 1L;
-    private static final LocalDate KST_DATE = LocalDate.of(2026, 4, 28);
-    private static final BigDecimal NEW_LIMIT = new BigDecimal("5000000");
+    private static final BigDecimal FETCHED_LIMIT = new BigDecimal("5000000");
 
     @BeforeEach
     void setUp() {
         consumer = new MerchantLimitUpdatedConsumer(
-            dailyLimitCache, usageRepository, objectMapper, transactionTemplate);
+            dailyLimitCache, usageRepository, merchantLimitClient, objectMapper, transactionTemplate);
 
-        // TransactionTemplate.execute() → 콜백을 직접 실행
         when(transactionTemplate.execute(any())).thenAnswer(inv -> {
             org.springframework.transaction.support.TransactionCallback<?> cb = inv.getArgument(0);
             return cb.doInTransaction(null);
@@ -54,60 +54,61 @@ class MerchantLimitUpdatedConsumerTest {
     }
 
     private ConsumerRecord<String, String> record(String value) {
-        return new ConsumerRecord<>("merchant.limit.updated", 0, 0L, String.valueOf(MERCHANT_ID), value);
-    }
-
-    private String payload() {
-        return "{\"merchantId\":" + MERCHANT_ID +
-            ",\"newLimit\":" + NEW_LIMIT.toPlainString() +
-            ",\"kstDate\":\"" + KST_DATE + "\"}";
+        return new ConsumerRecord<>("merchant.limit.updated", 0, 0L,
+            String.valueOf(MERCHANT_ID), value);
     }
 
     @Test
-    @DisplayName("정상 처리 — Redis 갱신 + DB usage 존재 시 updateDailyLimit 호출 + ack")
+    @DisplayName("정상 처리 — API 조회 후 Redis 갱신 + DB usage 존재 시 update + ack")
     void consume_success_with_existing_usage() {
-        when(usageRepository.findByMerchantIdAndKstDate(MERCHANT_ID, KST_DATE))
+        when(merchantLimitClient.fetchDailyLimit(eq(MERCHANT_ID), any(LocalDate.class)))
+            .thenReturn(FETCHED_LIMIT);
+        when(usageRepository.findByMerchantIdAndKstDate(eq(MERCHANT_ID), any(LocalDate.class)))
             .thenReturn(Optional.of(usage));
         when(usageRepository.save(usage)).thenReturn(usage);
 
-        consumer.consume(record(payload()), ack);
+        consumer.consume(record("{\"merchantId\":1}"), ack);
 
-        verify(dailyLimitCache).set(MERCHANT_ID, KST_DATE, NEW_LIMIT);
-        verify(usage).updateDailyLimit(NEW_LIMIT);
+        verify(merchantLimitClient).fetchDailyLimit(eq(MERCHANT_ID), any(LocalDate.class));
+        verify(dailyLimitCache).set(eq(MERCHANT_ID), any(LocalDate.class), eq(FETCHED_LIMIT));
+        verify(usage).updateDailyLimit(FETCHED_LIMIT);
         verify(usageRepository).save(usage);
         verify(ack).acknowledge();
     }
 
     @Test
-    @DisplayName("정상 처리 — usage 없음 시 Redis만 갱신 + ack (DB 업데이트 없음)")
+    @DisplayName("정상 처리 — usage 없으면 Redis만 갱신 + ack")
     void consume_success_without_existing_usage() {
-        when(usageRepository.findByMerchantIdAndKstDate(MERCHANT_ID, KST_DATE))
+        when(merchantLimitClient.fetchDailyLimit(eq(MERCHANT_ID), any(LocalDate.class)))
+            .thenReturn(FETCHED_LIMIT);
+        when(usageRepository.findByMerchantIdAndKstDate(eq(MERCHANT_ID), any(LocalDate.class)))
             .thenReturn(Optional.empty());
 
-        consumer.consume(record(payload()), ack);
+        consumer.consume(record("{\"merchantId\":1}"), ack);
 
-        verify(dailyLimitCache).set(MERCHANT_ID, KST_DATE, NEW_LIMIT);
+        verify(dailyLimitCache).set(eq(MERCHANT_ID), any(LocalDate.class), eq(FETCHED_LIMIT));
         verify(usageRepository, never()).save(any());
         verify(ack).acknowledge();
     }
 
     @Test
-    @DisplayName("JSON 파싱 실패 — 예외 처리 후 ack (멱등)")
-    void consume_invalid_json_acks_without_retry() {
-        consumer.consume(record("NOT_VALID_JSON"), ack);
+    @DisplayName("JSON 파싱 실패 — ack (멱등)")
+    void consume_invalid_json_acks() {
+        consumer.consume(record("NOT_JSON"), ack);
 
-        verify(dailyLimitCache, never()).set(anyLong(), any(), any());
+        verifyNoInteractions(merchantLimitClient, dailyLimitCache);
         verify(ack).acknowledge();
     }
 
     @Test
-    @DisplayName("Redis 갱신 실패 — 예외 처리 후 ack (멱등)")
-    void consume_redis_failure_acks_without_retry() {
-        doThrow(new RuntimeException("Redis error"))
-            .when(dailyLimitCache).set(anyLong(), any(), any());
+    @DisplayName("API 조회 실패 — ack (3순위 HTTP fallback 보장)")
+    void consume_api_failure_acks() {
+        when(merchantLimitClient.fetchDailyLimit(eq(MERCHANT_ID), any(LocalDate.class)))
+            .thenThrow(new RuntimeException("API error"));
 
-        consumer.consume(record(payload()), ack);
+        consumer.consume(record("{\"merchantId\":1}"), ack);
 
+        verifyNoInteractions(dailyLimitCache);
         verify(ack).acknowledge();
     }
 }

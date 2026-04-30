@@ -34,7 +34,6 @@ class CancelPaymentServiceTest {
     @Mock PaymentItemRepository paymentItemRepository;
     @Mock CancelRequestRepository cancelRequestRepository;
     @Mock CancelRequestHistoryRepository historyRepository;
-    @Mock CancelEventOutboxRepository outboxRepository;
     @Mock CompensationRetryRepository compensationRetryRepository;
     @Mock RiskManagementPort riskManagementPort;
     @Mock PgCancelPort pgCancelPort;
@@ -54,7 +53,7 @@ class CancelPaymentServiceTest {
 
         service = new CancelPaymentService(
             paymentRepository, paymentItemRepository, cancelRequestRepository,
-            historyRepository, outboxRepository, compensationRetryRepository,
+            historyRepository, compensationRetryRepository,
             riskManagementPort, pgCancelPort, domainService, cancelTxWriter
         );
 

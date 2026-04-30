@@ -511,14 +511,34 @@ merchant-limit-service 장애 시:
 ```
 merchant-limit-service:
   한도 변경 DB UPDATE
-  Outbox INSERT (같은 TX)
-  스케줄러 → merchant.limit.updated 발행
-  { merchantId, newLimit, kstDate }
+  @TransactionalEventListener(AFTER_COMMIT) → merchant.limit.updated 발행
+  { merchantId }
 
 risk-management-service Consumer:
-  Redis daily_limit 갱신
-  merchant_cancel_usage UPDATE (kstDate 행 있으면)
+  merchant-limit-service API 조회
+    GET /internal/merchants/{merchantId}/cancel-limit
+  → 최신 daily_limit 수신
+  Redis daily_limit:{merchantId}:{kstDate} 갱신
+  merchant_cancel_usage UPDATE (당일 행 있으면)
   → 이후 취소 요청부터 새 한도 적용
+```
+
+**페이로드를 `{ merchantId }`만 발행하는 이유:**
+
+```
+newLimit, kstDate를 페이로드에 포함하면:
+  Consumer가 이벤트 내 값을 직접 사용
+  → 이벤트 유실 / 순서 역전 시 stale 값이 캐시에 저장될 위험
+
+{ merchantId }만 발행하고 Consumer가 API 조회:
+  항상 최신 값을 가져옴
+  Consumer 멱등성 자동 확보 (같은 merchantId 조회는 항상 동일 결과)
+  newLimit / kstDate 없어도 처리 가능 → 페이로드 단순화
+
+트레이드오프:
+  API 조회 추가 (네트워크 1회)
+  merchant-limit-service 의존성 증가
+  → 한도 변경 빈도가 낮으므로 허용 가능
 ```
 
 **파티션 키 = merchantId:**
@@ -526,20 +546,7 @@ risk-management-service Consumer:
 ```
 같은 가맹점 연속 한도 변경:
   같은 파티션 → 하나의 Consumer가 순서대로 처리
-  → 순서 역전 없음
-  → version, updatedAt 비교 불필요
-
-자연 멱등:
-  UPDATE daily_limit = newLimit
-  → 몇 번 실행해도 동일한 결과
-```
-
-**kstDate 포함 이유:**
-
-```
-당일 즉시 반영뿐 아니라
-이전 날짜 한도 변경도 가능
-Consumer가 어느 날짜 행을 UPDATE할지 알아야 함
+  → 순서 역전 없음 (API 조회이므로 항상 최신값)
 ```
 
 ---
@@ -815,11 +822,15 @@ PG사는 waitDurationInOpenState 30초:
 2. 취소 대상 아이템 CANCELLED 처리
 3. Payment 상태 재계산 (전체 아이템 기준)
 4. CancelRequest COMPLETED
-5. Outbox INSERT
+5. ApplicationEvent 발행 (TX 커밋 후 AFTER_COMMIT 리스너가 Kafka 발행)
 
 TX 3 커밋 후 별도:
   cancel_request_history INSERT
   (실패해도 COMPLETED 유지)
+
+TX 3 커밋 후 AFTER_COMMIT:
+  KafkaProducer.send(payment.cancelled)
+  실패 시 failed_kafka_event INSERT → 재시도 스케줄러 대상
 ```
 
 ---
@@ -914,28 +925,56 @@ isActive() 도메인 메서드:
 
 ---
 
-## 5. Outbox INSERT
+## 5. AFTER_COMMIT Kafka 발행
 
 ```
-cancel_event_outbox:
-  cancel_request_id UK
-  payload (JSON)
-  status: PENDING
+TX 3 내에서 ApplicationEventPublisher.publishEvent(CancelCompletedEvent) 호출
 
-TX 3과 같은 트랜잭션:
-  DB 커밋 = Outbox 저장 보장
-  서버 다운 시 스케줄러 또는 CDC가 발행
-
-payload:
-{
-  "cancelRequestId": "cr_abc123",
-  "paymentKey": "pay_xyz",
-  "merchantId": 1,
-  "cancelledItems": [
-    { "paymentItemId": 1, "orderItemId": 10, "itemAmount": 300000 }
-  ],
-  "cancelledAt": "2026-04-21T10:00:00.000Z"
+@TransactionalEventListener(phase = AFTER_COMMIT)
+public void onCancelCompleted(CancelCompletedEvent event) {
+    try {
+        kafkaTemplate.send("payment.cancelled", paymentKey, payload);
+    } catch (Exception e) {
+        // Kafka 발행 실패 → failed_kafka_event INSERT
+        failedKafkaEventRepository.save(
+            FailedKafkaEvent.of(event, e.getMessage())
+        );
+    }
 }
+
+failed_kafka_event:
+  cancel_request_id UK
+  topic
+  payload (JSON)
+  status: PENDING | PUBLISHED | EXHAUSTED
+  retry_count
+  last_error
+
+재시도 스케줄러 (failed-kafka-publisher):
+  PENDING 건 조회 → Kafka 재발행
+  성공: PUBLISHED UPDATE
+  5회 초과: EXHAUSTED → 운영팀 알림
+```
+
+**Outbox 대비 트레이드오프:**
+
+```
+Outbox Pattern (main 브랜치):
+  TX 3 안에 cancel_event_outbox INSERT → DB-Kafka 원자성 보장
+  서버 다운 시 Outbox 스케줄러가 PENDING 건 재발행
+  단점: cancel_event_outbox 테이블 + outbox-publisher 스케줄러 필요
+
+AFTER_COMMIT (이 브랜치):
+  TX 3 커밋 후 Kafka 직접 발행 → 테이블/스케줄러 단순
+  발행 실패 시 failed_kafka_event에만 기록
+  단점: TX 3 커밋 직후 서버 다운 시 발행 누락 가능
+        (AFTER_COMMIT 리스너 실행 전 다운 → failed_kafka_event도 없음)
+        → 이 경우 processing-recovery 스케줄러가 취소 완료 건을 감지해 재발행
+
+장애 복구 경로:
+  Outbox: PENDING 행 존재 → 스케줄러 재발행 (자동)
+  AFTER_COMMIT: failed_kafka_event 없으면
+    processing-recovery 또는 수동 재발행 필요
 ```
 
 ---
@@ -963,8 +1002,11 @@ TX 3 밖에서 별도 실행:
   PaymentItem: 이미 CANCELLED면 동일 결과
   Payment: 상태 재계산 → 동일 결과
   CancelRequest: COMPLETED UPDATE → 동일 결과
-  Outbox: cancel_request_id UK
-    이미 있으면 INSERT IGNORE 또는 skip
+  AFTER_COMMIT 리스너 재실행:
+    failed_kafka_event: cancel_request_id UK
+      이미 PUBLISHED면 INSERT 시도 시 UK 충돌 → skip
+    Kafka: enable.idempotence=true
+      동일 메시지 중복 발행해도 Consumer 멱등성으로 방어
 ```
 # 7. Kafka — 이벤트 발행 및 소비
 
@@ -1024,7 +1066,7 @@ cancelledAt: 취소 완료 시각
 
 ---
 
-## 3. Outbox Pattern — DB-Kafka 원자성 보장
+## 3. AFTER_COMMIT + failed_kafka_event
 
 **문제:**
 
@@ -1035,20 +1077,26 @@ TX 3 커밋 후 Kafka 발행 시도:
   → 메시지 영구 유실 (Dual Write 문제)
 ```
 
-**해결:**
+**이 브랜치의 해결:**
 
 ```
-TX 3에 cancel_event_outbox INSERT 포함
-  DB 커밋 = Outbox 저장 보장
+@TransactionalEventListener(AFTER_COMMIT):
+  TX 3 커밋 이후 Kafka 발행
+  발행 성공 → 완료
+  발행 실패 → failed_kafka_event INSERT (별도 저장소)
 
-TPS 100 (현재):
-  outbox-publisher 스케줄러 (10초마다)
-  Outbox PENDING → Kafka 발행 → PUBLISHED
+failed-kafka-publisher 스케줄러 (30초):
+  failed_kafka_event PENDING → Kafka 재발행
+  5회 초과 → EXHAUSTED → 운영팀 알림
+
+AFTER_COMMIT 전 서버 다운:
+  failed_kafka_event 없음
+  processing-recovery 스케줄러가 COMPLETED 건 감지 → 재발행
+  (또는 운영팀 수동 재발행)
 
 TPS 1000+:
-  스케줄러 한계 (분산락으로 단일 실행)
-  → CDC (Debezium) 전환 필수
-  binlog 감지 → 즉시 발행 → 스케줄러 불필요
+  failed_kafka_event 건수가 많아지면
+  → CDC (Debezium) 전환 검토
 ```
 
 ---
@@ -1164,8 +1212,11 @@ flowchart TD
 |---------|------|--------------|------|
 | pending-recovery | 60초 | 55초 | PENDING 5분 초과 복구 |
 | processing-recovery | 60초 | 55초 | PROCESSING 5분 초과 복구 |
-| outbox-publisher | 10초 | 9초 | Kafka 발행 (TPS 100) |
+| failed-kafka-publisher | 30초 | 25초 | Kafka 발행 실패 재시도 |
 | compensation-retry | 30초 | 25초 | 보상 재시도 |
+
+> outbox-publisher 제거 — cancel_event_outbox 테이블 제거에 따라.
+> AFTER_COMMIT 리스너 발행 실패 건만 failed_kafka_event 테이블에서 재시도.
 
 **Redis 분산락 (ElastiCache Multi-AZ):**
 

@@ -9,4 +9,5 @@ import java.time.Instant;
  */
 public interface OperationAlertPort {
     void alertPgPendingTimeout(long cancelRequestId, String paymentKey, Instant pgPendingSince);
+    void alert(String message);
 }

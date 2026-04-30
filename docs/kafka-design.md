@@ -209,23 +209,31 @@ Value: String (JSON 직렬화)
 
 ```json
 {
-  "merchantId": 1,
-  "newLimit": 3000000,
-  "kstDate": "2026-04-21"
+  "merchantId": 1
 }
 ```
 
 | 필드 | 설명 |
 |------|------|
-| `merchantId` | 가맹점 ID (파티션 키) |
-| `newLimit` | 변경된 일일 한도 |
-| `kstDate` | 적용 날짜 (KST) |
+| `merchantId` | 가맹점 ID (파티션 키 겸 유일 필드) |
 
 Consumer (risk-management-service):
+- `GET /internal/merchants/{merchantId}/cancel-limit` 조회 → 최신 `daily_limit` 수신
 - Redis `daily_limit:merchantId:kstDate` 갱신
-- `merchant_cancel_usage` 당일 행이 있으면 `daily_limit = newLimit` UPDATE
+- `merchant_cancel_usage` 당일 행이 있으면 `daily_limit` UPDATE
 
-재처리 멱등성: `SET daily_limit = newLimit`은 몇 번 실행해도 동일한 결과 (자연 멱등)
+**newLimit / kstDate를 페이로드에서 제거한 이유:**
+
+```
+이벤트에 값을 포함하면 Consumer가 stale 값을 캐시에 저장할 위험:
+  한도 A → B → C 연속 변경 시
+  B 이벤트가 C 이벤트보다 늦게 처리되면
+  Redis에 B(구 값)가 남을 수 있음
+
+{ merchantId }만 발행 + API 조회:
+  Consumer는 항상 최신 값을 가져옴
+  자연 멱등 (같은 merchantId를 여러 번 조회해도 동일한 결과)
+```
 
 ### 스키마 버전 관리 원칙
 
@@ -276,27 +284,34 @@ acks=all (우리가 선택):
   → 약간 느리지만 취소 이벤트 유실은 주문 미동기화로 이어지므로 필수
 ```
 
-### Outbox Pattern과의 연결
+### AFTER_COMMIT + failed_kafka_event
 
-Producer가 직접 Kafka에 발행하지 않는다.
-DB와 Kafka 사이에서 "둘 다 성공"을 보장할 방법이 없기 때문이다.
+Producer가 TX 커밋 직후 Kafka에 발행한다.
+발행 실패 시 `failed_kafka_event` 테이블에 기록 후 재시도한다.
 
 ```
-문제 상황 (직접 발행):
-  1. DB 커밋 성공
-  2. Kafka 발행 시도
-  3. 서버 다운
-  → 이벤트 영구 유실. DB는 COMPLETED인데 주문은 모름.
-
-Outbox Pattern 해결:
+발행 흐름:
   1. DB 트랜잭션 안에서
      cancel_request → COMPLETED
      payment_item 상태 변경
-     cancel_event_outbox INSERT  ← 같은 트랜잭션
-  2. 커밋 (DB에 모든 것이 원자적으로 저장됨)
-  3. Outbox 스케줄러가 PENDING 행 조회
-  4. Kafka 발행 성공 → PUBLISHED 업데이트
-  5. 서버 다운돼도 재시작 후 PENDING 행 재발행
+     ApplicationEventPublisher.publishEvent(CancelCompletedEvent)
+  2. TX 커밋
+  3. @TransactionalEventListener(AFTER_COMMIT) 실행
+     → Kafka 발행 시도
+  4a. 발행 성공 → 완료
+  4b. 발행 실패 → failed_kafka_event INSERT (PENDING)
+  5. failed-kafka-publisher 스케줄러 (30초)
+     → PENDING 건 재발행 → 5회 초과 시 EXHAUSTED
+
+장애 시나리오:
+  TX 커밋 후 AFTER_COMMIT 실행 전 서버 다운
+  → failed_kafka_event 없음
+  → processing-recovery 스케줄러가 COMPLETED 건 감지하여 재발행
+
+Outbox Pattern과의 차이:
+  Outbox: TX 안에 outbox INSERT → 서버 다운 시 자동 복구 보장
+  AFTER_COMMIT: TX 간소화, 테이블 1개 감소
+               단, TX 커밋 직후 다운 시 수동 개입 또는 recovery 스케줄러 의존
 ```
 
 ### 설정값
@@ -577,7 +592,7 @@ Kafka UI는 내부망에서만 접근 가능하게 구성한다.
 |------|------|---------|
 | `kafka_consumer_lag` | Consumer가 처리 못한 메시지 수 | 1,000 초과 |
 | `dlq_message_count` | DLQ 메시지 수 | 1건 이상 즉시 |
-| `outbox_pending_lag` | 미발행 Outbox 건수 | 5분 초과 시 |
+| `failed_kafka_event_pending` | 미발행 failed_kafka_event 건수 | 5분 초과 시 |
 | `retry_topic_lag` | Retry 토픽 적체 수 | 500 초과 |
 
 ---
@@ -586,7 +601,7 @@ Kafka UI는 내부망에서만 접근 가능하게 구성한다.
 
 | 시나리오 | 발생 상황 | 대응 |
 |---------|---------|------|
-| Outbox 스케줄러 다운 | 이벤트 발행 지연 | 스케줄러 재시작 → PENDING 건 자동 재발행 |
+| failed-kafka-publisher 다운 | 이벤트 발행 재시도 지연 | 스케줄러 재시작 → failed_kafka_event PENDING 건 재발행 |
 | Consumer 다운 | 메시지 처리 지연 | 인스턴스 재시작 → 미커밋 offset부터 재처리 |
 | 브로커 1대 장애 | 해당 파티션 Leader 변경 | Follower 자동 승계 → 서비스 영향 없음 |
 | 브로커 2대 장애 | replication factor=3 한계 | 서비스 중단 → 브로커 복구 필요 |

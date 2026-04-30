@@ -65,7 +65,7 @@ kafka:
 
 scheduler:
   lock:
-    outbox-publisher: lock:scheduler:outbox-publisher
+    failed-kafka-publisher: lock:scheduler:failed-kafka-publisher
     pending-recovery: lock:scheduler:pending-recovery
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
