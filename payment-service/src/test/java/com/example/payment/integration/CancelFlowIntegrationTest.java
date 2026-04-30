@@ -34,7 +34,7 @@ import static org.mockito.Mockito.*;
 /**
  * 결제 취소 전체 플로우 통합 테스트 (Testcontainers + 실제 MySQL)
  *
- * TX1(PENDING) → Risk 호출 → TX2(PROCESSING) → PG 호출 → TX3(COMPLETED + ApplicationEvent)
+ * TX1(PENDING) → Risk 호출 → TX2(PROCESSING) → PG 호출 → TX3(COMPLETED + Kafka 직접 발행)
  * 각 트랜잭션 커밋 이후 DB 상태를 직접 검증한다.
  *
  * Redis/Kafka 의존성은 test/resources/application.yml 에서 auto-configure 제외.
@@ -67,7 +67,6 @@ class CancelFlowIntegrationTest {
     @Autowired PaymentJpaRepository paymentJpaRepository;
     @Autowired PaymentItemJpaRepository paymentItemJpaRepository;
     @Autowired CancelRequestJpaRepository cancelRequestJpaRepository;
-    @Autowired FailedKafkaEventJpaRepository failedKafkaEventJpaRepository;
 
     // ── 테스트 대상 서비스 ─────────────────────────────────────
     @Autowired CancelPaymentService cancelPaymentService;
@@ -105,7 +104,6 @@ class CancelFlowIntegrationTest {
 
     @AfterEach
     void cleanup() {
-        failedKafkaEventJpaRepository.deleteAll();
         cancelRequestJpaRepository.deleteAll();
         paymentItemJpaRepository.deleteAll();
         paymentJpaRepository.deleteAll();
@@ -170,8 +168,8 @@ class CancelFlowIntegrationTest {
         assertThat(paymentItemJpaRepository.findById(itemBId).orElseThrow().getStatus())
             .isEqualTo(PaymentItemStatus.ACTIVE);
 
-        // AFTER_COMMIT Kafka 발행 성공 → failed_kafka_event 없음
-        assertThat(failedKafkaEventJpaRepository.findAll()).isEmpty();
+        // TX3 Kafka 직접 발행 호출 검증
+        verify(kafkaTemplate).send(anyString(), anyString(), anyString());
     }
 
     // ──────────────────────────────────────────────────────────
@@ -234,7 +232,7 @@ class CancelFlowIntegrationTest {
     }
 
     // ──────────────────────────────────────────────────────────
-    // Risk 실패: cancel_request = FAILED, Outbox 없음
+    // Risk 실패: cancel_request = FAILED
     // ──────────────────────────────────────────────────────────
 
     @Test
@@ -256,8 +254,8 @@ class CancelFlowIntegrationTest {
         assertThat(requests).hasSize(1);
         assertThat(requests.get(0).getStatus()).isEqualTo(CancelStatus.FAILED);
 
-        // TX3 미실행 → failed_kafka_event 없음
-        assertThat(failedKafkaEventJpaRepository.findAll()).isEmpty();
+        // TX3 미실행 → Kafka 발행 없음
+        verify(kafkaTemplate, never()).send(anyString(), anyString(), anyString());
 
         // PaymentItem 상태 변경 없음
         assertThat(paymentItemJpaRepository.findById(itemAId).orElseThrow().getStatus())

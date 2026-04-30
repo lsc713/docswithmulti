@@ -284,34 +284,32 @@ acks=all (우리가 선택):
   → 약간 느리지만 취소 이벤트 유실은 주문 미동기화로 이어지므로 필수
 ```
 
-### AFTER_COMMIT + failed_kafka_event
+### TX3 인라인 Kafka 발행
 
-Producer가 TX 커밋 직후 Kafka에 발행한다.
-발행 실패 시 `failed_kafka_event` 테이블에 기록 후 재시도한다.
+DB 저장이 완전히 끝난 뒤, TX3 맨 마지막에 `kafkaTemplate.send()` 를 직접 호출한다.
 
 ```
 발행 흐름:
-  1. DB 트랜잭션 안에서
-     cancel_request → COMPLETED
+  1. TX3 안에서
      payment_item 상태 변경
-     ApplicationEventPublisher.publishEvent(CancelCompletedEvent)
-  2. TX 커밋
-  3. @TransactionalEventListener(AFTER_COMMIT) 실행
-     → Kafka 발행 시도
-  4a. 발행 성공 → 완료
-  4b. 발행 실패 → failed_kafka_event INSERT (PENDING)
-  5. failed-kafka-publisher 스케줄러 (30초)
-     → PENDING 건 재발행 → 5회 초과 시 EXHAUSTED
+     payment 상태 재계산
+     cancel_request → COMPLETED
+  2. kafkaTemplate.send(topic, cancelRequestId, payload).get(5s)
+     → 발행 성공: TX3 커밋 → 완료
+     → 발행 실패: 예외 throw → TX3 롤백
+                 cancel_request PROCESSING 상태 유지
+                 → processing-recovery 스케줄러(60초)가 재처리
 
-장애 시나리오:
-  TX 커밋 후 AFTER_COMMIT 실행 전 서버 다운
-  → failed_kafka_event 없음
-  → processing-recovery 스케줄러가 COMPLETED 건 감지하여 재발행
+실패 처리:
+  Kafka 장애 시 TX3가 롤백되므로 DB는 PROCESSING 상태를 유지한다.
+  processing-recovery가 PG사 조회 후 TX3를 재실행한다.
+  재실행 시 Kafka 발행도 다시 시도한다.
 
-Outbox Pattern과의 차이:
-  Outbox: TX 안에 outbox INSERT → 서버 다운 시 자동 복구 보장
-  AFTER_COMMIT: TX 간소화, 테이블 1개 감소
-               단, TX 커밋 직후 다운 시 수동 개입 또는 recovery 스케줄러 의존
+Outbox / AFTER_COMMIT과의 차이:
+  Outbox: TX 안에 outbox INSERT → 별도 발행 스케줄러 필요
+  AFTER_COMMIT: TX 커밋 후 이벤트 → failed_kafka_event 보조 테이블 필요
+  TX3 인라인: 테이블 추가 없음, 실패 시 TX 롤백으로 일관성 보장
+             단, Kafka 응답 대기(최대 5s) 동안 DB 커넥션 점유
 ```
 
 ### 설정값
@@ -592,7 +590,7 @@ Kafka UI는 내부망에서만 접근 가능하게 구성한다.
 |------|------|---------|
 | `kafka_consumer_lag` | Consumer가 처리 못한 메시지 수 | 1,000 초과 |
 | `dlq_message_count` | DLQ 메시지 수 | 1건 이상 즉시 |
-| `failed_kafka_event_pending` | 미발행 failed_kafka_event 건수 | 5분 초과 시 |
+| `processing_cancel_request_count` | PROCESSING 5분 초과 건수 | 1건 이상 시 |
 | `retry_topic_lag` | Retry 토픽 적체 수 | 500 초과 |
 
 ---
@@ -601,7 +599,7 @@ Kafka UI는 내부망에서만 접근 가능하게 구성한다.
 
 | 시나리오 | 발생 상황 | 대응 |
 |---------|---------|------|
-| failed-kafka-publisher 다운 | 이벤트 발행 재시도 지연 | 스케줄러 재시작 → failed_kafka_event PENDING 건 재발행 |
+| TX3 Kafka 발행 실패 | TX3 롤백 → cancel_request PROCESSING | processing-recovery(60초) → PG 조회 → TX3 재실행 |
 | Consumer 다운 | 메시지 처리 지연 | 인스턴스 재시작 → 미커밋 offset부터 재처리 |
 | 브로커 1대 장애 | 해당 파티션 Leader 변경 | Follower 자동 승계 → 서비스 영향 없음 |
 | 브로커 2대 장애 | replication factor=3 한계 | 서비스 중단 → 브로커 복구 필요 |

@@ -135,9 +135,7 @@ pending-recovery (60초):
 
 processing-recovery (60초):
   PROCESSING 5분 초과 → PG사 조회 → TX 3 재실행 또는 보상
-
-outbox-publisher (10초):
-  Outbox PENDING → Kafka 발행 (배치 1000건)
+  TX 3 재실행 시 Kafka 발행도 함께 재시도
 
 compensation-retry (30초):
   compensation_retry 테이블 → risk 보상 API 재시도
@@ -147,12 +145,13 @@ compensation-retry (30초):
 
 ```
 payment.cancelled:
-  { cancelRequestId, cancelledItems: [{ orderItemId }], cancelledAt }
-  현재 Consumer: order-service만 → 최소 페이로드
-  정산 서비스 추가 시 merchantId, itemAmount 등 확장 검토
+  { cancelRequestId, paymentKey, merchantId,
+    cancelledItems: [{ paymentItemId, orderItemId, itemAmount }], cancelledAt }
+  TX3 마지막에 kafkaTemplate.send() 직접 호출
+  발행 실패 시 TX3 롤백 → processing-recovery 재처리
 
 merchant.limit.updated:
-  { merchantId, newLimit, kstDate }
+  { merchantId }
   파티션 키: merchantId → 순서 보장
 ```
 
