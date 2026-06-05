@@ -28,11 +28,11 @@ public interface RiskManagementService {
      * @param paymentId 결제 ID
      * @param cancelAmount 취소 금액
      * @return 성공 시 처리 ID (보상 시 사용)
-     * @throws com.example.payment.application.exception.MerchantCancelLimitNotFoundException
+     * @throws com.example.payment.common.exception.application.MerchantCancelLimitNotFoundException
      *         가맹점 한도 미설정
-     * @throws com.example.payment.application.exception.MerchantCancelLimitExceededException
+     * @throws com.example.payment.common.exception.application.MerchantCancelLimitExceededException
      *         일일 한도 초과
-     * @throws com.example.payment.infrastructure.exception.RiskServiceException
+     * @throws com.example.payment.common.exception.infrastructure.RiskServiceException
      *         서비스 장애 (Circuit Breaker)
      */
     Long validateAndReserveLimit(

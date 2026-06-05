@@ -1,7 +1,8 @@
 package com.example.payment.application.service;
 
 import com.example.payment.application.dto.PgCancelResult;
-import com.example.payment.application.exception.PaymentNotFoundException;
+import com.example.payment.common.exception.application.PaymentNotFoundException;
+import com.example.payment.common.exception.domain.InvalidPaymentItemStatusException;
 import com.example.payment.application.interfaces.*;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
 import com.example.payment.domain.entity.*;
@@ -163,7 +164,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
             .filter(i -> !i.isCancellable())
             .findFirst()
             .ifPresent(i -> {
-                throw new com.example.payment.domain.exception.InvalidPaymentItemStatusException(
+                throw new InvalidPaymentItemStatusException(
                     i.getId(), i.getStatus());
             });
     }

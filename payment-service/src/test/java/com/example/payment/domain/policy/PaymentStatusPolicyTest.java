@@ -2,7 +2,7 @@ package com.example.payment.domain.policy;
 
 import com.example.payment.domain.entity.Payment;
 import com.example.payment.domain.entity.PaymentStatus;
-import com.example.payment.domain.exception.InvalidPaymentStatusException;
+import com.example.payment.common.exception.domain.InvalidPaymentStatusException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.example.payment.domain.exception;
+package com.example.payment.common.exception.domain;
 
 import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;

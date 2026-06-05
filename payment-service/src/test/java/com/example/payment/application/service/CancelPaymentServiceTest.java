@@ -2,16 +2,16 @@ package com.example.payment.application.service;
 
 import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.application.dto.RiskReserveResult;
-import com.example.payment.application.exception.PaymentNotFoundException;
+import com.example.payment.common.exception.application.PaymentNotFoundException;
 import com.example.payment.application.interfaces.*;
 import com.example.payment.domain.entity.*;
-import com.example.payment.domain.exception.CancelPeriodExceededException;
-import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
+import com.example.payment.common.exception.domain.CancelPeriodExceededException;
+import com.example.payment.common.exception.domain.InvalidPaymentItemStatusException;
 import com.example.payment.domain.policy.CancelPeriodPolicy;
 import com.example.payment.domain.service.CancelDomainService;
 import com.example.payment.fixture.PaymentFixture;
 import com.example.payment.fixture.PaymentItemFixture;
-import com.example.payment.infrastructure.exception.RiskServiceException;
+import com.example.payment.common.exception.infrastructure.RiskServiceException;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -331,7 +331,7 @@ class CancelPaymentServiceTest {
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
-        assertThrows(com.example.payment.domain.exception.CancelNotAllowedException.class,
+        assertThrows(com.example.payment.common.exception.domain.CancelNotAllowedException.class,
             () -> service.cancel(command));
 
         verify(cancelTxWriter, never()).saveTx1(any());
@@ -413,7 +413,7 @@ class CancelPaymentServiceTest {
         when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
         when(pgCancelPort.cancel(any(), any(), any()))
             .thenReturn(com.example.payment.application.dto.PgCancelResult.failed("pg-tx-fail"));
-        doThrow(new com.example.payment.infrastructure.exception.RiskServiceException("보상 실패"))
+        doThrow(new com.example.payment.common.exception.infrastructure.RiskServiceException("보상 실패"))
             .when(riskManagementPort).compensate(anyLong(), anyLong(), any());
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
@@ -439,11 +439,11 @@ class CancelPaymentServiceTest {
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
         when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
-            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 서비스 다운"));
+            .thenThrow(new com.example.payment.common.exception.infrastructure.RiskServiceException("risk 서비스 다운"));
         // compensate는 성공 (예외 없음)
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        assertThrows(com.example.payment.infrastructure.exception.RiskServiceException.class,
+        assertThrows(com.example.payment.common.exception.infrastructure.RiskServiceException.class,
             () -> service.cancel(command));
 
         verify(riskManagementPort).compensate(anyLong(), anyLong(), any());

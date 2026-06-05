@@ -1,7 +1,7 @@
 package com.example.payment.domain.policy;
 
 import com.example.payment.domain.entity.Payment;
-import com.example.payment.domain.exception.InvalidPaymentStatusException;
+import com.example.payment.common.exception.domain.InvalidPaymentStatusException;
 
 /**
  * Payment 상태 검증 정책 객체

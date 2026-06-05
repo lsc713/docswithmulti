@@ -2,7 +2,7 @@ package com.example.payment.infrastructure.http;
 
 import com.example.payment.application.dto.RiskReserveResult;
 import com.example.payment.application.interfaces.RiskManagementPort;
-import com.example.payment.infrastructure.exception.RiskServiceException;
+import com.example.payment.common.exception.infrastructure.RiskServiceException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

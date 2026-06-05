@@ -1,6 +1,6 @@
 package com.example.payment.domain.policy;
 
-import com.example.payment.domain.exception.InvalidCancelAmountException;
+import com.example.payment.common.exception.domain.InvalidCancelAmountException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

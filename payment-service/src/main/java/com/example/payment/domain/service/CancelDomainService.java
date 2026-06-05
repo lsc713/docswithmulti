@@ -1,7 +1,7 @@
 package com.example.payment.domain.service;
 
 import com.example.payment.domain.entity.*;
-import com.example.payment.domain.exception.PaymentItemNotFoundException;
+import com.example.payment.common.exception.domain.PaymentItemNotFoundException;
 import com.example.payment.domain.policy.CancelPeriodPolicy;
 import com.example.payment.domain.policy.PaymentItemStatusPolicy;
 import com.example.payment.domain.policy.PaymentStatusPolicy;

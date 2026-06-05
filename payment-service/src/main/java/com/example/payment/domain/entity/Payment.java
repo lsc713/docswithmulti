@@ -1,7 +1,7 @@
 package com.example.payment.domain.entity;
 
-import com.example.payment.domain.exception.CancelNotAllowedException;
-import com.example.payment.domain.exception.CancelPeriodExceededException;
+import com.example.payment.common.exception.domain.CancelNotAllowedException;
+import com.example.payment.common.exception.domain.CancelPeriodExceededException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;

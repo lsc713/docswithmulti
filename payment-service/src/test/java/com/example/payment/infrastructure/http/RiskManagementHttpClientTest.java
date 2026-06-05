@@ -1,7 +1,7 @@
 package com.example.payment.infrastructure.http;
 
 import com.example.payment.application.dto.RiskReserveResult;
-import com.example.payment.infrastructure.exception.RiskServiceException;
+import com.example.payment.common.exception.infrastructure.RiskServiceException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;

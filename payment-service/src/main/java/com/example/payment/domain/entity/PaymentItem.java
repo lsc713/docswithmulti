@@ -1,6 +1,6 @@
 package com.example.payment.domain.entity;
 
-import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
+import com.example.payment.common.exception.domain.InvalidPaymentItemStatusException;
 import java.math.BigDecimal;
 import java.util.Objects;
 

@@ -2,7 +2,7 @@ package com.example.payment.infrastructure.http;
 
 import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.application.interfaces.PgCancelPort;
-import com.example.payment.infrastructure.exception.PgServiceException;
+import com.example.payment.common.exception.infrastructure.PgServiceException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

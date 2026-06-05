@@ -1,4 +1,4 @@
-package com.example.payment.application.exception;
+package com.example.payment.common.exception.application;
 
 import com.example.payment.common.exception.BusinessException;
 import com.example.payment.common.exception.ErrorCode;

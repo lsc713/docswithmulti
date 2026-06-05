@@ -239,12 +239,12 @@ class CancelFlowIntegrationTest {
     @DisplayName("Risk 실패 — cancel_request FAILED, TX3 미실행, PaymentItem 상태 유지")
     void shouldMarkCancelRequestFailedWhenRiskFails() {
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
-            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 다운"));
-        doThrow(new com.example.payment.infrastructure.exception.RiskServiceException("보상 실패"))
+            .thenThrow(new com.example.payment.common.exception.infrastructure.RiskServiceException("risk 다운"));
+        doThrow(new com.example.payment.common.exception.infrastructure.RiskServiceException("보상 실패"))
             .when(riskManagementPort).compensate(anyLong(), anyLong(), any());
 
         org.junit.jupiter.api.Assertions.assertThrows(
-            com.example.payment.infrastructure.exception.RiskServiceException.class,
+            com.example.payment.common.exception.infrastructure.RiskServiceException.class,
             () -> cancelPaymentService.cancel(new CancelPaymentCommand(
                 "it_pay_001", "risk 실패 테스트", List.of(itemAId)))
         );

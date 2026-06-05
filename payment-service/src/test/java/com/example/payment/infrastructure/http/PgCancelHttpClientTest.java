@@ -1,7 +1,7 @@
 package com.example.payment.infrastructure.http;
 
 import com.example.payment.application.dto.PgCancelResult;
-import com.example.payment.infrastructure.exception.PgServiceException;
+import com.example.payment.common.exception.infrastructure.PgServiceException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

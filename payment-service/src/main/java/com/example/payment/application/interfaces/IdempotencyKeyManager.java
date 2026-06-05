@@ -22,7 +22,7 @@ public interface IdempotencyKeyManager {
     /**
      * Idempotency-Key 기록
      *
-     * @throws com.example.payment.application.exception.IdempotentDuplicationException
+     * @throws com.example.payment.common.exception.application.IdempotentDuplicationException
      *         동시성으로 인해 동일 키가 이미 기록된 경우
      */
     void recordIdempotencyKey(String idempotencyKey, Long cancelRequestId);

@@ -2,7 +2,7 @@ package com.example.payment.domain.policy;
 
 import com.example.payment.domain.entity.PaymentItem;
 import com.example.payment.domain.entity.PaymentItemStatus;
-import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
+import com.example.payment.common.exception.domain.InvalidPaymentItemStatusException;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

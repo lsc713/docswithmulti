@@ -1,7 +1,7 @@
 package com.example.payment.domain.entity;
 
-import com.example.payment.domain.exception.InvalidCancelAmountException;
-import com.example.payment.domain.exception.InvalidCancelStateTransitionException;
+import com.example.payment.common.exception.domain.InvalidCancelAmountException;
+import com.example.payment.common.exception.domain.InvalidCancelStateTransitionException;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;

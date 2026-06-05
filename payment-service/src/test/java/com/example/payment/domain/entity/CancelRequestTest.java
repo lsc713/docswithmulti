@@ -1,8 +1,8 @@
 package com.example.payment.domain.entity;
 
 import com.example.payment.common.exception.ErrorCode;
-import com.example.payment.domain.exception.InvalidCancelAmountException;
-import com.example.payment.domain.exception.InvalidCancelStateTransitionException;
+import com.example.payment.common.exception.domain.InvalidCancelAmountException;
+import com.example.payment.common.exception.domain.InvalidCancelStateTransitionException;
 import org.junit.jupiter.api.*;
 import java.math.BigDecimal;
 import java.time.Instant;

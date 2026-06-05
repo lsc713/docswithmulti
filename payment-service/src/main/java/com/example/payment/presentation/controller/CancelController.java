@@ -3,7 +3,7 @@ package com.example.payment.presentation.controller;
 import com.example.payment.application.interfaces.PaymentRepository;
 import com.example.payment.application.service.CancelPaymentCommand;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
-import com.example.payment.application.exception.PaymentNotFoundException;
+import com.example.payment.common.exception.application.PaymentNotFoundException;
 import com.example.payment.domain.entity.CancelRequest;
 import com.example.payment.domain.entity.Payment;
 import com.example.payment.infrastructure.security.AuthenticatedUser;

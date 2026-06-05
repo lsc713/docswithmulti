@@ -1,7 +1,7 @@
 package com.example.payment.domain.policy;
 
 import com.example.payment.domain.entity.Payment;
-import com.example.payment.domain.exception.CancelPeriodExceededException;
+import com.example.payment.common.exception.domain.CancelPeriodExceededException;
 import com.example.payment.fixture.PaymentFixture;
 import java.time.Clock;
 import java.time.LocalDateTime;
