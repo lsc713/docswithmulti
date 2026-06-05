@@ -9,6 +9,8 @@ public record CreateOrderCommand(
 ) {
     public record Item(
         long productId,
+        long skuId,
+        int quantity,
         String itemName,
         BigDecimal price
     ) {}

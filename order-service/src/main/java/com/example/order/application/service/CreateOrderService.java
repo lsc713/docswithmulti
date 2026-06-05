@@ -2,6 +2,7 @@ package com.example.order.application.service;
 
 import com.example.order.application.interfaces.OrderItemRepository;
 import com.example.order.application.interfaces.OrderRepository;
+import com.example.order.application.interfaces.ProductStockClient;
 import com.example.order.application.usecase.CreateOrderUseCase;
 import com.example.order.domain.entity.Order;
 import com.example.order.domain.entity.OrderItem;
@@ -17,10 +18,15 @@ public class CreateOrderService implements CreateOrderUseCase {
 
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final ProductStockClient productStockClient;
 
     @Override
     @Transactional
     public Result create(CreateOrderCommand command) {
+        command.items().forEach(item ->
+            productStockClient.deduct(item.skuId(), item.quantity())
+        );
+
         Order order = orderRepository.insert(Order.create(command.userId()));
 
         List<OrderItem> items = command.items().stream()

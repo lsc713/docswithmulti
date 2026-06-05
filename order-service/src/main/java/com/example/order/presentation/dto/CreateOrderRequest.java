@@ -14,6 +14,8 @@ public record CreateOrderRequest(
 ) {
     public record Item(
         @Positive long productId,
+        @Positive long skuId,
+        @Positive int quantity,
         @NotBlank String itemName,
         @Positive BigDecimal price
     ) {}

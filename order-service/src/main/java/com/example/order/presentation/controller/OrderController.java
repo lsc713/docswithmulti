@@ -29,7 +29,7 @@ public class OrderController {
             request.userId(),
             request.items().stream()
                 .map(item -> new CreateOrderCommand.Item(
-                    item.productId(), item.itemName(), item.price()))
+                    item.productId(), item.skuId(), item.quantity(), item.itemName(), item.price()))
                 .toList()
         );
 
