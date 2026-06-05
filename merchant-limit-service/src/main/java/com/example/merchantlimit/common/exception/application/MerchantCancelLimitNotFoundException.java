@@ -1,4 +1,4 @@
-package com.example.merchantlimit.application.exception;
+package com.example.merchantlimit.common.exception.application;
 
 import com.example.merchantlimit.common.exception.BusinessException;
 import com.example.merchantlimit.common.exception.ErrorCode;

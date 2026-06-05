@@ -1,7 +1,7 @@
 package com.example.merchantlimit.domain.entity;
 
-import com.example.merchantlimit.domain.exception.MerchantSuspendedException;
-import com.example.merchantlimit.domain.exception.InvalidLimitAmountException;
+import com.example.merchantlimit.common.exception.domain.MerchantSuspendedException;
+import com.example.merchantlimit.common.exception.domain.InvalidLimitAmountException;
 import com.example.merchantlimit.domain.service.MerchantLimitDomainService;
 import com.example.merchantlimit.fixture.MerchantCancelLimitFixture;
 import com.example.merchantlimit.fixture.MerchantFixture;

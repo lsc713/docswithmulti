@@ -7,7 +7,7 @@ import com.example.merchantlimit.common.exception.BusinessException;
 import com.example.merchantlimit.common.exception.ErrorCode;
 import com.example.merchantlimit.domain.entity.Merchant;
 import com.example.merchantlimit.domain.entity.MerchantStatus;
-import com.example.merchantlimit.domain.exception.MerchantNotFoundException;
+import com.example.merchantlimit.common.exception.domain.MerchantNotFoundException;
 import com.example.merchantlimit.presentation.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

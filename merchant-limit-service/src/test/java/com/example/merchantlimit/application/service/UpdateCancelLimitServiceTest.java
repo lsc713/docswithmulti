@@ -2,8 +2,8 @@ package com.example.merchantlimit.application.service;
 
 import com.example.merchantlimit.application.interfaces.*;
 import com.example.merchantlimit.application.usecase.UpdateCancelLimitUseCase;
-import com.example.merchantlimit.domain.exception.MerchantNotFoundException;
-import com.example.merchantlimit.domain.exception.MerchantSuspendedException;
+import com.example.merchantlimit.common.exception.domain.MerchantNotFoundException;
+import com.example.merchantlimit.common.exception.domain.MerchantSuspendedException;
 import com.example.merchantlimit.domain.service.MerchantLimitDomainService;
 import com.example.merchantlimit.fixture.MerchantCancelLimitFixture;
 import com.example.merchantlimit.fixture.MerchantFixture;

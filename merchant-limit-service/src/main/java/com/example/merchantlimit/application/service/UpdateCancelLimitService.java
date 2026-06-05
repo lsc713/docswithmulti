@@ -5,7 +5,7 @@ import com.example.merchantlimit.application.usecase.UpdateCancelLimitUseCase;
 import com.example.merchantlimit.domain.entity.LimitHistory;
 import com.example.merchantlimit.domain.entity.Merchant;
 import com.example.merchantlimit.domain.entity.MerchantCancelLimit;
-import com.example.merchantlimit.domain.exception.MerchantNotFoundException;
+import com.example.merchantlimit.common.exception.domain.MerchantNotFoundException;
 import com.example.merchantlimit.domain.service.MerchantLimitDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

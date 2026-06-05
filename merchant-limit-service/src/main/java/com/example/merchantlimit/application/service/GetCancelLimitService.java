@@ -1,12 +1,12 @@
 package com.example.merchantlimit.application.service;
 
-import com.example.merchantlimit.application.exception.MerchantCancelLimitNotFoundException;
+import com.example.merchantlimit.common.exception.application.MerchantCancelLimitNotFoundException;
 import com.example.merchantlimit.application.interfaces.MerchantCancelLimitRepository;
 import com.example.merchantlimit.application.interfaces.MerchantRepository;
 import com.example.merchantlimit.application.usecase.GetCancelLimitUseCase;
 import com.example.merchantlimit.domain.entity.Merchant;
 import com.example.merchantlimit.domain.entity.MerchantCancelLimit;
-import com.example.merchantlimit.domain.exception.MerchantNotFoundException;
+import com.example.merchantlimit.common.exception.domain.MerchantNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

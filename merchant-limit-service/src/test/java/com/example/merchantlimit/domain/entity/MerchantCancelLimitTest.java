@@ -1,6 +1,6 @@
 package com.example.merchantlimit.domain.entity;
 
-import com.example.merchantlimit.domain.exception.InvalidLimitAmountException;
+import com.example.merchantlimit.common.exception.domain.InvalidLimitAmountException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

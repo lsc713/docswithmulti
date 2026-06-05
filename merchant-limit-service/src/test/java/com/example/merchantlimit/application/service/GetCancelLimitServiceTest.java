@@ -1,10 +1,10 @@
 package com.example.merchantlimit.application.service;
 
-import com.example.merchantlimit.application.exception.MerchantCancelLimitNotFoundException;
+import com.example.merchantlimit.common.exception.application.MerchantCancelLimitNotFoundException;
 import com.example.merchantlimit.application.interfaces.MerchantCancelLimitRepository;
 import com.example.merchantlimit.application.interfaces.MerchantRepository;
 import com.example.merchantlimit.application.usecase.GetCancelLimitUseCase;
-import com.example.merchantlimit.domain.exception.MerchantNotFoundException;
+import com.example.merchantlimit.common.exception.domain.MerchantNotFoundException;
 import com.example.merchantlimit.fixture.MerchantCancelLimitFixture;
 import com.example.merchantlimit.fixture.MerchantFixture;
 import org.junit.jupiter.api.BeforeEach;
