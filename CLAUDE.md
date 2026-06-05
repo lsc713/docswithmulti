@@ -302,9 +302,11 @@ infrastructure → domain (단방향, 역방향 금지)
 - [x] 예외 클래스 common/exception 하위 통합 (전 모듈)
 - [x] 동기 HTTP 내구성 설계 (docs/resilience-design.md)
 
+- [x] product-service 구현 (카탈로그/버저닝/SKU/재고/Kafka Consumer)
+
 ### 진행 중
 
-- [ ] product-service 구현
+(없음 — 전 모듈 구현 완료)
 
 ### 미적용 (설계 완료)
 
