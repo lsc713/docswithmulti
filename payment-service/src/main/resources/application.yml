@@ -68,3 +68,6 @@ scheduler:
     pending-recovery: lock:scheduler:pending-recovery
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
+
+jwt:
+  secret: ${JWT_SECRET:default-dev-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256}

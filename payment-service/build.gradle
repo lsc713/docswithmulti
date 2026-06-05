@@ -48,4 +48,15 @@ dependencies {
 
     // Redisson (분산락) — Spring Boot 4.x / Spring Framework 7.x 호환
     implementation 'org.redisson:redisson-spring-boot-starter:4.3.1'
+
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JWT (jjwt)
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+    // Test — Spring Security
+    testImplementation 'org.springframework.security:spring-security-test'
 }

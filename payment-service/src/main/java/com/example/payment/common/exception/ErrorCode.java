@@ -20,6 +20,9 @@ public enum ErrorCode {
     EMPTY_CANCEL_ITEMS("EMPTY_CANCEL_ITEMS", 400, "취소 항목이 비어있습니다."),
     INVALID_CANCEL_AMOUNT("INVALID_CANCEL_AMOUNT", 400, "취소 금액은 1원 이상이어야 합니다."),
 
+    // 401 - 인증 오류
+    UNAUTHORIZED("PAY_AUTH_001", 401, "인증 토큰이 없거나 유효하지 않습니다."),
+
     // 403 - 인가 오류
     FORBIDDEN_PAYMENT("FORBIDDEN_PAYMENT", 403, "해당 결제에 대한 취소 권한이 없습니다."),
 
