@@ -66,6 +66,18 @@ services:
     volumes:
       - mysql-product-data:/var/lib/mysql
 
+  mysql-user:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: user_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+    ports:
+      - "3315:3306"
+    volumes:
+      - mysql-user-data:/var/lib/mysql
+
   # Kafka 클러스터 (3 broker)
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
@@ -176,6 +188,7 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
       SPRING_DATA_REDIS_HOST: redis
       EXTERNAL_RISK_MANAGEMENT_URL: http://risk-management-service:8083
+      JWT_SECRET: shared-jwt-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256
     depends_on:
       - mysql-payment
       - kafka1
@@ -201,6 +214,20 @@ services:
       - kafka2
       - kafka3
 
+  user-service:
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-user:3306/user_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: user
+      JWT_SECRET: shared-jwt-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256
+    depends_on:
+      - mysql-user
+
   # Kafka UI
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
@@ -220,3 +247,4 @@ volumes:
   mysql-merchant-data:
   mysql-risk-data:
   mysql-product-data:
+  mysql-user-data:
