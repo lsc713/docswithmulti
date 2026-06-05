@@ -1,11 +1,11 @@
 package com.example.user.application.service;
 
-import com.example.user.application.exception.UserNotFoundException;
+import com.example.user.common.exception.application.UserNotFoundException;
 import com.example.user.application.interfaces.PasswordEncoder;
 import com.example.user.application.interfaces.UserRepository;
 import com.example.user.application.usecase.UserUseCase;
 import com.example.user.domain.entity.User;
-import com.example.user.domain.exception.InvalidCredentialsException;
+import com.example.user.common.exception.domain.InvalidCredentialsException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

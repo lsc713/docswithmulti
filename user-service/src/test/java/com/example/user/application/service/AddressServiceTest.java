@@ -1,6 +1,6 @@
 package com.example.user.application.service;
 
-import com.example.user.application.exception.AddressNotFoundException;
+import com.example.user.common.exception.application.AddressNotFoundException;
 import com.example.user.application.interfaces.AddressRepository;
 import com.example.user.application.usecase.AddressUseCase.*;
 import com.example.user.domain.entity.Address;

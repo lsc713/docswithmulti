@@ -1,6 +1,6 @@
 package com.example.user.domain.entity;
 
-import com.example.user.domain.exception.SuspendedAccountException;
+import com.example.user.common.exception.domain.SuspendedAccountException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

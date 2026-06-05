@@ -1,13 +1,13 @@
 package com.example.user.application.service;
 
-import com.example.user.application.exception.DuplicateEmailException;
-import com.example.user.application.exception.InvalidTokenException;
+import com.example.user.common.exception.application.DuplicateEmailException;
+import com.example.user.common.exception.application.InvalidTokenException;
 import com.example.user.application.interfaces.*;
 import com.example.user.application.usecase.AuthUseCase;
 import com.example.user.application.usecase.AuthUseCase.*;
 import com.example.user.domain.entity.*;
-import com.example.user.domain.exception.InvalidCredentialsException;
-import com.example.user.domain.exception.SuspendedAccountException;
+import com.example.user.common.exception.domain.InvalidCredentialsException;
+import com.example.user.common.exception.domain.SuspendedAccountException;
 import com.example.user.infrastructure.security.JwtTokenProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

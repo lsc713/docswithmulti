@@ -1,6 +1,6 @@
 package com.example.user.application.service;
 
-import com.example.user.application.exception.PaymentMethodNotFoundException;
+import com.example.user.common.exception.application.PaymentMethodNotFoundException;
 import com.example.user.application.interfaces.PaymentMethodRepository;
 import com.example.user.application.usecase.PaymentMethodUseCase.*;
 import com.example.user.domain.entity.PaymentMethod;

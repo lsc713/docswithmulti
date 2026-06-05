@@ -1,4 +1,4 @@
-package com.example.user.domain.exception;
+package com.example.user.common.exception.domain;
 
 import com.example.user.common.exception.BusinessException;
 import com.example.user.common.exception.ErrorCode;

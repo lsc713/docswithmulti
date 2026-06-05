@@ -1,6 +1,6 @@
 package com.example.user.application.service;
 
-import com.example.user.application.exception.UserNotFoundException;
+import com.example.user.common.exception.application.UserNotFoundException;
 import com.example.user.application.interfaces.UserRepository;
 import com.example.user.domain.entity.*;
 import org.junit.jupiter.api.BeforeEach;
