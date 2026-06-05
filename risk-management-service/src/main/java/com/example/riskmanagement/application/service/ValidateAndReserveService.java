@@ -1,6 +1,6 @@
 package com.example.riskmanagement.application.service;
 
-import com.example.riskmanagement.application.exception.ServiceUnavailableException;
+import com.example.riskmanagement.common.exception.application.ServiceUnavailableException;
 import com.example.riskmanagement.application.interfaces.*;
 import com.example.riskmanagement.application.usecase.ValidateAndReserveUseCase;
 import com.example.riskmanagement.domain.entity.CancelUsageHistory;

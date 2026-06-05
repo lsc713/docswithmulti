@@ -1,7 +1,7 @@
 package com.example.riskmanagement.presentation;
 
 import com.example.riskmanagement.common.exception.BusinessException;
-import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
+import com.example.riskmanagement.common.exception.domain.MerchantCancelLimitExceededException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

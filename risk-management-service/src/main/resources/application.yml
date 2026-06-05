@@ -61,7 +61,7 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 3
         minimumNumberOfCalls: 5
         ignore-exceptions:
-          - com.example.riskmanagement.application.exception.MerchantCancelLimitNotFoundException
+          - com.example.riskmanagement.common.exception.application.MerchantCancelLimitNotFoundException
 
 logging:
   level:

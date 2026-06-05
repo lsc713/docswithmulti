@@ -1,6 +1,6 @@
 package com.example.riskmanagement.infrastructure.http;
 
-import com.example.riskmanagement.application.exception.ServiceUnavailableException;
+import com.example.riskmanagement.common.exception.application.ServiceUnavailableException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.example.riskmanagement.infrastructure.http;
 
-import com.example.riskmanagement.application.exception.MerchantCancelLimitNotFoundException;
-import com.example.riskmanagement.application.exception.ServiceUnavailableException;
+import com.example.riskmanagement.common.exception.application.MerchantCancelLimitNotFoundException;
+import com.example.riskmanagement.common.exception.application.ServiceUnavailableException;
 import com.example.riskmanagement.application.interfaces.MerchantLimitClient;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;

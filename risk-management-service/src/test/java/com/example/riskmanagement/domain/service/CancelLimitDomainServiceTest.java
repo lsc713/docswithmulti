@@ -1,7 +1,7 @@
 package com.example.riskmanagement.domain.service;
 
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
-import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
+import com.example.riskmanagement.common.exception.domain.MerchantCancelLimitExceededException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
 package com.example.riskmanagement.domain.service;
 
-import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
+import com.example.riskmanagement.common.exception.domain.MerchantCancelLimitExceededException;
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
 
 import java.math.BigDecimal;

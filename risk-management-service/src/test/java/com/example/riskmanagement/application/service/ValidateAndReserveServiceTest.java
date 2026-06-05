@@ -4,7 +4,7 @@ import com.example.riskmanagement.application.interfaces.*;
 import com.example.riskmanagement.application.usecase.ValidateAndReserveUseCase;
 import com.example.riskmanagement.domain.entity.CancelUsageHistory;
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
-import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
+import com.example.riskmanagement.common.exception.domain.MerchantCancelLimitExceededException;
 import com.example.riskmanagement.domain.service.CancelLimitDomainService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -142,6 +142,6 @@ class ValidateAndReserveServiceTest {
 
         assertThatThrownBy(() -> sut.execute(
             new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY)))
-            .isInstanceOf(com.example.riskmanagement.application.exception.ServiceUnavailableException.class);
+            .isInstanceOf(com.example.riskmanagement.common.exception.application.ServiceUnavailableException.class);
     }
 }

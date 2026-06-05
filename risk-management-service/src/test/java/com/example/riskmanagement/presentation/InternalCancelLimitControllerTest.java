@@ -1,10 +1,10 @@
 package com.example.riskmanagement.presentation;
 
-import com.example.riskmanagement.application.exception.ServiceUnavailableException;
+import com.example.riskmanagement.common.exception.application.ServiceUnavailableException;
 import com.example.riskmanagement.application.usecase.CheckChargeUseCase;
 import com.example.riskmanagement.application.usecase.CompensateUseCase;
 import com.example.riskmanagement.application.usecase.ValidateAndReserveUseCase;
-import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
+import com.example.riskmanagement.common.exception.domain.MerchantCancelLimitExceededException;
 import com.example.riskmanagement.presentation.controller.InternalCancelLimitController;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
