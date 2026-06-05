@@ -234,18 +234,19 @@ spring:
 ### 적용 우선순위
 
 ```
-1단계: HTTP 타임아웃 설정        ← 즉시, 코드 변경 최소
-       (RestTemplate/RestClient에 connect/read timeout 추가)
+1단계: HTTP 타임아웃 설정        ✅ 적용 완료 (2026-06-06)
+       payment-service RestTemplate: connect 2초, read 5초
+       risk-management RestClient: connect 2초, read 3초
 
-2단계: Bulkhead 적용             ← 1단계 이후
+2단계: Bulkhead 적용             ← 미적용
        (risk, PG 호출에 동시 실행 수 제한)
 
-3단계: Virtual Threads 활성화    ← 검증 후 적용
+3단계: Virtual Threads 활성화    ← 미적용
        (spring.threads.virtual.enabled=true)
        (synchronized 사용 여부, Redisson 호환성 확인 선행)
 ```
 
-1단계만으로도 "느린 응답에 무한 대기" 문제는 해결된다.
+1단계 적용으로 "느린 응답에 무한 대기" 문제는 해결되었다.
 2단계까지 적용하면 "한 서비스 장애가 전체 API에 영향" 문제도 해결된다.
 3단계는 근본적 해결이지만 호환성 검증이 필요하다.
 
