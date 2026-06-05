@@ -1,10 +1,35 @@
-// product-service build configuration
-
 apply plugin: 'org.flywaydb.flyway'
+apply plugin: 'jacoco'
 
 flyway {
     url      = 'jdbc:mysql://localhost:3310/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true'
     user     = 'product'
     password = 'product'
     locations = ['classpath:db/migration']
+}
+
+jacoco {
+    toolVersion = '0.8.12'
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir('reports/jacoco/html')
+        xml.required = false
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+    implementation 'org.springframework.kafka:spring-kafka'
+    testImplementation 'org.springframework.security:spring-security-test'
 }
