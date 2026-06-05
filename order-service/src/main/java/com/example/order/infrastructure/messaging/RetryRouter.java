@@ -1,6 +1,6 @@
 package com.example.order.infrastructure.messaging;
 
-import com.example.order.application.exception.NonRetryableException;
+import com.example.order.common.exception.application.NonRetryableException;
 import tools.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

@@ -1,4 +1,4 @@
-package com.example.order.application.exception;
+package com.example.order.common.exception.application;
 
 /**
  * 재시도해도 해결될 수 없는 예외 (데이터 오류).

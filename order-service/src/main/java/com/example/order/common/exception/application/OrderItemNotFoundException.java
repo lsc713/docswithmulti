@@ -1,4 +1,4 @@
-package com.example.order.application.exception;
+package com.example.order.common.exception.application;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.example.order.infrastructure.messaging;
 
-import com.example.order.application.exception.OrderItemNotFoundException;
+import com.example.order.common.exception.application.OrderItemNotFoundException;
 import com.example.order.application.usecase.ProcessCancelledItemsUseCase;
 import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

@@ -1,6 +1,6 @@
 package com.example.order.application.service;
 
-import com.example.order.application.exception.OrderItemNotFoundException;
+import com.example.order.common.exception.application.OrderItemNotFoundException;
 import com.example.order.application.interfaces.OrderItemRepository;
 import com.example.order.application.interfaces.OrderRepository;
 import com.example.order.application.interfaces.ProcessedCancelEventRepository;
