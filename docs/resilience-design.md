@@ -145,9 +145,24 @@ public RestClient merchantLimitRestClient(
 
 ---
 
-### 2단계: Bulkhead (스레드 격리)
+### 2단계: Bulkhead (동시 실행 수 제한)
 
-risk 호출용 스레드를 격리하여, risk 지연이 다른 API에 영향을 주지 않게 한다.
+Semaphore Bulkhead를 사용한다. 별도 스레드 풀을 생성하는 것이 아니라,
+**톰캣 스레드 풀 내에서 특정 호출의 동시 진입 수를 제한**하는 카운터다.
+
+```
+톰캣 스레드 풀 200개 (공유)
+  ├── risk 호출: 세마포어 30 → 동시에 30개까지만 진입 허용
+  ├── PG 호출:   세마포어 50 → 동시에 50개까지만 진입 허용
+  └── 나머지:    120개는 다른 API에 사용 가능
+```
+
+31번째 risk 호출이 오면 `maxWaitDuration(500ms)` 동안 대기하다가,
+자리가 안 나면 **스레드를 점유하지 않고 즉시 실패**(BulkheadFullException)한다.
+→ 복구 스케줄러가 이후 재처리한다.
+
+참고: ThreadPool Bulkhead(별도 스레드 풀 생성)도 있지만,
+`CompletableFuture` 반환이 필요하므로 현재 동기 구조와 맞지 않는다.
 
 #### payment-service Resilience4j Bulkhead 추가
 
@@ -181,8 +196,9 @@ public RiskReserveResult validateAndReserve(...) {
 
 **값 근거**:
 - 톰캣 기본 스레드 200개
-- risk 호출에 30개 할당 → 나머지 170개는 다른 API용
-- PG에 50개 할당 → 결제 취소 동시 처리량 충분
+- risk 호출에 30개 제한 → 나머지 170개는 다른 API용
+- PG에 50개 제한 → 결제 취소 동시 처리량 충분
+- 두 세마포어의 합(80)이 200을 넘지 않도록 설정
 
 ---
 
