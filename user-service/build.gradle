@@ -1,0 +1,41 @@
+// user-service/build.gradle
+
+apply plugin: 'org.flywaydb.flyway'
+apply plugin: 'jacoco'
+
+flyway {
+    url      = 'jdbc:mysql://localhost:3315/user_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true'
+    user     = 'user'
+    password = 'user'
+    locations = ['classpath:db/migration']
+}
+
+jacoco {
+    toolVersion = '0.8.12'
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        html.required = true
+        html.outputLocation = layout.buildDirectory.dir('reports/jacoco/html')
+        xml.required = false
+    }
+}
+
+dependencies {
+    // Spring Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // JWT (jjwt)
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+
+    // Test — Spring Security
+    testImplementation 'org.springframework.security:spring-security-test'
+}

@@ -1,0 +1,40 @@
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3315/user_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: user
+    password: user
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      initialization-fail-timeout: -1
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+  profiles:
+    active: local
+
+server:
+  port: 8085
+
+jwt:
+  secret: ${JWT_SECRET:default-dev-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256}
+  access-token-expiry: 3600000
+  refresh-token-expiry: 604800000
+
+logging:
+  level:
+    com.example.user: INFO
