@@ -2,6 +2,7 @@ package com.example.payment.infrastructure.http;
 
 import com.example.payment.application.dto.RiskReserveResult;
 import com.example.payment.common.exception.infrastructure.RiskServiceException;
+import io.github.resilience4j.bulkhead.Bulkhead;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
@@ -23,12 +24,12 @@ class RiskManagementHttpClientTest {
 
     RestTemplate restTemplate;
     CircuitBreaker circuitBreaker;
+    Bulkhead bulkhead;
     RiskManagementHttpClient client;
 
     @BeforeEach
     void setUp() {
         restTemplate = mock(RestTemplate.class);
-        // 테스트용 CB: 2건 중 50% 실패 시 즉시 OPEN (빠른 테스트를 위해 slidingWindow=2)
         CircuitBreakerConfig config = CircuitBreakerConfig.custom()
             .slidingWindowType(CircuitBreakerConfig.SlidingWindowType.COUNT_BASED)
             .slidingWindowSize(2)
@@ -36,7 +37,8 @@ class RiskManagementHttpClientTest {
             .waitDurationInOpenState(Duration.ofSeconds(60))
             .build();
         circuitBreaker = CircuitBreakerRegistry.of(config).circuitBreaker("test-risk");
-        client = new RiskManagementHttpClient(restTemplate, "http://risk-service", circuitBreaker);
+        bulkhead = Bulkhead.ofDefaults("test-risk");
+        client = new RiskManagementHttpClient(restTemplate, "http://risk-service", circuitBreaker, bulkhead);
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.example.payment.infrastructure.http;
 
 import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.common.exception.infrastructure.PgServiceException;
+import io.github.resilience4j.bulkhead.Bulkhead;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,12 +28,14 @@ class PgCancelHttpClientTest {
     RestTemplate restTemplate;
 
     CircuitBreaker circuitBreaker;
+    Bulkhead bulkhead;
     PgCancelHttpClient sut;
 
     @BeforeEach
     void setUp() {
         circuitBreaker = CircuitBreaker.ofDefaults("test");
-        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", circuitBreaker);
+        bulkhead = Bulkhead.ofDefaults("test");
+        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", circuitBreaker, bulkhead);
     }
 
     @Test
@@ -61,7 +64,7 @@ class PgCancelHttpClientTest {
                 .minimumNumberOfCalls(2)
                 .failureRateThreshold(100)
                 .build());
-        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", cb);
+        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", cb, Bulkhead.ofDefaults("test-open"));
 
         when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class)))
             .thenThrow(new RuntimeException("connection error"));

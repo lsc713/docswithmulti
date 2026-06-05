@@ -238,8 +238,9 @@ spring:
        payment-service RestTemplate: connect 2초, read 5초
        risk-management RestClient: connect 2초, read 3초
 
-2단계: Bulkhead 적용             ← 미적용
-       (risk, PG 호출에 동시 실행 수 제한)
+2단계: Bulkhead 적용             ✅ 적용 완료 (2026-06-06)
+       risk-management: maxConcurrentCalls=30, maxWaitDuration=500ms
+       pg-cancel: maxConcurrentCalls=50, maxWaitDuration=500ms
 
 3단계: Virtual Threads 활성화    ← 미적용
        (spring.threads.virtual.enabled=true)

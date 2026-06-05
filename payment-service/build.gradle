@@ -40,8 +40,9 @@ jacocoTestCoverageVerification {
 }
 
 dependencies {
-    // Circuit Breaker
+    // Circuit Breaker + Bulkhead
     implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.2.0'
+    implementation 'io.github.resilience4j:resilience4j-bulkhead:2.2.0'
 
     // Kafka (Outbox 발행)
     implementation 'org.springframework.kafka:spring-kafka'
