@@ -22,7 +22,7 @@ class PaymentItemStatusPolicyTest {
         @Test
         @DisplayName("취소 가능 상태이므로 검증 통과")
         void should_validate_when_status_is_active() {
-            PaymentItem item = PaymentItem.of(1L, 100L, 10L, 1000L, "상품명", ITEM_AMOUNT);
+            PaymentItem item = PaymentItem.of(1L, 100L, 10L, 1000L, 0L, 1, "상품명", ITEM_AMOUNT);
 
             assertDoesNotThrow(() -> PaymentItemStatusPolicy.validateCancellableStatus(item));
         }
@@ -35,7 +35,7 @@ class PaymentItemStatusPolicyTest {
         @Test
         @DisplayName("취소 불가능 상태이므로 InvalidPaymentItemStatusException 발생")
         void should_reject_when_status_is_cancelled() {
-            PaymentItem item = PaymentItem.of(1L, 100L, 10L, 1000L, "상품명", ITEM_AMOUNT);
+            PaymentItem item = PaymentItem.of(1L, 100L, 10L, 1000L, 0L, 1, "상품명", ITEM_AMOUNT);
             item.cancel();
 
             InvalidPaymentItemStatusException exception = assertThrows(

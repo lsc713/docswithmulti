@@ -58,9 +58,9 @@ class CancelPaymentServiceTest {
         );
 
         payment = PaymentFixture.completedPayment(); // paymentKey="pay_test_001", merchantId=1
-        itemA = PaymentItem.reconstruct(1L, payment.getId(), 10L, 100L, 200L, "상품A",
+        itemA = PaymentItem.reconstruct(1L, payment.getId(), 10L, 100L, 200L, 0L, 1, "상품A",
             BigDecimal.valueOf(30000), PaymentItemStatus.ACTIVE);
-        itemB = PaymentItem.reconstruct(2L, payment.getId(), 11L, 100L, 200L, "상품B",
+        itemB = PaymentItem.reconstruct(2L, payment.getId(), 11L, 100L, 200L, 0L, 1, "상품B",
             BigDecimal.valueOf(70000), PaymentItemStatus.ACTIVE);
 
         command = new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L));
@@ -251,7 +251,7 @@ class CancelPaymentServiceTest {
         PaymentItem cancelledItemA = PaymentItemFixture.cancelled(payment.getId(), 10L, BigDecimal.valueOf(30_000));
         // id=1 인 cancelled 아이템을 reconstruct로 생성
         PaymentItem cancelledWithId = PaymentItem.reconstruct(
-            1L, payment.getId(), 10L, 100L, 200L, "상품A",
+            1L, payment.getId(), 10L, 100L, 200L, 0L, 1, "상품A",
             BigDecimal.valueOf(30_000), PaymentItemStatus.CANCELLED);
 
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));

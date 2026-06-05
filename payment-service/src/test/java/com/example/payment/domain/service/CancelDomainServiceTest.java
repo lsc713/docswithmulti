@@ -26,12 +26,12 @@ class CancelDomainServiceTest {
     }
 
     private static PaymentItem activeItem(long id, long paymentId, BigDecimal amount) {
-        return PaymentItem.reconstruct(id, paymentId, 10L, 100L, 200L, "상품", amount,
+        return PaymentItem.reconstruct(id, paymentId, 10L, 100L, 200L, 0L, 1, "상품", amount,
             PaymentItemStatus.ACTIVE);
     }
 
     private static PaymentItem cancelledItem(long id, long paymentId, BigDecimal amount) {
-        return PaymentItem.reconstruct(id, paymentId, 10L, 100L, 200L, "상품", amount,
+        return PaymentItem.reconstruct(id, paymentId, 10L, 100L, 200L, 0L, 1, "상품", amount,
             PaymentItemStatus.CANCELLED);
     }
 

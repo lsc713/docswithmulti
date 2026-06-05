@@ -38,6 +38,12 @@ public class PaymentItemJpaEntity {
     @Column(name = "product_auto_id", nullable = false)
     private Long productAutoId;
 
+    @Column(name = "sku_id", nullable = false)
+    private Long skuId;
+
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
     @Column(name = "item_name", nullable = false, length = 100)
     private String itemName;
 
@@ -63,6 +69,8 @@ public class PaymentItemJpaEntity {
         e.orderItemId = item.getOrderItemId();
         e.productId = item.getProductId();
         e.productAutoId = item.getProductAutoId();
+        e.skuId = item.getSkuId();
+        e.quantity = item.getQuantity();
         e.itemName = item.getItemName();
         e.itemAmount = item.getItemAmount();
         e.status = item.getStatus();
@@ -74,7 +82,7 @@ public class PaymentItemJpaEntity {
     public PaymentItem toDomain() {
         return PaymentItem.reconstruct(
             id, paymentId, orderItemId, productId, productAutoId,
-            itemName, itemAmount, status
+            skuId, quantity, itemName, itemAmount, status
         );
     }
 

@@ -47,6 +47,8 @@ public class CreatePaymentService implements CreatePaymentUseCase {
                 item.orderItemId(),
                 item.productId(),
                 item.productId(),   // productAutoId: productId로 대체 (PG 연동 불필요)
+                item.skuId(),
+                item.quantity(),
                 item.itemName(),
                 item.itemAmount()
             ))

@@ -33,6 +33,8 @@ public class PaymentController {
                 .map(item -> new CreatePaymentCommand.Item(
                     item.orderItemId(),
                     item.productId(),
+                    item.skuId(),
+                    item.quantity(),
                     item.itemName(),
                     item.itemAmount()
                 ))

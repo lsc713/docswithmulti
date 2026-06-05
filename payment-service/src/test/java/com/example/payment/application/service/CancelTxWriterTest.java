@@ -47,7 +47,7 @@ class CancelTxWriterTest {
         );
         ReflectionTestUtils.setField(writer, "topic", "payment.cancelled");
         payment = PaymentFixture.completedPayment();
-        itemA = PaymentItem.reconstruct(1L, payment.getId(), 10L, 100L, 200L, "상품A",
+        itemA = PaymentItem.reconstruct(1L, payment.getId(), 10L, 100L, 200L, 0L, 1, "상품A",
             BigDecimal.valueOf(30000), PaymentItemStatus.ACTIVE);
     }
 

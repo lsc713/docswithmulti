@@ -13,6 +13,8 @@ public record CreatePaymentCommand(
     public record Item(
         long orderItemId,
         long productId,
+        long skuId,
+        int quantity,
         String itemName,
         BigDecimal itemAmount
     ) {}

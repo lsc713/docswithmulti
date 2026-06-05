@@ -96,8 +96,9 @@ public class CancelTxWriter {
             .filter(i -> i.getStatus() == PaymentItemStatus.CANCELLED
                 && targetItemIds.contains(i.getId()))
             .map(i -> String.format(
-                "{\"paymentItemId\":%d,\"orderItemId\":%d,\"itemAmount\":%s}",
-                i.getId(), i.getOrderItemId(), i.getItemAmount().toPlainString()
+                "{\"paymentItemId\":%d,\"orderItemId\":%d,\"itemAmount\":%s,\"skuId\":%d,\"quantity\":%d}",
+                i.getId(), i.getOrderItemId(), i.getItemAmount().toPlainString(),
+                i.getSkuId(), i.getQuantity()
             ))
             .collect(Collectors.joining(",", "[", "]"));
 

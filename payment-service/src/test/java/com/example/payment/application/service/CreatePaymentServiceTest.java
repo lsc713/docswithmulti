@@ -42,8 +42,8 @@ class CreatePaymentServiceTest {
         CreatePaymentCommand command = new CreatePaymentCommand(
             1L, 100L, "TOSS", 90,
             List.of(
-                new CreatePaymentCommand.Item(10L, 200L, "상품A", BigDecimal.valueOf(30_000)),
-                new CreatePaymentCommand.Item(11L, 201L, "상품B", BigDecimal.valueOf(70_000))
+                new CreatePaymentCommand.Item(10L, 200L, 0L, 1, "상품A", BigDecimal.valueOf(30_000)),
+                new CreatePaymentCommand.Item(11L, 201L, 0L, 1, "상품B", BigDecimal.valueOf(70_000))
             )
         );
 
@@ -55,9 +55,9 @@ class CreatePaymentServiceTest {
         when(paymentRepository.save(any())).thenReturn(savedPayment);
 
         List<PaymentItem> savedItems = List.of(
-            PaymentItem.reconstruct(1L, 1L, 10L, 200L, 200L, "상품A",
+            PaymentItem.reconstruct(1L, 1L, 10L, 200L, 200L, 0L, 1, "상품A",
                 BigDecimal.valueOf(30_000), PaymentItemStatus.ACTIVE),
-            PaymentItem.reconstruct(2L, 1L, 11L, 201L, 201L, "상품B",
+            PaymentItem.reconstruct(2L, 1L, 11L, 201L, 201L, 0L, 1, "상품B",
                 BigDecimal.valueOf(70_000), PaymentItemStatus.ACTIVE)
         );
         when(paymentItemRepository.saveAll(any())).thenReturn(savedItems);
@@ -77,7 +77,7 @@ class CreatePaymentServiceTest {
     void shouldCreatePaymentWithSingleItem() {
         CreatePaymentCommand command = new CreatePaymentCommand(
             2L, 200L, "KG", 30,
-            List.of(new CreatePaymentCommand.Item(20L, 300L, "상품C", BigDecimal.valueOf(50_000)))
+            List.of(new CreatePaymentCommand.Item(20L, 300L, 0L, 1, "상품C", BigDecimal.valueOf(50_000)))
         );
 
         Payment savedPayment = Payment.reconstruct(

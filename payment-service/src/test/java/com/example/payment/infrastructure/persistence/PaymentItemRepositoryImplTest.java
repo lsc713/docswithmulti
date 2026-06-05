@@ -80,7 +80,7 @@ class PaymentItemRepositoryImplTest extends AbstractRepositoryTest {
         String itemName = "Test Product";
         BigDecimal itemAmount = BigDecimal.valueOf(100000);
 
-        PaymentItem item = PaymentItem.of(paymentId, orderItemId, productId, productAutoId, itemName, itemAmount);
+        PaymentItem item = PaymentItem.of(paymentId, orderItemId, productId, productAutoId, 0L, 1, itemName, itemAmount);
         jpaRepository.save(PaymentItemJpaEntity.from(item));
 
         List<PaymentItemJpaEntity> found = jpaRepository.findAllByPaymentIdOrderByIdAsc(paymentId);

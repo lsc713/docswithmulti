@@ -89,14 +89,14 @@ class CancelFlowIntegrationTest {
 
         PaymentItemJpaEntity a = paymentItemJpaRepository.save(
             PaymentItemJpaEntity.from(
-                PaymentItem.of(paymentId, 10L, 1L, 2L, "상품A", BigDecimal.valueOf(30_000))
+                PaymentItem.of(paymentId, 10L, 1L, 2L, 0L, 1, "상품A", BigDecimal.valueOf(30_000))
             )
         );
         itemAId = a.getId();
 
         PaymentItemJpaEntity b = paymentItemJpaRepository.save(
             PaymentItemJpaEntity.from(
-                PaymentItem.of(paymentId, 11L, 1L, 2L, "상품B", BigDecimal.valueOf(70_000))
+                PaymentItem.of(paymentId, 11L, 1L, 2L, 0L, 1, "상품B", BigDecimal.valueOf(70_000))
             )
         );
         itemBId = b.getId();

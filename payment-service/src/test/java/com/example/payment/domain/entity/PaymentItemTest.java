@@ -15,7 +15,7 @@ class PaymentItemTest {
 
     @BeforeEach
     void setUp() {
-        item = PaymentItem.of(1L, 10L, 100L, 200L, "상품A", BigDecimal.valueOf(30000));
+        item = PaymentItem.of(1L, 10L, 100L, 200L, 0L, 1, "상품A", BigDecimal.valueOf(30000));
     }
 
     @Nested
@@ -61,7 +61,7 @@ class PaymentItemTest {
         @Test
         @DisplayName("같은 id·paymentId이면 equal이다")
         void sameIdAndPaymentId_isEqual() {
-            PaymentItem same = PaymentItem.reconstruct(0L, 1L, 10L, 100L, 200L, "상품B",
+            PaymentItem same = PaymentItem.reconstruct(0L, 1L, 10L, 100L, 200L, 0L, 1, "상품B",
                 BigDecimal.valueOf(99999), PaymentItemStatus.CANCELLED);
             assertEquals(item, same);
             assertEquals(item.hashCode(), same.hashCode());
@@ -70,7 +70,7 @@ class PaymentItemTest {
         @Test
         @DisplayName("id가 다르면 equal이 아니다")
         void differentId_isNotEqual() {
-            PaymentItem other = PaymentItem.reconstruct(99L, 1L, 10L, 100L, 200L, "상품A",
+            PaymentItem other = PaymentItem.reconstruct(99L, 1L, 10L, 100L, 200L, 0L, 1, "상품A",
                 BigDecimal.valueOf(30000), PaymentItemStatus.ACTIVE);
             assertNotEquals(item, other);
         }
