@@ -1,10 +1,11 @@
-# 향후 연동 작업 메모 (2026-06-05)
+# 연동 작업 메모 (2026-06-05)
 
-product-service 구현 후 남는 모듈 간 연동 작업.
+~~product-service 구현 후 남는 모듈 간 연동 작업.~~
+**전체 완료 (2026-06-06)**
 
 ---
 
-## 1. payment-service `payment.cancelled` 페이로드 확장
+## ~~1. payment-service `payment.cancelled` 페이로드 확장~~ ✅ 완료
 
 현재 페이로드:
 ```json
@@ -42,7 +43,7 @@ product-service 구현 후 남는 모듈 간 연동 작업.
 
 ---
 
-## 2. order-service → product-service 재고 차감 연동
+## ~~2. order-service → product-service 재고 차감 연동~~ ✅ 완료
 
 주문 생성 시 product-service에 HTTP 동기 호출로 재고 차감.
 
@@ -62,7 +63,7 @@ Body: { "skuId": 5, "quantity": 2 }
 
 ---
 
-## 3. payment-service 결제 생성 시 skuId 저장
+## ~~3. payment-service 결제 생성 시 skuId 저장~~ ✅ 완료
 
 결제 생성 요청에 skuId를 받아 PaymentItem에 저장.
 취소 시 페이로드에 skuId를 포함하기 위한 선행 작업.
