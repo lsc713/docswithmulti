@@ -228,6 +228,24 @@ services:
     depends_on:
       - mysql-user
 
+  product-service:
+    build:
+      context: .
+      dockerfile: product-service/Dockerfile
+    ports:
+      - "8084:8084"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-product:3306/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: product
+      SPRING_DATASOURCE_PASSWORD: product
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
+      JWT_SECRET: shared-jwt-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256
+    depends_on:
+      - mysql-product
+      - kafka1
+      - kafka2
+      - kafka3
+
   # Kafka UI
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
