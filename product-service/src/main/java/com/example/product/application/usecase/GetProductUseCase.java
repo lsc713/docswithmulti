@@ -2,6 +2,7 @@ package com.example.product.application.usecase;
 
 import com.example.product.domain.entity.Product;
 import com.example.product.domain.entity.ProductSku;
+import com.example.product.domain.entity.ProductStatus;
 import com.example.product.domain.entity.ProductStock;
 import com.example.product.domain.entity.ProductVersion;
 
@@ -16,4 +17,6 @@ public interface GetProductUseCase {
     DetailResult getDetail(long productId);
 
     List<Product> list(Long categoryId, Long merchantId);
+
+    Product updateStatus(long productId, ProductStatus status);
 }

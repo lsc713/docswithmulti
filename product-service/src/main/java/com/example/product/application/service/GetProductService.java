@@ -8,6 +8,7 @@ import com.example.product.application.usecase.GetProductUseCase;
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.Product;
 import com.example.product.domain.entity.ProductSku;
+import com.example.product.domain.entity.ProductStatus;
 import com.example.product.domain.entity.ProductStock;
 import com.example.product.domain.entity.ProductVersion;
 import lombok.RequiredArgsConstructor;
@@ -57,5 +58,18 @@ public class GetProductService implements GetProductUseCase {
             return productRepository.findAllByMerchantId(merchantId);
         }
         return productRepository.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Product updateStatus(long productId, ProductStatus status) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException(productId));
+        if (status == ProductStatus.ACTIVE) {
+            product.activate();
+        } else {
+            product.deactivate();
+        }
+        return productRepository.save(product);
     }
 }
