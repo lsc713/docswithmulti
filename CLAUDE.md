@@ -19,6 +19,7 @@ Claude Code가 세션 시작 시 가장 먼저 읽는 파일이다.
 | `merchant-limit-service` | 가맹점별 일일 취소한도 원본 관리 | 8082 |
 | `risk-management-service` | 취소 가능 여부 검증 + 소진 한도 관리 | 8083 |
 | `product-service` | 상품/SKU/재고 관리 | 8084 |
+| `user-service` | 회원가입/로그인/JWT 발급/프로필 관리 | 8085 |
 
 ### 기술 스택
 
@@ -254,22 +255,22 @@ common/exception
   BusinessException          모든 커스텀 예외의 부모
     errorCode: String        error-catalog.md 코드와 1:1 매핑
     httpStatus: int
-
-domain/exception             비즈니스 규칙 위반만
-  InvalidCancelAmountException
-  InvalidPaymentStatusException
-  CancelPeriodExpiredException
-  InvalidCancelStateTransitionException
-
-application/exception        리소스 없음, 멱등 중복
-  PaymentNotFoundException
-  CancelRequestNotFoundException
-  IdempotentDuplicationException
-
-infrastructure/exception     외부 연동 실패
-  MerchantLimitServiceException
-  RiskServiceException
+  domain/                    비즈니스 규칙 위반만
+    InvalidCancelAmountException
+    InvalidPaymentStatusException
+    CancelPeriodExceededException
+    InvalidCancelStateTransitionException
+  application/               리소스 없음, 멱등 중복
+    PaymentNotFoundException
+    CancelRequestNotFoundException
+    IdempotentDuplicationException
+  infrastructure/            외부 연동 실패
+    PgServiceException
+    RiskServiceException
 ```
+
+모든 예외는 common/exception 하위에 통합한다.
+하위 패키지(domain/application/infrastructure)로 의미를 유지한다.
 
 presentation에서는 BusinessException을 잡아
 errorCode 기반으로 에러 응답을 통일한다.
@@ -292,23 +293,26 @@ infrastructure → domain (단방향, 역방향 금지)
 - [x] 취소 플로우 상세 설계 (cancel-design.md)
 - [x] Circuit Breaker 설계
 - [x] 스케줄러 4개 설계 (pending-recovery, processing-recovery, outbox-publisher, compensation-retry)
+- [x] payment-service 구현 (stub 2개 잔존: PG isCharged/getStatus)
+- [x] risk-management-service 구현
+- [x] merchant-limit-service 구현
+- [x] order-service 구현
+- [x] user-service 구현 (JWT 인증 + 프로필/배송지/결제수단 관리)
+- [x] payment-service JWT 인가 적용 (역할별 취소 권한 검증)
+- [x] 예외 클래스 common/exception 하위 통합 (전 모듈)
+- [x] 동기 HTTP 내구성 설계 (docs/resilience-design.md)
 
 ### 진행 중
 
-- [ ] payment-service 구현
-- [ ] order-service 구현
-- [ ] merchant-limit-service 구현
-- [ ] risk-management-service 구현
 - [ ] product-service 구현
 
-### 구현 우선순위
+### 미적용 (설계 완료)
 
 ```
-1. payment-service          핵심 취소 플로우
-2. risk-management-service  취소 검증 + 한도 소진
-3. merchant-limit-service   한도 원본 관리
-4. order-service            Kafka Consumer + 상태 동기화
-5. product-service          상품/SKU/재고
+1. HTTP 타임아웃 설정 (RestTemplate/RestClient)
+2. Bulkhead 적용 (risk, PG 호출 동시 실행 수 제한)
+3. Virtual Threads 활성화 (spring.threads.virtual.enabled)
+→ 상세: docs/resilience-design.md
 ```
 
 ---
