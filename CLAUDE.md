@@ -92,8 +92,8 @@ FAILED 건 재시도:
 ```
 TX 1: CancelRequest PENDING INSERT (risk 호출 전)
 TX 2: CancelRequest PROCESSING UPDATE (risk 성공 후)
-TX 3: PaymentItem + Payment + CancelRequest(COMPLETED) + Outbox
-      → 하나의 트랜잭션으로 원자적 처리
+TX 3: PaymentItem + Payment + CancelRequest(COMPLETED) + Kafka 발행(인라인)
+      → 하나의 트랜잭션으로 원자적 처리 (kafkaTemplate.send() 직접 호출)
 
 이력(cancel_request_history):
   항상 TX 밖에서 별도 실행
@@ -291,14 +291,14 @@ infrastructure → domain (단방향, 역방향 금지)
 - [x] 전체 모듈 DDL 작성 (Flyway V1~V7)
 - [x] 취소 플로우 상세 설계 (cancel-design.md)
 - [x] Circuit Breaker 설계
-- [x] 스케줄러 4개 설계 (pending-recovery, processing-recovery, outbox-publisher, compensation-retry)
+- [x] 스케줄러 3개 설계 (pending-recovery, processing-recovery, compensation-retry)
 
-### 진행 중
+### 구현 상태
 
-- [ ] payment-service 구현
-- [ ] order-service 구현
-- [ ] merchant-limit-service 구현
-- [ ] risk-management-service 구현
+- [x] payment-service 구현
+- [x] order-service 구현
+- [x] merchant-limit-service 구현
+- [x] risk-management-service 구현
 - [ ] product-service 구현
 
 ### 구현 우선순위
