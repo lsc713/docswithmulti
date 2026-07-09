@@ -161,4 +161,11 @@ VU 수만이 아니라 **데이터 분포**가 이 시스템의 병목을 결정
 
 > 실측할 때마다 §6 템플릿으로 아래에 append.
 
-_(아직 실행 전)_
+### [스테이지] S0-smoke (2026-07-10, 로컬 docker-compose)
+- 구성: VU=1, iter=20, 데이터분포=분산(200건 SQL 시딩), TARGET=local, 스케줄러=on
+- 처리량: 9.3 req/s (smoke — 부하 아님, 워밍업/정합성 확인용)
+- 지연: p50=58ms / p95=149ms / p99<1000ms(threshold pass) / max=942ms(첫 요청 콜드)
+- 에러율: 0% (http_req_failed 0/20)
+- 정합성: 20/20 status=COMPLETED (실제 TX3 취소 완료), 이중취소 없음
+- 판정: **Pass** (threshold 3개 전부 통과)
+- 소견: 파이프라인(docker→앱4→SQL시딩→k6) E2E 정상 확인. seed.sh awk 작은따옴표를 octal(`\047`)로 수정(hex `\x27C` 오파싱 버그). 다음: baseline(10 VU 3분) → ramp.
