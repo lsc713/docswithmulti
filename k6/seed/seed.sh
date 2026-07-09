@@ -53,7 +53,7 @@ BEGIN{
   print "INSERT INTO payment (payment_key, merchant_id, user_id, pg_type, total_amount, currency, cancel_period_days, status) VALUES";
   for(i=1;i<=n;i++){
     mid=mids[((i-1)%mc)+1];
-    printf "(\x27%s%d\x27,%s,%d,\x27TOSS\x27,10000,\x27KRW\x27,90,\x27COMPLETED\x27)%s\n", pfx, i, mid, 9000+i, (i<n?",":";");
+    printf "(\047%s%d\047,%s,%d,\047TOSS\047,10000,\047KRW\047,90,\047COMPLETED\047)%s\n", pfx, i, mid, 9000+i, (i<n?",":";");
   }
 }' | db
 
