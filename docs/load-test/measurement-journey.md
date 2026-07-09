@@ -27,7 +27,7 @@
 | **Kafka** | consumer lag(order-service), producer 발행 지연, rebalance | AFTER_COMMIT 비동기라 동기 지연 밖이지만 lag 누적은 정합성 리스크 |
 | **정합성(Correctness)** | 이중 취소 0, 이중 한도차감 0, request_hash dedup 100%, `failed_kafka_event` 적재량 | **성능보다 우선하는 하드 게이트.** 부하에서 깨지면 실패 |
 
-> 최소 관측 스택: 각 앱 **Micrometer → Prometheus → Grafana(t4g.small)** + `node_exporter` + `mysqld_exporter` + `redis_exporter`.
+> 최소 관측 스택: 각 앱 **Micrometer → Prometheus → Grafana(t4g.medium)** + `node_exporter` + `mysqld_exporter` + `redis_exporter`.
 
 ---
 
@@ -169,3 +169,43 @@ VU 수만이 아니라 **데이터 분포**가 이 시스템의 병목을 결정
 - 정합성: 20/20 status=COMPLETED (실제 TX3 취소 완료), 이중취소 없음
 - 판정: **Pass** (threshold 3개 전부 통과)
 - 소견: 파이프라인(docker→앱4→SQL시딩→k6) E2E 정상 확인. seed.sh awk 작은따옴표를 octal(`\047`)로 수정(hex `\x27C` 오파싱 버그). 다음: baseline(10 VU 3분) → ramp.
+
+---
+
+## 9. 인스턴스 사이징 (패밀리 규칙 + 역할별 근거)
+
+**사이징 원칙**: 핫패스(payment/risk)가 **병목이 돼야** 실측이 의미 있다.
+부하생성기·DB는 병목이 되면 안 되되, **과하게 잡으면 병목을 "덮어"** 측정을 흐린다.
+(예: DB RAM이 크면 버퍼풀이 I/O 병목을 감춰 "무릎"이 안 보인다.)
+
+### Graviton 패밀리 규칙 (전부 ARM, t4g만 Graviton2)
+
+| 패밀리 | 성격 | vCPU당 RAM | `large` | `xlarge` |
+|--------|------|-----------|---------|----------|
+| `c7g` | Compute 최적화 | 2 GB | 2 vCPU / 4 GB | 4 vCPU / 8 GB |
+| `m7g` | 범용 | 4 GB | 2 vCPU / 8 GB | 4 vCPU / 16 GB |
+| `r7g` | 메모리 최적화 | 8 GB | 2 vCPU / 16 GB | 4 vCPU / 32 GB |
+| `t4g` | 버스터블(CPU 크레딧) | 1 GB | — | small 2/2 · medium 2/4 |
+
+> 사이즈 규칙: `large`=2 vCPU, `xlarge`=4 vCPU. RAM은 패밀리(vCPU당 GB)로 결정.
+
+### 역할별 배치 (`infra/load-test/instances.tf`)
+
+| 역할 | 타입 | vCPU/RAM | 근거 |
+|------|------|----------|------|
+| k6 (부하생성) | `c7g.xlarge` | 4 / 8 GB | 생성기가 병목되면 안 됨 → 여유 확보 |
+| payment (핫) | `c7g.xlarge` | 4 / 8 GB | **측정 주인공**. compute 최적화 |
+| risk (핫) | `c7g.xlarge` | 4 / 8 GB | 한도차감 동시성 주인공 |
+| cold-svc | `c7g.large` | 2 / 4 GB | merchant-limit + order 합침(콜드) |
+| mysql-payment | `m7g.large` | 2 / 8 GB | TX3 row lock 대상. **r7g(16GB)는 버퍼풀이 I/O 병목을 덮어** m7g로 하향 |
+| mysql-risk | `m7g.large` | 2 / 8 GB | 한도 소진 경합. 동일 근거 |
+| cold-db | `c7g.large` | 2 / 4 GB | merchant+order DB(콜드), 트래픽 소량 → 4GB 충분 |
+| infra | `m7g.large` | 2 / 8 GB | Redis + Kafka(1-broker). Kafka page cache용 RAM 유지 |
+| obs | `t4g.medium` | 2 / 4 GB | Prometheus+Grafana. 9타깃 히스토그램 스크레이프엔 2GB/버스트 크레딧 부족 → 4GB |
+
+**핵심 판단 3가지**
+1. **DB는 m7g/c7g로 충분** — 버려도 되는 부하테스트 DB에 r7g(vCPU당 8GB)는 과잉이고, RAM이 크면 I/O 병목을 가려 실측 신뢰도를 떨어뜨린다.
+2. **핫패스만 c7g.xlarge 유지** — knee/breaking을 payment/risk에서 관측하려면 이들이 먼저 포화돼야 한다.
+3. **obs는 오히려 t4g.small→medium 상향** — 관측 스택이 죽으면 실측 데이터를 잃는다.
+
+> knee를 더 낮은 VU에서 빨리·싸게 보고 싶으면 payment/risk를 `c7g.large`(2 vCPU)로 낮춰 무릎을 앞당기는 선택지도 있다(측정 목적에 따라).
