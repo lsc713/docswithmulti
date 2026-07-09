@@ -1,5 +1,10 @@
 # 결제 취소 시스템 설계
 
+> **⚠️ 메시징 방식 안내 (2026-07 기준)**
+> 현재 `main` 브랜치의 취소 이벤트 발행은 **TX3 인라인**(`CancelTxWriter`에서 `kafkaTemplate.send()` 직접 호출)이다.
+> 본문의 **Outbox / AFTER_COMMIT 서술은 대안 설계**이며 각각 `variant/outbox` · `variant/aftercommit` 브랜치에 해당한다.
+> 인라인 발행 상세는 `docs/kafka-design.md` §"TX3 인라인 Kafka 발행" 참조.
+
 ## 목차
 
 1. [전체 개요](#1-전체-개요)
@@ -959,12 +964,12 @@ failed_kafka_event:
 **Outbox 대비 트레이드오프:**
 
 ```
-Outbox Pattern (main 브랜치):
+Outbox Pattern (variant/outbox 브랜치):
   TX 3 안에 cancel_event_outbox INSERT → DB-Kafka 원자성 보장
   서버 다운 시 Outbox 스케줄러가 PENDING 건 재발행
   단점: cancel_event_outbox 테이블 + outbox-publisher 스케줄러 필요
 
-AFTER_COMMIT (이 브랜치):
+AFTER_COMMIT (variant/aftercommit 브랜치):
   TX 3 커밋 후 Kafka 직접 발행 → 테이블/스케줄러 단순
   발행 실패 시 failed_kafka_event에만 기록
   단점: TX 3 커밋 직후 서버 다운 시 발행 누락 가능
