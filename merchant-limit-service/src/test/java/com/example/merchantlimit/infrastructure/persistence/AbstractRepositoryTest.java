@@ -8,10 +8,12 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.springframework.transaction.annotation.Transactional;
 
 @Testcontainers
 @SpringBootTest(classes = {PersistenceConfig.class})
 @EnableAutoConfiguration
+@Transactional  // 메서드별 롤백 격리 (create-drop은 클래스 종료 시에만 drop → 메서드 간 데이터 오염 방지)
 public abstract class AbstractRepositoryTest {
 
     @Container
