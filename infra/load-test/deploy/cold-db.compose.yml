@@ -1,0 +1,44 @@
+# 콜드패스 DB — cold-db 호스트(10.0.1.32)에서 실행
+#   mysql-merchant(호스트 3306) + mysql-order(호스트 3307)
+#   docker compose -f cold-db.compose.yml up -d
+
+services:
+  mysql-merchant:
+    image: mysql:8.0
+    container_name: mysql-merchant
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: merchant_db
+      MYSQL_USER: merchant
+      MYSQL_PASSWORD: merchant
+    command:
+      - --max-connections=300
+      - --innodb-buffer-pool-size=2G
+    volumes:
+      - mysql-merchant-data:/var/lib/mysql
+
+  mysql-order:
+    image: mysql:8.0
+    container_name: mysql-order
+    restart: unless-stopped
+    ports:
+      - "3307:3306"                 # 호스트 3307 → 컨테이너 3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: order_db
+      MYSQL_USER: order_user
+      MYSQL_PASSWORD: order
+    command:
+      - --max-connections=300
+      - --innodb-buffer-pool-size=2G
+    volumes:
+      - mysql-order-data:/var/lib/mysql
+
+volumes:
+  mysql-merchant-data:
+  mysql-order-data:

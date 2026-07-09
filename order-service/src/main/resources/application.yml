@@ -29,3 +29,17 @@ kafka:
     payment-cancelled: payment.cancelled
     payment-cancelled-retry: payment.cancelled.retry
     payment-cancelled-dlq: payment.cancelled.DLQ
+
+# 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
+# order-service Kafka consumer lag 은 kafka-exporter 로 별도 수집
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

@@ -1,0 +1,23 @@
+# risk-management-service — risk 호스트(10.0.1.21)에서 실행
+#   docker compose -f risk.compose.yml up -d --build
+
+services:
+  risk-management-service:
+    build:
+      context: ../../..
+      dockerfile: infra/load-test/deploy/Dockerfile
+      args:
+        MODULE: risk-management-service
+    image: cancel-loadtest/risk-management-service
+    container_name: risk-management-service
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://10.0.1.31:3306/risk_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: risk
+      SPRING_DATASOURCE_PASSWORD: risk
+      SPRING_DATA_REDIS_HOST: 10.0.1.40
+      SPRING_DATA_REDIS_PORT: "6379"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "10.0.1.40:9092"
+      EXTERNAL_MERCHANT_LIMIT_BASE_URL: "http://10.0.1.22:8082"
+      JAVA_TOOL_OPTIONS: "-Xmx4g -XX:+UseG1GC"

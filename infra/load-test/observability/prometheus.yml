@@ -1,0 +1,62 @@
+# Prometheus scrape 설정 — 고정 사설 IP(instances.tf) 기준
+# 부하 실측이라 scrape_interval 을 촘촘히.
+
+global:
+  scrape_interval: 5s
+  evaluation_interval: 5s
+
+scrape_configs:
+  # ── 앱 Micrometer 지표 (/actuator/prometheus) ──
+  - job_name: apps
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: ["10.0.1.20:8080"]
+        labels: { service: payment }
+      - targets: ["10.0.1.21:8083"]
+        labels: { service: risk }
+      - targets: ["10.0.1.22:8082"]
+        labels: { service: merchant-limit }
+      - targets: ["10.0.1.22:8081"]
+        labels: { service: order }
+
+  # ── 호스트 지표 (각 호스트에서 node-exporter.compose.yml 실행) ──
+  - job_name: node
+    static_configs:
+      - targets: ["10.0.1.10:9100"]
+        labels: { host: k6 }
+      - targets: ["10.0.1.20:9100"]
+        labels: { host: payment }
+      - targets: ["10.0.1.21:9100"]
+        labels: { host: risk }
+      - targets: ["10.0.1.22:9100"]
+        labels: { host: cold-svc }
+      - targets: ["10.0.1.30:9100"]
+        labels: { host: mysql-payment }
+      - targets: ["10.0.1.31:9100"]
+        labels: { host: mysql-risk }
+      - targets: ["10.0.1.32:9100"]
+        labels: { host: cold-db }
+      - targets: ["10.0.1.40:9100"]
+        labels: { host: infra }
+      - targets: ["10.0.1.50:9100"]
+        labels: { host: obs }
+
+  # ── MySQL exporters (obs 로컬 컨테이너, compose 네트워크 내 이름으로 scrape) ──
+  - job_name: mysql
+    static_configs:
+      - targets: ["mysqld-exporter-payment:9104"]
+        labels: { db: payment }
+      - targets: ["mysqld-exporter-risk:9104"]
+        labels: { db: risk }
+      - targets: ["mysqld-exporter-merchant:9104"]
+        labels: { db: merchant }
+      - targets: ["mysqld-exporter-order:9104"]
+        labels: { db: order }
+
+  # ── Redis / Kafka exporters ──
+  - job_name: redis
+    static_configs:
+      - targets: ["redis-exporter:9121"]
+  - job_name: kafka
+    static_configs:
+      - targets: ["kafka-exporter:9308"]

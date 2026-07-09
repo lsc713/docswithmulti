@@ -1,0 +1,24 @@
+# mysql-risk — mysql-risk 호스트(10.0.1.31)에서 실행
+#   docker compose -f mysql-risk.compose.yml up -d
+
+services:
+  mysql-risk:
+    image: mysql:8.0
+    container_name: mysql-risk
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: risk_db
+      MYSQL_USER: risk
+      MYSQL_PASSWORD: risk
+    command:
+      - --max-connections=500
+      - --innodb-buffer-pool-size=4G
+    volumes:
+      - mysql-risk-data:/var/lib/mysql
+
+volumes:
+  mysql-risk-data:

@@ -1,0 +1,40 @@
+# 콜드패스 서비스 — cold-svc 호스트(10.0.1.22)에서 실행
+#   merchant-limit(8082) + order(8081) 한 호스트에 합침
+#   docker compose -f cold-svc.compose.yml up -d --build
+
+services:
+  merchant-limit-service:
+    build:
+      context: ../../..
+      dockerfile: infra/load-test/deploy/Dockerfile
+      args:
+        MODULE: merchant-limit-service
+    image: cancel-loadtest/merchant-limit-service
+    container_name: merchant-limit-service
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://10.0.1.32:3306/merchant_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: merchant
+      SPRING_DATASOURCE_PASSWORD: merchant
+      SPRING_DATA_REDIS_HOST: 10.0.1.40
+      SPRING_DATA_REDIS_PORT: "6379"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "10.0.1.40:9092"
+      JAVA_TOOL_OPTIONS: "-Xmx2g -XX:+UseG1GC"
+
+  order-service:
+    build:
+      context: ../../..
+      dockerfile: infra/load-test/deploy/Dockerfile
+      args:
+        MODULE: order-service
+    image: cancel-loadtest/order-service
+    container_name: order-service
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://10.0.1.32:3307/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: order_user
+      SPRING_DATASOURCE_PASSWORD: order
+      KAFKA_BOOTSTRAP_SERVERS: "10.0.1.40:9092"
+      JAVA_TOOL_OPTIONS: "-Xmx2g -XX:+UseG1GC"

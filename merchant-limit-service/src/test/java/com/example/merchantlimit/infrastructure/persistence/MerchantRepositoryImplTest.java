@@ -14,7 +14,7 @@ class MerchantRepositoryImplTest extends AbstractRepositoryTest {
     @Test
     @DisplayName("가맹점 저장 후 merchantKey로 조회")
     void save_and_find_by_merchant_key() {
-        jpaRepository.save(MerchantJpaEntity.from(MerchantFixture.active()));
+        jpaRepository.save(MerchantJpaEntity.from(MerchantFixture.newMerchant()));
 
         var found = jpaRepository.findByMerchantKey("mct_001");
         assertThat(found).isPresent();
@@ -24,10 +24,10 @@ class MerchantRepositoryImplTest extends AbstractRepositoryTest {
     @Test
     @DisplayName("merchantKey 중복 저장 시 DataIntegrityViolationException")
     void duplicate_merchant_key_throws() {
-        jpaRepository.save(MerchantJpaEntity.from(MerchantFixture.active()));
+        jpaRepository.save(MerchantJpaEntity.from(MerchantFixture.newMerchant()));
 
         assertThatThrownBy(() ->
-            jpaRepository.saveAndFlush(MerchantJpaEntity.from(MerchantFixture.active())))
+            jpaRepository.saveAndFlush(MerchantJpaEntity.from(MerchantFixture.newMerchant())))
             .isInstanceOf(org.springframework.dao.DataIntegrityViolationException.class);
     }
 
