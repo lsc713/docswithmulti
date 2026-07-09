@@ -66,3 +66,17 @@ resilience4j:
 logging:
   level:
     com.example.riskmanagement: INFO
+
+# 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
+# resilience4j-spring-boot3 사용 → 서킷브레이커 메트릭 자동 등록
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true

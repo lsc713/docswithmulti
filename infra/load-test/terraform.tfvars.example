@@ -1,0 +1,7 @@
+# 복사해서 terraform.tfvars 로 쓰고 값 조정
+region  = "ap-northeast-2"
+az      = "ap-northeast-2a"
+project = "cancel-loadtest"
+
+# false 로 두면 온디맨드 (DB 안정성 우선 시). 기본 true = Spot ~70% 절감
+use_spot = true

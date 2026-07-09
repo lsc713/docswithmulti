@@ -1,0 +1,25 @@
+# payment-service — payment 호스트(10.0.1.20)에서 실행
+#   cd <repo>/infra/load-test/deploy
+#   docker compose -f payment.compose.yml up -d --build
+# host network: 10.0.1.20:8080 로 바로 바인딩 (prometheus scrape, k6 타깃)
+
+services:
+  payment-service:
+    build:
+      context: ../../..
+      dockerfile: infra/load-test/deploy/Dockerfile
+      args:
+        MODULE: payment-service
+    image: cancel-loadtest/payment-service
+    container_name: payment-service
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://10.0.1.30:3306/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: payment
+      SPRING_DATASOURCE_PASSWORD: payment
+      SPRING_DATA_REDIS_HOST: 10.0.1.40
+      SPRING_DATA_REDIS_PORT: "6379"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "10.0.1.40:9092"
+      EXTERNAL_RISK_MANAGEMENT_URL: "http://10.0.1.21:8083"
+      JAVA_TOOL_OPTIONS: "-Xmx4g -XX:+UseG1GC"

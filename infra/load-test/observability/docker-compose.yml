@@ -1,0 +1,88 @@
+# 관측 스택 — obs 인스턴스(10.0.1.50)에서 실행
+#   docker compose up -d
+# Prometheus 가 앱 /actuator/prometheus + 원격 exporter 들을 pull 한다.
+# 원격 타깃 주소는 instances.tf 의 고정 사설 IP 기준.
+
+services:
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prom-data:/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.retention.time=6h
+      # k6 결과를 remote write 로 받는다: k6 run -o experimental-prometheus-rw
+      - --web.enable-remote-write-receiver
+
+  grafana:
+    image: grafana/grafana:11.2.0
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"        # 테스트 환경 편의
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+
+  # ── MySQL exporters (obs 에서 원격 DB 로 접속) ──
+  # v0.14.0 은 DATA_SOURCE_NAME env 지원. 테스트라 root 계정 사용.
+  mysqld-exporter-payment:
+    image: prom/mysqld-exporter:v0.14.0
+    container_name: mysqld-exporter-payment
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "root:root@(10.0.1.30:3306)/"
+
+  mysqld-exporter-risk:
+    image: prom/mysqld-exporter:v0.14.0
+    container_name: mysqld-exporter-risk
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "root:root@(10.0.1.31:3306)/"
+
+  mysqld-exporter-merchant:
+    image: prom/mysqld-exporter:v0.14.0
+    container_name: mysqld-exporter-merchant
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "root:root@(10.0.1.32:3306)/"
+
+  mysqld-exporter-order:
+    image: prom/mysqld-exporter:v0.14.0
+    container_name: mysqld-exporter-order
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "root:root@(10.0.1.32:3307)/"
+
+  # ── Redis exporter ──
+  redis-exporter:
+    image: oliver006/redis_exporter:v1.62.0
+    container_name: redis-exporter
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "redis://10.0.1.40:6379"
+
+  # ── Kafka exporter (consumer lag) ──
+  kafka-exporter:
+    image: danielqsj/kafka-exporter:v1.7.0
+    container_name: kafka-exporter
+    restart: unless-stopped
+    command:
+      - --kafka.server=10.0.1.40:9092
+
+volumes:
+  prom-data:
+  grafana-data:

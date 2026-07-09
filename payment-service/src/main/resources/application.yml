@@ -68,3 +68,16 @@ scheduler:
     pending-recovery: lock:scheduler:pending-recovery
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
+
+# 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true   # p95/p99 히스토그램 버킷 생성
