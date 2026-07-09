@@ -25,11 +25,11 @@ error() { echo -e "${RED}[ERROR]${NC} $1"; exit 1; }
 # 1. 인프라 초기화 및 재시작
 # =============================================================
 log "Docker 컨테이너 및 볼륨 초기화 중..."
-docker-compose down -v 2>/dev/null || true
+docker compose down -v 2>/dev/null || true
 sleep 3
 
 log "Docker 컨테이너 시작 중..."
-docker-compose up -d
+docker compose up -d
 log "DB/Kafka 초기화 대기 중 (20초)..."
 sleep 20
 

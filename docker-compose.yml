@@ -123,83 +123,83 @@ services:
 
   # ── 애플리케이션 서비스 ────────────────────────────────────────
 
-  merchant-limit-service:
-    build:
-      context: .
-      dockerfile: merchant-limit-service/Dockerfile
-    ports:
-      - "8082:8082"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-merchant:3306/merchant_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: merchant
-      SPRING_DATASOURCE_PASSWORD: merchant
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
-      SPRING_DATA_REDIS_HOST: redis
-    depends_on:
-      - mysql-merchant
-      - kafka1
-      - kafka2
-      - kafka3
-      - redis
-
-  risk-management-service:
-    build:
-      context: .
-      dockerfile: risk-management-service/Dockerfile
-    ports:
-      - "8083:8083"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-risk:3306/risk_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: risk
-      SPRING_DATASOURCE_PASSWORD: risk
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
-      SPRING_DATA_REDIS_HOST: redis
-      EXTERNAL_MERCHANT_LIMIT_BASE_URL: http://merchant-limit-service:8082
-    depends_on:
-      - mysql-risk
-      - kafka1
-      - kafka2
-      - kafka3
-      - redis
-      - merchant-limit-service
-
-  payment-service:
-    build:
-      context: .
-      dockerfile: payment-service/Dockerfile
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-payment:3306/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: payment
-      SPRING_DATASOURCE_PASSWORD: payment
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
-      SPRING_DATA_REDIS_HOST: redis
-      EXTERNAL_RISK_MANAGEMENT_URL: http://risk-management-service:8083
-    depends_on:
-      - mysql-payment
-      - kafka1
-      - kafka2
-      - kafka3
-      - redis
-      - risk-management-service
-
-  order-service:
-    build:
-      context: .
-      dockerfile: order-service/Dockerfile
-    ports:
-      - "8081:8081"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-order:3306/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: order_user
-      SPRING_DATASOURCE_PASSWORD: order
-      KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
-    depends_on:
-      - mysql-order
-      - kafka1
-      - kafka2
-      - kafka3
+#  merchant-limit-service:
+#    build:
+#      context: .
+#      dockerfile: merchant-limit-service/Dockerfile
+#    ports:
+#      - "8082:8082"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-merchant:3306/merchant_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+#      SPRING_DATASOURCE_USERNAME: merchant
+#      SPRING_DATASOURCE_PASSWORD: merchant
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
+#      SPRING_DATA_REDIS_HOST: redis
+#    depends_on:
+#      - mysql-merchant
+#      - kafka1
+#      - kafka2
+#      - kafka3
+#      - redis
+#
+#  risk-management-service:
+#    build:
+#      context: .
+#      dockerfile: risk-management-service/Dockerfile
+#    ports:
+#      - "8083:8083"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-risk:3306/risk_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+#      SPRING_DATASOURCE_USERNAME: risk
+#      SPRING_DATASOURCE_PASSWORD: risk
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
+#      SPRING_DATA_REDIS_HOST: redis
+#      EXTERNAL_MERCHANT_LIMIT_BASE_URL: http://merchant-limit-service:8082
+#    depends_on:
+#      - mysql-risk
+#      - kafka1
+#      - kafka2
+#      - kafka3
+#      - redis
+#      - merchant-limit-service
+#
+#  payment-service:
+#    build:
+#      context: .
+#      dockerfile: payment-service/Dockerfile
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-payment:3306/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+#      SPRING_DATASOURCE_USERNAME: payment
+#      SPRING_DATASOURCE_PASSWORD: payment
+#      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
+#      SPRING_DATA_REDIS_HOST: redis
+#      EXTERNAL_RISK_MANAGEMENT_URL: http://risk-management-service:8083
+#    depends_on:
+#      - mysql-payment
+#      - kafka1
+#      - kafka2
+#      - kafka3
+#      - redis
+#      - risk-management-service
+#
+#  order-service:
+#    build:
+#      context: .
+#      dockerfile: order-service/Dockerfile
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-order:3306/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+#      SPRING_DATASOURCE_USERNAME: order_user
+#      SPRING_DATASOURCE_PASSWORD: order
+#      KAFKA_BOOTSTRAP_SERVERS: kafka1:29092,kafka2:29093,kafka3:29094
+#    depends_on:
+#      - mysql-order
+#      - kafka1
+#      - kafka2
+#      - kafka3
 
   # Kafka UI
   kafka-ui:
