@@ -1,7 +1,11 @@
 # ─────────────────────────────────────────────────────────────
 # 인스턴스 (9대) — 핫패스는 단독, 콜드패스는 합침
-#   근거: docs/load-test/measurement-journey.md §0, topology.html
+#   근거: docs/load-test/measurement-journey.md §0·§9(패밀리 규칙), topology.html
 #   전부 Graviton(ARM) + Spot + gp3 + 사설 IP 고정
+#
+#   사이징 원칙: 핫패스(payment/risk)가 병목이 돼야 실측이 의미 있다.
+#   → 부하생성기(k6)·DB는 병목이 되면 안 되되, 과하면 병목을 "덮어" 측정을 흐린다.
+#   패밀리: c7g=compute(2GB/vCPU) · m7g=범용(4GB) · r7g=메모리(8GB) · t4g=버스터블
 # ─────────────────────────────────────────────────────────────
 
 # Amazon Linux 2023 (arm64) 최신 AMI
@@ -17,11 +21,11 @@ locals {
     payment       = { type = "c7g.xlarge", ip = "10.0.1.20", disk = 30 } # 핫패스 주인공
     risk          = { type = "c7g.xlarge", ip = "10.0.1.21", disk = 30 } # 한도 차감 동시성
     cold-svc      = { type = "c7g.large", ip = "10.0.1.22", disk = 30 }  # merchant-limit + order (합침)
-    mysql-payment = { type = "r7g.large", ip = "10.0.1.30", disk = 100 } # TX3 row lock 대상
-    mysql-risk    = { type = "r7g.large", ip = "10.0.1.31", disk = 100 } # 한도 소진 경합
-    cold-db       = { type = "r7g.large", ip = "10.0.1.32", disk = 100 } # mysql-merchant + mysql-order
-    infra         = { type = "m7g.large", ip = "10.0.1.40", disk = 50 }  # Redis + Kafka(1-broker)
-    obs           = { type = "t4g.small", ip = "10.0.1.50", disk = 30 }  # Prometheus + Grafana
+    mysql-payment = { type = "m7g.large", ip = "10.0.1.30", disk = 100 } # TX3 row lock 대상 (r7g 16GB→8GB: 버퍼풀이 I/O 병목 덮는 것 방지)
+    mysql-risk    = { type = "m7g.large", ip = "10.0.1.31", disk = 100 } # 한도 소진 경합 (동상)
+    cold-db       = { type = "c7g.large", ip = "10.0.1.32", disk = 100 } # mysql-merchant + mysql-order (콜드, 4GB로 충분)
+    infra         = { type = "m7g.large", ip = "10.0.1.40", disk = 50 }  # Redis + Kafka(1-broker), page cache용 RAM 유지
+    obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30 } # Prometheus + Grafana (2GB→4GB: 9타깃 히스토그램 스크레이프 안정화)
   }
 }
 
