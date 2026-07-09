@@ -1,0 +1,15 @@
+# 호스트 지표용 node-exporter — 9대 호스트 각각에서 실행
+#   docker compose -f node-exporter.compose.yml up -d
+# host network + rootfs 마운트로 진짜 호스트 CPU/mem/disk/net 노출 (:9100)
+
+services:
+  node-exporter:
+    image: prom/node-exporter:v1.8.2
+    container_name: node-exporter
+    restart: unless-stopped
+    network_mode: host
+    pid: host
+    command:
+      - --path.rootfs=/host
+    volumes:
+      - /:/host:ro,rslave

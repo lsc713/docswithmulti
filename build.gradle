@@ -29,6 +29,10 @@ subprojects {
         // Web
         implementation 'org.springframework.boot:spring-boot-starter-web'
 
+        // Observability (Micrometer → Prometheus) — 부하 실측 지표 노출
+        implementation 'org.springframework.boot:spring-boot-starter-actuator'
+        implementation 'io.micrometer:micrometer-registry-prometheus'
+
         // Validation
         implementation 'org.springframework.boot:spring-boot-starter-validation'
 

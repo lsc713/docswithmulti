@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>결제 취소 시스템 – 부하 실측 구성</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 2rem; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid {
+        background: #fafafa;
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+      code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px; }
+    </style>
+  </head>
+  <body>
+    <h1>결제 취소 시스템 · 부하 실측 구성</h1>
+    <p class="meta">
+      Generated 2026-07-09 · 동기 취소 핫패스 분리 관측 · 여정 문서:
+      <code>docs/load-test/measurement-journey.md</code>
+    </p>
+
+    <h2>1. AWS 인프라 토폴로지 (사설 IP · 단일 AZ baseline)</h2>
+    <p class="legend">
+      실선 = 동기 HTTP/쿼리(핫패스), 점선 = 비동기·콜드·관측. 핫패스(payment/risk/각 DB)는 단독 인스턴스,
+      콜드패스(merchant-limit·order)는 합침. baseline은 same-AZ, 네트워크 민감도는 payment→risk에 netem 주입으로 별도 측정.
+    </p>
+    <div class="mermaid">
+graph LR
+  OP["운영자 노트북"]
+  SSM(["SSM Session Manager<br/>무료 · 22 미개방"])
+
+  subgraph vpc["VPC · 단일 AZ · private subnet (사설 IP)"]
+    K6["k6 부하생성기<br/>c7g.xlarge · Spot"]
+
+    subgraph hot["핫패스 — 단독 분리 관측"]
+      PAY["payment-service<br/>c7g.xlarge"]
+      RISK["risk-service<br/>c7g.xlarge"]
+      DBP[("mysql-payment<br/>r7g.large · gp3")]
+      DBR[("mysql-risk<br/>r7g.large · gp3")]
+    end
+
+    subgraph cold["콜드패스 — 합침"]
+      COLDS["merchant-limit<br/>+ order-service"]
+      DBC[("mysql-merchant<br/>+ mysql-order")]
+    end
+
+    subgraph infra["인프라"]
+      REDIS[("Redis")]
+      KAFKA{{"Kafka 1-broker<br/>(3-broker는 lag/ack 측정 시)"}}
+    end
+
+    subgraph obs["관측 스택"]
+      PROM["Prometheus"]
+      GRAF["Grafana<br/>t4g.small"]
+    end
+  end
+
+  OP --> SSM
+  SSM --> PAY
+  K6 -->|"HTTP 취소요청"| PAY
+  PAY -->|"HTTP + netem 지점"| RISK
+  PAY -->|"TX3 row lock"| DBP
+  PAY -->|"daily_limit"| REDIS
+  PAY -.->|"cold: Redis+스냅샷 miss"| COLDS
+  RISK --> DBR
+  COLDS --> DBC
+  PAY -.->|"AFTER_COMMIT 발행"| KAFKA
+  KAFKA -.->|consume| COLDS
+  PAY -.-> PROM
+  RISK -.-> PROM
+  COLDS -.-> PROM
+  DBP -.->|mysqld_exporter| PROM
+  DBR -.-> PROM
+  REDIS -.-> PROM
+  PROM --> GRAF
+
+  classDef app fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef db fill:#ede9fe,stroke:#8b5cf6,color:#3b1f6f;
+  classDef inf fill:#fef3c7,stroke:#f59e0b,color:#7c4a03;
+  classDef ext fill:#f3f4f6,stroke:#9ca3af,color:#374151;
+  class PAY,RISK,COLDS,K6 app;
+  class DBP,DBR,DBC db;
+  class REDIS,KAFKA inf;
+  class OP,SSM,PROM,GRAF ext;
+    </div>
+
+    <h2>2. 취소 동기 핫패스 + 측정 지점</h2>
+    <p class="legend">
+      📊 = 실측 대상 지표. TX1/TX2/TX3 경계와 payment→risk 동기 호출이 병목·경합의 핵심.
+    </p>
+    <div class="mermaid">
+sequenceDiagram
+  participant K as k6 (VU)
+  participant P as payment-service
+  participant Rd as Redis
+  participant R as risk-service
+  participant DB as mysql-payment
+
+  K->>P: POST 취소 (paymentKey, itemIds)
+  Note over P: TX1 CancelRequest PENDING INSERT<br/>request_hash UNIQUE → 따닥 차단
+  P->>Rd: daily_limit 조회 (miss 시 DB스냅샷)
+  Note over Rd: 📊 hit ratio · 단일키 경합
+  P->>R: 취소 검증 + 한도 소진
+  Note over R: 📊 한도 차감 동시성<br/>서킷브레이커 전이
+  Note over P: TX2 PROCESSING UPDATE
+  P->>DB: findAllByPaymentIdForUpdate()
+  Note over DB: 📊 row lock 대기 = 핵심 지표<br/>deadlock · lock timeout
+  Note over P: TX3 원자적 커밋<br/>Item+Payment+CancelRequest
+  P-->>K: 200 OK
+  Note over K: 📊 p95/p99 지연 · 에러율 · 정합성
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>

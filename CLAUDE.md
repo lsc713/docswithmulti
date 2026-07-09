@@ -205,6 +205,20 @@ docker exec -it kafka1 kafka-console-consumer.sh \
   --from-beginning
 ```
 
+### 부하 실측 (Load Test)
+
+```
+구성도:        docs/load-test/topology.html          (mermaid, 브라우저로 열기)
+여정/판단기준: docs/load-test/measurement-journey.md  (스테이지·지표·Pass/Knee/Breaking)
+인프라:        infra/load-test/                       (Terraform: VPC + 9대 Spot + SSM, 사설 IP)
+```
+
+부하 실측 수행/기록 규칙:
+- 테스트 전: `cd infra/load-test && terraform apply` → SSM 접속 → role별 배포
+- 테스트 후: **반드시** `measurement-journey.md §8 실행 로그`에 결과 append (§7 템플릿 사용)
+- 구성 변경 시: `topology.html` 재생성 (mermaid-diagram 스킬)
+- 세션 종료 시: **`terraform destroy`로 비용 정리** (NAT Gateway가 주요 유휴 비용원)
+
 ## 문서 검색 규칙
 
 파일을 직접 읽기 전에 항상 qmd로 먼저 검색한다.

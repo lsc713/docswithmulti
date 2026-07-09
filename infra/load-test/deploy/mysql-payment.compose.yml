@@ -1,0 +1,25 @@
+# mysql-payment — mysql-payment 호스트(10.0.1.30)에서 실행
+#   docker compose -f mysql-payment.compose.yml up -d
+# 스키마는 앱 시작 시 Flyway 가 생성 (ddl-auto=validate 는 Flyway 이후 실행)
+
+services:
+  mysql-payment:
+    image: mysql:8.0
+    container_name: mysql-payment
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"          # mysqld-exporter 원격 root 접속 허용
+      MYSQL_DATABASE: payment_db
+      MYSQL_USER: payment
+      MYSQL_PASSWORD: payment
+    command:
+      - --max-connections=500        # HikariCP × VU 대비 (기본 151 병목 방지)
+      - --innodb-buffer-pool-size=4G
+    volumes:
+      - mysql-payment-data:/var/lib/mysql
+
+volumes:
+  mysql-payment-data:
