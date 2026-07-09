@@ -143,7 +143,7 @@ Exactly-once:
 
 ```
 payment.cancelled: 7일
-  → Outbox 스케줄러 지연 + Consumer 지연 감안
+  → 재처리(processing-recovery) + Consumer 지연 감안
   → 7일이면 충분한 재처리 여유
 
 payment.cancelled.DLQ: 30일
