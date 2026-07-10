@@ -28,4 +28,14 @@ public class MerchantCancelUsageRepositoryImpl implements MerchantCancelUsageRep
         return jpa.findByMerchantIdAndKstDateForUpdate(merchantId, kstDate)
             .map(MerchantCancelUsageJpaEntity::toDomain);
     }
+
+    @Override
+    public void ensureRow(long merchantId, LocalDate kstDate, java.math.BigDecimal dailyLimit) {
+        jpa.ensureRow(merchantId, kstDate, dailyLimit);
+    }
+
+    @Override
+    public int tryDeduct(long merchantId, LocalDate kstDate, java.math.BigDecimal amount) {
+        return jpa.tryDeduct(merchantId, kstDate, amount);
+    }
 }

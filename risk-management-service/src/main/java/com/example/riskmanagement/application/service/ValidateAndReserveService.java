@@ -1,22 +1,30 @@
 package com.example.riskmanagement.application.service;
 
-import com.example.riskmanagement.application.exception.ServiceUnavailableException;
+import com.example.riskmanagement.application.exception.DataInconsistencyException;
 import com.example.riskmanagement.application.interfaces.*;
 import com.example.riskmanagement.application.usecase.ValidateAndReserveUseCase;
 import com.example.riskmanagement.domain.entity.CancelUsageHistory;
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
-import com.example.riskmanagement.domain.service.CancelLimitDomainService;
+import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Optional;
 
+/**
+ * 취소 한도 검증 + 예약(차감).
+ *
+ * <p>동시성 처리: merchant별 Redis 분산락(fail-fast) 대신 <b>DB 원자 조건부 UPDATE</b>로 전환.
+ * 락을 트랜잭션 통째로 쥐던 임계구역이 단일 문장(µs)으로 축소 — 핫 merchant 취소가
+ * 대량 거부(RISK_SERVICE_UNAVAILABLE)되던 문제 해소. 정합성은 {@code tryDeduct}의
+ * WHERE 절(도메인 규칙 미러) + history UK(멱등)로 보장. 서버 대수와 무관하게 안전.
+ *
+ * <p>참고: {@code resolveDailyLimit}의 HTTP 호출은 의도적으로 TX 안에 둔다(비용 실측 후 분리 예정).
+ * onset(그날 첫 취소)에만 타며, 커넥션 점유 비용을 관측하기 위함.
+ */
 @Service
 @RequiredArgsConstructor
 public class ValidateAndReserveService implements ValidateAndReserveUseCase {
@@ -25,74 +33,58 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
     private final CancelUsageHistoryRepository historyRepository;
     private final MerchantLimitClient merchantLimitClient;
     private final DailyLimitCache dailyLimitCache;
-    private final CancelLimitDomainService domainService;
-    private final StringRedisTemplate redisTemplate;
     private final TransactionTemplate transactionTemplate;
-
-    @Value("${risk.lock.ttl-seconds:5}")
-    private long lockTtlSeconds;
 
     @Override
     public Result execute(Command cmd) {
-        String lockKey = "lock:risk:merchant:" + cmd.merchantId();
-        Boolean acquired = redisTemplate.opsForValue()
-            .setIfAbsent(lockKey, "locked", Duration.ofSeconds(lockTtlSeconds));
-        if (!Boolean.TRUE.equals(acquired)) {
-            throw ServiceUnavailableException.riskServiceUnavailable();
-        }
+        return transactionTemplate.execute(status -> {
+            // 1) 멱등 — 이미 차감된 요청이면 재차감 없이 기존 결과 재생
+            if (historyRepository.findByCancelRequestId(cmd.cancelRequestId()).isPresent()) {
+                return toResult(readUsage(cmd.merchantId(), cmd.kstDate()));
+            }
 
-        try {
-            // transactionTemplate.execute() 완료(TX 커밋) 후 finally에서 락 해제
-            return transactionTemplate.execute(status -> {
-                // 이중 차감 방어 — cancelRequestId UK
-                Optional<CancelUsageHistory> existing =
-                    historyRepository.findByCancelRequestId(cmd.cancelRequestId());
-                if (existing.isPresent()) {
-                    CancelUsageHistory hist = existing.get();
-                    MerchantCancelUsage usage = usageRepository
-                        .findByMerchantIdAndKstDateForUpdate(hist.getMerchantId(), hist.getKstDate())
-                        .orElseThrow(() -> new IllegalStateException("MerchantCancelUsage not found for idempotent request: " + cmd.cancelRequestId()));
-                    return toResult(usage);
-                }
+            // 2) daily_limit 해석: Redis → DB 스냅샷 → merchant-limit HTTP (락/FOR UPDATE 없음)
+            BigDecimal dailyLimit = resolveDailyLimit(cmd.merchantId(), cmd.kstDate());
 
-                // 1회 조회로 DB 스냅샷과 upsert를 함께 처리
-                Optional<MerchantCancelUsage> usageOpt =
-                    usageRepository.findByMerchantIdAndKstDateForUpdate(cmd.merchantId(), cmd.kstDate());
+            // 3) 행 보장 + 원자 조건부 차감 (임계구역 = 단일 문장)
+            usageRepository.ensureRow(cmd.merchantId(), cmd.kstDate(), dailyLimit);
+            int deducted = usageRepository.tryDeduct(cmd.merchantId(), cmd.kstDate(), cmd.cancelAmount());
+            if (deducted == 0) {
+                MerchantCancelUsage cur = readUsage(cmd.merchantId(), cmd.kstDate());
+                throw new MerchantCancelLimitExceededException(
+                    cur.getDailyLimit(), cur.getUsedAmount(), cmd.cancelAmount());
+            }
 
-                BigDecimal dailyLimit = resolveDailyLimit(cmd.merchantId(), cmd.kstDate(), usageOpt);
+            // 4) 멱등 원장 — 차감과 원자적(같은 TX). UK 위반 시 함께 롤백 → 이중차감 방어
+            historyRepository.save(CancelUsageHistory.record(
+                cmd.cancelRequestId(), cmd.merchantId(), cmd.kstDate(), cmd.cancelAmount()));
 
-                MerchantCancelUsage usage = usageOpt
-                    .orElseGet(() -> MerchantCancelUsage.create(
-                        cmd.merchantId(), cmd.kstDate(), dailyLimit));
-
-                domainService.validateAndDeduct(usage, cmd.cancelAmount());
-                usageRepository.save(usage);
-                historyRepository.save(CancelUsageHistory.record(
-                    cmd.cancelRequestId(), cmd.merchantId(), cmd.kstDate(), cmd.cancelAmount()));
-
-                return toResult(usage);
-            });
-        } finally {
-            redisTemplate.delete(lockKey);
-        }
+            // 5) 결과 — 차감 후 최신값(tryDeduct의 clearAutomatically로 stale 캐시 아님)
+            return toResult(readUsage(cmd.merchantId(), cmd.kstDate()));
+        });
     }
 
     /**
-     * daily_limit 3단계 조회:
-     * 1. Redis: daily_limit:{merchantId}:{kstDate}
-     * 2. DB 스냅샷: usageOpt.dailyLimit (이미 조회한 결과 재사용 — 추가 DB 호출 없음)
-     * 3. HTTP: merchantLimitClient (Resilience4j CB 적용)
+     * daily_limit 3단계 조회 (2순위 건너뛰고 3순위 호출 금지):
+     * 1. Redis 캐시  2. DB 스냅샷(non-locking read)  3. merchant-limit HTTP(CB)
      */
-    private BigDecimal resolveDailyLimit(
-            long merchantId, LocalDate kstDate, Optional<MerchantCancelUsage> usageOpt) {
+    private BigDecimal resolveDailyLimit(long merchantId, LocalDate kstDate) {
         Optional<BigDecimal> cached = dailyLimitCache.get(merchantId, kstDate);
         if (cached.isPresent()) return cached.get();
 
-        if (usageOpt.isPresent()) return usageOpt.get().getDailyLimit();
+        Optional<MerchantCancelUsage> snapshot =
+            usageRepository.findByMerchantIdAndKstDate(merchantId, kstDate);
+        if (snapshot.isPresent()) return snapshot.get().getDailyLimit();
 
         BigDecimal fetched = merchantLimitClient.fetchDailyLimit(merchantId, kstDate);
         dailyLimitCache.set(merchantId, kstDate, fetched);
         return fetched;
+    }
+
+    private MerchantCancelUsage readUsage(long merchantId, LocalDate kstDate) {
+        return usageRepository.findByMerchantIdAndKstDate(merchantId, kstDate)
+            .orElseThrow(() -> new DataInconsistencyException(
+                "MerchantCancelUsage not found: merchantId=" + merchantId + ", kstDate=" + kstDate));
     }
 
     private Result toResult(MerchantCancelUsage usage) {
