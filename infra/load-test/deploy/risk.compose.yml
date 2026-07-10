@@ -17,6 +17,8 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "10.0.1.40:9092"
       EXTERNAL_MERCHANT_LIMIT_BASE_URL: "http://10.0.1.22:8082"
       JAVA_TOOL_OPTIONS: "-Xmx4g -XX:+UseG1GC"
-      # daily_limit 해석 층 실험 토글 (기본 ON). 3-config 측정 시 주석 해제:
-      #   B(캐시 OFF → DB 스냅샷):        RISK_LIMIT_CACHE_ENABLED: "false"
-      #   C(캐시+스냅샷 OFF → HTTP 매번):  RISK_LIMIT_CACHE_ENABLED: "false"  +  RISK_LIMIT_SNAPSHOT_ENABLED: "false"
+      # daily_limit 해석 층 실험 토글 (기본 ON). env 오버라이드 후 --force-recreate:
+      #   B(캐시 OFF → DB 스냅샷):        RISK_LIMIT_CACHE_ENABLED=false
+      #   C(캐시+스냅샷 OFF → HTTP 매번):  RISK_LIMIT_CACHE_ENABLED=false RISK_LIMIT_SNAPSHOT_ENABLED=false
+      RISK_LIMIT_CACHE_ENABLED: "${RISK_LIMIT_CACHE_ENABLED:-true}"
+      RISK_LIMIT_SNAPSHOT_ENABLED: "${RISK_LIMIT_SNAPSHOT_ENABLED:-true}"
