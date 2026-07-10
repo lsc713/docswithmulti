@@ -1,0 +1,13 @@
+// common-observability — 부하 실측용 관측 유틸(요청당 쿼리 수). 라이브러리 모듈.
+// 루트 subprojects 블록이 spring-boot 플러그인/공통 의존을 이미 적용한다.
+
+bootJar { enabled = false }
+jar { enabled = true }
+
+dependencies {
+    // 요청당 쿼리 수 계측 (Spring 의존성 관리 밖 → 버전 명시)
+    implementation 'net.ttddyy:datasource-proxy:1.10'
+
+    // 카운팅 검증용 인메모리 DB
+    testImplementation 'com.h2database:h2'
+}
