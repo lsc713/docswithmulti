@@ -17,5 +17,8 @@ FROM eclipse-temurin:21-jre
 ARG MODULE
 WORKDIR /app
 COPY --from=build /src/${MODULE}/build/libs/*.jar /app/app.jar
+# OTel Java agent — 이미지에 굽되 -javaagent 는 미설정. 활성화는 compose env(OTEL_JAVAAGENT).
+ARG OTEL_AGENT_VERSION=2.11.0
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OTEL_AGENT_VERSION}/opentelemetry-javaagent.jar /otel/opentelemetry-javaagent.jar
 # 서비스별 포트는 compose 에서 host network 로 노출
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]
