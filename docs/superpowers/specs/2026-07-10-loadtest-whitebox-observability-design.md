@@ -161,7 +161,7 @@ dependencies {
 
 각 서비스 배선:
 - `settings.gradle` + 각 서비스 `build.gradle`에 `implementation project(':common-observability')`.
-- 각 서비스 `application.yml`(또는 load-test compose env)에 `loadtest.query-count.enabled` 플래그. 기본 false, 실측 시 `LOADTEST_QUERY_COUNT_ENABLED=true`로 켬.
+- 각 서비스 `application.yml`(또는 load-test compose env)에 `loadtest.query-count.enabled` 플래그. 기본 false, 실측 시 `LOADTEST_QUERYCOUNT_ENABLED=true`로 켬 (relaxed binding: 대시 제거).
 
 **지표 노출**: `DistributionSummary`는 기존 `micrometer-registry-prometheus`가 `/actuator/prometheus`로 자동 노출 → 기존 Prometheus scrape가 수집. 신규 배선 없음.
 
@@ -183,7 +183,7 @@ dependencies {
 |---|---|---|---|
 | 평상시 `./gradlew bootRun` | OFF (env 없음) | OFF (플래그 false) | 영향 0 |
 | CI 테스트 | OFF | OFF | 영향 0 |
-| **실측 compose** | ON (`JAVA_TOOL_OPTIONS`) | ON (`LOADTEST_QUERY_COUNT_ENABLED=true`) | obs로 관측 |
+| **실측 compose** | ON (`JAVA_TOOL_OPTIONS`) | ON (`LOADTEST_QUERYCOUNT_ENABLED=true`) | obs로 관측 |
 
 ---
 
