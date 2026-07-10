@@ -207,6 +207,29 @@ VU 수만이 아니라 **데이터 분포**가 이 시스템의 병목을 결정
 - **정합성은 안전**: 실패분은 차감 전 거부라 이중차감/이중취소 없음(하드 게이트 통과). 문제는 **가용성**.
 - **개선 후보**: (a) 락에 **bounded wait + 재시도**(예: Redisson tryLock timeout), (b) 앱 락 제거하고 DB `INSERT ... ON DUPLICATE KEY UPDATE used_amount=used_amount+?` **원자 upsert + 행락**으로 대체, (c) merchant별 취소를 큐잉. 락 TTL(5s) < 최악 TX 시간이면 데드락 재발하므로 TTL/재시도 함께 손봐야 함.
 
+### [스테이지] AFTER — 원자 조건부 UPDATE 적용 (2026-07-10, **AWS**, PR #43)
+개선안 (b) 적용: Redis 분산락·FOR UPDATE 제거 → DB 원자 조건부 UPDATE(`WHERE used+amt<=daily_limit`). 동일 부하로 재측정한 before/after:
+
+**축 A baseline (10 VU, 3분, 분산):**
+| | BEFORE | AFTER |
+|---|--------|-------|
+| 에러율 | 7.63% | **0.00%** (0/33,705) |
+| 처리량 | ~190 rps | ~187 rps |
+| 지연 | med 53 / p99 65ms | med 53 / p95 60ms, **max 273→117ms**(데드락 stall 소멸) |
+
+**축 B hot-merchant (단일 merchant, VUS 스윕, 신선 풀):**
+| VUS | BEFORE 거부% | **AFTER 거부%** | AFTER rps | AFTER p95 | RISK_SERVICE_UNAVAILABLE |
+|-----|------------|---------------|-----------|-----------|--------------------------|
+| 1 | 0% | 0.00% | 15 | 70ms | 0 |
+| 5 | 33% | **0.00%** | 89 | 65ms | 0 |
+| 20 | 99.93% | **0.00%** | 171 | 130ms | 0 |
+| 50 | 99.95% | **0.00%** | 175 | 300ms | 0 |
+
+- **판정: Pass.** 핫 merchant 99.9% 거부 → **0%**. `RISK_SERVICE_UNAVAILABLE` 0건.
+- **설계 의도 실증**: 경합이 **가용성(거부) → 지연(p95 70→300ms)** 으로 전환. 요청이 튕기는 대신 DB 행락에서 잠깐 대기 후 **전부 성공**(건강한 백프레셔). AFTER rps는 실제 성공 처리량(BEFORE의 290rps는 대부분 fast 거부의 가짜 처리량).
+- **관측**: 이번 실측부터 obs(Grafana) 정상 기동 — `port-forward.sh grafana`로 에러율/지연 대시보드 확인 가능.
+- 코드 증명(단위): 단일 merchant 50스레드 IT에서 초과차감 0·spurious 거부 0(동시성 테스트).
+
 ---
 
 ## 9. 인스턴스 사이징 (패밀리 규칙 + 역할별 근거)
