@@ -172,6 +172,39 @@ VU 수만이 아니라 **데이터 분포**가 이 시스템의 병목을 결정
 - 판정: **Pass** (threshold 3개 전부 통과)
 - 소견: 파이프라인(docker→앱4→SQL시딩→k6) E2E 정상 확인. seed.sh awk 작은따옴표를 octal(`\047`)로 수정(hex `\x27C` 오파싱 버그). 다음: baseline(10 VU 3분) → ramp.
 
+### [스테이지] S0-smoke (2026-07-10, **AWS** 분리 인프라)
+- 구성: VU=1, iter=20, 데이터분포=분산(5000건 SQL 시딩), TARGET=aws, 스케줄러=on
+- 지연: med=80ms / p95=161ms / p99=1.14s(콜드 첫 요청 max=1.39s가 20샘플 p99 왜곡)
+- 에러율: 0% / 정합성: 20/20 status=COMPLETED
+- 판정: **Pass** (p99 threshold cross는 워밍업 노이즈). AWS E2E 파이프라인 검증 완료.
+- 인프라 배포 중 라이브 버그 3건 수정: SG description ASCII화, SSM 문서명 `AWS-RunShellScript`, ssm-deploy 멀티라인 JSON 전달(+bash3.2 case).
+
+### [스테이지] S1-baseline (2026-07-10, **AWS** 분리 인프라)
+- 구성: VU=10, 3분, 데이터분포=분산(**100k** SQL 시딩; 5k는 30초만에 소진→재시딩), TARGET=aws, 스케줄러=on
+- 처리량: **~190 rps** (34,194건/3분)
+- 지연: **med=53ms / p95=60ms / p99=65ms** (워밍업 후 매우 타이트, 지연 자체는 우수)
+- 에러율: **7.63%** (2610/34194) — cancel_success_rate 92.36%
+- 판정: **Fail (robustness 게이트)** — 지연은 Pass급이나 에러율 7.63%
+- **근본원인(축 B 심화로 확정)**: risk `ValidateAndReserveService`의 **merchant별 Redis 분산락(SET NX, 대기·재시도 없음)**. seed가 merchant 10개뿐 → 190 rps가 10개 merchant 락에 집중, 동일 merchant 동시 취소 시 락 못 잡은 쪽이 즉시 `RISK_SERVICE_UNAVAILABLE`로 거부.
+  - 초반 소수 `merchant_cancel_usage` INSERT 데드락(1213/40001)도 관측 → 락 TTL(5s)이 TX 중 만료되어 동시 진입한 2차 효과.
+- 상세·정량화는 아래 **hot-merchant(축 B)** 참조.
+
+### [스테이지] hot-merchant 축 B 경합 스윕 (2026-07-10, **AWS**)
+- 구성: 단일 merchant 집중(신선 풀 merchant 21~24, 각 20k 미취소), 각 VUS 20초, TARGET=aws
+- 동시성 → 에러율 곡선:
+
+  | VUS | rps | **에러%** | p95 | 성공률 |
+  |-----|-----|---------|-----|--------|
+  | 1 (대조) | 22 | **0.00%** | 48ms | 100% |
+  | 5 | 115 | **32.7%** | 54ms | 67% |
+  | 20 | 292 | **99.93%** | 76ms | 0.07% |
+  | 50 | 299 | **99.95%** | 176ms | 0.05% |
+
+- **근본원인 확정**: `ValidateAndReserveService.execute()` L37-42 — `lock:risk:merchant:{merchantId}` **Redis `SET NX` 분산락**. 락 획득 실패 시 **대기·큐·재시도 없이 즉시** `ServiceUnavailableException.riskServiceUnavailable()` throw → `RISK_SERVICE_UNAVAILABLE`(503).
+- **해석**: 이 락은 merchant별 취소를 **직렬화**(→ 단일 merchant DB 데드락 0)하지만, **동시 요청을 그대로 거부**로 변환. 핫 merchant(대형 가맹점/플래시)는 취소가 사실상 1건씩만 통과, 나머지 전량 fail-fast. 지연이 낮은 채로 에러율만 폭증하는 시그니처가 이를 증명.
+- **정합성은 안전**: 실패분은 차감 전 거부라 이중차감/이중취소 없음(하드 게이트 통과). 문제는 **가용성**.
+- **개선 후보**: (a) 락에 **bounded wait + 재시도**(예: Redisson tryLock timeout), (b) 앱 락 제거하고 DB `INSERT ... ON DUPLICATE KEY UPDATE used_amount=used_amount+?` **원자 upsert + 행락**으로 대체, (c) merchant별 취소를 큐잉. 락 TTL(5s) < 최악 TX 시간이면 데드락 재발하므로 TTL/재시도 함께 손봐야 함.
+
 ---
 
 ## 9. 인스턴스 사이징 (패밀리 규칙 + 역할별 근거)

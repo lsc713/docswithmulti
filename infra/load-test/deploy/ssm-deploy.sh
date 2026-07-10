@@ -22,19 +22,23 @@ IMAGE_TAG="${IMAGE_TAG:-latest}"
 REPO_URL="${REPO_URL:-https://github.com/lsc713/docswithmulti.git}"
 REGION="${AWS_REGION:-ap-northeast-2}"
 
-# role → compose 파일 (배열 순서 = 배포 순서: 인프라 → DB → 앱)
-ORDER=(infra mysql-payment mysql-risk cold-db cold-svc risk payment)
-declare -A COMPOSE=(
-  [infra]=infra.compose.yml
-  [mysql-payment]=mysql-payment.compose.yml
-  [mysql-risk]=mysql-risk.compose.yml
-  [cold-db]=cold-db.compose.yml
-  [cold-svc]=cold-svc.compose.yml
-  [risk]=risk.compose.yml
-  [payment]=payment.compose.yml
-)
+# role → compose 파일 (순서 = 배포 순서: 인프라 → DB → 앱)
+# macOS 기본 bash 3.2 는 연관배열(declare -A) 미지원 → case 로 매핑.
+ORDER="infra mysql-payment mysql-risk cold-db cold-svc risk payment"
+compose_for() {
+  case "$1" in
+    infra)         echo infra.compose.yml ;;
+    mysql-payment) echo mysql-payment.compose.yml ;;
+    mysql-risk)    echo mysql-risk.compose.yml ;;
+    cold-db)       echo cold-db.compose.yml ;;
+    cold-svc)      echo cold-svc.compose.yml ;;
+    risk)          echo risk.compose.yml ;;
+    payment)       echo payment.compose.yml ;;
+    *)             echo "" ;;
+  esac
+}
 
-ROLES="${ROLES:-${ORDER[*]}}"
+ROLES="${ROLES:-$ORDER}"
 
 # role 태그를 가진 인스턴스에 명령 전송 후 완료까지 폴링. stdout 출력.
 ssm_run() {
@@ -45,12 +49,15 @@ ssm_run() {
     --query 'Reservations[].Instances[].InstanceId' --output text)
   [ -n "$iid" ] || { echo "  ⚠ role=${role} 인스턴스(running) 없음 — 건너뜀"; return 1; }
 
-  local cid
+  # 멀티라인 스크립트를 commands 배열 단일 원소로 안전 전달 (개행 보존).
+  # --parameters 에 완전한 JSON 을 넘긴다 (shorthand 는 개행을 뭉갬).
+  local params cid
+  params=$(jq -n --arg s "$script" '{commands: [$s]}')
   cid=$(aws ssm send-command --region "$REGION" \
     --instance-ids $iid \
-    --document-name "AWS-RunShellCommand" \
+    --document-name "AWS-RunShellScript" \
     --comment "loadtest deploy ${role}" \
-    --parameters commands="$(printf '%s' "$script" | jq -Rs .)" \
+    --parameters "$params" \
     --query 'Command.CommandId' --output text)
 
   # 완료 폴링
@@ -71,7 +78,7 @@ ssm_run() {
 }
 
 for role in $ROLES; do
-  file="${COMPOSE[$role]:-}"
+  file="$(compose_for "$role")"
   [ -n "$file" ] || { echo "알 수 없는 role: $role"; continue; }
   echo "── [$role] ${file} 배포 ──"
 
