@@ -100,6 +100,7 @@ docker compose up -d                  # 로컬 인프라 (앱은 gradle로 실�
 
 - Kafka UI: http://localhost:8989
 - 부하 실측: `infra/load-test/` + `docs/load-test/`(topology.html, measurement-journey.md). 종료 시 `terraform destroy`.
+- white-box 관측: 실측 compose에서 `OTEL_JAVAAGENT`(트레이스)·`LOADTEST_QUERYCOUNT_ENABLED`(쿼리수) 토글. Tempo는 obs 스택에 포함.
 
 ---
 
