@@ -1,16 +1,12 @@
 # payment-service — payment 호스트(10.0.1.20)에서 실행
-#   cd <repo>/infra/load-test/deploy
-#   docker compose -f payment.compose.yml up -d --build
+#   IMAGE_NS=<dockerhub-user> docker compose -f payment.compose.yml pull && up -d
+#   이미지는 CI(loadtest-images.yml)가 Docker Hub 에 빌드/push. 호스트는 pull 만.
 # host network: 10.0.1.20:8080 로 바로 바인딩 (prometheus scrape, k6 타깃)
 
 services:
   payment-service:
-    build:
-      context: ../../..
-      dockerfile: infra/load-test/deploy/Dockerfile
-      args:
-        MODULE: payment-service
-    image: cancel-loadtest/payment-service
+    image: ${IMAGE_NS:?Docker Hub 네임스페이스(IMAGE_NS) 필요}/cancel-loadtest:payment-${IMAGE_TAG:-latest}
+    pull_policy: always
     container_name: payment-service
     restart: unless-stopped
     network_mode: host

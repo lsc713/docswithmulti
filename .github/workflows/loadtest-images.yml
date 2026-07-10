@@ -1,0 +1,57 @@
+# 부하 실측 서비스 이미지 빌드 → Docker Hub push
+#   arm64(Graviton) 타깃. build 스테이지는 러너 네이티브(x86)에서 돌아 빠름(Dockerfile 참조).
+#   트리거: 수동(workflow_dispatch) + main 에 서비스/Dockerfile 변경 push.
+#   이미지는 "코드 바뀔 때만" 굽는다 — 서버 띄울 때(terraform apply)는 pull 만.
+#
+# 사전 준비(1회): repo Settings → Secrets 에 DOCKERHUB_USERNAME / DOCKERHUB_TOKEN 등록.
+#   gh secret set DOCKERHUB_USERNAME --body "<user>"
+#   gh secret set DOCKERHUB_TOKEN    --body "<access-token>"
+name: loadtest-images
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "payment-service/**"
+      - "risk-management-service/**"
+      - "merchant-limit-service/**"
+      - "order-service/**"
+      - "infra/load-test/deploy/Dockerfile"
+      - ".github/workflows/loadtest-images.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { module: payment-service,        tag: payment }
+          - { module: risk-management-service, tag: risk-management }
+          - { module: merchant-limit-service,  tag: merchant-limit }
+          - { module: order-service,           tag: order }
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infra/load-test/deploy/Dockerfile
+          platforms: linux/arm64
+          build-args: |
+            MODULE=${{ matrix.module }}
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/cancel-loadtest:${{ matrix.tag }}-latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/cancel-loadtest:${{ matrix.tag }}-${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

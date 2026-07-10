@@ -138,10 +138,12 @@ VU 수만이 아니라 **데이터 분포**가 이 시스템의 병목을 결정
 
 부하 테스트 1회 = 아래 순서. **기록(6→7단계)을 빼먹으면 실측이 아니다.**
 
+0. **이미지 준비(코드 바뀐 경우만)** — GitHub Actions `loadtest-images.yml` 실행 → Docker Hub 갱신
+   - `gh workflow run loadtest-images.yml` (사전: `DOCKERHUB_USERNAME`/`DOCKERHUB_TOKEN` secret)
 1. **인프라 기동** — `cd infra/load-test && terraform apply`
    - `terraform output ssm_connect` / `private_ips` 확인
-2. **배포** — SSM 접속(`aws ssm start-session --target <id>`) 후 role별 컨테이너 기동
-   - `infra/load-test/deploy/` — 인프라→DB→앱 순서 (compose가 사설 IP 배선 주입)
+2. **배포** — `IMAGE_NS=<dockerhub-user> ./infra/load-test/deploy/ssm-deploy.sh`
+   - SSM `send-command`로 role 태그별 인프라→DB→앱 순서 일괄 배포 (호스트는 Docker Hub pull만)
    - `infra/load-test/observability/` — node-exporter(9대 전부) + obs 스택(Prometheus/Grafana/exporter)
 3. **워밍업** — S0 smoke(1 VU) 1분: 정합성 확인 + JIT/pool/Flyway warmup (baseline 오염 방지)
 4. **스테이지 실행** — §3 순서대로. **한 번에 한 변수만** 바꾼다.
