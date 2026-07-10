@@ -27,6 +27,8 @@ flyway {
 }
 
 dependencies {
+    implementation project(':common-observability')
+
     // Kafka Consumer
     implementation 'org.springframework.kafka:spring-kafka'
 
