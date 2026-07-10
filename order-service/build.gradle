@@ -10,5 +10,7 @@ flyway {
 }
 
 dependencies {
+    implementation project(':common-observability')
+
     implementation 'org.springframework.kafka:spring-kafka'
 }

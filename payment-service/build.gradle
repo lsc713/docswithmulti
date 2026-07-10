@@ -40,6 +40,8 @@ jacocoTestCoverageVerification {
 }
 
 dependencies {
+    implementation project(':common-observability')
+
     // Circuit Breaker
     implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.2.0'
 
