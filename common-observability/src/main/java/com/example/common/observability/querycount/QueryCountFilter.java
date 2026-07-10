@@ -19,12 +19,10 @@ public class QueryCountFilter extends OncePerRequestFilter {
 
     private final QueryCountReader reader;
     private final MeterRegistry registry;
-    private final String service;
 
-    public QueryCountFilter(QueryCountReader reader, MeterRegistry registry, String service) {
+    public QueryCountFilter(QueryCountReader reader, MeterRegistry registry) {
         this.reader = reader;
         this.registry = registry;
-        this.service = service;
     }
 
     @Override
@@ -38,7 +36,6 @@ public class QueryCountFilter extends OncePerRequestFilter {
             Object pattern = request.getAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE);
             if (pattern != null) {
                 DistributionSummary.builder("db.queries.per_request")
-                        .tag("service", service)
                         .tag("uri", pattern.toString())
                         .publishPercentileHistogram()
                         .register(registry)

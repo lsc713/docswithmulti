@@ -22,7 +22,7 @@ class QueryCountFilterTest {
     @Test
     void recordsQueryCountWithRoutePatternTag() throws Exception {
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
-        QueryCountFilter filter = new QueryCountFilter(new FakeReader(0, 7), registry, "payment");
+        QueryCountFilter filter = new QueryCountFilter(new FakeReader(0, 7), registry);
 
         MockHttpServletRequest req = new MockHttpServletRequest("POST", "/payments/1/cancel");
         req.setAttribute(HandlerMapping.BEST_MATCHING_PATTERN_ATTRIBUTE, "/payments/{id}/cancel");
@@ -31,7 +31,6 @@ class QueryCountFilterTest {
         filter.doFilter(req, res, (rq, rs) -> {});
 
         DistributionSummary ds = registry.get("db.queries.per_request")
-                .tag("service", "payment")
                 .tag("uri", "/payments/{id}/cancel")
                 .summary();
         assertThat(ds.count()).isEqualTo(1L);
@@ -41,7 +40,7 @@ class QueryCountFilterTest {
     @Test
     void unmappedRequestNotRecorded() throws Exception {
         SimpleMeterRegistry registry = new SimpleMeterRegistry();
-        QueryCountFilter filter = new QueryCountFilter(new FakeReader(0, 3), registry, "payment");
+        QueryCountFilter filter = new QueryCountFilter(new FakeReader(0, 3), registry);
 
         MockHttpServletRequest req = new MockHttpServletRequest("GET", "/actuator/prometheus");
         // BEST_MATCHING_PATTERN_ATTRIBUTE 미설정 → 라우트 패턴 없음

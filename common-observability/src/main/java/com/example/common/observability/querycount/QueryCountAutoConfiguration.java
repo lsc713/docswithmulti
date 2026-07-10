@@ -4,7 +4,6 @@ import io.micrometer.core.instrument.MeterRegistry;
 import net.ttddyy.dsproxy.listener.DataSourceQueryCountListener;
 import net.ttddyy.dsproxy.support.ProxyDataSource;
 import net.ttddyy.dsproxy.support.ProxyDataSourceBuilder;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -26,10 +25,8 @@ public class QueryCountAutoConfiguration {
     }
 
     @Bean
-    public QueryCountFilter queryCountFilter(QueryCountReader reader,
-                                             MeterRegistry registry,
-                                             @Value("${spring.application.name:unknown}") String service) {
-        return new QueryCountFilter(reader, registry, service);
+    public QueryCountFilter queryCountFilter(QueryCountReader reader, MeterRegistry registry) {
+        return new QueryCountFilter(reader, registry);
     }
 
     /** DataSource 빈을 ProxyDataSource로 래핑 (static: BPP는 조기 등록돼야 함). */
