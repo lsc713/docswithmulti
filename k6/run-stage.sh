@@ -18,6 +18,8 @@ TARGET="${TARGET:-local}"
 STAGE="${STAGE:-baseline}"
 SCRIPT="${SCRIPT:-k6/stages.js}"
 PROM="${PROM:-}"
+WEB="${WEB:-0}"          # 1 → k6 web dashboard 라이브 UI(:5665). port-forward 로 확인.
+REPORT="${REPORT:-}"     # 경로 지정 시 실행 후 HTML 리포트 export
 
 command -v k6 >/dev/null || { echo "k6 가 설치돼 있지 않습니다 (https://k6.io/docs/get-started/installation/)"; exit 1; }
 [ -f k6/seed/paymentKeys.json ] || echo "⚠ k6/seed/paymentKeys.json 없음 — 먼저 ./k6/seed/seed.sh 실행 권장"
@@ -27,6 +29,11 @@ if [ -n "$PROM" ]; then
   export K6_PROMETHEUS_RW_SERVER_URL="$PROM"
   ARGS+=(-o experimental-prometheus-rw)
 fi
+# k6 web dashboard: 실행 중 실시간 웹 UI(:5665) + 종료 후 HTML 리포트
+if [ "$WEB" = "1" ] || [ -n "$REPORT" ]; then
+  export K6_WEB_DASHBOARD=true
+  [ -n "$REPORT" ] && export K6_WEB_DASHBOARD_EXPORT="$REPORT"
+fi
 
-echo "[run] TARGET=${TARGET} STAGE=${STAGE} SCRIPT=${SCRIPT} prom=${PROM:-off}"
+echo "[run] TARGET=${TARGET} STAGE=${STAGE} SCRIPT=${SCRIPT} prom=${PROM:-off} web=${WEB} report=${REPORT:-off}"
 exec k6 "${ARGS[@]}" "$SCRIPT"

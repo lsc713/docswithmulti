@@ -1,0 +1,14 @@
+# CloudWatch Logs opt-in 오버라이드 — payment
+#   LOG_CLOUDWATCH=1 IMAGE_NS=<user> ./ssm-deploy.sh  (자동 적용)
+#   수동:  docker compose -f payment.compose.yml -f logging/payment.cw.yml up -d
+# awslogs 로 전환 → 로컬 `docker logs` 대신 콘솔 CloudWatch Logs Insights 에서 검색/집계.
+# (IAM: security.tf 의 cw_logs 인라인 정책이 CreateLogGroup/PutLogEvents 허용)
+services:
+  payment-service:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION:-ap-northeast-2}
+        awslogs-group: /loadtest/apps
+        awslogs-create-group: "true"
+        awslogs-stream: payment-service

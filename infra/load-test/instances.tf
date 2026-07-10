@@ -14,18 +14,20 @@ data "aws_ssm_parameter" "al2023_arm" {
 }
 
 locals {
-  # role => { type, ip, disk(GB) }
-  #   ip : private_subnet_cidr(10.0.1.0/24) 내 고정 사설 IP → config/compose 배선 편하게
+  # role => { type, ip, disk(GB), spot? }
+  #   ip   : private_subnet_cidr(10.0.1.0/24) 내 고정 사설 IP → config/compose 배선 편하게
+  #   spot : 생략 시 true(기본 Spot). obs 는 spot=false(온디맨드) — t4g.medium spot 용량
+  #          부족으로 실측 도중 관측 스택이 미기동되는 것을 방지(관측이 죽으면 데이터 유실).
   instances = {
-    k6            = { type = "c7g.xlarge", ip = "10.0.1.10", disk = 30 } # 부하생성기 (분리 필수)
-    payment       = { type = "c7g.xlarge", ip = "10.0.1.20", disk = 30 } # 핫패스 주인공
-    risk          = { type = "c7g.xlarge", ip = "10.0.1.21", disk = 30 } # 한도 차감 동시성
-    cold-svc      = { type = "c7g.large", ip = "10.0.1.22", disk = 30 }  # merchant-limit + order (합침)
-    mysql-payment = { type = "m7g.large", ip = "10.0.1.30", disk = 100 } # TX3 row lock 대상 (r7g 16GB→8GB: 버퍼풀이 I/O 병목 덮는 것 방지)
-    mysql-risk    = { type = "m7g.large", ip = "10.0.1.31", disk = 100 } # 한도 소진 경합 (동상)
-    cold-db       = { type = "c7g.large", ip = "10.0.1.32", disk = 100 } # mysql-merchant + mysql-order (콜드, 4GB로 충분)
-    infra         = { type = "m7g.large", ip = "10.0.1.40", disk = 50 }  # Redis + Kafka(1-broker), page cache용 RAM 유지
-    obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30 } # Prometheus + Grafana (2GB→4GB: 9타깃 히스토그램 스크레이프 안정화)
+    k6            = { type = "c7g.xlarge", ip = "10.0.1.10", disk = 30 }               # 부하생성기 (분리 필수)
+    payment       = { type = "c7g.xlarge", ip = "10.0.1.20", disk = 30 }               # 핫패스 주인공
+    risk          = { type = "c7g.xlarge", ip = "10.0.1.21", disk = 30 }               # 한도 차감 동시성
+    cold-svc      = { type = "c7g.large", ip = "10.0.1.22", disk = 30 }                # merchant-limit + order (합침)
+    mysql-payment = { type = "m7g.large", ip = "10.0.1.30", disk = 100 }               # TX3 row lock 대상 (r7g 16GB→8GB: 버퍼풀이 I/O 병목 덮는 것 방지)
+    mysql-risk    = { type = "m7g.large", ip = "10.0.1.31", disk = 100 }               # 한도 소진 경합 (동상)
+    cold-db       = { type = "c7g.large", ip = "10.0.1.32", disk = 100 }               # mysql-merchant + mysql-order (콜드, 4GB로 충분)
+    infra         = { type = "m7g.large", ip = "10.0.1.40", disk = 50 }                # Redis + Kafka(1-broker), page cache용 RAM 유지
+    obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false } # Prometheus + Grafana, 온디맨드(관측 안정성 우선)
   }
 }
 
@@ -64,8 +66,9 @@ resource "aws_instance" "node" {
     # gp3 기본 3000 IOPS / 125 MBps 무료. DB I/O 병목 시 iops/throughput 상향.
   }
 
+  # role별 spot 오버라이드: var.use_spot 이 켜져도 each.value.spot=false 면 온디맨드.
   dynamic "instance_market_options" {
-    for_each = var.use_spot ? [1] : []
+    for_each = (var.use_spot && lookup(each.value, "spot", true)) ? [1] : []
     content {
       market_type = "spot"
       spot_options {
