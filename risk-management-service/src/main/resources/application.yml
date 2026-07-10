@@ -48,8 +48,14 @@ kafka:
     merchant-limit-updated: merchant.limit.updated
 
 risk:
-  lock:
-    ttl-seconds: 5
+  # daily_limit 3단 해석(Redis 캐시 → DB 스냅샷 → merchant-limit HTTP) 실험 토글.
+  # 앞 단계를 꺼서 각 층 비용을 실측한다. 기본 ON(현행). 부하테스트 시 env 로 오버라이드.
+  #   A(기준): 둘 다 true          B: cache=false          C: cache=false+snapshot=false(HTTP 매번)
+  limit:
+    cache:
+      enabled: ${RISK_LIMIT_CACHE_ENABLED:true}
+    snapshot:
+      enabled: ${RISK_LIMIT_SNAPSHOT_ENABLED:true}
 
 resilience4j:
   circuitbreaker:

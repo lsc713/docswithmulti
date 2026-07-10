@@ -6,7 +6,7 @@ import com.example.riskmanagement.application.usecase.ValidateAndReserveUseCase;
 import com.example.riskmanagement.domain.entity.CancelUsageHistory;
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
 import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
 
@@ -26,7 +26,6 @@ import java.util.Optional;
  * onset(그날 첫 취소)에만 타며, 커넥션 점유 비용을 관측하기 위함.
  */
 @Service
-@RequiredArgsConstructor
 public class ValidateAndReserveService implements ValidateAndReserveUseCase {
 
     private final MerchantCancelUsageRepository usageRepository;
@@ -34,6 +33,30 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
     private final MerchantLimitClient merchantLimitClient;
     private final DailyLimitCache dailyLimitCache;
     private final TransactionTemplate transactionTemplate;
+
+    // 실험 플래그 — daily_limit 3단 해석(Redis 캐시 → DB 스냅샷 → merchant-limit HTTP)에서
+    // 앞 단계를 꺼서 각 층 비용을 실측하기 위함. 기본 true(현행).
+    //   cache=false            → 캐시 우회, DB 스냅샷/HTTP 로 부하가 흐름
+    //   cache=false+snapshot=false → 매 요청 HTTP (HTTP-in-TX 커넥션 점유 비용 측정)
+    private final boolean cacheEnabled;
+    private final boolean snapshotEnabled;
+
+    public ValidateAndReserveService(
+            MerchantCancelUsageRepository usageRepository,
+            CancelUsageHistoryRepository historyRepository,
+            MerchantLimitClient merchantLimitClient,
+            DailyLimitCache dailyLimitCache,
+            TransactionTemplate transactionTemplate,
+            @Value("${risk.limit.cache.enabled:true}") boolean cacheEnabled,
+            @Value("${risk.limit.snapshot.enabled:true}") boolean snapshotEnabled) {
+        this.usageRepository = usageRepository;
+        this.historyRepository = historyRepository;
+        this.merchantLimitClient = merchantLimitClient;
+        this.dailyLimitCache = dailyLimitCache;
+        this.transactionTemplate = transactionTemplate;
+        this.cacheEnabled = cacheEnabled;
+        this.snapshotEnabled = snapshotEnabled;
+    }
 
     @Override
     public Result execute(Command cmd) {
@@ -69,15 +92,17 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
      * 1. Redis 캐시  2. DB 스냅샷(non-locking read)  3. merchant-limit HTTP(CB)
      */
     private BigDecimal resolveDailyLimit(long merchantId, LocalDate kstDate) {
-        Optional<BigDecimal> cached = dailyLimitCache.get(merchantId, kstDate);
-        if (cached.isPresent()) return cached.get();
-
-        Optional<MerchantCancelUsage> snapshot =
-            usageRepository.findByMerchantIdAndKstDate(merchantId, kstDate);
-        if (snapshot.isPresent()) return snapshot.get().getDailyLimit();
-
+        if (cacheEnabled) {
+            Optional<BigDecimal> cached = dailyLimitCache.get(merchantId, kstDate);
+            if (cached.isPresent()) return cached.get();
+        }
+        if (snapshotEnabled) {
+            Optional<MerchantCancelUsage> snapshot =
+                usageRepository.findByMerchantIdAndKstDate(merchantId, kstDate);
+            if (snapshot.isPresent()) return snapshot.get().getDailyLimit();
+        }
         BigDecimal fetched = merchantLimitClient.fetchDailyLimit(merchantId, kstDate);
-        dailyLimitCache.set(merchantId, kstDate, fetched);
+        if (cacheEnabled) dailyLimitCache.set(merchantId, kstDate, fetched);
         return fetched;
     }
 
