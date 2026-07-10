@@ -1,0 +1,19 @@
+# CloudWatch Logs opt-in 오버라이드 — cold-svc (merchant-limit + order)
+#   docker compose -f cold-svc.compose.yml -f logging/cold-svc.cw.yml up -d
+services:
+  merchant-limit-service:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION:-ap-northeast-2}
+        awslogs-group: /loadtest/apps
+        awslogs-create-group: "true"
+        awslogs-stream: merchant-limit-service
+  order-service:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION:-ap-northeast-2}
+        awslogs-group: /loadtest/apps
+        awslogs-create-group: "true"
+        awslogs-stream: order-service

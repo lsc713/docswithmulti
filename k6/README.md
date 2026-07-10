@@ -29,6 +29,8 @@ STAGE=baseline ./k6/run-stage.sh
 STAGE=ramp     ./k6/run-stage.sh
 # aws + Grafana 관측
 TARGET=aws STAGE=ramp PROM=http://10.0.1.50:9090/api/v1/write ./k6/run-stage.sh
+# k6 web dashboard: 라이브 UI(:5665, port-forward) + HTML 리포트
+WEB=1 REPORT=report.html STAGE=baseline ./k6/run-stage.sh
 
 # 3) 축 B 경합
 SCRIPT=k6/hot-merchant.js VUS=30 DURATION=2m ./k6/run-stage.sh

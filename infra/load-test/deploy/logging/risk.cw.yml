@@ -1,0 +1,11 @@
+# CloudWatch Logs opt-in 오버라이드 — risk
+#   docker compose -f risk.compose.yml -f logging/risk.cw.yml up -d
+services:
+  risk-management-service:
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: ${AWS_REGION:-ap-northeast-2}
+        awslogs-group: /loadtest/apps
+        awslogs-create-group: "true"
+        awslogs-stream: risk-management-service

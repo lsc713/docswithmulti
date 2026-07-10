@@ -48,6 +48,27 @@ resource "aws_iam_role_policy_attachment" "ssm_core" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
+# 컨테이너 로그를 CloudWatch Logs 로 보내기 위한 최소 권한 (awslogs 드라이버).
+# → `docker logs`+grep 대신 콘솔 Logs Insights 에서 GUI 로 검색/집계.
+resource "aws_iam_role_policy" "cw_logs" {
+  name = "${var.project}-cw-logs"
+  role = aws_iam_role.ssm.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Action = [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams",
+        "logs:DescribeLogGroups"
+      ]
+      Resource = "arn:aws:logs:*:*:log-group:/loadtest/*"
+    }]
+  })
+}
+
 resource "aws_iam_instance_profile" "ssm" {
   name = "${var.project}-ssm-profile"
   role = aws_iam_role.ssm.name

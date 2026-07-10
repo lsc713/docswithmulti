@@ -2,6 +2,39 @@
 
 부하 실측 지표를 계층별로 수집한다. 근거: [`../../../docs/load-test/measurement-journey.md` §1](../../../docs/load-test/measurement-journey.md).
 
+## 빠른 확인 (노트북 브라우저 — 퍼블릭 IP 불필요)
+
+관측 스택은 `deploy/ssm-deploy.sh` 가 **자동 배포**(node-exporter 전 호스트 + obs 스택). 확인은 SSM 포트포워딩으로:
+
+```bash
+./infra/load-test/deploy/port-forward.sh grafana     # → http://localhost:3000  대시보드
+./infra/load-test/deploy/port-forward.sh kafka       # → http://localhost:8989  consumer lag
+./infra/load-test/deploy/port-forward.sh prometheus  # → http://localhost:9090  scrape Targets
+./infra/load-test/deploy/port-forward.sh payment     # → localhost:8080/actuator/health
+```
+
+- Grafana 대시보드 **Cancel Load Test — Overview** 자동 프로비저닝(에러율/지연/HikariCP/row_lock/GC/lag).
+- 부하 걸리는 동안 이 대시보드만 보면 됨 — SSM 로그를 CLI로 캘 필요 없음.
+- 전제: 로컬에 `session-manager-plugin` 설치.
+
+## 로그 검색 (CloudWatch Logs Insights)
+
+`LOG_CLOUDWATCH=1` 로 배포하면 앱 로그가 `/loadtest/apps` 로그그룹으로 감. 콘솔 ▸ CloudWatch ▸ Logs Insights 에서 GUI 쿼리:
+
+```sql
+-- 에러코드별 카운트 (RISK_SERVICE_UNAVAILABLE 같은 걸 한눈에)
+fields @message
+| filter @message like /Exception|ERROR/
+| parse @message /code=(?<code>[A-Z_]+)/
+| stats count(*) as n by code | sort n desc
+```
+```sql
+-- 데드락/락 이벤트 타임라인
+fields @timestamp, @logStream, @message
+| filter @message like /Deadlock|LockAcquisition|could not/
+| sort @timestamp desc
+```
+
 ## 무엇을 수집하나
 
 | 소스 | 방식 | 지표 |

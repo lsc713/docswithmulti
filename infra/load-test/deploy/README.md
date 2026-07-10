@@ -29,12 +29,18 @@
 ```bash
 # 로컬(aws cli 인증된 곳)에서 실행. IMAGE_NS = Docker Hub 사용자명.
 IMAGE_NS=<dockerhub-user> ./infra/load-test/deploy/ssm-deploy.sh
-# 특정 role만:  IMAGE_NS=<user> ROLES="payment risk" ./ssm-deploy.sh
+# 특정 role만:  IMAGE_NS=<user> ROLES="payment risk" ./ssm-deploy.sh   (관측 스킵)
 # 특정 태그:    IMAGE_NS=<user> IMAGE_TAG=<sha> ./ssm-deploy.sh
+# 로그를 CloudWatch로: IMAGE_NS=<user> LOG_CLOUDWATCH=1 ./ssm-deploy.sh
 ```
 > 앱은 Flyway로 스키마 생성 후 기동. DB/Kafka 준비 전이면 재시도로 수렴(`restart: unless-stopped`). 기동까지 1~3분.
 
-**관측** — `../observability/README.md` (node-exporter는 9대 전부, 스택은 obs).
+**관측 자동 포함** — ssm-deploy가 node-exporter(전 호스트)+obs 스택까지 배포. 확인:
+```bash
+./infra/load-test/deploy/port-forward.sh grafana   # localhost:3000 대시보드
+./infra/load-test/deploy/port-forward.sh kafka     # localhost:8989 consumer lag
+```
+자세히는 `../observability/README.md`.
 
 ### 수동 배포 (디버깅용)
 

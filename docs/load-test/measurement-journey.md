@@ -144,13 +144,15 @@ VU 수만이 아니라 **데이터 분포**가 이 시스템의 병목을 결정
    - `terraform output ssm_connect` / `private_ips` 확인
 2. **배포** — `IMAGE_NS=<dockerhub-user> ./infra/load-test/deploy/ssm-deploy.sh`
    - SSM `send-command`로 role 태그별 인프라→DB→앱 순서 일괄 배포 (호스트는 Docker Hub pull만)
-   - `infra/load-test/observability/` — node-exporter(9대 전부) + obs 스택(Prometheus/Grafana/exporter)
+   - **관측 자동 포함**: node-exporter(전 호스트) + obs 스택(Prometheus/Grafana/exporter). 로그 검색까지 원하면 `LOG_CLOUDWATCH=1`.
+2b. **관측 열기(권장)** — `./infra/load-test/deploy/port-forward.sh grafana` → 브라우저 `localhost:3000`. 부하 중 이 대시보드만 보면 됨(CLI 로그 archaeology 불필요).
 3. **워밍업** — S0 smoke(1 VU) 1분: 정합성 확인 + JIT/pool/Flyway warmup (baseline 오염 방지)
 4. **스테이지 실행** — §3 순서대로. **한 번에 한 변수만** 바꾼다.
-   - 축 A(처리량): `k6/load-test.js` — S1→S2→S3→S4
-   - 축 B(경합): `k6/idempotency-test.js`, `k6/compensation-test.js`
+   - 축 A(처리량): `STAGE=baseline ./k6/run-stage.sh` — S1→S2→S3→S4
+   - 축 B(경합): `SCRIPT=k6/hot-merchant.js VUS=30 ./k6/run-stage.sh`, `k6/idempotency-test.js`
+   - Grafana 연동: `PROM=http://10.0.1.50:9090/api/v1/write` / 로컬 HTML 리포트: `REPORT=report.html`
    - (선택) 네트워크: payment→risk에 `tc netem` 지연 주입 후 서킷/타임아웃 관측
-5. **관측 수집** — Grafana에서 §1 지표 캡처 (앱 pool/GC, MySQL row_lock/deadlock, Redis hit, Kafka lag)
+5. **관측 수집** — Grafana(`port-forward.sh grafana`)에서 §1 지표 캡처 (앱 pool/GC, MySQL row_lock/deadlock, Redis hit, Kafka lag). 로그는 CloudWatch Logs Insights(`/loadtest/apps`).
 6. **정합성 검증** — 이중취소/이중한도차감/dedup (성능 무관 하드 게이트)
 7. **기록** — §6 템플릿으로 **§8 실행 로그에 append**. 판정(Pass/Knee/Breaking) 명시
 8. **정리** — `terraform destroy` (NAT Gateway 유휴 비용 차단)
