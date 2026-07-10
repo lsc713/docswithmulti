@@ -47,7 +47,8 @@ class ValidateAndReserveServiceTest {
             }
         };
         sut = new ValidateAndReserveService(
-            usageRepository, historyRepository, merchantLimitClient, dailyLimitCache, txTemplate);
+            usageRepository, historyRepository, merchantLimitClient, dailyLimitCache, txTemplate,
+            true, true); // cache/snapshot 기본 ON (현행)
     }
 
     private ValidateAndReserveUseCase.Command cmd() {
