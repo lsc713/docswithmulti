@@ -291,8 +291,6 @@ VU 수만이 아니라 **데이터 분포**가 이 시스템의 병목을 결정
 
 ## 10. white-box 관측 (트레이스 + 요청당 쿼리 수)
 
-### white-box 관측 (트레이스 + 요청당 쿼리 수)
-
 - **분산 트레이싱**: OTel Java agent → Grafana Tempo(obs :4317). 활성화는 실측 compose env:
   `OTEL_JAVAAGENT="-javaagent:/otel/opentelemetry-javaagent.jar" docker compose ... up -d --force-recreate`
 - **요청당 쿼리 수**: `LOADTEST_QUERYCOUNT_ENABLED=true` → Grafana "요청당 쿼리 수" 대시보드. `uri`별 p95로 N+1 감시.
