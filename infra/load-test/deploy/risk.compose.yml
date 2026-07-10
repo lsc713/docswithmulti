@@ -1,14 +1,10 @@
 # risk-management-service — risk 호스트(10.0.1.21)에서 실행
-#   docker compose -f risk.compose.yml up -d --build
+#   IMAGE_NS=<dockerhub-user> docker compose -f risk.compose.yml pull && up -d
 
 services:
   risk-management-service:
-    build:
-      context: ../../..
-      dockerfile: infra/load-test/deploy/Dockerfile
-      args:
-        MODULE: risk-management-service
-    image: cancel-loadtest/risk-management-service
+    image: ${IMAGE_NS:?Docker Hub 네임스페이스(IMAGE_NS) 필요}/cancel-loadtest:risk-management-${IMAGE_TAG:-latest}
+    pull_policy: always
     container_name: risk-management-service
     restart: unless-stopped
     network_mode: host

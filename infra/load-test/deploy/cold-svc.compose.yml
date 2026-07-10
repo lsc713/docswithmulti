@@ -1,15 +1,11 @@
 # 콜드패스 서비스 — cold-svc 호스트(10.0.1.22)에서 실행
 #   merchant-limit(8082) + order(8081) 한 호스트에 합침
-#   docker compose -f cold-svc.compose.yml up -d --build
+#   IMAGE_NS=<dockerhub-user> docker compose -f cold-svc.compose.yml pull && up -d
 
 services:
   merchant-limit-service:
-    build:
-      context: ../../..
-      dockerfile: infra/load-test/deploy/Dockerfile
-      args:
-        MODULE: merchant-limit-service
-    image: cancel-loadtest/merchant-limit-service
+    image: ${IMAGE_NS:?Docker Hub 네임스페이스(IMAGE_NS) 필요}/cancel-loadtest:merchant-limit-${IMAGE_TAG:-latest}
+    pull_policy: always
     container_name: merchant-limit-service
     restart: unless-stopped
     network_mode: host
@@ -23,12 +19,8 @@ services:
       JAVA_TOOL_OPTIONS: "-Xmx2g -XX:+UseG1GC"
 
   order-service:
-    build:
-      context: ../../..
-      dockerfile: infra/load-test/deploy/Dockerfile
-      args:
-        MODULE: order-service
-    image: cancel-loadtest/order-service
+    image: ${IMAGE_NS:?Docker Hub 네임스페이스(IMAGE_NS) 필요}/cancel-loadtest:order-${IMAGE_TAG:-latest}
+    pull_policy: always
     container_name: order-service
     restart: unless-stopped
     network_mode: host
