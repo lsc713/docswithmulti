@@ -5,15 +5,13 @@ import com.example.riskmanagement.application.usecase.ValidateAndReserveUseCase;
 import com.example.riskmanagement.domain.entity.CancelUsageHistory;
 import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
 import com.example.riskmanagement.domain.exception.MerchantCancelLimitExceededException;
-import com.example.riskmanagement.domain.service.CancelLimitDomainService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.math.BigDecimal;
@@ -25,15 +23,13 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-@DisplayName("ValidateAndReserveService")
+@DisplayName("ValidateAndReserveService (원자 차감)")
 class ValidateAndReserveServiceTest {
 
     @Mock MerchantCancelUsageRepository usageRepository;
     @Mock CancelUsageHistoryRepository historyRepository;
     @Mock MerchantLimitClient merchantLimitClient;
     @Mock DailyLimitCache dailyLimitCache;
-    @Mock StringRedisTemplate redisTemplate;
-    @Mock ValueOperations<String, String> valueOps;
 
     ValidateAndReserveService sut;
 
@@ -43,105 +39,98 @@ class ValidateAndReserveServiceTest {
 
     @BeforeEach
     void setUp() {
-        // TransactionTemplate stub — runs callback inline (no real TX)
+        // TransactionTemplate stub — 콜백을 인라인 실행(실제 TX 없음)
         TransactionTemplate txTemplate = new TransactionTemplate() {
             @Override
-            public <T> T execute(org.springframework.transaction.support.TransactionCallback<T> action) {
+            public <T> T execute(TransactionCallback<T> action) {
                 return action.doInTransaction(null);
             }
         };
-        when(redisTemplate.opsForValue()).thenReturn(valueOps);
-        when(valueOps.setIfAbsent(anyString(), anyString(), any())).thenReturn(true);
-
         sut = new ValidateAndReserveService(
-            usageRepository, historyRepository,
-            merchantLimitClient, dailyLimitCache,
-            new CancelLimitDomainService(), redisTemplate, txTemplate);
+            usageRepository, historyRepository, merchantLimitClient, dailyLimitCache, txTemplate);
+    }
+
+    private ValidateAndReserveUseCase.Command cmd() {
+        return new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY);
+    }
+
+    private static MerchantCancelUsage usage(BigDecimal used) {
+        return MerchantCancelUsage.reconstruct(1L, 1L, TODAY, DAILY_LIMIT, used);
     }
 
     @Test
-    @DisplayName("Redis hit — DB/HTTP 미호출, 차감 성공")
-    void execute_redis_hit_skips_db_and_http() {
-        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.of(DAILY_LIMIT));
-        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.empty());
-        when(usageRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+    @DisplayName("멱등 — cancelRequestId 이미 있으면 재차감/기록 없이 기존 결과 재생")
+    void replays_when_already_charged() {
+        when(historyRepository.findByCancelRequestId("cr_001"))
+            .thenReturn(Optional.of(CancelUsageHistory.record("cr_001", 1L, TODAY, CANCEL_AMOUNT)));
+        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.of(usage(CANCEL_AMOUNT)));
+
+        ValidateAndReserveUseCase.Result r = sut.execute(cmd());
+
+        assertThat(r.usedAmount()).isEqualByComparingTo(CANCEL_AMOUNT);
+        verify(usageRepository, never()).ensureRow(anyLong(), any(), any());
+        verify(usageRepository, never()).tryDeduct(anyLong(), any(), any());
+        verify(historyRepository, never()).save(any());
+    }
+
+    @Test
+    @DisplayName("Redis hit — HTTP/스냅샷 조회 없이 차감 성공")
+    void redis_hit_skips_snapshot_and_http() {
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
+        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.of(DAILY_LIMIT));
+        when(usageRepository.tryDeduct(1L, TODAY, CANCEL_AMOUNT)).thenReturn(1);
+        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.of(usage(CANCEL_AMOUNT)));
 
-        ValidateAndReserveUseCase.Result result = sut.execute(
-            new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY));
+        ValidateAndReserveUseCase.Result r = sut.execute(cmd());
 
-        assertThat(result.remainingLimit()).isEqualByComparingTo(BigDecimal.valueOf(4_700_000));
-        verify(merchantLimitClient, never()).fetchDailyLimit(anyLong(), any());
-        verify(usageRepository).save(any());
+        assertThat(r.remainingLimit()).isEqualByComparingTo(BigDecimal.valueOf(4_700_000));
+        verify(usageRepository).ensureRow(1L, TODAY, DAILY_LIMIT);
+        verify(usageRepository).tryDeduct(1L, TODAY, CANCEL_AMOUNT);
         verify(historyRepository).save(any());
+        verify(merchantLimitClient, never()).fetchDailyLimit(anyLong(), any());
     }
 
     @Test
     @DisplayName("Redis miss, DB 스냅샷 hit — HTTP 미호출")
-    void execute_db_snapshot_hit_skips_http() {
-        MerchantCancelUsage existing = MerchantCancelUsage.reconstruct(
-            1L, 1L, TODAY, DAILY_LIMIT, BigDecimal.ZERO);
-        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.empty());
-        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.of(existing));
-        when(usageRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+    void snapshot_hit_skips_http() {
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
+        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.empty());
+        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY)).thenReturn(Optional.of(usage(BigDecimal.ZERO)));
+        when(usageRepository.tryDeduct(1L, TODAY, CANCEL_AMOUNT)).thenReturn(1);
 
-        sut.execute(new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY));
+        sut.execute(cmd());
 
         verify(merchantLimitClient, never()).fetchDailyLimit(anyLong(), any());
     }
 
     @Test
-    @DisplayName("Redis miss, DB miss → HTTP 호출")
-    void execute_calls_http_when_no_cache_and_no_snapshot() {
-        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.empty());
-        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.empty());
-        when(merchantLimitClient.fetchDailyLimit(1L, TODAY)).thenReturn(DAILY_LIMIT);
-        when(usageRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+    @DisplayName("Redis miss, 스냅샷 miss → HTTP 호출 + 캐시 set")
+    void cache_and_snapshot_miss_calls_http() {
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
+        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.empty());
+        // 1st call(스냅샷) empty → HTTP, 2nd call(결과) present
+        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY))
+            .thenReturn(Optional.empty(), Optional.of(usage(CANCEL_AMOUNT)));
+        when(merchantLimitClient.fetchDailyLimit(1L, TODAY)).thenReturn(DAILY_LIMIT);
+        when(usageRepository.tryDeduct(1L, TODAY, CANCEL_AMOUNT)).thenReturn(1);
 
-        sut.execute(new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY));
+        sut.execute(cmd());
 
         verify(merchantLimitClient).fetchDailyLimit(1L, TODAY);
+        verify(dailyLimitCache).set(1L, TODAY, DAILY_LIMIT);
     }
 
     @Test
-    @DisplayName("이중 차감 방어 — cancelRequestId 이미 있으면 no-op")
-    void execute_returns_noop_when_already_charged() {
-        CancelUsageHistory existing = CancelUsageHistory.record("cr_001", 1L, TODAY, CANCEL_AMOUNT);
-        MerchantCancelUsage usage = MerchantCancelUsage.reconstruct(
-            1L, 1L, TODAY, DAILY_LIMIT, CANCEL_AMOUNT);
-        when(historyRepository.findByCancelRequestId("cr_001")).thenReturn(Optional.of(existing));
-        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.of(usage));
-
-        ValidateAndReserveUseCase.Result result = sut.execute(
-            new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY));
-
-        assertThat(result.usedAmount()).isEqualByComparingTo(CANCEL_AMOUNT);
-        verify(usageRepository, never()).save(any()); // 재차감 없음
-    }
-
-    @Test
-    @DisplayName("한도 초과 — MerchantCancelLimitExceededException")
-    void execute_throws_when_limit_exceeded() {
-        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.of(DAILY_LIMIT));
+    @DisplayName("한도 초과 — tryDeduct=0 이면 MerchantCancelLimitExceededException, 원장 미기록")
+    void throws_and_records_nothing_when_limit_exceeded() {
         when(historyRepository.findByCancelRequestId(anyString())).thenReturn(Optional.empty());
-        MerchantCancelUsage full = MerchantCancelUsage.reconstruct(
-            1L, 1L, TODAY, DAILY_LIMIT, BigDecimal.valueOf(4_800_000));
-        when(usageRepository.findByMerchantIdAndKstDateForUpdate(1L, TODAY)).thenReturn(Optional.of(full));
+        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.of(DAILY_LIMIT));
+        when(usageRepository.tryDeduct(1L, TODAY, CANCEL_AMOUNT)).thenReturn(0);
+        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY))
+            .thenReturn(Optional.of(usage(BigDecimal.valueOf(4_800_000))));
 
-        assertThatThrownBy(() -> sut.execute(
-            new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY)))
+        assertThatThrownBy(() -> sut.execute(cmd()))
             .isInstanceOf(MerchantCancelLimitExceededException.class);
-    }
-
-    @Test
-    @DisplayName("Redis 락 획득 실패 — ServiceUnavailableException")
-    void execute_throws_when_lock_not_acquired() {
-        when(valueOps.setIfAbsent(anyString(), anyString(), any())).thenReturn(false);
-
-        assertThatThrownBy(() -> sut.execute(
-            new ValidateAndReserveUseCase.Command(1L, "cr_001", CANCEL_AMOUNT, TODAY)))
-            .isInstanceOf(com.example.riskmanagement.application.exception.ServiceUnavailableException.class);
+        verify(historyRepository, never()).save(any());
     }
 }
