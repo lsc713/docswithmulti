@@ -37,6 +37,18 @@ services:
     depends_on:
       - prometheus
 
+  tempo:
+    image: grafana/tempo:2.6.0
+    container_name: tempo
+    restart: unless-stopped
+    command: ["-config.file=/etc/tempo/tempo.yml"]
+    ports:
+      - "4317:4317"   # OTLP gRPC (앱 → obs 호스트 10.0.1.50:4317)
+      - "3200:3200"   # Tempo 쿼리 API (Grafana 데이터소스)
+    volumes:
+      - ./tempo/tempo.yml:/etc/tempo/tempo.yml:ro
+      - tempo-data:/var/tempo
+
   # ── MySQL exporters (obs 에서 원격 DB 로 접속) ──
   # v0.14.0 은 DATA_SOURCE_NAME env 지원. 테스트라 root 계정 사용.
   mysqld-exporter-payment:
@@ -86,3 +98,4 @@ services:
 volumes:
   prom-data:
   grafana-data:
+  tempo-data:
