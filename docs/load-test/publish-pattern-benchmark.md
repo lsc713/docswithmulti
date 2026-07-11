@@ -200,12 +200,10 @@ aws ssm send-command \
 # expr: histogram_quantile(0.5, sum(rate(cancel_event_e2e_latency_seconds_bucket[1m])) by (le))
 
 # 폴 노브 재런: 지연 ↓ / 빈폴링 부하 ↑ 트레이드 확인
-CANCEL_PUBLISH_MODE=OUTBOX \
-CANCEL_OUTBOX_POLL_MS=1000 \   # 10s → 1s
-SERVER_TOMCAT_MBEANREGISTRY_ENABLED=true \
-OTEL_JAVAAGENT= \
-LOADTEST_QUERYCOUNT_ENABLED=false \
-  docker compose -f /opt/payment.compose.yml up -d --force-recreate
+aws ssm send-command \
+  --document-name "AWS-RunShellScript" \
+  --targets "Key=tag:role,Values=payment" \
+  --parameters 'commands=["CANCEL_PUBLISH_MODE=OUTBOX CANCEL_OUTBOX_POLL_MS=1000 SERVER_TOMCAT_MBEANREGISTRY_ENABLED=true OTEL_JAVAAGENT= LOADTEST_QUERYCOUNT_ENABLED=false docker compose -f /opt/payment.compose.yml up -d --force-recreate"]'
 
 # 동일 VU로 재런 후 Row 2 p50/p95 비교
 ```
@@ -346,6 +344,7 @@ curl -s http://<payment-svc-ip>:8080/actuator/prometheus | grep kafka_producer_r
 **런 전**
 - [ ] 이미지 빌드 최신 여부 확인 (`gh workflow run loadtest-images.yml`)
 - [ ] `terraform apply` 완료, SSM 접속 확인
+- [ ] general_log 활성 확인: `mysql -e "SHOW VARIABLES LIKE 'general_log'"`
 - [ ] 지표명 사전 확인 (§2 체크리스트 완료)
 - [ ] Grafana `publish-pattern-comparison` 대시보드 패널 모두 정상 로드
 
