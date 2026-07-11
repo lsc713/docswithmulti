@@ -9,16 +9,12 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -31,7 +27,7 @@ class CancelTxWriterTest {
     @Mock CancelRequestRepository cancelRequestRepository;
     @Mock PaymentItemRepository paymentItemRepository;
     @Mock PaymentRepository paymentRepository;
-    @Mock KafkaTemplate<String, String> kafkaTemplate;
+    @Mock CancelEventPublisher cancelEventPublisher;
 
     private CancelTxWriter writer;
     private Payment payment;
@@ -43,9 +39,8 @@ class CancelTxWriterTest {
         CancelDomainService domainService = new CancelDomainService(new CancelPeriodPolicy(clock));
         writer = new CancelTxWriter(
             cancelRequestRepository, paymentItemRepository, paymentRepository,
-            kafkaTemplate, domainService
+            cancelEventPublisher, domainService
         );
-        ReflectionTestUtils.setField(writer, "topic", "payment.cancelled");
         payment = PaymentFixture.completedPayment();
         itemA = PaymentItem.reconstruct(1L, payment.getId(), 10L, 100L, 200L, "상품A",
             BigDecimal.valueOf(30000), PaymentItemStatus.ACTIVE);
@@ -83,8 +78,8 @@ class CancelTxWriterTest {
     }
 
     @Test
-    @DisplayName("saveTx3: FOR UPDATE 재조회 후 COMPLETED 저장 + Kafka 직접 발행")
-    void saveTx3_reloadsItemsAndSendsToKafka() {
+    @DisplayName("saveTx3: FOR UPDATE 재조회 후 COMPLETED 저장 + 이벤트 발행")
+    void saveTx3_reloadsItemsAndPublishesEvent() {
         CancelRequest req = CancelRequest.reconstruct(1L, payment.getId(), "hash-001",
             BigDecimal.valueOf(30000), "고객 변심", List.of(1L), CancelStatus.PROCESSING,
             0, null, null, Instant.now(), Instant.now());
@@ -93,19 +88,18 @@ class CancelTxWriterTest {
             .thenReturn(List.of(itemA));
         when(paymentItemRepository.saveAll(anyList())).thenReturn(List.of(itemA));
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
-        when(kafkaTemplate.send(anyString(), anyString(), anyString()))
-            .thenReturn(CompletableFuture.completedFuture(mock(SendResult.class)));
+        // cancelEventPublisher.publish is void — no stub needed (does nothing by default)
 
         CancelRequest result = writer.saveTx3(req, payment, List.of(1L));
 
         assertEquals(CancelStatus.COMPLETED, result.getStatus());
         verify(paymentItemRepository).findAllByPaymentIdForUpdate(payment.getId());
-        verify(kafkaTemplate).send(eq("payment.cancelled"), eq("1"), anyString());
+        verify(cancelEventPublisher).publish(eq(1L), anyString());
     }
 
     @Test
-    @DisplayName("saveTx3: Kafka 발행 실패 시 예외 발생 → TX3 롤백")
-    void saveTx3_kafkaFailure_throwsException() {
+    @DisplayName("saveTx3: 발행 실패 시 예외 발생 → TX3 롤백")
+    void saveTx3_publishFailure_throwsException() {
         CancelRequest req = CancelRequest.reconstruct(1L, payment.getId(), "hash-001",
             BigDecimal.valueOf(30000), "고객 변심", List.of(1L), CancelStatus.PROCESSING,
             0, null, null, Instant.now(), Instant.now());
@@ -114,8 +108,8 @@ class CancelTxWriterTest {
             .thenReturn(List.of(itemA));
         when(paymentItemRepository.saveAll(anyList())).thenReturn(List.of(itemA));
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
-        when(kafkaTemplate.send(anyString(), anyString(), anyString()))
-            .thenReturn(CompletableFuture.failedFuture(new RuntimeException("Kafka down")));
+        doThrow(new RuntimeException("Kafka down"))
+            .when(cancelEventPublisher).publish(anyLong(), anyString());
 
         assertThrows(RuntimeException.class,
             () -> writer.saveTx3(req, payment, List.of(1L)));
