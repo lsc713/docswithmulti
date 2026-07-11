@@ -109,6 +109,8 @@ for role in $ROLES; do
 
   remote="$(clone_header)
 export IMAGE_NS='${IMAGE_NS}' IMAGE_TAG='${IMAGE_TAG}' AWS_REGION='${REGION}'
+# 실측 토글 포워딩 (로컬 env → 원격 compose). 미설정 시 안전한 기본값(off).
+export SERVER_TOMCAT_MBEANREGISTRY_ENABLED='${SERVER_TOMCAT_MBEANREGISTRY_ENABLED:-false}' OTEL_JAVAAGENT='${OTEL_JAVAAGENT:-}' LOADTEST_QUERYCOUNT_ENABLED='${LOADTEST_QUERYCOUNT_ENABLED:-false}'
 cd /opt/loadtest/repo/infra/load-test/deploy
 docker compose -f '${file}' ${extra} pull
 docker compose -f '${file}' ${extra} up -d
