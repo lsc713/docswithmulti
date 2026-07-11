@@ -27,12 +27,20 @@ kafka:
   topic:
     payment-cancelled: payment.cancelled
 
+cancel:
+  publish:
+    mode: INLINE
+  outbox:
+    poll-ms: 10000
+    batch-size: 1000
+
 scheduler:
   lock:
     failed-kafka-publisher: lock:scheduler:failed-kafka-publisher
     pending-recovery: lock:scheduler:pending-recovery
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
+    cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
 
   flyway:
     locations: classpath:db/migration
