@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>결제 취소 시스템 – Architecture</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <h1>결제 취소 시스템 Architecture</h1>
+    <p class="meta">Generated 2026-07-11 · source: <code>payment/risk/merchant-limit/order-service</code> · 스택: Java 21 · Spring Boot · MySQL(모듈별 독립) · Kafka · Redis</p>
+    <nav>▸ <a href="./cancel-flow.html">취소 플로우 상세 (TX 경계·커밋 구조·복구) →</a></nav>
+
+    <h2>1. 서비스 의존 토폴로지</h2>
+    <p class="legend">
+      실선 = 동기 HTTP · 점선 = Kafka 비동기 이벤트 · <span style="color:#3b82f6">파랑</span> 서비스 ·
+      <span style="color:#d97706">노랑</span> DB(모듈별 독립) · <span style="color:#6b7280">회색</span> 인프라/외부.
+      모듈 간 DB 직접 접근 없음 — 전부 HTTP 또는 Kafka 경유.
+    </p>
+    <div class="mermaid">
+graph LR
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef ext fill:#f3f4f6,stroke:#9ca3af,color:#374151,stroke-dasharray:4 3;
+
+  payment["payment-service :8080<br/>취소 핵심 로직"]:::svc
+  risk["risk-management :8083<br/>취소검증 + 한도 소진"]:::svc
+  merchant["merchant-limit :8082<br/>일일 취소한도 원본"]:::svc
+  order["order-service :8081<br/>주문/아이템 상태 동기화"]:::svc
+  product["product-service :8084<br/>(미구현)"]:::svc
+
+  pdb[("payment_db")]:::db
+  rdb[("risk_db")]:::db
+  mdb[("merchant_db")]:::db
+  odb[("order_db")]:::db
+
+  redis{{"Redis<br/>daily_limit 캐시"}}:::infra
+  kafka{{"Kafka 3-broker"}}:::infra
+  pg(["PG Gateway<br/>(외부 결제사)"]):::ext
+
+  payment -->|"HTTP validateAndReserve / compensate"| risk
+  payment -->|"HTTP 취소"| pg
+  risk -->|"HTTP daily_limit (최초 / 스냅샷 없을 때만)"| merchant
+
+  payment -.->|"payment.cancelled (TX3 인라인)"| kafka
+  kafka -.-> order
+  merchant -.->|"merchant.limit.updated (Outbox)"| kafka
+  kafka -.-> risk
+
+  payment --- pdb
+  risk --- rdb
+  merchant --- mdb
+  order --- odb
+  payment -.- redis
+  risk -.- redis
+    </div>
+
+    <h2>2. 취소 라운드트립 (데이터 흐름)</h2>
+    <p class="legend">
+      취소 1건이 시스템을 도는 경로. 실선 = 동기, 점선 = 비동기(Kafka). ①~⑤는 순서.
+      상세 TX 경계·커밋은 <a href="./cancel-flow.html">취소 플로우 상세</a> 참조.
+    </p>
+    <div class="mermaid">
+flowchart LR
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+
+  U(["클라이언트"])
+  P["payment"]:::svc
+  R["risk"]:::svc
+  O["order"]:::svc
+  PDB[("payment_db")]:::db
+  RDB[("risk_db")]:::db
+  ODB[("order_db")]:::db
+  LIM{{"Redis → DB 스냅샷 → merchant HTTP"}}:::infra
+  PG(["PG Gateway"])
+  K{{"Kafka"}}:::infra
+
+  U -->|"POST /payments/(key)/cancel"| P
+  P -->|"① 멱등체크 + TX1 PENDING"| PDB
+  P -->|"② HTTP validateAndReserve"| R
+  R -->|"daily_limit 조회 (3순위 폴백)"| LIM
+  R -->|"원자 조건부 UPDATE (한도 소진)"| RDB
+  P -->|"③ TX2 PROCESSING"| PDB
+  P -->|"④ HTTP 취소"| PG
+  P -->|"⑤ TX3 item+payment+COMPLETED"| PDB
+  P -.->|"payment.cancelled"| K
+  K -.-> O
+  O -->|"주문/아이템 상태 동기화"| ODB
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>

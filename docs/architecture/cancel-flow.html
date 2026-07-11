@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>취소 플로우 상세 – Architecture</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      .note { font-size: 0.85rem; color: #444; background: #fff7ed; border-left: 3px solid #f59e0b; padding: 0.6rem 0.9rem; border-radius: 4px; margin: 0.8rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>취소 플로우 상세 — TX 경계·커밋 구조·복구</h1>
+    <p class="meta">Generated 2026-07-11 · source: <code>payment-service (CancelPaymentService, CancelTxWriter, CancelHistoryRecorder)</code></p>
+    <nav>← <a href="./index.html">시스템 아키텍처 개요</a></nav>
+
+    <h2>1. 취소 시퀀스 — 3 코어 TX + 이력 1 배치 = 커밋 4</h2>
+    <p class="legend">
+      TX 경계(코어 3개)는 외부 호출(risk·PG)로 분리돼 병합 불가. 이력은 코어 TX 밖(감사 불변식).
+      실측으로 커밋 6→4 감축(이력 3커밋 → 1 배치) → 처리량 147→220 rps.
+    </p>
+    <div class="mermaid">
+sequenceDiagram
+  autonumber
+  participant C as 클라이언트
+  participant P as payment-service
+  participant DB as payment_db
+  participant R as risk-management
+  participant PG as PG Gateway
+  participant K as Kafka
+  Note over P,DB: 멱등 — cancel_request(payment_id, request_hash) UK
+  C->>P: POST /payments/{key}/cancel
+  P->>DB: TX1 CancelRequest PENDING INSERT  ✔commit 1
+  P-->>P: 이력 PENDING → 메모리 버퍼
+  P->>R: HTTP validateAndReserve (실측 21ms)
+  R-->>P: 한도 예약 성공
+  P->>DB: TX2 PROCESSING UPDATE  ✔commit 2
+  P-->>P: 이력 PROCESSING → 버퍼
+  P->>PG: HTTP 취소
+  PG-->>P: 성공
+  P->>DB: TX3 item+payment+COMPLETED + send()  ✔commit 3
+  P->>K: payment.cancelled (TX3 인라인 발행)
+  P-->>P: 이력 COMPLETED → 버퍼
+  Note over P,DB: cancel() finally — 버퍼 3건 일괄 INSERT
+  P->>DB: 이력 배치 INSERT (REQUIRES_NEW)  ✔commit 4
+  P-->>C: 취소 완료
+    </div>
+    <p class="note">
+      <strong>커밋 6 → 4:</strong> 이력을 상태전이마다 별도 커밋(3개)하던 것을, 전이 시각을 메모리에 캡처해뒀다가
+      <code>cancel()</code> 종료 시 1 트랜잭션으로 일괄 INSERT. 이력 3건·전이 시각 보존, 감사 불변식(코어 TX 밖·best-effort) 유지.
+      커밋(fsync)이 2코어 DB의 병목이라, 6→4 = 처리량 ×1.5.
+    </p>
+
+    <h2>2. daily_limit 조회 — 3순위 폴백 (2순위 건너뛰고 3순위 금지)</h2>
+    <p class="legend">risk가 한도를 해석하는 순서. 앞 순위가 있으면 뒤로 안 내려간다.</p>
+    <div class="mermaid">
+flowchart TD
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+
+  S(["risk: daily_limit 필요"]) --> R1{"① Redis<br/>daily_limit:merchantId:kstDate"}
+  R1 -->|"hit"| USE(["한도 사용"])
+  R1 -->|"miss"| R2{"② merchant_cancel_usage.daily_limit<br/>(DB 스냅샷)"}
+  R2 -->|"있음"| USE
+  R2 -->|"없음 (최초)"| R3["③ merchant-limit HTTP"]
+  R3 --> USE
+  class R1 infra
+  class R2 db
+  class R3 svc
+    </div>
+    <p class="note">
+      Redis Miss → 바로 merchant-limit HTTP 금지. DB 스냅샷을 먼저 본다(Redis 장애 시 HTTP 없이 처리).
+      HTTP는 최초 요청/스냅샷 없을 때만. — 실측(3-config)에서 이 층은 185 천장과 무관함이 밝혀짐(병목은 payment 커밋수).
+    </p>
+
+    <h2>3. 복구 스케줄러 3개 (payment-service, Redis 분산락)</h2>
+    <p class="legend">인라인 처리 실패 시 상태별로 복구. 복구는 <code>cancel_request.status</code>를 조회(history 미의존).</p>
+    <div class="mermaid">
+flowchart LR
+  classDef sch fill:#ede9fe,stroke:#7c3aed,color:#3b1a70;
+  classDef st fill:#fef3c7,stroke:#d97706,color:#5b3a00;
+
+  PEND[("PENDING 5분 초과")]:::st -->|"pending-recovery (60s)"| A["risk check<br/>차감됐으면 보상 → FAILED"]:::sch
+  PROC[("PROCESSING 5분 초과")]:::st -->|"processing-recovery (60s)"| B["PG 조회 → TX3 재실행/보상<br/>(Kafka 재발행 포함)"]:::sch
+  RETRY[("compensation_retry")]:::st -->|"compensation-retry (30s)"| D["risk 보상 API 재시도"]:::sch
+    </div>
+    <p class="note">
+      TX3에서 Kafka 발행 실패 시 → TX3 롤백 → PROCESSING 유지 → processing-recovery가 재처리.
+      복구가 상태 테이블만 보므로, 이력 배치 지연(위 §1)은 복구·정합성에 무영향.
+    </p>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>
