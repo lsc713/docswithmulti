@@ -1,7 +1,9 @@
 package com.example.payment.infrastructure.persistence;
 
+import com.example.payment.application.interfaces.CancelHistoryEntry;
 import com.example.payment.application.interfaces.CancelRequestHistoryRepository;
 import com.example.payment.domain.entity.CancelStatus;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,17 @@ public class CancelRequestHistoryRepositoryImpl implements CancelRequestHistoryR
     public void record(long cancelRequestId, CancelStatus status, String reason) {
         jpaRepository.save(
             CancelRequestHistoryJpaEntity.of(cancelRequestId, status.name(), reason)
+        );
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void recordAll(List<CancelHistoryEntry> entries) {
+        jpaRepository.saveAll(
+            entries.stream()
+                .map(e -> CancelRequestHistoryJpaEntity.of(
+                    e.cancelRequestId(), e.status().name(), e.reason(), e.occurredAt()))
+                .toList()
         );
     }
 }
