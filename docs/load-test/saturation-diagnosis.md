@@ -30,6 +30,16 @@
 - **MySQL threads_running 급증 / row lock waits 상승** → DB 벽. 대응: 쿼리·인덱스·락 범위 점검.
 - **어느 자원도 100%가 아닌데 `홉 지연` 이 rps 를 규정**(홉 p95 × 동시성 ≈ 관측 rps) → **동기 홉 직렬화**. 대응: 홉 비동기화 또는 홉 축소. 3-config 가 가리킨 가설의 확증.
 
+## 3-뷰 대시보드 (Inbound·App·Infra)
+
+`system-views` 대시보드는 부하(Inbound)↔처리(App)↔자원(Infra)을 한 화면에서 본다.
+- **App·Infra 행**은 상시 스크레이프라 배포 즉시 그려진다(CPU/Memory/Network/Disk, TPS/지연/성공률).
+- **Inbound 행(k6)** 을 채우려면 k6를 remote-write로 실행한다:
+  ```bash
+  PROM=http://10.0.1.50:9090/api/v1/write ./k6/run-stage.sh
+  ```
+- 첫 런 스모크: Prometheus `/api/v1/label/__name__/values` 로 `k6_*` 실제 지표명과 node_network `device` 명을 확인하고, 다르면 `system-views.json` 패널 expr을 조정한다.
+
 ## 교차 확인 (Tempo)
 
 Prometheus 신호로 벽을 좁힌 뒤, Tempo 트레이스에서 payment→risk→merchant-limit span 폭으로 홉 지연을 육안 확인한다. merchant-limit 에 netem 을 걸면(measurement-journey §netem) 커넥션 점유가 span 폭 증가로 보이는지 검증할 수 있다.
