@@ -81,3 +81,4 @@ management:
     distribution:
       percentiles-histogram:
         http.server.requests: true   # p95/p99 히스토그램 버킷 생성
+        http.client.requests: true   # payment→risk/PG 홉 지연 p95 (histogram_quantile용 _bucket)
