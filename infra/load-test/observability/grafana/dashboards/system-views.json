@@ -37,6 +37,7 @@
       "id": 3,
       "type": "timeseries",
       "title": "Active VUs (k6)",
+      "description": "k6를 PROM=http://10.0.1.50:9090/api/v1/write 로 실행해야 채워짐.",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "gridPos": { "h": 8, "w": 8, "x": 8, "y": 1 },
       "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
@@ -53,7 +54,7 @@
       "id": 4,
       "type": "timeseries",
       "title": "클라측 요청 실패율 (k6)",
-      "description": "k6_http_req_failed_total 이름은 버전에 따라 다를 수 있음 — 첫 런 확인.",
+      "description": "k6를 PROM 으로 실행해야 채워짐. 지표명 버전차: k6_http_req_failed_total(v0.43+) 또는 k6_http_req_failed(구버전) — 첫 런에서 Prometheus /api/v1/label/__name__/values 로 실제명 확인.",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "gridPos": { "h": 8, "w": 8, "x": 16, "y": 1 },
       "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0, "max": 1 }, "overrides": [] },
@@ -169,7 +170,7 @@
         {
           "refId": "A",
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes",
+          "expr": "1 - avg by (host) (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)",
           "legendFormat": "{{host}}"
         }
       ]
@@ -195,6 +196,7 @@
       "id": 14,
       "type": "timeseries",
       "title": "Network 송신 (host)",
+      "description": "device 필터는 AL2023 Graviton 기본 ens5. 인터페이스명이 다르면 첫 런에서 조정.",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 35 },
       "fieldConfig": { "defaults": { "unit": "bps" }, "overrides": [] },
