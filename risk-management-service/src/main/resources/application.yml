@@ -86,3 +86,4 @@ management:
     distribution:
       percentiles-histogram:
         http.server.requests: true
+        http.client.requests: true   # risk→merchant-limit 홉 지연 p95 (histogram_quantile용 _bucket)
