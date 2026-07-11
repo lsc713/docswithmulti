@@ -62,13 +62,16 @@ class CancelEventOutboxPublisherIT extends AbstractRepositoryTest {
         String payload = "{\"cancelRequestId\": 4004}";
         outboxRepository.insertPending(4004L, payload);
 
+        // MySQL JSON 컬럼이 공백을 정규화할 수 있으므로, DB에 저장된 실제 값을 읽어 verify에 사용
+        String stored = outboxRepository.findPendingBatch(1).get(0).payload();
+
         scheduler.publish();
 
-        // (1) kafkaTemplate.send(topic, "4004", payload) 호출됐는지
+        // (1) kafkaTemplate.send(topic, "4004", stored) 호출됐는지 (DB 정규화 무관)
         verify(kafkaTemplate).send(
                 eq("payment.cancelled"),
                 eq("4004"),
-                eq(payload)
+                eq(stored)
         );
 
         // (2) 발행 후 PENDING 배치가 비어야 함 (PUBLISHED 처리 완료)

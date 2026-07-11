@@ -56,17 +56,19 @@ public class CancelEventOutboxPublisher {
         }
         try {
             List<CancelEventOutboxRepository.PendingOutbox> pending = outboxRepository.findPendingBatch(batchSize);
+            int successCount = 0;
             for (var o : pending) {
                 try {
                     kafkaTemplate.send(topic, String.valueOf(o.cancelRequestId()), o.payload())
                             .get(5, TimeUnit.SECONDS);
                     outboxRepository.markPublished(o.id());
+                    successCount++;
                 } catch (Exception e) {
                     log.error("[outbox] 발행 실패 (다음 폴 재시도). outboxId={}", o.id(), e);
                 }
             }
             if (!pending.isEmpty()) {
-                log.info("[outbox] 발행 완료. count={}", pending.size());
+                log.info("[outbox] 발행 완료. count={}/{}", successCount, pending.size());
             }
         } finally {
             if (lock.isHeldByCurrentThread()) {
