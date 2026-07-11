@@ -26,11 +26,22 @@ public class CancelRequestHistoryJpaEntity {
     protected CancelRequestHistoryJpaEntity() {}
 
     public static CancelRequestHistoryJpaEntity of(long cancelRequestId, String status, String reason) {
+        return of(cancelRequestId, status, reason, Instant.now());
+    }
+
+    public static CancelRequestHistoryJpaEntity of(
+        long cancelRequestId, String status, String reason, Instant createdAt
+    ) {
         CancelRequestHistoryJpaEntity e = new CancelRequestHistoryJpaEntity();
         e.cancelRequestId = cancelRequestId;
         e.status = status;
         e.reason = reason;
-        e.createdAt = Instant.now();
+        e.createdAt = createdAt;
         return e;
     }
+
+    public Long getCancelRequestId() { return cancelRequestId; }
+    public String getStatus() { return status; }
+    public String getReason() { return reason; }
+    public Instant getCreatedAt() { return createdAt; }
 }
