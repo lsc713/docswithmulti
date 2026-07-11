@@ -33,7 +33,7 @@ class CancelPaymentServiceTest {
     @Mock PaymentRepository paymentRepository;
     @Mock PaymentItemRepository paymentItemRepository;
     @Mock CancelRequestRepository cancelRequestRepository;
-    @Mock CancelRequestHistoryRepository historyRepository;
+    @Mock CancelHistoryRecorder cancelHistoryRecorder;
     @Mock CompensationRetryRepository compensationRetryRepository;
     @Mock RiskManagementPort riskManagementPort;
     @Mock PgCancelPort pgCancelPort;
@@ -53,7 +53,7 @@ class CancelPaymentServiceTest {
 
         service = new CancelPaymentService(
             paymentRepository, paymentItemRepository, cancelRequestRepository,
-            historyRepository, compensationRetryRepository,
+            cancelHistoryRecorder, compensationRetryRepository,
             riskManagementPort, pgCancelPort, domainService, cancelTxWriter
         );
 
@@ -133,6 +133,12 @@ class CancelPaymentServiceTest {
         verify(cancelTxWriter).saveTx1(any());
         verify(cancelTxWriter).saveTx2(any());
         verify(cancelTxWriter).saveTx3(any(), eq(payment), eq(List.of(1L)));
+
+        // 이력은 버퍼에 3회 적재되고, 종료 시 1회 flush 된다
+        verify(cancelHistoryRecorder).add(anyLong(), eq(CancelStatus.PENDING), any());
+        verify(cancelHistoryRecorder).add(anyLong(), eq(CancelStatus.PROCESSING), any());
+        verify(cancelHistoryRecorder).add(anyLong(), eq(CancelStatus.COMPLETED), any());
+        verify(cancelHistoryRecorder).flush();
     }
 
     // ──────────────────────────────────────────────────────────
@@ -166,10 +172,10 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        CancelRequest failed = CancelRequest.create(
-            payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심", List.of(1L));
-        failed.toProcessing();
-        failed.toFailed();
+        CancelRequest failed = CancelRequest.reconstruct(
+            99L, payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심",
+            List.of(1L), CancelStatus.FAILED, 0, null, null,
+            Instant.now(), Instant.now());
 
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
             .thenReturn(Optional.of(failed));
@@ -448,37 +454,6 @@ class CancelPaymentServiceTest {
 
         verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
         verify(compensationRetryRepository, never()).save(anyLong(), anyLong(), any());
-    }
-
-    // ──────────────────────────────────────────────────────────
-    // recordHistory 예외 — 무시
-    // ──────────────────────────────────────────────────────────
-
-    @Test
-    @DisplayName("이력 기록 실패해도 취소 플로우는 정상 완료된다")
-    void shouldCompleteSuccessfullyEvenWhenHistoryRecordingFails() {
-        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
-        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
-            .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
-            .thenReturn(Optional.empty());
-
-        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
-        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
-        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
-            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
-                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
-        when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
-        when(pgCancelPort.cancel(any(), any(), any()))
-            .thenReturn(com.example.payment.application.dto.PgCancelResult.approved("pg-tx-001"));
-        CancelRequest completed = reconstruct(1L, payment.getId(), CancelStatus.COMPLETED);
-        when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
-        doThrow(new RuntimeException("이력 DB 장애"))
-            .when(historyRepository).record(anyLong(), any(), any());
-
-        CancelRequest result = assertDoesNotThrow(() -> service.cancel(command));
-
-        assertEquals(CancelStatus.COMPLETED, result.getStatus());
     }
 
     // ──────────────────────────────────────────────────────────

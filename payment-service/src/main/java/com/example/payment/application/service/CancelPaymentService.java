@@ -29,7 +29,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     private final PaymentRepository paymentRepository;
     private final PaymentItemRepository paymentItemRepository;
     private final CancelRequestRepository cancelRequestRepository;
-    private final CancelRequestHistoryRepository historyRepository;
+    private final CancelHistoryRecorder cancelHistoryRecorder;
     private final CompensationRetryRepository compensationRetryRepository;
     private final RiskManagementPort riskManagementPort;
     private final PgCancelPort pgCancelPort;
@@ -38,25 +38,29 @@ public class CancelPaymentService implements CancelPaymentUseCase {
 
     @Override
     public CancelRequest cancel(CancelPaymentCommand command) {
-        // Step 1. Payment / PaymentItem 조회
-        Payment payment = paymentRepository.findByPaymentKey(command.paymentKey())
-            .orElseThrow(() -> new PaymentNotFoundException(command.paymentKey()));
+        try {
+            // Step 1. Payment / PaymentItem 조회
+            Payment payment = paymentRepository.findByPaymentKey(command.paymentKey())
+                .orElseThrow(() -> new PaymentNotFoundException(command.paymentKey()));
 
-        List<PaymentItem> items =
-            paymentItemRepository.findAllByPaymentIdOrderByIdAsc(payment.getId());
+            List<PaymentItem> items =
+                paymentItemRepository.findAllByPaymentIdOrderByIdAsc(payment.getId());
 
-        // Step 2. request_hash 생성 및 멱등성 체크
-        String requestHash = RequestHashGenerator.generate(
-            command.paymentKey(), command.cancelPaymentItemIds());
+            // Step 2. request_hash 생성 및 멱등성 체크
+            String requestHash = RequestHashGenerator.generate(
+                command.paymentKey(), command.cancelPaymentItemIds());
 
-        var existing = cancelRequestRepository.findByPaymentIdAndRequestHash(
-            payment.getId(), requestHash);
+            var existing = cancelRequestRepository.findByPaymentIdAndRequestHash(
+                payment.getId(), requestHash);
 
-        if (existing.isPresent()) {
-            return handleExistingRequest(existing.get(), command, payment, items);
+            if (existing.isPresent()) {
+                return handleExistingRequest(existing.get(), command, payment, items);
+            }
+
+            return executeCancel(payment, items, requestHash, command);
+        } finally {
+            cancelHistoryRecorder.flush();
         }
-
-        return executeCancel(payment, items, requestHash, command);
     }
 
     /** 기존 cancel_request 상태별 처리 */
@@ -150,11 +154,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     }
 
     private void recordHistory(Long cancelRequestId, CancelStatus status, String reason) {
-        try {
-            historyRepository.record(cancelRequestId, status, reason);
-        } catch (Exception e) {
-            log.warn("이력 기록 실패 (비즈니스 영향 없음). cancelRequestId={}", cancelRequestId, e);
-        }
+        cancelHistoryRecorder.add(cancelRequestId, status, reason);
     }
 
     private void validateTargetItemsActive(List<PaymentItem> items, List<Long> targetIds) {
