@@ -45,7 +45,7 @@
         {
           "refId": "A",
           "datasource": { "type": "prometheus", "uid": "prometheus" },
-          "expr": "k6_http_req_duration_p95",
+          "expr": "histogram_quantile(0.95, sum(rate(k6_http_req_duration_bucket[1m])) by (le))",
           "legendFormat": "p95 (k6)"
         }
       ]
@@ -169,7 +169,7 @@
       "id": 13,
       "type": "timeseries",
       "title": "취소 성공률 (장애 주입 구간)",
-      "description": "1 - avg(k6_http_req_failed_rate). 장애 주입(Kafka 브로커 정지 등) 구간에서 패턴별 회복력 비교. 0 = 전부 성공, 1 = 전부 실패.",
+      "description": "1 - avg(k6_http_req_failed_rate). 장애 주입(Kafka 브로커 정지 등) 구간에서 패턴별 회복력 비교. 1 = 전부 성공, 0 = 전부 실패.",
       "datasource": { "type": "prometheus", "uid": "prometheus" },
       "gridPos": { "h": 8, "w": 12, "x": 0, "y": 37 },
       "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0, "max": 1 }, "overrides": [] },
