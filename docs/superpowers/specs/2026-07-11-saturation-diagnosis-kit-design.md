@@ -49,7 +49,7 @@ public RestTemplate restTemplate(RestTemplateBuilder builder) {
 ```
 
 - Spring Boot의 `http.client.requests` 자동 계측은 **`RestTemplateBuilder`로 만든** RestTemplate에만 붙는다. 현재 `new RestTemplate()`이라 클라이언트 지연 지표가 아예 안 나옴 — 이 한 줄이 risk·PG 홉 지연을 `http_client_requests_seconds_bucket{service="payment"}`로 노출.
-- **Cardinality 안전 확인됨:** risk 클라이언트 경로는 고정 문자열 2개(`/internal/cancel-limit/validate-and-reserve`, `/compensate`) + PG 경로, 경로 변수 없음 → `uri` 태그 유한. 명시적 `Timer` 불필요.
+- **Cardinality:** risk 클라이언트 경로는 고정 문자열 2개(`/internal/cancel-limit/validate-and-reserve`, `/compensate`) → `uri` 태그 유한(안전). PG 클라이언트는 원래 paymentKey를 문자열 연결로 URL에 삽입해 `uri` 태그가 요청마다 달라지는 cardinality 문제가 있었음 → `postForEntity(url, request, PgCancelResult.class, paymentKey)`의 URI 템플릿 변수 방식으로 수정해 Micrometer가 `/v1/payments/{paymentKey}/cancel` 태그를 기록하도록 제한함. 명시적 `Timer` 불필요.
 - 이 변경은 프로덕션에도 `http.client.requests`를 상시 발생시키지만(서버 지표 `http.server.requests`처럼 저비용·표준), 동작 변화 없음. opt-in 대상이 아닌 **표준 관측 개선**으로 분류.
 
 **Tempo 경로 (기존):** PR #48에서 만든 OTel 트레이스의 span 폭 = 홉 지연. 런타임 스모크 때 payment→risk→merchant-limit 트레이스로 육안 확인(별도 코드 없음).
@@ -62,7 +62,7 @@ public RestTemplate restTemplate(RestTemplateBuilder builder) {
 
 | 자원 | Utilization 쿼리 | Saturation 쿼리 | 신규? |
 |---|---|---|---|
-| 기준 rps | `sum by(service)(rate(http_server_requests_seconds_count{service="payment"}[1m]))` | — | 재사용 |
+| 기준 rps | `sum by(service)(rate(http_server_requests_seconds_count{service=~"payment\|risk"}[1m]))` (payment·risk 양쪽 → 포화 고원 동시 확인) | — | 재사용 |
 | payment/risk CPU | `1 - avg by(host)(rate(node_cpu_seconds_total{mode="idle",host=~"payment\|risk"}[1m]))` | — | 재사용 |
 | Tomcat 스레드 | `tomcat_threads_busy_threads / tomcat_threads_config_max_threads` (service별) | `tomcat_threads_busy_threads == tomcat_threads_config_max_threads` | ① |
 | HikariCP 풀 (기본 10) | `hikaricp_connections_active / hikaricp_connections_max` | `hikaricp_connections_pending` | 재사용 |

@@ -36,13 +36,13 @@ public class PgCancelHttpClient implements PgCancelPort {
     public PgCancelResult cancel(String paymentKey, BigDecimal cancelAmount, String cancelReason) {
         try {
             return circuitBreaker.executeCheckedSupplier(() -> {
-                String url = baseUrl + "/v1/payments/" + paymentKey + "/cancel";
+                String url = baseUrl + "/v1/payments/{paymentKey}/cancel";
                 Map<String, Object> request = Map.of(
                     "cancelAmount", cancelAmount,
                     "cancelReason", cancelReason
                 );
                 ResponseEntity<PgCancelResult> response =
-                    restTemplate.postForEntity(url, request, PgCancelResult.class);
+                    restTemplate.postForEntity(url, request, PgCancelResult.class, paymentKey);
                 if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
                     throw new PgServiceException("PG 취소 응답 오류: " + response.getStatusCode());
                 }
