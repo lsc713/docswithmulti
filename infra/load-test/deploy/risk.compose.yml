@@ -24,6 +24,8 @@ services:
       OTEL_METRICS_EXPORTER: "none"
       OTEL_LOGS_EXPORTER: "none"
       LOADTEST_QUERYCOUNT_ENABLED: "${LOADTEST_QUERYCOUNT_ENABLED:-false}"
+      # Tomcat 스레드 지표(tomcat_threads_busy/config_max) opt-in — 포화 진단 런에서만 true
+      SERVER_TOMCAT_MBEANREGISTRY_ENABLED: "${SERVER_TOMCAT_MBEANREGISTRY_ENABLED:-false}"
       # daily_limit 해석 층 실험 토글 (기본 ON). env 오버라이드 후 --force-recreate:
       #   B(캐시 OFF → DB 스냅샷):        RISK_LIMIT_CACHE_ENABLED=false
       #   C(캐시+스냅샷 OFF → HTTP 매번):  RISK_LIMIT_CACHE_ENABLED=false RISK_LIMIT_SNAPSHOT_ENABLED=false

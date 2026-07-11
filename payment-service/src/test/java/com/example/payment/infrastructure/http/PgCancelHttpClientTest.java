@@ -35,10 +35,12 @@ class PgCancelHttpClientTest {
         sut = new PgCancelHttpClient(restTemplate, "http://pg-test", circuitBreaker);
     }
 
+    // postForEntity(String url, Object request, Class<T> responseType, Object... uriVariables)
+    // varargs 매칭: anyString(), any(), eq(Class), (Object[]) any()
     @Test
     void cancel_success() {
         PgCancelResult result = PgCancelResult.approved("tx-123");
-        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class)))
+        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class), (Object[]) any()))
             .thenReturn(ResponseEntity.ok(result));
 
         assertThat(sut.cancel("key1", new BigDecimal("5000"), "환불")).isEqualTo(result);
@@ -46,7 +48,7 @@ class PgCancelHttpClientTest {
 
     @Test
     void cancel_throws_pg_service_exception_on_non_2xx() {
-        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class)))
+        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class), (Object[]) any()))
             .thenReturn(ResponseEntity.status(500).build());
 
         assertThatThrownBy(() -> sut.cancel("key1", new BigDecimal("5000"), "환불"))
@@ -63,7 +65,7 @@ class PgCancelHttpClientTest {
                 .build());
         sut = new PgCancelHttpClient(restTemplate, "http://pg-test", cb);
 
-        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class)))
+        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class), (Object[]) any()))
             .thenThrow(new RuntimeException("connection error"));
 
         // trigger 2 failures to open CB

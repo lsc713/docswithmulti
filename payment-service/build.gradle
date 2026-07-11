@@ -42,6 +42,10 @@ jacocoTestCoverageVerification {
 dependencies {
     implementation project(':common-observability')
 
+    // RestTemplateBuilder (Spring Boot 4.x: org.springframework.boot.restclient.RestTemplateBuilder)
+    // http.client.requests 홉 지연 계측에 필요 — new RestTemplate() 은 관측 커스터마이저를 받지 못함
+    implementation 'org.springframework.boot:spring-boot-starter-restclient'
+
     // Circuit Breaker
     implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.2.0'
 
