@@ -26,3 +26,5 @@ services:
       OTEL_METRICS_EXPORTER: "none"
       OTEL_LOGS_EXPORTER: "none"
       LOADTEST_QUERYCOUNT_ENABLED: "${LOADTEST_QUERYCOUNT_ENABLED:-false}"
+      # Tomcat 스레드 지표(tomcat_threads_busy/config_max) opt-in — 포화 진단 런에서만 true
+      SERVER_TOMCAT_MBEANREGISTRY_ENABLED: "${SERVER_TOMCAT_MBEANREGISTRY_ENABLED:-false}"
