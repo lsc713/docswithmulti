@@ -2,12 +2,15 @@ package com.example.payment.infrastructure.scheduler;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
 import com.example.payment.infrastructure.persistence.AbstractRepositoryTest;
+import com.example.payment.infrastructure.persistence.CancelEventOutboxJpaRepository;
+import com.example.payment.infrastructure.persistence.CancelEventOutboxRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -31,6 +34,11 @@ import static org.mockito.Mockito.*;
 class CancelEventOutboxPublisherIT extends AbstractRepositoryTest {
 
     @Autowired
+    CancelEventOutboxJpaRepository outboxJpaRepository;
+
+    @Autowired
+    javax.sql.DataSource dataSource;
+
     CancelEventOutboxRepository outboxRepository;
 
     @SuppressWarnings("unchecked")
@@ -43,6 +51,10 @@ class CancelEventOutboxPublisherIT extends AbstractRepositoryTest {
 
     @BeforeEach
     void setUp() throws InterruptedException {
+        // 전용 풀 격리는 AWS 재측정 몫; 여기서는 테스트 DataSource로 find+mark SQL 정합성 검증
+        var jdbc = new NamedParameterJdbcTemplate(dataSource);
+        outboxRepository = new CancelEventOutboxRepositoryImpl(outboxJpaRepository, jdbc);
+
         when(redissonClient.getLock(anyString())).thenReturn(lock);
         when(lock.tryLock(0, 55, TimeUnit.SECONDS)).thenReturn(true);
         when(lock.isHeldByCurrentThread()).thenReturn(true);

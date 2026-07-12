@@ -82,6 +82,15 @@ public class OutboxDataSourceConfig {
         return new NamedParameterJdbcTemplate(cancelOutboxDataSource);
     }
 
+    @Bean
+    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
+    public com.example.payment.application.interfaces.CancelEventOutboxRepository cancelEventOutboxRepository(
+            com.example.payment.infrastructure.persistence.CancelEventOutboxJpaRepository jpaRepository,
+            NamedParameterJdbcTemplate cancelOutboxJdbcTemplate) {
+        return new com.example.payment.infrastructure.persistence.CancelEventOutboxRepositoryImpl(
+            jpaRepository, cancelOutboxJdbcTemplate);
+    }
+
     /**
      * OUTBOX 전용 풀 Hikari 설정 프로퍼티 (cancel.outbox.datasource.hikari.*)
      */

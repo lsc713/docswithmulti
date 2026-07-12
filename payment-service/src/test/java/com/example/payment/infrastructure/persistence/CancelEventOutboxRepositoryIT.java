@@ -16,11 +16,15 @@ class CancelEventOutboxRepositoryIT extends AbstractRepositoryTest {
     @Autowired
     CancelEventOutboxJpaRepository jpa;
 
+    @Autowired
+    javax.sql.DataSource dataSource;
+
     CancelEventOutboxRepository repo;
 
     @BeforeEach
     void setUp() {
-        repo = new CancelEventOutboxRepositoryImpl(jpa);
+        var jdbc = new org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate(dataSource);
+        repo = new CancelEventOutboxRepositoryImpl(jpa, jdbc);
     }
 
     @Test
