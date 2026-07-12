@@ -2,7 +2,7 @@
 
 > 생성일: 2026-07-12
 > 목적: `payment.cancelled` 이벤트 발행 방식 3가지(INLINE / INLINE_ASYNC / OUTBOX)를 동일 AWS 리그에서 실측 비교한다. 처리량·커넥션 점유·e2e 발행 지연·Kafka 장애 거동·발행 버스트를 한 판에 드러낸다.
-> 관련: [`measurement-journey.md`](./measurement-journey.md) (인프라 기동·VU 스윕·기록 템플릿), [`saturation-diagnosis.md`](./saturation-diagnosis.md) (USE 판정·Hikari 진단)
+> 관련: [`measurement-journey.md`](./measurement-journey.md) (인프라 기동·VU 스윕·기록 템플릿), [`saturation-diagnosis.md`](./saturation-diagnosis.md) (USE 판정·Hikari 진단), [`outbox-poller-livelock.md`](./outbox-poller-livelock.md) (이 실측이 발견한 실전 버그)
 > 대시보드: `publish-pattern-comparison` (Grafana, uid `publish-pattern-comparison`)
 
 ---

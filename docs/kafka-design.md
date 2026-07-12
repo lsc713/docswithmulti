@@ -312,6 +312,10 @@ Outbox / AFTER_COMMIT과의 차이:
              단, Kafka 응답 대기(최대 5s) 동안 DB 커넥션 점유
 ```
 
+> ⚠️ **알려진 버그(OUTBOX 폴러 라이브락)**: OUTBOX 발행 스케줄러가 앱과 DB 커넥션 풀을 공유해,
+> 고부하 시 `markPublished`가 커넥션 굶음 → 같은 head 배치 재발송 라이브락 + Kafka 중복 폭주.
+> 실측 근거·수정 방향(폴러 전용 DataSource / CDC) → [`load-test/outbox-poller-livelock.md`](./load-test/outbox-poller-livelock.md)
+
 ### 설정값
 
 ```properties
