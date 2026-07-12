@@ -17,6 +17,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -119,6 +120,41 @@ class ValidateAndReserveServiceTest {
 
         verify(merchantLimitClient).fetchDailyLimit(1L, TODAY);
         verify(dailyLimitCache).set(1L, TODAY, DAILY_LIMIT);
+    }
+
+    @Test
+    @DisplayName("daily_limit 해석(merchant-limit HTTP)은 TX 밖에서 — 호출 시점에 트랜잭션 미개시")
+    void resolves_daily_limit_outside_transaction() {
+        AtomicBoolean inTx = new AtomicBoolean(false);
+        TransactionTemplate txSpy = new TransactionTemplate() {
+            @Override
+            public <T> T execute(TransactionCallback<T> action) {
+                inTx.set(true);
+                try {
+                    return action.doInTransaction(null);
+                } finally {
+                    inTx.set(false);
+                }
+            }
+        };
+        ValidateAndReserveService svc = new ValidateAndReserveService(
+            usageRepository, historyRepository, merchantLimitClient, dailyLimitCache, txSpy, true, true);
+
+        when(historyRepository.findByCancelRequestId("cr_001")).thenReturn(Optional.empty());
+        when(dailyLimitCache.get(1L, TODAY)).thenReturn(Optional.empty());
+        when(usageRepository.findByMerchantIdAndKstDate(1L, TODAY))
+            .thenReturn(Optional.empty(), Optional.of(usage(CANCEL_AMOUNT)));
+        when(merchantLimitClient.fetchDailyLimit(1L, TODAY)).thenAnswer(inv -> {
+            assertThat(inTx.get()).as("merchant-limit HTTP는 TX 밖에서 호출돼야 한다(커넥션 미점유)").isFalse();
+            return DAILY_LIMIT;
+        });
+        when(usageRepository.tryDeduct(1L, TODAY, CANCEL_AMOUNT)).thenReturn(1);
+
+        svc.execute(cmd());
+
+        verify(merchantLimitClient).fetchDailyLimit(1L, TODAY);
+        // 차감은 TX 안에서 일어난다(경계 분리 확인)
+        verify(usageRepository).tryDeduct(1L, TODAY, CANCEL_AMOUNT);
     }
 
     @Test
