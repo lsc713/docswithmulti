@@ -22,8 +22,10 @@ import java.util.Optional;
  * 대량 거부(RISK_SERVICE_UNAVAILABLE)되던 문제 해소. 정합성은 {@code tryDeduct}의
  * WHERE 절(도메인 규칙 미러) + history UK(멱등)로 보장. 서버 대수와 무관하게 안전.
  *
- * <p>참고: {@code resolveDailyLimit}의 HTTP 호출은 의도적으로 TX 안에 둔다(비용 실측 후 분리 예정).
- * onset(그날 첫 취소)에만 타며, 커넥션 점유 비용을 관측하기 위함.
+ * <p>TX 경계: {@code resolveDailyLimit}(merchant-limit HTTP 포함)은 <b>TX 밖</b>에서 수행한다.
+ * HTTP-in-TX면 merchant-limit '지연'이 DB 커넥션 점유→풀 고갈로 risk 전체에 전파된다
+ * (PR #47 netem 실측: 100ms 주입 시 15배 붕괴 = 잠복 tail 위험). 밖으로 빼면 그 대기가 커넥션을
+ * 쥐지 않아, 느린 merchant-limit는 onset 요청만 늦출 뿐 blast radius가 격리된다(Kata 07).
  */
 @Service
 public class ValidateAndReserveService implements ValidateAndReserveUseCase {
@@ -60,16 +62,20 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
 
     @Override
     public Result execute(Command cmd) {
+        // 1) 멱등 pre-check (TX 밖, non-locking) — 이미 차감된 요청이면 daily_limit 해석(HTTP)까지 스킵.
+        //    최종 멱등 보장은 TX 안 history UK(동시 중복은 아래 save에서 UK 위반→롤백→이중차감 방어).
+        if (historyRepository.findByCancelRequestId(cmd.cancelRequestId()).isPresent()) {
+            return toResult(readUsage(cmd.merchantId(), cmd.kstDate()));
+        }
+
+        // 2) daily_limit 해석 (TX 밖): Redis → DB 스냅샷 → merchant-limit HTTP.
+        //    HTTP를 TX 밖에 두어 DB 커넥션을 쥐지 않는다 — merchant-limit '지연'이 커넥션 점유→풀 고갈로
+        //    risk 전체에 전파되던 잠복 위험(PR #47 netem: 100ms 주입 시 15배 붕괴)을 차단. Kata 07.
+        //    onset(그날 첫 취소)에만 HTTP를 타며, 이제 그 대기가 커넥션을 점유하지 않아 blast radius가 격리됨.
+        BigDecimal dailyLimit = resolveDailyLimit(cmd.merchantId(), cmd.kstDate());
+
+        // 3) TX — DB 작업만(임계구역 = 원자 차감 단일 문장). 커넥션 점유 = TX 안으로 한정.
         return transactionTemplate.execute(status -> {
-            // 1) 멱등 — 이미 차감된 요청이면 재차감 없이 기존 결과 재생
-            if (historyRepository.findByCancelRequestId(cmd.cancelRequestId()).isPresent()) {
-                return toResult(readUsage(cmd.merchantId(), cmd.kstDate()));
-            }
-
-            // 2) daily_limit 해석: Redis → DB 스냅샷 → merchant-limit HTTP (락/FOR UPDATE 없음)
-            BigDecimal dailyLimit = resolveDailyLimit(cmd.merchantId(), cmd.kstDate());
-
-            // 3) 행 보장 + 원자 조건부 차감 (임계구역 = 단일 문장)
             usageRepository.ensureRow(cmd.merchantId(), cmd.kstDate(), dailyLimit);
             int deducted = usageRepository.tryDeduct(cmd.merchantId(), cmd.kstDate(), cmd.cancelAmount());
             if (deducted == 0) {
@@ -78,11 +84,11 @@ public class ValidateAndReserveService implements ValidateAndReserveUseCase {
                     cur.getDailyLimit(), cur.getUsedAmount(), cmd.cancelAmount());
             }
 
-            // 4) 멱등 원장 — 차감과 원자적(같은 TX). UK 위반 시 함께 롤백 → 이중차감 방어
+            // 멱등 원장 — 차감과 원자적(같은 TX). UK 위반 시 함께 롤백 → 이중차감 방어
             historyRepository.save(CancelUsageHistory.record(
                 cmd.cancelRequestId(), cmd.merchantId(), cmd.kstDate(), cmd.cancelAmount()));
 
-            // 5) 결과 — 차감 후 최신값(tryDeduct의 clearAutomatically로 stale 캐시 아님)
+            // 결과 — 차감 후 최신값(tryDeduct의 clearAutomatically로 stale 캐시 아님)
             return toResult(readUsage(cmd.merchantId(), cmd.kstDate()));
         });
     }
