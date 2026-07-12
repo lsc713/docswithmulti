@@ -10,6 +10,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -56,19 +57,19 @@ public class CancelEventOutboxPublisher {
         }
         try {
             List<CancelEventOutboxRepository.PendingOutbox> pending = outboxRepository.findPendingBatch(batchSize);
-            int successCount = 0;
+            List<Long> published = new ArrayList<>(pending.size());
             for (var o : pending) {
                 try {
                     kafkaTemplate.send(topic, String.valueOf(o.cancelRequestId()), o.payload())
                             .get(5, TimeUnit.SECONDS);
-                    outboxRepository.markPublished(o.id());
-                    successCount++;
+                    published.add(o.id()); // 발행 성공 id 수집 — DB 표시는 배치로 한 번에
                 } catch (Exception e) {
                     log.error("[outbox] 발행 실패 (다음 폴 재시도). outboxId={}", o.id(), e);
                 }
             }
+            outboxRepository.markPublished(published); // 성공분 한 번의 UPDATE 로 PUBLISHED (커넥션 1회)
             if (!pending.isEmpty()) {
-                log.info("[outbox] 발행 완료. count={}/{}", successCount, pending.size());
+                log.info("[outbox] 발행 완료. count={}/{}", published.size(), pending.size());
             }
         } finally {
             if (lock.isHeldByCurrentThread()) {

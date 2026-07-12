@@ -28,10 +28,10 @@ public class CancelEventOutboxRepositoryImpl implements CancelEventOutboxReposit
     }
 
     @Override
-    public void markPublished(long outboxId) {
-        jpaRepository.findById(outboxId).ifPresent(e -> {
-            e.markPublished();
-            jpaRepository.save(e);
-        });
+    public void markPublished(List<Long> outboxIds) {
+        if (outboxIds.isEmpty()) {
+            return; // WHERE id IN () 방지 + 불필요한 DB 왕복 회피
+        }
+        jpaRepository.markPublishedBatch(outboxIds);
     }
 }

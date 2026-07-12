@@ -20,4 +20,13 @@ public interface CancelEventOutboxJpaRepository
     void insertPendingIdempotent(long cancelRequestId, String payload);
 
     List<CancelEventOutboxJpaEntity> findByStatusOrderByCreatedAtAsc(String status, Pageable pageable);
+
+    /** id 집합을 한 문장으로 PUBLISHED 처리 (건당 findById+save 대신 커넥션 1회). */
+    @Modifying(clearAutomatically = true)
+    @Query(value = """
+        UPDATE cancel_event_outbox
+           SET status = 'PUBLISHED', published_at = CURRENT_TIMESTAMP(3)
+         WHERE id IN (:ids)
+        """, nativeQuery = true)
+    int markPublishedBatch(List<Long> ids);
 }
