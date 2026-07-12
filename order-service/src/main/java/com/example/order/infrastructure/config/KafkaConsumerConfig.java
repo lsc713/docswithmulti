@@ -1,5 +1,6 @@
 package com.example.order.infrastructure.config;
 
+import io.micrometer.core.instrument.MeterRegistry;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.MicrometerConsumerListener;
 import org.springframework.kafka.listener.ContainerProperties;
 
 import java.util.HashMap;
@@ -27,6 +29,12 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.consumer.retry-group-id}")
     private String retryGroupId;
 
+    private final MeterRegistry meterRegistry;
+
+    public KafkaConsumerConfig(MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
+    }
+
     @Bean
     public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
@@ -39,7 +47,9 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        return new DefaultKafkaConsumerFactory<>(props);
+        DefaultKafkaConsumerFactory<String, String> factory = new DefaultKafkaConsumerFactory<>(props);
+        factory.addListener(new MicrometerConsumerListener<>(meterRegistry));
+        return factory;
     }
 
     @Bean
@@ -65,7 +75,9 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        return new DefaultKafkaConsumerFactory<>(props);
+        DefaultKafkaConsumerFactory<String, String> factory = new DefaultKafkaConsumerFactory<>(props);
+        factory.addListener(new MicrometerConsumerListener<>(meterRegistry));
+        return factory;
     }
 
     @Bean

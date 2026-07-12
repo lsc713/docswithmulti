@@ -1,0 +1,203 @@
+{
+  "uid": "publish-pattern-comparison",
+  "title": "발행 패턴 비교 — inline · outbox · async",
+  "tags": ["load-test", "kafka", "publish-pattern"],
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "5s",
+  "time": { "from": "now-15m", "to": "now" },
+  "templating": { "list": [] },
+  "annotations": { "list": [] },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Row 1 — 취소 처리량/점유 (payment-service)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 }
+    },
+    {
+      "id": 2,
+      "type": "timeseries",
+      "title": "취소 RPS (k6)",
+      "description": "k6가 PROM remote-write 로 실행될 때 채워짐. 패턴 전환 시 급락 후 안정 여부 관찰.",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 1 },
+      "fieldConfig": { "defaults": { "unit": "reqps" }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum(rate(k6_http_reqs_total[1m]))",
+          "legendFormat": "k6 rps"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "취소 p95 레이턴시 (k6)",
+      "description": "k6 클라이언트 측 p95. 패턴별 구간을 시간축으로 비교.",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 1 },
+      "fieldConfig": { "defaults": { "unit": "ms" }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "histogram_quantile(0.95, sum(rate(k6_http_req_duration_bucket[1m])) by (le))",
+          "legendFormat": "p95 (k6)"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Hikari 연결 점유 (payment-service)",
+      "description": "hikaricp_connections_active + _pending. TX3 커밋 지연 시 active 급증 → 병목 신호.",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 1 },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "hikaricp_connections_active{application=\"payment-service\"}",
+          "legendFormat": "active"
+        },
+        {
+          "refId": "B",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "hikaricp_connections_pending{application=\"payment-service\"}",
+          "legendFormat": "pending"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "row",
+      "title": "Row 2 — 발행→소비 e2e 지연 (order-service)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 }
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "e2e 발행→소비 지연 p50 (order-service)",
+      "description": "cancel.event.e2e.latency 타이머 p50. percentiles-histogram: true 활성화 필요 (application.yml 적용됨).",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "histogram_quantile(0.5, sum(rate(cancel_event_e2e_latency_seconds_bucket[1m])) by (le))",
+          "legendFormat": "p50 e2e latency"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "type": "timeseries",
+      "title": "e2e 발행→소비 지연 p95 (order-service)",
+      "description": "cancel.event.e2e.latency 타이머 p95. inline 패턴은 낮고 async/outbox 는 높을 것으로 예상.",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "histogram_quantile(0.95, sum(rate(cancel_event_e2e_latency_seconds_bucket[1m])) by (le))",
+          "legendFormat": "p95 e2e latency"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "type": "row",
+      "title": "Row 3 — Consumer Lag (order-service)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 18 }
+    },
+    {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Consumer Lag — payment.cancelled (order-service)",
+      "description": "MicrometerConsumerListener → kafka_consumer_fetch_manager_records_lag. 실제 지표명은 첫 런에서 확인 (Task 8 런북). lag 누적은 처리 병목 또는 발행 버스트 신호.",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 19 },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum by (topic, partition) (kafka_consumer_fetch_manager_records_lag{application=\"order-service\"})",
+          "legendFormat": "{{topic}}-{{partition}}"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "type": "row",
+      "title": "Row 4 — Produce Rate 시간축 (payment-service 버스트)",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 27 }
+    },
+    {
+      "id": 11,
+      "type": "timeseries",
+      "title": "Kafka Produce Rate — payment.cancelled (payment-service)",
+      "description": "MicrometerProducerListener → kafka_producer_record_send_total. rate([30s]) 로 버스트 가시화. 실제 지표명은 첫 런에서 확인 (Task 8 런북).",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 28 },
+      "fieldConfig": { "defaults": { "unit": "short" }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "sum by (topic) (rate(kafka_producer_record_send_total{application=\"payment-service\"}[30s]))",
+          "legendFormat": "produce rate — {{topic}}"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "type": "row",
+      "title": "Row 5 — 장애 주입 시 취소 성공률",
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 36 }
+    },
+    {
+      "id": 13,
+      "type": "timeseries",
+      "title": "취소 성공률 (장애 주입 구간)",
+      "description": "1 - avg(k6_http_req_failed_rate). 장애 주입(Kafka 브로커 정지 등) 구간에서 패턴별 회복력 비교. 1 = 전부 성공, 0 = 전부 실패.",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 37 },
+      "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0, "max": 1 }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "1 - avg(k6_http_req_failed_rate)",
+          "legendFormat": "취소 성공률"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "type": "timeseries",
+      "title": "클라측 실패율 (장애 주입 구간)",
+      "description": "k6_http_req_failed_rate 원값. 장애 주입 전후 추이 직접 관찰용.",
+      "datasource": { "type": "prometheus", "uid": "prometheus" },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 37 },
+      "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0, "max": 1 }, "overrides": [] },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": { "type": "prometheus", "uid": "prometheus" },
+          "expr": "avg(k6_http_req_failed_rate)",
+          "legendFormat": "fail ratio"
+        }
+      ]
+    }
+  ]
+}

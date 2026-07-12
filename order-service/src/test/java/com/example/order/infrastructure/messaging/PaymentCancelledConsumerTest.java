@@ -2,6 +2,7 @@ package com.example.order.infrastructure.messaging;
 
 import com.example.order.application.exception.OrderItemNotFoundException;
 import com.example.order.application.usecase.ProcessCancelledItemsUseCase;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ class PaymentCancelledConsumerTest {
         processUseCase = mock(ProcessCancelledItemsUseCase.class);
         retryRouter = mock(RetryRouter.class);
         objectMapper = new ObjectMapper();
-        consumer = new PaymentCancelledConsumer(processUseCase, retryRouter, objectMapper);
+        consumer = new PaymentCancelledConsumer(processUseCase, retryRouter, objectMapper, new SimpleMeterRegistry());
         retryConsumer = new PaymentCancelledRetryConsumer(processUseCase, retryRouter, objectMapper);
     }
 

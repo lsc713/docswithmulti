@@ -1,5 +1,6 @@
 package com.example.payment.application.service;
 
+import com.example.payment.application.interfaces.CancelEventPublisher;
 import com.example.payment.application.interfaces.CancelRequestRepository;
 import com.example.payment.application.interfaces.PaymentItemRepository;
 import com.example.payment.application.interfaces.PaymentRepository;
@@ -8,15 +9,12 @@ import com.example.payment.domain.service.CancelDomainService;
 import com.example.payment.domain.service.CancelItemCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -24,7 +22,7 @@ import java.util.stream.Collectors;
  *
  * TX1: CancelRequest PENDING INSERT
  * TX2: CancelRequest PROCESSING UPDATE
- * TX3: PaymentItem + Payment + CancelRequest(COMPLETED) + Kafka 직접 발행
+ * TX3: PaymentItem + Payment + CancelRequest(COMPLETED) + 이벤트 발행 (CancelEventPublisher 포트)
  *      발행 실패 시 예외 throw → @Transactional 롤백 → CancelRequest PROCESSING 유지
  *      → processing-recovery 스케줄러가 재처리
  */
@@ -36,11 +34,8 @@ public class CancelTxWriter {
     private final CancelRequestRepository cancelRequestRepository;
     private final PaymentItemRepository paymentItemRepository;
     private final PaymentRepository paymentRepository;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final CancelEventPublisher cancelEventPublisher;
     private final CancelDomainService cancelDomainService;
-
-    @Value("${kafka.topic.payment-cancelled}")
-    private String topic;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CancelRequest saveTx1(CancelRequest cancelRequest) {
@@ -71,19 +66,9 @@ public class CancelTxWriter {
         cancelRequest.toCompleted();
         cancelRequest = cancelRequestRepository.save(cancelRequest);
 
-        // TX3 마지막: Kafka 직접 발행
-        // 실패 시 예외 발생 → @Transactional 롤백 → CancelRequest PROCESSING 유지
-        // → processing-recovery 스케줄러가 재처리
+        // TX3 마지막: 발행 (모드에 따라 인라인/아웃박스). 실패 시 예외 → TX3 롤백 → processing-recovery.
         String payload = buildPayload(cancelRequest, payment, freshItems, targetItemIds);
-        try {
-            kafkaTemplate.send(topic, String.valueOf(cancelRequest.getId()), payload)
-                .get(5, TimeUnit.SECONDS);
-            log.debug("[kafka] TX3 발행 완료. cancelRequestId={}", cancelRequest.getId());
-        } catch (Exception e) {
-            log.error("[kafka] TX3 발행 실패 → TX3 롤백. cancelRequestId={}", cancelRequest.getId(), e);
-            throw new RuntimeException(
-                "[kafka] TX3 Kafka 발행 실패. cancelRequestId=" + cancelRequest.getId(), e);
-        }
+        cancelEventPublisher.publish(cancelRequest.getId(), payload);
 
         return cancelRequest;
     }
