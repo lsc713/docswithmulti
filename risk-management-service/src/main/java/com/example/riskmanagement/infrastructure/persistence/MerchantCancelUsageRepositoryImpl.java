@@ -38,4 +38,9 @@ public class MerchantCancelUsageRepositoryImpl implements MerchantCancelUsageRep
     public int tryDeduct(long merchantId, LocalDate kstDate, java.math.BigDecimal amount) {
         return jpa.tryDeduct(merchantId, kstDate, amount);
     }
+
+    @Override
+    public int tryRestore(long merchantId, LocalDate kstDate, java.math.BigDecimal amount) {
+        return jpa.tryRestore(merchantId, kstDate, amount);
+    }
 }

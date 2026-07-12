@@ -42,6 +42,7 @@
 | `DUPLICATE_PAYMENT_ITEM` | 동일한 항목이 중복 포함되어 있습니다. | `{ "duplicatedItemId": 12 }` |
 | `EMPTY_CANCEL_ITEMS` | 취소 항목이 비어있습니다. | 생략 |
 | `INVALID_CANCEL_AMOUNT` | 취소 금액은 1원 이상이어야 합니다. | `{ "cancelAmount": 0 }` |
+| `COMPENSATION_MERCHANT_MISMATCH` | 보상 요청의 가맹점이 차감 이력과 일치하지 않습니다. | `{ "requestMerchantId": 1, "historyMerchantId": 2 }` |
 
 ### 인가 오류 (403)
 
@@ -136,6 +137,7 @@ public enum ErrorCode {
     DUPLICATE_PAYMENT_ITEM("DUPLICATE_PAYMENT_ITEM", 400, "동일한 항목이 중복 포함되어 있습니다."),
     EMPTY_CANCEL_ITEMS("EMPTY_CANCEL_ITEMS", 400, "취소 항목이 비어있습니다."),
     INVALID_CANCEL_AMOUNT("INVALID_CANCEL_AMOUNT", 400, "취소 금액은 1원 이상이어야 합니다."),
+    COMPENSATION_MERCHANT_MISMATCH("COMPENSATION_MERCHANT_MISMATCH", 400, "보상 요청의 가맹점이 차감 이력과 일치하지 않습니다."),
 
     // 403 - 인가 오류
     FORBIDDEN_PAYMENT("FORBIDDEN_PAYMENT", 403, "해당 결제에 대한 취소 권한이 없습니다."),
@@ -216,6 +218,8 @@ public abstract class BusinessException extends RuntimeException {
 | `IdempotentDuplicationException` | `IDEMPOTENT_DUPLICATION` |
 | `MerchantCancelLimitNotFoundException` | `MERCHANT_CANCEL_LIMIT_NOT_FOUND` |
 | `MerchantCancelLimitExceededException` | `MERCHANT_CANCEL_LIMIT_EXCEEDED` |
+| `CompensationMerchantMismatchException` | `COMPENSATION_MERCHANT_MISMATCH` |
+| `DataInconsistencyException` | `INTERNAL_ERROR` |
 
 ### infrastructure/exception — 외부 연동 실패
 
