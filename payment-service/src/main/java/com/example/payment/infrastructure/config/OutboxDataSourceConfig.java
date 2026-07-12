@@ -51,6 +51,7 @@ public class OutboxDataSourceConfig {
         config.setUsername(dataSourceProperties.determineUsername());
         config.setPassword(dataSourceProperties.determinePassword());
         config.setDriverClassName(dataSourceProperties.determineDriverClassName());
+        config.setMaximumPoolSize(poolProperties.getMaximumPoolSize());
         config.setConnectionTimeout(poolProperties.getConnectionTimeout());
         config.setInitializationFailTimeout(poolProperties.getInitializationFailTimeout());
         config.setPoolName("HikariPool-main");
@@ -112,9 +113,12 @@ public class OutboxDataSourceConfig {
     }
 
     public static class MainPoolProperties {
+        private int maximumPoolSize = 10; // HikariCP 기본값. spring.datasource.hikari.maximum-pool-size 로 오버라이드
         private long connectionTimeout = 30000;
         private long initializationFailTimeout = 1; // Hikari 기본값; yml 에서 -1 로 오버라이드
 
+        public int getMaximumPoolSize() { return maximumPoolSize; }
+        public void setMaximumPoolSize(int maximumPoolSize) { this.maximumPoolSize = maximumPoolSize; }
         public long getConnectionTimeout() { return connectionTimeout; }
         public void setConnectionTimeout(long connectionTimeout) { this.connectionTimeout = connectionTimeout; }
         public long getInitializationFailTimeout() { return initializationFailTimeout; }
