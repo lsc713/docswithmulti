@@ -86,9 +86,31 @@ flowchart TD
 > 잘못된 fix: 풀 크기 늘리기 — payment DB는 2코어(m7g.large)라 풀 10이 이미 공식 상한(`(2×2)+1≈5`), 늘리면 DB 스래싱. 폴러에 **별도** 소형 풀을 주는 게 정답(총량이 아니라 격리).
 > `mark-before-send`로 바꾸는 것도 금지 — 발송 실패 시 "발행됨으로 표시됐으나 미발송" = 이벤트 유실. outbox 불변식은 반드시 `send-then-mark`.
 
-## 6. 관련
+## 6. 해결 — 폴러 전용 DataSource (PR #59, 재측정 확정)
+
+**수정 방향 1(폴러 전용 DataSource)을 채택·구현(PR #59).** 폴러의 배수 경로(`findPendingBatch`·`markPublished`)를 소형 전용 HikariDataSource(2)로 격리 — 앱 메인 풀(10)이 취소 부하로 포화해도 폴러는 전용 커넥션으로 `markPublished` 성공. `insertPending`은 메인 풀(TX3 원자성) 유지.
+
+**재측정(2026-07-12, OUTBOX poll=1s, stress 50→400 VU):**
+
+| 폴러 | PENDING 피크 | order 처리 | producer_send | 라이브락 |
+|---|---|---|---|---|
+| naive (공유 풀) | 79,811~101,000 | 1,000 (갇힘) | 424,530 (×424 재발송) | ❌ |
+| **전용 풀** | **14~330** | 52,774→수렴 | **77,508 (취소수 ×1)** | ✅ 해소 |
+
+PENDING이 평탄(폴러가 실시간 배수), producer_send가 취소수와 1:1(재발송 폭주 소멸), order가 1,000 갇힘을 벗어나 수렴 → **실패 모드가 "스톨(라이브락) → 진전"으로 전환.** 라이브락 해소 확정.
+
+## 7. CDC(Debezium)는 검토했으나 보류 — 근거 있는 YAGNI
+
+수정 방향 2(CDC)는 폴러의 **남은 한계(단일 스레드 배수율 상한)**를 제거하는 완전판이나, **현재 부하에서 도입하지 않는다.**
+
+- **폴러 전용 풀이 실측 부하(214 rps)를 이미 감당** — 라이브락은 해소됐고 백로그도 안 쌓인다.
+- **CDC의 유일한 추가 이점(배수 headroom)은 우리가 생성할 수 없는 부하에서만 발현** — 취소율이 payment 앱 포화(~214 rps, 풀10·2코어 DB·커밋 벽)에 먼저 막혀, 드레인 천장을 자극하려면 취소 경로를 우회한 직접-INSERT 드레인 레이스 같은 인위적 부하가 필요하다. 실제 시스템이 그 부하에 도달하지 않는다.
+- **CDC 인프라(Kafka Connect 워커 + Debezium 커넥터 + binlog 설정 + Outbox Event Router SMT/컨버터 바이트 호환 튜닝)는 무겁다** — 정당화할 부하 headroom 요구가 지금 없다.
+- **재도입 트리거:** 취소 처리량이 스케일아웃/DB 확장으로 폴러의 단일 스레드 배수율 상한을 넘어서면, 그때 CDC(별도 프로세스 + binlog tailing으로 순차·풀 상한 제거)를 도입한다. 설계 검토(메시지 바이트 호환 = StringConverter 패스스루로 폴러와 동일 정규화 payload 컬럼 방출, 앱 변경 = `cancel.outbox.drain=POLLER|CDC` 플래그로 폴러 off)는 완료돼 있어 필요 시 빠르게 착수 가능.
+
+## 8. 관련
 
 - 발행 3모드 토글·outbox 도입: PR #56
 - 폴러 최적화(배치 markPublished + async send): PR #57 — **이 버그를 못 고쳤고, 오히려 라이브락을 격렬하게 만들어 진단을 확정**
+- **폴러 전용 DataSource(라이브락 해소): PR #59**
 - 실측 절차: [`publish-pattern-benchmark.md`](./publish-pattern-benchmark.md)
-- 다음 실험: 폴러 전용 DataSource(spec→구현→재측정) → CDC 비교
