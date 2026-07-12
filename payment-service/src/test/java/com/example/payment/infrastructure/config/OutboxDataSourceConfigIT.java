@@ -37,6 +37,7 @@ class OutboxDataSourceConfigIT {
         registry.add("spring.datasource.url", mysql::getJdbcUrl);
         registry.add("spring.datasource.username", mysql::getUsername);
         registry.add("spring.datasource.password", mysql::getPassword);
+        registry.add("spring.datasource.hikari.maximum-pool-size", () -> "17"); // 설정 반영 검증용(기본 10 아님)
     }
 
     // OUTBOX 컨텍스트 기동용 스텁 (ProcessingRecoveryOutboxIT과 동일한 MockitoBean 셋)
@@ -62,5 +63,7 @@ class OutboxDataSourceConfigIT {
         HikariDataSource main = (HikariDataSource) dataSource;
         assertThat(main.getInitializationFailTimeout()).isEqualTo(-1L);
         assertThat(main.getConnectionTimeout()).isEqualTo(30000L);
+        // 메인 풀 크기가 설정(spring.datasource.hikari.maximum-pool-size)으로 반영되는지 — 기본 10 하드코딩 방지
+        assertThat(main.getMaximumPoolSize()).isEqualTo(17);
     }
 }
