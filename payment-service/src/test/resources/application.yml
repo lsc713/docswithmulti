@@ -11,6 +11,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      initialization-fail-timeout: -1
 
   jpa:
     hibernate:

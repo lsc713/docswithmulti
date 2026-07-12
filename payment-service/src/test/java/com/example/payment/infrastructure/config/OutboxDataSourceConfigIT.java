@@ -56,5 +56,11 @@ class OutboxDataSourceConfigIT {
         assertThat(cancelOutboxDataSource.getMaximumPoolSize()).isEqualTo(2);
         assertThat(cancelOutboxJdbcTemplate).isNotNull();
         assertThat(cancelOutboxDataSource).isNotSameAs(dataSource); // 격리
+
+        // 메인 풀 Hikari 프로퍼티 바인딩 검증
+        // initialization-fail-timeout: -1 은 DB 미기동 시 재시도를 위해 운영상 필수
+        HikariDataSource main = (HikariDataSource) dataSource;
+        assertThat(main.getInitializationFailTimeout()).isEqualTo(-1L);
+        assertThat(main.getConnectionTimeout()).isEqualTo(30000L);
     }
 }
