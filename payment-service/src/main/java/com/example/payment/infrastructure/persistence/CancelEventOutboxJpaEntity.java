@@ -28,10 +28,7 @@ public class CancelEventOutboxJpaEntity {
 
     protected CancelEventOutboxJpaEntity() {}
 
-    public void markPublished() {
-        this.status = "PUBLISHED";
-        this.publishedAt = Instant.now();
-    }
+    // 발행 표시는 CancelEventOutboxJpaRepository.markPublishedBatch(native UPDATE)로 일괄 처리한다.
 
     public Long getId()              { return id; }
     public Long getCancelRequestId() { return cancelRequestId; }

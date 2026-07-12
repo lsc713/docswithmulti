@@ -38,7 +38,35 @@ class CancelEventOutboxRepositoryIT extends AbstractRepositoryTest {
     void mark_published_excludes() {
         repo.insertPending(2002L, "{}");
         long id = repo.findPendingBatch(10).get(0).id();
-        repo.markPublished(id);
+        repo.markPublished(List.of(id));
         assertThat(repo.findPendingBatch(10)).isEmpty();
+    }
+
+    @Test
+    @DisplayName("배치 markPublished는 주어진 id만 한 번에 PUBLISHED 처리한다")
+    void batch_mark_published_marks_only_given_ids() {
+        repo.insertPending(3001L, "{}");
+        repo.insertPending(3002L, "{}");
+        repo.insertPending(3003L, "{}");
+        List<CancelEventOutboxRepository.PendingOutbox> before = repo.findPendingBatch(10);
+        assertThat(before).hasSize(3);
+
+        List<Long> toMark = before.stream()
+            .filter(o -> o.cancelRequestId() == 3001L || o.cancelRequestId() == 3003L)
+            .map(CancelEventOutboxRepository.PendingOutbox::id)
+            .toList();
+        repo.markPublished(toMark);
+
+        List<CancelEventOutboxRepository.PendingOutbox> remaining = repo.findPendingBatch(10);
+        assertThat(remaining).hasSize(1);
+        assertThat(remaining.get(0).cancelRequestId()).isEqualTo(3002L);
+    }
+
+    @Test
+    @DisplayName("빈 리스트 markPublished는 예외 없이 no-op")
+    void batch_mark_published_empty_is_noop() {
+        repo.insertPending(4001L, "{}");
+        repo.markPublished(List.of());
+        assertThat(repo.findPendingBatch(10)).hasSize(1);
     }
 }
