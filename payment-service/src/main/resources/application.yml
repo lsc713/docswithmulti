@@ -69,6 +69,10 @@ cancel:
   outbox:
     poll-ms: ${CANCEL_OUTBOX_POLL_MS:10000}
     batch-size: ${CANCEL_OUTBOX_BATCH_SIZE:1000}
+    datasource:
+      hikari:
+        maximum-pool-size: 2
+        connection-timeout: 5000
 
 scheduler:
   lock:
