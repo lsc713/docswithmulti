@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>부하가 드러낸 설계 (1~4막 실측) – Architecture</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      .note { font-size: 0.85rem; color: #444; background: #fff7ed; border-left: 3px solid #f59e0b; padding: 0.6rem 0.9rem; border-radius: 4px; margin: 0.8rem 0; }
+      .act { font-size: 0.8rem; color: #6b21a8; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <h1>부하가 드러낸 설계 — 1~4막 실측</h1>
+    <p class="meta">Generated 2026-07-12 · source: <code>docs/load-test/*</code> · 블로그 <code>Posts/Load 00~21</code> · AWS 9-노드 사설 리그(single-AZ)</p>
+    <nav>← <a href="./index.html">시스템 아키텍처 개요</a> · <a href="./cancel-flow.html">취소 플로우 상세</a></nav>
+
+    <p class="legend">
+      구조도(<a href="./index.html">개요</a>·<a href="./cancel-flow.html">취소 플로우</a>)가 설계의 <em>"무엇"</em>이라면, 이 페이지는 실측이 드러낸
+      <em>"어디가 병목이고, 레버를 당기면 얼마가 바뀌나"</em>다. 모든 수치는 AWS 리그 실측값.
+    </p>
+
+    <h2>1. 취소 1건의 자원 해부 — 병목은 커밋수다 <span class="act">[1·2막]</span></h2>
+    <p class="legend">
+      "190은 용량이 아니었다"·"동기 홉인 줄 알았다"의 결론: 처리량을 지배하는 건 홉 지연도 풀 크기도 아닌
+      <strong>커넥션 점유시간 = payment 커밋수(fsync)</strong>.
+    </p>
+    <div class="mermaid">
+flowchart TB
+  classDef hot fill:#fecaca,stroke:#dc2626,color:#5b0a0a;
+  classDef ok fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef neu fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+
+  C(["취소 1건"]) --> Q["payment 앱쿼리 18<br/>= 12 SQL + COMMIT (6 → 4)"]:::neu
+  Q --> OCC["DB 커넥션 점유 ~66ms/요청<br/>커밋 fsync가 지배 (2코어 mysql)"]:::hot
+  OCC --> CEIL["Little's law — 풀 10 / 66ms<br/>처리량 천장 147 → 220 rps"]:::hot
+
+  HOP["payment→risk 홉<br/>server p95 21ms"]:::ok -.->|"무죄"| OCC
+  PSZ["풀 크기 10<br/>이미 2코어 DB 공식 상한"]:::ok -.->|"무죄 (키우면 스래싱)"| OCC
+    </div>
+    <p class="note">
+      <strong>커밋 6→4 = ×1.5:</strong> 이력 3커밋을 1 배치로 줄이자 rps가 정확히 <code>6/4</code>배(147→220). 커밋 수에
+      반비례하는 처리량을 정량 증명. 풀(10)은 여전히 벽이지만(pending ~189), 점유시간이 줄어 같은 벽을 더 많이 통과.
+    </p>
+
+    <h2>2. 발행·소비 파이프라인 — 생성 너머 <span class="act">[3·4막]</span></h2>
+    <p class="legend">
+      취소 확정 후 <code>payment.cancelled</code>가 order로 흐르는 경로. 발행 방식(3막)과 소비/정합성(4막)이 여기 산다.
+    </p>
+    <div class="mermaid">
+flowchart LR
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef hot fill:#fecaca,stroke:#dc2626,color:#5b0a0a;
+  classDef ok fill:#dcfce7,stroke:#16a34a,color:#14532d;
+
+  TX3["payment TX3<br/>DB쓰기 + send() 인라인"]:::svc
+  OUT["대안: OUTBOX<br/>TX3가 outbox INSERT + 폴러 발행"]:::svc
+  K{{"Kafka<br/>payment.cancelled"}}:::infra
+  OC["order 컨슈머"]:::svc
+  PC["processed_cancel_event UK<br/>dedup = exactly-once"]:::ok
+  OS["order 상태 수렴<br/>(e2e 정합, lag→0)"]:::ok
+  RR["RetryRouter<br/>→ payment.cancelled.retry"]:::hot
+  DLQ["payment.cancelled.DLQ<br/>(3회 초과 격리)"]:::hot
+
+  TX3 --> K
+  OUT -.->|"발행 −6% 되돌림"| K
+  K --> OC
+  OC -->|"성공"| PC --> OS
+  OC -->|"실패"| RR
+  RR -->|"재시도 3회 초과"| DLQ
+    </div>
+    <p class="note">
+      <strong>3막(발행):</strong> 동기 <code>send().get()</code>가 TX3 점유에 브로커 RTT를 더함 → 제거 시 +6%(dual-write 안전값).
+      OUTBOX 폴러는 공유 풀 굶음으로 <em>라이브락</em>(재발송 42만 vs 고유 1천) → <strong>전용 DataSource 격리</strong>로 해소(PENDING→0, 1:1).
+      <br /><strong>4막(소비):</strong> 컨슈머 <code>processed_cancel_event</code> UK가 발행 중복(at-least-once)을 흡수 → <strong>exactly-once</strong>.
+      실측: lag→0·DLQ델타0·e2e정합. 미러 버그가 우발적 장애주입이 되어 retry→DLQ 격리 경로까지 실증.
+    </p>
+
+    <h2>3. 레버 타임라인 — 당긴 것과 실측 효과 <span class="act">[전 막]</span></h2>
+    <p class="legend">코드 리뷰가 못 보는 병목을 부하가 드러내고, 레버를 당긴 뒤 <strong>재측정으로 증명</strong>한 궤적.</p>
+    <div class="mermaid">
+flowchart TB
+  classDef fix fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef eff fill:#dcfce7,stroke:#16a34a,color:#14532d;
+
+  subgraph A1["1막 · 경합"]
+    L1["fail-fast Redis락 + FOR UPDATE<br/>→ 원자 조건부 UPDATE"]:::fix --> E1["핫 merchant 거부<br/>99.9% → 0%"]:::eff
+  end
+  subgraph A2["2막 · 커밋"]
+    L2["이력 3커밋 → 1 배치<br/>(커밋 6 → 4)"]:::fix --> E2["147 → 220 rps<br/>(×1.5)"]:::eff
+  end
+  subgraph A3["3막 · 발행"]
+    L3["동기 ack 제거 / OUTBOX"]:::fix --> E3["+6% (안전값)"]:::eff
+    L3b["outbox 라이브락<br/>→ 전용 DataSource 격리"]:::fix --> E3b["재발송 42만 → 1:1<br/>PENDING → 0"]:::eff
+  end
+  subgraph A4["4막 · 소비·현실·경계"]
+    L4["소비 축 측정 + 보상 원자화<br/>HTTP-in-TX → TX 밖"]:::fix --> E4["lag→0·exactly-once<br/>tail 위험 제거"]:::eff
+    L4b["균등 → 현실 믹스"]:::fix --> E4b["성공 100% → 25%<br/>(전량 정상 4xx 거부)"]:::eff
+  end
+
+  A1 --> A2 --> A3 --> A4
+    </div>
+    <p class="note">
+      각 레버는 <strong>측정 → 가설 → 수정 → 재측정</strong>을 한 바퀴 돈 결과다. "성공 100%→25%"(4막)만은 개선이 아니라
+      <em>착시의 교정</em> — 균등 부하가 숨기던 비즈니스 제약(핫 가맹점 한도 소진)을 현실 믹스가 드러낸 것이며, 그 거부는 전량 의도된 4xx(5xx=0).
+    </p>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>

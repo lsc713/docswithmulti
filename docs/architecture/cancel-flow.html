@@ -24,8 +24,8 @@
   </head>
   <body>
     <h1>취소 플로우 상세 — TX 경계·커밋 구조·복구</h1>
-    <p class="meta">Generated 2026-07-11 · source: <code>payment-service (CancelPaymentService, CancelTxWriter, CancelHistoryRecorder)</code></p>
-    <nav>← <a href="./index.html">시스템 아키텍처 개요</a></nav>
+    <p class="meta">Generated 2026-07-11 · updated 2026-07-12 · source: <code>payment-service (CancelPaymentService, CancelTxWriter, CancelHistoryRecorder)</code></p>
+    <nav>← <a href="./index.html">시스템 아키텍처 개요</a> · <a href="./perf-anatomy.html">부하가 드러낸 설계 (1~4막 실측) →</a></nav>
 
     <h2>1. 취소 시퀀스 — 3 코어 TX + 이력 1 배치 = 커밋 4</h2>
     <p class="legend">
@@ -84,7 +84,10 @@ flowchart TD
     </div>
     <p class="note">
       Redis Miss → 바로 merchant-limit HTTP 금지. DB 스냅샷을 먼저 본다(Redis 장애 시 HTTP 없이 처리).
-      HTTP는 최초 요청/스냅샷 없을 때만. — 실측(3-config)에서 이 층은 185 천장과 무관함이 밝혀짐(병목은 payment 커밋수).
+      HTTP는 최초 요청/스냅샷 없을 때만. — 실측(3-config)에서 이 층은 정상상태 천장과 무관함이 밝혀짐(병목은 payment 커밋수).
+      <br /><strong>TX 경계:</strong> 이 해석(merchant-limit HTTP 포함)은 <strong>risk의 차감 TX 밖</strong>에서 수행한다.
+      HTTP-in-TX면 merchant-limit <em>지연</em>이 DB 커넥션 점유→풀 고갈로 risk 전체에 전파되던 잠복 위험
+      (netem 실측: 100ms 주입 시 15배 붕괴)을 차단 — 밖으로 빼면 느린 의존성이 onset 요청만 늦출 뿐 blast radius가 격리된다.
     </p>
 
     <h2>3. 복구 스케줄러 3개 (payment-service, Redis 분산락)</h2>

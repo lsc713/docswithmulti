@@ -28,7 +28,7 @@
 @docs/db-schema.md                 DB 규칙 및 인덱스 전략
 @docs/kafka-design.md              Kafka 설계 및 운영
 @docs/architecture.md              전체 시스템 설계
-@docs/architecture/index.html      시스템 토폴로지 + 취소 플로우 시각화 (mermaid, cancel-flow.html 연결)
+@docs/architecture/index.html      시스템 토폴로지 + 취소 플로우 시각화 (mermaid; cancel-flow·perf-anatomy(1~4막 실측) 연결)
 @docs/contributing.md              코드 작성 기준
 @docs/agent.md                     작업 행동 규칙
 @sysdesign/cancel-design.md        취소 플로우 상세 (멱등성·TX 경계·스케줄러·Kafka)
@@ -64,7 +64,7 @@ DDL은 각 모듈 `db/migration/V1__create_*_core.sql ~ V7`을 직접 읽는다.
 - compensation-retry(30s): compensation_retry → risk 보상 API 재시도
 
 **Kafka 발행**
-- `payment.cancelled`: payment-service가 **TX3 인라인** 발행. 파티션 키 `paymentKey`.
+- `payment.cancelled`: payment-service가 **TX3 인라인** 발행. 파티션 키 `cancelRequestId`(`CancelTxWriter`). order 컨슈머가 전체 아이템 재계산 + 주문 행 락으로 **순서 무관하게 수렴**하므로 결제 단위 순서 보장 불필요(cancelRequestId가 파티션 분산에 유리).
 - `merchant.limit.updated { merchantId }`: merchant-limit-service는 **Outbox 패턴** 발행. 파티션 키 `merchantId`.
 
 ---
