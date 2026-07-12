@@ -1,11 +1,11 @@
 package com.example.riskmanagement.application.service;
 
+import com.example.riskmanagement.application.exception.CompensationMerchantMismatchException;
+import com.example.riskmanagement.application.exception.DataInconsistencyException;
 import com.example.riskmanagement.application.interfaces.*;
 import com.example.riskmanagement.application.usecase.CompensateUseCase;
 import com.example.riskmanagement.domain.entity.CancelUsageCompensation;
 import com.example.riskmanagement.domain.entity.CancelUsageHistory;
-import com.example.riskmanagement.domain.entity.MerchantCancelUsage;
-import com.example.riskmanagement.domain.service.CancelLimitDomainService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,6 @@ public class CompensateService implements CompensateUseCase {
     private final CancelUsageCompensationRepository compensationRepository;
     private final CancelUsageHistoryRepository historyRepository;
     private final MerchantCancelUsageRepository usageRepository;
-    private final CancelLimitDomainService domainService;
 
     @Override
     @Transactional
@@ -34,15 +33,18 @@ public class CompensateService implements CompensateUseCase {
 
         CancelUsageHistory history = historyOpt.get();
         if (history.getMerchantId() != cmd.merchantId()) {
-            throw new IllegalArgumentException(
-                "merchantId 불일치: 요청=" + cmd.merchantId() + ", 이력=" + history.getMerchantId());
+            throw new CompensationMerchantMismatchException(cmd.merchantId(), history.getMerchantId());
         }
-        MerchantCancelUsage usage = usageRepository
-            .findByMerchantIdAndKstDateForUpdate(history.getMerchantId(), history.getKstDate())
-            .orElseThrow(() -> new IllegalStateException("MerchantCancelUsage not found for history: " + history.getCancelRequestId()));
 
-        domainService.applyCompensation(usage, cmd.restoreAmount());
-        usageRepository.save(usage);
+        // 원자 복원: used_amount = GREATEST(used - amount, 0). read-modify-write 갭 없음(lost update 방지).
+        // 대상은 이력의 (merchantId, kstDate) — 소진 원장의 원본. 유효 상태면 항상 1행.
+        int restored = usageRepository.tryRestore(
+            history.getMerchantId(), history.getKstDate(), cmd.restoreAmount());
+        if (restored == 0) {
+            throw new DataInconsistencyException(
+                "MerchantCancelUsage not found for history: " + history.getCancelRequestId());
+        }
+
         compensationRepository.save(CancelUsageCompensation.record(
             cmd.cancelRequestId(), history.getMerchantId(), cmd.restoreAmount()));
 

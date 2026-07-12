@@ -42,4 +42,17 @@ public interface MerchantCancelUsageJpaRepository
            AND used_amount + :amount <= daily_limit
         """, nativeQuery = true)
     int tryDeduct(long merchantId, LocalDate kstDate, BigDecimal amount);
+
+    /**
+     * 원자 복원. {@code GREATEST(used_amount - :amount, 0)} 로 0 바닥 — 엔티티 {@code restore()}의
+     * {@code .max(ZERO)} 를 SQL 로 옮긴 것. 단일 문장이라 read-modify-write 갭 없음.
+     * @return 1 = 성공, 0 = 대상 행 없음(불변식 위반)
+     */
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query(value = """
+        UPDATE merchant_cancel_usage
+           SET used_amount = GREATEST(used_amount - :amount, 0), updated_at = CURRENT_TIMESTAMP(6)
+         WHERE merchant_id = :merchantId AND kst_date = :kstDate
+        """, nativeQuery = true)
+    int tryRestore(long merchantId, LocalDate kstDate, BigDecimal amount);
 }
