@@ -11,6 +11,11 @@
  * 해석: 균등 100% 성공이 아니다. `cancel_success_rate{path=rehit}`·`{path=new}` < 100% 는 버그가 아니라
  *   현실 신호(한도초과 거부·이미-취소 충돌). path별 성공률·지연이 "220 균등"의 현실 보정치다.
  *
+ * 정직성 불변식: 비-200 = 의도된 4xx 거부여야 한다. payment ErrorCode 상 모든 비즈니스 거부는 4xx
+ *   (422 MERCHANT_CANCEL_LIMIT_EXCEEDED·INVALID_PAYMENT_ITEM_STATUS 등), 5xx 는 INTERNAL_ERROR/503(의존성 다운)뿐.
+ *   → `server_error_rate` 는 정상 런에서 0(threshold 로 강제). 5xx가 나면 "현실 거부"가 아니라 진짜 결함.
+ *   집계 "성공 25%"는 시스템 품질이 아니라 타이트 한도 하 거부 비율이며, 5xx=0 이면 전량 정상 거부다.
+ *
  * 전제 재시딩 (핫 편중·다중아이템·타이트 한도):
  *   ITEMS_PER_PAYMENT=3 HOT_MERCHANT_COUNT=2 HOT_TRAFFIC_PCT=80 TIGHT_DAILY_LIMIT=200000000 \
  *   SEED_COUNT=100000 TARGET=aws MERCHANT_URL=http://10.0.1.22:8082 MYSQL_HOST=10.0.1.30 ./k6/seed/seed.sh
@@ -44,6 +49,11 @@ const pool = new SharedArray('payments', () => {
 });
 
 const success = new Rate('cancel_success_rate');
+// 상태클래스 분해 — "실패(비-200)"가 의도된 4xx 거부인지, 진짜 장애(5xx)인지 못박는다.
+//   payment ErrorCode 상 모든 비즈니스 거부는 4xx(422 한도초과·이미취소 등), 5xx는 INTERNAL_ERROR/503(의존성 다운)뿐.
+//   따라서 정상 런에서 server_error_rate 는 0 이어야 한다(아래 threshold 로 강제). 4xx 는 현실 거부 신호.
+const serverError = new Rate('server_error_rate'); // 5xx 비율 — 0 이 불변식(1건이라도 나면 거부 아닌 결함)
+const reject4xx = new Rate('reject_4xx_rate');      // 4xx 비율 — 의도된 비즈니스 거부(한도·이미취소)
 const dur = new Trend('cancel_duration_ms', true);
 const cNew = new Counter('path_new');
 const cRehit = new Counter('path_rehit');
@@ -56,6 +66,9 @@ export const options = {
   thresholds: {
     // 관측 목적 — abort 안 함. 현실 믹스에선 100% 성공이 아닐 수 있다(거부/한도).
     'http_req_duration': ['p(95)<5000'],
+    // 정직성 불변식: 비-200 은 전부 의도된 4xx 거부여야 한다. 5xx가 1건이라도 나면
+    // 그건 "현실 거부"가 아니라 진짜 결함(버그 500 또는 의존성 다운 503) → 런 실패로 표시.
+    'server_error_rate': ['rate==0'],
   },
 };
 
@@ -81,6 +94,9 @@ function cancel(paymentKey, itemIds, path, counter) {
   dur.add(Date.now() - start, { path });
   // 성공 = HTTP 200 (COMPLETED 또는 멱등 재히트의 기존 상태). 한도초과 거부는 4xx → 실패로 집계(의도).
   success.add(res.status === 200, { path });
+  // 비-200 을 4xx(의도된 거부) / 5xx(진짜 장애)로 분해. 5xx 는 정상 런에서 0이어야 한다.
+  serverError.add(res.status >= 500, { path });
+  reject4xx.add(res.status >= 400 && res.status < 500, { path });
   return res;
 }
 
