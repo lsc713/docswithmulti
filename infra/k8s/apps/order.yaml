@@ -9,6 +9,7 @@ spec:
   template:
     metadata: { labels: { app: order } }
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
         - name: order
           image: camelia9999/cancel-loadtest:order-latest

@@ -9,6 +9,7 @@ spec:
   template:
     metadata: { labels: { app: risk } }
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
         - name: risk
           image: camelia9999/cancel-loadtest:risk-management-latest
