@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>k3s 요청·이벤트 플로우 (상세)</title>
+    <style>
+      body { font-family: system-ui, -apple-system, sans-serif; max-width: 1200px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+    </style>
+  </head>
+  <body>
+    <h1>k3s 요청·이벤트 플로우 (상세)</h1>
+    <p class="meta">
+      Generated 2026-07-13 · source: <code>sysdesign/cancel-design.md</code>를 k3s 배포 렌즈로 ·
+      TX 경계·daily_limit 순서·인라인 발행·컨슈머 수렴 있는 그대로
+    </p>
+    <nav>
+      ▸ <a href="./k3s-scaleout.html">← 스케일아웃 개요</a> ·
+      <a href="./k3s-topology.html">배포 토폴로지 (상세) →</a> ·
+      <a href="./cancel-flow.html">취소 플로우 상세 (단일 인스턴스) →</a>
+    </nav>
+
+    <h2>1. 취소 라운드트립 (동기 경로 + 인라인 발행)</h2>
+    <p class="legend">
+      Traefik → payment 파드(3중 1택) → risk → merchant-limit(클러스터 DNS) → 외부 DB.
+      멱등은 <code>request_hash</code> UK, 재계산은 <code>findAllByPaymentIdForUpdate</code> 행락.
+      TX3 커밋과 <code>payment.cancelled</code> 인라인 발행이 커플링(발행 실패 = 롤백).
+    </p>
+    <div class="mermaid">
+sequenceDiagram
+  autonumber
+  actor U as 사용자 / k6
+  participant T as Traefik (node:80)
+  participant P as payment 파드 (×3 중 1)
+  participant Rd as Redis
+  participant PD as mysql-payment
+  participant R as risk 파드 (×2)
+  participant M as merchant-limit 파드 (×2)
+  participant RD as mysql-risk
+  participant K as Kafka (3-broker)
+
+  U->>T: POST /v1/payments/../cancel
+  T->>P: kube-proxy L4 분산
+  Note over P: request_hash = SHA-256(paymentKey + 아이템 오름차순)
+  P->>PD: TX1 CancelRequest PENDING insert<br/>(payment_id, request_hash) UK → 따닥 차단
+  P->>R: validate + reserve (동기 HTTP, 클러스터 DNS)
+  Note over R,M: daily_limit 조회 순서 (2순위 건너뛰기 금지)
+  R->>Rd: 1) daily_limit 캐시
+  R->>RD: 2) merchant_cancel_usage 스냅샷 (Redis miss 시)
+  R->>M: 3) merchant-limit HTTP (최초/스냅샷 없을 때만)
+  R->>RD: tryDeduct 원자 UPDATE (WHERE used+amt ≤ limit)
+  R-->>P: reserved OK
+  P->>PD: TX2 CancelRequest PROCESSING update
+  Note over P,PD: TX3 — findAllByPaymentIdForUpdate 재조회 후 원자 처리
+  P->>PD: PaymentItem + Payment + CancelRequest(COMPLETED)
+  P->>K: 인라인 kafkaTemplate.send(payment.cancelled, key=cancelRequestId)
+  Note over P,K: 발행 실패 시 TX3 롤백 → processing-recovery 재처리
+  P-->>T: 200 COMPLETED
+  T-->>U: 200 COMPLETED
+    </div>
+
+    <h2>2. 비동기 소비 (컨슈머 그룹 · 순서 무관 수렴)</h2>
+    <p class="legend">
+      <code>payment.cancelled</code>는 파티션 키 <code>cancelRequestId</code>로 분산. order ×2가
+      <strong>컨슈머 그룹</strong>으로 파티션을 나눠 처리 — 행락 재계산 + dedup UK로 <strong>순서 무관·exactly-once 수렴</strong>.
+    </p>
+    <div class="mermaid">
+flowchart LR
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+
+  K[("Kafka payment.cancelled<br/>3 파티션")]:::infra
+  o1["order 파드 A"]:::svc
+  o2["order 파드 B"]:::svc
+  odb[("order_db<br/>processed_cancel_event UK")]:::db
+
+  K -->|"파티션 0,2 → A"| o1
+  K -->|"파티션 1 → B"| o2
+  o1 -->|"findByIdForUpdate 행락<br/>전체 아이템 재계산"| odb
+  o2 -->|"dedup UK → 재처리 무해"| odb
+    </div>
+
+    <h2>3. 분산 스케줄러 (멀티 파드 = 1개만 실행)</h2>
+    <p class="legend">
+      <code>@Scheduled</code> 폴러는 파드마다 뜨므로 <strong>Redisson 분산락</strong>으로 한 파드만 실행.
+      payment 복구 3종 + merchant-limit outbox 발행. (실측: outbox 5이벤트 → Kafka 정확히 5 = exactly-once.)
+    </p>
+    <div class="mermaid">
+flowchart LR
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+
+  subgraph pay["payment ×3 스케줄러"]
+    s1["pending-recovery 60s"]:::svc
+    s2["processing-recovery 60s"]:::svc
+    s3["compensation-retry 30s"]:::svc
+  end
+  subgraph ml["merchant-limit ×2"]
+    s4["outbox 폴러 10s"]:::svc
+  end
+  lock["Redis · Redisson RLock<br/>소유권 unlock + 워치독"]:::infra
+  k2[("Kafka<br/>merchant.limit.updated")]:::infra
+
+  s1 & s2 & s3 -.->|"tryLock → 1파드만"| lock
+  s4 -.->|"tryLock → 1파드만"| lock
+  s4 -->|"exactly-once 발행"| k2
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>

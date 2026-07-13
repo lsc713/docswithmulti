@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>k3s 배포 토폴로지 (상세)</title>
+    <style>
+      body { font-family: system-ui, -apple-system, sans-serif; max-width: 1200px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      table { border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0; width: 100%; }
+      th, td { border: 1px solid #e5e7eb; padding: 0.35rem 0.6rem; text-align: left; }
+      th { background: #f9fafb; }
+    </style>
+  </head>
+  <body>
+    <h1>k3s 배포 토폴로지 (상세)</h1>
+    <p class="meta">
+      Generated 2026-07-13 · source: <code>infra/k3s-scaleout/instances.tf + infra/k8s/</code> ·
+      k3s v1.36.2 (arm64) · flannel VXLAN 파드망 <code>10.42.0.0/16</code> · 단일 AZ · 자립 VPC <code>10.0.1.0/24</code>
+    </p>
+    <nav>
+      ▸ <a href="./k3s-scaleout.html">← 스케일아웃 개요</a> ·
+      <a href="./k3s-flow.html">요청·이벤트 플로우 (상세) →</a> ·
+      <a href="./index.html">전체 서비스 토폴로지 →</a>
+    </nav>
+
+    <h2>1. 노드 · 파드 배치 (있는 그대로)</h2>
+    <p class="legend">
+      <span style="color:#3b82f6">파랑</span> 앱 파드 · <span style="color:#6b7280">회색</span> 인프라 파드(Kafka/Redis/Traefik/operator) ·
+      <span style="color:#d97706">노랑</span> 외부 DB. <strong>payment ×3·Kafka broker ×3 = 노드당 1개</strong>(anti-affinity).
+      risk/merchant-limit/order는 각 ×2가 노드에 흩어짐(스케줄러 배치). control-plane은 taint로 워크로드 미배치.
+    </p>
+    <div class="mermaid">
+graph TB
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef ext fill:#f3f4f6,stroke:#9ca3af,color:#374151,stroke-dasharray:4 3;
+  classDef cp fill:#ede9fe,stroke:#7c3aed,color:#4c1d95;
+
+  k6["k6 부하생성기<br/>c7g.xlarge · .20"]:::ext
+
+  subgraph server["k3s-server · c7g.large · 10.0.1.10 (control-plane, tainted)"]
+    api["kube-apiserver :6443"]:::cp
+    kp["kube-proxy · flannel · klipper-lb"]:::cp
+  end
+
+  subgraph a1["agent-1 · m7g.xlarge · 10.0.1.11"]
+    tr1[/"Traefik (인그레스)"/]:::infra
+    pa1["payment"]:::svc
+    kb0["kafka broker-0"]:::infra
+    rd["redis"]:::infra
+    or1["order"]:::svc
+  end
+  subgraph a2["agent-2 · m7g.xlarge · 10.0.1.12"]
+    pa2["payment"]:::svc
+    kb1["kafka broker-1"]:::infra
+    ri1["risk"]:::svc
+    ml1["merchant-limit"]:::svc
+    op["strimzi-operator<br/>+ entity-operator"]:::infra
+  end
+  subgraph a3["agent-3 · m7g.xlarge · 10.0.1.13"]
+    pa3["payment"]:::svc
+    kb2["kafka broker-2"]:::infra
+    ri2["risk"]:::svc
+    ml2["merchant-limit"]:::svc
+    or2["order"]:::svc
+  end
+
+  subgraph ext["외부 EC2 — 클러스터 밖 고정 (병목 통제변수)"]
+    mp[("mysql-payment<br/>m7g.large · .30:3306")]:::db
+    mr[("mysql-risk<br/>.31:3306")]:::db
+    cd[("cold-db · c7g.large · .32<br/>merchant_db:3306 · order_db:3307")]:::db
+    obs["obs (Prometheus/Grafana)<br/>t4g.medium · .50"]:::ext
+  end
+
+  k6 -->|"node:80"| tr1
+  pa1 --> mp
+  pa2 --> mp
+  pa3 --> mp
+  ri1 --> mr
+  ri2 --> mr
+  ml1 --> cd
+  ml2 --> cd
+  or1 --> cd
+  or2 --> cd
+    </div>
+
+    <h2>2. 논리 배선 — Service · ConfigMap/Secret · Ingress</h2>
+    <p class="legend">
+      파드는 배치와 무관하게 <strong>Service(ClusterIP) + 클러스터 DNS</strong>로 서로를 찾는다.
+      외부 DB URL·Kafka bootstrap·Redis 호스트는 ConfigMap, DB 크리덴셜은 Secret으로 <code>envFrom</code> 주입.
+    </p>
+    <div class="mermaid">
+graph LR
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef cfg fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+
+  ing[/"payment Ingress<br/>(Traefik, path /)"/]:::infra
+  psvc["Service payment<br/>ClusterIP :8080 → ×3"]:::svc
+  rsvc["Service risk<br/>:8083 → ×2"]:::svc
+  msvc["Service merchant-limit<br/>:8082 → ×2"]:::svc
+  osvc["Service order<br/>:8081 → ×2"]:::svc
+  mlnp["Service ml-np<br/>NodePort :31574 (시드용)"]:::infra
+  rsvcx["Service redis :6379"]:::infra
+  kboot["Service cancel-kafka-<br/>kafka-bootstrap :9092"]:::infra
+
+  cm["ConfigMap app-config<br/>DB URL · Kafka bootstrap · Redis host"]:::cfg
+  sec["Secret db-cred<br/>payment/risk/merchant/order_user"]:::cfg
+
+  ing --> psvc
+  psvc -.->|DNS| rsvc
+  rsvc -.->|DNS| msvc
+  cm -.->|envFrom| psvc & rsvc & msvc & osvc
+  sec -.->|envFrom| psvc & rsvc & msvc & osvc
+  psvc -.-> rsvcx
+  psvc -.-> kboot
+  osvc -.-> kboot
+    </div>
+
+    <h2>3. 스펙 요약</h2>
+    <table>
+      <tr><th>노드</th><th>타입</th><th>사설 IP</th><th>역할</th></tr>
+      <tr><td>k3s-server</td><td>c7g.large</td><td>10.0.1.10</td><td>control-plane (taint, 워크로드 X)</td></tr>
+      <tr><td>k3s-agent-1/2/3</td><td>m7g.xlarge</td><td>.11 / .12 / .13</td><td>워크로드 (앱·Kafka·Redis)</td></tr>
+      <tr><td>mysql-payment</td><td>m7g.large</td><td>10.0.1.30</td><td>payment_db (외부)</td></tr>
+      <tr><td>mysql-risk</td><td>m7g.large</td><td>10.0.1.31</td><td>risk_db (외부)</td></tr>
+      <tr><td>cold-db</td><td>c7g.large</td><td>10.0.1.32</td><td>merchant_db:3306 + order_db:3307 (외부)</td></tr>
+      <tr><td>k6 / obs</td><td>c7g.xlarge / t4g.medium</td><td>.20 / .50</td><td>부하생성 / 관측 (클러스터 밖)</td></tr>
+    </table>
+    <table>
+      <tr><th>워크로드</th><th>replica</th><th>배치 제약</th><th>포트</th></tr>
+      <tr><td>payment (Deployment)</td><td>3</td><td>anti-affinity (노드당 1) · Ingress 노출</td><td>8080</td></tr>
+      <tr><td>risk / merchant-limit / order</td><td>2 / 2 / 2</td><td>스케줄러 분산 · ClusterIP</td><td>8083 / 8082 / 8081</td></tr>
+      <tr><td>Kafka (Strimzi KafkaNodePool)</td><td>3 broker</td><td>anti-affinity · KRaft · PVC local-path · RF3/minISR2</td><td>9092</td></tr>
+      <tr><td>Redis</td><td>1</td><td>분산락 + daily_limit 캐시 (단일=SPOF, fail-safe)</td><td>6379</td></tr>
+      <tr><td>Traefik</td><td>k3s 내장</td><td>klipper-lb → 노드 IP</td><td>80 / 443</td></tr>
+    </table>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>
