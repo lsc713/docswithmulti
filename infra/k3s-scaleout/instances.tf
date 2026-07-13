@@ -11,9 +11,14 @@ locals {
   server_ip = "10.0.1.10"
   instances = {
     k3s-server    = { type = "c7g.large", ip = local.server_ip, disk = 40, role = "server", spot = false }
-    k3s-agent-1   = { type = "m7g.xlarge", ip = "10.0.1.11", disk = 60, role = "agent", spot = false }
-    k3s-agent-2   = { type = "m7g.xlarge", ip = "10.0.1.12", disk = 60, role = "agent", spot = false }
-    k3s-agent-3   = { type = "m7g.xlarge", ip = "10.0.1.13", disk = 60, role = "agent", spot = false }
+    # payment 전용 풀 (격리 벤치): c7g.xlarge, taint/label은 조인 후 kubectl로 적용
+    k3s-pay-1     = { type = "c7g.xlarge", ip = "10.0.1.11", disk = 40, role = "agent", spot = false }
+    k3s-pay-2     = { type = "c7g.xlarge", ip = "10.0.1.12", disk = 40, role = "agent", spot = false }
+    k3s-pay-3     = { type = "c7g.xlarge", ip = "10.0.1.13", disk = 40, role = "agent", spot = false }
+    # workload 풀: Kafka 3-broker + risk/merchant-limit/order/redis
+    k3s-work-1    = { type = "m7g.xlarge", ip = "10.0.1.14", disk = 60, role = "agent", spot = false }
+    k3s-work-2    = { type = "m7g.xlarge", ip = "10.0.1.15", disk = 60, role = "agent", spot = false }
+    k3s-work-3    = { type = "m7g.xlarge", ip = "10.0.1.16", disk = 60, role = "agent", spot = false }
     mysql-payment = { type = "m7g.large", ip = "10.0.1.30", disk = 100, role = "db" }
     mysql-risk    = { type = "m7g.large", ip = "10.0.1.31", disk = 100, role = "db" }
     cold-db       = { type = "c7g.large", ip = "10.0.1.32", disk = 100, role = "db" }

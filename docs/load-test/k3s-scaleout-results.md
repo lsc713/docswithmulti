@@ -3,6 +3,7 @@
 > 리그: 멀티노드 k3s(server1+agent3, arm64) · 앱 Deployment(payment×3/risk×2/merchant-limit×2/order×2) · Kafka 3-broker(Strimzi) · Redis · Traefik 인그레스 · MySQL×3 외부 고정.
 > 관련: [`capacity-planning.md`](./capacity-planning.md)(SLO 봉투·병목) · 스펙 `docs/superpowers/specs/2026-07-13-k3s-scaleout-design.md` §6 · Phase A(리그)·B(락 하드닝) 머지됨.
 > 방법론: measure-first, fresh 키 재시딩(리플레이 방지), **유리한 숫자가 아니라 무엇을 숨기는지까지** 기록.
+> **③·⑤는 격리 리그로 재측정**(2026-07-13): payment **전용 노드 풀 ×3**(c7g.xlarge, taint+nodeSelector, 노드당 1, Guaranteed QoS) + workload 풀 ×3(m7g.xlarge, Kafka/risk/merchant/order/redis) → CPU noisy-neighbor 제거. 초기 confounded 결과는 아래 각 절에 정정 표기.
 
 ## 판정표
 
@@ -10,9 +11,9 @@
 |---|---|---|---|---|
 | ① | 스케줄러 락 안전성 | 이중발행 0 | 5 outbox 이벤트 → Kafka **정확히 5 메시지**(중복0) · outbox 5행 PUBLISHED once | ✅ PASS |
 | ② | 파드 간 멱등 | 이중취소 0 | 따닥 → cancel_request **1건 COMPLETED·10000**(UK exactly-once) | ✅ PASS(핵심) / ⚠️ 발견 |
-| ③ | N-replica 천장 불변 | ×1≈×3 무릎 | 210에서 ×1 **221ms** vs ×3 **53ms** | ❌ **반증** |
+| ③ | N-replica 천장 불변 | ×1≈×3 무릎 | 격리: ×1 무릎~220 · ×3~260(3배 아님) · **병목=payment_db 2vCPU**(CPU95%/iowait26%/커밋대기 6/9) | ✅ **PASS(격리 재측정)** |
 | ④ | 가용성(HA) | 노드 장애 시 무중단 | drain 중 **fail 0%** · p95 블립 1139ms · self-heal 3/3 | ✅ PASS |
-| ⑤ | 무중단 롤링배포 | 5xx=0 | 롤링 중 **fail 1%** · p95 61ms · max 30s | ⚠️ PARTIAL |
+| ⑤ | 무중단 롤링배포 | 5xx=0 | preStop A/B: OFF 0.7%·max30s → **ON 0%·max1.2s** | ✅ **PASS(preStop)** |
 
 ---
 
@@ -32,26 +33,46 @@ merchant 한도 5회 업데이트 → outbox 5행. merchant-limit **×2** 파드
 
 **⚠️ 발견**: 동시 레이스의 **패자가 500**(INTERNAL_ERROR) 반환 — 정확성(무이중)은 UK가 보장하나, DuplicateKey 위반을 **멱등 응답(200)으로 변환하지 않음**. 단일 인스턴스에선 안 드러나던 멀티파드 엣지케이스. **향후 개선**: PENDING INSERT의 DuplicateKey를 잡아 진행 중/완료 결과를 멱등 반환.
 
-## ③ N-replica 천장 불변 — 반증 (헤드라인)
+## ③ N-replica 천장 — 격리 재측정으로 원인 규명 (헤드라인 정정)
 
-open-model 도착률 스윕(`slo-arrival.js`, Traefik 경유), payment ×1 vs ×3:
+**정정 요지: 이전 초안의 "210에서 ×1 221ms vs ×3 53ms → replica가 천장↑(반증)"은 아티팩트였다.** 당시 payment 파드가 Kafka broker와 같은 노드에서 **CPU limit 없이 경합**(noisy-neighbor)해 단일 파드가 CPU 굶주림으로 부풀려진 것. 전용 노드 풀 + Guaranteed QoS로 격리 재측정하니 그림이 뒤집혔다.
+
+open-model 도착률 스윕(`slo-arrival.js`, Traefik 경유), 격리 리그 payment ×1 vs ×3:
 
 | rate | ×1 p95 | ×3 p95 |
 |---|---|---|
-| 60~190 | 44~50ms | 42~47ms (동일) |
-| **210** | **221ms**(엘보) | **53ms**(평탄) |
+| 190~210 | 51~57ms | 57ms (동일) |
+| 230 | **2131ms**(절벽) | — |
+| 250 | — | 59ms(단독)~808ms |
+| 290 | — | **4344ms**(절벽) |
 
-**견고한 결론(리그 내부 ×1 vs ×3)** — 210에서 ×3이 명백히 우수(221ms→53ms). **단일 payment 파드의 Hikari 풀(10)이 210에서 병목**이었고, replica 추가가 파드마다 풀을 더해(총 커넥션 30) 앱-티어 천장을 올렸다. → "앱 replica는 천장을 못 올린다"는 **DB-write-bound에 도달했을 때만** 성립하고, 그 아래(풀-점유 바운드 구간)에선 replica가 올린다.
+- **격리하니 ×1도 210을 57ms로 여유 처리** → "×1이 210에서 이미 포화(221ms)"는 거짓. 무릎: **×1 ~220 · ×3 ~260**.
+- **replica는 무릎을 3배가 아니라 ~220→~260(약 18%)만 밀었다** → 앱 티어는 천장이 아니다. 원래 성공기준 "×1≈×3 무릎"이 **오히려 지지**됨(confounded 런이 이를 거짓 반증했던 것).
 
-**정직 정정 — 크로스-리그(load-test↔k3s) 비교는 하지 않는다(불공정):**
-- warm 단건 취소는 **두 리그 다 ~43ms로 비슷**했다(load-test 스모크 43ms · k3s 저부하 p50 ~40ms). 이전 초안이 인용한 load-test "~330ms"는 **홉 지연이 아니라 포화 시 부하-하 요청시간(큐잉 포함)**이었다 — 홉 지연처럼 쓴 건 오류.
-- 게다가 risk 홉은 TX 밖 호출이라 **그 동안 DB 커넥션을 반납**한다 → 홉이 빠르든 느리든 풀 점유(=천장)엔 직접 영향이 적다. 따라서 **"k3s가 홉이 빨라 천장이 높아졌다"는 근거가 약하다(과주장).**
-- k3s에선 payment↔risk 홉이 **같은 노드(네트워크 없음) 또는 크로스노드(VXLAN)로 배치마다 가변**이라(anti-affinity 미적용), load-test의 고정 크로스-EC2와 조건 자체가 다르다. CPU(전용 c7g.xlarge vs 공유 m7g.xlarge 파드)·pod vs EC2까지 겹쳐 **절대 비교 불가**.
-- 미규명: k3s 단일파드 천장(>210)이 load-test 천장(~190)과 왜 다른지는 이 데이터로 못 가른다. 진짜 DB-write 천장은 210 위(스윕 미도달) — 규명하려면 ×3를 더 높은 도착률로 밀어야.
+**진짜 병목 = payment_db (mysql-payment, m7g.large 2 vCPU).** 4단 진단으로 확정:
 
-**⚠️ 측정 격리 캐비앗 — 이번 ③은 정밀 벤치가 아니다:**
-payment 파드가 같은 agent에서 Kafka broker 등과 **CPU를 공유**했고 **limit 미설정**(requests 500m만)이라 noisy-neighbor가 섞였다. 배치도 가변. → 절대 천장 숫자는 soft(상대 ×1 vs ×3만 신뢰).
-**정밀 재측정 설계**(→ <a href="../architecture/k3s-topology-benchmark.html">격리 토폴로지 페이지</a>): ① payment **전용 노드 풀**(taint + nodeSelector, 노드당 1 payment) ② payment **Guaranteed QoS**(requests=limits로 CPU 격리) ③ Kafka/기타는 별도 풀 ④ DB 외부(유지) ⑤ ×3를 더 높은 도착률(250·300·350)까지 스윕 → **진짜 DB-write 천장**과 replica 효과를 깨끗이 규명.
+| 개입 | 검증한 가설 | 결과(무릎) | 판정 |
+|---|---|---|---|
+| payment ×1→×3 | 앱 Hikari 풀 | ~220→~260(3배 아님) | 앱 아님 |
+| `innodb_flush_log_at_trx_commit` 1→2 | payment_db fsync 내구성 | 그대로(~250) | fsync **단독** 아님 |
+| merchant 10→1000 | `merchant_cancel_usage` 행 락 경합 | 그대로(~250) | 행 락 아님 |
+| **250rps 중 CPU 스냅샷** | — | **payment_db 컨테이너 CPU 94.98% · iowait 25.8% · softirq 19.4% · "waiting for handler commit" 6/9 스레드** | 🔴 **payment_db 포화** |
+
+대조군(동시 스냅샷): risk_db 50% idle(CPU 35%) · risk 파드 226m+178m · payment 파드 각 1.1~1.4/3코어 · merchant-limit 4~5m — **전부 여유. 오직 payment_db만 포화.** 2 vCPU 박스가 취소당 다건 statement(TX1/2/3 + `SELECT…FOR UPDATE` 재조회 + 커밋)를 처리하며 **CPU(softirq 20% = 매 statement 네트워크 인터럽트) + 커밋 I/O(iowait 26%) 혼합**으로 ~250rps에서 한계.
+
+**개입 확증(관찰→개입) — payment_db vCPU 2→4배:** mysql-payment를 m7g.large(2vCPU)→**m7g.xlarge(4vCPU)**로 온라인 리사이즈 후 ×1 재측정:
+
+| rate | 2vCPU ×1 | 4vCPU ×1 |
+|---|---|---|
+| 210 | 57ms(OK) | 201ms<sup>†</sup>(OK) |
+| 230 | **2131ms(절벽)** | — |
+| 270 | — | **3614ms(절벽)** |
+
+무릎이 **~220→~260으로 이동(개입으로 천장이 실제 움직임 = payment_db가 벽임을 인과 확정)**. 단 vCPU 2배 투입 대비 **~15%만 상승(sub-proportional)** → payment_db는 **CPU 단독이 아니라 CPU+iowait+커밋 혼합** 바운드. flush=2·(예상)io2·vCPU **어느 단일 노브도 비례 해소 못 함**이 전부 정합. <sup>†</sup>4vCPU 런은 컨테이너 재생성으로 **InnoDB 버퍼풀 콜드**(210 p95 57→201ms는 워밍업 지터) → 무릎은 다소 저평가 가능. **진짜 해법: 더 큰 인스턴스 클래스(CPU+RAM+IOPS 동반) + 취소당 커밋/round-trip 감축**의 병행(단일 노브 아님).
+
+**io2/fsync 함의(사전 확증으로 판정):** flush=2가 무릎을 거의 못 올린 것은 payment_db가 **fsync 단독이 아니라 CPU/softirq도 함께 바운드**이기 때문. → **io2(디스크 지연만 개선)로는 부분 해소뿐**. 진짜 레버는 **payment_db vCPU 증설**(m7g.large 2→xlarge 4)과 **취소당 커밋/round-trip 감축**(statement 수 축소 → softirq·커밋 동반 감소). ‘공짜 확증(flush 토글) → 하드웨어’ 순서 덕에 헛돈(io2) 안 씀.
+
+**정직 정정 — 크로스-리그(load-test↔k3s) 절대 비교는 하지 않는다(불공정):** warm 단건 취소는 두 리그 다 ~43ms 유사. CPU(pod vs EC2)·홉 배치 상이로 절대 천장 숫자는 비교 불가 — 신뢰하는 건 **리그 내부 ×1 vs ×3 상대차 + payment_db 포화 규명**뿐.
 
 ## ④ 가용성(HA) — PASS
 
@@ -62,21 +83,28 @@ payment 파드가 같은 agent에서 Kafka broker 등과 **CPU를 공유**했고
 
 **노드 장애 = 요청 실패 0 + 짧은 지연 블립 + 자동 복구.** anti-affinity 분산이 단일 노드 장애를 견딤.
 
-## ⑤ 무중단 롤링배포 — PARTIAL + 정직한 발견
+## ⑤ 무중단 롤링배포 — PASS (preStop, A/B 인과 증명)
 
-100rps 지속 중 `rollout restart deploy/payment`(maxSurge1/maxUnavailable0):
-- p50 41ms·p95 61ms — 99% 매끄러움.
-- **fail 1%** · **max 30018ms**(=terminationGracePeriod 30s까지 걸린 요청 1건).
+**초기 PARTIAL(fail 1%·max 30s)을 preStop 훅으로 해소하고, 격리 리그에서 A/B로 인과를 못박았다.**
 
-**5xx=0 아님.** graceful shutdown(25s drain)이 대부분 흡수하나, **Service 엔드포인트 제거와 SIGTERM 레이스**로 ~1% 요청이 종료 중 파드로 라우팅돼 실패. **진짜 무중단엔 preStop drain 훅**(파드가 엔드포인트에서 빠질 때까지 잠깐 더 살아있게)이 필요 — graceful shutdown 단독으론 그 레이스를 못 덮는다. 멀티파드에서만 드러나는 배포 엣지케이스.
+**배포 데드락 발견(전용 풀 부작용):** 전용 노드 정확히 3개 + `maxSurge:1/maxUnavailable:0` + required anti-affinity(노드당 1)면 surge 파드가 갈 노드가 없어 **Pending 영구 정지** → 롤아웃이 한 발도 못 나감(옛 파드가 안 죽어 fail 0%로 보이나 **preStop 발동조차 안 됨**). → **`maxSurge:0/maxUnavailable:1`**로 교정(옛 파드 1개씩 종료 → 빈 노드 재생성, required anti-affinity와 충돌 없음).
+
+교정 후 150rps 지속 부하 중 `rollout restart`, preStop **A/B**:
+
+| preStop | fail% | max | dropped | p50/p95 |
+|---|---|---|---|---|
+| **OFF** | 0.7% | **30,018ms** | 50 | 43/51ms |
+| **ON**(`sleep 8`) | **0%** | **1,218ms** | 0 | 43/51ms |
+
+**인과 확정:** Service 엔드포인트 제거와 SIGTERM 레이스로, OFF는 종료 중 파드로 라우팅된 요청이 gracePeriod(30s)까지 매달려 실패(이전 PARTIAL의 max 30s를 정확히 재현). **preStop drain(8s)이 엔드포인트 전파를 기다려 레이스를 소거** → fail 0%·max 1.2s. p50/p95는 OFF·ON 동일 = preStop은 **꼬리(tail)만** 잡는다. graceful shutdown 단독으론 못 덮던 레이스를 preStop이 덮음을 대조로 증명.
 
 ---
 
 ## 종합
 
 - **정합성(①②④)은 견고**: 분산락 exactly-once, DB UK 이중취소0, 노드장애 무중단. 스케일아웃 안전.
-- **두 예측이 실측으로 정제/반증**:
-  - ③ "replica는 천장 못 올림" → **반증**(풀-점유 바운드 구간에선 올림; DB-write-bound여야 무효).
-  - ⑤ "graceful=무중단" → **부분 반증**(엔드포인트 레이스로 1% 실패; preStop 필요).
-- **멀티파드에서만 드러난 엣지 2건**: ② 동시 UK 레이스 500, ⑤ 배포 엔드포인트 레이스. 단일 인스턴스 테스트가 못 잡던 것 — 스케일아웃 검증의 값.
-- 후속 개선 후보: ② DuplicateKey 멱등 변환 · ⑤ preStop 훅 · ③ ×3를 더 높은 도착률로 밀어 진짜 DB 천장 규명.
+- **격리 재측정이 confounded 결론을 뒤집음**:
+  - ③ "replica는 천장 못 올림" → 격리로 **입증**(무릎 ~220→~260, 3배 아님). 초기 '반증(×3 53ms)'은 **noisy-neighbor CPU 아티팩트**였다. 진단 사다리(×3·flush=2·merchant1000 전부 무효 → CPU 스냅샷)로 **병목=payment_db 2vCPU**(CPU95%/iowait26%/커밋대기 6/9) 확정. **io2는 부분 해소뿐** — 레버는 DB vCPU 증설 + 커밋/statement 감축.
+  - ⑤ "graceful=무중단" → preStop **A/B로 인과 확정**(OFF 0.7%·max30s → ON 0%·max1.2s). 부수 발견: 전용풀+surge 롤아웃 데드락 → `maxSurge:0/maxUnavailable:1` 교정.
+- **멀티파드·전용풀에서만 드러난 엣지 3건**: ② 동시 UK 레이스 500 · ⑤ 배포 엔드포인트 레이스 · ⑤ 전용풀 surge 데드락. 단일 인스턴스 테스트가 못 잡던 것 — 스케일아웃 검증의 값.
+- 후속 개선 후보: ② DuplicateKey 멱등 변환 · **③ payment_db vCPU 증설(m7g.large→xlarge) + 취소당 커밋 감축** · ⑤ 매니페스트에 preStop + `maxSurge:0/maxUnavailable:1` 반영.
