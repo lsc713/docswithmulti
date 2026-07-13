@@ -46,7 +46,6 @@ outbox:
   scheduler:
     batch-size: 1000
     lock-key: lock:merchant-limit:outbox-publisher
-    lock-ttl-seconds: 9
 
 logging:
   level:
