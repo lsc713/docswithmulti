@@ -5,7 +5,10 @@ spec:
   replicas: 3
   selector: { matchLabels: { app: payment } }
   strategy:
-    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+    # 전용 노드풀(노드당 payment 1, required anti-affinity)에선 maxSurge>0이 데드락:
+    # surge 파드가 갈 빈 노드가 없어 Pending 영구 정지(exp⑤ 발견). maxSurge:0으로
+    # 옛 파드 1개씩 종료 → 빈 노드에 재생성(preStop이 엔드포인트 레이스 흡수).
+    rollingUpdate: { maxSurge: 0, maxUnavailable: 1 }
   template:
     metadata: { labels: { app: payment } }
     spec:
