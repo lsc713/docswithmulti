@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: merchant-limit, namespace: default }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: merchant-limit } }
+  strategy:
+    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+  template:
+    metadata: { labels: { app: merchant-limit } }
+    spec:
+      containers:
+        - name: merchant-limit
+          image: camelia9999/cancel-loadtest:merchant-limit-latest
+          imagePullPolicy: Always
+          ports: [{ containerPort: 8082 }]
+          envFrom:
+            - configMapRef: { name: app-config }
+          env:
+            - { name: SPRING_DATASOURCE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: MERCHANT_DB_URL } } }
+            - { name: SPRING_DATASOURCE_USERNAME, valueFrom: { secretKeyRef: { name: db-cred, key: MERCHANT_DB_USER } } }
+            - { name: SPRING_DATASOURCE_PASSWORD, valueFrom: { secretKeyRef: { name: db-cred, key: MERCHANT_DB_PASS } } }
+            - { name: JAVA_TOOL_OPTIONS, value: "-Xmx2g -XX:+UseG1GC" }
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: 8082 }
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8082 }
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          resources:
+            requests: { cpu: "500m", memory: "1Gi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: merchant-limit, namespace: default }
+spec:
+  selector: { app: merchant-limit }
+  ports: [{ port: 8082, targetPort: 8082 }]

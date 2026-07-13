@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: risk, namespace: default }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: risk } }
+  strategy:
+    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+  template:
+    metadata: { labels: { app: risk } }
+    spec:
+      containers:
+        - name: risk
+          image: camelia9999/cancel-loadtest:risk-management-latest
+          imagePullPolicy: Always
+          ports: [{ containerPort: 8083 }]
+          envFrom:
+            - configMapRef: { name: app-config }
+          env:
+            - { name: SPRING_DATASOURCE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: RISK_DB_URL } } }
+            - { name: SPRING_DATASOURCE_USERNAME, valueFrom: { secretKeyRef: { name: db-cred, key: RISK_DB_USER } } }
+            - { name: SPRING_DATASOURCE_PASSWORD, valueFrom: { secretKeyRef: { name: db-cred, key: RISK_DB_PASS } } }
+            - { name: JAVA_TOOL_OPTIONS, value: "-Xmx2g -XX:+UseG1GC" }
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: 8083 }
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8083 }
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          resources:
+            requests: { cpu: "500m", memory: "1Gi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: risk, namespace: default }
+spec:
+  selector: { app: risk }
+  ports: [{ port: 8083, targetPort: 8083 }]

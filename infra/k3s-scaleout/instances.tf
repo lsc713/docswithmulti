@@ -24,19 +24,21 @@ locals {
 
 # role별 user_data: server=k3s server(taint), agent=join, 그 외=docker(기존 compose 재사용)
 locals {
+  # 주의: 부팅 초기 get.k3s.io 로의 curl 이 실패할 수 있어(egress 준비 타이밍),
+  # `curl -sfL | sh`(silent)는 빈 파이프→무설치·무로그로 조용히 넘어간다.
+  # → 스크립트를 파일로 받고 재시도 루프 + 실패 시 로그를 남긴다.
   ud_server = <<-EOF
     #!/bin/bash
     set -e
-    curl -sfL https://get.k3s.io | K3S_TOKEN='${var.k3s_token}' sh -s - server \
-      --node-taint node-role.kubernetes.io/control-plane=true:NoSchedule \
-      --tls-san ${local.server_ip} --write-kubeconfig-mode 644
+    for i in $(seq 1 10); do curl -fL https://get.k3s.io -o /tmp/k3s.sh && break; echo "k3s dl 재시도 $i"; sleep 10; done
+    K3S_TOKEN='${var.k3s_token}' INSTALL_K3S_EXEC='server --node-taint node-role.kubernetes.io/control-plane=true:NoSchedule --tls-san ${local.server_ip} --write-kubeconfig-mode 644' sh /tmp/k3s.sh
   EOF
   ud_agent = <<-EOF
     #!/bin/bash
     set -e
-    # server API가 뜰 때까지 대기 후 join (agent 자체 재시도도 있으나 명시적 대기)
     until curl -sk https://${local.server_ip}:6443/ping >/dev/null 2>&1; do sleep 5; done
-    curl -sfL https://get.k3s.io | K3S_URL='https://${local.server_ip}:6443' K3S_TOKEN='${var.k3s_token}' sh -s - agent
+    for i in $(seq 1 10); do curl -fL https://get.k3s.io -o /tmp/k3s.sh && break; echo "k3s dl 재시도 $i"; sleep 10; done
+    K3S_URL='https://${local.server_ip}:6443' K3S_TOKEN='${var.k3s_token}' sh /tmp/k3s.sh
   EOF
   ud_docker = <<-EOF
     #!/bin/bash
