@@ -41,9 +41,17 @@ open-model 도착률 스윕(`slo-arrival.js`, Traefik 경유), payment ×1 vs ×
 | 60~190 | 44~50ms | 42~47ms (동일) |
 | **210** | **221ms**(엘보) | **53ms**(평탄) |
 
-**예측("앱 replica는 DB 천장을 못 올린다") 반증** — 210에서 ×3이 명백히 우수. **단일 payment 파드의 Hikari 풀(10)이 210에서 병목**이었고, replica 추가가 풀 용량을 늘려 천장을 올렸다.
+**견고한 결론(리그 내부 ×1 vs ×3)** — 210에서 ×3이 명백히 우수(221ms→53ms). **단일 payment 파드의 Hikari 풀(10)이 210에서 병목**이었고, replica 추가가 파드마다 풀을 더해(총 커넥션 30) 앱-티어 천장을 올렸다. → "앱 replica는 천장을 못 올린다"는 **DB-write-bound에 도달했을 때만** 성립하고, 그 아래(풀-점유 바운드 구간)에선 replica가 올린다.
 
-정직한 정제: k3s의 **빠른 in-cluster 홉**(취소당 ~45ms)이라 단일 파드 풀10 천장이 ~210. 옛 load-test 리그(크로스-EC2 느린 홉 ~330ms)에선 커넥션 점유가 커 ~190에서 막혀 "DB fsync 바운드"처럼 보였으나, **실은 상당 부분 풀-점유 바운드**였고 replica가 이를 완화한다(Little's law: throughput = pool ÷ occupancy, 파드마다 pool 추가). 진짜 DB 천장은 210 위(이번 스윕 미도달). → 블로그 22편·capacity의 "replica 무효"는 **DB-write-bound에 도달했을 때만** 성립.
+**정직 정정 — 크로스-리그(load-test↔k3s) 비교는 하지 않는다(불공정):**
+- warm 단건 취소는 **두 리그 다 ~43ms로 비슷**했다(load-test 스모크 43ms · k3s 저부하 p50 ~40ms). 이전 초안이 인용한 load-test "~330ms"는 **홉 지연이 아니라 포화 시 부하-하 요청시간(큐잉 포함)**이었다 — 홉 지연처럼 쓴 건 오류.
+- 게다가 risk 홉은 TX 밖 호출이라 **그 동안 DB 커넥션을 반납**한다 → 홉이 빠르든 느리든 풀 점유(=천장)엔 직접 영향이 적다. 따라서 **"k3s가 홉이 빨라 천장이 높아졌다"는 근거가 약하다(과주장).**
+- k3s에선 payment↔risk 홉이 **같은 노드(네트워크 없음) 또는 크로스노드(VXLAN)로 배치마다 가변**이라(anti-affinity 미적용), load-test의 고정 크로스-EC2와 조건 자체가 다르다. CPU(전용 c7g.xlarge vs 공유 m7g.xlarge 파드)·pod vs EC2까지 겹쳐 **절대 비교 불가**.
+- 미규명: k3s 단일파드 천장(>210)이 load-test 천장(~190)과 왜 다른지는 이 데이터로 못 가른다. 진짜 DB-write 천장은 210 위(스윕 미도달) — 규명하려면 ×3를 더 높은 도착률로 밀어야.
+
+**⚠️ 측정 격리 캐비앗 — 이번 ③은 정밀 벤치가 아니다:**
+payment 파드가 같은 agent에서 Kafka broker 등과 **CPU를 공유**했고 **limit 미설정**(requests 500m만)이라 noisy-neighbor가 섞였다. 배치도 가변. → 절대 천장 숫자는 soft(상대 ×1 vs ×3만 신뢰).
+**정밀 재측정 설계**(→ <a href="../architecture/k3s-topology-benchmark.html">격리 토폴로지 페이지</a>): ① payment **전용 노드 풀**(taint + nodeSelector, 노드당 1 payment) ② payment **Guaranteed QoS**(requests=limits로 CPU 격리) ③ Kafka/기타는 별도 풀 ④ DB 외부(유지) ⑤ ×3를 더 높은 도착률(250·300·350)까지 스윕 → **진짜 DB-write 천장**과 replica 효과를 깨끗이 규명.
 
 ## ④ 가용성(HA) — PASS
 

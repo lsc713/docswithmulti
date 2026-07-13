@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>k3s 정밀 처리량 벤치 토폴로지 (격리 설계)</title>
+    <style>
+      body { font-family: system-ui, -apple-system, sans-serif; max-width: 1200px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      table { border-collapse: collapse; font-size: 0.85rem; margin: 1rem 0; width: 100%; }
+      th, td { border: 1px solid #e5e7eb; padding: 0.35rem 0.6rem; text-align: left; vertical-align: top; }
+      th { background: #f9fafb; }
+      pre { background: #1e293b; color: #e2e8f0; padding: 0.9rem; border-radius: 8px; overflow-x: auto; font-size: 0.8rem; }
+      .warn { background: #fef3c7; border-left: 4px solid #d97706; padding: 0.6rem 0.9rem; font-size: 0.88rem; border-radius: 4px; }
+    </style>
+  </head>
+  <body>
+    <h1>정밀 처리량 벤치 토폴로지 (격리 설계)</h1>
+    <p class="meta">
+      Generated 2026-07-13 · <strong>제안 설계</strong>(아직 미실행) · 목적: 실험 ③(N-replica 천장)의
+      noisy-neighbor 오염을 제거하고 <strong>payment 한 벌의 진짜 천장 + replica 효과</strong>를 깨끗이 측정
+    </p>
+    <nav>
+      ▸ <a href="./k3s-topology.html">← 실제 배포 토폴로지 (공유 3 agent)</a> ·
+      <a href="./k3s-scaleout.html">스케일아웃 개요</a> ·
+      <a href="../load-test/k3s-scaleout-results.md">검증 실험 결과 §③ →</a>
+    </nav>
+
+    <div class="warn">
+      <strong>왜 필요한가</strong> — 실측 ③은 payment 파드가 같은 agent에서 Kafka broker와 <strong>CPU 공유 + limit 미설정</strong>이라
+      절대 천장이 오염됐다(상대 ×1 vs ×3만 신뢰). 아래 설계는 <strong>서비스를 EC2에 손으로 쪼개는 게 아니라</strong>,
+      k8s의 <strong>전용 노드 풀 + Guaranteed QoS</strong>로 payment만 CPU 격리한다(스케줄러는 그대로).
+    </div>
+
+    <h2>1. 격리 벤치 토폴로지</h2>
+    <p class="legend">
+      <span style="color:#3b82f6">파랑</span> payment(측정 대상, 격리) · <span style="color:#6b7280">회색</span> 그 외 워크로드 ·
+      <span style="color:#d97706">노랑</span> 외부 DB. <strong>payment 전용 노드 풀</strong>(taint로 다른 파드 차단) + payment
+      <strong>Guaranteed QoS</strong>(requests=limits) → CPU noisy-neighbor 제거. DB는 외부 고정(진짜 병목 후보).
+    </p>
+    <div class="mermaid">
+graph TB
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef ext fill:#f3f4f6,stroke:#9ca3af,color:#374151,stroke-dasharray:4 3;
+  classDef cp fill:#ede9fe,stroke:#7c3aed,color:#4c1d95;
+  classDef float fill:#eff6ff,stroke:#60a5fa,color:#1e3a5f,stroke-dasharray:3 3;
+
+  k6["k6 부하생성기 · .20"]:::ext
+  tr[/"Traefik 인그레스 · node:80"/]:::infra
+  psvc["payment Service :8080"]:::svc
+
+  subgraph server["k3s-server (control-plane, taint)"]
+    api["apiserver · scheduler"]:::cp
+  end
+
+  subgraph paypool["payment 전용 노드 풀 — taint role=payment:NoSchedule (다른 파드 스케줄 차단)"]
+    subgraph pn1["node p1 · c7g.xlarge"]
+      pa1["payment #1<br/>Guaranteed QoS<br/>cpu 2=2 · mem 2Gi=2Gi"]:::svc
+    end
+    subgraph pn2["node p2 · c7g.xlarge"]
+      pa2["payment #2<br/>Guaranteed QoS"]:::svc
+    end
+    subgraph pn3["node p3 · c7g.xlarge"]
+      pa3["payment #3<br/>Guaranteed QoS"]:::svc
+    end
+  end
+
+  subgraph wpool["workload 노드 풀 · m7g.xlarge ×3 (payment 아닌 것 전부)"]
+    kb["Kafka 3-broker (노드당 1)"]:::infra
+    other["risk ×2 · merchant-limit ×2 · order ×2 · redis · operator<br/>(스케줄러 배치)"]:::float
+  end
+
+  subgraph ext["외부 EC2 — 3대 별도 (병목 후보, 고정)"]
+    mp[("mysql-payment · .30")]:::db
+    mr[("mysql-risk · .31")]:::db
+    cd[("cold-db · .32<br/>merchant+order")]:::db
+  end
+
+  k6 -->|"POST /cancel"| tr
+  tr -->|"payment Ingress"| psvc
+  psvc -.->|"kube-proxy L4"| pa1
+  psvc -.-> pa2
+  psvc -.-> pa3
+  pa1 --> mp
+  pa2 --> mp
+  pa3 --> mp
+  pa1 -.->|"동기 HTTP"| wpool
+  wpool --> mr
+  wpool --> cd
+    </div>
+    <p class="legend">
+      payment 3벌은 <strong>각각 전용 노드 1대를 통째로</strong>(Guaranteed QoS) → CPU 경합 0.
+      이제 도착률을 올렸을 때 막히는 건 <strong>payment CPU가 아니라 외부 DB(공유 write)</strong>여야 한다 →
+      ×1 vs ×3가 <strong>정말 DB 천장에서 같아지는지</strong>(replica 무효) 아니면 여전히 벌어지는지 깨끗이 판별.
+    </p>
+
+    <h2>2. 무엇이 바뀌나 — 공유(실측) vs 격리(벤치)</h2>
+    <table>
+      <tr><th>항목</th><th>실측 ③ (공유 3 agent)</th><th>격리 벤치 (제안)</th></tr>
+      <tr><td>payment 배치</td><td>agent에 Kafka broker와 co-location</td><td><strong>전용 노드 풀</strong>(taint) · 노드당 1</td></tr>
+      <tr><td>payment CPU</td><td>requests 500m, <strong>limit 없음</strong> → 이웃과 경합</td><td><strong>Guaranteed QoS</strong>(requests=limits) → 격리</td></tr>
+      <tr><td>배치 결정성</td><td>스케줄러 가변(런마다 다름)</td><td>nodeSelector로 고정</td></tr>
+      <tr><td>Kafka/기타</td><td>payment와 같은 노드 가능</td><td>별도 workload 풀</td></tr>
+      <tr><td>DB</td><td>외부 고정</td><td>외부 고정 (동일)</td></tr>
+      <tr><td>스윕 상한</td><td>210 (천장 미도달)</td><td><strong>250·300·350까지</strong> → 진짜 DB 천장 규명</td></tr>
+      <tr><td>노드 수</td><td>server1 + agent3</td><td>server1 + payment3 + workload3 (+외부 DB/k6/obs)</td></tr>
+    </table>
+
+    <h2>3. 매니페스트/terraform 변경 (요지)</h2>
+    <p class="legend">서비스를 VM에 쪼개는 게 아니라, k8s 원시로 같은 의도를 표현한다.</p>
+    <pre># terraform: payment 전용 노드 풀 3대 (taint + label)
+#   k3s agent user_data: --node-taint role=payment:NoSchedule --node-label pool=payment
+
+# payment Deployment — 전용 노드 + Guaranteed QoS
+spec:
+  template:
+    spec:
+      nodeSelector: { pool: payment }
+      tolerations:
+        - { key: role, value: payment, effect: NoSchedule }
+      affinity:            # 노드당 1 (전용이므로 hard도 가능)
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector: { matchLabels: { app: payment } }
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: payment
+          resources:            # requests == limits ⇒ Guaranteed QoS (CPU 격리)
+            requests: { cpu: "2", memory: "2Gi" }
+            limits:   { cpu: "2", memory: "2Gi" }
+
+# risk/merchant-limit/order/kafka/redis — payment 노드에 안 가게 (taint가 자동 차단)
+#   그냥 기본 워크로드 풀에 스케줄 (별도 nodeSelector 불필요)</pre>
+
+    <div class="warn">
+      <strong>실행은 billable</strong> — 이 설계로 재측정하려면 노드가 늘어(server1+payment3+workload3) terraform·매니페스트를
+      바꾸고 AWS 런을 태워야 한다. 실행 여부는 별도 결정.
+    </div>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>

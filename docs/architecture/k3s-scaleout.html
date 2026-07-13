@@ -34,6 +34,7 @@
     <nav>
       ▸ <a href="./k3s-topology.html">배포 토폴로지 (상세) →</a> ·
       <a href="./k3s-flow.html">요청·이벤트 플로우 (상세) →</a> ·
+      <a href="./k3s-topology-benchmark.html">정밀 벤치 토폴로지 (제안) →</a> ·
       <a href="./index.html">전체 서비스 토폴로지 →</a> ·
       <a href="../load-test/k3s-scaleout-results.md">검증 실험 5종 결과 →</a>
     </nav>
@@ -76,9 +77,10 @@
       <tr><td>⑤</td><td>무중단 롤링</td><td class="partial">PARTIAL</td><td>fail 1% · max 30s — 엔드포인트 레이스, preStop 필요</td></tr>
     </table>
     <p class="legend">
-      ③은 <a href="./perf-anatomy.html">perf-anatomy</a>·capacity의 "190 천장·replica 무효"를 정제 —
-      빠른 in-cluster 홉 환경에선 그 천장이 상당 부분 <strong>Hikari 풀-점유 바운드</strong>였고,
-      replica가 풀 용량을 늘려 천장을 올린다("replica 무효"는 DB-write-bound 도달 시에만 성립).
+      ③ 견고한 결론: <strong>리그 내부 ×1→×3에서 210이 221ms→53ms</strong> = 단일 파드 풀(10)이 210 병목이었고
+      replica가 파드마다 풀을 더해 앱-티어 천장↑ → "replica 무효"는 <strong>DB-write-bound 도달 시에만</strong> 성립.
+      단, load-test↔k3s <strong>절대 비교는 안 함</strong>(warm 취소는 두 리그 다 ~43ms 유사 · CPU/pod-vs-EC2/홉 배치 상이 = 불공정).
+      상세·정정은 <a href="../load-test/k3s-scaleout-results.md">결과 문서 §③</a>.
     </p>
   </body>
 </html>

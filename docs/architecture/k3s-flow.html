@@ -32,6 +32,8 @@
       Traefik → payment 파드(3중 1택) → risk → merchant-limit(클러스터 DNS) → 외부 DB.
       멱등은 <code>request_hash</code> UK, 재계산은 <code>findAllByPaymentIdForUpdate</code> 행락.
       TX3 커밋과 <code>payment.cancelled</code> 인라인 발행이 커플링(발행 실패 = 롤백).
+      <br/><strong>주의(홉 배치 가변)</strong>: payment→risk→merchant-limit 홉은 파드가 <strong>같은 agent면 호스트 내 통신(네트워크 없음), 다른 agent면 flannel VXLAN 크로스노드</strong> — anti-affinity를 안 걸어 스케줄러 배치마다 다르다.
+      (load-test는 payment/risk 단독 EC2라 항상 고정 크로스-EC2. 그래서 두 리그 홉 지연은 직접 비교하지 않는다.)
     </p>
     <div class="mermaid">
 sequenceDiagram
