@@ -9,6 +9,7 @@ spec:
   template:
     metadata: { labels: { app: payment } }
     spec:
+      terminationGracePeriodSeconds: 30
       affinity:
         podAntiAffinity:                    # replica를 노드에 분산(HA)
           preferredDuringSchedulingIgnoredDuringExecution:

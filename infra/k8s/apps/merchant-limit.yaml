@@ -9,6 +9,7 @@ spec:
   template:
     metadata: { labels: { app: merchant-limit } }
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
         - name: merchant-limit
           image: camelia9999/cancel-loadtest:merchant-limit-latest
