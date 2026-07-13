@@ -9,19 +9,24 @@ spec:
   template:
     metadata: { labels: { app: payment } }
     spec:
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: 40
+      # 격리 벤치: payment 전용 노드 풀에만 스케줄 (taint 통과 + label 매칭)
+      nodeSelector: { pool: payment }
+      tolerations:
+        - { key: role, value: payment, effect: NoSchedule }
       affinity:
-        podAntiAffinity:                    # replica를 노드에 분산(HA)
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector: { matchLabels: { app: payment } }
-                topologyKey: kubernetes.io/hostname
+        podAntiAffinity:                    # 전용 풀에서 노드당 정확히 1 (경합 0)
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector: { matchLabels: { app: payment } }
+              topologyKey: kubernetes.io/hostname
       containers:
         - name: payment
           image: camelia9999/cancel-loadtest:payment-latest
           imagePullPolicy: Always
           ports: [{ containerPort: 8080 }]
+          lifecycle:
+            preStop:
+              exec: { command: ["sh", "-c", "sleep 8"] }   # 엔드포인트 제거 대기 → 롤링 5xx↓ (exp⑤ 개선)
           envFrom:
             - configMapRef: { name: app-config }
           env:
@@ -37,8 +42,9 @@ spec:
             httpGet: { path: /actuator/health/liveness, port: 8080 }
             initialDelaySeconds: 40
             periodSeconds: 10
-          resources:
-            requests: { cpu: "500m", memory: "1Gi" }
+          resources:            # requests == limits ⇒ Guaranteed QoS (CPU 격리)
+            requests: { cpu: "3", memory: "3Gi" }
+            limits:   { cpu: "3", memory: "3Gi" }
 ---
 apiVersion: v1
 kind: Service
