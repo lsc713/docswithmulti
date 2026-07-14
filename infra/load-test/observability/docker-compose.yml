@@ -30,6 +30,10 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin
       GF_AUTH_ANONYMOUS_ENABLED: "true"        # 테스트 환경 편의
       GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      # Slack contact point(봇 토큰) — host .env 의 두 값을 컨테이너로 전달.
+      # 비면 알림 프로비저닝은 로드되나 전송만 실패(스택 자체는 정상).
+      SLACK_BOT_TOKEN: ${SLACK_BOT_TOKEN:-}
+      ONCALL_SLACK_CHANNEL: ${ONCALL_SLACK_CHANNEL:-}
     volumes:
       - ./grafana/provisioning:/etc/grafana/provisioning:ro
       - ./grafana/dashboards:/var/lib/grafana/dashboards:ro

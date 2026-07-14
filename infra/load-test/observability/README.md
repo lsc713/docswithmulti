@@ -46,6 +46,41 @@ fields @timestamp, @logStream, @message
 | Kafka | kafka-exporter | **consumer lag** |
 | k6 | Prometheus remote-write | 클라이언트측 p95/p99, 에러 |
 
+## oncall 알림 (Grafana → Slack → oncall 스킬)
+
+부하 실측 중 임계 초과 시 Grafana 통합 알림이 **Slack 채널로 firing 알림을 발송**하고,
+그 채널을 `oncall-triage`/`oncall-pr`/`oncall-log` 스킬이 읽어 진단·PR·기록한다.
+(스킬은 알림 채널을 **읽기만** 한다 — 발송 배선이 여기다.)
+
+**프로비저닝 파일** (`grafana/provisioning/alerting/`):
+
+| 파일 | 역할 |
+|------|------|
+| `contactpoints.yml` | Slack contact point(봇 토큰). payload 를 **plain-text** 로 렌더(Slack MCP 가 blocks 를 못 읽는 문제 회피) |
+| `policies.yml` | 루트 라우팅 → `slack-oncall`, group by service·alertname |
+| `rules.yml` | 알림 룰 5종(Grafana-managed, datasource uid=`prometheus`) |
+
+**알림 룰 → 감별표 매핑** (룰은 정식 `service` 라벨을 부여해 스킬의 `match.services` 필터 통과):
+
+| 룰 | 메트릭(상시 노출) | service | 감별표 |
+|----|------------------|---------|--------|
+| HighCancelLatency | `http_server_requests` p95 | payment-service | Family A |
+| HikariConnectionTimeouts | `hikaricp_connections_timeout_total` | payment-service | A 풀고갈(§B B1 반증 주의) |
+| HighErrorRatio | risk 5xx 비율 | risk-management-service | **B2** 락 fail-fast |
+| KafkaConsumerLag | `kafka_consumergroup_lag` | order-service | **B3** 폴러/컨슈머 |
+| PaymentDbCpuSaturation | node cpu(`host=mysql-payment`) | payment-service | **B1** 지배 병목 |
+
+**시크릿(.env — gitignore, 커밋 안 됨).** repo 루트 `.env` 에:
+```
+SLACK_BOT_TOKEN=xoxb-...        # chat:write 스코프 + 봇이 채널에 초대돼 있어야 함
+ONCALL_SLACK_CHANNEL=C0BAXAEDL5R
+```
+Grafana 는 이 두 값을 프로비저닝 시점에 `${...}` 로 확장한다(하드코딩 없음). 값이 비면 스택은
+정상이고 **전송만** 실패한다.
+
+> 임계값은 실측 무릎(~220 rps, `capacity-planning.md`) 근처 튜닝 대상 — 현재는 데모용 보수값.
+> 알림은 **스택 + 앱이 부하로 도는 동안에만** 발화한다(관측 스택은 상시 가동 아님).
+
 ## 기동 순서
 
 **1. 각 호스트(9대)에서 node-exporter** — SSM 접속 후:
@@ -53,10 +88,13 @@ fields @timestamp, @logStream, @message
 docker compose -f node-exporter.compose.yml up -d
 ```
 
-**2. obs 인스턴스(10.0.1.50)에서 전체 스택**:
+**2. obs 인스턴스(10.0.1.50)에서 전체 스택** — 루트 `.env` 를 명시해 Slack 시크릿을 주입:
 ```bash
-docker compose up -d
+# .env 는 repo 루트에 있고 compose 는 이 디렉터리에서 뜨므로 --env-file 로 지정
+docker compose --env-file /Users/juho/Documents/docswithmulti/.env up -d
 ```
+> `--env-file` 없이 `docker compose up -d` 하면 이 디렉터리의 `.env` 를 찾으므로 Grafana 에
+> Slack 값이 안 들어간다(알림 전송만 실패). 스택은 어느 쪽이든 뜬다.
 
 - Grafana: `http://10.0.1.50:3000` (admin/admin, 익명 Viewer 허용)
   - 대시보드: **Load Test / Cancel Load Test — Overview** 자동 프로비저닝
