@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>서비스별 메서드 흐름 – Architecture</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      .note { font-size: 0.85rem; color: #444; background: #eff6ff; border-left: 3px solid #3b82f6; padding: 0.6rem 0.9rem; border-radius: 4px; margin: 0.8rem 0; }
+      .svc { font-size: 0.8rem; color: #1e40af; font-weight: 600; }
+    </style>
+  </head>
+  <body>
+    <h1>서비스별 메서드 흐름 — 코드 투어</h1>
+    <p class="meta">Generated 2026-07-12 · source: payment/risk/merchant-limit/order-service 애플리케이션 레이어</p>
+    <nav>
+      ← <a href="./index.html">시스템 개요</a> ·
+      <a href="./cancel-flow.html">취소 플로우(TX)</a> ·
+      <a href="./perf-anatomy.html">실측(1~4막)</a>
+    </nav>
+    <p class="legend">
+      개요/취소플로우가 <em>서비스·TX 경계</em> 레벨이라면, 여기는 한 단계 더 줌인한 <strong>메서드 호출 체인</strong>이다.
+      핵심 유스케이스만(헬퍼·getter 제외). <span style="color:#d97706">노랑</span> = TX 경계, <span style="color:#3b82f6">파랑</span> = 외부호출,
+      <span style="color:#16a34a">초록</span> = TX 밖, <span style="color:#dc2626">빨강</span> = 실패/보상 경로.
+    </p>
+
+    <h2>1. payment · 취소 인라인 <span class="svc">CancelPaymentService.cancel</span></h2>
+    <div class="mermaid">
+flowchart TD
+  classDef tx fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef ext fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef err fill:#fecaca,stroke:#dc2626,color:#5b0a0a;
+
+  CALL(["cancel(command)"]) --> LK["findByPaymentKey · findAllByPaymentIdOrderByIdAsc<br/>RequestHashGenerator.generate"]
+  LK --> IDEM{"findByPaymentIdAndRequestHash<br/>기존 있음?"}
+  IDEM -->|"있음"| EX0["handleExistingRequest<br/>COMPLETED/PENDING/PROCESSING → 반환<br/>FAILED → raiseToPending → 재실행"]
+  IDEM -->|"없음"| V["executeCancel:<br/>validateCancellable · validateTargetItemsActive"]
+  EX0 --> V
+  V --> TX1["cancelTxWriter.saveTx1 (TX1 PENDING INSERT)"]:::tx
+  TX1 --> H1["recordHistory PENDING → 버퍼"]
+  H1 --> RISK["riskManagementPort.validateAndReserve"]:::ext
+  RISK -->|"예외"| CF1["tryCompensate + markFailed → throw"]:::err
+  RISK -->|"성공"| TX2["cancelTxWriter.saveTx2 (TX2 PROCESSING)"]:::tx
+  TX2 --> H2["recordHistory PROCESSING → 버퍼"]
+  H2 --> PG["pgCancelPort.cancel"]:::ext
+  PG -->|"실패"| CF2["compensateAndFail"]:::err
+  PG -->|"성공"| TX3["cancelTxWriter.saveTx3 (TX3)<br/>findAllByPaymentIdForUpdate → 재계산 → save<br/>→ cancelEventPublisher.publish(cancelRequestId)"]:::tx
+  TX3 --> H3["recordHistory COMPLETED → 버퍼"]
+  H3 --> FIN["finally: cancelHistoryRecorder.flush()<br/>버퍼 이력 1 배치 INSERT (커밋 4)"]
+  CF1 --> FIN
+  CF2 --> FIN
+    </div>
+    <p class="note">
+      이력은 상태전이마다 <strong>메모리 버퍼</strong>에 쌓고, <code>cancel()</code>의 <code>finally</code>에서 1 배치로 flush(커밋 6→4).
+      TX3의 <code>publish</code> 실패 시 예외→TX3 롤백→PROCESSING 유지→아래 processing-recovery가 재처리.
+    </p>
+
+    <h2>2. payment · 복구 스케줄러 3 <span class="svc">Pending/Processing/CompensationRetry</span></h2>
+    <div class="mermaid">
+flowchart TD
+  classDef ext fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef tx fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef err fill:#fecaca,stroke:#dc2626,color:#5b0a0a;
+
+  subgraph PEND["pending-recovery (60s)"]
+    P1["recoverAll: findStale(PENDING &gt; 5분)"] --> P2["forEach recoverOne"]
+    P2 --> P3["riskManagementPort.isCharged"]:::ext
+    P3 -->|"charged"| P4["compensate → markFailed"]:::err
+    P3 -->|"미차감"| P5["markFailed"]:::err
+  end
+  subgraph PROC["processing-recovery (60s)"]
+    Q1["recoverAll: findStale(PROCESSING &gt; 5분)"] --> Q2["forEach recoverOne"]
+    Q2 --> Q3["pgCancelPort.getStatus"]:::ext
+    Q3 -->|"취소 확인"| Q4["cancelTxWriter.saveTx3<br/>(TX3 재실행 + Kafka 재발행)"]:::tx
+    Q3 -->|"취소 실패"| Q5["compensateAndFail"]:::err
+    Q3 -->|"PG 조회 실패"| Q6["PROCESSING 유지 (다음 주기)"]
+  end
+  subgraph COMP["compensation-retry (30s)"]
+    R1["compensation_retry 조회"] --> R2["riskManagementPort.compensate 재시도"]:::ext
+  end
+    </div>
+    <p class="note">복구는 <code>cancel_request.status</code>만 조회(history 미의존). 분산락(Redis)으로 다중 인스턴스에서 1개만 실행.</p>
+
+    <h2>3. risk · 검증·차감 <span class="svc">ValidateAndReserveService.execute</span></h2>
+    <div class="mermaid">
+flowchart TD
+  classDef out fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef tx fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef err fill:#fecaca,stroke:#dc2626,color:#5b0a0a;
+
+  E(["execute(cmd)"]) --> IDEM{"findByCancelRequestId<br/>이미 차감? (TX 밖)"}:::out
+  IDEM -->|"있음"| RP["기존 결과 재생"]
+  IDEM -->|"없음"| RES["resolveDailyLimit (TX 밖)<br/>Redis → DB 스냅샷 → merchant-limit HTTP"]:::out
+  RES --> TX["transactionTemplate.execute"]:::tx
+  TX --> ENS["ensureRow"]:::tx
+  ENS --> DED["tryDeduct — 원자 조건부 UPDATE<br/>used+amt ≤ daily_limit"]:::tx
+  DED -->|"0 (한도초과)"| TH["MerchantCancelLimitExceededException (422)"]:::err
+  DED -->|"1"| HS["history.save (UK 멱등)"]:::tx
+  HS --> OK["결과 반환"]
+    </div>
+    <p class="note">
+      멱등 pre-check와 <code>resolveDailyLimit</code>(merchant-limit HTTP 포함)은 <strong>TX 밖</strong> — HTTP가 DB 커넥션을 쥐지 않게(지연 전파 차단).
+      TX는 <code>ensureRow · tryDeduct · history.save</code>만. 최종 멱등은 history UK.
+    </p>
+
+    <h2>4. risk · 보상 <span class="svc">CompensateService.execute</span></h2>
+    <div class="mermaid">
+flowchart TD
+  classDef err fill:#fecaca,stroke:#dc2626,color:#5b0a0a;
+  classDef ok fill:#dcfce7,stroke:#16a34a,color:#14532d;
+
+  E(["execute(cmd)"]) --> A{"existsByCancelRequestId?"}
+  A -->|"있음"| ALR["ALREADY_COMPENSATED"]:::ok
+  A -->|"없음"| B{"findByCancelRequestId (history)"}
+  B -->|"없음"| NC["NOT_CHARGED"]:::ok
+  B -->|"있음"| C{"요청 merchantId = 이력 merchantId?"}
+  C -->|"불일치"| MM["CompensationMerchantMismatchException (400)"]:::err
+  C -->|"일치"| TR["tryRestore — GREATEST(used − amt, 0)"]
+  TR -->|"0 행 (대상 없음)"| DI["DataInconsistencyException (500)"]:::err
+  TR -->|"1 행"| SV["compensation.save → restored"]:::ok
+    </div>
+    <p class="note">핫패스 <code>tryDeduct</code>의 콜드패스 대칭 — 원자 <code>tryRestore</code>로 read-modify-write 갭 제거. 거부는 4xx(400), 불변식 위반만 500.</p>
+
+    <h2>5. merchant-limit · 한도 조회 & Outbox 발행 <span class="svc">Get/UpdateCancelLimitService · OutboxPublisherScheduler</span></h2>
+    <div class="mermaid">
+flowchart TD
+  classDef tx fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+
+  subgraph GET["한도 조회 (risk가 HTTP 호출, onset)"]
+    G1["GetCancelLimitService.execute(merchantId)"] --> G2["findById(merchant)<br/>findByMerchantId(limit)"] --> G3["Result(dailyLimit)"]
+  end
+  subgraph UPD["한도 변경 (관리자) — Outbox INSERT"]
+    U1["UpdateCancelLimitService.execute"] --> U2["domainService.updateLimit<br/>limitRepository.save · historyRepository.save"]
+    U2 --> U3["outboxRepository.insertPending(merchantId, payload)<br/>(같은 TX = 커밋과 원자적)"]:::tx
+  end
+  subgraph OUT["OutboxPublisherScheduler (Scheduled 10s)"]
+    O1["publish: findPendingBatch"] --> O2["forEach outbox"]
+    O2 --> O3["kafkaProducer.publish(merchantId, payload)"]:::infra
+    O3 --> O4["markPublished(id)"]
+  end
+  U3 -.->|"merchant.limit.updated"| O1
+    </div>
+    <p class="note">한도 <em>변경</em>은 Outbox 패턴(발행·커밋 원자). 한도 <em>조회</em>는 risk가 그날 첫 취소(onset)에만 HTTP로 부른다(캐시/스냅샷 miss 시).</p>
+
+    <h2>6. order · 소비 & DLQ <span class="svc">PaymentCancelledConsumer · ProcessCancelledItemsService · RetryRouter</span></h2>
+    <div class="mermaid">
+flowchart TD
+  classDef ok fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef err fill:#fecaca,stroke:#dc2626,color:#5b0a0a;
+  classDef tx fill:#fde68a,stroke:#d97706,color:#5b3a00;
+
+  K["KafkaListener consume(record, ack)"] --> EXE["ProcessCancelledItemsService.execute"]
+  EXE --> DEDUP{"existsByCancelRequestId?"}
+  DEDUP -->|"있음 (중복)"| SKIP["skip (dedup)"]:::ok
+  DEDUP -->|"없음"| VC["validateAndCancelItems<br/>findAllByIdIn → cancel → saveAll"]
+  VC --> SYNC["syncOrderStatus<br/>findByIdForUpdate(행 락) → findAllByOrderId.allMatch<br/>→ cancel() / partialCancel()"]:::tx
+  SYNC --> PS["processedCancelEvent.save (UK)"]:::tx
+  PS --> ACK["ack"]:::ok
+  SKIP --> ACK
+  EXE -->|"DataIntegrityViolation (dedup 경합)"| ACK
+  EXE -->|"기타 Exception"| RR["RetryRouter.route(record, e)"]:::err
+  RR --> RC{"retryCount &lt; 3?"}
+  RC -->|"예"| RT["send payment.cancelled.retry"]:::err
+  RC -->|"아니오"| DLQ["send payment.cancelled.DLQ"]:::err
+    </div>
+    <p class="note">
+      전체 아이템 <strong>재계산</strong>(증분 아님) + 행 락 + dedup UK = <strong>순서 무관 수렴 · exactly-once</strong>.
+      실패는 retry 토픽 재시도 3회 후 DLQ로 격리(무한 재시도 아님).
+    </p>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>
