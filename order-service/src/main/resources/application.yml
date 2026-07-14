@@ -1,7 +1,10 @@
 server:
   port: 8081
+  shutdown: graceful
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 25s
   application:
     name: order-service
   datasource:

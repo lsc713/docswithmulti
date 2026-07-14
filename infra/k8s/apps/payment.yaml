@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: payment, namespace: default }
+spec:
+  replicas: 3
+  selector: { matchLabels: { app: payment } }
+  strategy:
+    # 전용 노드풀(노드당 payment 1, required anti-affinity)에선 maxSurge>0이 데드락:
+    # surge 파드가 갈 빈 노드가 없어 Pending 영구 정지(exp⑤ 발견). maxSurge:0으로
+    # 옛 파드 1개씩 종료 → 빈 노드에 재생성(preStop이 엔드포인트 레이스 흡수).
+    rollingUpdate: { maxSurge: 0, maxUnavailable: 1 }
+  template:
+    metadata: { labels: { app: payment } }
+    spec:
+      terminationGracePeriodSeconds: 40
+      # 격리 벤치: payment 전용 노드 풀에만 스케줄 (taint 통과 + label 매칭)
+      nodeSelector: { pool: payment }
+      tolerations:
+        - { key: role, value: payment, effect: NoSchedule }
+      affinity:
+        podAntiAffinity:                    # 전용 풀에서 노드당 정확히 1 (경합 0)
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector: { matchLabels: { app: payment } }
+              topologyKey: kubernetes.io/hostname
+      containers:
+        - name: payment
+          image: camelia9999/cancel-loadtest:payment-latest
+          imagePullPolicy: Always
+          ports: [{ containerPort: 8080 }]
+          lifecycle:
+            preStop:
+              exec: { command: ["sh", "-c", "sleep 8"] }   # 엔드포인트 제거 대기 → 롤링 5xx↓ (exp⑤ 개선)
+          envFrom:
+            - configMapRef: { name: app-config }
+          env:
+            - { name: SPRING_DATASOURCE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: PAYMENT_DB_URL } } }
+            - { name: SPRING_DATASOURCE_USERNAME, valueFrom: { secretKeyRef: { name: db-cred, key: PAYMENT_DB_USER } } }
+            - { name: SPRING_DATASOURCE_PASSWORD, valueFrom: { secretKeyRef: { name: db-cred, key: PAYMENT_DB_PASS } } }
+            - { name: JAVA_TOOL_OPTIONS, value: "-Xmx2g -XX:+UseG1GC" }
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: 8080 }
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8080 }
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          resources:            # requests == limits ⇒ Guaranteed QoS (CPU 격리)
+            requests: { cpu: "3", memory: "3Gi" }
+            limits:   { cpu: "3", memory: "3Gi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: payment, namespace: default }
+spec:
+  selector: { app: payment }
+  ports: [{ port: 8080, targetPort: 8080 }]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: payment, namespace: default }
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: payment, port: { number: 8080 } } }

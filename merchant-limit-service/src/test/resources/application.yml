@@ -1,0 +1,9 @@
+# 테스트 컨텍스트는 분산락(Redisson)이 불필요하고 Redis 미기동이라
+# redisson/redis 오토컨피그를 제외한다(payment-service 테스트와 동일 패턴).
+# 단위 테스트는 RedissonClient를 mock 하므로 영향 없음.
+spring:
+  autoconfigure:
+    exclude:
+      - org.redisson.spring.starter.RedissonAutoConfigurationV4
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration

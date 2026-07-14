@@ -28,7 +28,7 @@
 @docs/db-schema.md                 DB 규칙 및 인덱스 전략
 @docs/kafka-design.md              Kafka 설계 및 운영
 @docs/architecture.md              전체 시스템 설계
-@docs/architecture/index.html      시스템 토폴로지 + 취소 플로우 시각화 (mermaid; cancel-flow·perf-anatomy(1~4막 실측) 연결)
+@docs/architecture/index.html      시스템 토폴로지 + 취소 플로우 시각화 (mermaid; cancel-flow·perf-anatomy(1~4막 실측)·k3s-scaleout(토폴로지·flow·검증5종) 연결)
 @docs/contributing.md              코드 작성 기준
 @docs/agent.md                     작업 행동 규칙
 @sysdesign/cancel-design.md        취소 플로우 상세 (멱등성·TX 경계·스케줄러·Kafka)

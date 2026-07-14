@@ -25,7 +25,7 @@ locals {
     cold-svc      = { type = "c7g.large", ip = "10.0.1.22", disk = 30 }                # merchant-limit + order (합침)
     mysql-payment = { type = "m7g.large", ip = "10.0.1.30", disk = 100 }               # TX3 row lock 대상 (r7g 16GB→8GB: 버퍼풀이 I/O 병목 덮는 것 방지)
     mysql-risk    = { type = "m7g.large", ip = "10.0.1.31", disk = 100 }               # 한도 소진 경합 (동상)
-    cold-db       = { type = "c7g.large", ip = "10.0.1.32", disk = 100 }               # mysql-merchant + mysql-order (콜드, 4GB로 충분)
+    cold-db       = { type = "c7g.large", ip = "10.0.1.32", disk = 100, spot = false } # mysql-merchant + mysql-order (콜드, 4GB). SLO 런 중 Spot 회수 겪어 온디맨드로(회수 재발 방지)
     infra         = { type = "m7g.large", ip = "10.0.1.40", disk = 50 }                # Redis + Kafka(1-broker), page cache용 RAM 유지
     obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false } # Prometheus + Grafana, 온디맨드(관측 안정성 우선)
   }

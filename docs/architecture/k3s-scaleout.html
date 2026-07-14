@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>결제 취소 시스템 – k3s 수평 스케일아웃</title>
+    <style>
+      body { font-family: system-ui, -apple-system, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      table { border-collapse: collapse; font-size: 0.88rem; margin: 1rem 0; }
+      th, td { border: 1px solid #e5e7eb; padding: 0.4rem 0.7rem; text-align: left; }
+      th { background: #f9fafb; }
+      .ok { color: #059669; font-weight: 600; }
+      .refute { color: #dc2626; font-weight: 600; }
+      .partial { color: #d97706; font-weight: 600; }
+      .cards { display: flex; gap: 1rem; flex-wrap: wrap; margin: 1rem 0; }
+      .card { flex: 1 1 300px; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem; background: #fafafa; }
+      .card h3 { margin: 0 0 0.4rem; font-size: 1rem; }
+      .card a { color: #2563eb; text-decoration: none; font-weight: 600; }
+      .card p { font-size: 0.85rem; color: #555; margin: 0.3rem 0 0; }
+    </style>
+  </head>
+  <body>
+    <h1>k3s 수평 스케일아웃</h1>
+    <p class="meta">
+      Generated 2026-07-13 · source: <code>infra/k3s-scaleout/ + infra/k8s/</code> ·
+      멀티노드 k3s(server1+agent3, arm64) · Strimzi Kafka(3-broker) · Traefik 인그레스 · MySQL×3 외부 고정
+    </p>
+    <nav>
+      ▸ <a href="./k3s-topology.html">배포 토폴로지 (상세) →</a> ·
+      <a href="./k3s-flow.html">요청·이벤트 플로우 (상세) →</a> ·
+      <a href="./k3s-topology-benchmark.html">정밀 벤치 토폴로지 (실측) →</a> ·
+      <a href="./index.html">전체 서비스 토폴로지 →</a> ·
+      <a href="../load-test/k3s-scaleout-results.md">검증 실험 5종 결과 →</a>
+    </nav>
+
+    <p>
+      단일-인스턴스 리그(<a href="./perf-anatomy.html">perf-anatomy</a>)에서 검증한 취소 MSA를
+      멀티노드 k3s에 올려 <strong>수평 스케일아웃의 정합성·가용성·배포 행동</strong>을 실측했다.
+      DB는 클러스터 밖에 고정(병목 통제변수)하고, stateless 앱과 Kafka/Redis만 클러스터에 넣었다.
+      이 페이지는 개요·정합성 기제·실측 요약이며, 두 관점은 전용 페이지에 있는 그대로 상세히 그렸다.
+    </p>
+
+    <div class="cards">
+      <div class="card">
+        <h3><a href="./k3s-topology.html">배포 토폴로지 →</a></h3>
+        <p>노드·파드 배치(anti-affinity), Service·ConfigMap/Secret·Ingress 배선, 외부 DB, 스펙 표.</p>
+      </div>
+      <div class="card">
+        <h3><a href="./k3s-flow.html">요청·이벤트 플로우 →</a></h3>
+        <p>취소 라운드트립(TX1/2/3·daily_limit 순서·인라인 발행) 시퀀스 + 비동기 소비 + 분산 스케줄러.</p>
+      </div>
+    </div>
+
+    <h2>1. 멀티인스턴스 정합성 기제</h2>
+    <p class="legend">N 파드에서 안전하려면 상태를 앱이 아닌 <strong>공유 저장소(DB/Redis/Kafka)</strong>에 둔다.</p>
+    <table>
+      <tr><th>문제 (N&gt;1에서 발생)</th><th>기제</th><th>위치</th></tr>
+      <tr><td>따닥이 다른 파드 착지 → 이중취소</td><td><code>cancel_request(payment_id, request_hash)</code> UK</td><td>mysql-payment</td></tr>
+      <tr><td><code>@Scheduled</code> 폴러 N개 중복 발행</td><td>Redisson RLock (소유권 unlock + 워치독)</td><td>Redis</td></tr>
+      <tr><td>Kafka 재분배 → 이벤트 재처리</td><td><code>processed_cancel_event</code> UK dedup</td><td>order_db</td></tr>
+      <tr><td>노드 장애 → 단일점 실패</td><td>payment anti-affinity(노드당 1) + Deployment self-heal</td><td>k8s</td></tr>
+    </table>
+
+    <h2>2. 실측 검증 (5종 · <a href="../load-test/k3s-scaleout-results.md">상세 →</a>)</h2>
+    <table>
+      <tr><th>#</th><th>실험</th><th>판정</th><th>핵심</th></tr>
+      <tr><td>①</td><td>스케줄러 락</td><td class="ok">PASS</td><td>5 이벤트 → Kafka 정확히 5(중복 0) = exactly-once</td></tr>
+      <tr><td>②</td><td>파드 간 멱등</td><td class="ok">PASS</td><td>따닥 → 취소 1건(UK). 발견: 레이스 패자 500</td></tr>
+      <tr><td>③</td><td>N-replica 천장</td><td class="ok">PASS<sup>*</sup></td><td>격리: ×1 무릎~220 · ×3~260(3배 아님) → 병목 <b>payment_db 2vCPU</b>(CPU95%/iowait26%)</td></tr>
+      <tr><td>④</td><td>가용성(HA)</td><td class="ok">PASS</td><td>노드 drain 중 fail 0% · 지연 블립 후 self-heal 3/3</td></tr>
+      <tr><td>⑤</td><td>무중단 롤링</td><td class="ok">PASS<sup>*</sup></td><td>preStop A/B: OFF 0.7%·max30s → <b>ON 0%·max1.2s</b></td></tr>
+    </table>
+    <p class="legend">
+      <sup>*</sup>③·⑤는 <strong>격리 리그 재측정</strong>(payment 전용 노드풀 + Guaranteed QoS). ③ 초기 "반증(×3 53ms)"은
+      <strong>noisy-neighbor CPU 아티팩트</strong>였고, 격리 후 replica는 무릎을 3배가 아니라 ~220→~260만 밀었다 →
+      앱 아닌 <strong>payment_db(2vCPU) 포화</strong>가 벽(진단: ×3·flush=2·merchant1000 무효 → CPU 스냅샷).
+      load-test↔k3s <strong>절대 비교는 안 함</strong>(불공정). 상세·정정은 <a href="../load-test/k3s-scaleout-results.md">결과 문서 §③·§⑤</a>.
+    </p>
+  </body>
+</html>
