@@ -80,7 +80,22 @@ public class RiskManagementHttpClient implements RiskManagementPort {
 
     @Override
     public boolean isCharged(long cancelRequestId) {
-        // TODO: implement in Task 6
-        throw new UnsupportedOperationException("isCharged not yet implemented");
+        try {
+            return circuitBreaker.executeCheckedSupplier(() -> {
+                String url = baseUrl + "/internal/cancel-limit/check?cancelRequestId={cancelRequestId}";
+                ResponseEntity<com.example.payment.application.dto.CheckChargeResponseDto> response =
+                    restTemplate.getForEntity(
+                        url, com.example.payment.application.dto.CheckChargeResponseDto.class, cancelRequestId);
+                if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                    throw new RiskServiceException("risk-management 차감조회 응답 오류: " + response.getStatusCode());
+                }
+                return response.getBody().charged();
+            });
+        } catch (RiskServiceException e) {
+            throw e;
+        } catch (Throwable t) {
+            log.error("risk-management isCharged 조회 실패. cancelRequestId={}", cancelRequestId, t);
+            throw new RiskServiceException("risk-management 서비스 오류", t);
+        }
     }
 }
