@@ -86,4 +86,48 @@ class RiskManagementHttpClientTest {
         // restTemplate은 3번째 호출에서는 실행되지 않음 (CB가 차단)
         verify(restTemplate, times(2)).postForEntity(anyString(), any(), any());
     }
+
+    @Test
+    @DisplayName("isCharged: charged=true 응답 → true 반환")
+    void isCharged_charged_true() {
+        com.example.payment.application.dto.CheckChargeResponseDto response =
+            new com.example.payment.application.dto.CheckChargeResponseDto("100", true, 1L, BigDecimal.valueOf(30_000));
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenReturn(org.springframework.http.ResponseEntity.ok(response));
+
+        assertTrue(client.isCharged(100L));
+    }
+
+    @Test
+    @DisplayName("isCharged: charged=false 응답 → false 반환")
+    void isCharged_charged_false() {
+        com.example.payment.application.dto.CheckChargeResponseDto response =
+            new com.example.payment.application.dto.CheckChargeResponseDto("100", false, 1L, BigDecimal.valueOf(30_000));
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenReturn(org.springframework.http.ResponseEntity.ok(response));
+
+        assertFalse(client.isCharged(100L));
+    }
+
+    @Test
+    @DisplayName("isCharged: HTTP 오류 응답 → RiskServiceException")
+    void isCharged_httpError_throwsRiskServiceException() {
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenReturn(org.springframework.http.ResponseEntity.status(500).build());
+
+        assertThrows(RiskServiceException.class, () -> client.isCharged(100L));
+    }
+
+    @Test
+    @DisplayName("isCharged: 네트워크 예외 → RiskServiceException")
+    void isCharged_networkFailure_throwsRiskServiceException() {
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenThrow(new RuntimeException("connection error"));
+
+        assertThrows(RiskServiceException.class, () -> client.isCharged(100L));
+    }
 }
