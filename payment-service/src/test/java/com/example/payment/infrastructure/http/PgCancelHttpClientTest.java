@@ -79,9 +79,55 @@ class PgCancelHttpClientTest {
             .isInstanceOf(PgServiceException.class);
     }
 
+    // getForEntity(String url, Class<T> responseType, Object... uriVariables)
     @Test
-    void get_status_throws_unsupported() {
+    void getStatus_returns_approved_result() {
+        PgCancelResult result = PgCancelResult.approved("tx-123");
+        when(restTemplate.getForEntity(anyString(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenReturn(ResponseEntity.ok(result));
+
+        PgCancelResult actual = sut.getStatus("key1");
+
+        assertThat(actual).isEqualTo(result);
+        assertThat(actual.isApproved()).isTrue();
+    }
+
+    @Test
+    void getStatus_returns_retryable_failed_result() {
+        PgCancelResult result = PgCancelResult.retryableFailed("tx-123");
+        when(restTemplate.getForEntity(anyString(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenReturn(ResponseEntity.ok(result));
+
+        PgCancelResult actual = sut.getStatus("key1");
+
+        assertThat(actual.isFailed()).isTrue();
+        assertThat(actual.isRetryable()).isTrue();
+    }
+
+    @Test
+    void getStatus_returns_pending_result() {
+        PgCancelResult result = PgCancelResult.pending("tx-123");
+        when(restTemplate.getForEntity(anyString(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenReturn(ResponseEntity.ok(result));
+
+        assertThat(sut.getStatus("key1").isPending()).isTrue();
+    }
+
+    @Test
+    void getStatus_throws_pg_service_exception_on_non_2xx() {
+        when(restTemplate.getForEntity(anyString(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenReturn(ResponseEntity.status(500).build());
+
         assertThatThrownBy(() -> sut.getStatus("key1"))
-            .isInstanceOf(UnsupportedOperationException.class);
+            .isInstanceOf(PgServiceException.class);
+    }
+
+    @Test
+    void getStatus_throws_pg_service_exception_on_network_failure() {
+        when(restTemplate.getForEntity(anyString(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenThrow(new RuntimeException("connection error"));
+
+        assertThatThrownBy(() -> sut.getStatus("key1"))
+            .isInstanceOf(PgServiceException.class);
     }
 }

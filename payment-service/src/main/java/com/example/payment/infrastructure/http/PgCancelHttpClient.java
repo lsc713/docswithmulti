@@ -58,7 +58,21 @@ public class PgCancelHttpClient implements PgCancelPort {
 
     @Override
     public PgCancelResult getStatus(String paymentKey) {
-        // TODO: implement in Task 6
-        throw new UnsupportedOperationException("getStatus not yet implemented");
+        try {
+            return circuitBreaker.executeCheckedSupplier(() -> {
+                String url = baseUrl + "/v1/payments/{paymentKey}/cancel/status";
+                ResponseEntity<PgCancelResult> response =
+                    restTemplate.getForEntity(url, PgCancelResult.class, paymentKey);
+                if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
+                    throw new PgServiceException("PG 상태조회 응답 오류: " + response.getStatusCode());
+                }
+                return response.getBody();
+            });
+        } catch (PgServiceException e) {
+            throw e;
+        } catch (Throwable t) {
+            log.error("PG 상태조회 실패. paymentKey={}", paymentKey, t);
+            throw new PgServiceException("PG 서비스 오류", t);
+        }
     }
 }
