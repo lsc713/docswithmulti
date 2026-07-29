@@ -22,6 +22,8 @@ public class CancelRequest {
     private Long id;
     private Long paymentId;
     private String requestHash;
+    /** 클라 Idempotency-Key 헤더 값(optional) — null이면 request_hash(content-hash)만으로 멱등 판별 */
+    private String idempotencyKey;
     private BigDecimal cancelAmount;
     private String cancelReason;
     private List<Long> cancelItemIds;
@@ -36,13 +38,14 @@ public class CancelRequest {
 
     private CancelRequest(Long paymentId, String requestHash,
                           BigDecimal cancelAmount, String cancelReason,
-                          List<Long> cancelItemIds) {
+                          List<Long> cancelItemIds, String idempotencyKey) {
         validateCancelAmount(cancelAmount);
         if (cancelItemIds == null || cancelItemIds.isEmpty()) {
             throw new IllegalArgumentException("cancelItemIds must not be null or empty");
         }
         this.paymentId = paymentId;
         this.requestHash = requestHash;
+        this.idempotencyKey = idempotencyKey;
         this.cancelAmount = cancelAmount;
         this.cancelReason = cancelReason;
         this.cancelItemIds = cancelItemIds;
@@ -53,8 +56,8 @@ public class CancelRequest {
 
     public static CancelRequest create(Long paymentId, String requestHash,
                                        BigDecimal cancelAmount, String cancelReason,
-                                       List<Long> cancelItemIds) {
-        return new CancelRequest(paymentId, requestHash, cancelAmount, cancelReason, cancelItemIds);
+                                       List<Long> cancelItemIds, String idempotencyKey) {
+        return new CancelRequest(paymentId, requestHash, cancelAmount, cancelReason, cancelItemIds, idempotencyKey);
     }
 
     /** DB에서 조회한 데이터로 재구성 (infrastructure 계층용) */
@@ -64,9 +67,9 @@ public class CancelRequest {
         List<Long> cancelItemIds, CancelStatus status,
         int pgRetryCount, Instant completedAt,
         Instant pgPendingSince, Instant createdAt, Instant updatedAt,
-        String pgTransactionKey
+        String pgTransactionKey, String idempotencyKey
     ) {
-        CancelRequest r = new CancelRequest(paymentId, requestHash, cancelAmount, cancelReason, cancelItemIds);
+        CancelRequest r = new CancelRequest(paymentId, requestHash, cancelAmount, cancelReason, cancelItemIds, idempotencyKey);
         r.id = id;
         r.status = status;
         r.pgRetryCount = pgRetryCount;
@@ -138,6 +141,7 @@ public class CancelRequest {
     public Long getId() { return id; }
     public Long getPaymentId() { return paymentId; }
     public String getRequestHash() { return requestHash; }
+    public String getIdempotencyKey() { return idempotencyKey; }
     public BigDecimal getCancelAmount() { return cancelAmount; }
     public String getCancelReason() { return cancelReason; }
     public List<Long> getCancelItemIds() { return cancelItemIds; }

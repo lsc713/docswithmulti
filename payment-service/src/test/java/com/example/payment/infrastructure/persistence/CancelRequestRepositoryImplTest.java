@@ -125,4 +125,31 @@ class CancelRequestRepositoryImplTest extends AbstractRepositoryTest {
         assertThat(found.get().getPgTransactionKey()).isEqualTo("toss-tx-abc123");
         assertThat(found.get().toDomain().getPgTransactionKey()).isEqualTo("toss-tx-abc123");
     }
+
+    @Test
+    void should_persist_null_idempotency_key_when_absent() {
+        // V15: idempotency_key 없이 생성한 CancelRequest는 재조회 시 null이어야 한다(content-hash fallback).
+        CancelRequest request = CancelRequestFixture.pending(8L, BigDecimal.valueOf(10000));
+
+        CancelRequestJpaEntity saved = jpaRepository.save(CancelRequestJpaEntity.from(request));
+
+        Optional<CancelRequestJpaEntity> found = jpaRepository.findById(saved.getId());
+        assertThat(found).isPresent();
+        assertThat(found.get().getIdempotencyKey()).isNull();
+        assertThat(found.get().toDomain().getIdempotencyKey()).isNull();
+    }
+
+    @Test
+    void should_persist_idempotency_key_when_present() {
+        // V15: 클라 Idempotency-Key 헤더 값을 넘기면 그대로 저장/재조회되어야 한다.
+        CancelRequest request = CancelRequest.create(
+            9L, "hash_9", BigDecimal.valueOf(10000), "고객 변심", List.of(90L, 91L), "k1");
+
+        CancelRequestJpaEntity saved = jpaRepository.save(CancelRequestJpaEntity.from(request));
+
+        Optional<CancelRequestJpaEntity> found = jpaRepository.findById(saved.getId());
+        assertThat(found).isPresent();
+        assertThat(found.get().getIdempotencyKey()).isEqualTo("k1");
+        assertThat(found.get().toDomain().getIdempotencyKey()).isEqualTo("k1");
+    }
 }

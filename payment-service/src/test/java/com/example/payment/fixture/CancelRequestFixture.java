@@ -13,7 +13,7 @@ public class CancelRequestFixture {
      */
     public static CancelRequest pending(Long paymentId, BigDecimal cancelAmount) {
         return CancelRequest.create(paymentId, "hash_" + paymentId, cancelAmount, "고객 변심",
-            List.of(paymentId * 10, paymentId * 10 + 1));
+            List.of(paymentId * 10, paymentId * 10 + 1), null);
     }
 
     /**
@@ -34,8 +34,7 @@ public class CancelRequestFixture {
             null,
             Instant.now(),
             null,
-            null
-        );
+            null, null);
     }
 
     public static CancelRequest completed(Long paymentId, BigDecimal cancelAmount) {

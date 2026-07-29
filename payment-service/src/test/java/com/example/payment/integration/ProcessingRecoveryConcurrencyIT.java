@@ -249,8 +249,7 @@ class ProcessingRecoveryConcurrencyIT {
                 null, null,
                 tenMinutesAgo.toInstant(ZoneOffset.UTC),
                 tenMinutesAgo.toInstant(ZoneOffset.UTC),
-                null
-            );
+                null, null);
             return cancelRequestJpaRepository.save(CancelRequestJpaEntity.from(cancelRequest)).getId();
         });
     }

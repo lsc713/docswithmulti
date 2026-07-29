@@ -100,7 +100,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         BigDecimal cancelAmount = calculateCancelAmount(items, command.cancelPaymentItemIds());
         CancelRequest cancelRequest = CancelRequest.create(
             payment.getId(), requestHash, cancelAmount, command.cancelReason(),
-            command.cancelPaymentItemIds());
+            command.cancelPaymentItemIds(), null);
         try {
             cancelRequest = cancelTxWriter.saveTx1(cancelRequest);
         } catch (DataIntegrityViolationException e) {
