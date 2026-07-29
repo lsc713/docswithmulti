@@ -152,7 +152,7 @@ class ProcessingRecoveryServiceTest {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
         when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(1L, "hash_abc"))
+        when(cancelRequestRepository.findById(10L))
             .thenReturn(Optional.of(refreshed));
         when(pgCancelPort.cancel(anyString(), any(), anyString())).thenReturn(PgCancelResult.approved("pg_tx_002"));
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(processing);
@@ -241,7 +241,7 @@ class ProcessingRecoveryServiceTest {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(almostMax));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
         when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(1L, "hash_abc"))
+        when(cancelRequestRepository.findById(10L))
             .thenReturn(Optional.of(refreshed));
 
         service.recoverAll();

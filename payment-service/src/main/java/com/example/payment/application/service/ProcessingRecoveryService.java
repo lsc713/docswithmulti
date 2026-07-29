@@ -115,8 +115,10 @@ public class ProcessingRecoveryService {
         cancelRequestRepository.incrementPgRetryCount(cancelRequest.getId());
 
         // ★ 원자 UPDATE 직후 로컬 cancelRequest 는 stale — 임계값 비교 전 반드시 재조회(RESEARCH Pitfall 2)
+        // D-idem: request_hash는 더 이상 payment당 유일하지 않아(같은 items + 다른 idempotencyKey) 엉뚱한
+        // 행을 집을 위험이 있으므로 id(PK) 기반 유일키 조회로 전환.
         CancelRequest refreshed = cancelRequestRepository
-            .findByPaymentIdAndRequestHash(cancelRequest.getPaymentId(), cancelRequest.getRequestHash())
+            .findById(cancelRequest.getId())
             .orElseThrow(() -> new IllegalStateException(
                 "CancelRequest not found after pg_retry_count 증가: id=" + cancelRequest.getId()));
 
