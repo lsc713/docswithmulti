@@ -9,6 +9,7 @@ import com.example.payment.domain.service.CancelDomainService;
 import com.example.payment.domain.entity.CancelStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -93,7 +94,16 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         CancelRequest cancelRequest = CancelRequest.create(
             payment.getId(), requestHash, cancelAmount, command.cancelReason(),
             command.cancelPaymentItemIds());
-        cancelRequest = cancelTxWriter.saveTx1(cancelRequest);
+        try {
+            cancelRequest = cancelTxWriter.saveTx1(cancelRequest);
+        } catch (DataIntegrityViolationException e) {
+            // 레이스 패자: 다른 파드가 동일 (payment_id, request_hash)로 이미 INSERT함(UK 위반).
+            // 새 응답 형태를 만들지 않고 기존 handleExistingRequest 상태 스위치로 위임(D-03).
+            CancelRequest winner = cancelRequestRepository
+                .findByPaymentIdAndRequestHash(payment.getId(), requestHash)
+                .orElseThrow(() -> e); // 이론상 불가(방금 위반났으므로 존재) — 방어적 재throw
+            return handleExistingRequest(winner, command, payment, items);
+        }
         recordHistory(cancelRequest.getId(), CancelStatus.PENDING, null);
 
         // Risk 호출

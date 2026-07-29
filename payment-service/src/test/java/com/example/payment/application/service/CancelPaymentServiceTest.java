@@ -457,6 +457,38 @@ class CancelPaymentServiceTest {
     }
 
     // ──────────────────────────────────────────────────────────
+    // 레이스 패자 — saveTx1 UK 위반(DataIntegrityViolationException) 시 멱등 응답 (RESIL-02)
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("레이스 패자 — saveTx1 UK 위반 시 승자 재조회 후 handleExistingRequest 로 200 상당 멱등 반환")
+    void shouldReturnWinnerIdempotentlyWhenSaveTx1ViolatesUniqueConstraint() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        // 최초 조회 시점엔 아직 존재하지 않음(레이스: 승자가 조회 이후 먼저 INSERT 커밋)
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty())
+            .thenReturn(Optional.of(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING)));
+
+        when(cancelTxWriter.saveTx1(any()))
+            .thenThrow(new org.springframework.dao.DataIntegrityViolationException(
+                "Duplicate entry for key uk_cancel_request_hash"));
+
+        CancelRequest result = service.cancel(command);
+
+        // 새 응답 형태 없이 기존 handleExistingRequest 경유 — 승자의 기존 상태(PROCESSING) 그대로 반환
+        assertEquals(CancelStatus.PROCESSING, result.getStatus());
+        verify(cancelRequestRepository, times(2))
+            .findByPaymentIdAndRequestHash(anyLong(), anyString());
+        // 레이스 패자는 risk/PG 호출 없이 종료(승자만 처리 진행)
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+        verify(pgCancelPort, never()).cancel(any(), any(), any());
+        verify(cancelTxWriter, never()).saveTx2(any());
+        verify(cancelTxWriter, never()).saveTx3(any(), any(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
     // 헬퍼 메서드
     // ──────────────────────────────────────────────────────────
 
