@@ -14,7 +14,8 @@ import java.util.List;
  * FAILED → PENDING (raiseToPending — 재시도)
  * COMPLETED, FAILED는 최종 상태 (단, FAILED는 PENDING 재진입 가능)
  *
- * 멱등성: (payment_id, request_hash) UK로 중복 방어
+ * 멱등성: (payment_id, dedup_key) UK(uk_cancel_request_dedup)로 중복 방어
+ * dedup_key = idempotencyKey가 있으면 "ik:"+idempotencyKey, 없으면 "ch:"+request_hash
  * request_hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)
  */
 public class CancelRequest {

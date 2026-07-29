@@ -213,14 +213,18 @@ payment_type별 상태 흐름:
 ## 5. 멱등성 규칙
 
 ### 5-1. API 레이어
-서버가 `paymentKey + cancelItemIds 오름차순 정렬`을 SHA-256 해시하여 `request_hash`를 생성한다.
-`cancel_request(payment_id, request_hash)` UNIQUE KEY로 중복 요청을 방어한다.
-클라이언트 Idempotency-Key 헤더를 사용하지 않는다.
+서버가 `paymentKey + cancelItemIds 오름차순 정렬`을 SHA-256 해시하여 `request_hash`(content-hash)를 생성한다.
+클라이언트가 `Idempotency-Key` 헤더를 보내면 그 값을 우선 사용하고, 없으면 `request_hash`로 폴백한다.
+`cancel_request.dedup_key`는 `Idempotency-Key`가 있으면 `ik:{key}`, 없으면 `ch:{request_hash}` 접두로 생성되며,
+`cancel_request(payment_id, dedup_key)` UNIQUE KEY로 중복 요청을 방어한다.
 
 기존 cancel_request 상태별 처리:
 - `COMPLETED` → 200 기존 응답 반환
 - `PENDING` / `PROCESSING` → 200 처리 중 응답 반환
 - `FAILED` → PENDING으로 UPDATE 후 재처리 진행
+
+같은 `Idempotency-Key`로 이전과 다른 요청 내용(`request_hash` 불일치)이 재사용되면
+`IDEMPOTENCY_KEY_CONFLICT` 409로 거부한다 (기존 cancel_request는 변경하지 않음).
 
 ### 5-2. Kafka Consumer 레이어
 cancelRequestId 기준으로 processed_cancel_event 테이블에서 중복 방어한다.
