@@ -50,7 +50,7 @@ DDL은 각 모듈 `db/migration/V1__create_*_core.sql ~ V7`을 직접 읽는다.
 **TX 경계** (이력 `cancel_request_history`는 항상 TX 밖에서 별도 실행)
 - TX1: CancelRequest PENDING INSERT (risk 호출 전)
 - TX2: CancelRequest PROCESSING UPDATE (risk 성공 후)
-- TX3: PaymentItem + Payment + CancelRequest(COMPLETED) 원자 처리 + `kafkaTemplate.send()` 인라인 발행. 발행 실패 시 TX3 롤백 → processing-recovery 재처리.
+- TX3: PaymentItem + Payment + CancelRequest(COMPLETED) 원자 처리 + `cancel_event_outbox` INSERT(같은 TX, 원자적). Kafka 발행 자체는 TX 밖 — outbox 발행 스케줄러가 담당(OUTBOX 정식, `cancel.publish.mode` 기본값). INLINE/INLINE_ASYNC는 벤치·학습용으로 코드는 남아있으나 기본 비활성.
 - TX3에서는 `findAllByPaymentIdForUpdate()`로 재조회 후 Payment 상태 재계산 (조회 시점 데이터 사용 금지).
 
 **daily_limit 조회 순서** (2순위 건너뛰고 3순위 호출 금지)
@@ -64,7 +64,10 @@ DDL은 각 모듈 `db/migration/V1__create_*_core.sql ~ V7`을 직접 읽는다.
 - compensation-retry(30s): compensation_retry → risk 보상 API 재시도
 
 **Kafka 발행**
-- `payment.cancelled`: payment-service가 **TX3 인라인** 발행. 파티션 키 `cancelRequestId`(`CancelTxWriter`). order 컨슈머가 전체 아이템 재계산 + 주문 행 락으로 **순서 무관하게 수렴**하므로 결제 단위 순서 보장 불필요(cancelRequestId가 파티션 분산에 유리).
+- `payment.cancelled`: payment-service가 **OUTBOX 정식**(TX3 원자 outbox INSERT + 커밋 후 이벤트 wake relay)으로 발행. TX3 커밋 성공 시 outbox 발행 스케줄러(`CancelEventOutboxPublisher`, poll 10s)가 PENDING 행을 배치 발행하고, 커밋 직후 Redisson wake로 즉시 트리거(비권위 — 실패해도 poll이 backstop). 파티션 키 `cancelRequestId`(`CancelTxWriter`). order 컨슈머가 전체 아이템 재계산 + 주문 행 락으로 **순서 무관하게 수렴**하므로 결제 단위 순서 보장 불필요(cancelRequestId가 파티션 분산에 유리).
+  - 발행 실패는 `max-retries`까지 재시도 후 DEAD 전이 + 알림(`OperationAlertPort`) — TX 롤백 없음(outbox INSERT는 TX3에 이미 원자 커밋됨).
+  - PUBLISHED 행은 `retention-days` 경과 후 별도 purge 스케줄러가 삭제.
+  - `cancel.publish.mode`(기본 `OUTBOX`)로 전환 가능. `INLINE`(TX3 안에서 `kafkaTemplate.send()` 직접 호출, 발행 실패 시 TX3 롤백)·`INLINE_ASYNC`(fire-and-forget, dual-write 안전하지 않음)는 벤치/학습 전용 — 프로덕션 기본 아님.
 - `merchant.limit.updated { merchantId }`: merchant-limit-service는 **Outbox 패턴** 발행. 파티션 키 `merchantId`.
 
 ---

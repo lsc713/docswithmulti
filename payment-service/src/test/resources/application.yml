@@ -31,8 +31,6 @@ kafka:
     payment-cancelled: payment.cancelled
 
 cancel:
-  publish:
-    mode: INLINE
   outbox:
     poll-ms: 10000
     batch-size: 1000

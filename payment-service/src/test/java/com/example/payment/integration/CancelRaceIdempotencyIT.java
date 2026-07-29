@@ -4,6 +4,7 @@ import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.application.dto.RiskReserveResult;
 import com.example.payment.application.interfaces.PgCancelPort;
 import com.example.payment.application.interfaces.RiskManagementPort;
+import org.mockito.Answers;
 import org.redisson.api.RedissonClient;
 import com.example.payment.application.service.CancelPaymentCommand;
 import com.example.payment.application.service.CancelPaymentService;
@@ -43,6 +44,10 @@ import static org.mockito.Mockito.*;
  *
  * 검증은 최종 DB 상태만 본다: cancel_request 정확히 1건, PaymentItem 이중취소 0,
  * 두 응답 모두 예외 없이 반환(500 아님).
+ *
+ * 발행 모드는 기본값(OUTBOX)을 그대로 사용 — 이 테스트는 발행 메커니즘이 아니라
+ * TX1~TX3 레이스/멱등성만 검증하므로 프로덕션 기본 경로로 돌린다.
+ * CancelEventOutboxPublisher가 @PostConstruct에서 구독하는 wake 토픽을 위해 RTopic mock 필요.
  */
 @Testcontainers
 @SpringBootTest
@@ -66,7 +71,10 @@ class CancelRaceIdempotencyIT {
     @MockitoBean RiskManagementPort riskManagementPort;
     @MockitoBean PgCancelPort pgCancelPort;
     @MockitoBean KafkaTemplate<String, String> kafkaTemplate; // Kafka 실제 발행 차단
-    @MockitoBean RedissonClient redissonClient;               // Redis 연결 없이 스케줄러 빈 생성
+    // RETURNS_MOCKS: CancelEventOutboxPublisher.subscribeWake()가 @PostConstruct(컨텍스트 기동 중,
+    // @BeforeEach보다 먼저)에서 redissonClient.getTopic(...)을 호출하므로 기본 null 대신
+    // 즉시 사용 가능한 mock RTopic을 반환해야 한다.
+    @MockitoBean(answers = Answers.RETURNS_MOCKS) RedissonClient redissonClient;
 
     // ── 실제 JPA 레포지토리 (직접 조회용) ─────────────────────
     @Autowired PaymentJpaRepository paymentJpaRepository;

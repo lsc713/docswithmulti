@@ -60,7 +60,7 @@ public class OutboxDataSourceConfig {
 
     // ── OUTBOX 전용 폴러 풀 (같은 DB, 소형) ──
     @Bean
-    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
+    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
     public HikariDataSource cancelOutboxDataSource(
             DataSourceProperties dataSourceProperties,
             OutboxPoolProperties poolProperties) {
@@ -77,14 +77,14 @@ public class OutboxDataSourceConfig {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
+    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
     public NamedParameterJdbcTemplate cancelOutboxJdbcTemplate(
             @Qualifier("cancelOutboxDataSource") HikariDataSource cancelOutboxDataSource) {
         return new NamedParameterJdbcTemplate(cancelOutboxDataSource);
     }
 
     @Bean
-    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
+    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
     public com.example.payment.application.interfaces.CancelEventOutboxRepository cancelEventOutboxRepository(
             com.example.payment.infrastructure.persistence.CancelEventOutboxJpaRepository jpaRepository,
             NamedParameterJdbcTemplate cancelOutboxJdbcTemplate) {
@@ -96,7 +96,7 @@ public class OutboxDataSourceConfig {
      * OUTBOX 전용 풀 Hikari 설정 프로퍼티 (cancel.outbox.datasource.hikari.*)
      */
     @Bean
-    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
+    @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
     @ConfigurationProperties("cancel.outbox.datasource.hikari")
     public OutboxPoolProperties outboxPoolProperties() {
         return new OutboxPoolProperties();

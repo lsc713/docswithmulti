@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** OUTBOX 모드에서만 활성. RLock으로 한 인스턴스만 폴링 발행. */
 @Slf4j
 @Component
-@ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
+@ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
 public class CancelEventOutboxPublisher {
 
     private final CancelEventOutboxRepository outboxRepository;

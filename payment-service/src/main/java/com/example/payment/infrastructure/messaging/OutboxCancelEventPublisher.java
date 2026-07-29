@@ -15,7 +15,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @Slf4j
 @Component
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
+@ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
 public class OutboxCancelEventPublisher implements CancelEventPublisher {
 
     public static final String WAKE_TOPIC = "cancel-outbox-wake";

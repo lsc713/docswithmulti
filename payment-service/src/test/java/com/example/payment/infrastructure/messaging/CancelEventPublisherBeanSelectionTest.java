@@ -67,4 +67,22 @@ class CancelEventPublisherBeanSelectionTest {
             assertThat(publisher).isInstanceOf(InlineAsyncCancelEventPublisher.class);
         }
     }
+
+    /** cancel.publish.mode 미설정 시 OUTBOX가 기본 활성 모드여야 한다 (matchIfMissing=true). */
+    @SpringBootTest(
+        classes = {InlineCancelEventPublisher.class, OutboxCancelEventPublisher.class, InlineAsyncCancelEventPublisher.class},
+        properties = {"kafka.topic.payment-cancelled=payment.cancelled"}
+    )
+    @DisplayName("설정 부재: OutboxCancelEventPublisher 빈이 기본 활성")
+    static class DefaultModeTest {
+        @MockitoBean KafkaTemplate<String, String> kafkaTemplate;
+        @MockitoBean CancelEventOutboxRepository outboxRepository;
+        @MockitoBean RedissonClient redissonClient;
+        @Autowired CancelEventPublisher publisher;
+
+        @Test
+        void unset_mode_defaults_to_outbox_publisher() {
+            assertThat(publisher).isInstanceOf(OutboxCancelEventPublisher.class);
+        }
+    }
 }
