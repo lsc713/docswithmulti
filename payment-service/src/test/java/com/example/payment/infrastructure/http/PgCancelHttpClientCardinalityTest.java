@@ -1,8 +1,9 @@
 package com.example.payment.infrastructure.http;
 
-import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.infrastructure.config.HttpClientConfig;
 import com.example.payment.infrastructure.config.ResilienceConfig;
+import com.example.payment.infrastructure.http.dto.TossCancel;
+import com.example.payment.infrastructure.http.dto.TossPaymentResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.AfterEach;
@@ -74,9 +75,14 @@ class PgCancelHttpClientCardinalityTest {
 
     @Test
     void pgCancel_records_uri_tag_as_template_not_expanded_paymentKey() throws Exception {
-        // Given: PG 스텁 — paymentKey 가 확장된 실제 경로로 요청이 온다
+        // Given: PG 스텁 — paymentKey 가 확장된 실제 경로로 요청이 온다 (실 Toss 계약 응답 형태, D-01)
         String paymentKey = "pay_UNIQUE_KEY_12345_abc";
-        PgCancelResult approved = PgCancelResult.approved("tx-ok");
+        BigDecimal cancelAmount = new BigDecimal("10000");
+        TossPaymentResponse approved = new TossPaymentResponse(
+            "CANCELED", BigDecimal.ZERO,
+            java.util.List.of(new TossCancel(
+                cancelAmount, "테스트 취소", BigDecimal.ZERO, BigDecimal.ZERO,
+                "tx-ok", "2026-07-29T00:00:00", "DONE")));
         String responseJson = new ObjectMapper().writeValueAsString(approved);
 
         mockServer.expect(requestTo("http://pg-stub/v1/payments/" + paymentKey + "/cancel"))
@@ -84,7 +90,7 @@ class PgCancelHttpClientCardinalityTest {
             .andRespond(withSuccess(responseJson, MediaType.APPLICATION_JSON));
 
         // When: cancel 호출
-        pgCancelHttpClient.cancel(paymentKey, new BigDecimal("10000"), "테스트 취소");
+        pgCancelHttpClient.cancel(paymentKey, cancelAmount, "테스트 취소");
 
         mockServer.verify();
 
