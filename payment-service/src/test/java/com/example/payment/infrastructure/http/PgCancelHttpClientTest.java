@@ -123,6 +123,16 @@ class PgCancelHttpClientTest {
     }
 
     @Test
+    void cancel_error_propagates_unwrapped_not_wrapped_as_pg_service_exception() {
+        // WR-05: Error(OutOfMemoryError 등)까지 PgServiceException으로 위장하지 않고 그대로 전파
+        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenThrow(new StackOverflowError("모의 Error"));
+
+        assertThatThrownBy(() -> sut.cancel("key1", new BigDecimal("5000"), "환불"))
+            .isInstanceOf(StackOverflowError.class);
+    }
+
+    @Test
     void getStatus_throws_pg_service_exception_on_network_failure() {
         when(restTemplate.getForEntity(anyString(), eq(PgCancelResult.class), (Object[]) any()))
             .thenThrow(new RuntimeException("connection error"));

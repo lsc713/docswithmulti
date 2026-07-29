@@ -143,6 +143,16 @@ class RiskManagementHttpClientTest {
     }
 
     @Test
+    @DisplayName("WR-05: validateAndReserve 중 Error 발생 → RiskServiceException으로 감싸지 않고 그대로 전파")
+    void validateAndReserve_error_propagatesUnwrapped() {
+        when(restTemplate.postForEntity(anyString(), any(), eq(RiskReserveResult.class)))
+            .thenThrow(new StackOverflowError("모의 Error"));
+
+        assertThrows(StackOverflowError.class,
+            () -> client.validateAndReserve(1L, 100L, BigDecimal.valueOf(30_000), LocalDate.now()));
+    }
+
+    @Test
     @DisplayName("isCharged: 네트워크 예외 → RiskServiceException")
     void isCharged_networkFailure_throwsRiskServiceException() {
         when(restTemplate.getForEntity(anyString(),

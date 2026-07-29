@@ -50,6 +50,9 @@ public class PgCancelHttpClient implements PgCancelPort {
             });
         } catch (PgServiceException e) {
             throw e;
+        } catch (Error e) {
+            // WR-05: OutOfMemoryError 등 Error까지 삼켜 정상 예외 흐름으로 위장하지 않는다.
+            throw e;
         } catch (Throwable t) {
             log.error("PG cancel 실패. paymentKey={}", paymentKey, t);
             throw new PgServiceException("PG 서비스 오류", t);
@@ -69,6 +72,8 @@ public class PgCancelHttpClient implements PgCancelPort {
                 return response.getBody();
             });
         } catch (PgServiceException e) {
+            throw e;
+        } catch (Error e) {
             throw e;
         } catch (Throwable t) {
             log.error("PG 상태조회 실패. paymentKey={}", paymentKey, t);

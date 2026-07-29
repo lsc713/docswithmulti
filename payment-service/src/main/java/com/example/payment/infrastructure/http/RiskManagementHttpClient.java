@@ -54,6 +54,9 @@ public class RiskManagementHttpClient implements RiskManagementPort {
             });
         } catch (RiskServiceException e) {
             throw e;
+        } catch (Error e) {
+            // WR-05: OutOfMemoryError 등 Error까지 삼켜 정상 예외 흐름으로 위장하지 않는다.
+            throw e;
         } catch (Throwable t) {
             log.error("risk-management validateAndReserve 실패. merchantId={}", merchantId, t);
             throw new RiskServiceException("risk-management 서비스 오류", t);
@@ -82,6 +85,8 @@ public class RiskManagementHttpClient implements RiskManagementPort {
             });
         } catch (RiskServiceException e) {
             throw e;
+        } catch (Error e) {
+            throw e;
         } catch (Throwable t) {
             log.error("risk-management compensate 실패. cancelRequestId={}", cancelRequestId, t);
             throw new RiskServiceException("risk-management 보상 트랜잭션 실패", t);
@@ -102,6 +107,8 @@ public class RiskManagementHttpClient implements RiskManagementPort {
                 return response.getBody().charged();
             });
         } catch (RiskServiceException e) {
+            throw e;
+        } catch (Error e) {
             throw e;
         } catch (Throwable t) {
             log.error("risk-management isCharged 조회 실패. cancelRequestId={}", cancelRequestId, t);
