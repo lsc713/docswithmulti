@@ -26,6 +26,12 @@ public class CancelEventOutboxJpaEntity {
     @Column(name = "published_at")
     private Instant publishedAt;
 
+    @Column(name = "retry_count", nullable = false)
+    private int retryCount;
+
+    @Column(name = "last_error", length = 500)
+    private String lastError;
+
     protected CancelEventOutboxJpaEntity() {}
 
     // 발행 표시는 CancelEventOutboxJpaRepository.markPublishedBatch(native UPDATE)로 일괄 처리한다.
@@ -34,4 +40,6 @@ public class CancelEventOutboxJpaEntity {
     public Long getCancelRequestId() { return cancelRequestId; }
     public String getPayload()       { return payload; }
     public String getStatus()        { return status; }
+    public int getRetryCount()       { return retryCount; }
+    public String getLastError()     { return lastError; }
 }

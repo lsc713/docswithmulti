@@ -73,4 +73,16 @@ class CancelEventOutboxRepositoryIT extends AbstractRepositoryTest {
         repo.markPublished(List.of());
         assertThat(repo.findPendingBatch(10)).hasSize(1);
     }
+
+    @Test
+    @DisplayName("insertPendingIdempotent 직후 엔티티 조회 시 retry_count=0, last_error=null")
+    void insert_defaults_retry_columns() {
+        repo.insertPending(5001L, "{}");
+        CancelEventOutboxJpaEntity saved = jpa.findAll().stream()
+            .filter(e -> e.getCancelRequestId() == 5001L)
+            .findFirst()
+            .orElseThrow();
+        assertThat(saved.getRetryCount()).isZero();
+        assertThat(saved.getLastError()).isNull();
+    }
 }
