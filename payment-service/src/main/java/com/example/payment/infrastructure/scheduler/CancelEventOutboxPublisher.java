@@ -1,6 +1,7 @@
 package com.example.payment.infrastructure.scheduler;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
+import com.example.payment.application.interfaces.OperationAlertPort;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -25,6 +26,7 @@ public class CancelEventOutboxPublisher {
     private final CancelEventOutboxRepository outboxRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final RedissonClient redissonClient;
+    private final OperationAlertPort operationAlertPort;
 
     @Value("${kafka.topic.payment-cancelled}")
     private String topic;
@@ -35,13 +37,18 @@ public class CancelEventOutboxPublisher {
     @Value("${cancel.outbox.batch-size:1000}")
     private int batchSize;
 
+    @Value("${cancel.outbox.max-retries:10}")
+    private int maxRetries;
+
     public CancelEventOutboxPublisher(
             CancelEventOutboxRepository outboxRepository,
             KafkaTemplate<String, String> kafkaTemplate,
-            RedissonClient redissonClient) {
+            RedissonClient redissonClient,
+            OperationAlertPort operationAlertPort) {
         this.outboxRepository = outboxRepository;
         this.kafkaTemplate = kafkaTemplate;
         this.redissonClient = redissonClient;
+        this.operationAlertPort = operationAlertPort;
     }
 
     @Scheduled(fixedDelayString = "${cancel.outbox.poll-ms:10000}")
@@ -64,18 +71,27 @@ public class CancelEventOutboxPublisher {
             //    순차 .get() 상한(건당 RTT×N)을 제거하고 전송을 겹친다.
             List<InFlight> inFlight = new ArrayList<>(pending.size());
             for (var o : pending) {
-                inFlight.add(new InFlight(o.id(),
+                inFlight.add(new InFlight(o.id(), o.retryCount(),
                         kafkaTemplate.send(topic, String.valueOf(o.cancelRequestId()), o.payload())));
             }
 
-            // 2) ack 를 일괄 대기 — 성공 id 만 수집(per-row 실패 격리 유지).
-            List<Long> published = new ArrayList<>(inFlight.size());
+            // 2) ack 일괄 대기 — 성공/실패 분기
+            List<Long> published = new ArrayList<>();
             for (var s : inFlight) {
                 try {
                     s.future().get(30, TimeUnit.SECONDS);
                     published.add(s.id());
                 } catch (Exception e) {
-                    log.error("[outbox] 발행 실패 (다음 폴 재시도). outboxId={}", s.id(), e);
+                    String err = e.getMessage();
+                    if (s.retryCount() + 1 >= maxRetries) {
+                        outboxRepository.markDead(s.id(), err);
+                        operationAlertPort.alert(
+                                "[outbox] 발행 영구 실패(DEAD) outboxId=" + s.id() + " err=" + err);
+                        log.error("[outbox] DEAD 전이 outboxId={}", s.id(), e);
+                    } else {
+                        outboxRepository.bumpRetry(s.id(), err);
+                        log.warn("[outbox] 발행 실패 재시도 예정 outboxId={} retry={}", s.id(), s.retryCount() + 1);
+                    }
                 }
             }
 
@@ -90,6 +106,6 @@ public class CancelEventOutboxPublisher {
         }
     }
 
-    /** 발사한 send 의 outbox id ↔ ack future 짝. */
-    private record InFlight(long id, CompletableFuture<SendResult<String, String>> future) {}
+    /** 발사한 send 의 outbox id ↔ 재시도 횟수 ↔ ack future 짝. */
+    private record InFlight(long id, int retryCount, CompletableFuture<SendResult<String, String>> future) {}
 }
