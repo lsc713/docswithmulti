@@ -4,6 +4,7 @@ import com.example.payment.application.interfaces.CancelEventOutboxRepository;
 import com.example.payment.application.interfaces.CancelEventPublisher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -42,6 +43,7 @@ class CancelEventPublisherBeanSelectionTest {
     static class OutboxModeTest {
         @MockitoBean KafkaTemplate<String, String> kafkaTemplate;
         @MockitoBean CancelEventOutboxRepository outboxRepository;
+        @MockitoBean RedissonClient redissonClient;
         @Autowired CancelEventPublisher publisher;
 
         @Test
@@ -63,6 +65,24 @@ class CancelEventPublisherBeanSelectionTest {
         @Test
         void inline_async_mode_activates_inline_async_publisher() {
             assertThat(publisher).isInstanceOf(InlineAsyncCancelEventPublisher.class);
+        }
+    }
+
+    /** cancel.publish.mode 미설정 시 OUTBOX가 기본 활성 모드여야 한다 (matchIfMissing=true). */
+    @SpringBootTest(
+        classes = {InlineCancelEventPublisher.class, OutboxCancelEventPublisher.class, InlineAsyncCancelEventPublisher.class},
+        properties = {"kafka.topic.payment-cancelled=payment.cancelled"}
+    )
+    @DisplayName("설정 부재: OutboxCancelEventPublisher 빈이 기본 활성")
+    static class DefaultModeTest {
+        @MockitoBean KafkaTemplate<String, String> kafkaTemplate;
+        @MockitoBean CancelEventOutboxRepository outboxRepository;
+        @MockitoBean RedissonClient redissonClient;
+        @Autowired CancelEventPublisher publisher;
+
+        @Test
+        void unset_mode_defaults_to_outbox_publisher() {
+            assertThat(publisher).isInstanceOf(OutboxCancelEventPublisher.class);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.payment.infrastructure.scheduler;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
+import com.example.payment.application.interfaces.OperationAlertPort;
 import com.example.payment.infrastructure.persistence.AbstractRepositoryTest;
 import com.example.payment.infrastructure.persistence.CancelEventOutboxJpaRepository;
 import com.example.payment.infrastructure.persistence.CancelEventOutboxRepositoryImpl;
@@ -46,6 +47,7 @@ class CancelEventOutboxPublisherIT extends AbstractRepositoryTest {
 
     RedissonClient redissonClient = mock(RedissonClient.class);
     RLock lock = mock(RLock.class);
+    OperationAlertPort operationAlertPort = mock(OperationAlertPort.class);
 
     CancelEventOutboxPublisher scheduler;
 
@@ -62,10 +64,11 @@ class CancelEventOutboxPublisherIT extends AbstractRepositoryTest {
         CompletableFuture<SendResult<String, String>> future = CompletableFuture.completedFuture(null);
         when(kafkaTemplate.send(anyString(), anyString(), anyString())).thenReturn(future);
 
-        scheduler = new CancelEventOutboxPublisher(outboxRepository, kafkaTemplate, redissonClient);
+        scheduler = new CancelEventOutboxPublisher(outboxRepository, kafkaTemplate, redissonClient, operationAlertPort);
         ReflectionTestUtils.setField(scheduler, "topic", "payment.cancelled");
         ReflectionTestUtils.setField(scheduler, "lockKey", "test:lock:cancel-outbox-publisher");
         ReflectionTestUtils.setField(scheduler, "batchSize", 100);
+        ReflectionTestUtils.setField(scheduler, "maxRetries", 10);
     }
 
     @Test

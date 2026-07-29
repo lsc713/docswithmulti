@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
-@ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "INLINE", matchIfMissing = true)
+@ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "INLINE")
 public class InlineCancelEventPublisher implements CancelEventPublisher {
 
     private final KafkaTemplate<String, String> kafkaTemplate;

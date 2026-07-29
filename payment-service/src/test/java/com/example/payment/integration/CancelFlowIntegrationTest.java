@@ -38,9 +38,12 @@ import static org.mockito.Mockito.*;
  * 각 트랜잭션 커밋 이후 DB 상태를 직접 검증한다.
  *
  * Redis/Kafka 의존성은 test/resources/application.yml 에서 auto-configure 제외.
+ *
+ * INLINE 고정: 이 테스트는 TX3 Kafka 직접 발행(인라인) 동작 자체를 검증하므로
+ * 기본값(OUTBOX)과 무관하게 cancel.publish.mode=INLINE 로 명시 고정한다.
  */
 @Testcontainers
-@SpringBootTest
+@SpringBootTest(properties = "cancel.publish.mode=INLINE")
 @DisplayName("CancelFlow 통합 테스트 (Testcontainers)")
 class CancelFlowIntegrationTest {
 

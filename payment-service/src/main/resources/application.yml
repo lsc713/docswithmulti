@@ -68,10 +68,12 @@ kafka:
 
 cancel:
   publish:
-    mode: ${CANCEL_PUBLISH_MODE:INLINE}   # INLINE | INLINE_ASYNC | OUTBOX
+    mode: ${CANCEL_PUBLISH_MODE:OUTBOX}   # INLINE | INLINE_ASYNC | OUTBOX
   outbox:
     poll-ms: ${CANCEL_OUTBOX_POLL_MS:10000}
     batch-size: ${CANCEL_OUTBOX_BATCH_SIZE:1000}
+    max-retries: ${CANCEL_OUTBOX_MAX_RETRIES:10}
+    retention-days: ${CANCEL_OUTBOX_RETENTION_DAYS:7}
     datasource:
       hikari:
         maximum-pool-size: 2
@@ -83,6 +85,7 @@ scheduler:
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
     cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
+    cancel-outbox-purge: lock:scheduler:cancel-outbox-purge
 
 # 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
 management:

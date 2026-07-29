@@ -284,9 +284,9 @@ acks=all (우리가 선택):
   → 약간 느리지만 취소 이벤트 유실은 주문 미동기화로 이어지므로 필수
 ```
 
-### TX3 인라인 Kafka 발행
+### OUTBOX 정식 발행 (`cancel.publish.mode` 기본값)
 
-DB 저장이 완전히 끝난 뒤, TX3 맨 마지막에 `kafkaTemplate.send()` 를 직접 호출한다.
+TX3는 DB 상태 변경과 **같은 트랜잭션**으로 `cancel_event_outbox`에 PENDING 행을 INSERT한다. Kafka 발행 자체는 TX 밖 — 별도 폴러(`CancelEventOutboxPublisher`)가 담당한다.
 
 ```
 발행 흐름:
@@ -294,27 +294,31 @@ DB 저장이 완전히 끝난 뒤, TX3 맨 마지막에 `kafkaTemplate.send()` �
      payment_item 상태 변경
      payment 상태 재계산
      cancel_request → COMPLETED
-  2. kafkaTemplate.send(topic, cancelRequestId, payload).get(5s)
-     → 발행 성공: TX3 커밋 → 완료
-     → 발행 실패: 예외 throw → TX3 롤백
-                 cancel_request PROCESSING 상태 유지
-                 → processing-recovery 스케줄러(60초)가 재처리
+     cancel_event_outbox INSERT(PENDING)   ← 같은 TX, 원자적. Kafka 호출 없음.
+  2. TX3 커밋 성공
+     → afterCommit: Redisson wake 발행(cancel-outbox-wake) — 저지연 트리거, 실패해도 무해(poll이 backstop)
+  3. CancelEventOutboxPublisher(poll 10s 또는 wake) 가 PENDING 배치를 조회해 발행
+     → 성공: markPublished (PUBLISHED)
+     → 실패: bumpRetry (재시도) → max-retries 초과 시 markDead(DEAD) + OperationAlertPort 알림
 
 실패 처리:
-  Kafka 장애 시 TX3가 롤백되므로 DB는 PROCESSING 상태를 유지한다.
-  processing-recovery가 PG사 조회 후 TX3를 재실행한다.
-  재실행 시 Kafka 발행도 다시 시도한다.
+  outbox INSERT가 TX3에 이미 원자 커밋됐으므로 Kafka 장애가 TX3를 롤백시키지 않는다(DB 상태는 이미 COMPLETED).
+  발행 자체가 실패하면 폴러가 max-retries까지 재시도 후 DEAD 전이 + 알림 — 이후 운영 개입 필요.
+  PUBLISHED 행은 retention-days 경과 후 purge 스케줄러가 삭제.
 
-Outbox / AFTER_COMMIT과의 차이:
-  Outbox: TX 안에 outbox INSERT → 별도 발행 스케줄러 필요
-  AFTER_COMMIT: TX 커밋 후 이벤트 → failed_kafka_event 보조 테이블 필요
-  TX3 인라인: 테이블 추가 없음, 실패 시 TX 롤백으로 일관성 보장
-             단, Kafka 응답 대기(최대 5s) 동안 DB 커넥션 점유
+INLINE(벤치/학습 전용, 기본 비활성)과의 차이:
+  INLINE: TX3 맨 마지막에 kafkaTemplate.send().get(5s) 직접 호출. 발행 실패 → 예외 throw → TX3 롤백
+          → cancel_request PROCESSING 유지 → processing-recovery(60초)가 TX3 재실행.
+          테이블 추가 없이 일관성 보장되지만, Kafka 응답 대기 동안 DB 커넥션을 점유하고
+          DB commit과 Kafka 발행이 하나의 실패 단위로 묶여(dual-write) TX3 스루풋이 Kafka 지연에 종속된다.
+  OUTBOX: DB 커밋과 Kafka 발행이 분리 — TX3는 outbox INSERT만으로 즉시 커밋, 발행은 폴러가 비동기로 흡수.
 ```
 
-> ⚠️ **알려진 버그(OUTBOX 폴러 라이브락)**: OUTBOX 발행 스케줄러가 앱과 DB 커넥션 풀을 공유해,
-> 고부하 시 `markPublished`가 커넥션 굶음 → 같은 head 배치 재발송 라이브락 + Kafka 중복 폭주.
-> 실측 근거·수정 방향(폴러 전용 DataSource / CDC) → [`load-test/outbox-poller-livelock.md`](./load-test/outbox-poller-livelock.md)
+> **해소된 버그(OUTBOX 폴러 라이브락)**: 과거 폴러가 앱과 DB 커넥션 풀을 공유해 고부하 시
+> `markPublished`가 커넥션 굶음 → 같은 head 배치 재발송 라이브락에 빠졌다(§실측 근거 →
+> [`load-test/outbox-poller-livelock.md`](./load-test/outbox-poller-livelock.md)).
+> 수정: 폴러 전용 소형 DataSource(`OutboxDataSourceConfig.cancelOutboxDataSource`, 별도 Hikari 풀)로 분리해
+> 앱 요청 처리 풀과 경합하지 않도록 했다.
 
 ### 설정값
 
@@ -603,7 +607,8 @@ Kafka UI는 내부망에서만 접근 가능하게 구성한다.
 
 | 시나리오 | 발생 상황 | 대응 |
 |---------|---------|------|
-| TX3 Kafka 발행 실패 | TX3 롤백 → cancel_request PROCESSING | processing-recovery(60초) → PG 조회 → TX3 재실행 |
+| OUTBOX 발행 실패(기본) | outbox 행 재시도 누적 | max-retries 초과 시 DEAD 전이 + 알림 → 운영 수동 재처리 |
+| (INLINE 모드 한정) TX3 Kafka 발행 실패 | TX3 롤백 → cancel_request PROCESSING | processing-recovery(60초) → PG 조회 → TX3 재실행 |
 | Consumer 다운 | 메시지 처리 지연 | 인스턴스 재시작 → 미커밋 offset부터 재처리 |
 | 브로커 1대 장애 | 해당 파티션 Leader 변경 | Follower 자동 승계 → 서비스 영향 없음 |
 | 브로커 2대 장애 | replication factor=3 한계 | 서비스 중단 → 브로커 복구 필요 |
