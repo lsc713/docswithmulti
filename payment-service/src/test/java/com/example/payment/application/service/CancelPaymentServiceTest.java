@@ -214,7 +214,7 @@ class CancelPaymentServiceTest {
     // ──────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("risk 실패 → cancel_request FAILED + compensation_retry 저장")
+    @DisplayName("risk 실패(타임아웃, 차감 여부 불확실 isCharged=true) → cancel_request FAILED + compensation_retry 저장")
     void shouldMarkFailedAndSaveCompensationRetryWhenRiskFails() {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
@@ -225,9 +225,10 @@ class CancelPaymentServiceTest {
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
         when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
 
-        // Risk 호출 실패
+        // Risk 호출 실패 (타임아웃/유실 성격) — isCharged=true → 차감된 것으로 확인되어 compensate 진행(CR-02)
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
             .thenThrow(new RiskServiceException("risk 서비스 다운"));
+        when(riskManagementPort.isCharged(anyLong())).thenReturn(true);
         // 보상 호출도 실패 → compensation_retry 저장
         doThrow(new RiskServiceException("보상 실패"))
             .when(riskManagementPort).compensate(anyLong(), anyLong(), any());
@@ -446,6 +447,7 @@ class CancelPaymentServiceTest {
         when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
             .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 서비스 다운"));
+        when(riskManagementPort.isCharged(anyLong())).thenReturn(true);
         // compensate는 성공 (예외 없음)
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
@@ -454,6 +456,58 @@ class CancelPaymentServiceTest {
 
         verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
         verify(compensationRetryRepository, never()).save(anyLong(), anyLong(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // Risk 실패 + 명확한 미차감(isCharged=false) — compensate 미호출 (CR-02)
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("risk 실패 + isCharged=false(명확한 미차감) → compensate 호출 없이 FAILED만 기록")
+    void shouldNotCompensateWhenRiskFailsAndNotCharged() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("한도 초과"));
+        // 명확한 거부(한도 초과 등) — risk가 애초에 차감하지 않음
+        when(riskManagementPort.isCharged(anyLong())).thenReturn(false);
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        assertThrows(com.example.payment.infrastructure.exception.RiskServiceException.class,
+            () -> service.cancel(command));
+
+        verify(riskManagementPort, never()).compensate(anyLong(), anyLong(), any());
+        verify(compensationRetryRepository, never()).save(anyLong(), anyLong(), any());
+        verify(cancelRequestRepository).save(argThat(cr -> cr.getStatus() == CancelStatus.FAILED));
+    }
+
+    @Test
+    @DisplayName("risk 실패 + isCharged() 자체 실패(risk 이중 장애) → 안전하게 compensate 진행")
+    void shouldCompensateWhenIsChargedCheckItselfFails() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 서비스 다운"));
+        when(riskManagementPort.isCharged(anyLong()))
+            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("isCharged 조회도 실패"));
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        assertThrows(com.example.payment.infrastructure.exception.RiskServiceException.class,
+            () -> service.cancel(command));
+
+        verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
     }
 
     // ──────────────────────────────────────────────────────────

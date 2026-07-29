@@ -132,7 +132,21 @@ public class CancelPaymentService implements CancelPaymentUseCase {
             riskManagementPort.validateAndReserve(
                 payment.getMerchantId(), cancelRequest.getId(), cancelAmount, kstDate);
         } catch (Exception e) {
-            tryCompensate(cancelRequest, payment.getMerchantId(), cancelAmount);
+            // CR-02: risk의 "명확한 에러(한도초과 등, 차감 없음)"와 "타임아웃/유실(차감 여부 불확실)"을
+            // isCharged()로 구분 — 실제 차감된 경우에만 compensate 호출(cancel-design.md 97-113행).
+            // 명확히 미차감(charged=false)이면 compensate 없이 바로 FAILED만 기록.
+            // isCharged() 확인 자체가 실패하면(risk 이중 장애) 차감 여부를 알 수 없으므로
+            // 안전한 기본값(compensate 진행)으로 폴백 — 미보상 누락보다 과잉 보상 시도가 안전.
+            boolean shouldCompensate = true;
+            try {
+                shouldCompensate = riskManagementPort.isCharged(cancelRequest.getId());
+            } catch (Exception checkEx) {
+                log.warn("risk isCharged 확인 실패 — 안전하게 compensate 진행. cancelRequestId={}: {}",
+                    cancelRequest.getId(), checkEx.getMessage());
+            }
+            if (shouldCompensate) {
+                tryCompensate(cancelRequest, payment.getMerchantId(), cancelAmount);
+            }
             markFailed(cancelRequest, e.getMessage());
             throw e;
         }
