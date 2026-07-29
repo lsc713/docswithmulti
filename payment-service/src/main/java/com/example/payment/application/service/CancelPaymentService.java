@@ -170,6 +170,11 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         }
 
         // TX3: PaymentItem + Payment + COMPLETED + ApplicationEvent
+        // D-01: PG(Toss) transactionKey를 saveTx3 이전에 세팅 — saveTx3는 CancelRequest를 재조회하지
+        // 않고 전달받은 객체를 그대로 toCompleted() 후 저장하므로 여기서 세팅하면 그대로 반영된다.
+        if (pgResult.pgTransactionId() != null) {
+            cancelRequest.assignPgTransactionKey(pgResult.pgTransactionId());
+        }
         CancelRequest savedTx3 = cancelTxWriter.saveTx3(cancelRequest, payment, command.cancelPaymentItemIds());
         recordHistory(savedTx3.getId(), CancelStatus.COMPLETED, null);
         return savedTx3;

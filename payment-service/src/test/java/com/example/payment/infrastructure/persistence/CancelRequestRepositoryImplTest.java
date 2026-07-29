@@ -107,4 +107,22 @@ class CancelRequestRepositoryImplTest extends AbstractRepositoryTest {
         assertThat(actual.getStatus()).isEqualTo(CancelStatus.PENDING);
         assertThat(actual.getCreatedAt()).isNotNull();
     }
+
+    @Test
+    void should_persist_pg_transaction_key() {
+        // D-01: PG(Toss) 취소 transactionKey — 감사 + 부분취소 동일금액 tiebreaker (V13)
+        CancelRequest request = CancelRequestFixture.pending(7L, BigDecimal.valueOf(10000));
+        request.toProcessing();
+        request.assignPgTransactionKey("toss-tx-abc123");
+        request.toCompleted();
+
+        jpaRepository.save(CancelRequestJpaEntity.from(request));
+
+        Optional<CancelRequestJpaEntity> found =
+            jpaRepository.findByPaymentIdAndRequestHash(7L, request.getRequestHash());
+
+        assertThat(found).isPresent();
+        assertThat(found.get().getPgTransactionKey()).isEqualTo("toss-tx-abc123");
+        assertThat(found.get().toDomain().getPgTransactionKey()).isEqualTo("toss-tx-abc123");
+    }
 }

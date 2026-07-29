@@ -64,7 +64,8 @@ class ProcessingRecoveryServiceTest {
             List.of(10L, 11L), CancelStatus.PROCESSING, 0,
             null, null,
             Instant.now().minus(10, ChronoUnit.MINUTES),
-            Instant.now().minus(10, ChronoUnit.MINUTES)
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            null
         );
         // CR-03: compensateAndFail은 compensate 호출 전 이 원자 UPDATE로 승자를 가린다.
         // 대부분의 테스트는 "내가 승자"인 시나리오이므로 기본값 1(성공)로 lenient 스텁.
@@ -147,7 +148,8 @@ class ProcessingRecoveryServiceTest {
             List.of(10L, 11L), CancelStatus.PROCESSING, 1,
             null, null,
             Instant.now().minus(10, ChronoUnit.MINUTES),
-            Instant.now().minus(10, ChronoUnit.MINUTES)
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            null
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
@@ -172,7 +174,8 @@ class ProcessingRecoveryServiceTest {
             List.of(10L, 11L), CancelStatus.PROCESSING, 5,
             null, null,
             Instant.now().minus(10, ChronoUnit.MINUTES),
-            Instant.now().minus(10, ChronoUnit.MINUTES)
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            null
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(maxRetry));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
@@ -208,7 +211,8 @@ class ProcessingRecoveryServiceTest {
             null,
             Instant.now().minus(2, ChronoUnit.HOURS),  // pgPendingSince 2시간 전
             Instant.now().minus(2, ChronoUnit.HOURS),
-            Instant.now().minus(2, ChronoUnit.HOURS)
+            Instant.now().minus(2, ChronoUnit.HOURS),
+            null
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(timedOut));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
@@ -229,14 +233,16 @@ class ProcessingRecoveryServiceTest {
             List.of(10L, 11L), CancelStatus.PROCESSING, 4,
             null, null,
             Instant.now().minus(10, ChronoUnit.MINUTES),
-            Instant.now().minus(10, ChronoUnit.MINUTES)
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            null
         );
         CancelRequest refreshed = CancelRequest.reconstruct(
             10L, 1L, "hash_abc", BigDecimal.valueOf(50000), "고객 변심",
             List.of(10L, 11L), CancelStatus.PROCESSING, 5,
             null, null,
             Instant.now().minus(10, ChronoUnit.MINUTES),
-            Instant.now().minus(10, ChronoUnit.MINUTES)
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            null
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(almostMax));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));

@@ -175,7 +175,7 @@ class CancelPaymentServiceTest {
         CancelRequest failed = CancelRequest.reconstruct(
             99L, payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심",
             List.of(1L), CancelStatus.FAILED, 0, null, null,
-            Instant.now(), Instant.now());
+            Instant.now(), Instant.now(), null);
 
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
             .thenReturn(Optional.of(failed));
@@ -190,7 +190,7 @@ class CancelPaymentServiceTest {
         CancelRequest completed = CancelRequest.reconstruct(99L, failed.getPaymentId(),
             failed.getRequestHash(), failed.getCancelAmount(), failed.getCancelReason(),
             failed.getCancelItemIds(), CancelStatus.COMPLETED, 0, null, null,
-            failed.getCreatedAt(), failed.getUpdatedAt());
+            failed.getCreatedAt(), failed.getUpdatedAt(), null);
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
 
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
@@ -550,13 +550,13 @@ class CancelPaymentServiceTest {
         return CancelRequest.reconstruct(id, paymentId, "hash",
             BigDecimal.valueOf(30_000), "변심",
             List.of(1L), CancelStatus.PENDING, 0, null, null,
-            Instant.now(), Instant.now());
+            Instant.now(), Instant.now(), null);
     }
 
     private CancelRequest reconstruct(long id, long paymentId, CancelStatus status) {
         return CancelRequest.reconstruct(id, paymentId, "hash",
             BigDecimal.valueOf(30_000), "변심",
             List.of(1L), status, 0, null, null,
-            Instant.now(), Instant.now());
+            Instant.now(), Instant.now(), null);
     }
 }

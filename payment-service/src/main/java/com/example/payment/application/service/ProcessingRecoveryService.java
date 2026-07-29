@@ -63,7 +63,7 @@ public class ProcessingRecoveryService {
             }
 
             if (result.isApproved()) {
-                runTx3(cancelRequest, payment);
+                runTx3(cancelRequest, payment, result.pgTransactionId());
             } else if (result.isFailed()) {
                 handleFailed(cancelRequest, payment, result);
             } else if (result.isPending()) {
@@ -91,7 +91,12 @@ public class ProcessingRecoveryService {
         }
     }
 
-    private void runTx3(CancelRequest cancelRequest, Payment payment) {
+    private void runTx3(CancelRequest cancelRequest, Payment payment, String pgTransactionKey) {
+        // D-01: saveTx3는 CancelRequest를 재조회하지 않고 전달받은 객체를 그대로 저장하므로
+        // 여기서 세팅하면 그대로 반영된다.
+        if (pgTransactionKey != null) {
+            cancelRequest.assignPgTransactionKey(pgTransactionKey);
+        }
         CancelRequest completed = cancelTxWriter.saveTx3(
             cancelRequest, payment, cancelRequest.getCancelItemIds());
         recordHistory(completed.getId(), CancelStatus.COMPLETED, "processing-recovery");
@@ -132,7 +137,7 @@ public class ProcessingRecoveryService {
         }
 
         if (retryResult.isApproved()) {
-            runTx3(refreshed, payment);
+            runTx3(refreshed, payment, retryResult.pgTransactionId());
         }
         // 임계 미만 & 미승인 → PROCESSING 유지, 다음 주기 재시도
     }

@@ -122,7 +122,8 @@ class ProcessingRecoveryOutboxIT {
             null,                          // completedAt
             null,                          // pgPendingSince
             tenMinutesAgo.toInstant(ZoneOffset.UTC),
-            tenMinutesAgo.toInstant(ZoneOffset.UTC)
+            tenMinutesAgo.toInstant(ZoneOffset.UTC),
+            null                           // pgTransactionKey
         );
         CancelRequestJpaEntity saved = cancelRequestJpaRepository.save(
             CancelRequestJpaEntity.from(processingRequest)

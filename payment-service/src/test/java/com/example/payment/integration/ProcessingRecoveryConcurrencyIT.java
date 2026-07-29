@@ -246,7 +246,8 @@ class ProcessingRecoveryConcurrencyIT {
                 itemIds, CancelStatus.PROCESSING, 0,
                 null, null,
                 tenMinutesAgo.toInstant(ZoneOffset.UTC),
-                tenMinutesAgo.toInstant(ZoneOffset.UTC)
+                tenMinutesAgo.toInstant(ZoneOffset.UTC),
+                null
             );
             return cancelRequestJpaRepository.save(CancelRequestJpaEntity.from(cancelRequest)).getId();
         });
