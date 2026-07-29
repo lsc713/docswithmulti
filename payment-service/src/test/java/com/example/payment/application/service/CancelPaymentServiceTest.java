@@ -86,7 +86,7 @@ class CancelPaymentServiceTest {
         existing.toProcessing();
         existing.toCompleted();
 
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.of(existing));
 
         CancelRequest result = service.cancel(command);
@@ -105,7 +105,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey("pay_test_001")).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -153,7 +153,7 @@ class CancelPaymentServiceTest {
             .thenReturn(List.of(itemA, itemB));
 
         CancelRequest pending = pendingCancelRequest(1L, payment.getId());
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.of(pending));
 
         CancelRequest result = service.cancel(command);
@@ -177,7 +177,7 @@ class CancelPaymentServiceTest {
             List.of(1L), CancelStatus.FAILED, 0, null, null,
             Instant.now(), Instant.now(), null, null);
 
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.of(failed));
         // FAILED 재시도 시 raiseToPending 후 cancelRequestRepository.save() 직접 호출 (id=99L 그대로 재사용)
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
@@ -219,7 +219,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -264,7 +264,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(cancelledWithId, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         assertThrows(InvalidPaymentItemStatusException.class, () -> service.cancel(command));
@@ -283,7 +283,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -315,7 +315,7 @@ class CancelPaymentServiceTest {
             .thenReturn(List.of(itemA, itemB));
 
         CancelRequest processing = reconstruct(1L, payment.getId(), CancelStatus.PROCESSING);
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.of(processing));
 
         CancelRequest result = service.cancel(command);
@@ -335,7 +335,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(cancelledPayment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         assertThrows(com.example.payment.domain.exception.CancelNotAllowedException.class,
@@ -354,7 +354,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -383,7 +383,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -409,7 +409,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -440,7 +440,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -468,7 +468,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -493,7 +493,7 @@ class CancelPaymentServiceTest {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty());
 
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
@@ -521,7 +521,7 @@ class CancelPaymentServiceTest {
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
             .thenReturn(List.of(itemA, itemB));
         // 최초 조회 시점엔 아직 존재하지 않음(레이스: 승자가 조회 이후 먼저 INSERT 커밋)
-        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
             .thenReturn(Optional.empty())
             .thenReturn(Optional.of(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING)));
 
@@ -534,12 +534,134 @@ class CancelPaymentServiceTest {
         // 새 응답 형태 없이 기존 handleExistingRequest 경유 — 승자의 기존 상태(PROCESSING) 그대로 반환
         assertEquals(CancelStatus.PROCESSING, result.getStatus());
         verify(cancelRequestRepository, times(2))
-            .findByPaymentIdAndRequestHash(anyLong(), anyString());
+            .findByPaymentIdAndDedupKey(anyLong(), anyString());
         // 레이스 패자는 risk/PG 호출 없이 종료(승자만 처리 진행)
         verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
         verify(pgCancelPort, never()).cancel(any(), any(), any());
         verify(cancelTxWriter, never()).saveTx2(any());
         verify(cancelTxWriter, never()).saveTx3(any(), any(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // Idempotency-Key 기반 dedup — dedup_key 조회 + 409 재사용 검증
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("Idempotency-Key 재사용 + 동일 요청 내용 → 기존 행 그대로 반환(신규 INSERT 없음)")
+    void shouldReturnExistingRequestWhenIdempotencyKeyReusedWithSameContent() {
+        CancelPaymentCommand keyedCommand =
+            new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L), "idem-key-1");
+        String requestHash = RequestHashGenerator.generate(
+            keyedCommand.paymentKey(), keyedCommand.cancelPaymentItemIds());
+
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+
+        CancelRequest existing = CancelRequest.create(
+            payment.getId(), requestHash, BigDecimal.valueOf(30000), "변심",
+            List.of(1L), "idem-key-1");
+        existing.toProcessing();
+        existing.toCompleted();
+
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(payment.getId(), "ik:idem-key-1"))
+            .thenReturn(Optional.of(existing));
+
+        CancelRequest result = service.cancel(keyedCommand);
+
+        assertEquals(CancelStatus.COMPLETED, result.getStatus());
+        verify(cancelTxWriter, never()).saveTx1(any());
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+    }
+
+    @Test
+    @DisplayName("Idempotency-Key 재사용 + 다른 요청 내용 → IdempotencyKeyConflictException(409)")
+    void shouldThrowConflictWhenIdempotencyKeyReusedWithDifferentContent() {
+        CancelPaymentCommand keyedCommand =
+            new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L), "idem-key-2");
+
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+
+        // 같은 키로 이전에 다른 요청 내용(다른 request_hash)이 이미 처리됨
+        CancelRequest existing = CancelRequest.create(
+            payment.getId(), "different-hash", BigDecimal.valueOf(70000), "변심",
+            List.of(2L), "idem-key-2");
+
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(payment.getId(), "ik:idem-key-2"))
+            .thenReturn(Optional.of(existing));
+
+        assertThrows(
+            com.example.payment.application.exception.IdempotencyKeyConflictException.class,
+            () -> service.cancel(keyedCommand));
+
+        verify(cancelTxWriter, never()).saveTx1(any());
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+    }
+
+    @Test
+    @DisplayName("Idempotency-Key 없음 → dedup_key는 \"ch:\"+request_hash로 조회(back-compat 폴백)")
+    void shouldFallBackToContentHashDedupKeyWhenNoIdempotencyKey() {
+        // command는 idempotencyKey=null (setUp 기본값)
+        String requestHash = RequestHashGenerator.generate(
+            command.paymentKey(), command.cancelPaymentItemIds());
+
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenReturn(new RiskReserveResult(1L, BigDecimal.valueOf(10_000_000),
+                BigDecimal.valueOf(30_000), BigDecimal.valueOf(9_970_000)));
+        when(cancelTxWriter.saveTx2(any())).thenReturn(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING));
+        when(pgCancelPort.cancel(any(), any(), any()))
+            .thenReturn(PgCancelResult.approved("pg-tx-001"));
+        when(cancelTxWriter.saveTx3(any(), any(), any()))
+            .thenReturn(reconstruct(1L, payment.getId(), CancelStatus.COMPLETED));
+
+        service.cancel(command);
+
+        verify(cancelRequestRepository).findByPaymentIdAndDedupKey(
+            payment.getId(), "ch:" + requestHash);
+    }
+
+    @Test
+    @DisplayName("레이스 패자(Idempotency-Key 보유) — saveTx1 UK 위반 시 dedup_key(ik:)로 재조회 후 handleExistingRequest")
+    void shouldReturnWinnerIdempotentlyByDedupKeyWhenSaveTx1ViolatesUniqueConstraintWithKey() {
+        CancelPaymentCommand keyedCommand =
+            new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L), "idem-key-3");
+        String requestHash = RequestHashGenerator.generate(
+            keyedCommand.paymentKey(), keyedCommand.cancelPaymentItemIds());
+
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+
+        CancelRequest winner = CancelRequest.create(
+            payment.getId(), requestHash, BigDecimal.valueOf(30000), "변심",
+            List.of(1L), "idem-key-3");
+        winner.toProcessing();
+
+        // 최초 조회 시점엔 아직 존재하지 않음(레이스) → saveTx1 UK 위반 → dedup_key 재조회 시 승자 반환
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(payment.getId(), "ik:idem-key-3"))
+            .thenReturn(Optional.empty())
+            .thenReturn(Optional.of(winner));
+
+        when(cancelTxWriter.saveTx1(any()))
+            .thenThrow(new org.springframework.dao.DataIntegrityViolationException(
+                "Duplicate entry for key uk_cancel_request_dedup_key"));
+
+        CancelRequest result = service.cancel(keyedCommand);
+
+        assertEquals(CancelStatus.PROCESSING, result.getStatus());
+        verify(cancelRequestRepository, times(2))
+            .findByPaymentIdAndDedupKey(payment.getId(), "ik:idem-key-3");
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
     }
 
     // ──────────────────────────────────────────────────────────
