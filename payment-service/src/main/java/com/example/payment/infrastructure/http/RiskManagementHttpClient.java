@@ -70,8 +70,18 @@ public class RiskManagementHttpClient implements RiskManagementPort {
                     "merchantId", merchantId,
                     "restoreAmount", restoreAmount
                 );
-                return restTemplate.postForEntity(url, request, Void.class);
+                ResponseEntity<Void> response = restTemplate.postForEntity(url, request, Void.class);
+                // WR-03: 다른 메서드(validateAndReserve/isCharged)와 동일하게 명시적 상태 코드 가드.
+                // RestTemplate 기본 에러 핸들러의 암묵적 예외 발생에만 의존하지 않는다 —
+                // compensate는 금전(한도 사용량 복원)에 직결되므로 200 OK + 실패 바디 규약으로
+                // 바뀌어도 보상 실패를 성공으로 오인하지 않아야 한다.
+                if (!response.getStatusCode().is2xxSuccessful()) {
+                    throw new RiskServiceException("risk-management 보상 응답 오류: " + response.getStatusCode());
+                }
+                return response;
             });
+        } catch (RiskServiceException e) {
+            throw e;
         } catch (Throwable t) {
             log.error("risk-management compensate 실패. cancelRequestId={}", cancelRequestId, t);
             throw new RiskServiceException("risk-management 보상 트랜잭션 실패", t);

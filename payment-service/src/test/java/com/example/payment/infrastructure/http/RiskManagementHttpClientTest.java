@@ -88,6 +88,27 @@ class RiskManagementHttpClientTest {
     }
 
     @Test
+    @DisplayName("compensate: 2xx 응답 → 예외 없이 정상 완료")
+    void compensate_success() {
+        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+            .thenReturn(org.springframework.http.ResponseEntity.ok().build());
+
+        assertDoesNotThrow(() -> client.compensate(100L, 1L, BigDecimal.valueOf(30_000)));
+    }
+
+    @Test
+    @DisplayName("compensate: WR-03 — RestTemplate 기본 에러 핸들러가 예외를 던지지 않는 2xx 아닌 응답도 RiskServiceException")
+    void compensate_non2xxResponse_throwsRiskServiceException() {
+        // 커스텀 ResponseErrorHandler 하에서는 2xx 아닌 상태코드가 예외 없이 ResponseEntity로
+        // 반환될 수 있다 — WR-03이 방어하는 케이스(명시적 상태코드 가드 없으면 성공으로 오인됨).
+        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+            .thenReturn(org.springframework.http.ResponseEntity.status(409).build());
+
+        assertThrows(RiskServiceException.class,
+            () -> client.compensate(100L, 1L, BigDecimal.valueOf(30_000)));
+    }
+
+    @Test
     @DisplayName("isCharged: charged=true 응답 → true 반환")
     void isCharged_charged_true() {
         com.example.payment.application.dto.CheckChargeResponseDto response =
