@@ -4,6 +4,7 @@ import com.example.payment.application.interfaces.CancelEventOutboxRepository;
 import com.example.payment.application.interfaces.CancelEventPublisher;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -42,6 +43,7 @@ class CancelEventPublisherBeanSelectionTest {
     static class OutboxModeTest {
         @MockitoBean KafkaTemplate<String, String> kafkaTemplate;
         @MockitoBean CancelEventOutboxRepository outboxRepository;
+        @MockitoBean RedissonClient redissonClient;
         @Autowired CancelEventPublisher publisher;
 
         @Test
