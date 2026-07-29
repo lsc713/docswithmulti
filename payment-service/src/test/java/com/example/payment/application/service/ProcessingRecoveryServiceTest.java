@@ -73,6 +73,22 @@ class ProcessingRecoveryServiceTest {
     }
 
     @Test
+    @DisplayName("WR-01: PG 상태가 APPROVED/FAILED/PENDING 어디에도 안 걸리면 경고 로그만 남기고 상태 변경 없음")
+    void pg_unknown_status_logs_warning_and_does_nothing() {
+        when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
+        when(pgCancelPort.getStatus(anyString()))
+            .thenReturn(new PgCancelResult("pg_tx_001", "UNKNOWN_STATUS", false));
+
+        service.recoverAll();
+
+        verify(cancelRequestRepository, never()).save(any());
+        verify(cancelRequestRepository, never()).compareAndSetFailed(anyLong());
+        verify(cancelTxWriter, never()).saveTx3(any(), any(), any());
+        verify(riskManagementPort, never()).compensate(anyLong(), anyLong(), any());
+    }
+
+    @Test
     @DisplayName("PG APPROVED → TX3 재실행 + COMPLETED 이력")
     void pg_approved_runs_tx3() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));

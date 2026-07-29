@@ -67,6 +67,12 @@ public class ProcessingRecoveryService {
                 handleFailed(cancelRequest, payment, result);
             } else if (result.isPending()) {
                 handlePgPending(cancelRequest, payment);
+            } else {
+                // WR-01: APPROVED/FAILED/PENDING 어디에도 안 걸리는 미지의 PG 상태 문자열
+                // (오탈자, PG 스펙 변경 등) — 조용히 무시하면 이 건이 계속 PROCESSING으로 남아
+                // 운영팀이 알아챌 방법이 없으므로 최소한 경고 로그를 남긴다.
+                log.warn("[processing-recovery] 알 수 없는 PG 상태={} cancelRequestId={}",
+                    result.status(), cancelRequest.getId());
             }
         } catch (BusinessException e) {
             log.error("[processing-recovery] 도메인 규칙 위반 — 데이터 정합성 문제 cancelRequestId={}: {}",
