@@ -175,27 +175,22 @@ class CancelPaymentServiceTest {
         CancelRequest failed = CancelRequest.reconstruct(
             99L, payment.getId(), "any-hash", BigDecimal.valueOf(30000), "변심",
             List.of(1L), CancelStatus.FAILED, 0, null, null,
-            Instant.now(), Instant.now());
+            Instant.now(), Instant.now(), null);
 
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
             .thenReturn(Optional.of(failed));
-        // FAILED 재시도 시 raiseToPending 후 cancelRequestRepository.save() 직접 호출
+        // FAILED 재시도 시 raiseToPending 후 cancelRequestRepository.save() 직접 호출 (id=99L 그대로 재사용)
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        CancelRequest withId = CancelRequest.reconstruct(100L, failed.getPaymentId(),
-            failed.getRequestHash(), failed.getCancelAmount(), failed.getCancelReason(),
-            failed.getCancelItemIds(), CancelStatus.PENDING, 0, null, null,
-            failed.getCreatedAt(), failed.getUpdatedAt());
-        when(cancelTxWriter.saveTx1(any())).thenReturn(withId);
         when(cancelTxWriter.saveTx2(any())).thenAnswer(inv -> {
             CancelRequest cr = inv.getArgument(0);
             cr.toProcessing();
             return cr;
         });
-        CancelRequest completed = CancelRequest.reconstruct(100L, withId.getPaymentId(),
-            withId.getRequestHash(), withId.getCancelAmount(), withId.getCancelReason(),
-            withId.getCancelItemIds(), CancelStatus.COMPLETED, 0, null, null,
-            withId.getCreatedAt(), withId.getUpdatedAt());
+        CancelRequest completed = CancelRequest.reconstruct(99L, failed.getPaymentId(),
+            failed.getRequestHash(), failed.getCancelAmount(), failed.getCancelReason(),
+            failed.getCancelItemIds(), CancelStatus.COMPLETED, 0, null, null,
+            failed.getCreatedAt(), failed.getUpdatedAt(), null);
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
 
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
@@ -207,6 +202,11 @@ class CancelPaymentServiceTest {
         CancelRequest result = service.cancel(command);
 
         assertEquals(CancelStatus.COMPLETED, result.getStatus());
+        assertEquals(99L, result.getId());
+        // CR-01: FAILED 재시도는 기존 행(id=99L)을 이어받아 risk부터 재개 — 새 INSERT(saveTx1) 없음
+        verify(cancelTxWriter, never()).saveTx1(any());
+        verify(riskManagementPort).validateAndReserve(
+            eq(payment.getMerchantId()), eq(99L), eq(BigDecimal.valueOf(30000)), any());
     }
 
     // ──────────────────────────────────────────────────────────
@@ -214,7 +214,7 @@ class CancelPaymentServiceTest {
     // ──────────────────────────────────────────────────────────
 
     @Test
-    @DisplayName("risk 실패 → cancel_request FAILED + compensation_retry 저장")
+    @DisplayName("risk 실패(타임아웃, 차감 여부 불확실 isCharged=true) → cancel_request FAILED + compensation_retry 저장")
     void shouldMarkFailedAndSaveCompensationRetryWhenRiskFails() {
         when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
         when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
@@ -225,9 +225,10 @@ class CancelPaymentServiceTest {
         CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
         when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
 
-        // Risk 호출 실패
+        // Risk 호출 실패 (타임아웃/유실 성격) — isCharged=true → 차감된 것으로 확인되어 compensate 진행(CR-02)
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
             .thenThrow(new RiskServiceException("risk 서비스 다운"));
+        when(riskManagementPort.isCharged(anyLong())).thenReturn(true);
         // 보상 호출도 실패 → compensation_retry 저장
         doThrow(new RiskServiceException("보상 실패"))
             .when(riskManagementPort).compensate(anyLong(), anyLong(), any());
@@ -446,6 +447,7 @@ class CancelPaymentServiceTest {
         when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
             .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 서비스 다운"));
+        when(riskManagementPort.isCharged(anyLong())).thenReturn(true);
         // compensate는 성공 (예외 없음)
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
@@ -457,6 +459,90 @@ class CancelPaymentServiceTest {
     }
 
     // ──────────────────────────────────────────────────────────
+    // Risk 실패 + 명확한 미차감(isCharged=false) — compensate 미호출 (CR-02)
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("risk 실패 + isCharged=false(명확한 미차감) → compensate 호출 없이 FAILED만 기록")
+    void shouldNotCompensateWhenRiskFailsAndNotCharged() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("한도 초과"));
+        // 명확한 거부(한도 초과 등) — risk가 애초에 차감하지 않음
+        when(riskManagementPort.isCharged(anyLong())).thenReturn(false);
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        assertThrows(com.example.payment.infrastructure.exception.RiskServiceException.class,
+            () -> service.cancel(command));
+
+        verify(riskManagementPort, never()).compensate(anyLong(), anyLong(), any());
+        verify(compensationRetryRepository, never()).save(anyLong(), anyLong(), any());
+        verify(cancelRequestRepository).save(argThat(cr -> cr.getStatus() == CancelStatus.FAILED));
+    }
+
+    @Test
+    @DisplayName("risk 실패 + isCharged() 자체 실패(risk 이중 장애) → 안전하게 compensate 진행")
+    void shouldCompensateWhenIsChargedCheckItselfFails() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty());
+
+        CancelRequest pendingWithId = pendingCancelRequest(1L, payment.getId());
+        when(cancelTxWriter.saveTx1(any())).thenReturn(pendingWithId);
+        when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
+            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("risk 서비스 다운"));
+        when(riskManagementPort.isCharged(anyLong()))
+            .thenThrow(new com.example.payment.infrastructure.exception.RiskServiceException("isCharged 조회도 실패"));
+        when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        assertThrows(com.example.payment.infrastructure.exception.RiskServiceException.class,
+            () -> service.cancel(command));
+
+        verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // 레이스 패자 — saveTx1 UK 위반(DataIntegrityViolationException) 시 멱등 응답 (RESIL-02)
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("레이스 패자 — saveTx1 UK 위반 시 승자 재조회 후 handleExistingRequest 로 200 상당 멱등 반환")
+    void shouldReturnWinnerIdempotentlyWhenSaveTx1ViolatesUniqueConstraint() {
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+        // 최초 조회 시점엔 아직 존재하지 않음(레이스: 승자가 조회 이후 먼저 INSERT 커밋)
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
+            .thenReturn(Optional.empty())
+            .thenReturn(Optional.of(reconstruct(1L, payment.getId(), CancelStatus.PROCESSING)));
+
+        when(cancelTxWriter.saveTx1(any()))
+            .thenThrow(new org.springframework.dao.DataIntegrityViolationException(
+                "Duplicate entry for key uk_cancel_request_hash"));
+
+        CancelRequest result = service.cancel(command);
+
+        // 새 응답 형태 없이 기존 handleExistingRequest 경유 — 승자의 기존 상태(PROCESSING) 그대로 반환
+        assertEquals(CancelStatus.PROCESSING, result.getStatus());
+        verify(cancelRequestRepository, times(2))
+            .findByPaymentIdAndRequestHash(anyLong(), anyString());
+        // 레이스 패자는 risk/PG 호출 없이 종료(승자만 처리 진행)
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+        verify(pgCancelPort, never()).cancel(any(), any(), any());
+        verify(cancelTxWriter, never()).saveTx2(any());
+        verify(cancelTxWriter, never()).saveTx3(any(), any(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
     // 헬퍼 메서드
     // ──────────────────────────────────────────────────────────
 
@@ -464,13 +550,13 @@ class CancelPaymentServiceTest {
         return CancelRequest.reconstruct(id, paymentId, "hash",
             BigDecimal.valueOf(30_000), "변심",
             List.of(1L), CancelStatus.PENDING, 0, null, null,
-            Instant.now(), Instant.now());
+            Instant.now(), Instant.now(), null);
     }
 
     private CancelRequest reconstruct(long id, long paymentId, CancelStatus status) {
         return CancelRequest.reconstruct(id, paymentId, "hash",
             BigDecimal.valueOf(30_000), "변심",
             List.of(1L), status, 0, null, null,
-            Instant.now(), Instant.now());
+            Instant.now(), Instant.now(), null);
     }
 }

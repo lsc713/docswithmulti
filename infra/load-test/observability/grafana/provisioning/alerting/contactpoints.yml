@@ -1,0 +1,34 @@
+# Grafana 통합 알림 — Slack contact point (Bot Token)
+# 시크릿은 절대 하드코딩하지 않는다: grafana 컨테이너 env 를 프로비저닝 시점에 ${...} 로 확장.
+#   token     = ${SLACK_BOT_TOKEN}       (xoxb-... , chat:write 스코프 필요)
+#   recipient = ${ONCALL_SLACK_CHANNEL}  (채널 ID 또는 #이름; 봇이 채널에 초대돼 있어야 함)
+#   → docker-compose.yml 이 host .env 의 두 값을 컨테이너로 전달.
+# Slack 앱 하나로 발송(Grafana)과 읽기(oncall 스킬)를 통일한다.
+#
+# text 를 plain-text 로 렌더하는 이유: claude.ai Slack MCP 의 slack_read_channel 은
+# Grafana 기본 blocks/attachments 를 본문 텍스트로 surface 하지 못해 oncall-triage 가
+# "empty body" 로 읽는다. 아래처럼 alertname/service/severity/startsAt/summary 를
+# 본문 text 에 평문으로 박아 두면 MCP 가 그대로 읽어 payload 파싱이 된다.
+apiVersion: 1
+
+contactPoints:
+  - orgId: 1
+    name: slack-oncall
+    receivers:
+      - uid: slack-oncall-bot
+        type: slack
+        disableResolveMessage: false
+        settings:
+          token: ${SLACK_BOT_TOKEN}
+          recipient: ${ONCALL_SLACK_CHANNEL}
+          title: '[{{ .Status }}] {{ .CommonLabels.alertname }} @ {{ .CommonLabels.service }}'
+          text: |
+            {{ range .Alerts }}alertname: {{ .Labels.alertname }}
+            service: {{ .Labels.service }}
+            severity: {{ .Labels.severity }}
+            status: {{ .Status }}
+            startsAt: {{ .StartsAt }}
+            summary: {{ .Annotations.summary }}
+            differential: {{ .Annotations.differential }}
+            ---
+            {{ end }}

@@ -68,6 +68,9 @@ public class CancelRequestJpaEntity {
     @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME(3)")
     private LocalDateTime updatedAt;
 
+    @Column(name = "pg_transaction_key", length = 64)
+    private String pgTransactionKey;
+
     protected CancelRequestJpaEntity() {}
 
     public static CancelRequestJpaEntity from(CancelRequest request) {
@@ -86,6 +89,7 @@ public class CancelRequestJpaEntity {
         e.updatedAt = request.getUpdatedAt() != null
             ? toLocalDateTime(request.getUpdatedAt())
             : LocalDateTime.now(ZoneOffset.UTC);
+        e.pgTransactionKey = request.getPgTransactionKey();
         return e;
     }
 
@@ -97,7 +101,8 @@ public class CancelRequestJpaEntity {
             toInstant(completedAt),
             toInstant(pgPendingSince),
             toInstant(createdAt),
-            toInstant(updatedAt)
+            toInstant(updatedAt),
+            pgTransactionKey
         );
     }
 
@@ -121,4 +126,5 @@ public class CancelRequestJpaEntity {
     public LocalDateTime getCompletedAt() { return completedAt; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+    public String getPgTransactionKey() { return pgTransactionKey; }
 }

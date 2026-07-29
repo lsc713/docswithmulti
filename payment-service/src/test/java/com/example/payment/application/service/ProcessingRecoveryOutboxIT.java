@@ -25,6 +25,7 @@ import java.time.ZoneOffset;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -121,7 +122,8 @@ class ProcessingRecoveryOutboxIT {
             null,                          // completedAt
             null,                          // pgPendingSince
             tenMinutesAgo.toInstant(ZoneOffset.UTC),
-            tenMinutesAgo.toInstant(ZoneOffset.UTC)
+            tenMinutesAgo.toInstant(ZoneOffset.UTC),
+            null                           // pgTransactionKey
         );
         CancelRequestJpaEntity saved = cancelRequestJpaRepository.save(
             CancelRequestJpaEntity.from(processingRequest)
@@ -132,7 +134,7 @@ class ProcessingRecoveryOutboxIT {
         cancelRequestId = saved.getId();
 
         // PG getStatus: APPROVED 반환
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.approved("pg_tx_recovery_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.approved("pg_tx_recovery_001"));
     }
 
     @AfterEach

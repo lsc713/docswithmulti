@@ -22,4 +22,20 @@ public interface CancelRequestRepository {
      * TX2(PROCESSING UPDATE)가 updatedAt 기준점 → updatedAt 기준
      */
     List<CancelRequest> findProcessingUpdatedBefore(Instant before);
+
+    /**
+     * pg_retry_count 원자 UPDATE(read-modify-write 경쟁 제거, D-04).
+     * 호출 후 로컬 CancelRequest 객체는 stale — 임계값 비교 전 반드시 재조회할 것.
+     * @return 1 = 성공, 0 = 대상 없음
+     */
+    int incrementPgRetryCount(long id);
+
+    /**
+     * PROCESSING → FAILED 조건부 원자 UPDATE(D-04 패턴 재사용, CR-03).
+     * processing-recovery의 compensateAndFail에서 risk-management.compensate() 호출 전에
+     * 먼저 시도 — 이 UPDATE로 전이에 성공한 스레드만 compensate를 진행해 이중 보상을 막는다
+     * (레코드 단위 분산락 대신 상태 전이 자체를 멱등 가드로 사용 — D-04, 락 추가 금지).
+     * @return 1 = 성공(내가 FAILED 전이를 완료), 0 = 이미 다른 스레드가 처리함(스킵 대상)
+     */
+    int compareAndSetFailed(long id);
 }

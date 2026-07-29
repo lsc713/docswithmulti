@@ -1,0 +1,166 @@
+# Grafana 통합 알림 — 알림 룰 (Grafana-managed).
+# 원칙:
+#  - datasourceUid: prometheus (datasources/prometheus.yml 의 uid).
+#  - 전부 상시 노출 메트릭만 사용(opt-in tomcat_threads_busy / db.queries.per_request 회피).
+#  - scrape 라벨은 service=payment(단축)인데, 알림은 정식 이름 service=payment-service 라벨을
+#    "부여"한다 → oncall-target.yml 의 match.services(payment-service ...) 필터가 통과된다.
+#  - annotations.differential 로 감별표(§A family / §B 실측)로 가는 힌트를 남긴다(triage 는
+#    자기 differential-table 를 다시 읽지만, 사람이 보기에도 유용).
+#  - 임계값은 실측 무릎(~220 rps, capacity-planning.md) 근처에서 튜닝 대상. 데모용 보수값.
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: oncall-cancel
+    folder: Oncall
+    interval: 1m
+    rules:
+      # Family A — 취소 지연 포화 (증상; 팬아웃 진입점)
+      - uid: oncall-high-cancel-latency
+        title: HighCancelLatency
+        condition: C
+        for: 2m
+        noDataState: OK
+        execErrState: Error
+        labels: { service: payment-service, severity: warning }
+        annotations:
+          summary: "payment-service 취소 p95 지연 > 1s"
+          differential: "Family A(latency) → 팬아웃; 우선 B1(payment_db) 확인"
+        data:
+          - refId: A
+            relativeTimeRange: { from: 300, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              editorMode: code
+              expr: 'histogram_quantile(0.95, sum by (le) (rate(http_server_requests_seconds_bucket{service="payment"}[2m])))'
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [1] }
+
+      # Family A — HikariCP 커넥션 타임아웃 (풀 고갈 후보; 단 B1 반증 주의)
+      - uid: oncall-hikari-timeouts
+        title: HikariConnectionTimeouts
+        condition: C
+        for: 1m
+        noDataState: OK
+        execErrState: Error
+        labels: { service: payment-service, severity: warning }
+        annotations:
+          summary: "payment-service HikariCP 커넥션 타임아웃 발생(5m)"
+          differential: "Family A 풀 고갈 후보 — 풀 키워 악화되면 하류 병목 증상(B1)일 수 있음"
+        data:
+          - refId: A
+            relativeTimeRange: { from: 300, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              editorMode: code
+              expr: 'increase(hikaricp_connections_timeout_total{service="payment"}[5m])'
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0] }
+
+      # Family B — risk 5xx 비율 급증 (락 fail-fast; §B B2)
+      - uid: oncall-high-error-ratio
+        title: HighErrorRatio
+        condition: C
+        for: 1m
+        noDataState: OK
+        execErrState: Error
+        labels: { service: risk-management-service, severity: critical }
+        annotations:
+          summary: "risk-management-service 5xx 비율 > 5%"
+          differential: "Family B → B2(Redis 락 fail-fast): 지연 낮은데 에러율만 튀면 hot merchant 경합"
+        data:
+          - refId: A
+            relativeTimeRange: { from: 300, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              editorMode: code
+              expr: 'sum(rate(http_server_requests_seconds_count{service="risk",status=~"5.."}[2m])) / clamp_min(sum(rate(http_server_requests_seconds_count{service="risk"}[2m])), 0.001)'
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [0.05] }
+
+      # Family D — Kafka consumer lag (컨슈머 정체 / 폴러 이상; §B B3)
+      - uid: oncall-kafka-consumer-lag
+        title: KafkaConsumerLag
+        condition: C
+        for: 2m
+        noDataState: OK
+        execErrState: Error
+        labels: { service: order-service, severity: warning }
+        annotations:
+          summary: "order 컨슈머 lag > 1000"
+          differential: "Family D → B3(OUTBOX 폴러 라이브락): send_total ÷ 고유처리수 >> 1 이면 재발송"
+        data:
+          - refId: A
+            relativeTimeRange: { from: 300, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              editorMode: code
+              expr: 'max(kafka_consumergroup_lag)'
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [1000] }
+
+      # Family A — payment_db CPU 포화 (지배 병목; §B B1)
+      - uid: oncall-payment-db-cpu
+        title: PaymentDbCpuSaturation
+        condition: C
+        for: 2m
+        noDataState: OK
+        execErrState: Error
+        labels: { service: payment-service, severity: critical }
+        annotations:
+          summary: "payment_db 호스트 CPU > 90%"
+          differential: "§B B1 지배 병목: CPU 95%+iowait+커밋대기. 풀/행락/fsync 설정은 반증됨"
+        data:
+          - refId: A
+            relativeTimeRange: { from: 300, to: 0 }
+            datasourceUid: prometheus
+            model:
+              refId: A
+              instant: true
+              editorMode: code
+              expr: '100 - (avg by (host) (rate(node_cpu_seconds_total{host="mysql-payment",mode="idle"}[2m])) * 100)'
+          - refId: C
+            relativeTimeRange: { from: 0, to: 0 }
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              expression: A
+              conditions:
+                - evaluator: { type: gt, params: [90] }

@@ -23,6 +23,7 @@ class RiskManagementHttpClientTest {
 
     RestTemplate restTemplate;
     CircuitBreaker circuitBreaker;
+    CircuitBreaker readCircuitBreaker;
     RiskManagementHttpClient client;
 
     @BeforeEach
@@ -35,8 +36,11 @@ class RiskManagementHttpClientTest {
             .failureRateThreshold(50)
             .waitDurationInOpenState(Duration.ofSeconds(60))
             .build();
-        circuitBreaker = CircuitBreakerRegistry.of(config).circuitBreaker("test-risk");
-        client = new RiskManagementHttpClient(restTemplate, "http://risk-service", circuitBreaker);
+        CircuitBreakerRegistry registry = CircuitBreakerRegistry.of(config);
+        circuitBreaker = registry.circuitBreaker("test-risk");
+        // WR-04: isCharged(조회) 전용 CB — validateAndReserve/compensate(쓰기·보상)와 분리
+        readCircuitBreaker = registry.circuitBreaker("test-risk-read");
+        client = new RiskManagementHttpClient(restTemplate, "http://risk-service", circuitBreaker, readCircuitBreaker);
     }
 
     @Test
@@ -85,5 +89,98 @@ class RiskManagementHttpClientTest {
 
         // restTemplate은 3번째 호출에서는 실행되지 않음 (CB가 차단)
         verify(restTemplate, times(2)).postForEntity(anyString(), any(), any());
+    }
+
+    @Test
+    @DisplayName("WR-04: isCharged(조회) CB가 OPEN이어도 compensate(보상)는 별도 CB라 차단되지 않음")
+    void isCharged_circuitBreakerOpen_doesNotBlockCompensate() {
+        // isCharged 전용 readCircuitBreaker를 2건 연속 실패로 OPEN
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenThrow(new RuntimeException("connection refused"));
+        assertThrows(RiskServiceException.class, () -> client.isCharged(1L));
+        assertThrows(RiskServiceException.class, () -> client.isCharged(2L));
+        assertEquals(CircuitBreaker.State.OPEN, readCircuitBreaker.getState());
+
+        // 쓰기용 circuitBreaker는 별개이므로 여전히 CLOSED — compensate는 정상 진행
+        assertEquals(CircuitBreaker.State.CLOSED, circuitBreaker.getState());
+        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+            .thenReturn(org.springframework.http.ResponseEntity.ok().build());
+        assertDoesNotThrow(() -> client.compensate(100L, 1L, BigDecimal.valueOf(30_000)));
+    }
+
+    @Test
+    @DisplayName("compensate: 2xx 응답 → 예외 없이 정상 완료")
+    void compensate_success() {
+        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+            .thenReturn(org.springframework.http.ResponseEntity.ok().build());
+
+        assertDoesNotThrow(() -> client.compensate(100L, 1L, BigDecimal.valueOf(30_000)));
+    }
+
+    @Test
+    @DisplayName("compensate: WR-03 — RestTemplate 기본 에러 핸들러가 예외를 던지지 않는 2xx 아닌 응답도 RiskServiceException")
+    void compensate_non2xxResponse_throwsRiskServiceException() {
+        // 커스텀 ResponseErrorHandler 하에서는 2xx 아닌 상태코드가 예외 없이 ResponseEntity로
+        // 반환될 수 있다 — WR-03이 방어하는 케이스(명시적 상태코드 가드 없으면 성공으로 오인됨).
+        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+            .thenReturn(org.springframework.http.ResponseEntity.status(409).build());
+
+        assertThrows(RiskServiceException.class,
+            () -> client.compensate(100L, 1L, BigDecimal.valueOf(30_000)));
+    }
+
+    @Test
+    @DisplayName("isCharged: charged=true 응답 → true 반환")
+    void isCharged_charged_true() {
+        com.example.payment.application.dto.CheckChargeResponseDto response =
+            new com.example.payment.application.dto.CheckChargeResponseDto("100", true, 1L, BigDecimal.valueOf(30_000));
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenReturn(org.springframework.http.ResponseEntity.ok(response));
+
+        assertTrue(client.isCharged(100L));
+    }
+
+    @Test
+    @DisplayName("isCharged: charged=false 응답 → false 반환")
+    void isCharged_charged_false() {
+        com.example.payment.application.dto.CheckChargeResponseDto response =
+            new com.example.payment.application.dto.CheckChargeResponseDto("100", false, 1L, BigDecimal.valueOf(30_000));
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenReturn(org.springframework.http.ResponseEntity.ok(response));
+
+        assertFalse(client.isCharged(100L));
+    }
+
+    @Test
+    @DisplayName("isCharged: HTTP 오류 응답 → RiskServiceException")
+    void isCharged_httpError_throwsRiskServiceException() {
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenReturn(org.springframework.http.ResponseEntity.status(500).build());
+
+        assertThrows(RiskServiceException.class, () -> client.isCharged(100L));
+    }
+
+    @Test
+    @DisplayName("WR-05: validateAndReserve 중 Error 발생 → RiskServiceException으로 감싸지 않고 그대로 전파")
+    void validateAndReserve_error_propagatesUnwrapped() {
+        when(restTemplate.postForEntity(anyString(), any(), eq(RiskReserveResult.class)))
+            .thenThrow(new StackOverflowError("모의 Error"));
+
+        assertThrows(StackOverflowError.class,
+            () -> client.validateAndReserve(1L, 100L, BigDecimal.valueOf(30_000), LocalDate.now()));
+    }
+
+    @Test
+    @DisplayName("isCharged: 네트워크 예외 → RiskServiceException")
+    void isCharged_networkFailure_throwsRiskServiceException() {
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenThrow(new RuntimeException("connection error"));
+
+        assertThrows(RiskServiceException.class, () -> client.isCharged(100L));
     }
 }

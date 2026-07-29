@@ -27,7 +27,7 @@ class MockPgCancelClientTest {
 
     @Test
     void get_status_returns_approved() {
-        PgCancelResult result = sut.getStatus("key");
+        PgCancelResult result = sut.getStatus("key", BigDecimal.TEN);
 
         assertThat(result).isNotNull();
         assertThat(result.isApproved()).isTrue();

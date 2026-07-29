@@ -1,0 +1,13 @@
+# Grafana 통합 알림 — 알림 정책(라우팅). 루트 정책의 수신자를 slack-oncall 로.
+# group_by service·alertname: 같은 서비스/알림은 묶어 한 메시지로(스팸 방지).
+apiVersion: 1
+
+policies:
+  - orgId: 1
+    receiver: slack-oncall
+    group_by:
+      - alertname
+      - service
+    group_wait: 30s
+    group_interval: 5m
+    repeat_interval: 4h

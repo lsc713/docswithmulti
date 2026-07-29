@@ -189,4 +189,28 @@ class CancelRequestTest {
         cancelRequest.toFailed();
         assertThrows(InvalidCancelStateTransitionException.class, cancelRequest::toFailed);
     }
+
+    // ──────────────────────────────────────────────────────────
+    // D-01 정정: PG(Toss) transactionKey 저장 (감사 + 부분취소 동일금액 tiebreaker)
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("assignPgTransactionKey_setsValue")
+    void assignPgTransactionKey_setsValue() {
+        assertNull(cancelRequest.getPgTransactionKey());
+        cancelRequest.assignPgTransactionKey("toss-tx-abc123");
+        assertEquals("toss-tx-abc123", cancelRequest.getPgTransactionKey());
+    }
+
+    @Test
+    @DisplayName("reconstruct는 저장된 pgTransactionKey를 복원한다")
+    void reconstruct_restoresPgTransactionKey() {
+        CancelRequest reconstructed = CancelRequest.reconstruct(
+            1L, 1L, "hash-abc123", new BigDecimal("100000"), "고객 변심", List.of(1L, 2L),
+            CancelStatus.COMPLETED, 0, Instant.now(), null, Instant.now(), Instant.now(),
+            "toss-tx-abc123"
+        );
+
+        assertEquals("toss-tx-abc123", reconstructed.getPgTransactionKey());
+    }
 }

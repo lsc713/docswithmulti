@@ -31,6 +31,8 @@ public class CancelRequest {
     private Instant pgPendingSince;
     private Instant createdAt;
     private Instant updatedAt;
+    /** PG(Toss) 취소 transactionKey — 감사 + 부분취소 동일금액 tiebreaker (D-01) */
+    private String pgTransactionKey;
 
     private CancelRequest(Long paymentId, String requestHash,
                           BigDecimal cancelAmount, String cancelReason,
@@ -61,7 +63,8 @@ public class CancelRequest {
         BigDecimal cancelAmount, String cancelReason,
         List<Long> cancelItemIds, CancelStatus status,
         int pgRetryCount, Instant completedAt,
-        Instant pgPendingSince, Instant createdAt, Instant updatedAt
+        Instant pgPendingSince, Instant createdAt, Instant updatedAt,
+        String pgTransactionKey
     ) {
         CancelRequest r = new CancelRequest(paymentId, requestHash, cancelAmount, cancelReason, cancelItemIds);
         r.id = id;
@@ -71,6 +74,7 @@ public class CancelRequest {
         r.pgPendingSince = pgPendingSince;
         r.createdAt = createdAt;
         r.updatedAt = updatedAt;
+        r.pgTransactionKey = pgTransactionKey;
         return r;
     }
 
@@ -120,6 +124,11 @@ public class CancelRequest {
         this.pgRetryCount++;
     }
 
+    /** PG(Toss) 취소 transactionKey 저장 — cancel()/getStatus() 승인 응답에서 세팅 */
+    public void assignPgTransactionKey(String pgTransactionKey) {
+        this.pgTransactionKey = pgTransactionKey;
+    }
+
     private void validateCancelAmount(BigDecimal cancelAmount) {
         if (cancelAmount == null || cancelAmount.compareTo(BigDecimal.ONE) < 0) {
             throw new InvalidCancelAmountException(cancelAmount);
@@ -138,4 +147,5 @@ public class CancelRequest {
     public Instant getPgPendingSince() { return pgPendingSince; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
+    public String getPgTransactionKey() { return pgTransactionKey; }
 }
