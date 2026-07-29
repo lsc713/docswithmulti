@@ -179,23 +179,18 @@ class CancelPaymentServiceTest {
 
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(anyLong(), anyString()))
             .thenReturn(Optional.of(failed));
-        // FAILED 재시도 시 raiseToPending 후 cancelRequestRepository.save() 직접 호출
+        // FAILED 재시도 시 raiseToPending 후 cancelRequestRepository.save() 직접 호출 (id=99L 그대로 재사용)
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
-        CancelRequest withId = CancelRequest.reconstruct(100L, failed.getPaymentId(),
-            failed.getRequestHash(), failed.getCancelAmount(), failed.getCancelReason(),
-            failed.getCancelItemIds(), CancelStatus.PENDING, 0, null, null,
-            failed.getCreatedAt(), failed.getUpdatedAt());
-        when(cancelTxWriter.saveTx1(any())).thenReturn(withId);
         when(cancelTxWriter.saveTx2(any())).thenAnswer(inv -> {
             CancelRequest cr = inv.getArgument(0);
             cr.toProcessing();
             return cr;
         });
-        CancelRequest completed = CancelRequest.reconstruct(100L, withId.getPaymentId(),
-            withId.getRequestHash(), withId.getCancelAmount(), withId.getCancelReason(),
-            withId.getCancelItemIds(), CancelStatus.COMPLETED, 0, null, null,
-            withId.getCreatedAt(), withId.getUpdatedAt());
+        CancelRequest completed = CancelRequest.reconstruct(99L, failed.getPaymentId(),
+            failed.getRequestHash(), failed.getCancelAmount(), failed.getCancelReason(),
+            failed.getCancelItemIds(), CancelStatus.COMPLETED, 0, null, null,
+            failed.getCreatedAt(), failed.getUpdatedAt());
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(completed);
 
         when(riskManagementPort.validateAndReserve(anyLong(), anyLong(), any(), any()))
@@ -207,6 +202,11 @@ class CancelPaymentServiceTest {
         CancelRequest result = service.cancel(command);
 
         assertEquals(CancelStatus.COMPLETED, result.getStatus());
+        assertEquals(99L, result.getId());
+        // CR-01: FAILED 재시도는 기존 행(id=99L)을 이어받아 risk부터 재개 — 새 INSERT(saveTx1) 없음
+        verify(cancelTxWriter, never()).saveTx1(any());
+        verify(riskManagementPort).validateAndReserve(
+            eq(payment.getMerchantId()), eq(99L), eq(BigDecimal.valueOf(30000)), any());
     }
 
     // ──────────────────────────────────────────────────────────

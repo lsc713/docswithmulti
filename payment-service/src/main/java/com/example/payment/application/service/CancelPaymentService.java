@@ -72,15 +72,22 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         return switch (cancelRequest.getStatus()) {
             case COMPLETED, PENDING, PROCESSING -> cancelRequest;
             case FAILED -> {
+                // 사전 검증 (risk 호출 전 차단) — 신규 경로(executeCancel)와 동일하게 재적용
+                payment.validateCancellable();
+                validateTargetItemsActive(items, command.cancelPaymentItemIds());
+
                 cancelRequest.raiseToPending();
-                cancelRequestRepository.save(cancelRequest);
+                cancelRequest = cancelRequestRepository.save(cancelRequest);
                 recordHistory(cancelRequest.getId(), CancelStatus.PENDING, "FAILED 재시도");
-                yield executeCancel(payment, items, cancelRequest.getRequestHash(), command);
+                // CR-01: 새 INSERT 없이 방금 UPDATE된 기존 행(id 보유)을 그대로 이어받아 risk부터 재개.
+                // (executeCancel을 다시 타면 동일 (payment_id, request_hash)로 재INSERT를 시도해
+                //  자기 자신과 UK 충돌 → risk/PG 재호출 없이 조용히 무시되는 버그가 있었다.)
+                yield proceedFromRisk(payment, cancelRequest, command);
             }
         };
     }
 
-    /** TX1 → Risk → TX2 → PG → TX3 */
+    /** 신규: TX1(PENDING INSERT) 이후 risk부터 진행 */
     private CancelRequest executeCancel(
         Payment payment, List<PaymentItem> items,
         String requestHash, CancelPaymentCommand command
@@ -105,6 +112,19 @@ public class CancelPaymentService implements CancelPaymentUseCase {
             return handleExistingRequest(winner, command, payment, items);
         }
         recordHistory(cancelRequest.getId(), CancelStatus.PENDING, null);
+
+        return proceedFromRisk(payment, cancelRequest, command);
+    }
+
+    /**
+     * Risk → TX2 → PG → TX3.
+     * 신규 INSERT 직후(executeCancel) 또는 FAILED→PENDING 재시도 직후(handleExistingRequest)의
+     * 공용 진입점 — 어느 경로든 새 INSERT 없이 이미 존재하는 cancelRequest(id 보유)를 이어받는다.
+     */
+    private CancelRequest proceedFromRisk(
+        Payment payment, CancelRequest cancelRequest, CancelPaymentCommand command
+    ) {
+        BigDecimal cancelAmount = cancelRequest.getCancelAmount();
 
         // Risk 호출
         try {
