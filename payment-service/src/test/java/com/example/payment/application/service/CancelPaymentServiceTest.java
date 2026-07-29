@@ -664,6 +664,37 @@ class CancelPaymentServiceTest {
         verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
     }
 
+    @Test
+    @DisplayName("레이스 패자(Idempotency-Key 보유) — 재조회된 승자의 request_hash가 다르면 409 IdempotencyKeyConflictException")
+    void shouldThrowConflictWhenRaceLoserWinnerHasDifferentContentUnderSameKey() {
+        CancelPaymentCommand keyedCommand =
+            new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L), "idem-key-4");
+
+        when(paymentRepository.findByPaymentKey(any())).thenReturn(Optional.of(payment));
+        when(paymentItemRepository.findAllByPaymentIdOrderByIdAsc(anyLong()))
+            .thenReturn(List.of(itemA, itemB));
+
+        // 승자가 같은 idempotencyKey를, 이번 요청과 다른 itemIds(=다른 request_hash)로 먼저 INSERT함
+        CancelRequest winnerWithDifferentContent = CancelRequest.create(
+            payment.getId(), "different-hash", BigDecimal.valueOf(70000), "변심",
+            List.of(2L), "idem-key-4");
+
+        when(cancelRequestRepository.findByPaymentIdAndDedupKey(payment.getId(), "ik:idem-key-4"))
+            .thenReturn(Optional.empty())
+            .thenReturn(Optional.of(winnerWithDifferentContent));
+
+        when(cancelTxWriter.saveTx1(any()))
+            .thenThrow(new org.springframework.dao.DataIntegrityViolationException(
+                "Duplicate entry for key uk_cancel_request_dedup_key"));
+
+        assertThrows(
+            com.example.payment.application.exception.IdempotencyKeyConflictException.class,
+            () -> service.cancel(keyedCommand));
+
+        verify(riskManagementPort, never()).validateAndReserve(anyLong(), anyLong(), any(), any());
+        verify(cancelTxWriter, never()).saveTx2(any());
+    }
+
     // ──────────────────────────────────────────────────────────
     // 헬퍼 메서드
     // ──────────────────────────────────────────────────────────

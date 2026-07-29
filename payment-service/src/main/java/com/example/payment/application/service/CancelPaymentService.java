@@ -59,16 +59,23 @@ public class CancelPaymentService implements CancelPaymentUseCase {
                 payment.getId(), dedupKey);
 
             if (existing.isPresent()) {
-                if (command.idempotencyKey() != null
-                        && !existing.get().getRequestHash().equals(requestHash)) {
-                    throw new IdempotencyKeyConflictException(command.idempotencyKey());
-                }
+                assertNoKeyReuse(existing.get(), requestHash, command);
                 return handleExistingRequest(existing.get(), command, payment, items);
             }
 
             return executeCancel(payment, items, requestHash, dedupKey, command);
         } finally {
             cancelHistoryRecorder.flush();
+        }
+    }
+
+    /** 같은 Idempotency-Key로 이전과 다른 요청 내용(request_hash 불일치)이 재사용되면 거부 */
+    private void assertNoKeyReuse(
+        CancelRequest existing, String requestHash, CancelPaymentCommand command
+    ) {
+        if (command.idempotencyKey() != null
+                && !existing.getRequestHash().equals(requestHash)) {
+            throw new IdempotencyKeyConflictException(command.idempotencyKey());
         }
     }
 
@@ -117,6 +124,10 @@ public class CancelPaymentService implements CancelPaymentUseCase {
             CancelRequest winner = cancelRequestRepository
                 .findByPaymentIdAndDedupKey(payment.getId(), dedupKey)
                 .orElseThrow(() -> e); // 이론상 불가(방금 위반났으므로 존재) — 방어적 재throw
+            // REVIEW-01: 1차 조회 경로와 동일하게 같은 키+다른 콘텐츠 재사용을 여기서도 막는다.
+            // (dedup_key는 키가 있으면 "ik:"+key만으로 결정 — request_hash를 포함하지 않으므로
+            //  이 가드 없이는 레이스 패자가 승자의 다른-콘텐츠 결과를 조용히 멱등 성공으로 받는다.)
+            assertNoKeyReuse(winner, requestHash, command);
             return handleExistingRequest(winner, command, payment, items);
         }
         recordHistory(cancelRequest.getId(), CancelStatus.PENDING, null);
