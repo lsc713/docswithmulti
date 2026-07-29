@@ -27,12 +27,15 @@ class PgCancelHttpClientTest {
     RestTemplate restTemplate;
 
     CircuitBreaker circuitBreaker;
+    CircuitBreaker readCircuitBreaker;
     PgCancelHttpClient sut;
 
     @BeforeEach
     void setUp() {
         circuitBreaker = CircuitBreaker.ofDefaults("test");
-        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", circuitBreaker);
+        // WR-04: getStatus(조회) 전용 CB — cancel(취소 실행)과 분리
+        readCircuitBreaker = CircuitBreaker.ofDefaults("test-read");
+        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", circuitBreaker, readCircuitBreaker);
     }
 
     // postForEntity(String url, Object request, Class<T> responseType, Object... uriVariables)
@@ -63,7 +66,7 @@ class PgCancelHttpClientTest {
                 .minimumNumberOfCalls(2)
                 .failureRateThreshold(100)
                 .build());
-        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", cb);
+        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", cb, readCircuitBreaker);
 
         when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class), (Object[]) any()))
             .thenThrow(new RuntimeException("connection error"));
@@ -77,6 +80,30 @@ class PgCancelHttpClientTest {
         // CB is now OPEN → next call should also throw PgServiceException
         assertThatThrownBy(() -> sut.cancel("key1", BigDecimal.ONE, "test"))
             .isInstanceOf(PgServiceException.class);
+    }
+
+    @Test
+    void getStatus_circuitBreakerOpen_doesNotBlockCancel() {
+        // WR-04: getStatus(조회) 전용 CB를 OPEN시켜도 cancel(취소 실행)은 별도 CB라 차단되지 않음
+        CircuitBreaker fastOpenRead = CircuitBreaker.of("fast-open-read",
+            io.github.resilience4j.circuitbreaker.CircuitBreakerConfig.custom()
+                .slidingWindowSize(2)
+                .minimumNumberOfCalls(2)
+                .failureRateThreshold(100)
+                .build());
+        sut = new PgCancelHttpClient(restTemplate, "http://pg-test", circuitBreaker, fastOpenRead);
+
+        when(restTemplate.getForEntity(anyString(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenThrow(new RuntimeException("connection error"));
+        assertThatThrownBy(() -> sut.getStatus("key1")).isInstanceOf(PgServiceException.class);
+        assertThatThrownBy(() -> sut.getStatus("key1")).isInstanceOf(PgServiceException.class);
+        assertThat(fastOpenRead.getState()).isEqualTo(CircuitBreaker.State.OPEN);
+
+        assertThat(circuitBreaker.getState()).isEqualTo(CircuitBreaker.State.CLOSED);
+        PgCancelResult result = PgCancelResult.approved("tx-123");
+        when(restTemplate.postForEntity(anyString(), any(), eq(PgCancelResult.class), (Object[]) any()))
+            .thenReturn(ResponseEntity.ok(result));
+        assertThat(sut.cancel("key1", new BigDecimal("5000"), "환불")).isEqualTo(result);
     }
 
     // getForEntity(String url, Class<T> responseType, Object... uriVariables)

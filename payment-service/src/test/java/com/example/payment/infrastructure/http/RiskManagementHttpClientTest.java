@@ -23,6 +23,7 @@ class RiskManagementHttpClientTest {
 
     RestTemplate restTemplate;
     CircuitBreaker circuitBreaker;
+    CircuitBreaker readCircuitBreaker;
     RiskManagementHttpClient client;
 
     @BeforeEach
@@ -35,8 +36,11 @@ class RiskManagementHttpClientTest {
             .failureRateThreshold(50)
             .waitDurationInOpenState(Duration.ofSeconds(60))
             .build();
-        circuitBreaker = CircuitBreakerRegistry.of(config).circuitBreaker("test-risk");
-        client = new RiskManagementHttpClient(restTemplate, "http://risk-service", circuitBreaker);
+        CircuitBreakerRegistry registry = CircuitBreakerRegistry.of(config);
+        circuitBreaker = registry.circuitBreaker("test-risk");
+        // WR-04: isCharged(조회) 전용 CB — validateAndReserve/compensate(쓰기·보상)와 분리
+        readCircuitBreaker = registry.circuitBreaker("test-risk-read");
+        client = new RiskManagementHttpClient(restTemplate, "http://risk-service", circuitBreaker, readCircuitBreaker);
     }
 
     @Test
@@ -85,6 +89,24 @@ class RiskManagementHttpClientTest {
 
         // restTemplate은 3번째 호출에서는 실행되지 않음 (CB가 차단)
         verify(restTemplate, times(2)).postForEntity(anyString(), any(), any());
+    }
+
+    @Test
+    @DisplayName("WR-04: isCharged(조회) CB가 OPEN이어도 compensate(보상)는 별도 CB라 차단되지 않음")
+    void isCharged_circuitBreakerOpen_doesNotBlockCompensate() {
+        // isCharged 전용 readCircuitBreaker를 2건 연속 실패로 OPEN
+        when(restTemplate.getForEntity(anyString(),
+            eq(com.example.payment.application.dto.CheckChargeResponseDto.class), (Object[]) any()))
+            .thenThrow(new RuntimeException("connection refused"));
+        assertThrows(RiskServiceException.class, () -> client.isCharged(1L));
+        assertThrows(RiskServiceException.class, () -> client.isCharged(2L));
+        assertEquals(CircuitBreaker.State.OPEN, readCircuitBreaker.getState());
+
+        // 쓰기용 circuitBreaker는 별개이므로 여전히 CLOSED — compensate는 정상 진행
+        assertEquals(CircuitBreaker.State.CLOSED, circuitBreaker.getState());
+        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+            .thenReturn(org.springframework.http.ResponseEntity.ok().build());
+        assertDoesNotThrow(() -> client.compensate(100L, 1L, BigDecimal.valueOf(30_000)));
     }
 
     @Test

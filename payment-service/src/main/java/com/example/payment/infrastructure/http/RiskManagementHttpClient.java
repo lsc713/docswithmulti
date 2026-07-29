@@ -21,15 +21,20 @@ public class RiskManagementHttpClient implements RiskManagementPort {
     private final RestTemplate restTemplate;
     private final String baseUrl;
     private final CircuitBreaker circuitBreaker;
+    // WR-04: 조회(isCharged) 전용 CircuitBreaker — validateAndReserve/compensate(쓰기·보상)와 분리해
+    // 조회 실패율 증가가 재무적으로 더 중요한 compensate 차단으로 번지지 않도록 한다.
+    private final CircuitBreaker readCircuitBreaker;
 
     public RiskManagementHttpClient(
         RestTemplate restTemplate,
         @Value("${external.risk-management.url}") String baseUrl,
-        CircuitBreaker riskManagementCircuitBreaker
+        CircuitBreaker riskManagementCircuitBreaker,
+        CircuitBreaker riskManagementReadCircuitBreaker
     ) {
         this.restTemplate = restTemplate;
         this.baseUrl = baseUrl;
         this.circuitBreaker = riskManagementCircuitBreaker;
+        this.readCircuitBreaker = riskManagementReadCircuitBreaker;
     }
 
     @Override
@@ -96,7 +101,7 @@ public class RiskManagementHttpClient implements RiskManagementPort {
     @Override
     public boolean isCharged(long cancelRequestId) {
         try {
-            return circuitBreaker.executeCheckedSupplier(() -> {
+            return readCircuitBreaker.executeCheckedSupplier(() -> {
                 String url = baseUrl + "/internal/cancel-limit/check?cancelRequestId={cancelRequestId}";
                 ResponseEntity<com.example.payment.application.dto.CheckChargeResponseDto> response =
                     restTemplate.getForEntity(

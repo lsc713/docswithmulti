@@ -21,15 +21,20 @@ public class PgCancelHttpClient implements PgCancelPort {
     private final RestTemplate restTemplate;
     private final String baseUrl;
     private final CircuitBreaker circuitBreaker;
+    // WR-04: 조회(getStatus) 전용 CircuitBreaker — cancel(취소 실행)과 분리해 조회 실패율 증가가
+    // 취소 실행 호출까지 함께 차단하지 않도록 한다.
+    private final CircuitBreaker readCircuitBreaker;
 
     public PgCancelHttpClient(
         RestTemplate restTemplate,
         @Value("${external.pg.url}") String baseUrl,
-        CircuitBreaker pgCancelCircuitBreaker
+        CircuitBreaker pgCancelCircuitBreaker,
+        CircuitBreaker pgCancelReadCircuitBreaker
     ) {
         this.restTemplate = restTemplate;
         this.baseUrl = baseUrl;
         this.circuitBreaker = pgCancelCircuitBreaker;
+        this.readCircuitBreaker = pgCancelReadCircuitBreaker;
     }
 
     @Override
@@ -62,7 +67,7 @@ public class PgCancelHttpClient implements PgCancelPort {
     @Override
     public PgCancelResult getStatus(String paymentKey) {
         try {
-            return circuitBreaker.executeCheckedSupplier(() -> {
+            return readCircuitBreaker.executeCheckedSupplier(() -> {
                 String url = baseUrl + "/v1/payments/{paymentKey}/cancel/status";
                 ResponseEntity<PgCancelResult> response =
                     restTemplate.getForEntity(url, PgCancelResult.class, paymentKey);
