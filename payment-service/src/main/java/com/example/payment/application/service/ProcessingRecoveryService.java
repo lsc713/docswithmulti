@@ -6,6 +6,7 @@ import com.example.payment.common.exception.BusinessException;
 import com.example.payment.domain.entity.CancelRequest;
 import com.example.payment.domain.entity.CancelStatus;
 import com.example.payment.domain.entity.Payment;
+import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,13 @@ public class ProcessingRecoveryService {
                 log.warn("[processing-recovery] 알 수 없는 PG 상태={} cancelRequestId={}",
                     result.status(), cancelRequest.getId());
             }
+        } catch (InvalidPaymentItemStatusException e) {
+            // WR-02: saveTx3 동시 재실행 시 패자 스레드가 던지는 정상적인 레이스 결과
+            // (findAllByPaymentIdForUpdate 행 락으로 순서가 강제되고, 승자 커밋 후 재조회한 패자가
+            // 이미 CANCELLED된 아이템을 보고 거부 — ProcessingRecoveryConcurrencyIT 검증(B)로 확인됨).
+            // ERROR "데이터 정합성 문제"로 남기면 정상 동시 처리마다 온콜 오탐 알림이 발생하므로 WARN.
+            log.warn("[processing-recovery] 동시 처리 경쟁(예상됨) — 다른 스레드가 먼저 처리함 cancelRequestId={}: {}",
+                cancelRequest.getId(), e.getMessage());
         } catch (BusinessException e) {
             log.error("[processing-recovery] 도메인 규칙 위반 — 데이터 정합성 문제 cancelRequestId={}: {}",
                 cancelRequest.getId(), e.getMessage(), e);

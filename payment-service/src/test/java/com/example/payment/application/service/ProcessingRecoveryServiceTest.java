@@ -1,17 +1,25 @@
 package com.example.payment.application.service;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import com.example.payment.application.dto.PgCancelResult;
 import com.example.payment.application.interfaces.*;
 import com.example.payment.domain.entity.CancelRequest;
 import com.example.payment.domain.entity.CancelStatus;
 import com.example.payment.domain.entity.Payment;
+import com.example.payment.domain.exception.InvalidPaymentItemStatusException;
+import com.example.payment.domain.entity.PaymentItemStatus;
 import com.example.payment.fixture.PaymentFixture;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -19,6 +27,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -39,6 +48,9 @@ class ProcessingRecoveryServiceTest {
     Payment payment;           // merchantId=1L, paymentKey="pay_test_001"
     CancelRequest processing;  // id=10L, paymentId=1L, cancelAmount=50000, cancelItemIds=[10,11], pgRetryCount=0
 
+    Logger logger;
+    ListAppender<ILoggingEvent> logAppender;
+
     @BeforeEach
     void setUp() {
         service = new ProcessingRecoveryService(
@@ -57,6 +69,17 @@ class ProcessingRecoveryServiceTest {
         // CR-03: compensateAndFail은 compensate 호출 전 이 원자 UPDATE로 승자를 가린다.
         // 대부분의 테스트는 "내가 승자"인 시나리오이므로 기본값 1(성공)로 lenient 스텁.
         lenient().when(cancelRequestRepository.compareAndSetFailed(anyLong())).thenReturn(1);
+
+        // WR-02: 레이스 패자 로그 레벨(WARN/ERROR) 검증용 appender
+        logger = (Logger) LoggerFactory.getLogger(ProcessingRecoveryService.class);
+        logAppender = new ListAppender<>();
+        logAppender.start();
+        logger.addAppender(logAppender);
+    }
+
+    @AfterEach
+    void tearDown() {
+        logger.detachAppender(logAppender);
     }
 
     @Test
@@ -228,6 +251,41 @@ class ProcessingRecoveryServiceTest {
         verify(pgCancelPort, never()).cancel(anyString(), any(), anyString());
         verify(cancelRequestRepository).compareAndSetFailed(eq(10L));
         verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // WR-02: 정상 레이스 패자(InvalidPaymentItemStatusException) 로그 레벨
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("WR-02: saveTx3 동시 재실행 레이스 패자 → ERROR 아닌 WARN(동시 처리 경쟁)으로 로깅")
+    void raceLoss_logs_warn_not_error() {
+        when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
+        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.approved("pg_tx_001"));
+        when(cancelTxWriter.saveTx3(any(), any(), any()))
+            .thenThrow(new InvalidPaymentItemStatusException(10L, PaymentItemStatus.CANCELLED));
+
+        service.recoverAll();
+
+        assertThat(logAppender.list).noneMatch(e -> e.getLevel() == Level.ERROR);
+        assertThat(logAppender.list).anyMatch(
+            e -> e.getLevel() == Level.WARN && e.getFormattedMessage().contains("동시 처리 경쟁"));
+    }
+
+    @Test
+    @DisplayName("WR-02 회귀 방지: 레이스가 아닌 일반 BusinessException은 여전히 ERROR로 로깅")
+    void otherBusinessException_stillLogsError() {
+        when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
+        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.approved("pg_tx_001"));
+        when(cancelTxWriter.saveTx3(any(), any(), any()))
+            .thenThrow(new com.example.payment.domain.exception.InvalidCancelStateTransitionException(
+                CancelStatus.PROCESSING, CancelStatus.COMPLETED));
+
+        service.recoverAll();
+
+        assertThat(logAppender.list).anyMatch(e -> e.getLevel() == Level.ERROR);
     }
 
     @Test
