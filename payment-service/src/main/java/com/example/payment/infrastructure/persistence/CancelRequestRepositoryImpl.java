@@ -44,4 +44,9 @@ public class CancelRequestRepositoryImpl implements CancelRequestRepository {
         return jpaRepository.findByStatusAndUpdatedAtBefore(CancelStatus.PROCESSING, beforeLdt)
             .stream().map(CancelRequestJpaEntity::toDomain).toList();
     }
+
+    @Override
+    public int incrementPgRetryCount(long id) {
+        return jpaRepository.incrementPgRetryCount(id);
+    }
 }

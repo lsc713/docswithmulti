@@ -92,27 +92,35 @@ public class ProcessingRecoveryService {
     }
 
     private void retryPgCancel(CancelRequest cancelRequest, Payment payment) {
-        cancelRequest.incrementPgRetryCount();
-        cancelRequestRepository.save(cancelRequest);
+        // 원자 UPDATE — 객체 mutation+save 대신 단일 SQL로 DB 값만 증가(D-04, read-modify-write 경쟁 제거)
+        cancelRequestRepository.incrementPgRetryCount(cancelRequest.getId());
+
+        // ★ 원자 UPDATE 직후 로컬 cancelRequest 는 stale — 임계값 비교 전 반드시 재조회(RESEARCH Pitfall 2)
+        CancelRequest refreshed = cancelRequestRepository
+            .findByPaymentIdAndRequestHash(cancelRequest.getPaymentId(), cancelRequest.getRequestHash())
+            .orElseThrow(() -> new IllegalStateException(
+                "CancelRequest not found after pg_retry_count 증가: id=" + cancelRequest.getId()));
+
+        if (refreshed.getPgRetryCount() >= MAX_PG_RETRIES) {
+            // 재조회한 값이 상한에 도달 — PG 재호출 없이 즉시 보상+FAILED (재시도 폭주 방지, T-02-07)
+            compensateAndFail(refreshed, payment);
+            return;
+        }
 
         PgCancelResult retryResult;
         try {
             retryResult = pgCancelPort.cancel(
-                payment.getPaymentKey(), cancelRequest.getCancelAmount(), cancelRequest.getCancelReason());
+                payment.getPaymentKey(), refreshed.getCancelAmount(), refreshed.getCancelReason());
         } catch (Exception e) {
             log.warn("[processing-recovery] PG 재호출 실패 #{} cancelRequestId={}: {}",
-                cancelRequest.getPgRetryCount(), cancelRequest.getId(), e.getMessage());
-            if (cancelRequest.getPgRetryCount() >= MAX_PG_RETRIES) {
-                compensateAndFail(cancelRequest, payment);
-            }
+                refreshed.getPgRetryCount(), refreshed.getId(), e.getMessage());
             return;
         }
 
         if (retryResult.isApproved()) {
-            runTx3(cancelRequest, payment);
-        } else if (cancelRequest.getPgRetryCount() >= MAX_PG_RETRIES) {
-            compensateAndFail(cancelRequest, payment);
+            runTx3(refreshed, payment);
         }
+        // 임계 미만 & 미승인 → PROCESSING 유지, 다음 주기 재시도
     }
 
     private void handlePgPending(CancelRequest cancelRequest, Payment payment) {

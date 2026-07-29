@@ -22,4 +22,11 @@ public interface CancelRequestRepository {
      * TX2(PROCESSING UPDATE)가 updatedAt 기준점 → updatedAt 기준
      */
     List<CancelRequest> findProcessingUpdatedBefore(Instant before);
+
+    /**
+     * pg_retry_count 원자 UPDATE(read-modify-write 경쟁 제거, D-04).
+     * 호출 후 로컬 CancelRequest 객체는 stale — 임계값 비교 전 반드시 재조회할 것.
+     * @return 1 = 성공, 0 = 대상 없음
+     */
+    int incrementPgRetryCount(long id);
 }

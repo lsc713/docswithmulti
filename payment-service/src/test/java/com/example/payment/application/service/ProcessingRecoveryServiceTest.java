@@ -98,18 +98,28 @@ class ProcessingRecoveryServiceTest {
     }
 
     @Test
-    @DisplayName("PG FAILED retryable=true, pgRetryCount=0 → PG 재호출 성공 시 TX3")
+    @DisplayName("PG FAILED retryable=true, pgRetryCount=0 → 원자 UPDATE + 재조회(count=1) → PG 재호출 성공 시 TX3")
     void pg_failed_retryable_retries_pg_and_succeeds() {
+        CancelRequest refreshed = CancelRequest.reconstruct(
+            10L, 1L, "hash_abc", BigDecimal.valueOf(50000), "고객 변심",
+            List.of(10L, 11L), CancelStatus.PROCESSING, 1,
+            null, null,
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            Instant.now().minus(10, ChronoUnit.MINUTES)
+        );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
         when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(1L, "hash_abc"))
+            .thenReturn(Optional.of(refreshed));
         when(pgCancelPort.cancel(anyString(), any(), anyString())).thenReturn(PgCancelResult.approved("pg_tx_002"));
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(processing);
 
         service.recoverAll();
 
+        verify(cancelRequestRepository).incrementPgRetryCount(10L);
         verify(pgCancelPort).cancel(eq("pay_test_001"), eq(BigDecimal.valueOf(50000)), anyString());
-        verify(cancelTxWriter).saveTx3(any(), eq(payment), eq(List.of(10L, 11L)));
+        verify(cancelTxWriter).saveTx3(eq(refreshed), eq(payment), eq(List.of(10L, 11L)));
     }
 
     @Test
@@ -170,8 +180,8 @@ class ProcessingRecoveryServiceTest {
     }
 
     @Test
-    @DisplayName("PG FAILED retryable=true, pgRetryCount=4 → 재호출 예외 → count=5 → 보상 + FAILED")
-    void pg_failed_retryable_retry_exception_at_max_invokes_compensate() {
+    @DisplayName("PG FAILED retryable=true, pgRetryCount=4 → 원자 UPDATE 후 재조회 count=5(==MAX) → PG 재호출 없이 즉시 보상 + FAILED")
+    void pg_failed_retryable_refetched_count_at_max_compensates_without_pg_call() {
         CancelRequest almostMax = CancelRequest.reconstruct(
             10L, 1L, "hash_abc", BigDecimal.valueOf(50000), "고객 변심",
             List.of(10L, 11L), CancelStatus.PROCESSING, 4,
@@ -179,17 +189,26 @@ class ProcessingRecoveryServiceTest {
             Instant.now().minus(10, ChronoUnit.MINUTES),
             Instant.now().minus(10, ChronoUnit.MINUTES)
         );
+        CancelRequest refreshed = CancelRequest.reconstruct(
+            10L, 1L, "hash_abc", BigDecimal.valueOf(50000), "고객 변심",
+            List.of(10L, 11L), CancelStatus.PROCESSING, 5,
+            null, null,
+            Instant.now().minus(10, ChronoUnit.MINUTES),
+            Instant.now().minus(10, ChronoUnit.MINUTES)
+        );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(almostMax));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
         when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
-        when(pgCancelPort.cancel(anyString(), any(), anyString()))
-            .thenThrow(new RuntimeException("PG 연결 실패"));
+        when(cancelRequestRepository.findByPaymentIdAndRequestHash(1L, "hash_abc"))
+            .thenReturn(Optional.of(refreshed));
 
         service.recoverAll();
 
-        // count incremented to 5, exception caught → compensate + FAILED
+        // 원자 UPDATE 호출 확인 + 재조회한 값(5)이 MAX_PG_RETRIES 도달 → PG 재호출 없이 즉시 보상 + FAILED
+        verify(cancelRequestRepository).incrementPgRetryCount(10L);
+        verify(pgCancelPort, never()).cancel(anyString(), any(), anyString());
         verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
-        verify(cancelRequestRepository, atLeastOnce()).save(argThat(r -> r.getStatus() == CancelStatus.FAILED));
+        verify(cancelRequestRepository).save(argThat(r -> r.getStatus() == CancelStatus.FAILED));
     }
 
     @Test
