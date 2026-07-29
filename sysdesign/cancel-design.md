@@ -62,8 +62,9 @@ sequenceDiagram
   P->>P: PaymentItem 조회 (ORDER BY id ASC)
 
   Note over P: Step 2. request_hash 생성 및 멱등성 체크
-  P->>P: request_hash = SHA-256(paymentKey + paymentItemIds 정렬)
-  P->>P: cancel_request 조회 (payment_id, request_hash)
+  P->>P: request_hash = SHA-256(paymentKey + paymentItemIds 정렬) (항상 계산)
+  P->>P: dedup_key = Idempotency-Key 헤더 있으면 "ik:"+key, 없으면 "ch:"+request_hash
+  P->>P: cancel_request 조회 (payment_id, dedup_key)
   alt COMPLETED
     P-->>C: 200 기존 응답 반환
   else PENDING/PROCESSING
@@ -77,8 +78,8 @@ sequenceDiagram
   Note over P: Step 3. Payment/PaymentItem 상태 검증
 
   Note over P: Step 4. TX 1 — CancelRequest PENDING INSERT
-  P->>P: CancelRequest PENDING + request_hash save
-  Note over P: (payment_id, request_hash) UK → 따닥 요청 차단
+  P->>P: CancelRequest PENDING + request_hash + idempotency_key(있으면) save
+  Note over P: (payment_id, dedup_key) UK(uk_cancel_request_dedup) → 따닥 요청 차단
   Note over P: TX 1 커밋 후 별도
   P->>P: cancel_request_history INSERT
 
@@ -191,7 +192,7 @@ stateDiagram-v2
 
 | 결정 | 이유 |
 |------|------|
-| request_hash 멱등키 | UUID 다른 동일 요청도 멱등 처리 |
+| dedup_key(클라 Idempotency-Key 우선, 없으면 request_hash) | UUID 다른 동일 요청도 멱등 처리 + 클라 키 재사용 오용은 409로 거부 |
 | TX 1 분리 | risk 호출 전 기록 → 스케줄러 추적 가능 |
 | 이력 TX 밖 | 이력 실패로 상태 변경 롤백 방지 |
 | TX 3 FOR UPDATE 재조회 | 동시 취소 시 Payment 상태 불일치 방지 |
@@ -241,17 +242,28 @@ hash = SHA-256(paymentKey + paymentItemIds 오름차순 정렬)
   동일 paymentKey + 동일 아이템 → 동일 hash → 멱등 처리
 ```
 
-**왜 서버가 생성하는가:**
+**왜 request_hash는 항상 계산하는가 (클라 키가 있어도):**
 
 ```
-클라이언트 UUID 방식:
+클라이언트 UUID(무작위 키) 단독 방식:
   UUID가 다르면 동일 요청도 새 요청으로 처리
   → 완벽한 멱등성 보장 불가
 
-request_hash:
-  요청 내용 자체로 식별
-  클라이언트 UUID 불필요
-  Idempotency-Key 헤더 불필요
+request_hash(content-hash):
+  요청 내용 자체로 식별 → 클라 키 없이도 멱등 처리 가능
+  Idempotency-Key 재사용 시 "같은 키로 다른 요청"을 걸러내는 fingerprint로도 사용
+```
+
+**Idempotency-Key 헤더(선택):**
+
+```
+클라이언트가 Idempotency-Key 헤더를 보내면:
+  dedup_key = "ik:" + idempotencyKey (해당 키 우선 사용)
+  같은 키로 이전과 다른 request_hash(다른 paymentKey/아이템 조합)가 재사용되면
+  → 409 IDEMPOTENCY_KEY_CONFLICT로 거부 (기존 cancel_request 미변경)
+
+헤더 없으면:
+  dedup_key = "ch:" + request_hash (content-hash 폴백)
 ```
 
 ---
@@ -266,10 +278,14 @@ request_hash:
 | PROCESSING | 처리 중 응답 반환 |
 | FAILED | PENDING으로 UPDATE + 이력 기록 → 재처리 |
 
+기존 cancel_request가 발견되면(상태 무관) 위 분기 전에 먼저 재사용 검증을 한다:
+Idempotency-Key가 있고 기존 건의 request_hash와 이번 요청의 request_hash가 다르면
+→ 409 IDEMPOTENCY_KEY_CONFLICT (기존 cancel_request는 그대로 둠, 위 표의 분기 진입 안 함).
+
 **FAILED → PENDING UPDATE 이유:**
 
 ```
-새 INSERT 시 (payment_id, request_hash) UK 충돌
+새 INSERT 시 (payment_id, dedup_key) UK 충돌
 → 기존 FAILED 건을 PENDING으로 UPDATE
 → UK 충돌 없음, DELETE 없음, 이력 보존
 
@@ -364,12 +380,14 @@ isActive() 메서드:
 ```
 CancelRequest PENDING INSERT:
   payment_id
-  request_hash
+  request_hash (항상 계산 — content-hash / 재사용 fingerprint)
+  idempotency_key (Idempotency-Key 헤더 있으면 저장, 없으면 NULL)
+  dedup_key (generated STORED: "ik:"+idempotency_key 또는 "ch:"+request_hash)
   cancel_amount (cancelItems의 item_amount 합산)
   status: PENDING
   canceller_type, cancelled_by
 
-UNIQUE KEY (payment_id, request_hash)
+UNIQUE KEY (payment_id, dedup_key)  -- uk_cancel_request_dedup
 ```
 
 **TX 1 이후 별도 실행:**
@@ -384,7 +402,7 @@ cancel_request_history INSERT
 
 ---
 
-## 3. (payment_id, request_hash) UK의 역할
+## 3. (payment_id, dedup_key) UK의 역할
 
 **따닥 요청 차단:**
 
@@ -395,8 +413,9 @@ cancel_request_history INSERT
   A 커밋 → B INSERT 시도 → UK 충돌 → DataIntegrityViolationException
 
 B의 catch 처리:
-  cancel_request 조회 (payment_id, request_hash)
-  → PENDING 상태 → "처리 중" 응답 반환
+  cancel_request 조회 (payment_id, dedup_key)
+  → 같은 Idempotency-Key인데 request_hash가 다르면 409 IDEMPOTENCY_KEY_CONFLICT
+  → 아니면 PENDING 상태 → "처리 중" 응답 반환
 
 결과:
   A: 정상 처리
@@ -455,7 +474,7 @@ TX 2 실패 시:
 
 ```
 FAILED 건 남아있는 상태에서 재시도:
-  request_hash 조회 → FAILED 발견
+  dedup_key 조회 → FAILED 발견
   새 INSERT → UK 충돌
 
 해결:

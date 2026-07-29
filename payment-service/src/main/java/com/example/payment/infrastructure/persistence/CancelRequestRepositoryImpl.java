@@ -27,6 +27,18 @@ public class CancelRequestRepositoryImpl implements CancelRequestRepository {
     }
 
     @Override
+    public Optional<CancelRequest> findByPaymentIdAndDedupKey(long paymentId, String dedupKey) {
+        return jpaRepository.findByPaymentIdAndDedupKey(paymentId, dedupKey)
+            .map(CancelRequestJpaEntity::toDomain);
+    }
+
+    @Override
+    public Optional<CancelRequest> findById(long id) {
+        return jpaRepository.findById(id)
+            .map(CancelRequestJpaEntity::toDomain);
+    }
+
+    @Override
     public CancelRequest save(CancelRequest cancelRequest) {
         return jpaRepository.save(CancelRequestJpaEntity.from(cancelRequest)).toDomain();
     }

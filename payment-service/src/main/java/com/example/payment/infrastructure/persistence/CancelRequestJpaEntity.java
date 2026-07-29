@@ -13,8 +13,9 @@ import java.util.List;
 /**
  * CancelRequest JPA 엔티티
  *
- * DDL: V2__create_cancel.sql + V8__align_cancel_schema.sql 기준
+ * DDL: V2__create_cancel.sql + V8__align_cancel_schema.sql + V15__add_cancel_idempotency_key.sql 기준
  * V8에서 idempotency_key → request_hash UK로 변경
+ * V15에서 idempotency_key(optional) 재도입 + dedup_key(생성 컬럼) UK로 교체
  */
 @Entity
 @Table(name = "cancel_request",
@@ -24,7 +25,7 @@ import java.util.List;
         @Index(name = "idx_cancel_request_status_created_at", columnList = "status,created_at")
     },
     uniqueConstraints = {
-        @UniqueConstraint(name = "uk_cancel_request_hash", columnNames = {"payment_id", "request_hash"})
+        @UniqueConstraint(name = "uk_cancel_request_dedup", columnNames = {"payment_id", "dedup_key"})
     }
 )
 public class CancelRequestJpaEntity {
@@ -38,6 +39,13 @@ public class CancelRequestJpaEntity {
 
     @Column(name = "request_hash", nullable = false, length = 64)
     private String requestHash;
+
+    @Column(name = "idempotency_key", length = 255)
+    private String idempotencyKey;
+
+    /** V15 generated column(STORED) — DB가 계산. 절대 write 금지(insertable/updatable=false). */
+    @Column(name = "dedup_key", length = 300, insertable = false, updatable = false)
+    private String dedupKey;
 
     @Column(name = "cancel_amount", nullable = false, columnDefinition = "DECIMAL(19,2)")
     private BigDecimal cancelAmount;
@@ -78,6 +86,7 @@ public class CancelRequestJpaEntity {
         e.id = request.getId();
         e.paymentId = request.getPaymentId();
         e.requestHash = request.getRequestHash();
+        e.idempotencyKey = request.getIdempotencyKey();
         e.cancelAmount = request.getCancelAmount();
         e.cancelReason = request.getCancelReason();
         e.cancelItemIds = request.getCancelItemIds();
@@ -102,7 +111,8 @@ public class CancelRequestJpaEntity {
             toInstant(pgPendingSince),
             toInstant(createdAt),
             toInstant(updatedAt),
-            pgTransactionKey
+            pgTransactionKey,
+            idempotencyKey
         );
     }
 
@@ -118,6 +128,8 @@ public class CancelRequestJpaEntity {
     public void setId(Long id) { this.id = id; }
     public Long getPaymentId() { return paymentId; }
     public String getRequestHash() { return requestHash; }
+    public String getIdempotencyKey() { return idempotencyKey; }
+    public String getDedupKey() { return dedupKey; }
     public BigDecimal getCancelAmount() { return cancelAmount; }
     public List<Long> getCancelItemIds() { return cancelItemIds; }
     public String getCancelReason() { return cancelReason; }

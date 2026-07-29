@@ -50,12 +50,12 @@ class CancelTxWriterTest {
     @DisplayName("saveTx1: PENDING 상태로 CancelRequest를 저장한다")
     void saveTx1_savesCancelRequestAsPending() {
         CancelRequest req = CancelRequest.create(
-            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L));
+            payment.getId(), "hash-001", BigDecimal.valueOf(30000), "고객 변심", List.of(1L), null);
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> {
             CancelRequest cr = inv.getArgument(0);
             return CancelRequest.reconstruct(1L, cr.getPaymentId(), cr.getRequestHash(),
                 cr.getCancelAmount(), cr.getCancelReason(), cr.getCancelItemIds(), cr.getStatus(),
-                0, null, null, cr.getCreatedAt(), cr.getUpdatedAt(), null);
+                0, null, null, cr.getCreatedAt(), cr.getUpdatedAt(), null, null);
         });
 
         CancelRequest result = writer.saveTx1(req);
@@ -69,7 +69,7 @@ class CancelTxWriterTest {
     void saveTx2_transitionsToCancelRequestToProcessing() {
         CancelRequest req = CancelRequest.reconstruct(1L, payment.getId(), "hash-001",
             BigDecimal.valueOf(30000), "고객 변심", List.of(1L), CancelStatus.PENDING,
-            0, null, null, Instant.now(), Instant.now(), null);
+            0, null, null, Instant.now(), Instant.now(), null, null);
         when(cancelRequestRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
 
         CancelRequest result = writer.saveTx2(req);
@@ -82,7 +82,7 @@ class CancelTxWriterTest {
     void saveTx3_reloadsItemsAndPublishesEvent() {
         CancelRequest req = CancelRequest.reconstruct(1L, payment.getId(), "hash-001",
             BigDecimal.valueOf(30000), "고객 변심", List.of(1L), CancelStatus.PROCESSING,
-            0, null, null, Instant.now(), Instant.now(), null);
+            0, null, null, Instant.now(), Instant.now(), null, null);
 
         when(paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId()))
             .thenReturn(List.of(itemA));
@@ -102,7 +102,7 @@ class CancelTxWriterTest {
     void saveTx3_publishFailure_throwsException() {
         CancelRequest req = CancelRequest.reconstruct(1L, payment.getId(), "hash-001",
             BigDecimal.valueOf(30000), "고객 변심", List.of(1L), CancelStatus.PROCESSING,
-            0, null, null, Instant.now(), Instant.now(), null);
+            0, null, null, Instant.now(), Instant.now(), null, null);
 
         when(paymentItemRepository.findAllByPaymentIdForUpdate(payment.getId()))
             .thenReturn(List.of(itemA));

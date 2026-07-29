@@ -62,6 +62,7 @@
 | code | message | detail |
 |------|---------|--------|
 | `IDEMPOTENT_DUPLICATION` | 이미 처리된 요청입니다. | `{ "originalStatus": "COMPLETED", "cancelRequestId": "cr_abc" }` |
+| `IDEMPOTENCY_KEY_CONFLICT` | 이미 다른 요청에 사용된 Idempotency-Key입니다. | `{ "idempotencyKey": "..." }` |
 
 ### 비즈니스 규칙 위반 (422)
 

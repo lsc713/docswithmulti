@@ -14,10 +14,14 @@
 |------|------|------|
 | `Authorization` | 필수 | Bearer {token} |
 | `Content-Type` | 필수 | application/json |
+| `Idempotency-Key` | 선택 | 클라이언트가 지정하는 멱등키. 취소 요청(1번 API)에만 적용 |
 
-> **멱등성 처리**: 클라이언트 Idempotency-Key 헤더를 사용하지 않는다.
-> 서버가 `paymentKey + cancelItemIds 오름차순 정렬`을 SHA-256 해시하여 `request_hash`를 생성한다.
-> 동일 요청은 `cancel_request.request_hash` UK로 방어한다.
+> **멱등성 처리**: `Idempotency-Key` 헤더가 있으면 그 값을 사용하고, 없으면 서버가
+> `paymentKey + cancelItemIds 오름차순 정렬`을 SHA-256 해시한 `request_hash`로 폴백한다.
+> `cancel_request.dedup_key`(= `Idempotency-Key`가 있으면 `ik:{key}`, 없으면 `ch:{request_hash}`)를
+> `(payment_id, dedup_key)` UK로 방어한다.
+> 같은 `Idempotency-Key`로 이전과 다른 요청 내용(`request_hash` 불일치)이 재사용되면
+> `IDEMPOTENCY_KEY_CONFLICT` 409로 거부한다.
 
 ### 공통 에러 응답
 
@@ -42,7 +46,7 @@ POST /v1/payments/{paymentKey}/cancel
 | 항목 | 값 |
 |------|-----|
 | 인가 | 가맹점(MERCHANT) / 관리자(ADMIN) / 사용자(USER) |
-| 멱등성 | Idempotency-Key 헤더 기준 |
+| 멱등성 | `Idempotency-Key` 헤더(선택) 기준, 없으면 `request_hash` 폴백 |
 
 ### Path parameter
 
@@ -106,13 +110,29 @@ POST /v1/payments/{paymentKey}/cancel
 
 ### 멱등성 처리 응답
 
-request_hash 기준으로 기존 cancel_request가 있을 때 상태별 응답:
+`dedup_key`(`Idempotency-Key`가 있으면 `ik:{key}`, 없으면 `ch:{request_hash}`) 기준으로
+기존 cancel_request가 있을 때 상태별 응답:
 
 | 상태 | 응답 |
 |------|------|
 | `COMPLETED` | 200 — 기존 취소 응답 그대로 반환 |
 | `PENDING` / `PROCESSING` | 200 — 처리 중 응답 반환 (`status: PENDING` or `PROCESSING`) |
 | `FAILED` | 재처리 진행 (FAILED → PENDING으로 UPDATE 후 플로우 재실행) |
+
+같은 `Idempotency-Key`로 이전과 다른 요청 내용(`request_hash` 불일치)이 재사용되면
+새 cancel_request를 만들지 않고 409로 거부한다.
+
+### Response 409 (Idempotency-Key 재사용 충돌)
+
+```json
+{
+  "code": "IDEMPOTENCY_KEY_CONFLICT",
+  "message": "이미 다른 요청에 사용된 Idempotency-Key입니다.",
+  "detail": {
+    "idempotencyKey": "..."
+  }
+}
+```
 
 ### Response 422 (한도 초과)
 

@@ -128,7 +128,7 @@ class CancelRaceIdempotencyIT {
             .thenReturn(PgCancelResult.approved("pg-tx-race-001"));
 
         CancelPaymentCommand command = new CancelPaymentCommand(
-            "it_pay_race_001", "동시 취소 레이스", List.of(itemAId));
+            "it_pay_race_001", "동시 취소 레이스", List.of(itemAId), null);
 
         int threads = 2;
         ExecutorService pool = Executors.newFixedThreadPool(threads);

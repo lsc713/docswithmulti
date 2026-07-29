@@ -1,6 +1,7 @@
 package com.example.payment.application.service;
 
 import com.example.payment.application.dto.PgCancelResult;
+import com.example.payment.application.exception.IdempotencyKeyConflictException;
 import com.example.payment.application.exception.PaymentNotFoundException;
 import com.example.payment.application.interfaces.*;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
@@ -48,19 +49,33 @@ public class CancelPaymentService implements CancelPaymentUseCase {
                 paymentItemRepository.findAllByPaymentIdOrderByIdAsc(payment.getId());
 
             // Step 2. request_hash 생성 및 멱등성 체크
+            // dedup_key: 클라 Idempotency-Key가 있으면 "ik:"+key, 없으면 "ch:"+request_hash로 폴백(D-idem).
             String requestHash = RequestHashGenerator.generate(
                 command.paymentKey(), command.cancelPaymentItemIds());
+            String dedupKey = command.idempotencyKey() != null
+                ? "ik:" + command.idempotencyKey() : "ch:" + requestHash;
 
-            var existing = cancelRequestRepository.findByPaymentIdAndRequestHash(
-                payment.getId(), requestHash);
+            var existing = cancelRequestRepository.findByPaymentIdAndDedupKey(
+                payment.getId(), dedupKey);
 
             if (existing.isPresent()) {
+                assertNoKeyReuse(existing.get(), requestHash, command);
                 return handleExistingRequest(existing.get(), command, payment, items);
             }
 
-            return executeCancel(payment, items, requestHash, command);
+            return executeCancel(payment, items, requestHash, dedupKey, command);
         } finally {
             cancelHistoryRecorder.flush();
+        }
+    }
+
+    /** 같은 Idempotency-Key로 이전과 다른 요청 내용(request_hash 불일치)이 재사용되면 거부 */
+    private void assertNoKeyReuse(
+        CancelRequest existing, String requestHash, CancelPaymentCommand command
+    ) {
+        if (command.idempotencyKey() != null
+                && !existing.getRequestHash().equals(requestHash)) {
+            throw new IdempotencyKeyConflictException(command.idempotencyKey());
         }
     }
 
@@ -90,7 +105,7 @@ public class CancelPaymentService implements CancelPaymentUseCase {
     /** 신규: TX1(PENDING INSERT) 이후 risk부터 진행 */
     private CancelRequest executeCancel(
         Payment payment, List<PaymentItem> items,
-        String requestHash, CancelPaymentCommand command
+        String requestHash, String dedupKey, CancelPaymentCommand command
     ) {
         // 사전 검증 (risk 호출 전 차단)
         payment.validateCancellable();
@@ -100,15 +115,19 @@ public class CancelPaymentService implements CancelPaymentUseCase {
         BigDecimal cancelAmount = calculateCancelAmount(items, command.cancelPaymentItemIds());
         CancelRequest cancelRequest = CancelRequest.create(
             payment.getId(), requestHash, cancelAmount, command.cancelReason(),
-            command.cancelPaymentItemIds());
+            command.cancelPaymentItemIds(), command.idempotencyKey());
         try {
             cancelRequest = cancelTxWriter.saveTx1(cancelRequest);
         } catch (DataIntegrityViolationException e) {
-            // 레이스 패자: 다른 파드가 동일 (payment_id, request_hash)로 이미 INSERT함(UK 위반).
+            // 레이스 패자: 다른 파드가 동일 dedup_key로 이미 INSERT함(UK 위반).
             // 새 응답 형태를 만들지 않고 기존 handleExistingRequest 상태 스위치로 위임(D-03).
             CancelRequest winner = cancelRequestRepository
-                .findByPaymentIdAndRequestHash(payment.getId(), requestHash)
+                .findByPaymentIdAndDedupKey(payment.getId(), dedupKey)
                 .orElseThrow(() -> e); // 이론상 불가(방금 위반났으므로 존재) — 방어적 재throw
+            // REVIEW-01: 1차 조회 경로와 동일하게 같은 키+다른 콘텐츠 재사용을 여기서도 막는다.
+            // (dedup_key는 키가 있으면 "ik:"+key만으로 결정 — request_hash를 포함하지 않으므로
+            //  이 가드 없이는 레이스 패자가 승자의 다른-콘텐츠 결과를 조용히 멱등 성공으로 받는다.)
+            assertNoKeyReuse(winner, requestHash, command);
             return handleExistingRequest(winner, command, payment, items);
         }
         recordHistory(cancelRequest.getId(), CancelStatus.PENDING, null);

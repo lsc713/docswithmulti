@@ -9,6 +9,14 @@ public interface CancelRequestRepository {
 
     Optional<CancelRequest> findByPaymentIdAndRequestHash(long paymentId, String requestHash);
 
+    // D-idem: id(PK)로 재조회. request_hash/dedup_key 둘 다 payment당 유일하지 않을 수 있어
+    // 원자 UPDATE 직후 같은 행을 다시 읽을 때는 이 유일키 조회를 쓴다(ProcessingRecoveryService).
+    Optional<CancelRequest> findById(long id);
+
+    // D-idem: dedup_key(V15, "ik:"+idempotencyKey 또는 "ch:"+requestHash)로 조회.
+    // request_hash는 같은 items+다른 idempotencyKey에서 중복될 수 있어 더 이상 payment당 유일하지 않음.
+    Optional<CancelRequest> findByPaymentIdAndDedupKey(long paymentId, String dedupKey);
+
     CancelRequest save(CancelRequest cancelRequest);
 
     /**

@@ -16,7 +16,7 @@ class CancelRequestTest {
 
     @BeforeEach
     void setUp() {
-        cancelRequest = CancelRequest.create(1L, "hash-abc123", new BigDecimal("100000"), "고객 변심", List.of(1L, 2L));
+        cancelRequest = CancelRequest.create(1L, "hash-abc123", new BigDecimal("100000"), "고객 변심", List.of(1L, 2L), null);
     }
 
     @Test
@@ -33,7 +33,7 @@ class CancelRequestTest {
     @DisplayName("should_reject_zero_cancel_amount")
     void shouldRejectZeroCancelAmount() {
         InvalidCancelAmountException ex = assertThrows(InvalidCancelAmountException.class,
-            () -> CancelRequest.create(1L, "hash-xyz", BigDecimal.ZERO, "변심", List.of(1L, 2L)));
+            () -> CancelRequest.create(1L, "hash-xyz", BigDecimal.ZERO, "변심", List.of(1L, 2L), null));
         assertEquals(ErrorCode.INVALID_CANCEL_AMOUNT, ex.getErrorCode());
     }
 
@@ -148,21 +148,21 @@ class CancelRequestTest {
     @DisplayName("cancelAmount가 null이면 InvalidCancelAmountException을 던진다")
     void shouldRejectNullCancelAmount() {
         assertThrows(InvalidCancelAmountException.class,
-            () -> CancelRequest.create(1L, "hash", null, "변심", List.of(1L)));
+            () -> CancelRequest.create(1L, "hash", null, "변심", List.of(1L), null));
     }
 
     @Test
     @DisplayName("cancelItemIds가 null이면 IllegalArgumentException을 던진다")
     void shouldRejectNullCancelItemIds() {
         assertThrows(IllegalArgumentException.class,
-            () -> CancelRequest.create(1L, "hash", new BigDecimal("100000"), "변심", null));
+            () -> CancelRequest.create(1L, "hash", new BigDecimal("100000"), "변심", null, null));
     }
 
     @Test
     @DisplayName("cancelItemIds가 빈 리스트이면 IllegalArgumentException을 던진다")
     void shouldRejectEmptyCancelItemIds() {
         assertThrows(IllegalArgumentException.class,
-            () -> CancelRequest.create(1L, "hash", new BigDecimal("100000"), "변심", List.of()));
+            () -> CancelRequest.create(1L, "hash", new BigDecimal("100000"), "변심", List.of(), null));
     }
 
     // ──────────────────────────────────────────────────────────
@@ -208,8 +208,7 @@ class CancelRequestTest {
         CancelRequest reconstructed = CancelRequest.reconstruct(
             1L, 1L, "hash-abc123", new BigDecimal("100000"), "고객 변심", List.of(1L, 2L),
             CancelStatus.COMPLETED, 0, Instant.now(), null, Instant.now(), Instant.now(),
-            "toss-tx-abc123"
-        );
+            "toss-tx-abc123", null);
 
         assertEquals("toss-tx-abc123", reconstructed.getPgTransactionKey());
     }

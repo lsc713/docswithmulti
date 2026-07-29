@@ -44,7 +44,9 @@ DDL은 각 모듈 `db/migration/V1__create_*_core.sql ~ V7`을 직접 읽는다.
 ## 핵심 불변식 (상세 → sysdesign/cancel-design.md)
 
 **멱등성**
-- `request_hash = SHA-256(paymentKey + paymentItemIds 오름차순)`, `cancel_request(payment_id, request_hash)` UK로 따닥 차단. 서버가 생성 (Idempotency-Key 헤더 없음).
+- `request_hash = SHA-256(paymentKey + paymentItemIds 오름차순)`(content-hash, 항상 생성). 클라 `Idempotency-Key` 헤더가 있으면 그 값 우선, 없으면 request_hash로 fallback.
+- `dedup_key` = 있으면 `ik:{key}`, 없으면 `ch:{request_hash}`. `cancel_request(payment_id, dedup_key)` UK(`uk_cancel_request_dedup`)로 따닥 차단.
+- 같은 `Idempotency-Key`로 이전과 다른 요청(request_hash 불일치) 재사용 시 `IDEMPOTENCY_KEY_CONFLICT` 409 거부.
 - FAILED 재시도: 새 INSERT 금지 → 기존 FAILED 건을 PENDING으로 UPDATE.
 
 **TX 경계** (이력 `cancel_request_history`는 항상 TX 밖에서 별도 실행)

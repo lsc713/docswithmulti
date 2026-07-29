@@ -40,7 +40,7 @@ V{버전}__{설명}.sql
 | 컬럼 | snake_case | created_at |
 | PK | id (BIGINT AUTO_INCREMENT) | id |
 | FK | {참조테이블}_id | payment_id |
-| UK | uk_{테이블}_{컬럼} | uk_cancel_request_idem_key |
+| UK | uk_{테이블}_{컬럼} | uk_cancel_request_dedup |
 | INDEX | idx_{테이블}_{컬럼} | idx_outbox_status |
 | 날짜/시간 | DATETIME(3) UTC | created_at |
 
@@ -62,7 +62,7 @@ V{버전}__{설명}.sql
 
 | 인덱스 | 이유 |
 |--------|------|
-| cancel_request(payment_id, request_hash) UK | 멱등성 보장 (서버 생성 SHA-256 해시) |
+| cancel_request(payment_id, dedup_key) UK | 멱등성 보장. dedup_key는 idempotency_key(클라 optional) 있으면 `ik:{key}`, 없으면 `ch:{request_hash}` 접두 generated 컬럼 (uk_cancel_request_dedup) |
 | cancel_event_outbox(status) | Outbox 스케줄러 PENDING 조회 |
 | compensation_retry(status, next_retry_at) | 재시도 스케줄러 조회 |
 | merchant_cancel_usage(merchant_id, kst_date) UK | 한도 행 유일성 + FOR UPDATE |
