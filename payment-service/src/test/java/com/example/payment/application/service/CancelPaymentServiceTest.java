@@ -63,7 +63,7 @@ class CancelPaymentServiceTest {
         itemB = PaymentItem.reconstruct(2L, payment.getId(), 11L, 100L, 200L, "상품B",
             BigDecimal.valueOf(70000), PaymentItemStatus.ACTIVE);
 
-        command = new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L));
+        command = new CancelPaymentCommand("pay_test_001", "고객 변심", List.of(1L), null);
     }
 
     @Test

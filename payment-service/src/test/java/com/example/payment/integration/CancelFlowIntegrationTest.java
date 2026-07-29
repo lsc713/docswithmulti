@@ -152,7 +152,7 @@ class CancelFlowIntegrationTest {
             });
 
         CancelPaymentCommand command = new CancelPaymentCommand(
-            "it_pay_001", "통합 테스트 변심", List.of(itemAId));
+            "it_pay_001", "통합 테스트 변심", List.of(itemAId), null);
 
         CancelRequest result = cancelPaymentService.cancel(command);
 
@@ -191,7 +191,7 @@ class CancelFlowIntegrationTest {
             .thenReturn(PgCancelResult.approved("pg-tx-it-002"));
 
         CancelPaymentCommand command = new CancelPaymentCommand(
-            "it_pay_001", "중복 테스트", List.of(itemAId));
+            "it_pay_001", "중복 테스트", List.of(itemAId), null);
 
         CancelRequest first = cancelPaymentService.cancel(command);
         assertThat(first.getStatus()).isEqualTo(CancelStatus.COMPLETED);
@@ -224,7 +224,7 @@ class CancelFlowIntegrationTest {
             .thenReturn(PgCancelResult.approved("pg-tx-it-003"));
 
         cancelPaymentService.cancel(new CancelPaymentCommand(
-            "it_pay_001", "전액 취소", List.of(itemAId, itemBId)));
+            "it_pay_001", "전액 취소", List.of(itemAId, itemBId), null));
 
         assertThat(paymentItemJpaRepository.findById(itemAId).orElseThrow().getStatus())
             .isEqualTo(PaymentItemStatus.CANCELLED);
@@ -249,7 +249,7 @@ class CancelFlowIntegrationTest {
         org.junit.jupiter.api.Assertions.assertThrows(
             com.example.payment.infrastructure.exception.RiskServiceException.class,
             () -> cancelPaymentService.cancel(new CancelPaymentCommand(
-                "it_pay_001", "risk 실패 테스트", List.of(itemAId)))
+                "it_pay_001", "risk 실패 테스트", List.of(itemAId), null))
         );
 
         // cancel_request = FAILED
@@ -281,7 +281,7 @@ class CancelFlowIntegrationTest {
             .thenReturn(PgCancelResult.approved("pg-tx-it-004"));
 
         cancelPaymentService.cancel(new CancelPaymentCommand(
-            "it_pay_001", "순서 테스트", List.of(itemAId)));
+            "it_pay_001", "순서 테스트", List.of(itemAId), null));
 
         InOrder inOrder = inOrder(riskManagementPort, pgCancelPort);
         inOrder.verify(riskManagementPort).validateAndReserve(anyLong(), anyLong(), any(), any());

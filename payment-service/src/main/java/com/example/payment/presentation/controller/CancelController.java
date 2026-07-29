@@ -22,14 +22,15 @@ public class CancelController {
     @PostMapping("/{paymentKey}/cancel")
     public ResponseEntity<CancelPaymentResponse> cancel(
         @PathVariable String paymentKey,
-        @RequestBody @Valid CancelPaymentRequest request
+        @RequestBody @Valid CancelPaymentRequest request,
+        @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey
     ) {
         List<Long> itemIds = request.cancelItems().stream()
             .map(item -> item.paymentItemId())
             .toList();
 
         CancelPaymentCommand command = new CancelPaymentCommand(
-            paymentKey, request.cancelReason(), itemIds);
+            paymentKey, request.cancelReason(), itemIds, idempotencyKey);
 
         CancelRequest cancelRequest = cancelPaymentUseCase.cancel(command);
 
