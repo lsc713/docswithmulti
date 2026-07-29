@@ -87,7 +87,7 @@ class ProcessingRecoveryServiceTest {
     void pg_get_status_exception_keeps_processing() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenThrow(new RuntimeException("PG 연결 실패"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenThrow(new RuntimeException("PG 연결 실패"));
 
         service.recoverAll();
 
@@ -100,7 +100,7 @@ class ProcessingRecoveryServiceTest {
     void pg_unknown_status_logs_warning_and_does_nothing() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString()))
+        when(pgCancelPort.getStatus(anyString(), any()))
             .thenReturn(new PgCancelResult("pg_tx_001", "UNKNOWN_STATUS", false));
 
         service.recoverAll();
@@ -116,7 +116,7 @@ class ProcessingRecoveryServiceTest {
     void pg_approved_runs_tx3() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.approved("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.approved("pg_tx_001"));
         when(cancelTxWriter.saveTx3(any(), any(), any())).thenReturn(processing);
 
         service.recoverAll();
@@ -130,7 +130,7 @@ class ProcessingRecoveryServiceTest {
     void pg_failed_non_retryable_compensates_and_fails() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.failed("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.failed("pg_tx_001"));
 
         service.recoverAll();
 
@@ -151,7 +151,7 @@ class ProcessingRecoveryServiceTest {
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(1L, "hash_abc"))
             .thenReturn(Optional.of(refreshed));
         when(pgCancelPort.cancel(anyString(), any(), anyString())).thenReturn(PgCancelResult.approved("pg_tx_002"));
@@ -176,7 +176,7 @@ class ProcessingRecoveryServiceTest {
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(maxRetry));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
 
         service.recoverAll();
 
@@ -190,7 +190,7 @@ class ProcessingRecoveryServiceTest {
     void pg_pending_first_time_marks_pg_pending() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.pending("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.pending("pg_tx_001"));
 
         service.recoverAll();
 
@@ -212,7 +212,7 @@ class ProcessingRecoveryServiceTest {
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(timedOut));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.pending("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.pending("pg_tx_001"));
 
         service.recoverAll();
 
@@ -240,7 +240,7 @@ class ProcessingRecoveryServiceTest {
         );
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(almostMax));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.retryableFailed("pg_tx_001"));
         when(cancelRequestRepository.findByPaymentIdAndRequestHash(1L, "hash_abc"))
             .thenReturn(Optional.of(refreshed));
 
@@ -262,7 +262,7 @@ class ProcessingRecoveryServiceTest {
     void raceLoss_logs_warn_not_error() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.approved("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.approved("pg_tx_001"));
         when(cancelTxWriter.saveTx3(any(), any(), any()))
             .thenThrow(new InvalidPaymentItemStatusException(10L, PaymentItemStatus.CANCELLED));
 
@@ -278,7 +278,7 @@ class ProcessingRecoveryServiceTest {
     void otherBusinessException_stillLogsError() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.approved("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.approved("pg_tx_001"));
         when(cancelTxWriter.saveTx3(any(), any(), any()))
             .thenThrow(new com.example.payment.domain.exception.InvalidCancelStateTransitionException(
                 CancelStatus.PROCESSING, CancelStatus.COMPLETED));
@@ -307,7 +307,7 @@ class ProcessingRecoveryServiceTest {
     void compensateAndFail_skips_when_another_thread_already_transitioned() {
         when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
         when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
-        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.failed("pg_tx_001"));
+        when(pgCancelPort.getStatus(anyString(), any())).thenReturn(PgCancelResult.failed("pg_tx_001"));
         // 이 스레드는 레이스에서 짐 — 원자 UPDATE가 0건 갱신(이미 다른 스레드가 FAILED로 전이함)
         when(cancelRequestRepository.compareAndSetFailed(10L)).thenReturn(0);
 

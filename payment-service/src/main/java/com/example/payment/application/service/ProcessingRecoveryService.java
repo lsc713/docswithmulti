@@ -55,7 +55,7 @@ public class ProcessingRecoveryService {
 
             PgCancelResult result;
             try {
-                result = pgCancelPort.getStatus(payment.getPaymentKey());
+                result = pgCancelPort.getStatus(payment.getPaymentKey(), cancelRequest.getCancelAmount());
             } catch (Exception e) {
                 log.warn("[processing-recovery] PG 조회 실패, PROCESSING 유지 cancelRequestId={}: {}",
                     cancelRequest.getId(), e.getMessage());
