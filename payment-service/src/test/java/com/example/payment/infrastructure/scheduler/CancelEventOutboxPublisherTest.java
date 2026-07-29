@@ -2,22 +2,32 @@ package com.example.payment.infrastructure.scheduler;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
 import com.example.payment.application.interfaces.OperationAlertPort;
+import com.example.payment.infrastructure.messaging.OutboxCancelEventPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.redisson.api.RLock;
+import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
+import org.redisson.api.listener.MessageListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -33,6 +43,7 @@ class CancelEventOutboxPublisherTest {
     @Mock KafkaTemplate<String, String> kafkaTemplate;
     @Mock RedissonClient redissonClient;
     @Mock RLock lock;
+    @Mock RTopic wakeTopic;
     @Mock OperationAlertPort operationAlertPort;
 
     CancelEventOutboxPublisher scheduler;
@@ -124,5 +135,66 @@ class CancelEventOutboxPublisherTest {
         scheduler.purge();
 
         verify(outboxRepository, never()).purgePublished(anyInt());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    @DisplayName("subscribeWake: WAKE_TOPIC에 Long 리스너를 등록한다")
+    void subscribeWake_registers_listener_on_wake_topic() {
+        when(redissonClient.getTopic(OutboxCancelEventPublisher.WAKE_TOPIC)).thenReturn(wakeTopic);
+
+        scheduler.subscribeWake();
+
+        verify(wakeTopic).addListener(eq(Long.class), any(MessageListener.class));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    @DisplayName("wake 메시지 수신 시 폴(publish) 로직을 트리거한다")
+    void wake_message_triggers_poll() {
+        when(redissonClient.getTopic(OutboxCancelEventPublisher.WAKE_TOPIC)).thenReturn(wakeTopic);
+        when(outboxRepository.findPendingBatch(100)).thenReturn(List.of());
+        ArgumentCaptor<MessageListener<Long>> captor = ArgumentCaptor.forClass(MessageListener.class);
+
+        scheduler.subscribeWake();
+        verify(wakeTopic).addListener(eq(Long.class), captor.capture());
+        captor.getValue().onMessage("cancel-outbox-wake", 123L);
+
+        verify(outboxRepository).findPendingBatch(100);
+        verify(outboxRepository).markPublished(List.of());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    @DisplayName("동시 다발 wake는 하나의 폴로 coalesce된다 — 폴 진행 중 추가 wake는 skip")
+    void concurrent_wakes_coalesce_into_single_poll() throws Exception {
+        when(redissonClient.getTopic(OutboxCancelEventPublisher.WAKE_TOPIC)).thenReturn(wakeTopic);
+
+        CountDownLatch pollStarted = new CountDownLatch(1);
+        CountDownLatch releasePoll = new CountDownLatch(1);
+        AtomicInteger pollCount = new AtomicInteger();
+        when(outboxRepository.findPendingBatch(100)).thenAnswer(inv -> {
+            pollCount.incrementAndGet();
+            pollStarted.countDown();
+            releasePoll.await(2, TimeUnit.SECONDS);
+            return List.of();
+        });
+
+        ArgumentCaptor<MessageListener<Long>> captor = ArgumentCaptor.forClass(MessageListener.class);
+        scheduler.subscribeWake();
+        verify(wakeTopic).addListener(eq(Long.class), captor.capture());
+        MessageListener<Long> listener = captor.getValue();
+
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        Future<?> first = executor.submit(() -> listener.onMessage("cancel-outbox-wake", 1L));
+        assertThat(pollStarted.await(2, TimeUnit.SECONDS)).isTrue(); // 첫 폴 진행 중 (pollScheduled=true)
+
+        listener.onMessage("cancel-outbox-wake", 2L); // 폴 진행 중 추가 wake → skip
+
+        releasePoll.countDown();
+        first.get(2, TimeUnit.SECONDS);
+        executor.shutdownNow();
+
+        assertThat(pollCount.get()).isEqualTo(1); // 두 wake가 단일 폴로 합류
     }
 }

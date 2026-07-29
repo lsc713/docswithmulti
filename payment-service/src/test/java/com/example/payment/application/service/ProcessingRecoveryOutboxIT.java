@@ -6,6 +6,7 @@ import com.example.payment.application.interfaces.PgCancelPort;
 import com.example.payment.domain.entity.*;
 import com.example.payment.infrastructure.persistence.*;
 import org.junit.jupiter.api.*;
+import org.mockito.Answers;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,7 +72,8 @@ class ProcessingRecoveryOutboxIT {
     @MockitoBean PgCancelPort pgCancelPort;
     @MockitoBean com.example.payment.application.interfaces.RiskManagementPort riskManagementPort;
     @MockitoBean KafkaTemplate<String, String> kafkaTemplate;  // 스케줄러 빈 기동용
-    @MockitoBean RedissonClient redissonClient;                 // 스케줄러 빈 기동용
+    // RETURNS_MOCKS: getTopic()이 null이 아닌 mock RTopic을 반환해야 subscribeWake()의 @PostConstruct가 NPE 없이 기동
+    @MockitoBean(answers = Answers.RETURNS_MOCKS) RedissonClient redissonClient;                 // 스케줄러 빈 기동용
 
     // ── 테스트 대상 ───────────────────────────────────────────────────────────
     @Autowired ProcessingRecoveryService recoveryService;

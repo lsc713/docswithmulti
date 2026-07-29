@@ -2,6 +2,8 @@ package com.example.payment.infrastructure.scheduler;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
 import com.example.payment.application.interfaces.OperationAlertPort;
+import com.example.payment.infrastructure.messaging.OutboxCancelEventPublisher;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /** OUTBOX 모드에서만 활성. RLock으로 한 인스턴스만 폴링 발행. */
 @Slf4j
@@ -46,6 +49,9 @@ public class CancelEventOutboxPublisher {
     @Value("${scheduler.lock.cancel-outbox-purge}")
     private String purgeLockKey;
 
+    /** wake 경로 폴 폭주 방지 — 폴 진행 중 추가 wake는 skip(coalesce). @Scheduled backstop과는 무관. */
+    private final AtomicBoolean pollScheduled = new AtomicBoolean(false);
+
     public CancelEventOutboxPublisher(
             CancelEventOutboxRepository outboxRepository,
             KafkaTemplate<String, String> kafkaTemplate,
@@ -55,6 +61,25 @@ public class CancelEventOutboxPublisher {
         this.kafkaTemplate = kafkaTemplate;
         this.redissonClient = redissonClient;
         this.operationAlertPort = operationAlertPort;
+    }
+
+    /** OutboxCancelEventPublisher가 커밋 후 발사하는 wake를 구독 — 즉시 coalesced 폴 트리거(저지연). */
+    @PostConstruct
+    void subscribeWake() {
+        redissonClient.getTopic(OutboxCancelEventPublisher.WAKE_TOPIC)
+                .addListener(Long.class, (channel, msg) -> triggerPoll());
+    }
+
+    /** wake 경로 진입점. 폴 진행 중이면 skip(coalesce) — 둘 다 결국 publish()의 RLock으로 단일 발행 보장. */
+    private void triggerPoll() {
+        if (!pollScheduled.compareAndSet(false, true)) {
+            return;
+        }
+        try {
+            publish();
+        } finally {
+            pollScheduled.set(false);
+        }
     }
 
     @Scheduled(fixedDelayString = "${cancel.outbox.poll-ms:10000}")

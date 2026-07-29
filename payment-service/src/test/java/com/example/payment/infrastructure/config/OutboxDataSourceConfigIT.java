@@ -6,6 +6,7 @@ import com.example.payment.application.interfaces.RiskManagementPort;
 import com.zaxxer.hikari.HikariDataSource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Answers;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,7 +45,8 @@ class OutboxDataSourceConfigIT {
     @MockitoBean PgCancelPort pgCancelPort;
     @MockitoBean RiskManagementPort riskManagementPort;
     @MockitoBean KafkaTemplate<String, String> kafkaTemplate;
-    @MockitoBean RedissonClient redissonClient;
+    // RETURNS_MOCKS: getTopic()이 null이 아닌 mock RTopic을 반환해야 subscribeWake()의 @PostConstruct가 NPE 없이 기동
+    @MockitoBean(answers = Answers.RETURNS_MOCKS) RedissonClient redissonClient;
 
     @Autowired DataSource dataSource;                                  // @Primary 메인
     @Autowired @Qualifier("cancelOutboxDataSource") HikariDataSource cancelOutboxDataSource;

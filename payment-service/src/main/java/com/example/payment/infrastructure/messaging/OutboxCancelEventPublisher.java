@@ -18,7 +18,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX")
 public class OutboxCancelEventPublisher implements CancelEventPublisher {
 
-    private static final String WAKE_TOPIC = "cancel-outbox-wake";
+    public static final String WAKE_TOPIC = "cancel-outbox-wake";
 
     private final CancelEventOutboxRepository outboxRepository;
     private final RedissonClient redissonClient;
