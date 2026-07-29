@@ -49,4 +49,9 @@ public class CancelRequestRepositoryImpl implements CancelRequestRepository {
     public int incrementPgRetryCount(long id) {
         return jpaRepository.incrementPgRetryCount(id);
     }
+
+    @Override
+    public int compareAndSetFailed(long id) {
+        return jpaRepository.compareAndSetFailed(id);
+    }
 }

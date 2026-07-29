@@ -54,6 +54,9 @@ class ProcessingRecoveryServiceTest {
             Instant.now().minus(10, ChronoUnit.MINUTES),
             Instant.now().minus(10, ChronoUnit.MINUTES)
         );
+        // CR-03: compensateAndFail은 compensate 호출 전 이 원자 UPDATE로 승자를 가린다.
+        // 대부분의 테스트는 "내가 승자"인 시나리오이므로 기본값 1(성공)로 lenient 스텁.
+        lenient().when(cancelRequestRepository.compareAndSetFailed(anyLong())).thenReturn(1);
     }
 
     @Test
@@ -92,8 +95,8 @@ class ProcessingRecoveryServiceTest {
 
         service.recoverAll();
 
+        verify(cancelRequestRepository).compareAndSetFailed(eq(10L));
         verify(riskManagementPort).compensate(eq(10L), eq(1L), eq(BigDecimal.valueOf(50000)));
-        verify(cancelRequestRepository).save(any());
         verify(historyRepository).record(anyLong(), eq(CancelStatus.FAILED), anyString());
     }
 
@@ -207,8 +210,8 @@ class ProcessingRecoveryServiceTest {
         // 원자 UPDATE 호출 확인 + 재조회한 값(5)이 MAX_PG_RETRIES 도달 → PG 재호출 없이 즉시 보상 + FAILED
         verify(cancelRequestRepository).incrementPgRetryCount(10L);
         verify(pgCancelPort, never()).cancel(anyString(), any(), anyString());
+        verify(cancelRequestRepository).compareAndSetFailed(eq(10L));
         verify(riskManagementPort).compensate(anyLong(), anyLong(), any());
-        verify(cancelRequestRepository).save(argThat(r -> r.getStatus() == CancelStatus.FAILED));
     }
 
     @Test
@@ -219,5 +222,25 @@ class ProcessingRecoveryServiceTest {
         service.recoverAll();
 
         verifyNoInteractions(pgCancelPort, cancelTxWriter, riskManagementPort, operationAlertPort);
+    }
+
+    // ──────────────────────────────────────────────────────────
+    // CR-03: 이중 보상 방지 — compareAndSetFailed가 0(다른 스레드 선점)이면 compensate skip
+    // ──────────────────────────────────────────────────────────
+
+    @Test
+    @DisplayName("compareAndSetFailed=0(다른 스레드가 이미 FAILED 전이 완료) → compensate 호출 없이 skip")
+    void compensateAndFail_skips_when_another_thread_already_transitioned() {
+        when(cancelRequestRepository.findProcessingUpdatedBefore(any())).thenReturn(List.of(processing));
+        when(paymentRepository.findById(1L)).thenReturn(Optional.of(payment));
+        when(pgCancelPort.getStatus(anyString())).thenReturn(PgCancelResult.failed("pg_tx_001"));
+        // 이 스레드는 레이스에서 짐 — 원자 UPDATE가 0건 갱신(이미 다른 스레드가 FAILED로 전이함)
+        when(cancelRequestRepository.compareAndSetFailed(10L)).thenReturn(0);
+
+        service.recoverAll();
+
+        verify(riskManagementPort, never()).compensate(anyLong(), anyLong(), any());
+        verify(compensationRetryRepository, never()).save(anyLong(), anyLong(), any());
+        verify(historyRepository, never()).record(anyLong(), eq(CancelStatus.FAILED), anyString());
     }
 }

@@ -36,4 +36,17 @@ public interface CancelRequestJpaRepository extends JpaRepository<CancelRequestJ
          WHERE id = :id
         """, nativeQuery = true)
     int incrementPgRetryCount(@Param("id") long id);
+
+    /**
+     * PROCESSING → FAILED 조건부 원자 UPDATE. incrementPgRetryCount와 동일한 D-04 패턴(이중 보상 방지, CR-03).
+     * clearAutomatically=true 필수(1차 캐시 stale 방지).
+     * @return 1 = 성공, 0 = 대상 행 없음(이미 PROCESSING이 아님 — 다른 스레드가 선점)
+     */
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query(value = """
+        UPDATE cancel_request
+           SET status = 'FAILED', updated_at = CURRENT_TIMESTAMP(3)
+         WHERE id = :id AND status = 'PROCESSING'
+        """, nativeQuery = true)
+    int compareAndSetFailed(@Param("id") long id);
 }

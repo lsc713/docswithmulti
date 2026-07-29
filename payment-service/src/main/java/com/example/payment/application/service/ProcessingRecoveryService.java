@@ -128,7 +128,7 @@ public class ProcessingRecoveryService {
 
         if (cancelRequest.getPgPendingSince() != null
                 && cancelRequest.getPgPendingSince().plus(PG_PENDING_TIMEOUT).isBefore(Instant.now())) {
-            // Timeout: no need to save PENDING state, compensateAndFail will save FAILED
+            // Timeout: no need to save PENDING state, compensateAndFail transitions PROCESSING→FAILED atomically
             compensateAndFail(cancelRequest, payment);
             try {
                 operationAlertPort.alertPgPendingTimeout(
@@ -144,6 +144,18 @@ public class ProcessingRecoveryService {
     }
 
     private void compensateAndFail(CancelRequest cancelRequest, Payment payment) {
+        // CR-03: PROCESSING→FAILED 조건부 원자 UPDATE(incrementPgRetryCount와 동일한 D-04 패턴)를
+        // compensate 호출 전에 먼저 시도 — 이 전이에 성공한 스레드만 compensate 진행.
+        // 레코드 단위 분산락 대신 상태 전이 자체를 멱등 가드로 사용(D-04, 락 추가 금지).
+        // 스케줄러 Redis 락(leaseTime=55s, 워치독 미사용)이 만료돼 중복 처리 창이 열려도
+        // risk-management.compensate()가 두 번 호출되는 것을 막는다.
+        int updated = cancelRequestRepository.compareAndSetFailed(cancelRequest.getId());
+        if (updated == 0) {
+            log.info("[processing-recovery] compensateAndFail skip — 이미 다른 스레드가 FAILED 전이 완료(중복 보상 방지) cancelRequestId={}",
+                cancelRequest.getId());
+            return;
+        }
+
         try {
             riskManagementPort.compensate(
                 cancelRequest.getId(), payment.getMerchantId(), cancelRequest.getCancelAmount());
@@ -153,8 +165,6 @@ public class ProcessingRecoveryService {
             compensationRetryRepository.save(
                 cancelRequest.getId(), payment.getMerchantId(), cancelRequest.getCancelAmount());
         }
-        cancelRequest.toFailed();
-        cancelRequestRepository.save(cancelRequest);
         recordHistory(cancelRequest.getId(), CancelStatus.FAILED, "processing-recovery");
     }
 

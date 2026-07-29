@@ -55,6 +55,9 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * 검증 (A): incrementPgRetryCount 원자 UPDATE를 N 스레드가 동시 호출 → 최종 카운트 정확히 N(유실 0).
  * 검증 (B): 같은 CancelRequest 로 saveTx3(TX3 재실행)를 2 스레드가 동시 시도 → 정확히 1건 COMPLETED.
+ * 검증 (C, CR-03): 같은 PROCESSING CancelRequest 에 compareAndSetFailed 원자 UPDATE를 N 스레드가 동시
+ * 호출 → 정확히 1스레드만 rowcount=1(승자) 나머지는 0(패자) — compensateAndFail이 이 가드를 compensate
+ * 호출 전에 두어 이중 보상을 막는다(D-04 패턴 재사용, 레코드 단위 분산락 없이).
  *
  * 패자 스레드의 InvalidPaymentItemStatusException(BusinessException)은 정상 레이스 결과다
  * (findAllByPaymentIdForUpdate 행 락으로 순서가 강제되고, 승자 커밋 후 재조회한 패자가 이미
@@ -180,6 +183,41 @@ class ProcessingRecoveryConcurrencyIT {
         long cancelledItemCount = paymentItemJpaRepository.findAllByPaymentIdOrderByIdAsc(paymentId)
             .stream().filter(i -> i.getStatus() == PaymentItemStatus.CANCELLED).count();
         assertThat(cancelledItemCount).as("이중취소 0 — 아이템 정확히 1회만 CANCELLED").isEqualTo(1);
+    }
+
+    // ── 검증 (C): compareAndSetFailed 원자 UPDATE 동시 호출 — 정확히 1승자 ─────
+
+    @Test
+    @DisplayName("N 스레드가 같은 PROCESSING 건에 compareAndSetFailed 동시 호출 → 정확히 1건만 rowcount=1(승자), 나머지 0")
+    void concurrent_compare_and_set_failed_has_exactly_one_winner() throws Exception {
+        long paymentId = insertPayment("concurrency_pay_c");
+        long cancelRequestId = insertCancelRequest(paymentId, "hash_concurrency_c", List.of(1L));
+
+        int threads = 10;
+        ExecutorService pool = Executors.newFixedThreadPool(threads);
+        CountDownLatch start = new CountDownLatch(1);
+        AtomicInteger winners = new AtomicInteger();
+        List<Future<?>> futures = new ArrayList<>();
+        for (int i = 0; i < threads; i++) {
+            futures.add(pool.submit(() -> {
+                start.await();
+                // 각 호출 독립 TX (스케줄러 각 실행/파드가 별도 TX인 것과 동일)
+                Integer updated = tx.execute(s -> cancelRequestRepository.compareAndSetFailed(cancelRequestId));
+                if (updated != null && updated == 1) {
+                    winners.incrementAndGet();
+                }
+                return null;
+            }));
+        }
+        start.countDown();
+        for (Future<?> f : futures) f.get(30, TimeUnit.SECONDS);
+        pool.shutdown();
+
+        assertThat(winners.get()).as("정확히 1스레드만 FAILED 전이에 성공 — 나머지는 compensate 호출 skip 대상").isEqualTo(1);
+
+        CancelStatus finalStatus = cancelRequestJpaRepository.findById(cancelRequestId)
+            .orElseThrow().toDomain().getStatus();
+        assertThat(finalStatus).as("최종 상태는 정확히 1회 전이된 FAILED").isEqualTo(CancelStatus.FAILED);
     }
 
     // ── 픽스처 헬퍼 (TransactionTemplate 커밋 — 워커 스레드가 볼 수 있어야 함) ──────
