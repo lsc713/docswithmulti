@@ -100,4 +100,29 @@ class CancelEventOutboxPublisherTest {
         verify(outboxRepository, never()).markDead(anyLong(), anyString());
         verify(operationAlertPort, never()).alert(anyString());
     }
+
+    @Test
+    @DisplayName("purge: RLock 획득 후 purgePublished(retentionDays) 호출")
+    void purge_acquires_lock_then_purges_published() throws InterruptedException {
+        when(lock.tryLock(0, 300, TimeUnit.SECONDS)).thenReturn(true);
+        ReflectionTestUtils.setField(scheduler, "purgeLockKey", "test:lock:cancel-outbox-purge");
+        ReflectionTestUtils.setField(scheduler, "retentionDays", 7);
+        when(outboxRepository.purgePublished(7)).thenReturn(3);
+
+        scheduler.purge();
+
+        verify(outboxRepository).purgePublished(7);
+    }
+
+    @Test
+    @DisplayName("purge: 락 획득 실패 시 purgePublished 미호출")
+    void purge_skips_when_lock_not_acquired() throws InterruptedException {
+        when(lock.tryLock(0, 300, TimeUnit.SECONDS)).thenReturn(false);
+        ReflectionTestUtils.setField(scheduler, "purgeLockKey", "test:lock:cancel-outbox-purge");
+        ReflectionTestUtils.setField(scheduler, "retentionDays", 7);
+
+        scheduler.purge();
+
+        verify(outboxRepository, never()).purgePublished(anyInt());
+    }
 }

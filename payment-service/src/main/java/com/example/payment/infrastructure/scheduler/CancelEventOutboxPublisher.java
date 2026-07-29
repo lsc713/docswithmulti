@@ -40,6 +40,12 @@ public class CancelEventOutboxPublisher {
     @Value("${cancel.outbox.max-retries:10}")
     private int maxRetries;
 
+    @Value("${cancel.outbox.retention-days:7}")
+    private int retentionDays;
+
+    @Value("${scheduler.lock.cancel-outbox-purge}")
+    private String purgeLockKey;
+
     public CancelEventOutboxPublisher(
             CancelEventOutboxRepository outboxRepository,
             KafkaTemplate<String, String> kafkaTemplate,
@@ -98,6 +104,30 @@ public class CancelEventOutboxPublisher {
             outboxRepository.markPublished(published); // 성공분 한 번의 UPDATE 로 PUBLISHED (커넥션 1회)
             if (!pending.isEmpty()) {
                 log.info("[outbox] 발행 완료. count={}/{}", published.size(), pending.size());
+            }
+        } finally {
+            if (lock.isHeldByCurrentThread()) {
+                lock.unlock();
+            }
+        }
+    }
+
+    /** PUBLISHED 보존기간(retentionDays) 초과 행 삭제. 발행 락과 별도 락 사용 — 서로 경합하지 않음. */
+    @Scheduled(fixedDelayString = "${cancel.outbox.purge-ms:86400000}")
+    public void purge() {
+        RLock lock = redissonClient.getLock(purgeLockKey);
+        try {
+            if (!lock.tryLock(0, 300, TimeUnit.SECONDS)) {
+                return;
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return;
+        }
+        try {
+            int deleted = outboxRepository.purgePublished(retentionDays);
+            if (deleted > 0) {
+                log.info("[outbox-purge] 삭제 {}건 (보존 {}일)", deleted, retentionDays);
             }
         } finally {
             if (lock.isHeldByCurrentThread()) {
