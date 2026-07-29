@@ -17,6 +17,9 @@ public interface CancelRequestJpaRepository extends JpaRepository<CancelRequestJ
 
     Optional<CancelRequestJpaEntity> findByPaymentIdAndRequestHash(Long paymentId, String requestHash);
 
+    // D-idem: dedup_key(V15 generated column, ik:/ch: prefix)로 조회. request_hash는 더 이상 유일하지 않음.
+    Optional<CancelRequestJpaEntity> findByPaymentIdAndDedupKey(Long paymentId, String dedupKey);
+
     // pending-recovery: PENDING + createdAt 기준
     List<CancelRequestJpaEntity> findByStatusAndCreatedAtBefore(CancelStatus status, LocalDateTime before);
 

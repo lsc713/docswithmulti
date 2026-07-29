@@ -152,4 +152,43 @@ class CancelRequestRepositoryImplTest extends AbstractRepositoryTest {
         assertThat(found.get().getIdempotencyKey()).isEqualTo("k1");
         assertThat(found.get().toDomain().getIdempotencyKey()).isEqualTo("k1");
     }
+
+    @Test
+    void should_find_by_payment_id_and_dedup_key_when_no_idempotency_key() {
+        // V15: idempotency_key 없는 행은 dedup_key = "ch:" + request_hash 로 생성됨.
+        Long paymentId = 10L;
+        CancelRequest request = CancelRequestFixture.pending(paymentId, BigDecimal.valueOf(10000));
+        jpaRepository.save(CancelRequestJpaEntity.from(request));
+
+        Optional<CancelRequestJpaEntity> found =
+            jpaRepository.findByPaymentIdAndDedupKey(paymentId, "ch:" + request.getRequestHash());
+
+        assertThat(found).isPresent();
+        assertThat(found.get().getPaymentId()).isEqualTo(paymentId);
+    }
+
+    @Test
+    void should_find_by_own_dedup_key_when_same_request_hash_different_idempotency_key() {
+        // request_hash가 같아도 idempotency_key가 다르면 dedup_key(uk_cancel_request_dedup)가 달라
+        // 두 행 모두 INSERT 가능해야 하고, 각자의 dedup_key로만 조회되어야 한다(교차 매치 없음).
+        Long paymentId = 11L;
+        String sharedHash = "shared_hash_11";
+        CancelRequest r1 = CancelRequest.create(
+            paymentId, sharedHash, BigDecimal.valueOf(10000), "고객 변심", List.of(110L, 111L), "k1");
+        CancelRequest r2 = CancelRequest.create(
+            paymentId, sharedHash, BigDecimal.valueOf(10000), "고객 변심", List.of(110L, 111L), "k2");
+        jpaRepository.save(CancelRequestJpaEntity.from(r1));
+        jpaRepository.save(CancelRequestJpaEntity.from(r2));
+
+        Optional<CancelRequestJpaEntity> foundK1 =
+            jpaRepository.findByPaymentIdAndDedupKey(paymentId, "ik:k1");
+        Optional<CancelRequestJpaEntity> foundK2 =
+            jpaRepository.findByPaymentIdAndDedupKey(paymentId, "ik:k2");
+
+        assertThat(foundK1).isPresent();
+        assertThat(foundK1.get().getIdempotencyKey()).isEqualTo("k1");
+        assertThat(foundK2).isPresent();
+        assertThat(foundK2.get().getIdempotencyKey()).isEqualTo("k2");
+        assertThat(foundK1.get().getId()).isNotEqualTo(foundK2.get().getId());
+    }
 }

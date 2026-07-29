@@ -43,6 +43,10 @@ public class CancelRequestJpaEntity {
     @Column(name = "idempotency_key", length = 255)
     private String idempotencyKey;
 
+    /** V15 generated column(STORED) — DB가 계산. 절대 write 금지(insertable/updatable=false). */
+    @Column(name = "dedup_key", length = 300, insertable = false, updatable = false)
+    private String dedupKey;
+
     @Column(name = "cancel_amount", nullable = false, columnDefinition = "DECIMAL(19,2)")
     private BigDecimal cancelAmount;
 
@@ -125,6 +129,7 @@ public class CancelRequestJpaEntity {
     public Long getPaymentId() { return paymentId; }
     public String getRequestHash() { return requestHash; }
     public String getIdempotencyKey() { return idempotencyKey; }
+    public String getDedupKey() { return dedupKey; }
     public BigDecimal getCancelAmount() { return cancelAmount; }
     public List<Long> getCancelItemIds() { return cancelItemIds; }
     public String getCancelReason() { return cancelReason; }
