@@ -37,7 +37,7 @@ class CreatePaymentServiceTest {
     @BeforeEach
     void setUp() {
         service = new CreatePaymentService(productStockPort, paymentCreateTxWriter,
-            stockReleaseRetryRepository, new com.fasterxml.jackson.databind.ObjectMapper());
+            stockReleaseRetryRepository);
     }
 
     @Test

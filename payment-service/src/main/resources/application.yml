@@ -87,6 +87,7 @@ scheduler:
     pending-recovery: lock:scheduler:pending-recovery
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
+    stock-release-retry: lock:scheduler:stock-release-retry
     cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
     cancel-outbox-purge: lock:scheduler:cancel-outbox-purge
 

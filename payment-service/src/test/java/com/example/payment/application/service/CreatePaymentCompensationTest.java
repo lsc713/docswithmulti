@@ -37,7 +37,7 @@ class CreatePaymentCompensationTest {
     @BeforeEach
     void setUp() {
         service = new CreatePaymentService(
-            productStockPort, paymentCreateTxWriter, stockReleaseRetryRepository, new ObjectMapper());
+            productStockPort, paymentCreateTxWriter, stockReleaseRetryRepository);
     }
 
     private CreatePaymentCommand command() {

@@ -26,10 +26,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CreatePaymentService implements CreatePaymentUseCase {
 
+    // payment-service에는 ObjectMapper 빈이 없음(LongListConverter 관행) → 내부 인스턴스 사용(스레드 안전).
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
+
     private final ProductStockPort productStockPort;
     private final PaymentCreateTxWriter paymentCreateTxWriter;
     private final StockReleaseRetryRepository stockReleaseRetryRepository;
-    private final ObjectMapper objectMapper;
 
     @Override
     public Result create(CreatePaymentCommand command) {
@@ -69,7 +71,7 @@ public class CreatePaymentService implements CreatePaymentUseCase {
 
     private String serialize(List<ProductStockPort.Item> items) {
         try {
-            return objectMapper.writeValueAsString(items);
+            return OBJECT_MAPPER.writeValueAsString(items);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("release items 직렬화 실패", e);
         }
