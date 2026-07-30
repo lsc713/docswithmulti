@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: user-service, namespace: default }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: user-service } }
+  strategy:
+    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+  template:
+    metadata: { labels: { app: user-service } }
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: user-service
+          image: camelia9999/cancel-loadtest:user-service-latest
+          imagePullPolicy: Always
+          ports: [{ containerPort: 8085 }]
+          # envFrom(app-config) 생략 — user-service는 redis/kafka 키를 안 씀. 필요한 값만 개별 주입.
+          env:
+            # 비-local 프로파일 강제: application.yml 기본 profiles.active:local을 무력화해야
+            # jwt.secret ${JWT_SECRET} fail-fast + USER_DB_URL 사용 경로가 활성(미설정 시 localhost:3315 + dev 기본키 기동).
+            - { name: SPRING_PROFILES_ACTIVE, value: "prod" }
+            # HS256 대칭키 — api-gateway와 동일 jwt-secret Secret 공유(D-P4-4). 평문 하드코딩 금지(DEPLOY-03).
+            - { name: JWT_SECRET, valueFrom: { secretKeyRef: { name: jwt-secret, key: JWT_SECRET } } }
+            # DB 자격은 app-config/db-cred 참조로만 주입(D-P4-3, payment/order.yaml DataSource 패턴 동일).
+            - { name: SPRING_DATASOURCE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: USER_DB_URL } } }
+            - { name: SPRING_DATASOURCE_USERNAME, valueFrom: { secretKeyRef: { name: db-cred, key: USER_DB_USER } } }
+            - { name: SPRING_DATASOURCE_PASSWORD, valueFrom: { secretKeyRef: { name: db-cred, key: USER_DB_PASS } } }
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: 8085 }
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8085 }
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          resources:
+            requests: { cpu: "500m", memory: "1Gi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: user-service, namespace: default }
+spec:
+  selector: { app: user-service }
+  ports: [{ port: 8085, targetPort: 8085 }]

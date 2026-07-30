@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: api-gateway, namespace: default }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: api-gateway } }
+  strategy:
+    rollingUpdate: { maxSurge: 1, maxUnavailable: 0 }
+  template:
+    metadata: { labels: { app: api-gateway } }
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: api-gateway
+          image: camelia9999/cancel-loadtest:api-gateway-latest
+          imagePullPolicy: Always
+          ports: [{ containerPort: 8000 }]
+          # 무상태 게이트웨이 — DataSource env 없음(D-P4-6).
+          env:
+            # 비-local 프로파일 강제: application.yml 기본 profiles.active:local을 무력화해야
+            # jwt.secret ${JWT_SECRET} fail-fast + downstream override 경로가 활성(미설정 시 dev 기본키 기동).
+            - { name: SPRING_PROFILES_ACTIVE, value: "prod" }
+            # HS256 대칭키 — user-service와 동일 jwt-secret Secret 공유(D-P4-4). 평문 하드코딩 금지(DEPLOY-03).
+            - { name: JWT_SECRET, valueFrom: { secretKeyRef: { name: jwt-secret, key: JWT_SECRET } } }
+            # 릴랙스드 바인딩으로 gateway.downstream.*-uri override(D-P4-6).
+            - { name: GATEWAY_DOWNSTREAM_PAYMENT_URI, value: "http://payment:8080" }
+            - { name: GATEWAY_DOWNSTREAM_USER_URI, value: "http://user-service:8085" }
+          readinessProbe:
+            httpGet: { path: /actuator/health/readiness, port: 8000 }
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          livenessProbe:
+            httpGet: { path: /actuator/health/liveness, port: 8000 }
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          resources:
+            requests: { cpu: "500m", memory: "1Gi" }
+---
+apiVersion: v1
+kind: Service
+metadata: { name: api-gateway, namespace: default }
+spec:
+  selector: { app: api-gateway }
+  ports: [{ port: 8000, targetPort: 8000 }]
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: { name: api-gateway, namespace: default }
+spec:
+  # 단일 외부 진입점(D-P4-5) — payment Ingress는 04-03에서 제거·이관.
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: { service: { name: api-gateway, port: { number: 8000 } } }

@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: api-gateway
+  profiles:
+    active: local
+  # D-P2-6 무상태: 루트 subprojects가 강제 주입한 data-jpa/mysql/flyway를 무력화.
+  # DataSource URL 없이 기동해야 하므로 관련 autoconfig 제외 (Pitfall 2).
+  # calibration knob: Boot 4.0.5에서 이 FQCN이 미해결이면(패키지 재배치) 기동이
+  # "not auto-configuration classes"로 실패 → 실제 FQCN으로 조정 (A2).
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration
+      - org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration
+      - org.springframework.boot.flyway.autoconfigure.FlywayAutoConfiguration
+
+server:
+  port: 8000
+
+jwt:
+  # 하드코딩 금지 (D-P2-4). 비-local 프로파일에서 JWT_SECRET 미주입 시 바인딩 실패(fail-fast).
+  secret: ${JWT_SECRET}
+
+# downstream URI — IT가 @DynamicPropertySource로 WireMock 포트 override.
+gateway:
+  downstream:
+    payment-uri: http://localhost:8080
+    user-uri: http://localhost:8085
+
+logging:
+  level:
+    com.example.gateway: INFO
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+jwt:
+  # HS256 대칭키 공유 — user-service local 기본값과 동일 문자열 (값 불일치 시 전면 401, Pitfall 4).
+  secret: ${JWT_SECRET:default-dev-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256}

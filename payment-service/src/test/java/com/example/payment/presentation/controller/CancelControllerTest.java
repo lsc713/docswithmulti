@@ -1,6 +1,9 @@
 package com.example.payment.presentation.controller;
 
+import com.example.payment.application.interfaces.PaymentRepository;
+import com.example.payment.application.service.CancelAuthorizationService;
 import com.example.payment.application.service.CancelPaymentCommand;
+import com.example.payment.application.usecase.CancelAuthorizationUseCase;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
 import com.example.payment.domain.entity.CancelRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +24,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -31,6 +35,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CancelControllerTest {
 
     @Mock CancelPaymentUseCase cancelPaymentUseCase;
+    // 기존 멱등성 테스트용: no-op(void) mock → 헤더 없이도 authorize 통과 (회귀 없음)
+    @Mock CancelAuthorizationUseCase cancelAuthorizationUseCase;
+    // tracer e2e 테스트용: 실제 CancelAuthorizationService 배선에 주입
+    @Mock PaymentRepository paymentRepository;
 
     MockMvc mockMvc;
     ObjectMapper objectMapper;
@@ -39,9 +47,20 @@ class CancelControllerTest {
     void setUp() {
         objectMapper = new ObjectMapper();
 
-        CancelController controller = new CancelController(cancelPaymentUseCase);
+        CancelController controller = new CancelController(cancelPaymentUseCase, cancelAuthorizationUseCase);
 
         mockMvc = MockMvcBuilders
+            .standaloneSetup(controller)
+            .setControllerAdvice(new GlobalExceptionHandler())
+            .setMessageConverters(new MappingJackson2HttpMessageConverter(objectMapper))
+            .build();
+    }
+
+    /** 실제 CancelAuthorizationService(+실제 CancelAuthorizer, mock PaymentRepository) 를 배선한 MockMvc. */
+    private MockMvc mockMvcWithRealAuthz() {
+        CancelController controller = new CancelController(
+            cancelPaymentUseCase, new CancelAuthorizationService(paymentRepository));
+        return MockMvcBuilders
             .standaloneSetup(controller)
             .setControllerAdvice(new GlobalExceptionHandler())
             .setMessageConverters(new MappingJackson2HttpMessageConverter(objectMapper))
@@ -146,5 +165,45 @@ class CancelControllerTest {
         ArgumentCaptor<CancelPaymentCommand> captor = ArgumentCaptor.forClass(CancelPaymentCommand.class);
         verify(cancelPaymentUseCase).cancel(captor.capture());
         assertThat(captor.getValue().idempotencyKey()).isNull();
+    }
+
+    @Test
+    @DisplayName("tracer: USER 역할 취소는 취소 코어 진입 전 403 + cancel never-invoked (D-P3-1, D-P3-2)")
+    void user_role_cancel_forbidden_before_core() throws Exception {
+        mockMvcWithRealAuthz().perform(post("/v1/payments/{paymentKey}/cancel", "pay_001")
+                .header("X-User-Role", "USER")
+                .header("X-User-Id", "42")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "cancelReason": "고객 변심",
+                      "cancelItems": [{"paymentItemId": 1}]
+                    }"""))
+            .andExpect(status().isForbidden());
+
+        // 무권한은 취소 플로우 진입 전에 차단 — 코어는 한 번도 호출되지 않는다
+        verify(cancelPaymentUseCase, never()).cancel(any());
+    }
+
+    @Test
+    @DisplayName("SC#1: ADMIN 취소는 인가 통과 후 기존 취소 플로우 진입 — 200 + cancel 1회 호출")
+    void admin_role_cancel_passes_through_to_core() throws Exception {
+        // ADMIN 은 payment 로드 생략(paymentRepository 미사용) 후 인가 통과 → 코어 cancel 도달
+        when(cancelPaymentUseCase.cancel(any())).thenReturn(
+            CancelRequest.create(1L, "hashAdmin", BigDecimal.valueOf(30_000), "고객 변심", List.of(1L), null));
+
+        mockMvcWithRealAuthz().perform(post("/v1/payments/{paymentKey}/cancel", "pay_001")
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "cancelReason": "고객 변심",
+                      "cancelItems": [{"paymentItemId": 1}]
+                    }"""))
+            .andExpect(status().isOk());
+
+        // 인가 통과 → 기존 취소 플로우(멱등성·TX 불변)로 진입, cancel 정확히 1회 호출
+        verify(cancelPaymentUseCase).cancel(any());
     }
 }

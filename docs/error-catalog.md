@@ -22,6 +22,7 @@
 | 상태코드 | 사용 기준 |
 |---------|---------|
 | 400 | 요청 형식/구조 오류 |
+| 401 | 인증 실패 (토큰 누락/무효/만료) — api-gateway |
 | 403 | 인가 실패 (권한 없음) |
 | 404 | 리소스 없음 |
 | 409 | 멱등 중복 요청 |
@@ -32,6 +33,18 @@
 ---
 
 ## 에러 코드 목록
+
+### 인증 오류 (401) — api-gateway
+
+게이트웨이 JWT 게이트(`JwtTrustHeaderFilter`)가 downstream 도달 **전에** 단락하는 코드.
+envelope는 `{code, message}` (user-service `GlobalExceptionHandler`와 동일 형태 — D-P2-7).
+취소 코어 서비스의 `ErrorCode` enum과는 별개(게이트웨이는 무상태 독립 모듈).
+
+| code | message | 발생 지점 · 의미 |
+|------|---------|-----------------|
+| `TOKEN_MISSING` | 인증 실패 | Authorization 헤더 누락 또는 `Bearer ` 형식 아님 |
+| `TOKEN_INVALID` | 인증 실패 | 서명 불일치 / JWT 형식 오류 / alg 혼동(none·비대칭 위장) |
+| `TOKEN_EXPIRED` | 인증 실패 | 만료(`exp` 경과) 토큰 |
 
 ### 요청 형식 오류 (400)
 

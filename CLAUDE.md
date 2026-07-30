@@ -14,6 +14,8 @@
 | `merchant-limit-service` | 가맹점별 일일 취소한도 원본 관리 | 8082 |
 | `risk-management-service` | 취소 가능 여부 검증 + 소진 한도 관리 | 8083 |
 | `product-service` | 상품/SKU/재고 관리 (미구현) | 8084 |
+| `user-service` | 회원가입/로그인/JWT 발급·갱신·무효화 (v2.0) | 8085 |
+| `api-gateway` | 단일 진입점·JWT 검증·신뢰헤더 전달 (v2.0, 무상태) | 8000 |
 
 스택: Java 21 · Spring Boot 3.x · Spring Data JPA + QueryDSL · MySQL 8.0(모듈별 독립) · Flyway · Kafka 3.x(3-broker) · Gradle · JUnit 5 + Mockito + Testcontainers
 
@@ -28,7 +30,7 @@
 @docs/db-schema.md                 DB 규칙 및 인덱스 전략
 @docs/kafka-design.md              Kafka 설계 및 운영
 @docs/architecture.md              전체 시스템 설계
-@docs/architecture/index.html      시스템 토폴로지 + 취소 플로우 시각화 (mermaid; cancel-flow·perf-anatomy(1~4막 실측)·k3s-scaleout(토폴로지·flow·검증5종) 연결)
+@docs/architecture/index.html      시스템 토폴로지 + 취소 플로우 시각화 (mermaid; auth-gateway(v2.0 인증 경계)·cancel-flow·perf-anatomy(1~4막 실측)·k3s-scaleout(토폴로지·flow·검증5종) 연결)
 @docs/contributing.md              코드 작성 기준
 @docs/agent.md                     작업 행동 규칙
 @sysdesign/cancel-design.md        취소 플로우 상세 (멱등성·TX 경계·스케줄러·Kafka)
