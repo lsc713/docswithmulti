@@ -46,7 +46,32 @@ public class CreatePaymentService implements CreatePaymentUseCase {
             .toList();
         productStockPort.reserve(paymentKey, reserveItems);
 
-        // (3) 예약 성공 후에만 payment/payment_item persist(@Transactional).
-        return paymentCreateTxWriter.persist(command, paymentKey, totalAmount);
+        // (3) 예약 성공 후 payment/payment_item persist(@Transactional).
+        //     persist 실패(TX 롤백 완료 상태) → 예약 고아 회수: release best-effort, 실패 시 재시도 적재(RSV-03, D-P2-6).
+        try {
+            return paymentCreateTxWriter.persist(command, paymentKey, totalAmount);
+        } catch (RuntimeException e) {
+            compensateReserve(paymentKey, reserveItems);
+            throw e; // 원예외 재던짐 → 결제 실패(payment 미생성). 보상은 응답을 바꾸지 않음.
+        }
+    }
+
+    /** 예약 해제 보상: release best-effort, 실패 시 stock_release_retry 적재. release는 paymentKey+sku 멱등이라 재시도 안전. */
+    private void compensateReserve(String paymentKey, List<ProductStockPort.Item> items) {
+        try {
+            productStockPort.release(paymentKey, items);
+        } catch (RuntimeException re) {
+            log.warn("[stock-release] best-effort release 실패 → 재시도 적재 paymentKey={}: {}",
+                paymentKey, re.getMessage());
+            stockReleaseRetryRepository.enqueue(paymentKey, serialize(items));
+        }
+    }
+
+    private String serialize(List<ProductStockPort.Item> items) {
+        try {
+            return objectMapper.writeValueAsString(items);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException("release items 직렬화 실패", e);
+        }
     }
 }
