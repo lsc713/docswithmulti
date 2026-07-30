@@ -18,6 +18,8 @@ data:
   RISK_DB_URL: "jdbc:mysql://10.0.1.31:3306/risk_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
   MERCHANT_DB_URL: "jdbc:mysql://10.0.1.32:3306/merchant_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
   ORDER_DB_URL: "jdbc:mysql://10.0.1.32:3307/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
+  # user_db는 payment 노드(10.0.1.30)에 스키마 추가(D-P4-3). 다른 노드 배치 시 이 host만 조정(calibration knob).
+  USER_DB_URL: "jdbc:mysql://10.0.1.30:3306/user_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"
 ---
 apiVersion: v1
 kind: Secret
@@ -32,3 +34,6 @@ stringData:
   MERCHANT_DB_PASS: "merchant"
   ORDER_DB_USER: "order_user"
   ORDER_DB_PASS: "order"
+  # user-service 전용 계정(local 기본값 user/user와 일치). db-cred는 서비스별 개별 계정.
+  USER_DB_USER: "user"
+  USER_DB_PASS: "user"
