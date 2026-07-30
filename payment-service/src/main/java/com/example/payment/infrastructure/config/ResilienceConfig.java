@@ -41,6 +41,15 @@ public class ResilienceConfig {
     }
 
     /**
+     * 생성 경로 product 재고 예약(reserve/release) 전용 CircuitBreaker.
+     * OPEN 시 CallNotPermittedException → ProductServiceException → 결제 거부(fail-closed, D-P2-2).
+     */
+    @Bean
+    public CircuitBreaker productServiceCircuitBreaker(CircuitBreakerRegistry registry) {
+        return registry.circuitBreaker("product-service");
+    }
+
+    /**
      * WR-04: 조회성 호출(isCharged) 전용 CircuitBreaker.
      * validateAndReserve/compensate(쓰기·보상)와 분리해, 조회 호출의 일시적 실패율 증가가
      * 재무적으로 더 중요한 compensate 호출까지 함께 차단하지 않도록 한다.

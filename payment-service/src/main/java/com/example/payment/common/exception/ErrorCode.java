@@ -27,8 +27,9 @@ public enum ErrorCode {
     PAYMENT_NOT_FOUND("PAYMENT_NOT_FOUND", 404, "결제 정보를 찾을 수 없습니다."),
     PAYMENT_ITEM_NOT_FOUND("PAYMENT_ITEM_NOT_FOUND", 404, "취소 항목을 찾을 수 없습니다."),
 
-    // 409 - 멱등 중복
+    // 409 - 멱등 중복 / 재고 부족
     IDEMPOTENT_DUPLICATION("IDEMPOTENT_DUPLICATION", 409, "이미 처리된 요청입니다."),
+    STOCK_INSUFFICIENT("STOCK_INSUFFICIENT", 409, "재고가 부족하여 결제를 생성할 수 없습니다."),
     IDEMPOTENCY_KEY_CONFLICT("IDEMPOTENCY_KEY_CONFLICT", 409, "이미 다른 요청에 사용된 Idempotency-Key입니다."),
 
     // 422 - 비즈니스 규칙 위반
@@ -48,7 +49,8 @@ public enum ErrorCode {
     // 503 - 외부 모듈 장애
     MERCHANT_LIMIT_SERVICE_UNAVAILABLE("MERCHANT_LIMIT_SERVICE_UNAVAILABLE", 503, "취소한도 서비스가 일시적으로 이용 불가합니다."),
     RISK_SERVICE_UNAVAILABLE("RISK_SERVICE_UNAVAILABLE", 503, "위험관리 서비스가 일시적으로 이용 불가합니다."),
-    PG_SERVICE_UNAVAILABLE("PG_SERVICE_UNAVAILABLE", 503, "PG 서비스가 일시적으로 이용 불가합니다.");
+    PG_SERVICE_UNAVAILABLE("PG_SERVICE_UNAVAILABLE", 503, "PG 서비스가 일시적으로 이용 불가합니다."),
+    PRODUCT_SERVICE_UNAVAILABLE("PRODUCT_SERVICE_UNAVAILABLE", 503, "상품 재고 서비스가 일시적으로 이용 불가합니다.");
 
     private final String code;
     private final int httpStatus;
