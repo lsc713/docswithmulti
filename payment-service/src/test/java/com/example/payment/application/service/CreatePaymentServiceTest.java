@@ -30,12 +30,14 @@ class CreatePaymentServiceTest {
 
     @Mock ProductStockPort productStockPort;
     @Mock PaymentCreateTxWriter paymentCreateTxWriter;
+    @Mock com.example.payment.application.interfaces.StockReleaseRetryRepository stockReleaseRetryRepository;
 
     private CreatePaymentService service;
 
     @BeforeEach
     void setUp() {
-        service = new CreatePaymentService(productStockPort, paymentCreateTxWriter);
+        service = new CreatePaymentService(productStockPort, paymentCreateTxWriter,
+            stockReleaseRetryRepository, new com.fasterxml.jackson.databind.ObjectMapper());
     }
 
     @Test

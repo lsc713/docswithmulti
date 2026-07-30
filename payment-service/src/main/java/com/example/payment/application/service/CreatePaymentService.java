@@ -1,9 +1,13 @@
 package com.example.payment.application.service;
 
 import com.example.payment.application.interfaces.ProductStockPort;
+import com.example.payment.application.interfaces.StockReleaseRetryRepository;
 import com.example.payment.application.usecase.CreatePaymentUseCase;
 import com.example.payment.application.usecase.CreatePaymentUseCase.Result;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -17,12 +21,15 @@ import java.util.UUID;
  * reserve 실패(재고 부족 409 / product 장애·CB OPEN)는 catch하지 않고 전파 →
  * GlobalExceptionHandler가 409/503으로 거부(fail-closed, D-P2-2). persist 미도달 → payment 행 미생성.
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CreatePaymentService implements CreatePaymentUseCase {
 
     private final ProductStockPort productStockPort;
     private final PaymentCreateTxWriter paymentCreateTxWriter;
+    private final StockReleaseRetryRepository stockReleaseRetryRepository;
+    private final ObjectMapper objectMapper;
 
     @Override
     public Result create(CreatePaymentCommand command) {
