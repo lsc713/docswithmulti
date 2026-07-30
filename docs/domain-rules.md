@@ -261,3 +261,38 @@ cancelRequestId 기준으로 cancel_usage_compensation 테이블에서 중복 �
 - CONFIRMED 이후 취소/반품 불가
 - domain 로직에서 외부 시스템 직접 호출 불가
 ```
+
+---
+
+## 8. 취소 인가 (AUTHZ-01)
+
+취소 요청은 취소 코어 진입 이전에 presentation pre-check 에서 인가한다.
+판정은 게이트웨이(Phase 2)가 검증 후 재주입한 신뢰 헤더 role 만으로 수행하며, payment 는 이를 무검증 신뢰한다.
+
+### 8-1. 판정 매트릭스 (D-P3-2)
+
+| role (X-User-Role) | 조건 | 결과 |
+|--------------------|------|------|
+| `ADMIN` | 무조건 | 전체 허용 (대상 payment 로드 생략) |
+| `MERCHANT` | `X-Merchant-Id` == `payment.merchant_id` | 허용 |
+| `MERCHANT` | 불일치 / `X-Merchant-Id` 누락·비정상 | 403 |
+| `USER` | 소유 여부 무관 | 403 (self-cancel 미허용) |
+| 누락 / 기타 | — | 403 |
+
+- 실패는 신규 에러코드 없이 기존 `FORBIDDEN_PAYMENT`(403)를 재사용한다 (D-P3-4).
+- `X-Merchant-Id` 는 문자열 헤더 → `Long` 파싱하여 `payment.merchant_id`(Long)와 비교한다.
+  파싱 실패(비숫자)·null 은 500 이 아니라 403 으로 흡수한다 (T-03-04).
+- ADMIN 만 payment 로드를 생략하고, MERCHANT 경로에서만 `findByPaymentKey` 로 대상 payment 를
+  read-only 1회 로드한다 (D-P3-5).
+
+### 8-2. 신뢰 헤더 정책 (D-P3-3, D-P3-7)
+
+- payment 는 role 을 JWT 재검증 없이 신뢰한다 — spring-security 의존을 도입하지 않는다.
+- `X-User-Id` 는 인가에 사용하지 않고 감사 로깅 전용으로만 보관한다.
+
+### 8-3. 신뢰 경계 — NetworkPolicy 배포 게이트 (D-P3-6, 필수)
+
+payment(8080)로 게이트웨이를 우회해 직접 도달하면 `X-User-Role` 헤더를 위조해 전량 취소가 가능하다.
+이 스푸핑 방어는 코드가 아니라 **k3s NetworkPolicy 로 배포 시점에 이관**한다 — payment ingress 를
+게이트웨이 파드로만 제한해야 한다. NetworkPolicy 부재 시 인가 자체가 무력화되므로 **배포 전 필수 게이트**다.
+코드는 게이트웨이 경유(신뢰 헤더 진위)를 가정한다.

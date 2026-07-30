@@ -122,6 +122,21 @@ POST /v1/payments/{paymentKey}/cancel
 같은 `Idempotency-Key`로 이전과 다른 요청 내용(`request_hash` 불일치)이 재사용되면
 새 cancel_request를 만들지 않고 409로 거부한다.
 
+### Response 403 (인가 실패)
+
+무권한 취소 요청은 취소 코어 진입 이전에 차단된다 (AUTHZ-01, domain-rules.md §8).
+신뢰 헤더 `X-User-Role` 이 `ADMIN` 이 아니고, `MERCHANT` 이면서 `X-Merchant-Id` 가
+`payment.merchant_id` 와 일치하지도 않으면(불일치·누락·비정상, USER, role 누락 포함) 403.
+에러코드는 기존 `FORBIDDEN_PAYMENT` 를 재사용한다(신규 코드 없음).
+
+```json
+{
+  "code": "FORBIDDEN_PAYMENT",
+  "message": "해당 결제에 대한 취소 권한이 없습니다.",
+  "detail": {}
+}
+```
+
 ### Response 409 (Idempotency-Key 재사용 충돌)
 
 ```json

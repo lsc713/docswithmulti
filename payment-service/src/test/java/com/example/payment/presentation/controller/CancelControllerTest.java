@@ -184,4 +184,26 @@ class CancelControllerTest {
         // 무권한은 취소 플로우 진입 전에 차단 — 코어는 한 번도 호출되지 않는다
         verify(cancelPaymentUseCase, never()).cancel(any());
     }
+
+    @Test
+    @DisplayName("SC#1: ADMIN 취소는 인가 통과 후 기존 취소 플로우 진입 — 200 + cancel 1회 호출")
+    void admin_role_cancel_passes_through_to_core() throws Exception {
+        // ADMIN 은 payment 로드 생략(paymentRepository 미사용) 후 인가 통과 → 코어 cancel 도달
+        when(cancelPaymentUseCase.cancel(any())).thenReturn(
+            CancelRequest.create(1L, "hashAdmin", BigDecimal.valueOf(30_000), "고객 변심", List.of(1L), null));
+
+        mockMvcWithRealAuthz().perform(post("/v1/payments/{paymentKey}/cancel", "pay_001")
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "cancelReason": "고객 변심",
+                      "cancelItems": [{"paymentItemId": 1}]
+                    }"""))
+            .andExpect(status().isOk());
+
+        // 인가 통과 → 기존 취소 플로우(멱등성·TX 불변)로 진입, cancel 정확히 1회 호출
+        verify(cancelPaymentUseCase).cancel(any());
+    }
 }
