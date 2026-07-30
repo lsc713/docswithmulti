@@ -3,7 +3,9 @@ spring:
     name: product-service
 
   datasource:
-    url: jdbc:mysql://localhost:3310/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    # useAffectedRows=true: INSERT..ON DUPLICATE KEY 의 winner(affected=1)/loser(0) 판별 전제 (W1 멱등 게이트).
+    # 기본 false(CLIENT_FOUND_ROWS)면 no-op 갱신도 1 반환해 판별 불가. reserve 원자 UPDATE에는 영향 없음(항상 값 변경).
+    url: jdbc:mysql://localhost:3310/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&useAffectedRows=true
     username: product
     password: product
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -22,4 +22,14 @@ public class StockReservationRepositoryImpl implements StockReservationRepositor
     public Optional<StockReservation> findByPaymentKeyAndSkuId(String paymentKey, long skuId) {
         return jpa.findByPaymentKeyAndSkuId(paymentKey, skuId).map(StockReservationJpaEntity::toDomain);
     }
+
+    @Override
+    public int upsertReserved(String paymentKey, long skuId, int qty) {
+        return jpa.upsertReserved(paymentKey, skuId, qty);
+    }
+
+    @Override
+    public int releaseIfReserved(String paymentKey, long skuId) {
+        return jpa.releaseIfReserved(paymentKey, skuId);
+    }
 }
