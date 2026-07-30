@@ -14,12 +14,13 @@ import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFuncti
 import static org.springframework.web.servlet.function.RequestPredicates.path;
 
 /**
- * 게이트웨이 라우트 (GATE-01, D-P2-5). 이 tracer는 두 경로만으로 per-route 라우팅을 증명한다:
+ * 게이트웨이 라우트 (GATE-01, D-P2-5). client-facing 서비스만 노출한다:
  * <ul>
- *   <li>payment 취소(인증 필요): /v1/payments/** → payment downstream, JwtTrustHeaderFilter 부착</li>
- *   <li>user 로그인(공개): /v1/auth/login → user downstream, JWT 필터 없음(토큰 없이 통과)</li>
+ *   <li>payment 취소(인증): /v1/payments/** → payment downstream, JwtTrustHeaderFilter 부착</li>
+ *   <li>user-service 공개(토큰 불요): /v1/auth/{signup,login,refresh} → user downstream, strip만</li>
+ *   <li>user-service 인증: /v1/auth/logout → user downstream, JwtTrustHeaderFilter 부착</li>
  * </ul>
- * order/merchant/risk 및 나머지 공개/보호 경로는 Plan 02에서 확장.
+ * order/merchant-limit/risk는 payment가 HTTP/Kafka로 부르는 <b>내부</b> 서비스 → 게이트웨이 미노출(D-P2-5).
  */
 @Configuration
 public class RouteConfig {
@@ -37,18 +38,33 @@ public class RouteConfig {
     }
 
     /**
-     * user 로그인 — 공개 라우트(토큰 불요). JWT 필터는 없지만 클라 위조 신뢰 헤더는 여기서도
-     * 무조건 strip(공개 경로도 downstream이 실수로 읽을 여지 차단 — T-02-01).
+     * user-service 공개 3경로(signup/login/refresh) — 토큰 불요. JWT 필터는 없지만 클라 위조
+     * 신뢰 헤더는 여기서도 무조건 strip(공개 경로도 downstream이 실수로 읽을 여지 차단 — T-02-01/D-P2-3).
      */
     @Bean
     RouterFunction<ServerResponse> userAuthPublicRoute(
             @Value("${gateway.downstream.user-uri}") String userUri) {
         return route("user-auth-public")
-                .route(path("/v1/auth/login"), http())
+                .route(path("/v1/auth/signup")
+                                .or(path("/v1/auth/login"))
+                                .or(path("/v1/auth/refresh")),
+                        http())
                 .before(uri(userUri))
                 .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID))
                 .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ROLE))
                 .before(removeRequestHeader(JwtTrustHeaderFilter.H_MERCHANT_ID))
+                .build();
+    }
+
+    /** user-service 인증 라우트(logout 등) — 토큰 필요. strip→verify→inject는 JwtTrustHeaderFilter가 담당. */
+    @Bean
+    RouterFunction<ServerResponse> userAuthSecuredRoute(
+            JwtTrustHeaderFilter jwt,
+            @Value("${gateway.downstream.user-uri}") String userUri) {
+        return route("user-auth-secured")
+                .route(path("/v1/auth/logout"), http())
+                .before(uri(userUri))
+                .filter(jwt)
                 .build();
     }
 }
