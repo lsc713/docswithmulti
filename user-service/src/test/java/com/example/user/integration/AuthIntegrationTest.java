@@ -127,6 +127,65 @@ class AuthIntegrationTest {
         assertThat(parse(body.accessToken()).get("role", String.class)).isEqualTo("USER");
     }
 
+    @Test
+    @DisplayName("AUTH-03: 유효 refresh→200 새 access(미회전, refreshToken=null) · 무효 refresh→401")
+    void refreshIssuesNewAccessWithoutRotationAndRejectsInvalid() throws Exception {
+        String email = "bob@example.com";
+        MockHttpServletResponse signup = send("/v1/auth/signup", """
+                {"email":"%s","password":"pw123456","name":"Bob","phone":"010-5555-6666"}""".formatted(email));
+        assertThat(signup.getStatus()).isEqualTo(200);
+        TokenResp issued = om.readValue(signup.getContentAsString(), TokenResp.class);
+        long userId = Long.parseLong(parse(issued.accessToken()).getSubject());
+
+        // 1. 유효 refresh 제출 → 200 + 새 access, refreshToken=null(미회전, D-P1-1)
+        MockHttpServletResponse refreshed = send("/v1/auth/refresh", """
+                {"refreshToken":"%s"}""".formatted(issued.refreshToken()));
+        assertThat(refreshed.getStatus()).isEqualTo(200);
+        TokenResp refreshBody = om.readValue(refreshed.getContentAsString(), TokenResp.class);
+        assertThat(refreshBody.accessToken()).isNotBlank();
+        assertThat(refreshBody.refreshToken()).isNull(); // 미회전 — 새 refresh 미발급
+        assertThat(parse(refreshBody.accessToken()).getSubject()).isEqualTo(String.valueOf(userId));
+
+        // 미회전 확인 — refresh_tokens 행은 여전히 1개(원래 발급분 그대로)
+        Integer count = jdbc.queryForObject(
+                "SELECT COUNT(*) FROM refresh_tokens WHERE user_id = ?", Integer.class, userId);
+        assertThat(count).isEqualTo(1);
+
+        // 2. 조작/미존재 refresh → 401(InvalidToken). (만료 케이스는 AuthServiceTest 단위가 커버)
+        MockHttpServletResponse invalid = send("/v1/auth/refresh", """
+                {"refreshToken":"00000000-0000-0000-0000-000000000000"}""");
+        assertThat(invalid.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    @DisplayName("AUTH-04: Bearer access로 logout→200 refresh 하드삭제 · 그 refresh로 재갱신→401")
+    void logoutHardDeletesRefreshAndBlocksSubsequentRefresh() throws Exception {
+        String email = "carol@example.com";
+        send("/v1/auth/signup", """
+                {"email":"%s","password":"pw123456","name":"Carol","phone":"010-7777-8888"}""".formatted(email));
+        MockHttpServletResponse login = send("/v1/auth/login", """
+                {"email":"%s","password":"pw123456"}""".formatted(email));
+        assertThat(login.getStatus()).isEqualTo(200);
+        TokenResp session = om.readValue(login.getContentAsString(), TokenResp.class);
+        long userId = Long.parseLong(parse(session.accessToken()).getSubject());
+
+        // 3. Bearer access로 logout → 200 (JwtAuthenticationFilter가 principal=userId 세팅 → authenticated 통과)
+        MockHttpServletResponse logout = mockMvc.perform(post("/v1/auth/logout")
+                        .header("Authorization", "Bearer " + session.accessToken()))
+                .andReturn().getResponse();
+        assertThat(logout.getStatus()).isEqualTo(200);
+
+        // logout 직후 해당 user의 refresh_tokens 행 0개(하드 DELETE)
+        Integer count = jdbc.queryForObject(
+                "SELECT COUNT(*) FROM refresh_tokens WHERE user_id = ?", Integer.class, userId);
+        assertThat(count).isZero();
+
+        // 4. 삭제된 refresh로 재갱신 → 401 (AUTH-04 무효화 최종 관측)
+        MockHttpServletResponse reRefresh = send("/v1/auth/refresh", """
+                {"refreshToken":"%s"}""".formatted(session.refreshToken()));
+        assertThat(reRefresh.getStatus()).isEqualTo(401);
+    }
+
     private MockHttpServletResponse send(String path, String body) throws Exception {
         return mockMvc.perform(post(path)
                         .contentType(MediaType.APPLICATION_JSON)
