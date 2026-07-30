@@ -44,6 +44,12 @@ public class PaymentItemJpaEntity {
     @Column(name = "item_amount", nullable = false, columnDefinition = "DECIMAL(19,2)")
     private BigDecimal itemAmount;
 
+    @Column(name = "sku_id")
+    private Long skuId;
+
+    @Column(name = "quantity", nullable = false)
+    private int quantity;
+
     @Column(name = "status", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)
     private PaymentItemStatus status;
@@ -65,6 +71,8 @@ public class PaymentItemJpaEntity {
         e.productAutoId = item.getProductAutoId();
         e.itemName = item.getItemName();
         e.itemAmount = item.getItemAmount();
+        e.skuId = item.getSkuId();
+        e.quantity = item.getQuantity();
         e.status = item.getStatus();
         e.createdAt = LocalDateTime.now();
         e.updatedAt = LocalDateTime.now();
@@ -74,7 +82,7 @@ public class PaymentItemJpaEntity {
     public PaymentItem toDomain() {
         return PaymentItem.reconstruct(
             id, paymentId, orderItemId, productId, productAutoId,
-            itemName, itemAmount, status
+            itemName, itemAmount, skuId, quantity, status
         );
     }
 
@@ -82,6 +90,8 @@ public class PaymentItemJpaEntity {
     public void setId(Long id) { this.id = id; }
     public Long getPaymentId() { return paymentId; }
     public Long getOrderItemId() { return orderItemId; }
+    public Long getSkuId() { return skuId; }
+    public int getQuantity() { return quantity; }
     public PaymentItemStatus getStatus() { return status; }
     public void setStatus(PaymentItemStatus status) { this.status = status; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }

@@ -34,7 +34,9 @@ public class PaymentController {
                     item.orderItemId(),
                     item.productId(),
                     item.itemName(),
-                    item.itemAmount()
+                    item.itemAmount(),
+                    item.skuId(),
+                    item.quantity()
                 ))
                 .toList()
         );

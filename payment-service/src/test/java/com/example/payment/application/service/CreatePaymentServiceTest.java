@@ -42,8 +42,8 @@ class CreatePaymentServiceTest {
         CreatePaymentCommand command = new CreatePaymentCommand(
             1L, 100L, "TOSS", 90,
             List.of(
-                new CreatePaymentCommand.Item(10L, 200L, "상품A", BigDecimal.valueOf(30_000)),
-                new CreatePaymentCommand.Item(11L, 201L, "상품B", BigDecimal.valueOf(70_000))
+                new CreatePaymentCommand.Item(10L, 200L, "상품A", BigDecimal.valueOf(30_000), 500L, 1),
+                new CreatePaymentCommand.Item(11L, 201L, "상품B", BigDecimal.valueOf(70_000), 501L, 1)
             )
         );
 
@@ -77,7 +77,7 @@ class CreatePaymentServiceTest {
     void shouldCreatePaymentWithSingleItem() {
         CreatePaymentCommand command = new CreatePaymentCommand(
             2L, 200L, "KG", 30,
-            List.of(new CreatePaymentCommand.Item(20L, 300L, "상품C", BigDecimal.valueOf(50_000)))
+            List.of(new CreatePaymentCommand.Item(20L, 300L, "상품C", BigDecimal.valueOf(50_000), 502L, 1))
         );
 
         Payment savedPayment = Payment.reconstruct(
