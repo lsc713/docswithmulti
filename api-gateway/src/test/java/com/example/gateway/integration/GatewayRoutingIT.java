@@ -21,6 +21,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.absent;
 import static com.github.tomakehurst.wiremock.client.WireMock.anyRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.anyUrl;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
@@ -44,6 +45,9 @@ class GatewayRoutingIT {
     // user-service local 프로파일 기본 secret과 동일 문자열 (HS256 대칭키 공유 — Pitfall 4)
     private static final String SECRET =
             "default-dev-secret-key-must-be-at-least-256-bits-long-for-hmac-sha256";
+    // 게이트웨이가 모르는 다른 secret — 서명 불일치(TOKEN_INVALID) 케이스용 (>=256bit)
+    private static final String WRONG_SECRET =
+            "totally-different-attacker-secret-key-also-at-least-256-bits-long-xx";
 
     static final WireMockServer paymentDownstream = new WireMockServer(options().dynamicPort());
     static final WireMockServer userDownstream = new WireMockServer(options().dynamicPort());
@@ -117,6 +121,111 @@ class GatewayRoutingIT {
         paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
+    // === GATE-03: 누락/무효/만료 토큰 → downstream 도달 전 401, downstream 무호출 ===
+
+    @Test
+    void missingToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void invalidSignature_returns401_downstreamNotCalled() throws Exception {
+        String forged = signedToken(WRONG_SECRET, 42L, "USER", -1_000L, 3_600_000L);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                        .header("Authorization", "Bearer " + forged)
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_INVALID");
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void expiredToken_returns401_downstreamNotCalled() throws Exception {
+        // issuedAt/expiration 모두 과거로 설정 → jjwt parseSignedClaims가 만료 자동 거부
+        String expired = signedToken(SECRET, 42L, "USER", -7_200_000L, -3_600_000L);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                        .header("Authorization", "Bearer " + expired)
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_EXPIRED");
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    // === D-P2-3: 유효 JWT + 클라 위조 X-User-* 동시 전송 → 게이트웨이 검증값만 downstream 도달 ===
+
+    @Test
+    void validJwt_spoofedTrustHeaders_downstreamReceivesGatewayIdentityOnly() throws Exception {
+        paymentDownstream.stubFor(post(urlPathMatching("/v1/payments/.*/cancel"))
+                .willReturn(aResponse().withStatus(200)));
+
+        String token = accessToken(42L, "USER", 7L);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK9/cancel")))
+                        .header("Authorization", "Bearer " + token)
+                        .header(JwtTrustHeaderFilter.H_USER_ID, "9999")     // 위조
+                        .header(JwtTrustHeaderFilter.H_USER_ROLE, "ADMIN")  // 인가 우회 시도
+                        .header(JwtTrustHeaderFilter.H_MERCHANT_ID, "1")    // 위조
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        // 위조 9999/ADMIN/1 이 아닌 게이트웨이 검증값 42/USER/7 만 도달해야 함
+        paymentDownstream.verify(postRequestedFor(urlPathMatching("/v1/payments/.*/cancel"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ID, equalTo("42"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("USER"))
+                .withHeader(JwtTrustHeaderFilter.H_MERCHANT_ID, equalTo("7")));
+    }
+
+    // === D-P2-5: 공개 경로 토큰없이 통과(+strip) / 인증 경로 토큰없으면 401 ===
+
+    @Test
+    void publicSignupPath_noToken_passesThrough_stripsSpoofedHeaders() throws Exception {
+        userDownstream.stubFor(post(urlPathEqualTo("/v1/auth/signup"))
+                .willReturn(aResponse().withStatus(200)));
+
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/signup")))
+                        .header(JwtTrustHeaderFilter.H_USER_ROLE, "ADMIN") // 공개 경로에도 strip 되어야 함
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        userDownstream.verify(postRequestedFor(urlPathEqualTo("/v1/auth/signup"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, absent()));
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void securedLogoutPath_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/logout")))
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
     private String gateway(String path) {
         return "http://localhost:" + gatewayPort + path;
     }
@@ -133,5 +242,19 @@ class GatewayRoutingIT {
             builder.claim("merchantId", merchantId);
         }
         return builder.signWith(key).compact();
+    }
+
+    /** iat/exp 를 now 기준 오프셋(ms)으로 설정해 만료·무효 서명 토큰을 생성. */
+    private static String signedToken(String secret, long userId, String role,
+                                      long iatOffsetMs, long expOffsetMs) {
+        SecretKey key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        long now = System.currentTimeMillis();
+        return Jwts.builder()
+                .subject(String.valueOf(userId))
+                .claim("role", role)
+                .issuedAt(new Date(now + iatOffsetMs))
+                .expiration(new Date(now + expOffsetMs))
+                .signWith(key)
+                .compact();
     }
 }
