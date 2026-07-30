@@ -1,6 +1,8 @@
 package com.example.payment.presentation.controller;
 
+import com.example.payment.application.authz.AuthenticatedUser;
 import com.example.payment.application.service.CancelPaymentCommand;
+import com.example.payment.application.usecase.CancelAuthorizationUseCase;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
 import com.example.payment.domain.entity.CancelRequest;
 import com.example.payment.presentation.dto.CancelPaymentRequest;
@@ -22,13 +24,21 @@ public class CancelController {
     private static final int IDEMPOTENCY_KEY_MAX_LENGTH = 255;
 
     private final CancelPaymentUseCase cancelPaymentUseCase;
+    private final CancelAuthorizationUseCase cancelAuthorizationUseCase;
 
     @PostMapping("/{paymentKey}/cancel")
     public ResponseEntity<CancelPaymentResponse> cancel(
         @PathVariable String paymentKey,
         @RequestBody @Valid CancelPaymentRequest request,
-        @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey
+        @RequestHeader(value = "Idempotency-Key", required = false) String idempotencyKey,
+        @RequestHeader(value = "X-User-Role", required = false) String role,
+        @RequestHeader(value = "X-User-Id", required = false) String userId,
+        @RequestHeader(value = "X-Merchant-Id", required = false) String merchantId
     ) {
+        // 취소 코어 호출 이전 read-only 인가 pre-check (D-P3-1). 실패 시 403 전파(GlobalExceptionHandler).
+        AuthenticatedUser user = new AuthenticatedUser(userId, role, merchantId);
+        cancelAuthorizationUseCase.authorize(user, paymentKey);
+
         List<Long> itemIds = request.cancelItems().stream()
             .map(item -> item.paymentItemId())
             .toList();
