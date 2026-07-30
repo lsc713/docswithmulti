@@ -55,14 +55,4 @@ metadata: { name: payment, namespace: default }
 spec:
   selector: { app: payment }
   ports: [{ port: 8080, targetPort: 8080 }]
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata: { name: payment, namespace: default }
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend: { service: { name: payment, port: { number: 8080 } } }
+# Ingress 제거 → api-gateway Ingress(04-01)로 진입점 이관, gateway 단일 외부 진입점(D-P4-5, T-04-08).
