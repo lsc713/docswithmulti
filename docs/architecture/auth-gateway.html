@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>인증 경계 (API Gateway + user-service) – Architecture</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      .note { font-size: 0.85rem; color: #444; background: #fff7ed; border-left: 3px solid #f59e0b; padding: 0.6rem 0.9rem; border-radius: 4px; margin: 0.8rem 0; }
+      .note.sec { background: #fef2f2; border-left-color: #ef4444; }
+    </style>
+  </head>
+  <body>
+    <h1>인증 경계 — API Gateway + user-service (v2.0)</h1>
+    <p class="meta">Generated 2026-07-30 · source: <code>api-gateway (:8000), user-service (:8085), payment-service 인가 pre-check</code> · milestone v2.0 (auth-gateway 워크스트림). 취소 코어 4개 서비스는 <strong>불변</strong>.</p>
+    <nav>← <a href="./index.html">시스템 아키텍처 개요</a> · <a href="./cancel-flow.html">취소 플로우 상세 →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
+
+    <p class="legend">
+      기존 취소 코어(payment/risk/merchant-limit/order) 앞단에 <strong>인증 경계</strong>를 얹었다.
+      게이트웨이가 JWT를 <strong>단일 지점에서 검증</strong>하고 검증된 신원을 신뢰 헤더로 downstream에 넘기면,
+      각 서비스는 재검증 없이 그 헤더만 신뢰한다. 취소 로직(멱등성·TX 경계·스케줄러)은 한 줄도 바뀌지 않았다.
+    </p>
+
+    <h2>1. 인증 경계 토폴로지 — 기존 코어를 감싸는 게이트웨이</h2>
+    <p class="legend">
+      <span style="color:#c026d3">보라</span> 게이트웨이(무상태) ·
+      <span style="color:#16a34a">초록</span> 신규 서비스 ·
+      <span style="color:#3b82f6">파랑</span> 기존 취소 코어(불변) ·
+      실선 = 동기 HTTP · 점선 = 기존 Kafka 흐름. 게이트웨이는 user·payment만 노출(내부 3서비스는 미노출).
+    </p>
+    <div class="mermaid">
+graph LR
+  classDef gw fill:#fae8ff,stroke:#c026d3,color:#701a75;
+  classDef newsvc fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+
+  C(["클라이언트"])
+  GW["api-gateway :8000<br/>JWT 검증 · X-User-* strip · 라우팅"]:::gw
+  USER["user-service :8085<br/>회원가입 · 로그인 · 토큰"]:::newsvc
+  UDB[("user_db :3315")]:::db
+
+  subgraph core["기존 취소 코어 (v1, 불변)"]
+    P["payment :8080"]:::svc
+    R["risk :8083"]:::svc
+    M["merchant-limit :8082"]:::svc
+    O["order :8081"]:::svc
+  end
+  K{{"Kafka"}}:::infra
+
+  C -->|"Bearer JWT"| GW
+  GW -->|"/v1/auth/** (공개: signup·login·refresh)"| USER
+  GW -->|"/v1/auth/logout (인증)"| USER
+  GW -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| P
+  USER --- UDB
+
+  P -->|"기존 HTTP (변경 없음)"| R
+  R -->|"기존 HTTP"| M
+  P -.->|"payment.cancelled (OUTBOX)"| K
+  K -.-> O
+    </div>
+    <p class="note sec">
+      <strong>보안 경계:</strong> payment는 <code>X-User-Role</code>을 <em>재검증 없이</em> 신뢰한다 —
+      게이트웨이가 클라이언트발 <code>X-User-*</code>를 전 경로에서 strip 후 재설정하기 때문. 단 payment(:8080)에
+      직접 도달하면 헤더 위조가 가능하므로, <strong>k3s NetworkPolicy로 payment ingress를 게이트웨이 파드로만 제한</strong>하는
+      것이 배포 전 필수 게이트다(domain-rules.md §8-3). 없으면 인가 전체가 무력화된다.
+    </p>
+
+    <h2>2. 인증 시퀀스 — 발급(공개) → 검증(게이트) → 신뢰헤더 전달</h2>
+    <p class="legend">
+      로그인은 토큰 없이 통과(공개 경로), 취소는 Bearer JWT 필요. 게이트웨이가 검증·strip·주입을 한 곳에서 처리한다.
+    </p>
+    <div class="mermaid">
+sequenceDiagram
+  autonumber
+  participant C as 클라이언트
+  participant GW as api-gateway
+  participant U as user-service
+  participant P as payment (인가 pre-check)
+  Note over C,U: 발급 — 공개 경로 (JWT 필터 없음)
+  C->>GW: POST /v1/auth/login (email, pw)
+  GW->>U: 라우팅 (검증 스킵)
+  U-->>C: access(JWT HS256, 1h) + refresh(opaque, 7d)
+  Note over C,P: 취소 — 인증 경로
+  C->>GW: POST /v1/payments/{key}/cancel + Bearer
+  GW->>GW: 클라 X-User-* strip
+  alt 유효 JWT
+    GW->>GW: HS256 검증 → 신원 추출
+    GW->>P: 취소 + X-User-Id/Role/Merchant-Id (신뢰)
+    P->>P: 인가 pre-check (role)
+    P-->>C: 취소 진행 (기존 플로우) / 403
+  else 무효·만료·누락
+    GW-->>C: 401 (downstream 미도달)
+  end
+    </div>
+    <p class="note">
+      <strong>refresh 미회전:</strong> access 만료 시 <code>/v1/auth/refresh</code>로 새 access만 발급(refresh 재사용).
+      <strong>logout:</strong> refresh를 DB에서 하드 DELETE → 이후 갱신 불가. JWT_SECRET은 user-service·gateway가
+      <strong>공유</strong>(env 주입, 비-local 미주입 시 fail-fast).
+    </p>
+
+    <h2>3. 기존 취소 코어와의 연결 — 인증 경계가 앞단에 얹힘</h2>
+    <p class="legend">
+      새 인증 계층이 기존 취소 라운드트립을 <strong>감싸는</strong> 방식. 게이트웨이 401 / payment 403에서 걸러진
+      요청만 기존 코어(TX1→TX2→TX3)에 도달한다 — 코어는 그대로다.
+    </p>
+    <div class="mermaid">
+flowchart LR
+  classDef gw fill:#fae8ff,stroke:#c026d3,color:#701a75;
+  classDef stop fill:#fee2e2,stroke:#ef4444,color:#7f1d1d;
+  classDef core fill:#eff6ff,stroke:#3b82f6,color:#1e3a5f,stroke-dasharray:5 3;
+
+  C(["클라이언트"]) -->|"Bearer JWT"| GW["api-gateway<br/>검증·strip·주입"]:::gw
+  GW -->|"무효·만료·누락"| X401(["401 차단<br/>(downstream 미도달)"]):::stop
+  GW -->|"유효 → 신뢰헤더 주입"| PRE{"payment 인가 pre-check<br/>ADMIN · MERCHANT match?"}
+  PRE -->|"권한 없음"| X403(["403 FORBIDDEN_PAYMENT<br/>(취소 진입 전)"]):::stop
+  PRE -->|"허용"| CORE["기존 취소 코어 (불변)<br/>TX1 PENDING → TX2 PROCESSING<br/>→ TX3 item+payment+COMPLETED + outbox"]:::core
+  CORE -->|"상세 TX 경계·복구"| LINK["cancel-flow.html"]:::core
+    </div>
+    <p class="note">
+      <strong>왜 pre-check인가:</strong> 인가는 <code>CancelController</code>에서 <code>cancelPaymentUseCase.cancel()</code>
+      <em>호출 이전</em>에 던진다. 취소 코어(<code>CancelPaymentService</code>·<code>CancelTxWriter</code>·스케줄러 3종·outbox)는
+      byte-for-byte 무변경 — <code>git diff</code>(merge-base 기준)로 코어 파일 부재를 CI 게이트로 강제한다.
+    </p>
+
+    <h2>4. payment 인가 판정 — role 매트릭스</h2>
+    <p class="legend">신뢰 헤더의 role만으로 판정. payment는 user와 미연결이라 소유권은 merchant_id로 근사한다.</p>
+    <div class="mermaid">
+flowchart TD
+  classDef ok fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef no fill:#fee2e2,stroke:#ef4444,color:#7f1d1d;
+
+  S(["신뢰헤더 X-User-Role"]) --> Q1{"role?"}
+  Q1 -->|"ADMIN"| OK(["취소 진행 → 기존 플로우"]):::ok
+  Q1 -->|"MERCHANT"| Q2{"X-Merchant-Id ==<br/>payment.merchantId?"}
+  Q1 -->|"USER · 누락"| NO(["403 FORBIDDEN_PAYMENT"]):::no
+  Q2 -->|"일치"| OK
+  Q2 -->|"불일치 · 파싱 실패"| NO
+    </div>
+    <p class="note">
+      ADMIN은 전체 취소 허용(payment 조회 불요). MERCHANT는 대상 <code>payment.merchantId</code>를 read-only 1회 조회해
+      본인 가맹점만 허용. <code>X-User-Id</code>는 인가에 미사용(감사 로깅용). 판정 로직은 domain 순수 POJO(<code>CancelAuthorizer</code>).
+    </p>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>
