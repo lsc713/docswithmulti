@@ -20,4 +20,9 @@ public class ProductStockRepositoryImpl implements ProductStockRepository {
     public int tryReserve(long skuId, int qty) {
         return jpa.tryReserve(skuId, qty);
     }
+
+    @Override
+    public int restore(long skuId, int qty) {
+        return jpa.restore(skuId, qty);
+    }
 }

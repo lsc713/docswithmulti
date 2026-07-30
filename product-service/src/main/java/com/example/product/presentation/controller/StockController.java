@@ -2,6 +2,8 @@ package com.example.product.presentation.controller;
 
 import com.example.product.application.service.StockService;
 import com.example.product.application.service.StockService.ReserveItem;
+import com.example.product.presentation.dto.ReleaseRequest;
+import com.example.product.presentation.dto.ReleaseResponse;
 import com.example.product.presentation.dto.ReserveRequest;
 import com.example.product.presentation.dto.ReserveResponse;
 import jakarta.validation.Valid;
@@ -27,5 +29,14 @@ public class StockController {
                 .toList();
         stockService.reserve(req.paymentKey(), items);
         return ReserveResponse.ok();
+    }
+
+    @PostMapping("/release")
+    public ReleaseResponse release(@Valid @RequestBody ReleaseRequest req) {
+        var items = req.items().stream()
+                .map(i -> new ReserveItem(i.skuId(), i.qty()))
+                .toList();
+        stockService.release(req.paymentKey(), items);
+        return ReleaseResponse.ok();
     }
 }

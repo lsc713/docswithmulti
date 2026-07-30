@@ -51,4 +51,16 @@ public class StockService {
             }
         }
     }
+
+    @Transactional
+    public void release(String paymentKey, List<ReserveItem> items) {
+        for (ReserveItem item : items) {
+            // W2: 조건부 상태전이가 재고 복원의 유일 트리거 → affected=1일 때만 복원(over-release 불가).
+            int transitioned = reservationRepository.releaseIfReserved(paymentKey, item.skuId());
+            if (transitioned == 1) {
+                stockRepository.restore(item.skuId(), item.qty());
+            }
+            // transitioned=0: 이미 RELEASED/미존재 → no-op
+        }
+    }
 }
