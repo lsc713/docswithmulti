@@ -25,6 +25,8 @@ gateway:
   downstream:
     payment-uri: http://localhost:8080
     user-uri: http://localhost:8085
+  cors:
+    allowed-origins: "http://localhost:5173"
 
 logging:
   level:
