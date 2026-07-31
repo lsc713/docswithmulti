@@ -3,11 +3,26 @@ package com.example.product.infrastructure.persistence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface StockReservationJpaRepository extends JpaRepository<StockReservationJpaEntity, Long> {
     Optional<StockReservationJpaEntity> findByPaymentKeyAndSkuId(String paymentKey, long skuId);
+
+    /**
+     * orphan 스캔 (RST-03): status='RESERVED' AND created_at &lt; threshold, idx_reservation_status_created 활용.
+     * created_at 오름차순 LIMIT 500 배치 — 오래된 것부터 정리, 한 주기 처리량 상한.
+     */
+    @Query(value = """
+        SELECT * FROM stock_reservation
+         WHERE status = 'RESERVED' AND created_at < :threshold
+         ORDER BY created_at ASC
+         LIMIT 500
+        """, nativeQuery = true)
+    List<StockReservationJpaEntity> findStaleReserved(@Param("threshold") LocalDateTime threshold);
 
     /**
      * 멱등 예약 게이트 (W1, D-P1-4, risk ensureRow 미러).

@@ -3,6 +3,10 @@ package com.example.product.infrastructure.persistence;
 import com.example.product.application.interfaces.StockReservationRepository;
 import com.example.product.domain.entity.StockReservation;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Optional;
 
 public class StockReservationRepositoryImpl implements StockReservationRepository {
@@ -21,6 +25,12 @@ public class StockReservationRepositoryImpl implements StockReservationRepositor
     @Override
     public Optional<StockReservation> findByPaymentKeyAndSkuId(String paymentKey, long skuId) {
         return jpa.findByPaymentKeyAndSkuId(paymentKey, skuId).map(StockReservationJpaEntity::toDomain);
+    }
+
+    @Override
+    public List<StockReservation> findStaleReserved(Instant threshold) {
+        LocalDateTime ldt = LocalDateTime.ofInstant(threshold, ZoneOffset.UTC);
+        return jpa.findStaleReserved(ldt).stream().map(StockReservationJpaEntity::toDomain).toList();
     }
 
     @Override

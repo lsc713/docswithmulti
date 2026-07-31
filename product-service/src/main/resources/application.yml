@@ -36,6 +36,11 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
   profiles:
     active: local
 
@@ -44,6 +49,17 @@ kafka:
     payment-cancelled: payment.cancelled
     payment-cancelled-retry: payment.cancelled.retry
     payment-cancelled-dlq: payment.cancelled.DLQ
+
+external:
+  payment-service:
+    url: ${PAYMENT_SERVICE_URL:http://localhost:8080}
+
+scheduler:
+  lock:
+    orphan-recovery: lock:scheduler:orphan-reservation-recovery
+
+orphan:
+  threshold-minutes: 5
 
 server:
   port: 8084
