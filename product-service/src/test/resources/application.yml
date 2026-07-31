@@ -1,0 +1,65 @@
+spring:
+  application:
+    name: product-service
+
+  # orphan 스케줄러가 의존하는 Redisson/Redis 실연결을 테스트에서 배제.
+  # RedissonClient 빈은 TestRedissonConfig(mock)로 대체 — 실 Redis 없이 컨텍스트 기동.
+  autoconfigure:
+    exclude:
+      - org.redisson.spring.starter.RedissonAutoConfigurationV4
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
+
+  datasource:
+    # 각 통합테스트가 @DynamicPropertySource 로 Testcontainers url/user/pw 를 덮어씀.
+    url: jdbc:mysql://localhost:3310/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&useAffectedRows=true
+    username: product
+    password: product
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      initialization-fail-timeout: -1
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: product-service
+      retry-group-id: product-service-retry
+    producer:
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+kafka:
+  topic:
+    payment-cancelled: payment.cancelled
+    payment-cancelled-retry: payment.cancelled.retry
+    payment-cancelled-dlq: payment.cancelled.DLQ
+
+external:
+  payment-service:
+    url: http://localhost:8080
+
+scheduler:
+  lock:
+    orphan-recovery: lock:scheduler:orphan-reservation-recovery
+
+orphan:
+  threshold-minutes: 5
+
+logging:
+  level:
+    com.example.product: INFO
