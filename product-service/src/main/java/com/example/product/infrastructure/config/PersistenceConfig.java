@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Configuration
 @EnableTransactionManagement
@@ -22,6 +23,11 @@ public class PersistenceConfig {
     @Bean
     public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
         return new JpaTransactionManager(emf);
+    }
+
+    @Bean
+    public TransactionTemplate transactionTemplate(PlatformTransactionManager transactionManager) {
+        return new TransactionTemplate(transactionManager);
     }
 
     @Bean
