@@ -1,5 +1,6 @@
 package com.example.payment.application.service;
 
+import com.example.payment.application.interfaces.OrderVerifyPort;
 import com.example.payment.application.interfaces.ProductStockPort;
 import com.example.payment.application.interfaces.StockReleaseRetryRepository;
 import com.example.payment.application.usecase.CreatePaymentUseCase;
@@ -17,7 +18,10 @@ import java.util.UUID;
 /**
  * 결제 생성 비-TX 오케스트레이터 (D-P2-1, 취소 플로우 오케스트레이션과 동형).
  *
- * 순서: paymentKey 생성 → product.reserve(HTTP, TX 밖) → PaymentCreateTxWriter.persist(@Transactional).
+ * 순서: order 검증(HTTP, 부작용 없음, PLINK-03) → paymentKey 생성 → product.reserve(HTTP, TX 밖)
+ * → PaymentCreateTxWriter.persist(@Transactional, orderId 포함).
+ * order 검증 실패(404/409/403 거부 또는 장애·CB OPEN)는 catch하지 않고 전파 →
+ * GlobalExceptionHandler가 403/404/409/503으로 거부(fail-closed, PLINK-01) — reserve·persist 미도달(보상 불필요).
  * reserve 실패(재고 부족 409 / product 장애·CB OPEN)는 catch하지 않고 전파 →
  * GlobalExceptionHandler가 409/503으로 거부(fail-closed, D-P2-2). persist 미도달 → payment 행 미생성.
  */
@@ -29,6 +33,7 @@ public class CreatePaymentService implements CreatePaymentUseCase {
     // payment-service에는 ObjectMapper 빈이 없음(LongListConverter 관행) → 내부 인스턴스 사용(스레드 안전).
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    private final OrderVerifyPort orderVerifyPort;
     private final ProductStockPort productStockPort;
     private final PaymentCreateTxWriter paymentCreateTxWriter;
     private final StockReleaseRetryRepository stockReleaseRetryRepository;
@@ -39,6 +44,12 @@ public class CreatePaymentService implements CreatePaymentUseCase {
             .map(CreatePaymentCommand.Item::itemAmount)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+        // (0) order 검증 최전방(부작용 전, PLINK-03) — 실패 시 reserve·persist 미호출(보상 불필요).
+        List<Long> orderItemIds = command.items().stream()
+            .map(CreatePaymentCommand.Item::orderItemId)
+            .toList();
+        long orderId = orderVerifyPort.verify(command.userId(), orderItemIds);
+
         // (1) paymentKey는 reserve 호출 전에 확정 → reserve의 멱등 키로 전달(커밋 이전 확정, TX 밖).
         String paymentKey = "pay_" + UUID.randomUUID().toString().replace("-", "").substring(0, 20);
 
@@ -48,10 +59,10 @@ public class CreatePaymentService implements CreatePaymentUseCase {
             .toList();
         productStockPort.reserve(paymentKey, reserveItems);
 
-        // (3) 예약 성공 후 payment/payment_item persist(@Transactional).
+        // (3) 예약 성공 후 payment/payment_item persist(@Transactional, orderId 포함).
         //     persist 실패(TX 롤백 완료 상태) → 예약 고아 회수: release best-effort, 실패 시 재시도 적재(RSV-03, D-P2-6).
         try {
-            return paymentCreateTxWriter.persist(command, paymentKey, totalAmount);
+            return paymentCreateTxWriter.persist(command, paymentKey, totalAmount, orderId);
         } catch (RuntimeException e) {
             compensateReserve(paymentKey, reserveItems);
             throw e; // 원예외 재던짐 → 결제 실패(payment 미생성). 보상은 응답을 바꾸지 않음.

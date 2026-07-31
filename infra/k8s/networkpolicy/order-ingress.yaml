@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata: { name: order-allow-gateway, namespace: default }
+spec:
+  # 대상: order 파드. api-gateway 파드만 order:8081 인그레스 허용 → 그 외 파드의
+  # 직접 도달(신뢰 헤더 X-User-Id 스푸핑 벡터) 차단(GW-02, T-01-01, order-link 설계 §5).
+  # k3s 기본 flannel + 내장 NetworkPolicy controller가 실제 강제.
+  # egress 미지정 — default-deny 미도입이므로 gateway→order egress는 이미 허용(최소 정책).
+  podSelector: { matchLabels: { app: order } }
+  policyTypes: [Ingress]
+  ingress:
+    - from:
+        - podSelector: { matchLabels: { app: api-gateway } }
+      ports:
+        - { protocol: TCP, port: 8081 }

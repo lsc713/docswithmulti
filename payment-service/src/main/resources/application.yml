@@ -58,6 +58,9 @@ external:
   product-service:
 #    url: http://product-service:8084   # 컨테이너 호스트 대안
     url: http://localhost:8084
+  order-service:
+#    url: http://order-service:8081     # 컨테이너 호스트 대안
+    url: http://localhost:8081
 
 logging:
   level:

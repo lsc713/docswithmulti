@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record CreateOrderRequest(
-    @Positive long userId,
     @NotEmpty @Valid List<Item> items
 ) {
     public record Item(

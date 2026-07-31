@@ -22,15 +22,18 @@ public enum ErrorCode {
 
     // 403 - 인가 오류
     FORBIDDEN_PAYMENT("FORBIDDEN_PAYMENT", 403, "해당 결제에 대한 취소 권한이 없습니다."),
+    ORDER_OWNERSHIP_MISMATCH("ORDER_OWNERSHIP_MISMATCH", 403, "해당 주문에 대한 권한이 없습니다."),
 
     // 404 - 리소스 없음
     PAYMENT_NOT_FOUND("PAYMENT_NOT_FOUND", 404, "결제 정보를 찾을 수 없습니다."),
     PAYMENT_ITEM_NOT_FOUND("PAYMENT_ITEM_NOT_FOUND", 404, "취소 항목을 찾을 수 없습니다."),
+    ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", 404, "주문 항목을 찾을 수 없습니다."),
 
     // 409 - 멱등 중복 / 재고 부족
     IDEMPOTENT_DUPLICATION("IDEMPOTENT_DUPLICATION", 409, "이미 처리된 요청입니다."),
     STOCK_INSUFFICIENT("STOCK_INSUFFICIENT", 409, "재고가 부족하여 결제를 생성할 수 없습니다."),
     IDEMPOTENCY_KEY_CONFLICT("IDEMPOTENCY_KEY_CONFLICT", 409, "이미 다른 요청에 사용된 Idempotency-Key입니다."),
+    ORDER_ITEMS_MULTIPLE_ORDERS("ORDER_ITEMS_MULTIPLE_ORDERS", 409, "요청된 항목이 여러 주문에 걸쳐 있습니다."),
 
     // 422 - 비즈니스 규칙 위반
     INVALID_PAYMENT_STATUS("INVALID_PAYMENT_STATUS", 422, "현재 결제 상태에서는 취소할 수 없습니다."),
@@ -50,7 +53,8 @@ public enum ErrorCode {
     MERCHANT_LIMIT_SERVICE_UNAVAILABLE("MERCHANT_LIMIT_SERVICE_UNAVAILABLE", 503, "취소한도 서비스가 일시적으로 이용 불가합니다."),
     RISK_SERVICE_UNAVAILABLE("RISK_SERVICE_UNAVAILABLE", 503, "위험관리 서비스가 일시적으로 이용 불가합니다."),
     PG_SERVICE_UNAVAILABLE("PG_SERVICE_UNAVAILABLE", 503, "PG 서비스가 일시적으로 이용 불가합니다."),
-    PRODUCT_SERVICE_UNAVAILABLE("PRODUCT_SERVICE_UNAVAILABLE", 503, "상품 재고 서비스가 일시적으로 이용 불가합니다.");
+    PRODUCT_SERVICE_UNAVAILABLE("PRODUCT_SERVICE_UNAVAILABLE", 503, "상품 재고 서비스가 일시적으로 이용 불가합니다."),
+    ORDER_VERIFY_UNAVAILABLE("ORDER_VERIFY_UNAVAILABLE", 503, "주문 검증 서비스가 일시적으로 이용 불가합니다.");
 
     private final String code;
     private final int httpStatus;

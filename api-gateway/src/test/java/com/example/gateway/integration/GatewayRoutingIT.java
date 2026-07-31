@@ -51,23 +51,27 @@ class GatewayRoutingIT {
 
     static final WireMockServer paymentDownstream = new WireMockServer(options().dynamicPort());
     static final WireMockServer userDownstream = new WireMockServer(options().dynamicPort());
+    static final WireMockServer orderDownstream = new WireMockServer(options().dynamicPort());
 
     static {
         // @DynamicPropertySource 서플라이어가 포트를 읽기 전에 기동돼 있어야 함
         paymentDownstream.start();
         userDownstream.start();
+        orderDownstream.start();
     }
 
     @AfterAll
     static void stopDownstreams() {
         paymentDownstream.stop();
         userDownstream.stop();
+        orderDownstream.stop();
     }
 
     @DynamicPropertySource
     static void downstreamUris(DynamicPropertyRegistry registry) {
         registry.add("gateway.downstream.payment-uri", () -> "http://localhost:" + paymentDownstream.port());
         registry.add("gateway.downstream.user-uri", () -> "http://localhost:" + userDownstream.port());
+        registry.add("gateway.downstream.order-uri", () -> "http://localhost:" + orderDownstream.port());
     }
 
     @LocalServerPort
@@ -90,6 +94,7 @@ class GatewayRoutingIT {
     void resetStubs() {
         paymentDownstream.resetAll();
         userDownstream.resetAll();
+        orderDownstream.resetAll();
     }
 
     @Test
@@ -286,6 +291,60 @@ class GatewayRoutingIT {
 
         assertThat(res.statusCode()).isEqualTo(401);
         assertThat(res.body()).contains("TOKEN_MISSING");
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    // === order-link Phase 1 GW-01: POST /v1/orders secured route, items:verify NOT exposed ===
+
+    @Test
+    void createOrder_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/orders")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        orderDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void createOrder_validJwt_routesToOrderDownstream_withTrustHeaderInjected() throws Exception {
+        orderDownstream.stubFor(post(urlPathEqualTo("/v1/orders"))
+                .willReturn(aResponse().withStatus(201).withBody("{\"orderId\":1}")));
+
+        String token = accessToken(42L, "USER", null);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/orders")))
+                        .header("Authorization", "Bearer " + token)
+                        .header(JwtTrustHeaderFilter.H_USER_ID, "9999") // 위조 시도 → strip 되어야 함
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(201);
+        orderDownstream.verify(postRequestedFor(urlPathEqualTo("/v1/orders"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ID, equalTo("42")));
+        // per-route 증명: order 경로는 payment/user downstream으로 새지 않는다
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void verifyPath_notRoutedToOrderDownstream() throws Exception {
+        String token = accessToken(42L, "USER", null);
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/orders/items:verify")))
+                        .header("Authorization", "Bearer " + token))
+                        .POST(HttpRequest.BodyPublishers.ofString("{\"orderItemIds\":[1]}"))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        // 어떤 라우트 predicate에도 매칭되지 않음 — 200이 아니고 order downstream은 절대 호출되지 않는다
+        assertThat(res.statusCode()).isNotEqualTo(200);
+        orderDownstream.verify(0, anyRequestedFor(anyUrl()));
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
         userDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 

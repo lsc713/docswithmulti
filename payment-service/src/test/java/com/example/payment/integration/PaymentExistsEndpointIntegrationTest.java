@@ -86,12 +86,15 @@ class PaymentExistsEndpointIntegrationTest {
     }
 
     private String createPaymentAndGetKey() throws Exception {
+        // order verify(PLINK-01/03)는 reserve보다 먼저 호출된다 — 이 테스트는 결제 생성 자체가 관심사가
+        // 아니므로(RST-03 exists 조회 read-only 증명) 해피패스로 스텁만 한다.
+        mockServer.expect(requestTo(containsString("/v1/orders/items:verify")))
+            .andRespond(withSuccess("{\"orderId\":1}", MediaType.APPLICATION_JSON));
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
             .andRespond(withSuccess());
 
         String body = objectMapper.writeValueAsString(Map.of(
             "merchantId", 1,
-            "userId", 100,
             "pgType", "TOSS",
             "cancelPeriodDays", 90,
             "items", List.of(Map.of(
@@ -105,6 +108,7 @@ class PaymentExistsEndpointIntegrationTest {
         ));
 
         String response = mockMvc.perform(post("/v1/payments")
+                .header("X-User-Id", "100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
             .andExpect(status().isOk())

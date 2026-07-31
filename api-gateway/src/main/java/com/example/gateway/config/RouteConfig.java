@@ -21,8 +21,11 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
  *   <li>payment 취소(인증): /v1/payments/** → payment downstream, JwtTrustHeaderFilter 부착</li>
  *   <li>user-service 공개(토큰 불요): /v1/auth/{signup,login,refresh} → user downstream, strip만</li>
  *   <li>user-service 인증: /v1/auth/{logout,me} → user downstream, JwtTrustHeaderFilter 부착</li>
+ *   <li>order 생성(인증): POST /v1/orders(정확 경로) → order downstream, JwtTrustHeaderFilter 부착.
+ *       /v1/orders/items:verify(payment 전용 내부 검증)는 이 경로에 걸리지 않아 노출되지 않는다
+ *       (D-CONTEXT-5, order-link Phase 1 GW-01)</li>
  * </ul>
- * order/merchant-limit/risk는 payment가 HTTP/Kafka로 부르는 <b>내부</b> 서비스 → 게이트웨이 미노출(D-P2-5).
+ * merchant-limit/risk는 payment가 HTTP/Kafka로 부르는 <b>내부</b> 서비스 → 게이트웨이 미노출(D-P2-5).
  */
 @Configuration
 public class RouteConfig {
@@ -68,6 +71,22 @@ public class RouteConfig {
         return route("user-auth-secured")
                 .route(path("/v1/auth/logout").or(path("/v1/auth/me")), http())
                 .before(uri(userUri))
+                .filter(jwt)
+                .build();
+    }
+
+    /**
+     * order 생성 — 인증 라우트. predicate는 정확히 "/v1/orders"(NOT "/v1/orders/**") — 내부 전용
+     * "/v1/orders/items:verify"가 이 경로에 걸려 노출되지 않도록 하는 것이 핵심(D-CONTEXT-5, GW-01).
+     * GET /v1/orders/{id}는 아직 read 핸들러가 없어 라우팅하지 않는다(추가 시 별도 경로로 노출).
+     */
+    @Bean
+    RouterFunction<ServerResponse> orderRoute(
+            JwtTrustHeaderFilter jwt,
+            @Value("${gateway.downstream.order-uri}") String orderUri) {
+        return route("order")
+                .route(path("/v1/orders"), http())
+                .before(uri(orderUri))
                 .filter(jwt)
                 .build();
     }
