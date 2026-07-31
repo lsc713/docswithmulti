@@ -18,7 +18,7 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
  * <ul>
  *   <li>payment 취소(인증): /v1/payments/** → payment downstream, JwtTrustHeaderFilter 부착</li>
  *   <li>user-service 공개(토큰 불요): /v1/auth/{signup,login,refresh} → user downstream, strip만</li>
- *   <li>user-service 인증: /v1/auth/logout → user downstream, JwtTrustHeaderFilter 부착</li>
+ *   <li>user-service 인증: /v1/auth/{logout,me} → user downstream, JwtTrustHeaderFilter 부착</li>
  * </ul>
  * order/merchant-limit/risk는 payment가 HTTP/Kafka로 부르는 <b>내부</b> 서비스 → 게이트웨이 미노출(D-P2-5).
  */
@@ -56,13 +56,13 @@ public class RouteConfig {
                 .build();
     }
 
-    /** user-service 인증 라우트(logout 등) — 토큰 필요. strip→verify→inject는 JwtTrustHeaderFilter가 담당. */
+    /** user-service 인증 라우트(logout/me) — 토큰 필요. strip→verify→inject는 JwtTrustHeaderFilter가 담당. */
     @Bean
     RouterFunction<ServerResponse> userAuthSecuredRoute(
             JwtTrustHeaderFilter jwt,
             @Value("${gateway.downstream.user-uri}") String userUri) {
         return route("user-auth-secured")
-                .route(path("/v1/auth/logout"), http())
+                .route(path("/v1/auth/logout").or(path("/v1/auth/me")), http())
                 .before(uri(userUri))
                 .filter(jwt)
                 .build();

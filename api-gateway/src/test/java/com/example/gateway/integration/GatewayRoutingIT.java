@@ -75,6 +75,17 @@ class GatewayRoutingIT {
 
     private final HttpClient http = HttpClient.newHttpClient();
 
+    // CSRF double-submit(Task 8, Finding 2로 Bearer 클라는 예외) — payments/logout는 CSRF
+    // 예외(로그인/회원가입/refresh)에 없는 상태변경 라우트지만, Authorization: Bearer 헤더가 있고
+    // access_token 쿠키가 없으면 CSRF는 스킵된다(비-브라우저 클라는 CSRF 취약점이 없음). 아래
+    // Authorization 헤더가 아예 없는 두 케이스(진짜 "토큰 없음")만 CSRF 관문을 넘겨야 JWT 로직의
+    // TOKEN_MISSING 분기가 노출되므로 고정 토큰을 계속 동봉한다.
+    private static final String CSRF_TOKEN = "it-fixed-csrf-token";
+
+    private HttpRequest.Builder withCsrf(HttpRequest.Builder b) {
+        return b.header("Cookie", "csrf_token=" + CSRF_TOKEN).header("X-CSRF-Token", CSRF_TOKEN);
+    }
+
     @BeforeEach
     void resetStubs() {
         paymentDownstream.resetAll();
@@ -121,13 +132,50 @@ class GatewayRoutingIT {
         paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
+    // Task 8: CorsConfig의 @Bean CorsFilter를 FilterConfig가 FilterRegistrationBean으로 감싸도
+    // Boot의 자동등록과 중복돼 Access-Control-Allow-Origin이 두 번 나가면 브라우저가 CORS를 깨진
+    // 것으로 판단한다 — 정확히 1회만 응답에 실리는지 실제 요청으로 증명.
+    @Test
+    void corsHeaderAppliedExactlyOnce_notDoubleRegistered() throws Exception {
+        userDownstream.stubFor(get(urlPathEqualTo("/v1/auth/login"))
+                .willReturn(aResponse().withStatus(200).withBody("{\"accessToken\":\"...\"}")));
+
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/login")))
+                        .header("Origin", "http://localhost:5173")
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        assertThat(res.headers().allValues("Access-Control-Allow-Origin"))
+                .containsExactly("http://localhost:5173");
+    }
+
+    // Finding 2 follow-up: CSRF는 브라우저 쿠키 인증에만 적용된다는 걸 실제로 증명 — access_token
+    // 쿠키(유효 JWT)로 인증하는 상태변경 요청이 csrf_token/X-CSRF-Token 쌍 없이 오면, FilterConfig
+    // 체인의 CsrfFilter가 JWT 체크보다 먼저 403으로 막고 downstream은 호출되지 않아야 한다.
+    @Test
+    void cookieAuthenticated_noCsrfPair_rejected403_downstreamNotCalled() throws Exception {
+        String token = accessToken(42L, "USER", 7L);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                        .header("Cookie", "access_token=" + token)
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(403);
+        assertThat(res.body()).contains("CSRF_TOKEN_INVALID");
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
     // === GATE-03: 누락/무효/만료 토큰 → downstream 도달 전 401, downstream 무호출 ===
 
     @Test
     void missingToken_returns401_downstreamNotCalled() throws Exception {
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -216,9 +264,24 @@ class GatewayRoutingIT {
     @Test
     void securedLogoutPath_noToken_returns401_downstreamNotCalled() throws Exception {
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/logout")))
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/auth/logout")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    // Task 9: GET /v1/auth/me도 secured 라우트(JwtTrustHeaderFilter 부착)로 편입.
+    // GET은 SAFE 메서드라 CsrfFilter(Task 8)가 스킵하므로 CSRF 페어 없이도 JWT 검증까지 도달해
+    // TOKEN_MISSING 401이 나와야 한다(403 아님).
+    @Test
+    void securedMePath_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/me")))
+                        .GET().build(),
                 HttpResponse.BodyHandlers.ofString());
 
         assertThat(res.statusCode()).isEqualTo(401);
