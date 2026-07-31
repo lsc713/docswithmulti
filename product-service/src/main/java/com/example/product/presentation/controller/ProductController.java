@@ -25,6 +25,6 @@ public class ProductController {
         var skus = req.skus().stream()
                 .map(s -> new SkuSeed(s.skuCode(), s.optionSummary(), s.initialStock()))
                 .toList();
-        return SeedResponse.from(catalogService.seed(req.name(), skus));
+        return SeedResponse.from(catalogService.seed(req.name(), req.categoryId(), skus));
     }
 }

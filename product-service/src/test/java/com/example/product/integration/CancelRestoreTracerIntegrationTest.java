@@ -64,7 +64,7 @@ class CancelRestoreTracerIntegrationTest {
     @DisplayName("RST-02: reserve로 차감된 재고가 payment.cancelled 소비 후 원복된다")
     void reserveThenCancelEventRestoresStock() throws Exception {
         // 1. seed: product + SKU + 초기재고 5
-        jdbc.update("INSERT INTO product(name) VALUES ('티셔츠')");
+        jdbc.update("INSERT INTO product(name, category_id) VALUES ('티셔츠', ?)", CategoryFixtures.leafId(jdbc));
         Long productId = jdbc.queryForObject("SELECT id FROM product ORDER BY id DESC LIMIT 1", Long.class);
         jdbc.update("INSERT INTO product_sku(product_id, sku_code, option_summary) VALUES (?, 'TS-M-BLK', 'M/Black')",
                 productId);

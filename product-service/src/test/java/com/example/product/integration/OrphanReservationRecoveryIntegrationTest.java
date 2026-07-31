@@ -146,8 +146,8 @@ class OrphanReservationRecoveryIntegrationTest {
     private long seedSku(int initialStock) throws Exception {
         String code = "SKU-" + SEQ.incrementAndGet();
         MockHttpServletResponse seed = send("/v1/products", """
-                {"name":"티셔츠","skus":[{"skuCode":"%s","optionSummary":"M/Black","initialStock":%d}]}"""
-                .formatted(code, initialStock));
+                {"name":"티셔츠","categoryId":%d,"skus":[{"skuCode":"%s","optionSummary":"M/Black","initialStock":%d}]}"""
+                .formatted(CategoryFixtures.leafId(jdbc), code, initialStock));
         assertThat(seed.getStatus()).isEqualTo(200);
         Map<?, ?> body = om.readValue(seed.getContentAsString(), Map.class);
         return ((Number) ((Map<?, ?>) ((java.util.List<?>) body.get("skus")).get(0)).get("skuId")).longValue();
