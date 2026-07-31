@@ -46,6 +46,16 @@ envelope는 `{code, message}` (user-service `GlobalExceptionHandler`와 동일 �
 | `TOKEN_INVALID` | 인증 실패 | 서명 불일치 / JWT 형식 오류 / alg 혼동(none·비대칭 위장) |
 | `TOKEN_EXPIRED` | 인증 실패 | 만료(`exp` 경과) 토큰 |
 
+### 주문 검증 오류 (order-service) — `POST /v1/orders/items:verify` (내부 전용, OVER-01)
+
+order-service `ErrorCode` enum(모듈 별도 원본, payment의 `ErrorCode`와 무관)에서 관리. envelope는 `{code, message}`.
+
+| code | 상태코드 | message | 발생 지점 · 의미 |
+|------|---------|---------|-----------------|
+| `ORDER_ITEM_NOT_FOUND` | 404 | 주문 항목을 찾을 수 없습니다. | 요청된 orderItemId 중 존재하지 않는 항목이 있음 |
+| `ORDER_ITEMS_MULTIPLE_ORDERS` | 409 | 요청된 항목이 여러 주문에 걸쳐 있습니다. | 요청된 orderItemId들이 2개 이상의 order에 분산 |
+| `ORDER_OWNERSHIP_MISMATCH` | 403 | 해당 주문에 대한 권한이 없습니다. | order.user_id != 요청자(X-User-Id) |
+
 ### 요청 형식 오류 (400)
 
 | code | message | detail |

@@ -4,6 +4,9 @@ import com.example.order.domain.entity.Order;
 import com.example.order.domain.entity.OrderItem;
 import com.example.order.domain.entity.OrderItemStatus;
 import com.example.order.domain.entity.OrderStatus;
+import com.example.order.domain.exception.OrderItemsMultipleOrdersException;
+import com.example.order.domain.exception.OrderOwnershipMismatchException;
+import com.example.order.domain.exception.VerifyOrderItemNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +15,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @DisplayName("OrderItemVerifier")
 class OrderItemVerifierTest {
@@ -37,5 +41,37 @@ class OrderItemVerifierTest {
         Order order = Order.of(100L, 42L, OrderStatus.DELIVERY_WAITING);
 
         assertThatCode(() -> verifier.checkOwnership(order, 42L)).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("resolveOrderId: 요청된 id 중 존재하지 않는 항목이 있으면 404 예외 (OVER-01)")
+    void resolveOrderId_throwsNotFound_whenRequestedIdMissing() {
+        List<OrderItem> foundItems = List.of(
+            OrderItem.of(1L, 100L, 11L, "item1", BigDecimal.TEN, OrderItemStatus.ACTIVE)
+        );
+
+        assertThatThrownBy(() -> verifier.resolveOrderId(List.of(1L, 2L), foundItems))
+            .isInstanceOf(VerifyOrderItemNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("resolveOrderId: 찾은 항목이 2개 이상의 order에 걸치면 409 예외 (OVER-01)")
+    void resolveOrderId_throwsMultipleOrders_whenFoundItemsSpanTwoOrders() {
+        List<OrderItem> foundItems = List.of(
+            OrderItem.of(1L, 100L, 11L, "item1", BigDecimal.TEN, OrderItemStatus.ACTIVE),
+            OrderItem.of(2L, 200L, 12L, "item2", BigDecimal.TEN, OrderItemStatus.ACTIVE)
+        );
+
+        assertThatThrownBy(() -> verifier.resolveOrderId(List.of(1L, 2L), foundItems))
+            .isInstanceOf(OrderItemsMultipleOrdersException.class);
+    }
+
+    @Test
+    @DisplayName("checkOwnership: order.userId != requesterUserId면 403 예외 (OVER-01)")
+    void checkOwnership_throwsOwnershipMismatch_whenRequesterIsNotOwner() {
+        Order order = Order.of(100L, 42L, OrderStatus.DELIVERY_WAITING);
+
+        assertThatThrownBy(() -> verifier.checkOwnership(order, 999L))
+            .isInstanceOf(OrderOwnershipMismatchException.class);
     }
 }
