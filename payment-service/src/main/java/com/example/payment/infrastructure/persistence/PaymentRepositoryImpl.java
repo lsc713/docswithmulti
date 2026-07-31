@@ -23,6 +23,11 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
+    public boolean existsByPaymentKey(String paymentKey) {
+        return jpaRepository.existsByPaymentKey(paymentKey);
+    }
+
+    @Override
     public Optional<Payment> findById(Long paymentId) {
         return jpaRepository.findById(paymentId)
             .map(PaymentJpaEntity::toDomain);
