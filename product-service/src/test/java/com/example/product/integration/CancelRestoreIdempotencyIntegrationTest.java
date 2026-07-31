@@ -102,7 +102,7 @@ class CancelRestoreIdempotencyIntegrationTest {
     // --- helpers ---
 
     private long seedSku(String code, int stock) {
-        jdbc.update("INSERT INTO product(name) VALUES ('티셔츠')");
+        jdbc.update("INSERT INTO product(name, category_id) VALUES ('티셔츠', ?)", CategoryFixtures.leafId(jdbc));
         Long productId = jdbc.queryForObject("SELECT id FROM product ORDER BY id DESC LIMIT 1", Long.class);
         jdbc.update("INSERT INTO product_sku(product_id, sku_code, option_summary) VALUES (?, ?, 'opt')",
                 productId, code);

@@ -100,8 +100,8 @@ class StockIdempotencyIntegrationTest {
 
     private long seedSku(String code, int stock) throws Exception {
         MockHttpServletResponse seed = send("/v1/products", """
-                {"name":"티셔츠","skus":[{"skuCode":"%s","optionSummary":"opt","initialStock":%d}]}"""
-                .formatted(code, stock));
+                {"name":"티셔츠","categoryId":%d,"skus":[{"skuCode":"%s","optionSummary":"opt","initialStock":%d}]}"""
+                .formatted(CategoryFixtures.leafId(jdbc), code, stock));
         assertThat(seed.getStatus()).isEqualTo(200);
         Map<?, ?> body = om.readValue(seed.getContentAsString(), Map.class);
         return ((Number) ((Map<?, ?>) ((java.util.List<?>) body.get("skus")).get(0)).get("skuId")).longValue();
