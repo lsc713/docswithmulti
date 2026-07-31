@@ -75,6 +75,15 @@ class GatewayRoutingIT {
 
     private final HttpClient http = HttpClient.newHttpClient();
 
+    // CSRF double-submit(Task 8) — payments/logout는 CSRF 예외(로그인/회원가입/refresh)에 없는
+    // 상태변경 라우트라 쿠키==헤더 쌍이 없으면 JWT 체크 전에 403으로 단락된다. 이 IT는 JWT 게이트를
+    // 검증하는 게 목적이므로, CSRF 관문은 통과시켜 JWT 로직만 노출되게 고정 토큰을 동봉한다.
+    private static final String CSRF_TOKEN = "it-fixed-csrf-token";
+
+    private HttpRequest.Builder withCsrf(HttpRequest.Builder b) {
+        return b.header("Cookie", "csrf_token=" + CSRF_TOKEN).header("X-CSRF-Token", CSRF_TOKEN);
+    }
+
     @BeforeEach
     void resetStubs() {
         paymentDownstream.resetAll();
@@ -88,10 +97,10 @@ class GatewayRoutingIT {
 
         String token = accessToken(42L, "USER", 7L);
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK123/cancel")))
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK123/cancel")))
                         .header("Authorization", "Bearer " + token)
                         .header(JwtTrustHeaderFilter.H_USER_ID, "999") // 위조 시도 → strip 되어야 함
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -121,13 +130,32 @@ class GatewayRoutingIT {
         paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
+    // Task 8: CorsConfig의 @Bean CorsFilter를 FilterConfig가 FilterRegistrationBean으로 감싸도
+    // Boot의 자동등록과 중복돼 Access-Control-Allow-Origin이 두 번 나가면 브라우저가 CORS를 깨진
+    // 것으로 판단한다 — 정확히 1회만 응답에 실리는지 실제 요청으로 증명.
+    @Test
+    void corsHeaderAppliedExactlyOnce_notDoubleRegistered() throws Exception {
+        userDownstream.stubFor(get(urlPathEqualTo("/v1/auth/login"))
+                .willReturn(aResponse().withStatus(200).withBody("{\"accessToken\":\"...\"}")));
+
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/login")))
+                        .header("Origin", "http://localhost:5173")
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        assertThat(res.headers().allValues("Access-Control-Allow-Origin"))
+                .containsExactly("http://localhost:5173");
+    }
+
     // === GATE-03: 누락/무효/만료 토큰 → downstream 도달 전 401, downstream 무호출 ===
 
     @Test
     void missingToken_returns401_downstreamNotCalled() throws Exception {
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -140,9 +168,9 @@ class GatewayRoutingIT {
     void invalidSignature_returns401_downstreamNotCalled() throws Exception {
         String forged = signedToken(WRONG_SECRET, 42L, "USER", -1_000L, 3_600_000L);
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
                         .header("Authorization", "Bearer " + forged)
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -156,9 +184,9 @@ class GatewayRoutingIT {
         // issuedAt/expiration 모두 과거로 설정 → jjwt parseSignedClaims가 만료 자동 거부
         String expired = signedToken(SECRET, 42L, "USER", -7_200_000L, -3_600_000L);
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
                         .header("Authorization", "Bearer " + expired)
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -176,12 +204,12 @@ class GatewayRoutingIT {
 
         String token = accessToken(42L, "USER", 7L);
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK9/cancel")))
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK9/cancel")))
                         .header("Authorization", "Bearer " + token)
                         .header(JwtTrustHeaderFilter.H_USER_ID, "9999")     // 위조
                         .header(JwtTrustHeaderFilter.H_USER_ROLE, "ADMIN")  // 인가 우회 시도
                         .header(JwtTrustHeaderFilter.H_MERCHANT_ID, "1")    // 위조
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -216,8 +244,8 @@ class GatewayRoutingIT {
     @Test
     void securedLogoutPath_noToken_returns401_downstreamNotCalled() throws Exception {
         HttpResponse<String> res = http.send(
-                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/logout")))
-                        .POST(HttpRequest.BodyPublishers.noBody())
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/auth/logout")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
