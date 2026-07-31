@@ -30,6 +30,11 @@ spring:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
     consumer:
       group-id: product-service
+      retry-group-id: product-service-retry
+    producer:
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
   profiles:
     active: local
@@ -37,6 +42,8 @@ spring:
 kafka:
   topic:
     payment-cancelled: payment.cancelled
+    payment-cancelled-retry: payment.cancelled.retry
+    payment-cancelled-dlq: payment.cancelled.DLQ
 
 server:
   port: 8084
