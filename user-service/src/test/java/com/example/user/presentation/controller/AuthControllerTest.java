@@ -80,16 +80,13 @@ class AuthControllerTest {
     }
 
     @Test
-    @DisplayName("POST /v1/auth/refresh — 새 Access Token")
-    void shouldRefresh() throws Exception {
-        when(authUseCase.refresh("valid-refresh")).thenReturn("new-access");
-        mockMvc.perform(post("/v1/auth/refresh")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                            {"refreshToken":"valid-refresh"}
-                            """))
+    @DisplayName("POST /v1/auth/refresh — refresh 쿠키로 새 access 쿠키")
+    void refreshRotatesAccess() throws Exception {
+        when(authUseCase.refresh("rt-uuid")).thenReturn("new-access-jwt");
+        mockMvc.perform(post("/v1/auth/refresh").cookie(new jakarta.servlet.http.Cookie("refresh_token", "rt-uuid")))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.accessToken").value("new-access"));
+                .andExpect(cookie().value("access_token", "new-access-jwt"))
+                .andExpect(jsonPath("$.result").value("OK"));
     }
 
     @Test

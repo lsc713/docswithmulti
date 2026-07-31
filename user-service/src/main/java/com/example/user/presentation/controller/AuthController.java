@@ -40,9 +40,11 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponse> refresh(@RequestBody @Valid RefreshRequest request) {
-        String accessToken = authUseCase.refresh(request.refreshToken());
-        return ResponseEntity.ok(new TokenResponse(accessToken, null));
+    public ResponseEntity<Map<String, String>> refresh(@CookieValue("refresh_token") String refreshToken) {
+        String accessToken = authUseCase.refresh(refreshToken);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.SET_COOKIE, cookies.access(accessToken).toString());
+        return ResponseEntity.ok().headers(headers).body(Map.of("result", "OK"));
     }
 
     @PostMapping("/logout")

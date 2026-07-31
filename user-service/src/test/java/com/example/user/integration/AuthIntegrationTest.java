@@ -1,6 +1,5 @@
 package com.example.user.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -60,15 +59,12 @@ class AuthIntegrationTest {
     @Autowired WebApplicationContext ctx;
     @Autowired JdbcTemplate jdbc;
 
-    final ObjectMapper om = new ObjectMapper();
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(ctx).apply(springSecurity()).build();
     }
-
-    record TokenResp(String accessToken, String refreshToken) {}
 
     @Test
     @DisplayName("AUTH-01/02: 신규 signup→중복 409→login, access=USER JWT + opaque refresh 1개 (쿠키 발급)")
@@ -139,24 +135,22 @@ class AuthIntegrationTest {
         String issuedRefreshToken = cookieValue(signup, "refresh_token");
         long userId = Long.parseLong(parse(issuedAccessToken).getSubject());
 
-        // 1. 유효 refresh 제출 → 200 + 새 access, refreshToken=null(미회전, D-P1-1)
-        // /v1/auth/refresh는 이번 태스크(쿠키 전환) 범위 밖 — 기존 JSON 바디 계약 그대로.
-        MockHttpServletResponse refreshed = send("/v1/auth/refresh", """
-                {"refreshToken":"%s"}""".formatted(issuedRefreshToken));
+        // 1. 유효 refresh 쿠키 제출 → 200 + body={"result":"OK"} + 새 access 쿠키(미회전, D-P1-1)
+        MockHttpServletResponse refreshed = sendRefreshCookie(issuedRefreshToken);
         assertThat(refreshed.getStatus()).isEqualTo(200);
-        TokenResp refreshBody = om.readValue(refreshed.getContentAsString(), TokenResp.class);
-        assertThat(refreshBody.accessToken()).isNotBlank();
-        assertThat(refreshBody.refreshToken()).isNull(); // 미회전 — 새 refresh 미발급
-        assertThat(parse(refreshBody.accessToken()).getSubject()).isEqualTo(String.valueOf(userId));
+        assertThat(refreshed.getContentAsString()).isEqualTo("{\"result\":\"OK\"}");
+        String newAccessToken = cookieValue(refreshed, "access_token");
+        assertThat(newAccessToken).isNotBlank();
+        assertThat(refreshed.getCookie("refresh_token")).isNull(); // 미회전 — 새 refresh 쿠키 미발급
+        assertThat(parse(newAccessToken).getSubject()).isEqualTo(String.valueOf(userId));
 
         // 미회전 확인 — refresh_tokens 행은 여전히 1개(원래 발급분 그대로)
         Integer count = jdbc.queryForObject(
                 "SELECT COUNT(*) FROM refresh_tokens WHERE user_id = ?", Integer.class, userId);
         assertThat(count).isEqualTo(1);
 
-        // 2. 조작/미존재 refresh → 401(InvalidToken). (만료 케이스는 AuthServiceTest 단위가 커버)
-        MockHttpServletResponse invalid = send("/v1/auth/refresh", """
-                {"refreshToken":"00000000-0000-0000-0000-000000000000"}""");
+        // 2. 조작/미존재 refresh 쿠키 → 401(InvalidToken). (만료 케이스는 AuthServiceTest 단위가 커버)
+        MockHttpServletResponse invalid = sendRefreshCookie("00000000-0000-0000-0000-000000000000");
         assertThat(invalid.getStatus()).isEqualTo(401);
     }
 
@@ -186,9 +180,8 @@ class AuthIntegrationTest {
                 "SELECT COUNT(*) FROM refresh_tokens WHERE user_id = ?", Integer.class, userId);
         assertThat(count).isZero();
 
-        // 4. 삭제된 refresh로 재갱신 → 401 (AUTH-04 무효화 최종 관측)
-        MockHttpServletResponse reRefresh = send("/v1/auth/refresh", """
-                {"refreshToken":"%s"}""".formatted(sessionRefreshToken));
+        // 4. 삭제된 refresh 쿠키로 재갱신 → 401 (AUTH-04 무효화 최종 관측)
+        MockHttpServletResponse reRefresh = sendRefreshCookie(sessionRefreshToken);
         assertThat(reRefresh.getStatus()).isEqualTo(401);
     }
 
@@ -196,6 +189,12 @@ class AuthIntegrationTest {
         return mockMvc.perform(post(path)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
+                .andReturn().getResponse();
+    }
+
+    private MockHttpServletResponse sendRefreshCookie(String refreshToken) throws Exception {
+        return mockMvc.perform(post("/v1/auth/refresh")
+                        .cookie(new jakarta.servlet.http.Cookie("refresh_token", refreshToken)))
                 .andReturn().getResponse();
     }
 
