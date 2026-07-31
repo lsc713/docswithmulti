@@ -56,6 +56,20 @@ order-service `ErrorCode` enum(모듈 별도 원본, payment의 `ErrorCode`와 �
 | `ORDER_ITEMS_MULTIPLE_ORDERS` | 409 | 요청된 항목이 여러 주문에 걸쳐 있습니다. | 요청된 orderItemId들이 2개 이상의 order에 분산 |
 | `ORDER_OWNERSHIP_MISMATCH` | 403 | 해당 주문에 대한 권한이 없습니다. | order.user_id != 요청자(X-User-Id) |
 
+### 결제 생성 — order 검증 거부/장애 (payment-service) — `POST /v1/payments` (PLINK-01/03)
+
+payment `ErrorCode` enum(payment 모듈 원본)에서 관리. order-service의 404/409/403 응답을 그대로
+동일 코드·상태로 재매핑해 결제를 거부한다(`OrderVerifyRejectedException`). order-service
+장애/타임아웃/비2xx/CircuitBreaker OPEN은 `ORDER_VERIFY_UNAVAILABLE`(`OrderVerifyUnavailableException`,
+fail-closed)로 결제를 거부한다.
+
+| code | 상태코드 | message | 발생 지점 · 의미 |
+|------|---------|---------|-----------------|
+| `ORDER_ITEM_NOT_FOUND` | 404 | 주문 항목을 찾을 수 없습니다. | order-service verify 404 재매핑 |
+| `ORDER_ITEMS_MULTIPLE_ORDERS` | 409 | 요청된 항목이 여러 주문에 걸쳐 있습니다. | order-service verify 409 재매핑 |
+| `ORDER_OWNERSHIP_MISMATCH` | 403 | 해당 주문에 대한 권한이 없습니다. | order-service verify 403 재매핑 |
+| `ORDER_VERIFY_UNAVAILABLE` | 503 | 주문 검증 서비스가 일시적으로 이용 불가합니다. | order-service 장애/타임아웃/비2xx/CB OPEN (fail-closed) |
+
 ### 요청 형식 오류 (400)
 
 | code | message | detail |
@@ -251,3 +265,5 @@ public abstract class BusinessException extends RuntimeException {
 |------------|---------|
 | `MerchantLimitServiceException` | `MERCHANT_LIMIT_SERVICE_UNAVAILABLE` |
 | `RiskServiceException` | `RISK_SERVICE_UNAVAILABLE` |
+| `OrderVerifyUnavailableException` | `ORDER_VERIFY_UNAVAILABLE` |
+| `OrderVerifyRejectedException` | `ORDER_ITEM_NOT_FOUND` / `ORDER_ITEMS_MULTIPLE_ORDERS` / `ORDER_OWNERSHIP_MISMATCH`(생성자 인자로 판정) |

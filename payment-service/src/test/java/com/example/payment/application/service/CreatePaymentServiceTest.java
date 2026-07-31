@@ -7,12 +7,15 @@ import com.example.payment.domain.entity.Payment;
 import com.example.payment.domain.entity.PaymentItem;
 import com.example.payment.domain.entity.PaymentItemStatus;
 import com.example.payment.domain.entity.PaymentStatus;
+import com.example.payment.infrastructure.exception.OrderVerifyRejectedException;
+import com.example.payment.infrastructure.exception.OrderVerifyUnavailableException;
 import com.example.payment.infrastructure.exception.StockInsufficientException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -91,6 +94,11 @@ class CreatePaymentServiceTest {
         // persist는 reserve에 전달된 것과 동일한 paymentKey + 합산 금액 + order 검증된 orderId로 호출
         verify(paymentCreateTxWriter).persist(eq(command),
             eq(keyCaptor.getValue()), eq(BigDecimal.valueOf(100_000)), eq(VERIFIED_ORDER_ID));
+
+        // order 검증(PLINK-03)이 reserve보다 먼저 호출됐는지 순서 검증
+        InOrder inOrder = inOrder(orderVerifyPort, productStockPort);
+        inOrder.verify(orderVerifyPort).verify(eq(100L), eq(List.of(10L, 11L)));
+        inOrder.verify(productStockPort).reserve(anyString(), any());
     }
 
     @Test
@@ -106,6 +114,39 @@ class CreatePaymentServiceTest {
         assertThrows(StockInsufficientException.class, () -> service.create(command));
 
         verify(productStockPort).reserve(anyString(), any());
+        verifyNoInteractions(paymentCreateTxWriter);
+    }
+
+    @Test
+    @DisplayName("fail-closed(PLINK-01/03) — order 검증 장애(OrderVerifyUnavailableException) 시 reserve·persist 미호출·예외 전파")
+    void shouldNotReserveOrPersistWhenOrderVerifyUnavailable() {
+        CreatePaymentCommand command = new CreatePaymentCommand(
+            2L, 200L, "KG", 30,
+            List.of(new CreatePaymentCommand.Item(20L, 300L, "상품C", BigDecimal.valueOf(50_000), 502L, 3))
+        );
+        doThrow(new OrderVerifyUnavailableException("order-service 장애"))
+            .when(orderVerifyPort).verify(anyLong(), any());
+
+        assertThrows(OrderVerifyUnavailableException.class, () -> service.create(command));
+
+        verifyNoInteractions(productStockPort);
+        verifyNoInteractions(paymentCreateTxWriter);
+    }
+
+    @Test
+    @DisplayName("fail-closed(PLINK-01/03) — order 검증 거부(OrderVerifyRejectedException) 시 reserve·persist 미호출·예외 전파")
+    void shouldNotReserveOrPersistWhenOrderVerifyRejected() {
+        CreatePaymentCommand command = new CreatePaymentCommand(
+            2L, 200L, "KG", 30,
+            List.of(new CreatePaymentCommand.Item(20L, 300L, "상품C", BigDecimal.valueOf(50_000), 502L, 3))
+        );
+        doThrow(new OrderVerifyRejectedException(
+            com.example.payment.common.exception.ErrorCode.ORDER_OWNERSHIP_MISMATCH, "소유 불일치"))
+            .when(orderVerifyPort).verify(anyLong(), any());
+
+        assertThrows(OrderVerifyRejectedException.class, () -> service.create(command));
+
+        verifyNoInteractions(productStockPort);
         verifyNoInteractions(paymentCreateTxWriter);
     }
 
