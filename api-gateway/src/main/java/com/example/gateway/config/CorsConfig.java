@@ -18,7 +18,8 @@ public class CorsConfig {
         CorsConfiguration cfg = new CorsConfiguration();
         cfg.setAllowedOrigins(allowedOrigins);              // 명시 화이트리스트(*금지)
         cfg.setAllowCredentials(true);
-        cfg.setAllowedMethods(List.of("GET", "POST", "OPTIONS"));
+        // CSRF 필터가 보호하는 상태변경 메서드(PUT/PATCH/DELETE)도 CORS에서 허용해야 브라우저가 실제로 사용 가능.
+        cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("Content-Type", "X-CSRF-Token"));
         cfg.setMaxAge(3600L);
         UrlBasedCorsConfigurationSource src = new UrlBasedCorsConfigurationSource();

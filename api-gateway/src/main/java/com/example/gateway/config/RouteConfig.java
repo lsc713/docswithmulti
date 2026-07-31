@@ -4,6 +4,8 @@ import com.example.gateway.filter.JwtTrustHeaderFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.function.RequestPredicate;
+import org.springframework.web.servlet.function.RequestPredicates;
 import org.springframework.web.servlet.function.RouterFunction;
 import org.springframework.web.servlet.function.ServerResponse;
 
@@ -44,11 +46,13 @@ public class RouteConfig {
     @Bean
     RouterFunction<ServerResponse> userAuthPublicRoute(
             @Value("${gateway.downstream.user-uri}") String userUri) {
+        // 공개 인증 경로는 GatewayPaths 단일 출처에서 predicate로 조합 (CsrfFilter 면제 목록과 공유).
+        RequestPredicate publicAuth = GatewayPaths.PUBLIC_AUTH.stream()
+                .map(RequestPredicates::path)
+                .reduce(RequestPredicate::or)
+                .orElseThrow();
         return route("user-auth-public")
-                .route(path("/v1/auth/signup")
-                                .or(path("/v1/auth/login"))
-                                .or(path("/v1/auth/refresh")),
-                        http())
+                .route(publicAuth, http())
                 .before(uri(userUri))
                 .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID))
                 .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ROLE))

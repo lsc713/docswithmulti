@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import com.example.gateway.config.GatewayPaths;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -15,7 +16,8 @@ import java.util.Set;
 public class CsrfFilter extends OncePerRequestFilter {
 
     private static final Set<String> SAFE = Set.of("GET", "HEAD", "OPTIONS", "TRACE");
-    private static final Set<String> PUBLIC = Set.of("/v1/auth/login", "/v1/auth/signup", "/v1/auth/refresh");
+    // 공개 인증 경로는 RouteConfig와 공유(GatewayPaths 단일 출처) — 목록 드리프트 방지.
+    private static final Set<String> PUBLIC = Set.copyOf(GatewayPaths.PUBLIC_AUTH);
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain)

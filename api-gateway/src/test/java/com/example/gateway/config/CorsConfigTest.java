@@ -21,5 +21,7 @@ class CorsConfigTest {
         assertThat(cfg.checkOrigin("http://localhost:5173")).isEqualTo("http://localhost:5173");
         assertThat(cfg.checkOrigin("http://evil.com")).isNull();
         assertThat(cfg.getAllowedHeaders()).contains("X-CSRF-Token", "Content-Type");
+        // CSRF가 보호하는 상태변경 메서드까지 CORS 허용 (M1)
+        assertThat(cfg.getAllowedMethods()).contains("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS");
     }
 }
