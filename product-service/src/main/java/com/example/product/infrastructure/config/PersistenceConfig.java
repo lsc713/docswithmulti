@@ -1,5 +1,6 @@
 package com.example.product.infrastructure.config;
 
+import com.example.product.application.interfaces.ProcessedCancelEventRepository;
 import com.example.product.application.interfaces.ProductRepository;
 import com.example.product.application.interfaces.ProductSkuRepository;
 import com.example.product.application.interfaces.ProductStockRepository;
@@ -41,5 +42,10 @@ public class PersistenceConfig {
     @Bean
     public StockReservationRepository stockReservationRepository(StockReservationJpaRepository jpa) {
         return new StockReservationRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public ProcessedCancelEventRepository processedCancelEventRepository(ProcessedCancelEventJpaRepository jpa) {
+        return new ProcessedCancelEventRepositoryImpl(jpa);
     }
 }
