@@ -274,6 +274,21 @@ class GatewayRoutingIT {
         userDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
+    // Task 9: GET /v1/auth/me도 secured 라우트(JwtTrustHeaderFilter 부착)로 편입.
+    // GET은 SAFE 메서드라 CsrfFilter(Task 8)가 스킵하므로 CSRF 페어 없이도 JWT 검증까지 도달해
+    // TOKEN_MISSING 401이 나와야 한다(403 아님).
+    @Test
+    void securedMePath_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/auth/me")))
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
     private String gateway(String path) {
         return "http://localhost:" + gatewayPort + path;
     }
