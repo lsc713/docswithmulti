@@ -2,9 +2,11 @@ package com.example.product.application.service;
 
 import com.example.product.application.interfaces.CategoryRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
+import com.example.product.common.exception.application.CategoryNotFoundException;
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.Category;
 import com.example.product.domain.entity.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,15 @@ public class ProductQueryService {
 
     public record ProductDetail(Long id, String name,
                                 List<CategoryPathNode> category, List<SkuDetail> skus) {}
+
+    /** BROWSE-01: 카테고리 스코프 상품 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
+    @Transactional(readOnly = true)
+    public Page<Product> listByCategory(Long categoryId, int page, int size) {
+        categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException(categoryId));
+        List<Long> ids = queryRepository.descendantCategoryIds(categoryId);
+        return queryRepository.findByCategoryIds(ids, page, size);
+    }
 
     /** BROWSE-02: 상품 상세 = 대/중/소 경로 + SKU(코드/옵션/availableQty). 부재 → 404. */
     @Transactional(readOnly = true)

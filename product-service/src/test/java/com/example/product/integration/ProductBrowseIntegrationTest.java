@@ -124,7 +124,110 @@ class ProductBrowseIntegrationTest {
         assertThat(codeOf(res)).isEqualTo("PRODUCT_002");
     }
 
+    // ---- BROWSE-01 (category-scoped list aggregation) ----
+
+    @Test
+    @DisplayName("BROWSE-01: 대분류 GET → 하위 leaf 상품 2건 최신순 집계")
+    void listUnderRootNewestFirst() throws Exception {
+        long root = createCategory("""
+                {"name":"가방"}""");
+        long mid = createCategory("""
+                {"parentId":%d,"name":"백팩"}""".formatted(root));
+        long leaf = createCategory("""
+                {"parentId":%d,"name":"데일리백팩"}""".formatted(mid));
+
+        long p1 = registerProduct(product("가방-A", leaf, "BAG-A"));
+        long p2 = registerProduct(product("가방-B", leaf, "BAG-B"));
+
+        Map<?, ?> body = getList("/v1/categories/" + root + "/products");
+        List<?> content = (List<?>) body.get("content");
+        assertThat(content).hasSize(2);
+        // 최신순: 나중에 등록한 p2 가 먼저 (created_at desc, id desc tiebreak)
+        assertThat(idAt(content, 0)).isEqualTo(p2);
+        assertThat(idAt(content, 1)).isEqualTo(p1);
+        assertThat(((Number) body.get("totalElements")).longValue()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("BROWSE-01: 같은 대분류 아래 두 중>소 브랜치 상품 모두 집계")
+    void listAggregatesAcrossBranches() throws Exception {
+        long root = createCategory("""
+                {"name":"악세서리"}""");
+        long midA = createCategory("""
+                {"parentId":%d,"name":"모자"}""".formatted(root));
+        long leafA = createCategory("""
+                {"parentId":%d,"name":"버킷햇"}""".formatted(midA));
+        long midB = createCategory("""
+                {"parentId":%d,"name":"벨트"}""".formatted(root));
+        long leafB = createCategory("""
+                {"parentId":%d,"name":"가죽벨트"}""".formatted(midB));
+
+        registerProduct(product("햇1", leafA, "HAT-1"));
+        registerProduct(product("햇2", leafA, "HAT-2"));
+        registerProduct(product("벨트1", leafB, "BELT-1"));
+
+        Map<?, ?> body = getList("/v1/categories/" + root + "/products");
+        assertThat((List<?>) body.get("content")).hasSize(3);
+        assertThat(((Number) body.get("totalElements")).longValue()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("BROWSE-01: size=1 페이징 경계 — page0/page1 각 1건, totalElements=2")
+    void pagingBoundary() throws Exception {
+        long root = createCategory("""
+                {"name":"주방"}""");
+        long mid = createCategory("""
+                {"parentId":%d,"name":"컵"}""".formatted(root));
+        long leaf = createCategory("""
+                {"parentId":%d,"name":"머그"}""".formatted(mid));
+
+        long p1 = registerProduct(product("머그-A", leaf, "MUG-A"));
+        long p2 = registerProduct(product("머그-B", leaf, "MUG-B"));
+
+        Map<?, ?> page0 = getList("/v1/categories/" + root + "/products?page=0&size=1");
+        assertThat((List<?>) page0.get("content")).hasSize(1);
+        assertThat(idAt((List<?>) page0.get("content"), 0)).isEqualTo(p2); // 최신
+        assertThat(((Number) page0.get("totalElements")).longValue()).isEqualTo(2);
+
+        Map<?, ?> page1 = getList("/v1/categories/" + root + "/products?page=1&size=1");
+        assertThat((List<?>) page1.get("content")).hasSize(1);
+        assertThat(idAt((List<?>) page1.get("content"), 0)).isEqualTo(p1);
+    }
+
+    @Test
+    @DisplayName("BROWSE-01: 존재하지 않는 카테고리 → 404 CATEGORY_003")
+    void unknownCategoryList() throws Exception {
+        MockHttpServletResponse res = getResp("/v1/categories/999999/products");
+        assertThat(res.getStatus()).isEqualTo(404);
+        assertThat(codeOf(res)).isEqualTo("CATEGORY_003");
+    }
+
+    @Test
+    @DisplayName("BROWSE-01: 유효하지만 상품 없는 leaf → 200 빈 content")
+    void emptyLeafList() throws Exception {
+        long leaf = buildTaxonomy("문구", "노트", "스프링노트");
+        Map<?, ?> body = getList("/v1/categories/" + leaf + "/products");
+        assertThat((List<?>) body.get("content")).isEmpty();
+        assertThat(((Number) body.get("totalElements")).longValue()).isZero();
+    }
+
     // ---- helpers ----
+
+    private String product(String name, long categoryId, String skuCode) {
+        return """
+                {"name":"%s","categoryId":%d,"skus":[{"skuCode":"%s","initialStock":1}]}"""
+                .formatted(name, categoryId, skuCode);
+    }
+
+    private Map<?, ?> getList(String path) throws Exception {
+        MockHttpServletResponse res = getResp(path);
+        assertThat(res.getStatus()).isEqualTo(200);
+        return om.readValue(res.getContentAsString(), Map.class);
+    }
+
+    private long idAt(List<?> content, int idx) {
+        return ((Number) ((Map<?, ?>) content.get(idx)).get("id")).longValue();
+    }
 
     /** 대>중>소 체인을 만들고 leaf id 반환. */
     long buildTaxonomy(String big, String mid, String small) throws Exception {

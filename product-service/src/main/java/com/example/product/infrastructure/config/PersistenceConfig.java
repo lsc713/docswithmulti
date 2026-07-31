@@ -64,7 +64,8 @@ public class PersistenceConfig {
 
     @Bean
     public ProductQueryRepository productQueryRepository(ProductJpaRepository productJpa,
-                                                         ProductSkuJpaRepository skuJpa) {
-        return new ProductQueryRepositoryImpl(productJpa, skuJpa);
+                                                         ProductSkuJpaRepository skuJpa,
+                                                         CategoryJpaRepository categoryJpa) {
+        return new ProductQueryRepositoryImpl(productJpa, skuJpa, categoryJpa);
     }
 }
