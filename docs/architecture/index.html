@@ -52,7 +52,7 @@ graph LR
   risk["risk-management :8083<br/>취소검증 + 한도 소진"]:::svc
   merchant["merchant-limit :8082<br/>일일 취소한도 원본"]:::svc
   order["order-service :8081<br/>주문/아이템 상태 동기화"]:::svc
-  product["product-service :8084<br/>(미구현)"]:::svc
+  product["product-service :8084<br/>SKU 재고 예약·복원 (v3.0)"]:::newsvc
 
   pdb[("payment_db")]:::db
   rdb[("risk_db")]:::db
@@ -70,12 +70,16 @@ graph LR
 
   payment -->|"HTTP validateAndReserve / compensate"| risk
   payment -->|"HTTP 취소"| pg
+  payment -->|"HTTP 재고 예약/해제 (reserve/release, v3.0)"| product
   risk -->|"HTTP daily_limit (최초 / 스냅샷 없을 때만)"| merchant
 
   payment -.->|"payment.cancelled (OUTBOX 정식)"| kafka
   kafka -.-> order
+  kafka -.->|"재고 복원 (v3.0)"| product
   merchant -.->|"merchant.limit.updated (Outbox)"| kafka
   kafka -.-> risk
+
+  product --- pddb[("product_db")]:::db
 
   payment --- pdb
   risk --- rdb

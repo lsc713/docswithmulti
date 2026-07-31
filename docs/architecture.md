@@ -49,12 +49,16 @@ domain과 application은 프레임워크 없이 테스트 가능하게 유지한
 
 | 모듈 | 포트 | 소유 테이블 |
 |------|------|-----------|
-| `payment-service` | 8080 | payment, payment_item, cancel_request, cancel_request_history, cancel_event_outbox, compensation_retry |
+| `payment-service` | 8080 | payment, payment_item(+sku_id/quantity, v3.0), cancel_request, cancel_request_history, cancel_event_outbox, compensation_retry, stock_release_retry(v3.0) |
 | `order-service` | 8081 | order, order_item, processed_cancel_event |
 | `merchant-limit-service` | 8082 | merchant, merchant_cancel_limit, merchant_cancel_limit_history |
 | `risk-management-service` | 8083 | merchant_cancel_usage, cancel_usage_history, cancel_usage_compensation |
-| `product-service` | 8084 | product, product_version, product_sku, product_sku_attribute, product_attribute_type, product_attribute_value, product_stock, product_image, category |
+| `product-service` | 8084 | **as-built(v3.0 최소):** product, product_sku, product_stock, stock_reservation, processed_cancel_event |
+| `user-service` | 8085 | users, refresh_tokens (v2.0) |
+| `api-gateway` | 8000 | 없음(무상태) (v2.0) |
 
+> - **product-service는 as-built로 최소 카탈로그(product/sku/stock/reservation)만.** 원래 설계의 풀 카탈로그(product_version·attribute·image·category)는 후속 백필(경로 Y). 설계: `docs/superpowers/specs/2026-07-30-sku-stock-lifecycle-design.md`.
+> - **v2.0 인증 경계·v3.0 재고 흐름은 아래 별도 섹션 참조.**
 > - `idempotency_key` 테이블 제거: `cancel_request.request_hash` UK가 중복 차단 담당
 > - `compensation_retry`는 payment-service DB에만 존재 (보상 API 호출 주체가 payment-service)
 > - `cancel_request_history`: 상태 변경 이력 (TX와 별도로 INSERT)
@@ -63,6 +67,32 @@ domain과 application은 프레임워크 없이 테스트 가능하게 유지한
 
 모듈 간 DB 직접 접근은 금지한다.
 데이터가 필요하면 HTTP 또는 Kafka를 경유한다.
+
+---
+
+## 확장 흐름 (v2.0 인증 경계 · v3.0 재고 수명주기)
+
+취소 코어(위) 앞뒤로 두 계층이 얹혔다. 취소 코어 로직은 불변.
+
+### v2.0 인증 경계 (앞단)
+```
+클라이언트 ─Bearer JWT─▶ api-gateway(8000)  ── JWT 단일 검증 · 클라 X-User-* strip ──▶
+   ├─ /v1/auth/** (공개)          ──▶ user-service(8085)  회원/토큰 발급
+   └─ 취소 + 신뢰헤더(X-User-Id/Role/Merchant-Id) ──▶ payment  (역할 인가: ADMIN/MERCHANT)
+무효·만료·누락 토큰 → 게이트웨이 401 (downstream 미도달)
+```
+- downstream은 헤더를 **재검증 없이 신뢰** — 배포 시 NetworkPolicy로 payment ingress를 게이트웨이로만 제한 필수(헤더 스푸핑 차단).
+- 시각화: `architecture/auth-gateway.html`. 상세: `.planning/workstreams/auth-gateway/`(로컬).
+
+### v3.0 SKU 재고 수명주기 (product 연동)
+```
+결제 생성  payment ─동기 reserve(오버셀 방지 원자 UPDATE, fail-closed)─▶ product(8084)
+              재고 부족·product 장애 → 결제 거부
+취소       payment.cancelled(+skuId/quantity) ─Kafka─▶ product 신규 consumer → SKU 재고 복원
+복구       reserve 후 결제 실패 → release 보상(재시도) · orphan 예약 → payment 조회 후 정리
+```
+- payment↔product = HTTP(reserve/release) + Kafka(취소 이벤트)만. reserve/release는 paymentKey 멱등, 취소 코어 불변(payload 필드추가만).
+- 설계: `docs/superpowers/specs/2026-07-30-sku-stock-lifecycle-design.md`.
 
 ---
 
