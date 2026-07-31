@@ -26,6 +26,15 @@ spring:
   kafka:
     bootstrap-servers: localhost:29092
 
+external:
+  # 통합테스트는 HTTP 포트를 mock/MockRestServiceServer로 가로챈다 — 더미 URL로 @Value 해소만.
+  risk-management:
+    url: http://localhost:8083
+  pg:
+    url: http://localhost:443
+  product-service:
+    url: http://localhost:8084
+
 kafka:
   topic:
     payment-cancelled: payment.cancelled
@@ -41,6 +50,7 @@ scheduler:
     pending-recovery: lock:scheduler:pending-recovery
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
+    stock-release-retry: lock:scheduler:stock-release-retry
     cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
     cancel-outbox-purge: lock:scheduler:cancel-outbox-purge
 

@@ -1,0 +1,69 @@
+spring:
+  application:
+    name: product-service
+
+  datasource:
+    # useAffectedRows=true: INSERT..ON DUPLICATE KEY 의 winner(affected=1)/loser(0) 판별 전제 (W1 멱등 게이트).
+    # 기본 false(CLIENT_FOUND_ROWS)면 no-op 갱신도 1 반환해 판별 불가. reserve 원자 UPDATE에는 영향 없음(항상 값 변경).
+    url: jdbc:mysql://localhost:3310/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&useAffectedRows=true
+    username: product
+    password: product
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      connection-timeout: 30000
+      initialization-fail-timeout: -1
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092,localhost:9093,localhost:9094}
+    consumer:
+      group-id: product-service
+      retry-group-id: product-service-retry
+    producer:
+      acks: all
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+  profiles:
+    active: local
+
+kafka:
+  topic:
+    payment-cancelled: payment.cancelled
+    payment-cancelled-retry: payment.cancelled.retry
+    payment-cancelled-dlq: payment.cancelled.DLQ
+
+external:
+  payment-service:
+    url: ${PAYMENT_SERVICE_URL:http://localhost:8080}
+
+scheduler:
+  lock:
+    orphan-recovery: lock:scheduler:orphan-reservation-recovery
+
+orphan:
+  threshold-minutes: 5
+
+server:
+  port: 8084
+
+logging:
+  level:
+    com.example.product: INFO

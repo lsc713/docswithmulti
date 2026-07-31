@@ -55,6 +55,9 @@ external:
     url: http://localhost:8083
   pg:
     url: http://pg-gateway:443
+  product-service:
+#    url: http://product-service:8084   # 컨테이너 호스트 대안
+    url: http://localhost:8084
 
 logging:
   level:
@@ -84,6 +87,7 @@ scheduler:
     pending-recovery: lock:scheduler:pending-recovery
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
+    stock-release-retry: lock:scheduler:stock-release-retry
     cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
     cancel-outbox-purge: lock:scheduler:cancel-outbox-purge
 
