@@ -25,7 +25,7 @@
   </head>
   <body>
     <h1>인증 경계 — API Gateway + user-service (v2.0)</h1>
-    <p class="meta">Generated 2026-07-30 · source: <code>api-gateway (:8000), user-service (:8085), payment-service 인가 pre-check</code> · milestone v2.0 (auth-gateway 워크스트림). 취소 코어 4개 서비스는 <strong>불변</strong>.</p>
+    <p class="meta">Generated 2026-07-30 · updated 2026-07-31 (쿠키 기반 인증 + CORS/CSRF + frontend) · source: <code>api-gateway (:8000), user-service (:8085), frontend (:5173)</code> · milestone v2.0. 취소 코어 4개 서비스는 <strong>불변</strong>.</p>
     <nav>← <a href="./index.html">시스템 아키텍처 개요</a> · <a href="./cancel-flow.html">취소 플로우 상세 →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
 
     <p class="legend">
@@ -40,6 +40,7 @@
       <span style="color:#16a34a">초록</span> 신규 서비스 ·
       <span style="color:#3b82f6">파랑</span> 기존 취소 코어(불변) ·
       실선 = 동기 HTTP · 점선 = 기존 Kafka 흐름. 게이트웨이는 user·payment만 노출(내부 3서비스는 미노출).
+      브라우저(frontend)는 <strong>httpOnly 쿠키</strong>로 인증하고, 게이트웨이가 <strong>CORS·CSRF</strong>를 함께 처리한다. Bearer API 클라이언트도 병행 지원.
     </p>
     <div class="mermaid">
 graph LR
@@ -49,9 +50,10 @@ graph LR
   classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
   classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
 
-  C(["클라이언트"])
-  GW["api-gateway :8000<br/>JWT 검증 · X-User-* strip · 라우팅"]:::gw
-  USER["user-service :8085<br/>회원가입 · 로그인 · 토큰"]:::newsvc
+  FE["frontend :5173<br/>Vite+React 로그인 데모"]:::newsvc
+  C(["API 클라이언트"])
+  GW["api-gateway :8000<br/>쿠키/Bearer 검증 · CORS · CSRF · X-User-* strip"]:::gw
+  USER["user-service :8085<br/>회원가입 · 로그인 · /me · 토큰(쿠키 발급)"]:::newsvc
   UDB[("user_db :3315")]:::db
 
   subgraph core["기존 취소 코어 (v1, 불변)"]
@@ -62,9 +64,10 @@ graph LR
   end
   K{{"Kafka"}}:::infra
 
-  C -->|"Bearer JWT"| GW
+  FE -->|"쿠키(httpOnly)+X-CSRF-Token · credentials:include"| GW
+  C -->|"Bearer JWT (CSRF 면제)"| GW
   GW -->|"/v1/auth/** (공개: signup·login·refresh)"| USER
-  GW -->|"/v1/auth/logout (인증)"| USER
+  GW -->|"/v1/auth/{logout,me} (인증)"| USER
   GW -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| P
   USER --- UDB
 
@@ -82,35 +85,37 @@ graph LR
 
     <h2>2. 인증 시퀀스 — 발급(공개) → 검증(게이트) → 신뢰헤더 전달</h2>
     <p class="legend">
-      로그인은 토큰 없이 통과(공개 경로), 취소는 Bearer JWT 필요. 게이트웨이가 검증·strip·주입을 한 곳에서 처리한다.
+      로그인/회원가입은 공개 경로로 통과하고 응답에서 <strong>토큰을 httpOnly 쿠키로 발급</strong>(body에 토큰 없음). 이후 브라우저 요청은 쿠키를 자동 첨부하며, 상태변경(logout 등)은 <code>X-CSRF-Token</code>(double-submit)이 필요하다. Bearer로 오는 API 클라이언트는 CSRF 면제.
     </p>
     <div class="mermaid">
 sequenceDiagram
   autonumber
-  participant C as 클라이언트
+  participant B as 브라우저 (frontend)
   participant GW as api-gateway
   participant U as user-service
-  participant P as payment (인가 pre-check)
-  Note over C,U: 발급 — 공개 경로 (JWT 필터 없음)
-  C->>GW: POST /v1/auth/login (email, pw)
-  GW->>U: 라우팅 (검증 스킵)
-  U-->>C: access(JWT HS256, 1h) + refresh(opaque, 7d)
-  Note over C,P: 취소 — 인증 경로
-  C->>GW: POST /v1/payments/{key}/cancel + Bearer
-  GW->>GW: 클라 X-User-* strip
-  alt 유효 JWT
-    GW->>GW: HS256 검증 → 신원 추출
-    GW->>P: 취소 + X-User-Id/Role/Merchant-Id (신뢰)
-    P->>P: 인가 pre-check (role)
-    P-->>C: 취소 진행 (기존 플로우) / 403
-  else 무효·만료·누락
-    GW-->>C: 401 (downstream 미도달)
+  Note over B,U: 발급 — 공개 경로 (JWT 필터 없음)
+  B->>GW: POST /v1/auth/login (email, pw) · Origin :5173
+  GW->>U: CORS 허용 → 라우팅 (검증 스킵)
+  U-->>B: Set-Cookie access(httpOnly,Secure,Lax)·refresh(httpOnly,Strict)·csrf(non-httpOnly) + {result:OK}
+  Note over B,GW: 신원 — 쿠키 인증 (GET, CSRF 면제)
+  B->>GW: GET /v1/auth/me (쿠키 자동 첨부)
+  GW->>GW: 쿠키 access_token → HS256 검증 → 신원 추출
+  GW->>U: /me + 신뢰헤더 X-User-Id (재검증 없이)
+  U-->>B: {userId, email, name, role}
+  Note over B,U: 상태변경 — CSRF double-submit
+  B->>GW: POST /v1/auth/logout + X-CSRF-Token (= csrf 쿠키)
+  alt 쿠키 csrf == 헤더 & 유효 JWT
+    GW->>U: logout (신뢰)
+    U-->>B: 200 + 쿠키 만료(Max-Age=0)
+  else CSRF 불일치 · 누락
+    GW-->>B: 403 CSRF_TOKEN_INVALID
+  else 무효 · 만료 JWT
+    GW-->>B: 401
   end
     </div>
     <p class="note">
-      <strong>refresh 미회전:</strong> access 만료 시 <code>/v1/auth/refresh</code>로 새 access만 발급(refresh 재사용).
-      <strong>logout:</strong> refresh를 DB에서 하드 DELETE → 이후 갱신 불가. JWT_SECRET은 user-service·gateway가
-      <strong>공유</strong>(env 주입, 비-local 미주입 시 fail-fast).
+      <strong>쿠키 속성:</strong> access=HttpOnly·Secure·SameSite=Lax(세션), refresh=HttpOnly·Strict·Path=<code>/v1/auth/refresh</code>, csrf=non-HttpOnly(JS가 읽어 헤더로 재제출). <code>/v1/auth/refresh</code>는 refresh 쿠키를 읽어 새 access 쿠키만 회전.
+      <strong>logout:</strong> refresh DB 하드 DELETE + 쿠키 만료(Max-Age=0). <strong>CSRF:</strong> 상태변경 요청은 쿠키 csrf == 헤더 <code>X-CSRF-Token</code> 검증(Bearer 요청은 면제). <strong>CORS:</strong> 출처 화이트리스트(<code>localhost:5173</code>) + credentials. JWT_SECRET은 user-service·gateway <strong>공유</strong>(비-local 미주입 시 fail-fast).
     </p>
 
     <h2>3. 기존 취소 코어와의 연결 — 인증 경계가 앞단에 얹힘</h2>

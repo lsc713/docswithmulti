@@ -23,7 +23,7 @@
   </head>
   <body>
     <h1>결제 취소 시스템 Architecture</h1>
-    <p class="meta">Generated 2026-07-11 · updated 2026-07-30 · source: <code>payment/risk/merchant-limit/order-service</code> + v2.0 <code>api-gateway/user-service</code> · 스택: Java 21 · Spring Boot · MySQL(모듈별 독립) · Kafka · Redis</p>
+    <p class="meta">Generated 2026-07-11 · updated 2026-07-31 · source: <code>payment/risk/merchant-limit/order-service</code> + v2.0 <code>api-gateway/user-service</code> + <code>frontend(Vite+React)</code> · 스택: Java 21 · Spring Boot · MySQL(모듈별 독립) · Kafka · Redis</p>
     <nav>▸ <a href="./auth-gateway.html">인증 경계 (API Gateway + user-service, v2.0) →</a> · <a href="./cancel-flow.html">취소 플로우 상세 (TX 경계·커밋 구조·복구) →</a> · <a href="./perf-anatomy.html">부하가 드러낸 설계 (1~4막 실측) →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a> · <a href="./k3s-scaleout.html">k3s 수평 스케일아웃 (멀티노드·실측 5종) →</a></nav>
 
     <h2>1. 서비스 의존 토폴로지</h2>
@@ -43,9 +43,10 @@ graph LR
   classDef gw fill:#fae8ff,stroke:#c026d3,color:#701a75;
   classDef newsvc fill:#dcfce7,stroke:#16a34a,color:#14532d;
 
-  client(["클라이언트"]):::ext
-  gw["api-gateway :8000<br/>JWT 검증·헤더 strip (v2.0)"]:::gw
-  user["user-service :8085<br/>회원/토큰 발급 (v2.0)"]:::newsvc
+  fe["frontend :5173<br/>Vite+React 로그인 데모"]:::newsvc
+  client(["API 클라이언트"]):::ext
+  gw["api-gateway :8000<br/>쿠키/JWT 검증·CORS·CSRF·strip (v2.0)"]:::gw
+  user["user-service :8085<br/>회원/토큰 발급·쿠키·/me (v2.0)"]:::newsvc
   udb[("user_db")]:::db
 
   payment["payment-service :8080<br/>취소 핵심 로직 + 인가 pre-check"]:::svc
@@ -63,8 +64,9 @@ graph LR
   kafka{{"Kafka 3-broker"}}:::infra
   pg(["PG Gateway<br/>(외부 결제사)"]):::ext
 
-  client -->|"Bearer JWT"| gw
-  gw -->|"/v1/auth/** (공개·인증)"| user
+  fe -->|"쿠키(httpOnly)+CSRF · credentials:include"| gw
+  client -->|"Bearer JWT (API 클라)"| gw
+  gw -->|"/v1/auth/** (login·me·logout·refresh)"| user
   gw -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| payment
   user --- udb
 
