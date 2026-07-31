@@ -71,19 +71,21 @@ class AuthIntegrationTest {
     record TokenResp(String accessToken, String refreshToken) {}
 
     @Test
-    @DisplayName("AUTH-01/02: 신규 signup→중복 409→login, access=USER JWT + opaque refresh 1개")
+    @DisplayName("AUTH-01/02: 신규 signup→중복 409→login, access=USER JWT + opaque refresh 1개 (쿠키 발급)")
     void signupLoginAccessRefreshEndToEnd() throws Exception {
         String email = "alice@example.com";
 
-        // 1. AUTH-01: 신규 이메일 signup → 200 + access(JWT) + refresh(opaque UUID)
+        // 1. AUTH-01: 신규 이메일 signup → 200, body={"result":"OK"} + access/refresh 쿠키(access=JWT, refresh=opaque UUID)
         MockHttpServletResponse signup = send("/v1/auth/signup", """
                 {"email":"%s","password":"pw123456","name":"Alice","phone":"010-1111-2222"}""".formatted(email));
         assertThat(signup.getStatus()).isEqualTo(200);
-        TokenResp signupBody = om.readValue(signup.getContentAsString(), TokenResp.class);
-        assertThat(signupBody.accessToken()).isNotBlank();
-        assertThat(signupBody.refreshToken()).matches("[0-9a-f-]{36}"); // opaque UUID, not JWT
+        assertThat(signup.getContentAsString()).isEqualTo("{\"result\":\"OK\"}");
+        String signupAccessToken = cookieValue(signup, "access_token");
+        String signupRefreshToken = cookieValue(signup, "refresh_token");
+        assertThat(signupAccessToken).isNotBlank();
+        assertThat(signupRefreshToken).matches("[0-9a-f-]{36}"); // opaque UUID, not JWT
 
-        Claims claims = parse(signupBody.accessToken());
+        Claims claims = parse(signupAccessToken);
         long userId = Long.parseLong(claims.getSubject());
         assertThat(userId).isPositive();
         assertThat(claims.get("role", String.class)).isEqualTo("USER");
@@ -93,13 +95,12 @@ class AuthIntegrationTest {
                 {"email":"%s","password":"pw123456","name":"Alice2","phone":"010-3333-4444"}""".formatted(email));
         assertThat(dup.getStatus()).isEqualTo(409);
 
-        // 4. AUTH-02: login → 200 + access + refresh, 사용자당 refresh 1개
+        // 4. AUTH-02: login → 200 + access/refresh 쿠키, 사용자당 refresh 1개
         MockHttpServletResponse login = send("/v1/auth/login", """
                 {"email":"%s","password":"pw123456"}""".formatted(email));
         assertThat(login.getStatus()).isEqualTo(200);
-        TokenResp loginBody = om.readValue(login.getContentAsString(), TokenResp.class);
-        assertThat(loginBody.accessToken()).isNotBlank();
-        assertThat(loginBody.refreshToken()).matches("[0-9a-f-]{36}");
+        assertThat(cookieValue(login, "access_token")).isNotBlank();
+        assertThat(cookieValue(login, "refresh_token")).matches("[0-9a-f-]{36}");
 
         Integer count = jdbc.queryForObject(
                 "SELECT COUNT(*) FROM refresh_tokens WHERE user_id = ?", Integer.class, userId);
@@ -116,7 +117,7 @@ class AuthIntegrationTest {
                 {"email":"%s","password":"pw123456","name":"Mallory","phone":"010-9999-0000","role":"ADMIN","merchantId":99}"""
                 .formatted(email));
         assertThat(signup.getStatus()).isEqualTo(200);
-        TokenResp body = om.readValue(signup.getContentAsString(), TokenResp.class);
+        String accessToken = cookieValue(signup, "access_token");
 
         String role = jdbc.queryForObject("SELECT role FROM users WHERE email = ?", String.class, email);
         Long merchantId = jdbc.queryForObject("SELECT merchant_id FROM users WHERE email = ?", Long.class, email);
@@ -124,7 +125,7 @@ class AuthIntegrationTest {
         assertThat(merchantId).isNull();
 
         // 토큰 role 클레임도 USER
-        assertThat(parse(body.accessToken()).get("role", String.class)).isEqualTo("USER");
+        assertThat(parse(accessToken).get("role", String.class)).isEqualTo("USER");
     }
 
     @Test
@@ -134,12 +135,14 @@ class AuthIntegrationTest {
         MockHttpServletResponse signup = send("/v1/auth/signup", """
                 {"email":"%s","password":"pw123456","name":"Bob","phone":"010-5555-6666"}""".formatted(email));
         assertThat(signup.getStatus()).isEqualTo(200);
-        TokenResp issued = om.readValue(signup.getContentAsString(), TokenResp.class);
-        long userId = Long.parseLong(parse(issued.accessToken()).getSubject());
+        String issuedAccessToken = cookieValue(signup, "access_token");
+        String issuedRefreshToken = cookieValue(signup, "refresh_token");
+        long userId = Long.parseLong(parse(issuedAccessToken).getSubject());
 
         // 1. 유효 refresh 제출 → 200 + 새 access, refreshToken=null(미회전, D-P1-1)
+        // /v1/auth/refresh는 이번 태스크(쿠키 전환) 범위 밖 — 기존 JSON 바디 계약 그대로.
         MockHttpServletResponse refreshed = send("/v1/auth/refresh", """
-                {"refreshToken":"%s"}""".formatted(issued.refreshToken()));
+                {"refreshToken":"%s"}""".formatted(issuedRefreshToken));
         assertThat(refreshed.getStatus()).isEqualTo(200);
         TokenResp refreshBody = om.readValue(refreshed.getContentAsString(), TokenResp.class);
         assertThat(refreshBody.accessToken()).isNotBlank();
@@ -166,14 +169,17 @@ class AuthIntegrationTest {
         MockHttpServletResponse login = send("/v1/auth/login", """
                 {"email":"%s","password":"pw123456"}""".formatted(email));
         assertThat(login.getStatus()).isEqualTo(200);
-        TokenResp session = om.readValue(login.getContentAsString(), TokenResp.class);
-        long userId = Long.parseLong(parse(session.accessToken()).getSubject());
+        String sessionAccessToken = cookieValue(login, "access_token");
+        String sessionRefreshToken = cookieValue(login, "refresh_token");
+        long userId = Long.parseLong(parse(sessionAccessToken).getSubject());
 
         // 3. Bearer access로 logout → 200 (JwtAuthenticationFilter가 principal=userId 세팅 → authenticated 통과)
+        // 로그아웃 자체는 쿠키를 만료시키지만, 필터는 여전히 Authorization 헤더만 읽는다(쿠키 인증 전환은 이번 태스크 범위 밖).
         MockHttpServletResponse logout = mockMvc.perform(post("/v1/auth/logout")
-                        .header("Authorization", "Bearer " + session.accessToken()))
+                        .header("Authorization", "Bearer " + sessionAccessToken))
                 .andReturn().getResponse();
         assertThat(logout.getStatus()).isEqualTo(200);
+        assertThat(logout.getCookie("access_token").getMaxAge()).isZero();
 
         // logout 직후 해당 user의 refresh_tokens 행 0개(하드 DELETE)
         Integer count = jdbc.queryForObject(
@@ -182,7 +188,7 @@ class AuthIntegrationTest {
 
         // 4. 삭제된 refresh로 재갱신 → 401 (AUTH-04 무효화 최종 관측)
         MockHttpServletResponse reRefresh = send("/v1/auth/refresh", """
-                {"refreshToken":"%s"}""".formatted(session.refreshToken()));
+                {"refreshToken":"%s"}""".formatted(sessionRefreshToken));
         assertThat(reRefresh.getStatus()).isEqualTo(401);
     }
 
@@ -191,6 +197,12 @@ class AuthIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andReturn().getResponse();
+    }
+
+    private String cookieValue(MockHttpServletResponse response, String name) {
+        var cookie = response.getCookie(name);
+        assertThat(cookie).as("cookie[%s]", name).isNotNull();
+        return cookie.getValue();
     }
 
     private Claims parse(String jwt) {

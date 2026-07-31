@@ -37,6 +37,11 @@ jwt:
   access-token-expiry: 3600000
   refresh-token-expiry: 604800000
 
+auth:
+  cookie:
+    secure: true      # dev localhost도 Chrome은 secure context 허용. HTTP-only 로컬 브라우저면 false.
+    domain: ""        # 호스트 전용(비움). 프로덕션 도메인 분리 시 설정.
+
 logging:
   level:
     com.example.user: INFO
