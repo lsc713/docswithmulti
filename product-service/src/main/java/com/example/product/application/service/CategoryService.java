@@ -1,6 +1,7 @@
 package com.example.product.application.service;
 
 import com.example.product.application.interfaces.CategoryRepository;
+import com.example.product.common.exception.application.CategoryNotFoundException;
 import com.example.product.domain.entity.Category;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +29,15 @@ public class CategoryService {
 
     @Transactional
     public CreateResult create(Long parentId, String name) {
-        // Task 1(tracer): 대분류만. 자식 생성/깊이·부모 검증은 Task 2에서 확장.
-        Category saved = repository.save(Category.createRoot(name));
+        Category category;
+        if (parentId == null) {
+            category = Category.createRoot(name);
+        } else {
+            Category parent = repository.findById(parentId)
+                    .orElseThrow(() -> new CategoryNotFoundException(parentId));
+            category = Category.createChild(parent, name); // level 유도 + 깊이(>3) 거부는 도메인에서
+        }
+        Category saved = repository.save(category);
         return new CreateResult(saved.getId(), saved.getLevel());
     }
 

@@ -86,6 +86,101 @@ class CategoryTaxonomyIntegrationTest {
         assertThat((List<?>) root.get("children")).isEmpty();
     }
 
+    @Test
+    @DisplayName("CAT-01: 자식은 parent.level+1 (대1→중2→소3), created id는 JdbcTemplate로 level 검증")
+    void childLevelDerivation() throws Exception {
+        long root = createId("""
+                {"name":"신발"}""");
+        long mid = createId("""
+                {"parentId":%d,"name":"운동화"}""".formatted(root));
+        long leaf = createId("""
+                {"parentId":%d,"name":"러닝화"}""".formatted(mid));
+
+        assertThat(dbLevel(root)).isEqualTo(1);
+        assertThat(dbLevel(mid)).isEqualTo(2);
+        assertThat(dbLevel(leaf)).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("CAT-01: 소분류(level 3) 아래 자식 → 400 CATEGORY_DEPTH_EXCEEDED")
+    void depthExceededRejected() throws Exception {
+        long root = createId("""
+                {"name":"가방"}""");
+        long mid = createId("""
+                {"parentId":%d,"name":"백팩"}""".formatted(root));
+        long leaf = createId("""
+                {"parentId":%d,"name":"미니백팩"}""".formatted(mid));
+
+        MockHttpServletResponse res = send("/v1/categories", """
+                {"parentId":%d,"name":"불가"}""".formatted(leaf));
+        assertThat(res.getStatus()).isEqualTo(400);
+        assertThat(codeOf(res)).isEqualTo("CATEGORY_001");
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 parentId → 404 CATEGORY_NOT_FOUND")
+    void unknownParentRejected() throws Exception {
+        MockHttpServletResponse res = send("/v1/categories", """
+                {"parentId":999999,"name":"고아"}""");
+        assertThat(res.getStatus()).isEqualTo(404);
+        assertThat(codeOf(res)).isEqualTo("CATEGORY_003");
+    }
+
+    @Test
+    @DisplayName("CAT-02: 같은 부모 아래 이름 중복 → 409 CATEGORY_NAME_DUPLICATE")
+    void duplicateSiblingRejected() throws Exception {
+        long root = createId("""
+                {"name":"주얼리"}""");
+        createId("""
+                {"parentId":%d,"name":"목걸이"}""".formatted(root));
+
+        MockHttpServletResponse dup = send("/v1/categories", """
+                {"parentId":%d,"name":"목걸이"}""".formatted(root));
+        assertThat(dup.getStatus()).isEqualTo(409);
+        assertThat(codeOf(dup)).isEqualTo("CATEGORY_002");
+    }
+
+    @Test
+    @DisplayName("CAT-02: 대분류 두 개 같은 이름(parentId 없음) → 두 번째 409 (parent_key=0 충돌)")
+    void duplicateRootRejected() throws Exception {
+        createId("""
+                {"name":"중복대분류"}""");
+
+        MockHttpServletResponse dup = send("/v1/categories", """
+                {"name":"중복대분류"}""");
+        assertThat(dup.getStatus()).isEqualTo(409);
+        assertThat(codeOf(dup)).isEqualTo("CATEGORY_002");
+    }
+
+    @Test
+    @DisplayName("CAT-02: 같은 이름이라도 부모가 다르면 허용 → 200")
+    void sameNameDifferentParentAllowed() throws Exception {
+        long a = createId("""
+                {"name":"브랜드A"}""");
+        long b = createId("""
+                {"name":"브랜드B"}""");
+        createId("""
+                {"parentId":%d,"name":"세일"}""".formatted(a));
+
+        MockHttpServletResponse ok = send("/v1/categories", """
+                {"parentId":%d,"name":"세일"}""".formatted(b));
+        assertThat(ok.getStatus()).isEqualTo(200);
+    }
+
+    private long createId(String jsonBody) throws Exception {
+        MockHttpServletResponse res = send("/v1/categories", jsonBody);
+        assertThat(res.getStatus()).isEqualTo(200);
+        return ((Number) om.readValue(res.getContentAsString(), Map.class).get("id")).longValue();
+    }
+
+    private int dbLevel(long id) {
+        return jdbc.queryForObject("SELECT level FROM category WHERE id = ?", Integer.class, id);
+    }
+
+    private String codeOf(MockHttpServletResponse res) throws Exception {
+        return (String) om.readValue(res.getContentAsString(), Map.class).get("code");
+    }
+
     private MockHttpServletResponse send(String path, String jsonBody) throws Exception {
         return mockMvc.perform(post(path)
                         .contentType(MediaType.APPLICATION_JSON)
