@@ -75,9 +75,11 @@ class GatewayRoutingIT {
 
     private final HttpClient http = HttpClient.newHttpClient();
 
-    // CSRF double-submit(Task 8) — payments/logout는 CSRF 예외(로그인/회원가입/refresh)에 없는
-    // 상태변경 라우트라 쿠키==헤더 쌍이 없으면 JWT 체크 전에 403으로 단락된다. 이 IT는 JWT 게이트를
-    // 검증하는 게 목적이므로, CSRF 관문은 통과시켜 JWT 로직만 노출되게 고정 토큰을 동봉한다.
+    // CSRF double-submit(Task 8, Finding 2로 Bearer 클라는 예외) — payments/logout는 CSRF
+    // 예외(로그인/회원가입/refresh)에 없는 상태변경 라우트지만, Authorization: Bearer 헤더가 있고
+    // access_token 쿠키가 없으면 CSRF는 스킵된다(비-브라우저 클라는 CSRF 취약점이 없음). 아래
+    // Authorization 헤더가 아예 없는 두 케이스(진짜 "토큰 없음")만 CSRF 관문을 넘겨야 JWT 로직의
+    // TOKEN_MISSING 분기가 노출되므로 고정 토큰을 계속 동봉한다.
     private static final String CSRF_TOKEN = "it-fixed-csrf-token";
 
     private HttpRequest.Builder withCsrf(HttpRequest.Builder b) {
@@ -97,10 +99,10 @@ class GatewayRoutingIT {
 
         String token = accessToken(42L, "USER", 7L);
         HttpResponse<String> res = http.send(
-                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK123/cancel")))
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK123/cancel")))
                         .header("Authorization", "Bearer " + token)
                         .header(JwtTrustHeaderFilter.H_USER_ID, "999") // 위조 시도 → strip 되어야 함
-                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .POST(HttpRequest.BodyPublishers.noBody())
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -149,6 +151,24 @@ class GatewayRoutingIT {
                 .containsExactly("http://localhost:5173");
     }
 
+    // Finding 2 follow-up: CSRF는 브라우저 쿠키 인증에만 적용된다는 걸 실제로 증명 — access_token
+    // 쿠키(유효 JWT)로 인증하는 상태변경 요청이 csrf_token/X-CSRF-Token 쌍 없이 오면, FilterConfig
+    // 체인의 CsrfFilter가 JWT 체크보다 먼저 403으로 막고 downstream은 호출되지 않아야 한다.
+    @Test
+    void cookieAuthenticated_noCsrfPair_rejected403_downstreamNotCalled() throws Exception {
+        String token = accessToken(42L, "USER", 7L);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                        .header("Cookie", "access_token=" + token)
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(403);
+        assertThat(res.body()).contains("CSRF_TOKEN_INVALID");
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
     // === GATE-03: 누락/무효/만료 토큰 → downstream 도달 전 401, downstream 무호출 ===
 
     @Test
@@ -168,9 +188,9 @@ class GatewayRoutingIT {
     void invalidSignature_returns401_downstreamNotCalled() throws Exception {
         String forged = signedToken(WRONG_SECRET, 42L, "USER", -1_000L, 3_600_000L);
         HttpResponse<String> res = http.send(
-                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
                         .header("Authorization", "Bearer " + forged)
-                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .POST(HttpRequest.BodyPublishers.noBody())
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -184,9 +204,9 @@ class GatewayRoutingIT {
         // issuedAt/expiration 모두 과거로 설정 → jjwt parseSignedClaims가 만료 자동 거부
         String expired = signedToken(SECRET, 42L, "USER", -7_200_000L, -3_600_000L);
         HttpResponse<String> res = http.send(
-                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK1/cancel")))
                         .header("Authorization", "Bearer " + expired)
-                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .POST(HttpRequest.BodyPublishers.noBody())
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
@@ -204,12 +224,12 @@ class GatewayRoutingIT {
 
         String token = accessToken(42L, "USER", 7L);
         HttpResponse<String> res = http.send(
-                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK9/cancel")))
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK9/cancel")))
                         .header("Authorization", "Bearer " + token)
                         .header(JwtTrustHeaderFilter.H_USER_ID, "9999")     // 위조
                         .header(JwtTrustHeaderFilter.H_USER_ROLE, "ADMIN")  // 인가 우회 시도
                         .header(JwtTrustHeaderFilter.H_MERCHANT_ID, "1")    // 위조
-                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .POST(HttpRequest.BodyPublishers.noBody())
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
