@@ -1,122 +1,49 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { api } from './api'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [mode, setMode] = useState('login')       // 'login' | 'signup'
+  const [form, setForm] = useState({ email: '', password: '', name: '', phone: '' })
+  const [me, setMe] = useState(null)
+  const [err, setErr] = useState('')
+
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
+
+  async function submit(e) {
+    e.preventDefault(); setErr('')
+    try {
+      if (mode === 'signup') await api.signup(form)
+      else await api.login({ email: form.email, password: form.password })
+      setMe(await api.me())                         // 신원은 /me로만 (토큰 미접근)
+    } catch (e) { setErr(e.message) }
+  }
+
+  async function logout() {
+    try { await api.logout(); setMe(null) } catch (e) { setErr(e.message) }
+  }
+
+  if (me) return (
+    <main style={{ fontFamily: 'sans-serif', padding: 40 }}>
+      <h1>안녕하세요, {me.name}님</h1>
+      <p>{me.email} · {me.role} · userId {me.userId}</p>
+      <button onClick={logout}>로그아웃</button>
+    </main>
+  )
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+    <main style={{ fontFamily: 'sans-serif', padding: 40, maxWidth: 320 }}>
+      <h1>{mode === 'login' ? '로그인' : '회원가입'}</h1>
+      <form onSubmit={submit} style={{ display: 'grid', gap: 8 }}>
+        <input placeholder="email" value={form.email} onChange={set('email')} />
+        <input placeholder="password" type="password" value={form.password} onChange={set('password')} />
+        {mode === 'signup' && <input placeholder="name" value={form.name} onChange={set('name')} />}
+        {mode === 'signup' && <input placeholder="phone" value={form.phone} onChange={set('phone')} />}
+        <button type="submit">{mode === 'login' ? '로그인' : '가입'}</button>
+      </form>
+      {err && <p style={{ color: 'crimson' }}>{err}</p>}
+      <button onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} style={{ marginTop: 12 }}>
+        {mode === 'login' ? '회원가입으로' : '로그인으로'}
+      </button>
+    </main>
   )
 }
-
-export default App
