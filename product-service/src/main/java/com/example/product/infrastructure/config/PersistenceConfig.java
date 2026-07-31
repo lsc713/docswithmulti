@@ -1,5 +1,6 @@
 package com.example.product.infrastructure.config;
 
+import com.example.product.application.interfaces.CategoryRepository;
 import com.example.product.application.interfaces.ProcessedCancelEventRepository;
 import com.example.product.application.interfaces.ProductRepository;
 import com.example.product.application.interfaces.ProductSkuRepository;
@@ -33,6 +34,11 @@ public class PersistenceConfig {
     @Bean
     public ProductRepository productRepository(ProductJpaRepository jpa) {
         return new ProductRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public CategoryRepository categoryRepository(CategoryJpaRepository jpa) {
+        return new CategoryRepositoryImpl(jpa);
     }
 
     @Bean
