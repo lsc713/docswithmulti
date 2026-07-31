@@ -8,3 +8,11 @@ flyway {
     password = 'product'
     locations = ['classpath:db/migration']
 }
+
+dependencies {
+    // Kafka consumer (payment.cancelled 구독 → 재고 복원). 03-01: consume-only.
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // Testcontainers Kafka (재고 복원 e2e) — order/payment 정렬 버전
+    testImplementation 'org.testcontainers:kafka:1.19.7'
+}
