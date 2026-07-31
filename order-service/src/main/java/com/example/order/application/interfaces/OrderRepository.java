@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public interface OrderRepository {
     Order insert(Order order);
+    Optional<Order> findById(long id);
     Optional<Order> findByIdForUpdate(long id);
     void save(Order order);
 }
