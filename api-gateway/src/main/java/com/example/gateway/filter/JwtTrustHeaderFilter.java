@@ -45,16 +45,23 @@ public class JwtTrustHeaderFilter implements HandlerFilterFunction<ServerRespons
                     h.remove(H_MERCHANT_ID);
                 });
 
-        // 2. Bearer 추출 — 없음/형식오류 → 401 단락 (GATE-03, next 미호출)
-        String auth = request.headers().firstHeader(HttpHeaders.AUTHORIZATION);
-        if (auth == null || !auth.startsWith("Bearer ")) {
+        // 2. 토큰 추출 — access_token 쿠키 우선, 없으면 Authorization: Bearer 폴백.
+        //    둘 다 없음/형식오류 → 401 단락 (GATE-03, next 미호출)
+        String token = tokenFromCookie(request);
+        if (token == null) {
+            String auth = request.headers().firstHeader(HttpHeaders.AUTHORIZATION);
+            if (auth != null && auth.startsWith("Bearer ")) {
+                token = auth.substring(7);
+            }
+        }
+        if (token == null) {
             return unauthorized("TOKEN_MISSING");
         }
 
         // 3. 서명·만료 검증 — 실패 → 401 단락 (GATE-03)
         Claims claims;
         try {
-            claims = verifier.parse(auth.substring(7));
+            claims = verifier.parse(token);
         } catch (ExpiredJwtException e) {
             return unauthorized("TOKEN_EXPIRED");
         } catch (JwtException | IllegalArgumentException e) {
@@ -73,6 +80,11 @@ public class JwtTrustHeaderFilter implements HandlerFilterFunction<ServerRespons
         }
 
         return next.handle(mutated.build());
+    }
+
+    private String tokenFromCookie(ServerRequest request) {
+        var cookies = request.cookies().get("access_token");
+        return (cookies != null && !cookies.isEmpty()) ? cookies.get(0).getValue() : null;
     }
 
     private ServerResponse unauthorized(String code) {
