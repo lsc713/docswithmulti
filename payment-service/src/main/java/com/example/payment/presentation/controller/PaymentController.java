@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,11 +28,12 @@ public class PaymentController {
 
     @PostMapping
     public ResponseEntity<CreatePaymentResponse> create(
+        @RequestHeader("X-User-Id") long userId,
         @RequestBody @Valid CreatePaymentRequest request
     ) {
         CreatePaymentCommand command = new CreatePaymentCommand(
             request.merchantId(),
-            request.userId(),
+            userId,
             request.pgType(),
             request.cancelPeriodDays(),
             request.items().stream()

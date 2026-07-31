@@ -89,10 +89,11 @@ class CreatePaymentReserveIntegrationTest {
         jdbcTemplate.update("DELETE FROM payment");
     }
 
+    private static final long VERIFIED_ORDER_ID = 777L;
+
     private String requestJson() throws Exception {
         return objectMapper.writeValueAsString(Map.of(
             "merchantId", 1,
-            "userId", 100,
             "pgType", "TOSS",
             "cancelPeriodDays", 90,
             "items", List.of(Map.of(
@@ -106,9 +107,19 @@ class CreatePaymentReserveIntegrationTest {
         ));
     }
 
+    /** order verify(200 {orderId})를 reserve보다 먼저 스텁한다(MockRestServiceServer 기본 순서 매칭). */
+    private void stubOrderVerifySuccess() {
+        mockServer.expect(requestTo(containsString("/v1/orders/items:verify")))
+            .andExpect(method(org.springframework.http.HttpMethod.POST))
+            .andExpect(header("X-User-Id", "100"))
+            .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.orderItemIds[0]").value(10))
+            .andRespond(withSuccess("{\"orderId\":" + VERIFIED_ORDER_ID + "}", MediaType.APPLICATION_JSON));
+    }
+
     @Test
-    @DisplayName("A: reserve 200 → 201 저장, payment_item.sku_id/quantity 영속, reserve가 paymentKey로 호출")
+    @DisplayName("A: verify 200(orderId) → reserve보다 먼저 X-User-Id·orderItemIds로 호출, 200 저장, payment.order_id/payment_item.sku_id·quantity 영속")
     void reserveSuccess_persists() throws Exception {
+        stubOrderVerifySuccess();
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
             .andExpect(method(org.springframework.http.HttpMethod.POST))
             .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.paymentKey").exists())
@@ -117,29 +128,36 @@ class CreatePaymentReserveIntegrationTest {
             .andRespond(withSuccess());
 
         mockMvc.perform(post("/v1/payments")
+                .header("X-User-Id", "100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson()))
             .andExpect(status().isOk());
 
         Integer payments = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM payment", Integer.class);
         assertThat(payments).isEqualTo(1);
+        Map<String, Object> payment = jdbcTemplate.queryForMap("SELECT order_id FROM payment");
+        assertThat(((Number) payment.get("order_id")).longValue()).isEqualTo(VERIFIED_ORDER_ID);
         Map<String, Object> item = jdbcTemplate.queryForMap(
             "SELECT sku_id, quantity FROM payment_item");
         assertThat(((Number) item.get("sku_id")).longValue()).isEqualTo(500L);
         assertThat(((Number) item.get("quantity")).intValue()).isEqualTo(2);
 
+        // MockRestServiceServer는 스텁 등록 순서대로 요청을 매칭한다 — verify 스텁이 먼저 소진됐다는 것 자체가
+        // verify가 reserve보다 먼저 호출됐음을 증명한다(PLINK-03).
         mockServer.verify();
     }
 
     @Test
     @DisplayName("B: reserve 409 → 409 STOCK_INSUFFICIENT, payment 미저장(fail-closed)")
     void reserveConflict_rejected() throws Exception {
+        stubOrderVerifySuccess();
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
             .andRespond(withStatus(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body("{\"code\":\"STOCK_INSUFFICIENT\"}"));
 
         mockMvc.perform(post("/v1/payments")
+                .header("X-User-Id", "100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson()))
             .andExpect(status().isConflict())
@@ -152,10 +170,12 @@ class CreatePaymentReserveIntegrationTest {
     @Test
     @DisplayName("C: product CircuitBreaker OPEN → 503 PRODUCT_SERVICE_UNAVAILABLE, payment 미저장(fail-closed)")
     void circuitBreakerOpen_rejected() throws Exception {
+        stubOrderVerifySuccess();
         // DEFAULT_CONFIG minimumNumberOfCalls 때문에 스텁 실패로는 OPEN 불가 → 직접 강제 전이.
         productServiceCircuitBreaker.transitionToOpenState();
         try {
             mockMvc.perform(post("/v1/payments")
+                    .header("X-User-Id", "100")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(requestJson()))
                 .andExpect(status().isServiceUnavailable())

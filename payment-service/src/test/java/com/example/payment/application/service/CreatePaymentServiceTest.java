@@ -1,5 +1,6 @@
 package com.example.payment.application.service;
 
+import com.example.payment.application.interfaces.OrderVerifyPort;
 import com.example.payment.application.interfaces.ProductStockPort;
 import com.example.payment.application.usecase.CreatePaymentUseCase.Result;
 import com.example.payment.domain.entity.Payment;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -28,16 +30,20 @@ import static org.mockito.Mockito.*;
 @DisplayName("CreatePaymentService (비-TX 오케스트레이터)")
 class CreatePaymentServiceTest {
 
+    @Mock OrderVerifyPort orderVerifyPort;
     @Mock ProductStockPort productStockPort;
     @Mock PaymentCreateTxWriter paymentCreateTxWriter;
     @Mock com.example.payment.application.interfaces.StockReleaseRetryRepository stockReleaseRetryRepository;
+
+    private static final long VERIFIED_ORDER_ID = 999L;
 
     private CreatePaymentService service;
 
     @BeforeEach
     void setUp() {
-        service = new CreatePaymentService(productStockPort, paymentCreateTxWriter,
+        service = new CreatePaymentService(orderVerifyPort, productStockPort, paymentCreateTxWriter,
             stockReleaseRetryRepository);
+        lenient().when(orderVerifyPort.verify(anyLong(), any())).thenReturn(VERIFIED_ORDER_ID);
     }
 
     @Test
@@ -62,7 +68,7 @@ class CreatePaymentServiceTest {
             PaymentItem.reconstruct(2L, 1L, 11L, 201L, 201L, "상품B",
                 BigDecimal.valueOf(70_000), 501L, 1, PaymentItemStatus.ACTIVE)
         );
-        when(paymentCreateTxWriter.persist(any(), anyString(), any()))
+        when(paymentCreateTxWriter.persist(any(), anyString(), any(), anyLong()))
             .thenReturn(new Result(savedPayment, savedItems));
 
         Result result = service.create(command);
@@ -82,9 +88,9 @@ class CreatePaymentServiceTest {
             itemsCaptor.getValue()
         );
 
-        // persist는 reserve에 전달된 것과 동일한 paymentKey + 합산 금액으로 호출
+        // persist는 reserve에 전달된 것과 동일한 paymentKey + 합산 금액 + order 검증된 orderId로 호출
         verify(paymentCreateTxWriter).persist(eq(command),
-            eq(keyCaptor.getValue()), eq(BigDecimal.valueOf(100_000)));
+            eq(keyCaptor.getValue()), eq(BigDecimal.valueOf(100_000)), eq(VERIFIED_ORDER_ID));
     }
 
     @Test
@@ -115,13 +121,13 @@ class CreatePaymentServiceTest {
             BigDecimal.valueOf(50_000), "KRW", 30,
             PaymentStatus.COMPLETED, LocalDateTime.now(), LocalDateTime.now()
         );
-        when(paymentCreateTxWriter.persist(any(), anyString(), any()))
+        when(paymentCreateTxWriter.persist(any(), anyString(), any(), anyLong()))
             .thenReturn(new Result(savedPayment, List.of()));
 
         Result result = service.create(command);
 
         assertNotNull(result);
         verify(paymentCreateTxWriter).persist(eq(command), anyString(),
-            eq(BigDecimal.valueOf(50_000)));
+            eq(BigDecimal.valueOf(50_000)), eq(VERIFIED_ORDER_ID));
     }
 }

@@ -9,7 +9,6 @@ import java.util.List;
 
 public record CreatePaymentRequest(
     @Positive long merchantId,
-    @Positive long userId,
     @NotBlank String pgType,
     @Positive int cancelPeriodDays,
     @NotEmpty @Valid List<CreatePaymentItemRequest> items

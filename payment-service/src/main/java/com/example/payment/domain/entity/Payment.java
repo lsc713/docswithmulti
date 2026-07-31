@@ -23,6 +23,9 @@ public class Payment {
     private final BigDecimal totalAmount;
     private final String currency;
     private final int cancelPeriodDays;
+    // order-service 검증된 orderId (PLINK-02). 레거시/취소 테스트 seed 행은 0L 센티널(order 미링크,
+    // 취소 코어는 order_id를 읽지 않음) — 아래 7/8-인자 of()·ofPending()·11-인자 reconstruct()가 위임.
+    private final long orderId;
     private PaymentStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -36,6 +39,7 @@ public class Payment {
         BigDecimal totalAmount,
         String currency,
         int cancelPeriodDays,
+        long orderId,
         PaymentStatus status,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
@@ -48,6 +52,7 @@ public class Payment {
         this.totalAmount = totalAmount;
         this.currency = currency;
         this.cancelPeriodDays = cancelPeriodDays;
+        this.orderId = orderId;
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -75,6 +80,7 @@ public class Payment {
             totalAmount,
             currency,
             cancelPeriodDays,
+            0L, // orderId 센티널: 레거시/취소 테스트 seed 행(order 미링크, 취소 코어는 읽지 않음)
             PaymentStatus.COMPLETED,
             now,
             now
@@ -104,9 +110,41 @@ public class Payment {
             totalAmount,
             currency,
             cancelPeriodDays,
+            0L, // orderId 센티널
             PaymentStatus.COMPLETED,
             createdAt,
             createdAt
+        );
+    }
+
+    /**
+     * 결제 생성 경로 전용: order-service 검증된 orderId를 실어 신규 Payment를 생성한다 (PLINK-02/03).
+     * 7-인자 of()와 달리 실제 orderId를 저장한다 — CreatePaymentService/PaymentCreateTxWriter만 호출.
+     */
+    public static Payment of(
+        String paymentKey,
+        long merchantId,
+        long userId,
+        String pgType,
+        BigDecimal totalAmount,
+        String currency,
+        int cancelPeriodDays,
+        long orderId
+    ) {
+        LocalDateTime now = LocalDateTime.now(java.time.ZoneOffset.UTC);
+        return new Payment(
+            0,
+            paymentKey,
+            merchantId,
+            userId,
+            pgType,
+            totalAmount,
+            currency,
+            cancelPeriodDays,
+            orderId,
+            PaymentStatus.COMPLETED,
+            now,
+            now
         );
     }
 
@@ -132,6 +170,7 @@ public class Payment {
             totalAmount,
             currency,
             cancelPeriodDays,
+            0L, // orderId 센티널
             PaymentStatus.PENDING,
             now,
             now
@@ -140,6 +179,7 @@ public class Payment {
 
     /**
      * DB에서 조회한 데이터로 Payment를 재구성한다 (infrastructure 계층용)
+     * orderId 없는 레거시 호출부(취소 플로우 테스트 등) 호환 — 0L 센티널 위임.
      */
     public static Payment reconstruct(
         long id,
@@ -154,6 +194,29 @@ public class Payment {
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
+        return reconstruct(
+            id, paymentKey, merchantId, userId, pgType, totalAmount, currency,
+            cancelPeriodDays, 0L, status, createdAt, updatedAt
+        );
+    }
+
+    /**
+     * DB에서 조회한 데이터로 Payment를 재구성한다 (orderId 포함, PaymentJpaEntity.toDomain 전용).
+     */
+    public static Payment reconstruct(
+        long id,
+        String paymentKey,
+        long merchantId,
+        long userId,
+        String pgType,
+        BigDecimal totalAmount,
+        String currency,
+        int cancelPeriodDays,
+        long orderId,
+        PaymentStatus status,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+    ) {
         return new Payment(
             id,
             paymentKey,
@@ -163,6 +226,7 @@ public class Payment {
             totalAmount,
             currency,
             cancelPeriodDays,
+            orderId,
             status,
             createdAt,
             updatedAt
@@ -251,6 +315,10 @@ public class Payment {
 
     public int getCancelPeriodDays() {
         return cancelPeriodDays;
+    }
+
+    public long getOrderId() {
+        return orderId;
     }
 
     public PaymentStatus getStatus() {

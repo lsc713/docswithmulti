@@ -9,14 +9,16 @@ import java.time.LocalDateTime;
 /**
  * Payment JPA 엔티티
  *
- * DDL: V1__create_payment_core.sql, V7__add_cancel_period_days_to_payment.sql 기준
+ * DDL: V1__create_payment_core.sql, V7__add_cancel_period_days_to_payment.sql,
+ *      V18__add_order_id_to_payment.sql 기준
  * 도메인 엔티티 Payment와 분리되어 있음.
  */
 @Entity
 @Table(name = "payment",
     indexes = {
         @Index(name = "idx_payment_merchant_id", columnList = "merchant_id"),
-        @Index(name = "idx_payment_user_id", columnList = "user_id")
+        @Index(name = "idx_payment_user_id", columnList = "user_id"),
+        @Index(name = "idx_payment_order_id", columnList = "order_id")
     }
 )
 public class PaymentJpaEntity {
@@ -33,6 +35,10 @@ public class PaymentJpaEntity {
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
+
+    // PLINK-02: order-service 검증된 orderId (NOT NULL, V18). 레거시/취소 테스트 seed 행은 0L.
+    @Column(name = "order_id", nullable = false)
+    private Long orderId;
 
     @Column(name = "pg_type", nullable = false, length = 20)
     private String pgType;
@@ -64,6 +70,7 @@ public class PaymentJpaEntity {
         String paymentKey,
         Long merchantId,
         Long userId,
+        Long orderId,
         String pgType,
         BigDecimal totalAmount,
         String currency,
@@ -76,6 +83,7 @@ public class PaymentJpaEntity {
         this.paymentKey = paymentKey;
         this.merchantId = merchantId;
         this.userId = userId;
+        this.orderId = orderId;
         this.pgType = pgType;
         this.totalAmount = totalAmount;
         this.currency = currency;
@@ -95,6 +103,7 @@ public class PaymentJpaEntity {
             payment.getPaymentKey(),
             payment.getMerchantId(),
             payment.getUserId(),
+            payment.getOrderId(),
             payment.getPgType(),
             payment.getTotalAmount(),
             payment.getCurrency(),
@@ -118,6 +127,7 @@ public class PaymentJpaEntity {
             totalAmount,
             currency,
             cancelPeriodDays,
+            orderId,
             status,
             createdAt,
             updatedAt
@@ -140,6 +150,10 @@ public class PaymentJpaEntity {
 
     public Long getUserId() {
         return userId;
+    }
+
+    public Long getOrderId() {
+        return orderId;
     }
 
     public String getPgType() {

@@ -26,7 +26,7 @@ public class PaymentCreateTxWriter {
     private final PaymentItemRepository paymentItemRepository;
 
     @Transactional
-    public Result persist(CreatePaymentCommand command, String paymentKey, BigDecimal totalAmount) {
+    public Result persist(CreatePaymentCommand command, String paymentKey, BigDecimal totalAmount, long orderId) {
         Payment payment = Payment.of(
             paymentKey,
             command.merchantId(),
@@ -34,7 +34,8 @@ public class PaymentCreateTxWriter {
             command.pgType(),
             totalAmount,
             "KRW",
-            command.cancelPeriodDays()
+            command.cancelPeriodDays(),
+            orderId
         );
         Payment saved = paymentRepository.save(payment);
 

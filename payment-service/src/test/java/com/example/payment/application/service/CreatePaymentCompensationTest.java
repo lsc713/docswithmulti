@@ -1,5 +1,6 @@
 package com.example.payment.application.service;
 
+import com.example.payment.application.interfaces.OrderVerifyPort;
 import com.example.payment.application.interfaces.ProductStockPort;
 import com.example.payment.application.interfaces.StockReleaseRetryRepository;
 import com.example.payment.application.usecase.CreatePaymentUseCase.Result;
@@ -20,6 +21,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
@@ -28,6 +30,7 @@ import static org.mockito.Mockito.*;
 @DisplayName("CreatePaymentService — 예약 성공 후 persist 실패 보상(RSV-03)")
 class CreatePaymentCompensationTest {
 
+    @Mock OrderVerifyPort orderVerifyPort;
     @Mock ProductStockPort productStockPort;
     @Mock PaymentCreateTxWriter paymentCreateTxWriter;
     @Mock StockReleaseRetryRepository stockReleaseRetryRepository;
@@ -37,7 +40,8 @@ class CreatePaymentCompensationTest {
     @BeforeEach
     void setUp() {
         service = new CreatePaymentService(
-            productStockPort, paymentCreateTxWriter, stockReleaseRetryRepository);
+            orderVerifyPort, productStockPort, paymentCreateTxWriter, stockReleaseRetryRepository);
+        lenient().when(orderVerifyPort.verify(anyLong(), any())).thenReturn(999L);
     }
 
     private CreatePaymentCommand command() {
@@ -57,7 +61,7 @@ class CreatePaymentCompensationTest {
             1L, "pay_ok", 1L, 100L, "TOSS",
             BigDecimal.valueOf(100_000), "KRW", 90,
             PaymentStatus.COMPLETED, LocalDateTime.now(), LocalDateTime.now());
-        when(paymentCreateTxWriter.persist(any(), anyString(), any()))
+        when(paymentCreateTxWriter.persist(any(), anyString(), any(), anyLong()))
             .thenReturn(new Result(saved, List.of()));
 
         service.create(command());
@@ -70,7 +74,7 @@ class CreatePaymentCompensationTest {
     @DisplayName("persist 실패 → release 1회 best-effort 호출 + 원예외 전파(payment 미생성)")
     void persistFails_releaseCompensates() {
         RuntimeException boom = new RuntimeException("persist 폭발");
-        when(paymentCreateTxWriter.persist(any(), anyString(), any())).thenThrow(boom);
+        when(paymentCreateTxWriter.persist(any(), anyString(), any(), anyLong())).thenThrow(boom);
 
         RuntimeException thrown = assertThrows(RuntimeException.class, () -> service.create(command()));
         assertSame(boom, thrown);
@@ -91,7 +95,7 @@ class CreatePaymentCompensationTest {
     @DisplayName("persist 실패 + release도 실패 → stock_release_retry 적재 + 원예외 전파")
     void persistFails_releaseFails_enqueued() {
         RuntimeException boom = new RuntimeException("persist 폭발");
-        when(paymentCreateTxWriter.persist(any(), anyString(), any())).thenThrow(boom);
+        when(paymentCreateTxWriter.persist(any(), anyString(), any(), anyLong())).thenThrow(boom);
         doThrow(new RuntimeException("release 폭발"))
             .when(productStockPort).release(anyString(), any());
 

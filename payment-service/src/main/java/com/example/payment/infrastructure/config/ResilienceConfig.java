@@ -50,6 +50,15 @@ public class ResilienceConfig {
     }
 
     /**
+     * 결제 생성 흐름 최전방 order-service 검증(items:verify) 전용 CircuitBreaker (PLINK-01).
+     * OPEN 시 CallNotPermittedException → OrderVerifyUnavailableException → 결제 거부(fail-closed).
+     */
+    @Bean
+    public CircuitBreaker orderServiceCircuitBreaker(CircuitBreakerRegistry registry) {
+        return registry.circuitBreaker("order-service");
+    }
+
+    /**
      * WR-04: 조회성 호출(isCharged) 전용 CircuitBreaker.
      * validateAndReserve/compensate(쓰기·보상)와 분리해, 조회 호출의 일시적 실패율 증가가
      * 재무적으로 더 중요한 compensate 호출까지 함께 차단하지 않도록 한다.
