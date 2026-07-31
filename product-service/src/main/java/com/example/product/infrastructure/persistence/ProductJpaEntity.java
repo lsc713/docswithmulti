@@ -17,6 +17,10 @@ public class ProductJpaEntity {
     @Column(nullable = false)
     private String name;
 
+    // V4 이후 매핑 — Hibernate schema-validate 통과 조건(PLINK-02 "app boots").
+    @Column(name = "category_id", nullable = false)
+    private Long categoryId;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -29,13 +33,14 @@ public class ProductJpaEntity {
         ProductJpaEntity e = new ProductJpaEntity();
         e.id = p.getId();
         e.name = p.getName();
+        e.categoryId = p.getCategoryId();
         e.createdAt = LocalDateTime.ofInstant(p.getCreatedAt(), ZoneOffset.UTC);
         e.updatedAt = LocalDateTime.ofInstant(p.getUpdatedAt(), ZoneOffset.UTC);
         return e;
     }
 
     public Product toDomain() {
-        return Product.reconstruct(id, name,
+        return Product.reconstruct(id, name, categoryId,
                 createdAt.toInstant(ZoneOffset.UTC), updatedAt.toInstant(ZoneOffset.UTC));
     }
 }
