@@ -28,10 +28,11 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<CreateOrderResponse> create(
+        @RequestHeader("X-User-Id") long userId,
         @RequestBody @Valid CreateOrderRequest request
     ) {
         CreateOrderCommand command = new CreateOrderCommand(
-            request.userId(),
+            userId,
             request.items().stream()
                 .map(item -> new CreateOrderCommand.Item(
                     item.productId(), item.itemName(), item.price()))
