@@ -52,12 +52,14 @@ class GatewayRoutingIT {
     static final WireMockServer paymentDownstream = new WireMockServer(options().dynamicPort());
     static final WireMockServer userDownstream = new WireMockServer(options().dynamicPort());
     static final WireMockServer orderDownstream = new WireMockServer(options().dynamicPort());
+    static final WireMockServer productDownstream = new WireMockServer(options().dynamicPort());
 
     static {
         // @DynamicPropertySource 서플라이어가 포트를 읽기 전에 기동돼 있어야 함
         paymentDownstream.start();
         userDownstream.start();
         orderDownstream.start();
+        productDownstream.start();
     }
 
     @AfterAll
@@ -65,6 +67,7 @@ class GatewayRoutingIT {
         paymentDownstream.stop();
         userDownstream.stop();
         orderDownstream.stop();
+        productDownstream.stop();
     }
 
     @DynamicPropertySource
@@ -72,6 +75,7 @@ class GatewayRoutingIT {
         registry.add("gateway.downstream.payment-uri", () -> "http://localhost:" + paymentDownstream.port());
         registry.add("gateway.downstream.user-uri", () -> "http://localhost:" + userDownstream.port());
         registry.add("gateway.downstream.order-uri", () -> "http://localhost:" + orderDownstream.port());
+        registry.add("gateway.downstream.product-uri", () -> "http://localhost:" + productDownstream.port());
     }
 
     @LocalServerPort
@@ -95,6 +99,7 @@ class GatewayRoutingIT {
         paymentDownstream.resetAll();
         userDownstream.resetAll();
         orderDownstream.resetAll();
+        productDownstream.resetAll();
     }
 
     @Test
@@ -346,6 +351,76 @@ class GatewayRoutingIT {
         orderDownstream.verify(0, anyRequestedFor(anyUrl()));
         paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
         userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    // === Task 9: product-service 라우트 — 공개 GET 브라우징(strip) + 인증 이미지 write ===
+
+    @Test
+    void publicGetProducts_routesWithoutToken_stripsSpoofedTrustHeaders() throws Exception {
+        productDownstream.stubFor(get(urlPathEqualTo("/v1/categories/5/products"))
+                .willReturn(aResponse().withStatus(200).withBody("[]")));
+
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/categories/5/products")))
+                        .header(JwtTrustHeaderFilter.H_USER_ID, "9999") // 위조 시도 → strip 되어야 함
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        productDownstream.verify(getRequestedFor(urlPathEqualTo("/v1/categories/5/products"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ID, absent()));
+        // per-route 증명: product 경로는 다른 downstream으로 새지 않는다
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+        orderDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    // 실제 경로는 :presign 콜론 리터럴이 아니라 세그먼트 /images/presign (Task 6에서 Spring MVC가
+    // ':presign'을 라우팅하지 못한다고 확인됨) — 게이트웨이 predicate/테스트 모두 이 형태를 따른다.
+    @Test
+    void imagePresign_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/products/1/images/presign")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        productDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void imagePresign_validJwt_routesToProductDownstream_withTrustHeaderInjected() throws Exception {
+        productDownstream.stubFor(post(urlPathEqualTo("/v1/products/1/images/presign"))
+                .willReturn(aResponse().withStatus(200).withBody("{\"key\":\"k\",\"uploadUrl\":\"u\"}")));
+
+        String token = accessToken(42L, "ADMIN", null);
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/products/1/images/presign")))
+                        .header("Authorization", "Bearer " + token)
+                        // 다른 인증 write 라우트 테스트와 동일하게 noBody() — 실제 body 스트리밍은
+                        // WireMock(Jetty)+JDK HttpClient chunked forwarding 조합에서 별개 이슈(EOF)를
+                        // 유발해 라우팅/인증 검증이라는 이 테스트의 목적과 무관한 노이즈가 된다.
+                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        productDownstream.verify(postRequestedFor(urlPathEqualTo("/v1/products/1/images/presign"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("ADMIN")));
+    }
+
+    @Test
+    void postProductsSeed_notExposed_gatewayReturns404() throws Exception {
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/products")))
+                        .POST(HttpRequest.BodyPublishers.ofString("{}")))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(404);
+        productDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
     private String gateway(String path) {

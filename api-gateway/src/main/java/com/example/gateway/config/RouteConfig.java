@@ -13,6 +13,10 @@ import static org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFu
 import static org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFunctions.uri;
 import static org.springframework.cloud.gateway.server.mvc.handler.GatewayRouterFunctions.route;
 import static org.springframework.cloud.gateway.server.mvc.handler.HandlerFunctions.http;
+import static org.springframework.web.servlet.function.RequestPredicates.DELETE;
+import static org.springframework.web.servlet.function.RequestPredicates.GET;
+import static org.springframework.web.servlet.function.RequestPredicates.POST;
+import static org.springframework.web.servlet.function.RequestPredicates.PUT;
 import static org.springframework.web.servlet.function.RequestPredicates.path;
 
 /**
@@ -24,6 +28,11 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
  *   <li>order 생성(인증): POST /v1/orders(정확 경로) → order downstream, JwtTrustHeaderFilter 부착.
  *       /v1/orders/items:verify(payment 전용 내부 검증)는 이 경로에 걸리지 않아 노출되지 않는다
  *       (D-CONTEXT-5, order-link Phase 1 GW-01)</li>
+ *   <li>product 공개 브라우징(토큰 불요): GET /v1/products/**, /v1/categories/** → product downstream,
+ *       strip만(Task 9)</li>
+ *   <li>product 이미지 write(인증): POST .../images/presign, POST .../images, DELETE .../images/{id},
+ *       PUT .../images/order → product downstream, JwtTrustHeaderFilter 부착. POST /v1/products(시드)는
+ *       GET이 아니고 /images 하위도 아니므로 어느 라우트에도 걸리지 않아 노출되지 않는다(Task 9)</li>
  * </ul>
  * merchant-limit/risk는 payment가 HTTP/Kafka로 부르는 <b>내부</b> 서비스 → 게이트웨이 미노출(D-P2-5).
  */
@@ -87,6 +96,45 @@ public class RouteConfig {
         return route("order")
                 .route(path("/v1/orders"), http())
                 .before(uri(orderUri))
+                .filter(jwt)
+                .build();
+    }
+
+    /**
+     * product-service 공개 브라우징(GET만) — 토큰 불요. userAuthPublicRoute와 동일하게 신뢰 헤더는
+     * 무조건 strip(공개 GET에도 클라 위조 X-User-* 차단 — T-02-01/D-P2-3 동일 원칙).
+     * POST /v1/products(시드)는 GET이 아니므로 이 predicate에 걸리지 않아 노출되지 않는다.
+     */
+    @Bean
+    RouterFunction<ServerResponse> productBrowseRoute(
+            @Value("${gateway.downstream.product-uri}") String productUri) {
+        RequestPredicate browse = GET("/v1/products/**").or(GET("/v1/categories/**"));
+        return route("product-browse")
+                .route(browse, http())
+                .before(uri(productUri))
+                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID))
+                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ROLE))
+                .before(removeRequestHeader(JwtTrustHeaderFilter.H_MERCHANT_ID))
+                .build();
+    }
+
+    /**
+     * product-service 이미지 관리(presign/confirm/delete/reorder) — 인증 라우트. 실제 엔드포인트는
+     * "/images:presign"(콜론 리터럴)이 아니라 "/images/presign"(세그먼트) — Task 6에서 Spring MVC가
+     * ':presign' 콜론 형태를 라우팅하지 못한다고 확인돼 세그먼트 형태로 구현됐다.
+     * strip→verify→inject는 JwtTrustHeaderFilter가 담당.
+     */
+    @Bean
+    RouterFunction<ServerResponse> productImageWriteRoute(
+            JwtTrustHeaderFilter jwt,
+            @Value("${gateway.downstream.product-uri}") String productUri) {
+        RequestPredicate write = POST("/v1/products/*/images/presign")
+                .or(POST("/v1/products/*/images"))
+                .or(DELETE("/v1/products/*/images/*"))
+                .or(PUT("/v1/products/*/images/order"));
+        return route("product-image-write")
+                .route(write, http())
+                .before(uri(productUri))
                 .filter(jwt)
                 .build();
     }
