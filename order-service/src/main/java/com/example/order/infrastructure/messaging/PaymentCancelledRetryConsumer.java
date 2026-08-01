@@ -42,7 +42,13 @@ public class PaymentCancelledRetryConsumer {
             ack.acknowledge();
         } catch (Exception e) {
             log.error("payment.cancelled.retry 처리 실패. offset={}", record.offset(), e);
-            retryRouter.route(record, e);
+            // LOSS-01: route() 가 예외 없이 반환할 때만 ack. route() 가 던지면 재던져 재전달에 위임.
+            try {
+                retryRouter.route(record, e);
+            } catch (Exception routeEx) {
+                log.error("route 실패 — 미ack 로 재전달에 위임. offset={}", record.offset(), routeEx);
+                throw routeEx;
+            }
             ack.acknowledge();
         }
     }

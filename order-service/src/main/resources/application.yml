@@ -26,12 +26,21 @@ spring:
     consumer:
       group-id: order-service
       retry-group-id: order-service-retry
+  # cancel-restore 재구동 스케줄러 Redisson 분산락 — 배포 시 REDIS_HOST/PORT 필수(product 정렬).
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
 kafka:
   topic:
     payment-cancelled: payment.cancelled
     payment-cancelled-retry: payment.cancelled.retry
     payment-cancelled-dlq: payment.cancelled.DLQ
+
+scheduler:
+  lock:
+    cancel-restore-redrive: lock:scheduler:cancel-restore-redrive
 
 # 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
 # order-service Kafka consumer lag 은 kafka-exporter 로 별도 수집
