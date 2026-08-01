@@ -23,10 +23,11 @@ public class ProductQueryController {
         return ProductDetailResponse.from(queryService.detail(id));
     }
 
+    // presign: 이 태스크에서는 key -> null 임시 배선. Task 8 이 ObjectStoragePort::presignDownload 로 교체.
     @GetMapping("/v1/categories/{id}/products")
     public ProductListResponse listByCategory(@PathVariable Long id,
                                               @RequestParam(defaultValue = "0") int page,
                                               @RequestParam(defaultValue = "20") int size) {
-        return ProductListResponse.from(queryService.listByCategory(id, page, size));
+        return ProductListResponse.from(queryService.listCards(id, page, size), key -> null);
     }
 }

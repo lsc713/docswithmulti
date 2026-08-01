@@ -28,7 +28,7 @@ public class ProductQueryService {
 
     public record CategoryPathNode(int level, Long id, String name) {}
 
-    public record SkuDetail(String skuCode, String optionSummary, int availableQty) {}
+    public record SkuDetail(String skuCode, String optionSummary, int availableQty, long price) {}
 
     public record ProductDetail(Long id, String name,
                                 List<CategoryPathNode> category, List<SkuDetail> skus) {}
@@ -42,7 +42,16 @@ public class ProductQueryService {
         return queryRepository.findByCategoryIds(ids, page, size);
     }
 
-    /** BROWSE-02: 상품 상세 = 대/중/소 경로 + SKU(코드/옵션/availableQty). 부재 → 404. */
+    /** BROWSE-01: 카테고리 스코프 상품 카드(최소가 + 썸네일) 목록. listByCategory 와 동일한 검증 흐름. */
+    @Transactional(readOnly = true)
+    public Page<ProductQueryRepository.ProductCard> listCards(Long categoryId, int page, int size) {
+        categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException(categoryId));
+        List<Long> ids = queryRepository.descendantCategoryIds(categoryId);
+        return queryRepository.findCardsByCategoryIds(ids, page, size);
+    }
+
+    /** BROWSE-02: 상품 상세 = 대/중/소 경로 + SKU(코드/옵션/availableQty/price). 부재 → 404. */
     @Transactional(readOnly = true)
     public ProductDetail detail(Long productId) {
         Product product = queryRepository.findProductById(productId)
@@ -51,7 +60,7 @@ public class ProductQueryService {
         List<CategoryPathNode> path = categoryPath(product.getCategoryId());
 
         List<SkuDetail> skus = queryRepository.findSkuStock(productId).stream()
-                .map(s -> new SkuDetail(s.skuCode(), s.optionSummary(), s.availableQty()))
+                .map(s -> new SkuDetail(s.skuCode(), s.optionSummary(), s.availableQty(), s.price()))
                 .toList();
 
         return new ProductDetail(product.getId(), product.getName(), path, skus);

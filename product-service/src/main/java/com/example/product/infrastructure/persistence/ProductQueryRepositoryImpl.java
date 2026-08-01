@@ -31,7 +31,7 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
     @Override
     public List<SkuStock> findSkuStock(Long productId) {
         return skuJpa.findSkuStockByProductId(productId).stream()
-                .map(v -> new SkuStock(v.getSkuCode(), v.getOptionSummary(), v.getAvailableQty()))
+                .map(v -> new SkuStock(v.getSkuCode(), v.getOptionSummary(), v.getAvailableQty(), v.getPrice()))
                 .toList();
     }
 
@@ -48,5 +48,14 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
         return productJpa
                 .findByCategoryIdInOrderByCreatedAtDescIdDesc(categoryIds, PageRequest.of(page, size))
                 .map(ProductJpaEntity::toDomain);
+    }
+
+    @Override
+    public Page<ProductCard> findCardsByCategoryIds(List<Long> categoryIds, int page, int size) {
+        if (categoryIds.isEmpty()) {
+            return Page.empty(PageRequest.of(page, size)); // 파생 쿼리 empty-IN 방어
+        }
+        return productJpa.findCardsByCategoryIds(categoryIds, PageRequest.of(page, size))
+                .map(v -> new ProductCard(v.getId(), v.getName(), v.getMinPrice(), null));
     }
 }

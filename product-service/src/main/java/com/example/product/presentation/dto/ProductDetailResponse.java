@@ -9,14 +9,14 @@ public record ProductDetailResponse(Long id, String name, List<Category> categor
 
     public record Category(int level, Long id, String name) {}
 
-    public record Sku(String skuCode, String optionSummary, int availableQty) {}
+    public record Sku(String skuCode, String optionSummary, int availableQty, long price) {}
 
     public static ProductDetailResponse from(ProductDetail d) {
         List<Category> category = d.category().stream()
                 .map(c -> new Category(c.level(), c.id(), c.name()))
                 .toList();
         List<Sku> skus = d.skus().stream()
-                .map(s -> new Sku(s.skuCode(), s.optionSummary(), s.availableQty()))
+                .map(s -> new Sku(s.skuCode(), s.optionSummary(), s.availableQty(), s.price()))
                 .toList();
         return new ProductDetailResponse(d.id(), d.name(), category, skus);
     }

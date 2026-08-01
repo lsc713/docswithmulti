@@ -13,7 +13,8 @@ public interface ProductSkuJpaRepository extends JpaRepository<ProductSkuJpaEnti
      * tryReserve/restore 쓰기 경로와 무관 (INV-01).
      */
     @Query(value = """
-            SELECT s.sku_code AS skuCode, s.option_summary AS optionSummary, st.available_qty AS availableQty
+            SELECT s.sku_code AS skuCode, s.option_summary AS optionSummary, st.available_qty AS availableQty,
+                   s.price AS price
             FROM product_sku s
             JOIN product_stock st ON st.sku_id = s.id
             WHERE s.product_id = :productId
@@ -26,5 +27,6 @@ public interface ProductSkuJpaRepository extends JpaRepository<ProductSkuJpaEnti
         String getSkuCode();
         String getOptionSummary();
         int getAvailableQty();
+        long getPrice();
     }
 }
