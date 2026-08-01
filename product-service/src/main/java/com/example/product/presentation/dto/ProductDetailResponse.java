@@ -14,7 +14,7 @@ public record ProductDetailResponse(Long id, String name, List<Category> categor
 
     public record Sku(String skuCode, String optionSummary, int availableQty, long price) {}
 
-    /** presign: imageKey → presigned GET URL. */
+    /** presign: ImageRef.s3Key → presigned GET URL, id는 그대로 전달. */
     public static ProductDetailResponse from(ProductDetail d, Function<String, String> presign) {
         List<Category> category = d.category().stream()
                 .map(c -> new Category(c.level(), c.id(), c.name()))

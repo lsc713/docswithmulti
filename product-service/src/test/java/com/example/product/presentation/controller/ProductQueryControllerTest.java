@@ -59,7 +59,7 @@ class ProductQueryControllerTest {
     }
 
     @Test
-    void detail_returns_empty_imageUrls_when_no_images() throws Exception {
+    void detail_returns_empty_images_when_no_images() throws Exception {
         when(queryService.detail(2L)).thenReturn(new ProductQueryService.ProductDetail(
                 2L, "상품2", List.of(), List.of(), List.of()));
 
