@@ -20,7 +20,7 @@ public interface ProductQueryRepository {
     /** BROWSE-01: 하위 카테고리에 매달린 상품을 최신순(created_at desc, id desc)으로 페이징. */
     Page<Product> findByCategoryIds(List<Long> categoryIds, int page, int size);
 
-    /** BROWSE-01: 상품 카드(최소가 + 썸네일) 최신순 페이징. thumbnailKey 는 Task 8 이전까지 항상 null. */
+    /** BROWSE-01: 상품 카드(최소가 + 썸네일) 최신순 페이징. thumbnailKey = 상품별 최소 sort_order 이미지 key(없으면 null). */
     Page<ProductCard> findCardsByCategoryIds(List<Long> categoryIds, int page, int size);
 
     record SkuStock(String skuCode, String optionSummary, int availableQty, long price) {}

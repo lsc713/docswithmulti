@@ -56,6 +56,6 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
             return Page.empty(PageRequest.of(page, size)); // 파생 쿼리 empty-IN 방어
         }
         return productJpa.findCardsByCategoryIds(categoryIds, PageRequest.of(page, size))
-                .map(v -> new ProductCard(v.getId(), v.getName(), v.getMinPrice(), null));
+                .map(v -> new ProductCard(v.getId(), v.getName(), v.getMinPrice(), v.getThumbnailKey()));
     }
 }

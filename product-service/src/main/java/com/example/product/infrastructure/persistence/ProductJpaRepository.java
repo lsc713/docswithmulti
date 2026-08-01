@@ -22,7 +22,8 @@ public interface ProductJpaRepository extends JpaRepository<ProductJpaEntity, Lo
      */
     @Query(value = """
             SELECT p.id AS id, p.name AS name,
-                   (SELECT MIN(s.price) FROM product_sku s WHERE s.product_id = p.id) AS minPrice
+                   (SELECT MIN(s.price) FROM product_sku s WHERE s.product_id = p.id) AS minPrice,
+                   (SELECT i.s3_key FROM product_image i WHERE i.product_id = p.id ORDER BY i.sort_order, i.id LIMIT 1) AS thumbnailKey
             FROM product p
             WHERE p.category_id IN (:categoryIds)
             ORDER BY p.created_at DESC, p.id DESC
@@ -38,5 +39,6 @@ public interface ProductJpaRepository extends JpaRepository<ProductJpaEntity, Lo
         Long getId();
         String getName();
         Long getMinPrice();
+        String getThumbnailKey();
     }
 }

@@ -11,7 +11,7 @@ public record ProductListResponse(List<Item> content, int page, int size, long t
 
     public record Item(Long id, String name, long minPrice, String thumbnailUrl) {}
 
-    /** presign: thumbnailKey → presigned URL. 이 태스크에서는 key -> null(Task 8 이 ObjectStoragePort::presignDownload 로 교체). */
+    /** presign: thumbnailKey → presigned URL. */
     public static ProductListResponse from(Page<ProductQueryRepository.ProductCard> page,
                                            Function<String, String> presign) {
         List<Item> content = page.getContent().stream()

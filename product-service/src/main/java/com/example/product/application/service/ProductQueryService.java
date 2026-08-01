@@ -1,11 +1,13 @@
 package com.example.product.application.service;
 
 import com.example.product.application.interfaces.CategoryRepository;
+import com.example.product.application.interfaces.ProductImageRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
 import com.example.product.common.exception.application.CategoryNotFoundException;
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.Category;
 import com.example.product.domain.entity.Product;
+import com.example.product.domain.entity.ProductImage;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,19 +21,24 @@ public class ProductQueryService {
 
     private final ProductQueryRepository queryRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductImageRepository imageRepository;
 
     public ProductQueryService(ProductQueryRepository queryRepository,
-                               CategoryRepository categoryRepository) {
+                               CategoryRepository categoryRepository,
+                               ProductImageRepository imageRepository) {
         this.queryRepository = queryRepository;
         this.categoryRepository = categoryRepository;
+        this.imageRepository = imageRepository;
     }
 
     public record CategoryPathNode(int level, Long id, String name) {}
 
     public record SkuDetail(String skuCode, String optionSummary, int availableQty, long price) {}
 
+    /** imageKeys: sort_order asc 원본 S3 key 목록 — presign 은 컨트롤러 책임. */
     public record ProductDetail(Long id, String name,
-                                List<CategoryPathNode> category, List<SkuDetail> skus) {}
+                                List<CategoryPathNode> category, List<SkuDetail> skus,
+                                List<String> imageKeys) {}
 
     /** BROWSE-01: 카테고리 스코프 상품 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
     @Transactional(readOnly = true)
@@ -63,7 +70,11 @@ public class ProductQueryService {
                 .map(s -> new SkuDetail(s.skuCode(), s.optionSummary(), s.availableQty(), s.price()))
                 .toList();
 
-        return new ProductDetail(product.getId(), product.getName(), path, skus);
+        List<String> imageKeys = imageRepository.findByProductId(productId).stream()
+                .map(ProductImage::getS3Key)
+                .toList();
+
+        return new ProductDetail(product.getId(), product.getName(), path, skus, imageKeys);
     }
 
     /** leaf 에서 parent 로 올라가며 조상 수집 후 root→leaf 로 뒤집는다 (정상 트리는 3노드). */
