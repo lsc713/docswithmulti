@@ -39,10 +39,14 @@ export default function ImageManager({ productId, images, onChanged }) {
   function move(index, dir) {
     const j = index + dir
     if (j < 0 || j >= order.length) return
+    const previous = order
     const next = [...order]
     ;[next[index], next[j]] = [next[j], next[index]]
     setOrder(next)
-    api.reorderImages(productId, next.map(img => img.id)).then(onChanged).catch(err => setError(err.message))
+    api.reorderImages(productId, next.map(img => img.id)).then(onChanged).catch(err => {
+      setOrder(previous)
+      setError(err.message)
+    })
   }
 
   return (
