@@ -23,4 +23,25 @@ export const api = {
   login:  (b) => req('/v1/auth/login',  { method: 'POST', body: b }),
   me:     ()  => req('/v1/auth/me'),
   logout: ()  => req('/v1/auth/logout', { method: 'POST', csrf: true }),
+
+  categories:         ()          => req('/v1/categories'),
+  productsByCategory: (id, page = 0) => req(`/v1/categories/${id}/products?page=${page}`),
+  product:            (id)        => req(`/v1/products/${id}`),
+  presignImage:       (id, contentType) =>
+    req(`/v1/products/${id}/images/presign`, { method: 'POST', body: { contentType }, csrf: true }),
+  confirmImage:       (id, key, sortOrder) =>
+    req(`/v1/products/${id}/images`, { method: 'POST', body: { key, sortOrder }, csrf: true }),
+  deleteImage:        (id, imageId) =>
+    req(`/v1/products/${id}/images/${imageId}`, { method: 'DELETE', csrf: true }),
+  reorderImages:      (id, imageIds) =>
+    req(`/v1/products/${id}/images/order`, { method: 'PUT', body: { imageIds }, csrf: true }),
+}
+
+export async function putToS3(uploadUrl, file) {
+  const res = await fetch(uploadUrl, {
+    method: 'PUT', body: file,
+    headers: { 'Content-Type': file.type },
+    credentials: 'omit',                    // S3엔 쿠키 안 보냄
+  })
+  if (!res.ok) throw new Error(`업로드 실패 HTTP ${res.status}`)
 }
