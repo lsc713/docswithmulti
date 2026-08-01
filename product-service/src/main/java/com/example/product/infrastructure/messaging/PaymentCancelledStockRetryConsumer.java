@@ -53,7 +53,13 @@ public class PaymentCancelledStockRetryConsumer {
             ack.acknowledge();
         } catch (Exception e) {
             log.error("payment.cancelled.retry 재고 복원 실패. offset={}", record.offset(), e);
-            retryRouter.route(record, e);
+            // LOSS-01: route() 정상 반환 시에만 ack. route() 가 던지면 재던져 재전달에 위임(미ack).
+            try {
+                retryRouter.route(record, e);
+            } catch (Exception routeEx) {
+                log.error("route 실패 — 미ack 로 재전달에 위임. offset={}", record.offset(), routeEx);
+                throw routeEx;
+            }
             ack.acknowledge();
         }
     }

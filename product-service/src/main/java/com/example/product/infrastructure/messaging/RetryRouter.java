@@ -83,8 +83,17 @@ public class RetryRouter {
             .add("first-failed-at", firstFailedAt.getBytes(StandardCharsets.UTF_8))
             .add("last-error", DlqMessage.truncate(e.getMessage(), 200).getBytes(StandardCharsets.UTF_8));
 
-        kafkaTemplate.send(retryRecord);
-        log.warn("retry 토픽 발행. retryCount={}, offset={}", newRetryCount, record.offset());
+        // LOSS-01: 브로커 ack 를 동기 확인(bounded). 아직 durable 사본이 없으므로(retry 토픽만이 in-flight
+        // 재시도 전송로) 실패 시 예외 전파 → 원본 미ack → Kafka 재전달(at-least-once, 멱등이라 안전).
+        try {
+            kafkaTemplate.send(retryRecord).get(5, java.util.concurrent.TimeUnit.SECONDS);
+            log.warn("retry 토픽 발행 확인. retryCount={}, offset={}", newRetryCount, record.offset());
+        } catch (InterruptedException ie) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("retry 발행 중단 offset=" + record.offset(), ie);
+        } catch (Exception ex) {
+            throw new RuntimeException("retry 발행 실패(브로커 미확인) offset=" + record.offset(), ex);
+        }
     }
 
     /**
