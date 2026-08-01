@@ -7,7 +7,6 @@ import com.example.product.common.exception.application.CategoryNotFoundExceptio
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.Category;
 import com.example.product.domain.entity.Product;
-import com.example.product.domain.entity.ProductImage;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +34,13 @@ public class ProductQueryService {
 
     public record SkuDetail(String skuCode, String optionSummary, int availableQty, long price) {}
 
-    /** imageKeys: sort_order asc 원본 S3 key 목록 — presign 은 컨트롤러 책임. */
+    /** id + 원본 S3 key. presign 은 컨트롤러 책임, id는 delete/reorder 배선용. */
+    public record ImageRef(Long id, String s3Key) {}
+
+    /** images: sort_order asc. */
     public record ProductDetail(Long id, String name,
                                 List<CategoryPathNode> category, List<SkuDetail> skus,
-                                List<String> imageKeys) {}
+                                List<ImageRef> images) {}
 
     /** BROWSE-01: 카테고리 스코프 상품 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
     @Transactional(readOnly = true)
@@ -70,11 +72,11 @@ public class ProductQueryService {
                 .map(s -> new SkuDetail(s.skuCode(), s.optionSummary(), s.availableQty(), s.price()))
                 .toList();
 
-        List<String> imageKeys = imageRepository.findByProductId(productId).stream()
-                .map(ProductImage::getS3Key)
+        List<ImageRef> images = imageRepository.findByProductId(productId).stream()
+                .map(img -> new ImageRef(img.getId(), img.getS3Key()))
                 .toList();
 
-        return new ProductDetail(product.getId(), product.getName(), path, skus, imageKeys);
+        return new ProductDetail(product.getId(), product.getName(), path, skus, images);
     }
 
     /** leaf 에서 parent 로 올라가며 조상 수집 후 root→leaf 로 뒤집는다 (정상 트리는 3노드). */
