@@ -1,5 +1,6 @@
 package com.example.product.infrastructure.config;
 
+import com.example.product.application.interfaces.CancelRestoreDlqRepository;
 import com.example.product.application.interfaces.CategoryRepository;
 import com.example.product.application.interfaces.ProcessedCancelEventRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
@@ -60,6 +61,11 @@ public class PersistenceConfig {
     @Bean
     public ProcessedCancelEventRepository processedCancelEventRepository(ProcessedCancelEventJpaRepository jpa) {
         return new ProcessedCancelEventRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public CancelRestoreDlqRepository cancelRestoreDlqRepository(CancelRestoreDlqJpaRepository jpa) {
+        return new CancelRestoreDlqRepositoryImpl(jpa);
     }
 
     @Bean

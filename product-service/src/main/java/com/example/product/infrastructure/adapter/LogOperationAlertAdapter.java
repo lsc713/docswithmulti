@@ -1,0 +1,16 @@
+package com.example.product.infrastructure.adapter;
+
+import com.example.product.application.interfaces.OperationAlertPort;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+
+/** OperationAlertPort 기본 구현 (payment LogOperationAlertAdapter 미러). 실제 채널은 배포 관심사. */
+@Slf4j
+@Component
+public class LogOperationAlertAdapter implements OperationAlertPort {
+
+    @Override
+    public void alert(String message) {
+        log.error("[ALERT] {}", message);
+    }
+}
