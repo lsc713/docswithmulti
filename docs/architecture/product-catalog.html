@@ -46,13 +46,15 @@ graph TD
 
   cat["category (V3)<br/>id · parent_id(self-FK) · level 1/2/3<br/>parent_key = IFNULL(parent_id,0)<br/>UK(parent_key, name) → 형제 이름 유일(대분류 포함)"]:::new
   prod["product<br/>id · name · category_id (V4, NOT NULL → leaf level 3)"]:::base
-  sku["product_sku<br/>id · product_id · sku_code · option_summary"]:::base
+  sku["product_sku<br/>id · product_id · sku_code · option_summary · price (BIGINT, KRW)"]:::base
+  img["product_image<br/>id · product_id · s3_key · sort_order"]:::new
   stock["product_stock<br/>sku_id · available_qty"]:::stock
   rsv["stock_reservation<br/>payment_key · sku_id · qty · status"]:::stock
 
   cat -->|"parent_id (대→중→소)"| cat
   prod -->|"category_id → leaf"| cat
   sku -->|"product_id"| prod
+  img -->|"product_id (정렬 = sort_order)"| prod
   stock -->|"sku_id (read-only join = availableQty)"| sku
   rsv -->|"sku_id (예약·복원, 불변)"| sku
     </div>
@@ -66,7 +68,7 @@ graph TD
     <h2>2. 카테고리 브라우징 흐름</h2>
     <p class="legend">
       실선 = 동기 HTTP. <span style="color:#c026d3">보라</span> 관리(쓰기) · <span style="color:#2563eb">파랑</span> 조회(읽기).
-      product 조회 API는 현재 <b>게이트웨이 비경유(직접)</b> — 향후 게이트웨이 라우팅은 후속.
+      product 조회·이미지 API는 이제 <b>api-gateway 경유</b> — 조회는 공개(GET, strip), 이미지 write는 JWT 인증(ADMIN).
     </p>
     <div class="mermaid">
 flowchart TD
@@ -81,8 +83,8 @@ flowchart TD
   c1["POST /v1/categories<br/>{parentId?, name} → level 유도<br/>depth>3 → 400 · 형제 이름 중복 → 409"]:::write
   c2["POST /v1/products<br/>categoryId(leaf 필수) 검증<br/>비-leaf/미존재/누락 → 400"]:::write
   r1["GET /v1/categories<br/>대→중→소 중첩 트리"]:::read
-  r2["GET /v1/categories/{id}/products?page=&size=<br/>WITH RECURSIVE 하위 leaf 취합<br/>최신순 · 페이징"]:::read
-  r3["GET /v1/products/{id}<br/>카테고리 경로(대/중/소) + SKU<br/>+ availableQty (product_stock read-only join)"]:::read
+  r2["GET /v1/categories/{id}/products?page=&size=<br/>WITH RECURSIVE 하위 leaf 취합<br/>최신순 · 페이징<br/>+ minPrice · thumbnailUrl(첫 이미지, presigned)"]:::read
+  r3["GET /v1/products/{id}<br/>카테고리 경로(대/중/소) + SKU(+price)<br/>+ availableQty (product_stock read-only join)<br/>+ images:[{id,url}] (presigned S3 GET)"]:::read
 
   admin -->|"트리 구성"| c1
   c1 --> PDB
@@ -98,8 +100,8 @@ flowchart TD
 
     <h2>3. 범위 밖 (후속 슬라이스 — 각 별도 마일스톤)</h2>
     <p class="legend">
-      속성/변형(<code>option_summary</code> 자유문자열 → 색상·사이즈 정규화) · 이미지 · 자유텍스트 검색 ·
-      카테고리 수정/삭제/이동 · 상품–카테고리 M:N. 이번 슬라이스는 <b>카테고리 택소노미 + 카테고리별 조회</b>에 집중.
+      속성/변형(<code>option_summary</code> 자유문자열 → 색상·사이즈 정규화) · 자유텍스트 검색 ·
+      카테고리 수정/삭제/이동 · 상품–카테고리 M:N. SKU 가격·다중 이미지(S3 presigned)는 이번 브랜치에서 추가됨.
     </p>
 
     <script type="module">
