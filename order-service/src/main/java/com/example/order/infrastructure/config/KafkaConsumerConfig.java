@@ -12,6 +12,8 @@ import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.MicrometerConsumerListener;
 import org.springframework.kafka.listener.ContainerProperties;
+import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,12 +54,21 @@ public class KafkaConsumerConfig {
         return factory;
     }
 
+    /**
+     * LOSS-01: 리스너가 던진 예외(재발행 브로커 미확인)를 기본 FixedBackOff(0,9)로 10회 후 커밋=손실하지 않도록
+     * <b>무제한 재시도</b> 백오프를 설정한다. 미ack 원본을 회복까지 재전달 반복(2s 간격) → 커밋-후-손실 차단.
+     */
+    private DefaultErrorHandler redeliverForeverErrorHandler() {
+        return new DefaultErrorHandler(new FixedBackOff(2000L, FixedBackOff.UNLIMITED_ATTEMPTS));
+    }
+
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
+        factory.setCommonErrorHandler(redeliverForeverErrorHandler());
         return factory;
     }
 
@@ -86,6 +97,7 @@ public class KafkaConsumerConfig {
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(retryConsumerFactory());
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
+        factory.setCommonErrorHandler(redeliverForeverErrorHandler());
         return factory;
     }
 }
