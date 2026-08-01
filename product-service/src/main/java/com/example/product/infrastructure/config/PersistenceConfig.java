@@ -3,6 +3,7 @@ package com.example.product.infrastructure.config;
 import com.example.product.application.interfaces.CancelRestoreDlqRepository;
 import com.example.product.application.interfaces.CategoryRepository;
 import com.example.product.application.interfaces.ProcessedCancelEventRepository;
+import com.example.product.application.interfaces.ProductImageRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
 import com.example.product.application.interfaces.ProductRepository;
 import com.example.product.application.interfaces.ProductSkuRepository;
@@ -66,6 +67,11 @@ public class PersistenceConfig {
     @Bean
     public CancelRestoreDlqRepository cancelRestoreDlqRepository(CancelRestoreDlqJpaRepository jpa) {
         return new CancelRestoreDlqRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public ProductImageRepository productImageRepository(ProductImageJpaRepository jpa) {
+        return new ProductImageRepositoryImpl(jpa);
     }
 
     @Bean
