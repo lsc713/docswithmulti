@@ -5,6 +5,7 @@ import com.example.product.application.interfaces.OperationAlertPort;
 import com.example.product.application.usecase.ProcessCancelledStockUseCase;
 import com.example.product.application.usecase.ProcessCancelledStockUseCase.Command;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,15 +13,21 @@ import org.springframework.stereotype.Service;
  *
  * <p>핸들러({@link ProcessCancelledStockUseCase})는 processed_cancel_event 멱등 게이트가 있어
  * 이미 처리분은 no-op → 재구동이 재고를 과다 복원하지 않는다.
- * 성공 → RESOLVED. 실패 → bumpAttempt(임계 판정/DEAD 전이는 Task 3에서 추가).
+ * 성공 → RESOLVED. 실패 → attempt_count+1&gt;=임계(기본5)면 DEAD+에스컬레이션, 아니면 bumpAttempt.
  */
 @Slf4j
 @Service
 public class CancelRestoreRedriveService {
 
+    private static final String LEG = "STOCK";
+
     private final ProcessCancelledStockUseCase processUseCase;
     private final CancelRestoreDlqRepository dlqRepository;
     private final OperationAlertPort operationAlertPort;
+
+    /** DEAD 전이 임계 (§8 확정값 5). attempt_count+1 이 이 값 이상이면 영구 실패로 격리. */
+    @Value("${cancel-restore.redrive.dead-threshold:5}")
+    private int deadThreshold;
 
     public CancelRestoreRedriveService(ProcessCancelledStockUseCase processUseCase,
                                        CancelRestoreDlqRepository dlqRepository,
@@ -37,9 +44,18 @@ public class CancelRestoreRedriveService {
             log.info("[cancel-restore-redrive] 재구동 성공 RESOLVED cancelRequestId={}", cancelRequestId);
         } catch (Exception e) {
             String err = truncate(e.getMessage());
-            dlqRepository.bumpAttempt(cancelRequestId, err);
-            log.warn("[cancel-restore-redrive] 재구동 실패 bumpAttempt cancelRequestId={} attempts={} err={}",
-                cancelRequestId, attemptCount + 1, err);
+            int attempts = attemptCount + 1;
+            if (attempts >= deadThreshold) {
+                // REDRIVE-02: 임계 초과 → DEAD 격리 + 에스컬레이션 (payment CancelEventOutboxPublisher 미러).
+                dlqRepository.markDead(cancelRequestId, err);
+                operationAlertPort.alert("[cancel-restore][" + LEG + "] 재구동 영구 실패(DEAD) cancelRequestId="
+                    + cancelRequestId + " attempts=" + attempts + " err=" + err);
+                log.error("[cancel-restore-redrive] DEAD 전이 cancelRequestId={} attempts={}", cancelRequestId, attempts, e);
+            } else {
+                dlqRepository.bumpAttempt(cancelRequestId, err);
+                log.warn("[cancel-restore-redrive] 재구동 실패 bumpAttempt cancelRequestId={} attempts={} err={}",
+                    cancelRequestId, attempts, err);
+            }
         }
     }
 
