@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>상품 카탈로그 – 카테고리 트리·브라우징</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      .note { background: #f0fdf4; border-left: 3px solid #16a34a; padding: 0.6rem 1rem; font-size: 0.9rem; margin: 1rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>상품 카탈로그 — 카테고리 트리 · 브라우징</h1>
+    <p class="meta">product-catalog v1.0 (2026-07-31, PR #83) · product-service :8084 · Flyway V3(category)·V4(product.category_id) · 풀 카탈로그 백필(경로 Y)의 첫 수직 슬라이스</p>
+    <nav>▸ <a href="./index.html">← 아키텍처 개요</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
+
+    <p class="legend">
+      v3.0에서 재고에 필요한 <b>최소 카탈로그</b>(product/sku/stock)만 있던 product-service에
+      <b>카테고리(대·중·소) 계층 + 카테고리별 브라우징</b>을 얹은 슬라이스.
+      <b>재고 예약·복원 경로는 불변</b>(INV-01) — 조회는 <code>product_stock</code> read-only join만 사용.
+    </p>
+
+    <h2>1. 데이터 모델</h2>
+    <p class="legend">
+      <span style="color:#16a34a">초록</span> 이번 슬라이스 신규 · <span style="color:#3b82f6">파랑</span> 기존(v3.0 재고) ·
+      <span style="color:#d97706">노랑</span> 재고 상태(쓰기 경로 = 예약·복원, 불변). 실선 = FK.
+    </p>
+    <div class="mermaid">
+graph TD
+  classDef new fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef base fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef stock fill:#fde68a,stroke:#d97706,color:#5b3a00;
+
+  cat["category (V3)<br/>id · parent_id(self-FK) · level 1/2/3<br/>parent_key = IFNULL(parent_id,0)<br/>UK(parent_key, name) → 형제 이름 유일(대분류 포함)"]:::new
+  prod["product<br/>id · name · category_id (V4, NOT NULL → leaf level 3)"]:::base
+  sku["product_sku<br/>id · product_id · sku_code · option_summary"]:::base
+  stock["product_stock<br/>sku_id · available_qty"]:::stock
+  rsv["stock_reservation<br/>payment_key · sku_id · qty · status"]:::stock
+
+  cat -->|"parent_id (대→중→소)"| cat
+  prod -->|"category_id → leaf"| cat
+  sku -->|"product_id"| prod
+  stock -->|"sku_id (read-only join = availableQty)"| sku
+  rsv -->|"sku_id (예약·복원, 불변)"| sku
+    </div>
+
+    <div class="note">
+      <b>불변 경계 (INV-01):</b> <code>product_stock</code>·<code>stock_reservation</code>의 <b>쓰기</b>(reserve/release/취소복원)는
+      한 줄도 안 바뀜. 카탈로그가 추가한 건 <code>availableQty</code>를 <b>읽기 전용 join</b>으로 노출하는 것뿐.
+      결제 취소 → 재고 복원 경로(<code>payment.cancelled</code> consumer)는 그대로.
+    </div>
+
+    <h2>2. 카테고리 브라우징 흐름</h2>
+    <p class="legend">
+      실선 = 동기 HTTP. <span style="color:#c026d3">보라</span> 관리(쓰기) · <span style="color:#2563eb">파랑</span> 조회(읽기).
+      product 조회 API는 현재 <b>게이트웨이 비경유(직접)</b> — 향후 게이트웨이 라우팅은 후속.
+    </p>
+    <div class="mermaid">
+flowchart TD
+  classDef write fill:#fae8ff,stroke:#c026d3,color:#701a75;
+  classDef read fill:#dbeafe,stroke:#2563eb,color:#1e3a5f;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+
+  admin(["관리자"])
+  usr(["사용자"])
+  PDB[("product_db")]:::db
+
+  c1["POST /v1/categories<br/>{parentId?, name} → level 유도<br/>depth>3 → 400 · 형제 이름 중복 → 409"]:::write
+  c2["POST /v1/products<br/>categoryId(leaf 필수) 검증<br/>비-leaf/미존재/누락 → 400"]:::write
+  r1["GET /v1/categories<br/>대→중→소 중첩 트리"]:::read
+  r2["GET /v1/categories/{id}/products?page=&size=<br/>WITH RECURSIVE 하위 leaf 취합<br/>최신순 · 페이징"]:::read
+  r3["GET /v1/products/{id}<br/>카테고리 경로(대/중/소) + SKU<br/>+ availableQty (product_stock read-only join)"]:::read
+
+  admin -->|"트리 구성"| c1
+  c1 --> PDB
+  admin -->|"상품 등록(leaf 소속)"| c2
+  c2 -->|"leaf 검증 = category 조회"| PDB
+  usr --> r1
+  usr -->|"어느 노드로든(대/중/소)"| r2
+  usr --> r3
+  r1 --> PDB
+  r2 -->|"재귀 CTE로 하위 leaf id 수집 → product IN(...)"| PDB
+  r3 -->|"category ancestry walk + stock read-only join"| PDB
+    </div>
+
+    <h2>3. 범위 밖 (후속 슬라이스 — 각 별도 마일스톤)</h2>
+    <p class="legend">
+      속성/변형(<code>option_summary</code> 자유문자열 → 색상·사이즈 정규화) · 이미지 · 자유텍스트 검색 ·
+      카테고리 수정/삭제/이동 · 상품–카테고리 M:N. 이번 슬라이스는 <b>카테고리 택소노미 + 카테고리별 조회</b>에 집중.
+    </p>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>
