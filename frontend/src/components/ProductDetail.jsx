@@ -22,9 +22,9 @@ export default function ProductDetail({ id, me, onBack }) {
       <button onClick={onBack}>뒤로</button>
 
       <div className="gallery">
-        {product.imageUrls?.length
-          ? product.imageUrls.map((url, i) => (
-              <img key={i} src={url} alt={`${product.name} ${i + 1}`} />
+        {product.images?.length
+          ? product.images.map((img, i) => (
+              <img key={img.id} src={img.url} alt={`${product.name} ${i + 1}`} />
             ))
           : <div className="gallery-ph">이미지 없음</div>}
       </div>
@@ -49,7 +49,7 @@ export default function ProductDetail({ id, me, onBack }) {
       </table>
 
       {me?.role === 'ADMIN' && (
-        <ImageManager productId={id} images={product.imageUrls} onChanged={load} />
+        <ImageManager productId={id} images={product.images} onChanged={load} />
       )}
     </main>
   )
