@@ -40,7 +40,7 @@ test('비로그인 그리드 조회 → 상세', async ({ page }) => {
   await firstCard.click()
 
   await expect(page.getByRole('heading', { name: productName })).toBeVisible()
-  await expect(page.locator('.gallery, .gallery-ph')).toBeVisible()
+  await expect(page.locator('.gallery').first()).toBeVisible()
   await expect(page.getByRole('table')).toBeVisible() // SKU 표
   await expect(page.locator('.sku-table thead')).toContainText('SKU')
 
