@@ -33,7 +33,7 @@ public class CatalogService {
         this.categoryRepository = categoryRepository;
     }
 
-    public record SkuSeed(String skuCode, String optionSummary, int initialStock) {}
+    public record SkuSeed(String skuCode, String optionSummary, int initialStock, long price) {}
 
     public record SeededSku(Long skuId, String skuCode) {}
 
@@ -50,7 +50,7 @@ public class CatalogService {
         Product product = productRepository.save(Product.create(name, categoryId));
         List<SeededSku> seeded = skus.stream().map(s -> {
             ProductSku sku = skuRepository.save(
-                    ProductSku.create(product.getId(), s.skuCode(), s.optionSummary()));
+                    ProductSku.create(product.getId(), s.skuCode(), s.optionSummary(), s.price()));
             stockRepository.save(ProductStock.create(sku.getId(), s.initialStock()));
             return new SeededSku(sku.getId(), sku.getSkuCode());
         }).toList();

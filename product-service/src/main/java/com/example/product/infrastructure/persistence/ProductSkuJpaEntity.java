@@ -23,6 +23,9 @@ public class ProductSkuJpaEntity {
     @Column(name = "option_summary")
     private String optionSummary;
 
+    @Column(nullable = false)
+    private long price;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -37,13 +40,14 @@ public class ProductSkuJpaEntity {
         e.productId = s.getProductId();
         e.skuCode = s.getSkuCode();
         e.optionSummary = s.getOptionSummary();
+        e.price = s.getPrice();
         e.createdAt = LocalDateTime.ofInstant(s.getCreatedAt(), ZoneOffset.UTC);
         e.updatedAt = LocalDateTime.ofInstant(s.getUpdatedAt(), ZoneOffset.UTC);
         return e;
     }
 
     public ProductSku toDomain() {
-        return ProductSku.reconstruct(id, productId, skuCode, optionSummary,
+        return ProductSku.reconstruct(id, productId, skuCode, optionSummary, price,
                 createdAt.toInstant(ZoneOffset.UTC), updatedAt.toInstant(ZoneOffset.UTC));
     }
 }
