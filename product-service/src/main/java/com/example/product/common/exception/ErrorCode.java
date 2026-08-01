@@ -13,6 +13,8 @@ public enum ErrorCode {
     CATEGORY_NOT_FOUND("CATEGORY_003", 404, "카테고리를 찾을 수 없습니다."),
     PRODUCT_CATEGORY_INVALID("PRODUCT_001", 400, "상품은 소분류(leaf) 카테고리에만 등록할 수 있습니다."),
     PRODUCT_NOT_FOUND("PRODUCT_002", 404, "상품을 찾을 수 없습니다."),
+    FORBIDDEN("FORBIDDEN", 403, "권한이 없습니다."),
+    IMAGE_KEY_INVALID("IMAGE_001", 400, "존재하지 않는 이미지 키입니다."),
     INTERNAL_ERROR("INTERNAL_ERROR", 500, "서버 오류가 발생했습니다.");
 
     private final String code;
