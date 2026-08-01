@@ -25,7 +25,7 @@
   </head>
   <body>
     <h1>인증 경계 — API Gateway + user-service (v2.0)</h1>
-    <p class="meta">Generated 2026-07-30 · updated 2026-07-31 (쿠키 기반 인증 + CORS/CSRF + frontend) · source: <code>api-gateway (:8000), user-service (:8085), frontend (:5173)</code> · milestone v2.0. 취소 코어 4개 서비스는 <strong>불변</strong>.</p>
+    <p class="meta">Generated 2026-07-30 · updated 2026-08-01 (쿠키 인증 + CORS/CSRF + frontend + order-link 주문 검증) · source: <code>api-gateway (:8000), user-service (:8085), frontend (:5173), order-service (:8081)</code> · milestone v2.0 + order-link. 취소 코어는 <strong>불변</strong>.</p>
     <nav>← <a href="./index.html">시스템 아키텍처 개요</a> · <a href="./cancel-flow.html">취소 플로우 상세 →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
 
     <p class="legend">
@@ -39,7 +39,7 @@
       <span style="color:#c026d3">보라</span> 게이트웨이(무상태) ·
       <span style="color:#16a34a">초록</span> 신규 서비스 ·
       <span style="color:#3b82f6">파랑</span> 기존 취소 코어(불변) ·
-      실선 = 동기 HTTP · 점선 = 기존 Kafka 흐름. 게이트웨이는 user·payment만 노출(내부 3서비스는 미노출).
+      실선 = 동기 HTTP · 점선 = 기존 Kafka 흐름. 게이트웨이는 user·payment·<strong>order</strong>(order-link)만 노출(내부 2서비스 risk·merchant-limit는 미노출). payment는 결제 생성 시 order 검증(items:verify)에 X-User-Id를 포워딩한다.
       브라우저(frontend)는 <strong>httpOnly 쿠키</strong>로 인증하고, 게이트웨이가 <strong>CORS·CSRF</strong>를 함께 처리한다. Bearer API 클라이언트도 병행 지원.
     </p>
     <div class="mermaid">
@@ -69,6 +69,8 @@ graph LR
   GW -->|"/v1/auth/** (공개: signup·login·refresh)"| USER
   GW -->|"/v1/auth/{logout,me} (인증)"| USER
   GW -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| P
+  GW -->|"주문 생성 /v1/orders (X-User-Id, order-link)"| O
+  P -->|"order 검증 items:verify (X-User-Id 포워딩, fail-closed)"| O
   USER --- UDB
 
   P -->|"기존 HTTP (변경 없음)"| R
