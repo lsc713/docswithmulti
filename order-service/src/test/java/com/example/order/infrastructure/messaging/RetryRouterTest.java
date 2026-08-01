@@ -1,6 +1,8 @@
 package com.example.order.infrastructure.messaging;
 
 import com.example.order.application.exception.OrderItemNotFoundException;
+import com.example.order.application.interfaces.CancelRestoreDlqRepository;
+import com.example.order.application.interfaces.OperationAlertPort;
 import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -12,20 +14,32 @@ import org.springframework.kafka.core.KafkaTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class RetryRouterTest {
 
     private KafkaTemplate<String, String> kafkaTemplate;
+    private CancelRestoreDlqRepository dlqRepository;
+    private OperationAlertPort operationAlertPort;
     private RetryRouter retryRouter;
 
     @BeforeEach
+    @SuppressWarnings("unchecked")
     void setUp() {
         kafkaTemplate = mock(KafkaTemplate.class);
+        // send 는 완료 future 반환(publishToDlq 의 .get(5s) best-effort 확인이 NPE 없이 통과).
+        when(kafkaTemplate.send(any(ProducerRecord.class)))
+            .thenReturn(CompletableFuture.completedFuture(null));
+        dlqRepository = mock(CancelRestoreDlqRepository.class);
+        operationAlertPort = mock(OperationAlertPort.class);
         retryRouter = new RetryRouter(
-            kafkaTemplate, new ObjectMapper(),
+            kafkaTemplate, new ObjectMapper(), dlqRepository, operationAlertPort,
             "payment.cancelled.retry", "payment.cancelled.DLQ");
     }
 
@@ -55,6 +69,10 @@ class RetryRouterTest {
 
         retryRouter.route(record, new RuntimeException("DB timeout"));
 
+        // durable 진실: 테이블 upsert + 알림이 먼저 (leg=ORDER, retryCount=3). cancelRequestId 정확 추출은 IT 에서 검증.
+        verify(dlqRepository).upsertPending(anyString(), eq("ORDER"), anyString(), eq(3), anyString());
+        verify(operationAlertPort).alert(anyString());
+        // 전송로: DLQ 토픽 send 도 유지(best-effort)
         ArgumentCaptor<ProducerRecord<String, String>> captor = ArgumentCaptor.forClass(ProducerRecord.class);
         verify(kafkaTemplate).send(captor.capture());
         assertThat(captor.getValue().topic()).isEqualTo("payment.cancelled.DLQ");
@@ -68,6 +86,8 @@ class RetryRouterTest {
 
         retryRouter.route(record, new OrderItemNotFoundException(List.of(99L)));
 
+        verify(dlqRepository).upsertPending(anyString(), eq("ORDER"), anyString(), eq(0), anyString());
+        verify(operationAlertPort).alert(anyString());
         ArgumentCaptor<ProducerRecord<String, String>> captor = ArgumentCaptor.forClass(ProducerRecord.class);
         verify(kafkaTemplate).send(captor.capture());
         assertThat(captor.getValue().topic()).isEqualTo("payment.cancelled.DLQ");

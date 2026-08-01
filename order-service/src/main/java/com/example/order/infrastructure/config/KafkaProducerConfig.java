@@ -1,5 +1,7 @@
 package com.example.order.infrastructure.config;
 
+import com.example.order.application.interfaces.CancelRestoreDlqRepository;
+import com.example.order.application.interfaces.OperationAlertPort;
 import com.example.order.infrastructure.messaging.RetryRouter;
 import tools.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -42,8 +44,11 @@ public class KafkaProducerConfig {
     public RetryRouter retryRouter(
             KafkaTemplate<String, String> kafkaTemplate,
             ObjectMapper objectMapper,
+            CancelRestoreDlqRepository cancelRestoreDlqRepository,
+            OperationAlertPort operationAlertPort,
             @Value("${kafka.topic.payment-cancelled-retry}") String retryTopic,
             @Value("${kafka.topic.payment-cancelled-dlq}") String dlqTopic) {
-        return new RetryRouter(kafkaTemplate, objectMapper, retryTopic, dlqTopic);
+        return new RetryRouter(kafkaTemplate, objectMapper,
+            cancelRestoreDlqRepository, operationAlertPort, retryTopic, dlqTopic);
     }
 }
