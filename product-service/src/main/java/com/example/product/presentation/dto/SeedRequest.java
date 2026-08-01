@@ -1,7 +1,5 @@
 package com.example.product.presentation.dto;
 
-import com.fasterxml.jackson.annotation.JsonSetter;
-import com.fasterxml.jackson.annotation.Nulls;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -20,8 +18,6 @@ public record SeedRequest(
             @NotBlank String skuCode,
             String optionSummary,
             @PositiveOrZero int initialStock,  // T-01-02: 음수 금지(available_qty 증가 유발)
-            // Jackson 3(Spring Boot 4) FAIL_ON_NULL_FOR_PRIMITIVES 기본 true — price 누락 시 요청 전체가
-            // 400(무본문)으로 깨지는 걸 막기 위해 명시적으로 0 기본값 허용(기존 price-미포함 클라이언트 호환).
-            @PositiveOrZero @JsonSetter(nulls = Nulls.AS_EMPTY) long price
+            @NotNull @PositiveOrZero Long price  // 누락/null → 400 (가격 필수, product owner 결정)
     ) {}
 }

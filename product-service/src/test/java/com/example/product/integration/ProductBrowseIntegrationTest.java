@@ -64,7 +64,7 @@ class ProductBrowseIntegrationTest {
         long leaf = buildTaxonomy("의류", "상의", "티셔츠");
 
         long productId = registerProduct("""
-                {"name":"베이직 티","categoryId":%d,"skus":[{"skuCode":"TS-001","optionSummary":"블랙/M","initialStock":7}]}"""
+                {"name":"베이직 티","categoryId":%d,"skus":[{"skuCode":"TS-001","optionSummary":"블랙/M","initialStock":7,"price":1000}]}"""
                 .formatted(leaf));
 
         MockHttpServletResponse res = getResp("/v1/products/" + productId);
@@ -94,7 +94,7 @@ class ProductBrowseIntegrationTest {
                 {"parentId":%d,"name":"운동화"}""".formatted(root));
 
         MockHttpServletResponse res = postProduct("""
-                {"name":"불가 상품","categoryId":%d,"skus":[{"skuCode":"X-1","initialStock":1}]}""".formatted(mid));
+                {"name":"불가 상품","categoryId":%d,"skus":[{"skuCode":"X-1","initialStock":1,"price":1000}]}""".formatted(mid));
         assertThat(res.getStatus()).isEqualTo(400);
         assertThat(codeOf(res)).isEqualTo("PRODUCT_001");
     }
@@ -103,7 +103,7 @@ class ProductBrowseIntegrationTest {
     @DisplayName("PLINK-01: 존재하지 않는 categoryId → 400 PRODUCT_001")
     void registerUnderNonExistentCategoryRejected() throws Exception {
         MockHttpServletResponse res = postProduct("""
-                {"name":"고아 상품","categoryId":999999,"skus":[{"skuCode":"X-2","initialStock":1}]}""");
+                {"name":"고아 상품","categoryId":999999,"skus":[{"skuCode":"X-2","initialStock":1,"price":1000}]}""");
         assertThat(res.getStatus()).isEqualTo(400);
         assertThat(codeOf(res)).isEqualTo("PRODUCT_001");
     }
@@ -112,8 +112,20 @@ class ProductBrowseIntegrationTest {
     @DisplayName("PLINK-01: categoryId 누락 → 400 (INVALID_REQUEST, @NotNull)")
     void registerWithoutCategoryIdRejected() throws Exception {
         MockHttpServletResponse res = postProduct("""
-                {"name":"필드 누락","skus":[{"skuCode":"X-3","initialStock":1}]}""");
+                {"name":"필드 누락","skus":[{"skuCode":"X-3","initialStock":1,"price":1000}]}""");
         assertThat(res.getStatus()).isEqualTo(400); // 코드는 GlobalExceptionHandler INVALID_REQUEST — 상태만 단언
+    }
+
+    @Test
+    @DisplayName("price 누락(SKU) → 400 INVALID_REQUEST (필수, 미기본값)")
+    void registerWithoutSkuPriceRejected() throws Exception {
+        long leaf = buildTaxonomy("가전", "주방가전", "커피머신");
+
+        MockHttpServletResponse res = postProduct("""
+                {"name":"가격 누락","categoryId":%d,"skus":[{"skuCode":"X-4","initialStock":1}]}"""
+                .formatted(leaf));
+        assertThat(res.getStatus()).isEqualTo(400);
+        assertThat(codeOf(res)).isEqualTo("INVALID_REQUEST");
     }
 
     @Test
@@ -215,7 +227,7 @@ class ProductBrowseIntegrationTest {
 
     private String product(String name, long categoryId, String skuCode) {
         return """
-                {"name":"%s","categoryId":%d,"skus":[{"skuCode":"%s","initialStock":1}]}"""
+                {"name":"%s","categoryId":%d,"skus":[{"skuCode":"%s","initialStock":1,"price":1000}]}"""
                 .formatted(name, categoryId, skuCode);
     }
 

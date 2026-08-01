@@ -139,7 +139,7 @@ class StockConcurrencyIntegrationTest {
 
     private long seedSku(String code, int stock) throws Exception {
         HttpResponse<String> seed = post("/v1/products", """
-                {"name":"티셔츠","categoryId":%d,"skus":[{"skuCode":"%s","optionSummary":"opt","initialStock":%d}]}"""
+                {"name":"티셔츠","categoryId":%d,"skus":[{"skuCode":"%s","optionSummary":"opt","initialStock":%d,"price":1000}]}"""
                 .formatted(CategoryFixtures.leafId(jdbc), code, stock));
         assertThat(seed.statusCode()).isEqualTo(200);
         Map<?, ?> body = om.readValue(seed.body(), Map.class);

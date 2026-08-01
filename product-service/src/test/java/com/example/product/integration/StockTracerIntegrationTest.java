@@ -65,7 +65,7 @@ class StockTracerIntegrationTest {
     void seedThenReserveThenOversellRejected() throws Exception {
         // 1. STOCK-02: product+SKU+초기재고5 seed → 200, skuId 반환
         MockHttpServletResponse seed = send("/v1/products", """
-                {"name":"티셔츠","categoryId":%d,"skus":[{"skuCode":"TS-M-BLK","optionSummary":"M/Black","initialStock":5}]}"""
+                {"name":"티셔츠","categoryId":%d,"skus":[{"skuCode":"TS-M-BLK","optionSummary":"M/Black","initialStock":5,"price":1000}]}"""
                 .formatted(CategoryFixtures.leafId(jdbc)));
         assertThat(seed.getStatus()).isEqualTo(200);
         Map<?, ?> seedBody = om.readValue(seed.getContentAsString(), Map.class);
