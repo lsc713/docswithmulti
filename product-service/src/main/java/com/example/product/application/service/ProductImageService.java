@@ -3,14 +3,18 @@ package com.example.product.application.service;
 import com.example.product.application.interfaces.ObjectStoragePort;
 import com.example.product.application.interfaces.ProductImageRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
+import com.example.product.common.exception.application.ImageNotFoundException;
 import com.example.product.common.exception.application.InvalidImageKeyException;
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.ProductImage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
-/** 상품 이미지 presign(업로드 URL 발급) + confirm(업로드 완료 기록). 둘 다 ADMIN 전용(컨트롤러 가드). */
+/** 상품 이미지 presign/confirm/delete/reorder. 전부 ADMIN 전용(컨트롤러 가드). */
+@Slf4j
 @Service
 public class ProductImageService {
 
@@ -44,5 +48,21 @@ public class ProductImageService {
         }
         int order = sortOrder != null ? sortOrder : imageRepository.nextSortOrder(productId);
         return imageRepository.save(ProductImage.create(productId, key, order)).getId();
+    }
+
+    public void delete(Long productId, Long imageId) {
+        var img = imageRepository.findByIdAndProductId(imageId, productId)
+                .orElseThrow(() -> new ImageNotFoundException(imageId));
+        imageRepository.deleteByIdAndProductId(imageId, productId);
+        try {
+            objectStoragePort.delete(img.getS3Key());
+        } catch (RuntimeException e) {
+            log.warn("S3 delete 실패(고아 허용) key={}", img.getS3Key(), e);
+        }
+        // ponytail: 고아 객체 스캐너는 필요해지면
+    }
+
+    public void reorder(Long productId, List<Long> imageIds) {
+        imageRepository.updateOrder(productId, imageIds);
     }
 }

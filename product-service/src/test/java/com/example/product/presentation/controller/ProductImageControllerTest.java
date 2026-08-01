@@ -25,8 +25,11 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -94,5 +97,43 @@ class ProductImageControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content("{\"key\":\"k\"}"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.imageId").value(99));
+    }
+
+    @Test
+    void delete_removes_row_and_object_for_admin() throws Exception {
+        when(imageRepository.findByIdAndProductId(9L, 1L))
+                .thenReturn(Optional.of(ProductImage.reconstruct(9L, 1L, "k9", 0, Instant.now())));
+        mvc.perform(delete("/v1/products/1/images/9").header("X-User-Role", "ADMIN"))
+                .andExpect(status().isNoContent());
+        verify(imageRepository).deleteByIdAndProductId(9L, 1L);
+        verify(port).delete("k9");
+    }
+
+    @Test
+    void delete_requires_admin() throws Exception {
+        mvc.perform(delete("/v1/products/1/images/9").header("X-User-Role", "MERCHANT"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void delete_missing_image_returns_404() throws Exception {
+        when(imageRepository.findByIdAndProductId(9L, 1L)).thenReturn(Optional.empty());
+        mvc.perform(delete("/v1/products/1/images/9").header("X-User-Role", "ADMIN"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void reorder_requires_admin() throws Exception {
+        mvc.perform(put("/v1/products/1/images/order").header("X-User-Role", "MERCHANT")
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"imageIds\":[2,1]}"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void reorder_delegates_to_repository_for_admin() throws Exception {
+        mvc.perform(put("/v1/products/1/images/order").header("X-User-Role", "ADMIN")
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"imageIds\":[2,1]}"))
+                .andExpect(status().isOk());
+        verify(imageRepository).updateOrder(1L, java.util.List.of(2L, 1L));
     }
 }

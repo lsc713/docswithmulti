@@ -6,14 +6,19 @@ import com.example.product.presentation.dto.ConfirmImageRequest;
 import com.example.product.presentation.dto.ConfirmImageResponse;
 import com.example.product.presentation.dto.PresignRequest;
 import com.example.product.presentation.dto.PresignResponse;
+import com.example.product.presentation.dto.ReorderRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-/** 상품 이미지 업로드(presign) + 확정(confirm). 둘 다 ADMIN 전용 — 게이트웨이가 주입한 X-User-Role 재검증. */
+/** 상품 이미지 업로드(presign)·확정(confirm)·삭제(delete)·순서변경(reorder). 전부 ADMIN 전용 — 게이트웨이가 주입한 X-User-Role 재검증. */
 @RestController
 @RequestMapping("/v1/products/{id}/images")
 public class ProductImageController {
@@ -45,5 +50,21 @@ public class ProductImageController {
                                         @RequestBody ConfirmImageRequest req) {
         requireAdmin(role);
         return new ConfirmImageResponse(service.confirm(id, req.key(), req.sortOrder()));
+    }
+
+    @DeleteMapping("/{imageId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable Long id, @PathVariable Long imageId,
+                       @RequestHeader(value = "X-User-Role", required = false) String role) {
+        requireAdmin(role);
+        service.delete(id, imageId);
+    }
+
+    @PutMapping("/order")
+    public void reorder(@PathVariable Long id,
+                        @RequestHeader(value = "X-User-Role", required = false) String role,
+                        @RequestBody ReorderRequest req) {
+        requireAdmin(role);
+        service.reorder(id, req.imageIds());
     }
 }
