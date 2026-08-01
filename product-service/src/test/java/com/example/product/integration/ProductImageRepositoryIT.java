@@ -79,11 +79,27 @@ class ProductImageRepositoryIT {
         Long productId2 = newProductId();
 
         var img1 = repo.save(ProductImage.create(productId1, "k/p1.jpg", repo.nextSortOrder(productId1)));
+        // productId2 는 2장으로 시드해 img2 의 원래 sortOrder 를 1(비영)로 만든다 — 공격 시도의 목표 인덱스(0)와
+        // 우연히 같은 값이 되어 스코프 위반이 가려지는 것을 방지(findById 로 잘못 구현해도 0==0 이면 검출 불가).
+        repo.save(ProductImage.create(productId2, "k/p2-a.jpg", repo.nextSortOrder(productId2)));
         var img2 = repo.save(ProductImage.create(productId2, "k/p2.jpg", repo.nextSortOrder(productId2)));
+        int img2OriginalSortOrder = img2.getSortOrder();
+        assertThat(img2OriginalSortOrder).isEqualTo(1);
 
-        repo.updateOrder(productId1, List.of(img1.getId()));
+        // productId2 소유인 img2 의 id 를 productId1 스코프로 claim 시도 — 무시되어야 한다.
+        repo.updateOrder(productId1, List.of(img2.getId()));
 
+        assertThat(repo.findByIdAndProductId(img2.getId(), productId2))
+                .hasValueSatisfying(v -> assertThat(v.getSortOrder()).isEqualTo(img2OriginalSortOrder));
         assertThat(repo.findByProductId(productId2)).extracting(ProductImage::getSortOrder)
-                .containsExactly(img2.getSortOrder());
+                .containsExactly(0, img2OriginalSortOrder);
+
+        // 혼합 리스트: 자기 소유(img1)만 반영되고 타 product 소유(img2 id)는 무시된다.
+        repo.updateOrder(productId1, List.of(img2.getId(), img1.getId()));
+
+        assertThat(repo.findByIdAndProductId(img1.getId(), productId1))
+                .hasValueSatisfying(v -> assertThat(v.getSortOrder()).isEqualTo(1));
+        assertThat(repo.findByIdAndProductId(img2.getId(), productId2))
+                .hasValueSatisfying(v -> assertThat(v.getSortOrder()).isEqualTo(img2OriginalSortOrder));
     }
 }
