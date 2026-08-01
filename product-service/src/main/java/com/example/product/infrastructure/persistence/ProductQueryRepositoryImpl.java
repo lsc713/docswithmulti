@@ -41,16 +41,6 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
     }
 
     @Override
-    public Page<Product> findByCategoryIds(List<Long> categoryIds, int page, int size) {
-        if (categoryIds.isEmpty()) {
-            return Page.empty(PageRequest.of(page, size)); // 파생 쿼리 empty-IN 방어
-        }
-        return productJpa
-                .findByCategoryIdInOrderByCreatedAtDescIdDesc(categoryIds, PageRequest.of(page, size))
-                .map(ProductJpaEntity::toDomain);
-    }
-
-    @Override
     public Page<ProductCard> findCardsByCategoryIds(List<Long> categoryIds, int page, int size) {
         if (categoryIds.isEmpty()) {
             return Page.empty(PageRequest.of(page, size)); // 파생 쿼리 empty-IN 방어

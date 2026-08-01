@@ -42,16 +42,7 @@ public class ProductQueryService {
                                 List<CategoryPathNode> category, List<SkuDetail> skus,
                                 List<ImageRef> images) {}
 
-    /** BROWSE-01: 카테고리 스코프 상품 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
-    @Transactional(readOnly = true)
-    public Page<Product> listByCategory(Long categoryId, int page, int size) {
-        categoryRepository.findById(categoryId)
-                .orElseThrow(() -> new CategoryNotFoundException(categoryId));
-        List<Long> ids = queryRepository.descendantCategoryIds(categoryId);
-        return queryRepository.findByCategoryIds(ids, page, size);
-    }
-
-    /** BROWSE-01: 카테고리 스코프 상품 카드(최소가 + 썸네일) 목록. listByCategory 와 동일한 검증 흐름. */
+    /** BROWSE-01: 카테고리 스코프 상품 카드(최소가 + 썸네일) 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
     @Transactional(readOnly = true)
     public Page<ProductQueryRepository.ProductCard> listCards(Long categoryId, int page, int size) {
         categoryRepository.findById(categoryId)

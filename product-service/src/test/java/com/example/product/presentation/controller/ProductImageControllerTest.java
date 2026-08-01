@@ -68,6 +68,13 @@ class ProductImageControllerTest {
     }
 
     @Test
+    void presign_requires_admin_when_role_header_missing() throws Exception {
+        mvc.perform(post("/v1/products/1/images/presign")
+                        .contentType(MediaType.APPLICATION_JSON).content("{\"contentType\":\"image/jpeg\"}"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void presign_returns_key_and_url_for_admin() throws Exception {
         when(port.presignUpload(anyString(), eq("image/jpeg")))
                 .thenReturn(new ObjectStoragePort.PresignedUpload("http://minio/put"));

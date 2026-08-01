@@ -11,18 +11,12 @@ import java.util.List;
 public interface ProductJpaRepository extends JpaRepository<ProductJpaEntity, Long> {
 
     /**
-     * BROWSE-01: 하위 카테고리 상품을 최신순 페이징.
-     * IdDesc 2차 키 — 같은 마이크로초 created_at 동률을 결정적으로 깨서 순서 단언이 flaky 하지 않게 한다.
-     */
-    Page<ProductJpaEntity> findByCategoryIdInOrderByCreatedAtDescIdDesc(List<Long> categoryIds, Pageable pageable);
-
-    /**
      * BROWSE-01: 상품 카드 = id/name + 서브쿼리 MIN(price)(SKU 여러 개 중 최소가).
      * findSelfAndDescendantIds/findSkuStockByProductId 와 동일하게 네이티브 SQL(재귀/서브쿼리는 QueryDSL 로 표현 불가).
      */
     @Query(value = """
             SELECT p.id AS id, p.name AS name,
-                   (SELECT MIN(s.price) FROM product_sku s WHERE s.product_id = p.id) AS minPrice,
+                   COALESCE((SELECT MIN(s.price) FROM product_sku s WHERE s.product_id = p.id), 0) AS minPrice,
                    (SELECT i.s3_key FROM product_image i WHERE i.product_id = p.id ORDER BY i.sort_order, i.id LIMIT 1) AS thumbnailKey
             FROM product p
             WHERE p.category_id IN (:categoryIds)
