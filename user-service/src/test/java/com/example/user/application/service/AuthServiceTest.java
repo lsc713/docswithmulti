@@ -14,11 +14,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,7 +40,7 @@ class AuthServiceTest {
 
     @BeforeEach
     void setUp() {
-        authService = new AuthService(userRepository, refreshTokenRepository, passwordEncoder, jwtTokenProvider);
+        authService = new AuthService(userRepository, refreshTokenRepository, passwordEncoder, jwtTokenProvider, List.of());
     }
 
     @Nested
@@ -71,6 +73,50 @@ class AuthServiceTest {
             when(userRepository.existsByEmail("dup@test.com")).thenReturn(true);
             assertThrows(DuplicateEmailException.class, () ->
                     authService.signup(new SignupCommand("dup@test.com", "pw", "이름", "010", UserRole.USER, null)));
+        }
+
+        @Test
+        @DisplayName("app.admin.bootstrap-emails 포함 이메일 — 서버 설정으로 ADMIN 승격 저장")
+        void shouldPromoteBootstrapEmailToAdmin() {
+            AuthService bootstrapAuthService = new AuthService(userRepository, refreshTokenRepository,
+                    passwordEncoder, jwtTokenProvider, List.of("admin@test.com"));
+            when(userRepository.existsByEmail("admin@test.com")).thenReturn(false);
+            when(passwordEncoder.encode("password")).thenReturn("hashedPw");
+            User savedUser = User.reconstruct(1L, "admin@test.com", "hashedPw", "이름", "010-0000-0000",
+                    UserRole.ADMIN, null, UserStatus.ACTIVE, Instant.now(), Instant.now());
+            ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+            when(userRepository.save(captor.capture())).thenReturn(savedUser);
+            when(jwtTokenProvider.createAccessToken(1L, UserRole.ADMIN, null)).thenReturn("access-token");
+            when(jwtTokenProvider.createRefreshToken()).thenReturn("refresh-token");
+            when(jwtTokenProvider.getRefreshTokenExpiry()).thenReturn(604800000L);
+            when(refreshTokenRepository.save(any())).thenReturn(
+                    RefreshToken.of(1L, "refresh-token", Instant.now().plus(7, ChronoUnit.DAYS)));
+
+            bootstrapAuthService.signup(new SignupCommand(
+                    "admin@test.com", "password", "이름", "010-0000-0000", UserRole.USER, null));
+
+            assertEquals(UserRole.ADMIN, captor.getValue().getRole());
+        }
+
+        @Test
+        @DisplayName("bootstrap-emails 미포함 이메일 — 클라가 role=ADMIN을 보내도 서버가 USER로 강제(D-P1-2)")
+        void shouldIgnoreClientSuppliedRoleForNonBootstrapEmail() {
+            when(userRepository.existsByEmail("normal@test.com")).thenReturn(false);
+            when(passwordEncoder.encode("password")).thenReturn("hashedPw");
+            User savedUser = User.reconstruct(1L, "normal@test.com", "hashedPw", "이름", "010",
+                    UserRole.USER, null, UserStatus.ACTIVE, Instant.now(), Instant.now());
+            ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+            when(userRepository.save(captor.capture())).thenReturn(savedUser);
+            when(jwtTokenProvider.createAccessToken(1L, UserRole.USER, null)).thenReturn("access-token");
+            when(jwtTokenProvider.createRefreshToken()).thenReturn("refresh-token");
+            when(jwtTokenProvider.getRefreshTokenExpiry()).thenReturn(604800000L);
+            when(refreshTokenRepository.save(any())).thenReturn(
+                    RefreshToken.of(1L, "refresh-token", Instant.now().plus(7, ChronoUnit.DAYS)));
+
+            // authService(위 setUp)는 bootstrapEmails=List.of() — command.role()이 ADMIN이어도 무시되어야 함
+            authService.signup(new SignupCommand("normal@test.com", "password", "이름", "010", UserRole.ADMIN, null));
+
+            assertEquals(UserRole.USER, captor.getValue().getRole());
         }
     }
 

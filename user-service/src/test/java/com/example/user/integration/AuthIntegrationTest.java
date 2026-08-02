@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 /**
@@ -54,6 +55,7 @@ class AuthIntegrationTest {
         r.add("spring.datasource.username", mysql::getUsername);
         r.add("spring.datasource.password", mysql::getPassword);
         r.add("jwt.secret", () -> JWT_SECRET);
+        r.add("app.admin.bootstrap-emails", () -> "admin@example.com");
     }
 
     @Autowired WebApplicationContext ctx;
@@ -183,6 +185,96 @@ class AuthIntegrationTest {
         // 4. 삭제된 refresh 쿠키로 재갱신 → 401 (AUTH-04 무효화 최종 관측)
         MockHttpServletResponse reRefresh = sendRefreshCookie(sessionRefreshToken);
         assertThat(reRefresh.getStatus()).isEqualTo(401);
+    }
+
+    @Test
+    @DisplayName("ADMIN-BOOTSTRAP: app.admin.bootstrap-emails 이메일로 signup — DB role=ADMIN + JWT 클레임 ADMIN")
+    void bootstrapEmailSignupIsPersistedAsAdmin() throws Exception {
+        String email = "admin@example.com";
+
+        MockHttpServletResponse signup = send("/v1/auth/signup", """
+                {"email":"%s","password":"pw123456","name":"Admin","phone":"010-0000-0001"}""".formatted(email));
+        assertThat(signup.getStatus()).isEqualTo(200);
+
+        String accessToken = cookieValue(signup, "access_token");
+        assertThat(parse(accessToken).get("role", String.class)).isEqualTo("ADMIN");
+
+        String role = jdbc.queryForObject("SELECT role FROM users WHERE email = ?", String.class, email);
+        assertThat(role).isEqualTo("ADMIN");
+    }
+
+    @Test
+    @DisplayName("ADMIN-ROLE-01: ADMIN 토큰으로 PATCH /v1/admin/users/{id}/role — 200 + DB 반영, 미존재 404, invalid role 400")
+    void adminChangesUserRoleEndToEnd() throws Exception {
+        // bootstrap ADMIN 로그인
+        send("/v1/auth/signup", """
+                {"email":"admin@example.com","password":"pw123456","name":"Admin","phone":"010-0000-0001"}""");
+        MockHttpServletResponse adminLogin = send("/v1/auth/login", """
+                {"email":"admin@example.com","password":"pw123456"}""");
+        String adminAccessToken = cookieValue(adminLogin, "access_token");
+
+        // 일반 유저(승격 대상)
+        String targetEmail = "target@example.com";
+        MockHttpServletResponse targetSignup = send("/v1/auth/signup", """
+                {"email":"%s","password":"pw123456","name":"Target","phone":"010-0000-0002"}""".formatted(targetEmail));
+        long targetId = Long.parseLong(parse(cookieValue(targetSignup, "access_token")).getSubject());
+
+        // 200: MERCHANT로 변경
+        MockHttpServletResponse promote = mockMvc.perform(patch("/v1/admin/users/" + targetId + "/role")
+                        .header("Authorization", "Bearer " + adminAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"role":"MERCHANT"}"""))
+                .andReturn().getResponse();
+        assertThat(promote.getStatus()).isEqualTo(200);
+        String newRole = jdbc.queryForObject("SELECT role FROM users WHERE id = ?", String.class, targetId);
+        assertThat(newRole).isEqualTo("MERCHANT");
+
+        // 404: 존재하지 않는 유저
+        MockHttpServletResponse notFound = mockMvc.perform(patch("/v1/admin/users/999999/role")
+                        .header("Authorization", "Bearer " + adminAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"role":"ADMIN"}"""))
+                .andReturn().getResponse();
+        assertThat(notFound.getStatus()).isEqualTo(404);
+
+        // 400: 알 수 없는 role 값
+        MockHttpServletResponse badRequest = mockMvc.perform(patch("/v1/admin/users/" + targetId + "/role")
+                        .header("Authorization", "Bearer " + adminAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"role":"SUPERUSER"}"""))
+                .andReturn().getResponse();
+        assertThat(badRequest.getStatus()).isEqualTo(400);
+    }
+
+    @Test
+    @DisplayName("ADMIN-ROLE-02: 비ADMIN 토큰 — 403, 토큰 없음도 403 (SecurityConfig에 명시 authenticationEntryPoint 없어 " +
+            "AnonymousAuthenticationFilter+기본 Http403ForbiddenEntryPoint로 귀결 — 기존 전체 모듈 공통, 이번 태스크 범위 밖 기존 동작)")
+    void nonAdminIsForbiddenAndAnonymousIsAlsoForbidden() throws Exception {
+        MockHttpServletResponse plainSignup = send("/v1/auth/signup", """
+                {"email":"plain@example.com","password":"pw123456","name":"Plain","phone":"010-0000-0003"}""");
+        String plainAccessToken = cookieValue(plainSignup, "access_token");
+        long plainUserId = Long.parseLong(parse(plainAccessToken).getSubject());
+
+        MockHttpServletResponse forbidden = mockMvc.perform(patch("/v1/admin/users/" + plainUserId + "/role")
+                        .header("Authorization", "Bearer " + plainAccessToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"role":"ADMIN"}"""))
+                .andReturn().getResponse();
+        assertThat(forbidden.getStatus()).isEqualTo(403);
+
+        // 토큰 없음: SecurityConfig가 httpBasic/formLogin/명시적 authenticationEntryPoint를 구성하지 않아
+        // Spring Security 기본값(Http403ForbiddenEntryPoint)으로 귀결 — 401이 아닌 403. 모듈 전체(anyRequest().authenticated())에
+        // 이미 존재하는 동작이라 이번 admin 엔드포인트 범위에서 변경하지 않음(report의 concern 참조).
+        MockHttpServletResponse unauthorized = mockMvc.perform(patch("/v1/admin/users/" + plainUserId + "/role")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                            {"role":"ADMIN"}"""))
+                .andReturn().getResponse();
+        assertThat(unauthorized.getStatus()).isEqualTo(403);
     }
 
     private MockHttpServletResponse send(String path, String body) throws Exception {
