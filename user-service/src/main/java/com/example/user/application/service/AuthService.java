@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService implements AuthUseCase {
@@ -27,7 +29,8 @@ public class AuthService implements AuthUseCase {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;
     // 첫 ADMIN 부트스트랩: 서버 설정(app.admin.bootstrap-emails)만이 결정 — 클라 role 입력은 여전히 무시(D-P1-2).
-    private final List<String> bootstrapEmails;
+    // 콤마 분리 후 각 엔트리 trim + 빈 값 제거 (예: "a@x.com, b@x.com" → {"a@x.com","b@x.com"}).
+    private final Set<String> bootstrapEmails;
 
     public AuthService(UserRepository userRepository, RefreshTokenRepository refreshTokenRepository,
                         PasswordEncoder passwordEncoder, JwtTokenProvider jwtTokenProvider,
@@ -36,7 +39,10 @@ public class AuthService implements AuthUseCase {
         this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.bootstrapEmails = bootstrapEmails;
+        this.bootstrapEmails = bootstrapEmails.stream()
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.toUnmodifiableSet());
     }
 
     @Override

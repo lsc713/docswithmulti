@@ -99,6 +99,30 @@ class AuthServiceTest {
         }
 
         @Test
+        @DisplayName("bootstrap-emails 엔트리 앞뒤 공백 — trim 후 매칭되어 ADMIN 승격")
+        void shouldTrimBootstrapEmailEntries() {
+            // config 예: "admin@test.com, x@test.com" → 콤마 split 시 " x@test.com"에 선행 공백
+            AuthService bootstrapAuthService = new AuthService(userRepository, refreshTokenRepository,
+                    passwordEncoder, jwtTokenProvider, List.of("  admin@test.com  ", "", "  "));
+            when(userRepository.existsByEmail("admin@test.com")).thenReturn(false);
+            when(passwordEncoder.encode("password")).thenReturn("hashedPw");
+            User savedUser = User.reconstruct(1L, "admin@test.com", "hashedPw", "이름", "010-0000-0000",
+                    UserRole.ADMIN, null, UserStatus.ACTIVE, Instant.now(), Instant.now());
+            ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+            when(userRepository.save(captor.capture())).thenReturn(savedUser);
+            when(jwtTokenProvider.createAccessToken(1L, UserRole.ADMIN, null)).thenReturn("access-token");
+            when(jwtTokenProvider.createRefreshToken()).thenReturn("refresh-token");
+            when(jwtTokenProvider.getRefreshTokenExpiry()).thenReturn(604800000L);
+            when(refreshTokenRepository.save(any())).thenReturn(
+                    RefreshToken.of(1L, "refresh-token", Instant.now().plus(7, ChronoUnit.DAYS)));
+
+            bootstrapAuthService.signup(new SignupCommand(
+                    "admin@test.com", "password", "이름", "010-0000-0000", UserRole.USER, null));
+
+            assertEquals(UserRole.ADMIN, captor.getValue().getRole());
+        }
+
+        @Test
         @DisplayName("bootstrap-emails 미포함 이메일 — 클라가 role=ADMIN을 보내도 서버가 USER로 강제(D-P1-2)")
         void shouldIgnoreClientSuppliedRoleForNonBootstrapEmail() {
             when(userRepository.existsByEmail("normal@test.com")).thenReturn(false);
