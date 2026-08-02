@@ -1,5 +1,6 @@
 package com.example.product.presentation.controller;
 
+import com.example.product.application.interfaces.ObjectStoragePort;
 import com.example.product.application.service.ProductQueryService;
 import com.example.product.presentation.dto.ProductDetailResponse;
 import com.example.product.presentation.dto.ProductListResponse;
@@ -13,20 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductQueryController {
 
     private final ProductQueryService queryService;
+    private final ObjectStoragePort objectStoragePort;
 
-    public ProductQueryController(ProductQueryService queryService) {
+    public ProductQueryController(ProductQueryService queryService, ObjectStoragePort objectStoragePort) {
         this.queryService = queryService;
+        this.objectStoragePort = objectStoragePort;
     }
 
     @GetMapping("/v1/products/{id}")
     public ProductDetailResponse detail(@PathVariable Long id) {
-        return ProductDetailResponse.from(queryService.detail(id));
+        return ProductDetailResponse.from(queryService.detail(id), objectStoragePort::presignDownload);
     }
 
     @GetMapping("/v1/categories/{id}/products")
     public ProductListResponse listByCategory(@PathVariable Long id,
                                               @RequestParam(defaultValue = "0") int page,
                                               @RequestParam(defaultValue = "20") int size) {
-        return ProductListResponse.from(queryService.listByCategory(id, page, size));
+        return ProductListResponse.from(queryService.listCards(id, page, size), objectStoragePort::presignDownload);
     }
 }

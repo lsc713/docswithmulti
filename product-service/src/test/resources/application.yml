@@ -61,6 +61,17 @@ scheduler:
 orphan:
   threshold-minutes: 5
 
+app:
+  s3:
+    # 각 통합테스트가 @DynamicPropertySource 로 endpoint/access-key/secret-key/bucket 를 덮어씀.
+    endpoint: http://localhost:9000
+    region: us-east-1
+    bucket: product-images
+    access-key: minioadmin
+    secret-key: minioadmin
+    presign-ttl-seconds: 300
+    path-style: true
+
 logging:
   level:
     com.example.product: INFO

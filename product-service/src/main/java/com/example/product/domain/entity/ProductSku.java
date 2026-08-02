@@ -11,26 +11,28 @@ public class ProductSku {
     private final Long productId;
     private final String skuCode;
     private final String optionSummary;
+    private final long price;
     private final Instant createdAt;
     private final Instant updatedAt;
 
-    private ProductSku(Long id, Long productId, String skuCode, String optionSummary,
+    private ProductSku(Long id, Long productId, String skuCode, String optionSummary, long price,
                        Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.productId = productId;
         this.skuCode = skuCode;
         this.optionSummary = optionSummary;
+        this.price = price;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
 
-    public static ProductSku create(Long productId, String skuCode, String optionSummary) {
+    public static ProductSku create(Long productId, String skuCode, String optionSummary, long price) {
         Instant now = Instant.now();
-        return new ProductSku(null, productId, skuCode, optionSummary, now, now);
+        return new ProductSku(null, productId, skuCode, optionSummary, price, now, now);
     }
 
-    public static ProductSku reconstruct(Long id, Long productId, String skuCode, String optionSummary,
+    public static ProductSku reconstruct(Long id, Long productId, String skuCode, String optionSummary, long price,
                                          Instant createdAt, Instant updatedAt) {
-        return new ProductSku(id, productId, skuCode, optionSummary, createdAt, updatedAt);
+        return new ProductSku(id, productId, skuCode, optionSummary, price, createdAt, updatedAt);
     }
 }

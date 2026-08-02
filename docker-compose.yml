@@ -5,6 +5,29 @@ services:
     image: redis:7.2
     ports:
       - "6379:6379"
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until mc alias set local http://minio:9000 minioadmin minioadmin; do sleep 1; done;
+      mc mb --ignore-existing local/product-images;
+      mc anonymous set none local/product-images;
+      exit 0;"
   # MySQL - 모듈별 독립 DB
   mysql-payment:
     image: mysql:8.0
@@ -233,3 +256,4 @@ volumes:
   mysql-risk-data:
   mysql-product-data:
   mysql-user-data:
+  minio-data:

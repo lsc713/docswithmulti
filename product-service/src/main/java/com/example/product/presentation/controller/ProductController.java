@@ -23,7 +23,7 @@ public class ProductController {
     @PostMapping
     public SeedResponse seed(@Valid @RequestBody SeedRequest req) {
         var skus = req.skus().stream()
-                .map(s -> new SkuSeed(s.skuCode(), s.optionSummary(), s.initialStock()))
+                .map(s -> new SkuSeed(s.skuCode(), s.optionSummary(), s.initialStock(), s.price()))
                 .toList();
         return SeedResponse.from(catalogService.seed(req.name(), req.categoryId(), skus));
     }

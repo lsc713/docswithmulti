@@ -17,6 +17,7 @@ public record SeedRequest(
     public record SkuLine(
             @NotBlank String skuCode,
             String optionSummary,
-            @PositiveOrZero int initialStock  // T-01-02: 음수 금지(available_qty 증가 유발)
+            @PositiveOrZero int initialStock,  // T-01-02: 음수 금지(available_qty 증가 유발)
+            @NotNull @PositiveOrZero Long price  // 누락/null → 400 (가격 필수, product owner 결정)
     ) {}
 }

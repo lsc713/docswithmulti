@@ -1,6 +1,7 @@
 package com.example.product.application.service;
 
 import com.example.product.application.interfaces.CategoryRepository;
+import com.example.product.application.interfaces.ProductImageRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
 import com.example.product.common.exception.application.CategoryNotFoundException;
 import com.example.product.common.exception.application.ProductNotFoundException;
@@ -19,30 +20,38 @@ public class ProductQueryService {
 
     private final ProductQueryRepository queryRepository;
     private final CategoryRepository categoryRepository;
+    private final ProductImageRepository imageRepository;
 
     public ProductQueryService(ProductQueryRepository queryRepository,
-                               CategoryRepository categoryRepository) {
+                               CategoryRepository categoryRepository,
+                               ProductImageRepository imageRepository) {
         this.queryRepository = queryRepository;
         this.categoryRepository = categoryRepository;
+        this.imageRepository = imageRepository;
     }
 
     public record CategoryPathNode(int level, Long id, String name) {}
 
-    public record SkuDetail(String skuCode, String optionSummary, int availableQty) {}
+    public record SkuDetail(String skuCode, String optionSummary, int availableQty, long price) {}
 
+    /** id + 원본 S3 key. presign 은 컨트롤러 책임, id는 delete/reorder 배선용. */
+    public record ImageRef(Long id, String s3Key) {}
+
+    /** images: sort_order asc. */
     public record ProductDetail(Long id, String name,
-                                List<CategoryPathNode> category, List<SkuDetail> skus) {}
+                                List<CategoryPathNode> category, List<SkuDetail> skus,
+                                List<ImageRef> images) {}
 
-    /** BROWSE-01: 카테고리 스코프 상품 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
+    /** BROWSE-01: 카테고리 스코프 상품 카드(최소가 + 썸네일) 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
     @Transactional(readOnly = true)
-    public Page<Product> listByCategory(Long categoryId, int page, int size) {
+    public Page<ProductQueryRepository.ProductCard> listCards(Long categoryId, int page, int size) {
         categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException(categoryId));
         List<Long> ids = queryRepository.descendantCategoryIds(categoryId);
-        return queryRepository.findByCategoryIds(ids, page, size);
+        return queryRepository.findCardsByCategoryIds(ids, page, size);
     }
 
-    /** BROWSE-02: 상품 상세 = 대/중/소 경로 + SKU(코드/옵션/availableQty). 부재 → 404. */
+    /** BROWSE-02: 상품 상세 = 대/중/소 경로 + SKU(코드/옵션/availableQty/price). 부재 → 404. */
     @Transactional(readOnly = true)
     public ProductDetail detail(Long productId) {
         Product product = queryRepository.findProductById(productId)
@@ -51,10 +60,14 @@ public class ProductQueryService {
         List<CategoryPathNode> path = categoryPath(product.getCategoryId());
 
         List<SkuDetail> skus = queryRepository.findSkuStock(productId).stream()
-                .map(s -> new SkuDetail(s.skuCode(), s.optionSummary(), s.availableQty()))
+                .map(s -> new SkuDetail(s.skuCode(), s.optionSummary(), s.availableQty(), s.price()))
                 .toList();
 
-        return new ProductDetail(product.getId(), product.getName(), path, skus);
+        List<ImageRef> images = imageRepository.findByProductId(productId).stream()
+                .map(img -> new ImageRef(img.getId(), img.getS3Key()))
+                .toList();
+
+        return new ProductDetail(product.getId(), product.getName(), path, skus, images);
     }
 
     /** leaf 에서 parent 로 올라가며 조상 수집 후 root→leaf 로 뒤집는다 (정상 트리는 3노드). */

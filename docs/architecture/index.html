@@ -53,7 +53,7 @@ graph LR
   risk["risk-management :8083<br/>취소검증 + 한도 소진"]:::svc
   merchant["merchant-limit :8082<br/>일일 취소한도 원본"]:::svc
   order["order-service :8081<br/>주문 생성·검증(items:verify) + 상태 동기화"]:::svc
-  product["product-service :8084<br/>SKU 재고 예약·복원 (v3.0) + 카테고리 트리·상품 조회 (catalog)"]:::newsvc
+  product["product-service :8084<br/>SKU 재고 예약·복원 (v3.0) + 카테고리 트리·상품 조회 (catalog) + SKU 가격·다중 이미지(S3 presigned)"]:::newsvc
 
   pdb[("payment_db")]:::db
   rdb[("risk_db")]:::db
@@ -66,10 +66,10 @@ graph LR
 
   fe -->|"쿠키(httpOnly)+CSRF · credentials:include"| gw
   client -->|"Bearer JWT (API 클라)"| gw
-  client -->|"카테고리·상품 조회 GET /v1/categories·products (직접·비게이트웨이)"| product
   gw -->|"/v1/auth/** (login·me·logout·refresh)"| user
   gw -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| payment
   gw -->|"주문 생성 POST /v1/orders (X-User-Id, order-link)"| order
+  gw -->|"카테고리·상품 조회 GET /v1/categories·products (공개·strip) + 이미지 write presign/confirm/delete/reorder (ADMIN)"| product
   user --- udb
 
   payment -->|"HTTP validateAndReserve / compensate"| risk
