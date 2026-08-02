@@ -25,7 +25,7 @@
   </head>
   <body>
     <h1>인증 경계 — API Gateway + user-service (v2.0)</h1>
-    <p class="meta">Generated 2026-07-30 · updated 2026-08-01 (쿠키 인증 + CORS/CSRF + frontend + order-link 주문 검증) · source: <code>api-gateway (:8000), user-service (:8085), frontend (:5173), order-service (:8081)</code> · milestone v2.0 + order-link. 취소 코어는 <strong>불변</strong>.</p>
+    <p class="meta">Generated 2026-07-30 · updated 2026-08-02 (쿠키 인증 + CORS/CSRF + frontend + order-link 주문 검증 + ADMIN 역할관리·bootstrap) · source: <code>api-gateway (:8000), user-service (:8085), frontend (:5173), order-service (:8081)</code> · milestone v2.0 + order-link + product-catalog. 취소 코어는 <strong>불변</strong>.</p>
     <nav>← <a href="./index.html">시스템 아키텍처 개요</a> · <a href="./cancel-flow.html">취소 플로우 상세 →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
 
     <p class="legend">
@@ -53,7 +53,7 @@ graph LR
   FE["frontend :5173<br/>Vite+React 로그인 데모"]:::newsvc
   C(["API 클라이언트"])
   GW["api-gateway :8000<br/>쿠키/Bearer 검증 · CORS · CSRF · X-User-* strip"]:::gw
-  USER["user-service :8085<br/>회원가입 · 로그인 · /me · 토큰(쿠키 발급)"]:::newsvc
+  USER["user-service :8085<br/>회원가입 · 로그인 · /me · 토큰(쿠키 발급)<br/>ADMIN 역할관리 · bootstrap 승격"]:::newsvc
   UDB[("user_db :3315")]:::db
 
   subgraph core["기존 취소 코어 (v1, 불변)"]
@@ -68,6 +68,7 @@ graph LR
   C -->|"Bearer JWT (CSRF 면제)"| GW
   GW -->|"/v1/auth/** (공개: signup·login·refresh)"| USER
   GW -->|"/v1/auth/{logout,me} (인증)"| USER
+  GW -->|"/v1/admin/** (ADMIN 전용: 역할변경 PATCH)"| USER
   GW -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| P
   GW -->|"주문 생성 /v1/orders (X-User-Id, order-link)"| O
   P -->|"order 검증 items:verify (X-User-Id 포워딩, fail-closed)"| O
@@ -118,6 +119,13 @@ sequenceDiagram
     <p class="note">
       <strong>쿠키 속성:</strong> access=HttpOnly·Secure·SameSite=Lax(세션), refresh=HttpOnly·Strict·Path=<code>/v1/auth/refresh</code>, csrf=non-HttpOnly(JS가 읽어 헤더로 재제출). <code>/v1/auth/refresh</code>는 refresh 쿠키를 읽어 새 access 쿠키만 회전.
       <strong>logout:</strong> refresh DB 하드 DELETE + 쿠키 만료(Max-Age=0). <strong>CSRF:</strong> 상태변경 요청은 쿠키 csrf == 헤더 <code>X-CSRF-Token</code> 검증(Bearer 요청은 면제). <strong>CORS:</strong> 출처 화이트리스트(<code>localhost:5173</code>) + credentials. JWT_SECRET은 user-service·gateway <strong>공유</strong>(비-local 미주입 시 fail-fast).
+    </p>
+    <p class="note">
+      <strong>ADMIN 역할관리:</strong> role은 <em>서버만</em> 결정한다(클라 입력 무시, D-P1-2). 최초 ADMIN은
+      <code>app.admin.bootstrap-emails</code>(env)에 등재된 이메일이 signup 시 자동 승격 — <strong>부트스트랩</strong>.
+      이후 변경은 <code>PATCH /v1/admin/users/{id}/role</code>(범용 승격/강등)로, 게이트웨이 <code>/v1/admin/**</code>
+      인증 라우트를 거쳐 user-service가 <code>hasRole(ADMIN)</code>로 인가한다(비-ADMIN 403). role은 로그인 시점 JWT에
+      임베드되므로 <strong>승격 후 재로그인 시 반영</strong>(기존 토큰 무효화는 별도). 상품 이미지 write 등 ADMIN 전용 기능의 근거.
     </p>
 
     <h2>3. 기존 취소 코어와의 연결 — 인증 경계가 앞단에 얹힘</h2>

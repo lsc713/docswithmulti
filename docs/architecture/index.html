@@ -46,7 +46,7 @@ graph LR
   fe["frontend :5173<br/>Vite+React 로그인 데모"]:::newsvc
   client(["API 클라이언트"]):::ext
   gw["api-gateway :8000<br/>쿠키/JWT 검증·CORS·CSRF·strip (v2.0)"]:::gw
-  user["user-service :8085<br/>회원/토큰 발급·쿠키·/me (v2.0)"]:::newsvc
+  user["user-service :8085<br/>회원/토큰 발급·쿠키·/me · ADMIN 역할관리 (v2.0)"]:::newsvc
   udb[("user_db")]:::db
 
   payment["payment-service :8080<br/>취소 핵심 로직 + 인가 pre-check"]:::svc
@@ -67,6 +67,7 @@ graph LR
   fe -->|"쿠키(httpOnly)+CSRF · credentials:include"| gw
   client -->|"Bearer JWT (API 클라)"| gw
   gw -->|"/v1/auth/** (login·me·logout·refresh)"| user
+  gw -->|"/v1/admin/** (ADMIN 전용: 역할변경)"| user
   gw -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| payment
   gw -->|"주문 생성 POST /v1/orders (X-User-Id, order-link)"| order
   gw -->|"카테고리·상품 조회 GET /v1/categories·products (공개·strip) + 이미지 write presign/confirm/delete/reorder (ADMIN)"| product
