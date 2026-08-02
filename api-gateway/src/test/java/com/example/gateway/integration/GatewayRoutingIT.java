@@ -27,6 +27,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.anyUrl;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
+import static com.github.tomakehurst.wiremock.client.WireMock.patch;
+import static com.github.tomakehurst.wiremock.client.WireMock.patchRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
@@ -409,6 +411,43 @@ class GatewayRoutingIT {
         assertThat(res.statusCode()).isEqualTo(200);
         productDownstream.verify(postRequestedFor(urlPathEqualTo("/v1/products/1/images/presign"))
                 .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("ADMIN")));
+    }
+
+    // === ADMIN role feature: PATCH /v1/admin/** — user-service 인증 라우트(/v1/auth/me와 동일 방식) ===
+
+    @Test
+    void adminRoute_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/admin/users/1/role")))
+                        .method("PATCH", HttpRequest.BodyPublishers.noBody()))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void adminRoute_validJwt_routesToUserDownstream_withTrustHeaderInjected() throws Exception {
+        userDownstream.stubFor(patch(urlPathEqualTo("/v1/admin/users/1/role"))
+                .willReturn(aResponse().withStatus(200).withBody("{\"id\":1,\"role\":\"ADMIN\"}")));
+
+        String token = accessToken(42L, "ADMIN", null);
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/admin/users/1/role")))
+                        .header("Authorization", "Bearer " + token)
+                        .method("PATCH", HttpRequest.BodyPublishers.noBody()))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        userDownstream.verify(patchRequestedFor(urlPathEqualTo("/v1/admin/users/1/role"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("ADMIN")));
+        // per-route 증명: admin 경로는 다른 downstream으로 새지 않는다
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+        orderDownstream.verify(0, anyRequestedFor(anyUrl()));
+        productDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
     @Test

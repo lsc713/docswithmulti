@@ -24,7 +24,8 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
  * <ul>
  *   <li>payment 취소(인증): /v1/payments/** → payment downstream, JwtTrustHeaderFilter 부착</li>
  *   <li>user-service 공개(토큰 불요): /v1/auth/{signup,login,refresh} → user downstream, strip만</li>
- *   <li>user-service 인증: /v1/auth/{logout,me} → user downstream, JwtTrustHeaderFilter 부착</li>
+ *   <li>user-service 인증: /v1/auth/{logout,me}, /v1/admin/** → user downstream, JwtTrustHeaderFilter 부착
+ *       (admin/**의 role 인가는 user-service 자체 JwtAuthenticationFilter가 재검증)</li>
  *   <li>order 생성(인증): POST /v1/orders(정확 경로) → order downstream, JwtTrustHeaderFilter 부착.
  *       /v1/orders/items:verify(payment 전용 내부 검증)는 이 경로에 걸리지 않아 노출되지 않는다
  *       (D-CONTEXT-5, order-link Phase 1 GW-01)</li>
@@ -72,13 +73,21 @@ public class RouteConfig {
                 .build();
     }
 
-    /** user-service 인증 라우트(logout/me) — 토큰 필요. strip→verify→inject는 JwtTrustHeaderFilter가 담당. */
+    /**
+     * user-service 인증 라우트(logout/me + admin/**) — 토큰 필요. strip→verify→inject는
+     * JwtTrustHeaderFilter가 담당. /v1/admin/**(예: PATCH /v1/admin/users/{id}/role)는
+     * user-service 자체 JwtAuthenticationFilter가 hasRole("ADMIN")을 재검증하므로, 게이트웨이는
+     * /v1/auth/me와 동일하게 토큰 유효성만 보고 신뢰헤더를 전달한다 — 새 인증 메커니즘 아님.
+     */
     @Bean
     RouterFunction<ServerResponse> userAuthSecuredRoute(
             JwtTrustHeaderFilter jwt,
             @Value("${gateway.downstream.user-uri}") String userUri) {
+        RequestPredicate secured = path("/v1/auth/logout")
+                .or(path("/v1/auth/me"))
+                .or(path("/v1/admin/**"));
         return route("user-auth-secured")
-                .route(path("/v1/auth/logout").or(path("/v1/auth/me")), http())
+                .route(secured, http())
                 .before(uri(userUri))
                 .filter(jwt)
                 .build();
