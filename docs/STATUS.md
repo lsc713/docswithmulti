@@ -36,6 +36,8 @@ product-catalog v1.0 (카테고리 트리·브라우징)                       (
 order-link v1.0 (주문↔결제 검증 링크)                               (완료, PR #84 머지)
 카탈로그 프론트 (그리드·상세 + SKU 가격 + 다중 이미지 S3 presigned
   + user ADMIN 역할관리)                                           (완료, PR #88/#89/#90 · 라이브 E2E 5/5)
+cancel-restore v1.0 (취소 복원 일관성 — 레그 하드닝 B2: order·product 컨슈머
+  무손실·durable DLQ+알림·Redisson 재구동, 취소 코어 불변)          (완료, PR #87 머지)
 ```
 
 ## 배포 시점 남은 것 (코드는 머지, 라이브 미적용)
@@ -47,6 +49,7 @@ order-link v1.0 (주문↔결제 검증 링크)                               (�
 ## 후속 후보
 
 - product 풀 카탈로그 백필(attribute·정규화 옵션·자유텍스트 검색·version) — image·category·SKU 가격은 반영됨
+- 취소 복원 후속: 크로스-서비스 리컨실러(두 레그 완료 상태 대조·복구 = cancel-restore 접근 2) · 예약 시점 이동(재고 예약을 주문/체크아웃 시점 + 만료 = B1)
 - M1 검증 트랙(실측 재현·무중단 하드닝·용량 개선) 재개
 - CI 파이프라인(PR build+test 게이트) 부재
 
