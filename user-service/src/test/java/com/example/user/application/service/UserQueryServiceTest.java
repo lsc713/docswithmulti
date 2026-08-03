@@ -5,11 +5,15 @@ import com.example.user.domain.entity.User;
 import com.example.user.domain.entity.UserRole;
 import com.example.user.domain.entity.UserStatus;
 import com.example.user.presentation.dto.MeResponse;
+import com.example.user.presentation.dto.UserListResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,5 +44,51 @@ class UserQueryServiceTest {
 
         assertThatThrownBy(() -> new UserQueryService(userRepository).getProfile(99L))
                 .isInstanceOf(com.example.user.common.exception.application.UserNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("listUsers — id 오름차순 첫 페이지 + totalElements")
+    void shouldListUsersPaged() {
+        User u1 = User.reconstruct(1L, "a@x.com", "pw", "A", "010", UserRole.USER,
+                null, UserStatus.ACTIVE, Instant.parse("2026-01-01T00:00:00Z"), Instant.parse("2026-01-01T00:00:00Z"));
+        User u2 = User.reconstruct(2L, "b@x.com", "pw", "B", "010", UserRole.ADMIN,
+                null, UserStatus.ACTIVE, Instant.parse("2026-01-02T00:00:00Z"), Instant.parse("2026-01-02T00:00:00Z"));
+        when(userRepository.findAll()).thenReturn(List.of(u2, u1));
+
+        UserListResponse res = new UserQueryService(userRepository).listUsers(0, 1);
+
+        assertThat(res.totalElements()).isEqualTo(2);
+        assertThat(res.page()).isEqualTo(0);
+        assertThat(res.size()).isEqualTo(1);
+        assertThat(res.content()).hasSize(1);
+        assertThat(res.content().get(0).id()).isEqualTo(1L);      // id 오름차순
+        assertThat(res.content().get(0).role()).isEqualTo("USER");
+        assertThat(res.content().get(0).status()).isEqualTo("ACTIVE");
+    }
+
+    @Test
+    @DisplayName("listUsers — 두 번째 페이지")
+    void shouldReturnSecondPage() {
+        User u1 = User.reconstruct(1L, "a@x.com", "pw", "A", "010", UserRole.USER,
+                null, UserStatus.ACTIVE, Instant.parse("2026-01-01T00:00:00Z"), Instant.parse("2026-01-01T00:00:00Z"));
+        User u2 = User.reconstruct(2L, "b@x.com", "pw", "B", "010", UserRole.ADMIN,
+                null, UserStatus.ACTIVE, Instant.parse("2026-01-02T00:00:00Z"), Instant.parse("2026-01-02T00:00:00Z"));
+        when(userRepository.findAll()).thenReturn(List.of(u1, u2));
+
+        UserListResponse res = new UserQueryService(userRepository).listUsers(1, 1);
+
+        assertThat(res.content()).hasSize(1);
+        assertThat(res.content().get(0).id()).isEqualTo(2L);
+    }
+
+    @Test
+    @DisplayName("listUsers — 범위 초과 페이지는 빈 목록")
+    void shouldReturnEmptyWhenPageOutOfRange() {
+        when(userRepository.findAll()).thenReturn(List.of());
+
+        UserListResponse res = new UserQueryService(userRepository).listUsers(5, 20);
+
+        assertThat(res.content()).isEmpty();
+        assertThat(res.totalElements()).isZero();
     }
 }
