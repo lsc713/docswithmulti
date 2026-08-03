@@ -1,0 +1,18 @@
+// settlement-service build configuration (Phase 1: consume-only, no producer/scheduler/Redisson)
+
+apply plugin: 'org.flywaydb.flyway'
+
+flyway {
+    url      = 'jdbc:mysql://localhost:3316/settlement_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true'
+    user     = 'settlement'
+    password = 'settlement'
+    locations = ['classpath:db/migration']
+}
+
+dependencies {
+    // Kafka consumer (payment.cancelled 구독 → 정산 원장 적재). consume-only.
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // Testcontainers Kafka (컨슈머 e2e) — 다른 모듈 정렬 버전
+    testImplementation 'org.testcontainers:kafka:1.19.7'
+}

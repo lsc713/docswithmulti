@@ -101,6 +101,18 @@ services:
     volumes:
       - mysql-user-data:/var/lib/mysql
 
+  mysql-settlement:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: settlement_db
+      MYSQL_USER: settlement
+      MYSQL_PASSWORD: settlement
+    ports:
+      - "3316:3306"
+    volumes:
+      - mysql-settlement-data:/var/lib/mysql
+
   # Kafka 클러스터 (3 broker)
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
@@ -256,4 +268,5 @@ volumes:
   mysql-risk-data:
   mysql-product-data:
   mysql-user-data:
+  mysql-settlement-data:
   minio-data:
