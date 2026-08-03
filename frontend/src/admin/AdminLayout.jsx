@@ -15,7 +15,7 @@ export default function AdminLayout() {
         <NavLink to="/admin/products">상품관리</NavLink>
         <NavLink to="/admin/products/new">상품 등록</NavLink>
         <NavLink to="/admin/users">회원관리</NavLink>
-        <a onClick={logout} style={{ cursor: 'pointer' }}>로그아웃</a>
+        <button onClick={logout} className="logout-btn">로그아웃</button>
       </aside>
       <main className="admin-main"><Outlet /></main>
     </div>

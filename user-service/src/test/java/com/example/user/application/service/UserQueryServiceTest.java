@@ -91,4 +91,28 @@ class UserQueryServiceTest {
         assertThat(res.content()).isEmpty();
         assertThat(res.totalElements()).isZero();
     }
+
+    @Test
+    @DisplayName("listUsers — 음수 page는 예외(500) 대신 빈 목록")
+    void shouldReturnEmptyWhenPageNegative() {
+        when(userRepository.findAll()).thenReturn(List.of());
+
+        UserListResponse res = new UserQueryService(userRepository).listUsers(-1, 20);
+
+        assertThat(res.content()).isEmpty();
+        assertThat(res.totalElements()).isZero();
+    }
+
+    @Test
+    @DisplayName("listUsers — 음수 size는 예외 대신 빈 목록 (500 방지)")
+    void shouldReturnEmptyWhenSizeNegative() {
+        User u1 = User.reconstruct(1L, "a@x.com", "pw", "A", "010", UserRole.USER,
+                null, UserStatus.ACTIVE, Instant.parse("2026-01-01T00:00:00Z"), Instant.parse("2026-01-01T00:00:00Z"));
+        when(userRepository.findAll()).thenReturn(List.of(u1));
+
+        UserListResponse res = new UserQueryService(userRepository).listUsers(0, -5);
+
+        assertThat(res.content()).isEmpty();
+        assertThat(res.totalElements()).isEqualTo(1);
+    }
 }

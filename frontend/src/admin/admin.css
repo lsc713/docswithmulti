@@ -3,8 +3,8 @@ body { margin: 0; font: 15px/1.5 system-ui, sans-serif; color: #1a1a1a; }
 .admin-shell { display: flex; min-height: 100vh; }
 .admin-sidebar { width: 220px; background: #12141c; color: #cfd2dc; padding: 20px 0; flex-shrink: 0; }
 .admin-sidebar .brand { font-weight: 700; font-size: 18px; padding: 0 20px 16px; color: #fff; }
-.admin-sidebar a { display: block; padding: 10px 20px; color: #cfd2dc; text-decoration: none; }
-.admin-sidebar a.active, .admin-sidebar a:hover { background: #232735; color: #fff; }
+.admin-sidebar a, .admin-sidebar .logout-btn { display: block; width: 100%; padding: 10px 20px; color: #cfd2dc; text-decoration: none; background: none; border: none; font: inherit; text-align: left; cursor: pointer; }
+.admin-sidebar a.active, .admin-sidebar a:hover, .admin-sidebar .logout-btn:hover { background: #232735; color: #fff; }
 .admin-main { flex: 1; padding: 28px 32px; background: #f6f7f9; }
 .admin-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
 .admin-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px; }

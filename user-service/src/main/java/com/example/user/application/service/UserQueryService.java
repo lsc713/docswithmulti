@@ -34,8 +34,8 @@ public class UserQueryService implements UserQueryUseCase {
         List<User> all = userRepository.findAll().stream()
                 .sorted(Comparator.comparing(User::getId))
                 .toList();
-        int from = Math.min(page * size, all.size());
-        int to = Math.min(from + size, all.size());
+        int from = Math.min(Math.max(0, page) * Math.max(0, size), all.size());
+        int to = Math.min(from + Math.max(0, size), all.size());
         List<UserListResponse.UserSummary> content = all.subList(from, to).stream()
                 .map(u -> new UserListResponse.UserSummary(
                         u.getId(), u.getEmail(), u.getName(),
