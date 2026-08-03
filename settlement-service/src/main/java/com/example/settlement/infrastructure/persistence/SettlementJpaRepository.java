@@ -37,6 +37,20 @@ public interface SettlementJpaRepository extends JpaRepository<SettlementJpaEnti
                         @Param("periodStart") LocalDate periodStart,
                         @Param("amount") BigDecimal amount);
 
+    /**
+     * gross_amount 원자 증분. 단일 문장이라 read-modify-write 갭 없음(lost update 없음).
+     * @return 1 = 성공(대상 행 존재)
+     */
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query(value = """
+        UPDATE settlement
+           SET gross_amount = gross_amount + :amount, updated_at = CURRENT_TIMESTAMP(3)
+         WHERE merchant_id = :merchantId AND period_start = :periodStart
+        """, nativeQuery = true)
+    int addGrossAmount(@Param("merchantId") long merchantId,
+                       @Param("periodStart") LocalDate periodStart,
+                       @Param("amount") BigDecimal amount);
+
     @Query(value = "SELECT id FROM settlement WHERE merchant_id = :merchantId AND period_start = :periodStart",
         nativeQuery = true)
     Long findIdByMerchantIdAndPeriodStart(@Param("merchantId") long merchantId,

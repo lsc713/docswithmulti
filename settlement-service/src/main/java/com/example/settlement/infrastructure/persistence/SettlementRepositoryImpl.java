@@ -37,6 +37,11 @@ public class SettlementRepositoryImpl implements SettlementRepository {
     }
 
     @Override
+    public int addGrossAmount(long merchantId, LocalDate periodStart, BigDecimal amount) {
+        return jpa.addGrossAmount(merchantId, periodStart, amount);
+    }
+
+    @Override
     public List<Settlement> findByMerchant(long merchantId, String status) {
         List<SettlementJpaEntity> rows = (status == null)
             ? jpa.findByMerchantIdOrderByPeriodStartDesc(merchantId)

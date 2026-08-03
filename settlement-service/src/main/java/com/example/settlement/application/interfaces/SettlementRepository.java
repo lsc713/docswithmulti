@@ -18,6 +18,9 @@ public interface SettlementRepository {
     /** cancel_amount 원자 증분(UPDATE ... SET cancel_amount = cancel_amount + :amount). */
     int addCancelAmount(long merchantId, LocalDate periodStart, BigDecimal amount);
 
+    /** gross_amount 원자 증분(UPDATE ... SET gross_amount = gross_amount + :amount). */
+    int addGrossAmount(long merchantId, LocalDate periodStart, BigDecimal amount);
+
     /** status가 null이면 전체, 아니면 해당 status로 필터. */
     List<Settlement> findByMerchant(long merchantId, String status);
 
