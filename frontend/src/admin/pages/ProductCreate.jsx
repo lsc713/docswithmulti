@@ -29,7 +29,7 @@ export default function ProductCreate() {
     if (!name || !categoryId || skus.some(s => !s.skuCode)) { setErr('이름·카테고리·SKU 코드는 필수입니다.'); return }
     try {
       const res = await api.createProduct({ name, categoryId: Number(categoryId), skus })
-      navigate(`/admin/products/${res.id}`)
+      navigate(`/admin/products/${res.productId}`)
     } catch (e) { setErr(e.message) }
   }
 
