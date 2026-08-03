@@ -8,10 +8,10 @@ export default function ProductDetail({ id, me, onBack, onBuy }) {
   const [qty, setQty] = useState({}) // skuId -> quantity
 
   const load = useCallback(() => {
-    api.product(id).then(p => { setProduct(p); setQty({}) }).catch(e => setError(e.message))
+    api.product(id).then(setProduct).catch(e => setError(e.message))
   }, [id])
 
-  useEffect(() => { setProduct(null); setError(null); load() }, [load])
+  useEffect(() => { setProduct(null); setError(null); setQty({}); load() }, [id])
 
   if (error) return <main className="product-detail"><button onClick={onBack}>뒤로</button><p className="error">{error}</p></main>
   if (!product) return <main className="product-detail"><button onClick={onBack}>뒤로</button><p>불러오는 중...</p></main>
