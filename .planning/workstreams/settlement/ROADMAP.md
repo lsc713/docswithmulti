@@ -17,7 +17,7 @@ last_updated: 2026-08-03
 
 ## Phases
 
-- [ ] **Phase 1: 서비스 골격 + 취소 적재 CORE (tracer)** - settlement-service 세우고 기존 payment.cancelled로 취소를 원장에 멱등 적재·주별 집계·조회, payment 코드 변경 0
+- [x] **Phase 1: 서비스 골격 + 취소 적재 CORE (tracer)** - settlement-service 세우고 기존 payment.cancelled로 취소를 원장에 멱등 적재·주별 집계·조회, payment 코드 변경 0 ✅ GOAL ACHIEVED (5/5, 9 tests, payment diff 0)
 - [ ] **Phase 2: 매출 이벤트 + 수수료·net 산출** - payment.completed 아웃박스 신설 + settlement 매출 적재, 요율 기반 fee+VAT+net 산출
 - [ ] **Phase 3: 배치 리컨실 + 확정** - 주 마감 리컨실러가 payment DB 대조로 누락 보정 후 OPEN→FINALIZED 확정
 
@@ -34,7 +34,7 @@ last_updated: 2026-08-03
   4. payment 모듈 diff 0 — settlement는 payment.cancelled를 소비만 하고 payment 코드/스키마를 전혀 건드리지 않는다. 기존 취소·재고 통합테스트 무회귀. git diff(merge-base) 게이트가 이를 증명한다.
 **Plans**: 2 plans
 - [x] 01-01-PLAN.md — tracer + 원장 코어: settlement-service 골격+Flyway V1+payment.cancelled 구독→CANCEL 라인 멱등 적재+주별 헤더 upsert/증분+조회 API (SETUP-01/CANCEL-01/CANCEL-02/QUERY-01) ✅ 9 tests green
-- [ ] 01-02-PLAN.md — INV-01 게이트+무회귀: merge-base git diff로 payment diff 0 증명 + 전체 스위트 그린 (INV-01)
+- [x] 01-02-PLAN.md — INV-01 게이트+무회귀: merge-base git diff로 payment diff 0 증명 + 전체 스위트 그린 (INV-01) ✅ 431 tests green
 
 ### Phase 2: 매출 이벤트 + 수수료·net 산출
 **Goal**: payment-service가 결제 생성 시 `payment.completed`를 아웃박스로 발행하고, settlement가 이를 구독해 매출을 원장에 적재하며, 요율 기반으로 수수료+VAT+net을 산출한다.
@@ -60,6 +60,6 @@ last_updated: 2026-08-03
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. 서비스 골격 + 취소 적재 CORE | 1/2 | In progress | - |
+| 1. 서비스 골격 + 취소 적재 CORE | 2/2 | Complete | 2026-08-04 |
 | 2. 매출 이벤트 + 수수료·net 산출 | 0/? | Not started | - |
 | 3. 배치 리컨실 + 확정 | 0/? | Not started | - |
