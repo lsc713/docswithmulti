@@ -38,6 +38,8 @@ order-link v1.0 (주문↔결제 검증 링크)                               (�
   + user ADMIN 역할관리)                                           (완료, PR #88/#89/#90 · 라이브 E2E 5/5)
 cancel-restore v1.0 (취소 복원 일관성 — 레그 하드닝 B2: order·product 컨슈머
   무손실·durable DLQ+알림·Redisson 재구동, 취소 코어 불변)          (완료, PR #87 머지)
+어드민 콘솔 v1.0 (로그인/대시보드/상품·회원 관리, 별도 admin.html + react-router
+  + `GET /v1/admin/users` 신설, 취소/스토어 불변)                   (완료)
 ```
 
 ## 배포 시점 남은 것 (코드는 머지, 라이브 미적용)
