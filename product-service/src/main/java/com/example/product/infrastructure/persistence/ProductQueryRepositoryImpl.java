@@ -31,7 +31,7 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
     @Override
     public List<SkuStock> findSkuStock(Long productId) {
         return skuJpa.findSkuStockByProductId(productId).stream()
-                .map(v -> new SkuStock(v.getSkuCode(), v.getOptionSummary(), v.getAvailableQty(), v.getPrice()))
+                .map(v -> new SkuStock(v.getSkuId(), v.getSkuCode(), v.getOptionSummary(), v.getAvailableQty(), v.getPrice()))
                 .toList();
     }
 

@@ -40,7 +40,7 @@ public class ProductQueryService {
     public record CategoryPathNode(int level, Long id, String name) {}
 
     /** variant: 변형 속성명 → 값 (선언 순서 유지). 변형 없는 SKU 는 빈 맵. */
-    public record SkuDetail(String skuCode, String optionSummary, int availableQty, long price,
+    public record SkuDetail(Long skuId, String skuCode, String optionSummary, int availableQty, long price,
                             Map<String, String> variant) {}
 
     /** 변형 속성별 값 집합 (attribute 선언 순서, value 등장 순서). */
@@ -85,7 +85,7 @@ public class ProductQueryService {
                 .toList();
 
         List<SkuDetail> skus = queryRepository.findSkuStock(productId).stream()
-                .map(s -> new SkuDetail(s.skuCode(), s.optionSummary(), s.availableQty(), s.price(),
+                .map(s -> new SkuDetail(s.skuId(), s.skuCode(), s.optionSummary(), s.availableQty(), s.price(),
                         variantBySku.getOrDefault(s.skuCode(), Map.of())))
                 .toList();
 

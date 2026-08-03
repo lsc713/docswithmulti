@@ -59,6 +59,23 @@ class ProductQueryControllerTest {
     }
 
     @Test
+    @DisplayName("GET /v1/products/{id} — skus[].skuId(numeric) 노출")
+    void detail_exposes_numeric_skuId() throws Exception {
+        var detail = new ProductQueryService.ProductDetail(
+                7L, "베이직 티셔츠",
+                List.of(new ProductQueryService.CategoryPathNode(3, 3L, "티셔츠")),
+                List.of(new ProductQueryService.SkuDetail(42L, "TS-BLK-M", "블랙/M", 10, 29000L, java.util.Map.of())),
+                List.of(), List.of(), List.of());
+        when(queryService.detail(7L)).thenReturn(detail);
+
+        mvc.perform(get("/v1/products/7"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.skus[0].skuId").value(42))
+                .andExpect(jsonPath("$.skus[0].skuCode").value("TS-BLK-M"))
+                .andExpect(jsonPath("$.skus[0].price").value(29000));
+    }
+
+    @Test
     void detail_returns_empty_images_when_no_images() throws Exception {
         when(queryService.detail(2L)).thenReturn(new ProductQueryService.ProductDetail(
                 2L, "상품2", List.of(), List.of(), List.of(), List.of(), List.of()));

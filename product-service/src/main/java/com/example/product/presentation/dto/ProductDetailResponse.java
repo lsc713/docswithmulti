@@ -18,7 +18,7 @@ public record ProductDetailResponse(Long id, String name, List<Category> categor
 
     public record Image(Long id, String url) {}
 
-    public record Sku(String skuCode, String optionSummary, int availableQty, long price,
+    public record Sku(Long skuId, String skuCode, String optionSummary, int availableQty, long price,
                       Map<String, String> variant) {}
 
     public record VariantOption(String attribute, List<String> values) {}
@@ -32,7 +32,7 @@ public record ProductDetailResponse(Long id, String name, List<Category> categor
                 .map(ref -> new Image(ref.id(), presign.apply(ref.s3Key())))
                 .toList();
         List<Sku> skus = d.skus().stream()
-                .map(s -> new Sku(s.skuCode(), s.optionSummary(), s.availableQty(), s.price(), s.variant()))
+                .map(s -> new Sku(s.skuId(), s.skuCode(), s.optionSummary(), s.availableQty(), s.price(), s.variant()))
                 .toList();
         List<VariantOption> variantOptions = d.variantOptions().stream()
                 .map(o -> new VariantOption(o.attribute(), o.values()))
