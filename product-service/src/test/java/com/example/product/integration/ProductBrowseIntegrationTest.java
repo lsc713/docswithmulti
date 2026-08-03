@@ -279,6 +279,7 @@ class ProductBrowseIntegrationTest {
     MockHttpServletResponse send(String path, String jsonBody) throws Exception {
         return mockMvc.perform(post(path)
                         .contentType(MediaType.APPLICATION_JSON)
+                        .header("X-User-Role", "ADMIN")
                         .content(jsonBody))
                 .andReturn().getResponse();
     }

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import './App.css'
 import { api } from './api'
 import NavBar from './components/NavBar'
 import AuthModal from './components/AuthModal'

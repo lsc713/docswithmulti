@@ -38,12 +38,15 @@ order-link v1.0 (주문↔결제 검증 링크)                               (�
   + user ADMIN 역할관리)                                           (완료, PR #88/#89/#90 · 라이브 E2E 5/5)
 cancel-restore v1.0 (취소 복원 일관성 — 레그 하드닝 B2: order·product 컨슈머
   무손실·durable DLQ+알림·Redisson 재구동, 취소 코어 불변)          (완료, PR #87 머지)
+어드민 콘솔 v1.0 (로그인/대시보드/상품·회원 관리, 별도 admin.html + react-router
+  + `GET /v1/admin/users` 신설, 취소/스토어 불변)                   (완료)
 ```
 
 ## 배포 시점 남은 것 (코드는 머지, 라이브 미적용)
 
 - v2.0: k3s NetworkPolicy(payment ingress→게이트웨이만) + JWT_SECRET 실값 주입 (없으면 인증 경계 무력)
 - v3.0: product-service 배포 매니페스트(infra/k8s) + 외부 MySQL에 product_db 스키마 + Kafka `payment.cancelled` consumer(group=product-service) 배선
+- 어드민 콘솔: k3s NetworkPolicy(product ingress→게이트웨이만, `infra/k8s/networkpolicy/product-ingress.yaml`, payment와 동일 클래스) 배포 필수 — 없으면 `POST /v1/products` X-User-Role 스푸핑으로 ADMIN 인가 우회
 - 카탈로그: 실 S3(버킷 CORS) + 프론트 CSP를 실 도메인으로(현재 `localhost:9000` 하드코딩) + user `app.admin.bootstrap-emails` 실값. 프론트 라이브 E2E는 로컬 스택으로 5/5 검증(전체 스택 기동 필요)
 
 ## 후속 후보

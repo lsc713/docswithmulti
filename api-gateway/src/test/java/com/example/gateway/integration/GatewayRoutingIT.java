@@ -451,15 +451,38 @@ class GatewayRoutingIT {
     }
 
     @Test
-    void postProductsSeed_notExposed_gatewayReturns404() throws Exception {
+    void postProductsSeed_noToken_returns401_downstreamNotCalled() throws Exception {
         HttpResponse<String> res = http.send(
                 withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/products")))
-                        .POST(HttpRequest.BodyPublishers.ofString("{}")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
                         .build(),
                 HttpResponse.BodyHandlers.ofString());
 
-        assertThat(res.statusCode()).isEqualTo(404);
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
         productDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void postProductsSeed_validJwt_routesToProductDownstream_withTrustHeaderInjected() throws Exception {
+        productDownstream.stubFor(post(urlPathEqualTo("/v1/products"))
+                .willReturn(aResponse().withStatus(200).withBody("{\"productId\":1,\"skus\":[]}")));
+
+        String token = accessToken(42L, "ADMIN", null);
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/products")))
+                        .header("Authorization", "Bearer " + token)
+                        .POST(HttpRequest.BodyPublishers.noBody()))   // noBody: 다른 write 라우트 테스트와 동일(스트리밍 노이즈 회피)
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        productDownstream.verify(postRequestedFor(urlPathEqualTo("/v1/products"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("ADMIN")));
+        // per-route: 다른 downstream으로 새지 않음
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+        orderDownstream.verify(0, anyRequestedFor(anyUrl()));
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
     private String gateway(String path) {

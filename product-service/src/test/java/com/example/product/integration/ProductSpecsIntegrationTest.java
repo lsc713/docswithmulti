@@ -199,7 +199,8 @@ class ProductSpecsIntegrationTest {
     }
 
     private MockHttpServletResponse postJson(String path, String body) throws Exception {
-        return mockMvc.perform(post(path).contentType(MediaType.APPLICATION_JSON).content(body))
+        return mockMvc.perform(post(path).contentType(MediaType.APPLICATION_JSON)
+                        .header("X-User-Role", "ADMIN").content(body))
                 .andReturn().getResponse();
     }
 }

@@ -25,7 +25,7 @@
   </head>
   <body>
     <h1>인증 경계 — API Gateway + user-service (v2.0)</h1>
-    <p class="meta">Generated 2026-07-30 · updated 2026-08-02 (쿠키 인증 + CORS/CSRF + frontend + order-link 주문 검증 + ADMIN 역할관리·bootstrap) · source: <code>api-gateway (:8000), user-service (:8085), frontend (:5173), order-service (:8081)</code> · milestone v2.0 + order-link + product-catalog. 취소 코어는 <strong>불변</strong>.</p>
+    <p class="meta">Generated 2026-07-30 · updated 2026-08-03 (쿠키 인증 + CORS/CSRF + frontend + order-link 주문 검증 + ADMIN 역할관리·bootstrap + <strong>어드민 콘솔</strong>: 회원목록·상품생성 ADMIN 경계) · source: <code>api-gateway (:8000), user-service (:8085), product-service (:8084), frontend (:5173/admin), order-service (:8081)</code> · milestone v2.0 + order-link + product-catalog + admin-console. 취소 코어는 <strong>불변</strong>.</p>
     <nav>← <a href="./index.html">시스템 아키텍처 개요</a> · <a href="./cancel-flow.html">취소 플로우 상세 →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
 
     <p class="legend">
@@ -50,11 +50,12 @@ graph LR
   classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
   classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
 
-  FE["frontend :5173<br/>Vite+React 로그인 데모"]:::newsvc
+  FE["frontend :5173<br/>스토어프론트 + 어드민 콘솔(admin.html)"]:::newsvc
   C(["API 클라이언트"])
   GW["api-gateway :8000<br/>쿠키/Bearer 검증 · CORS · CSRF · X-User-* strip"]:::gw
   USER["user-service :8085<br/>회원가입 · 로그인 · /me · 토큰(쿠키 발급)<br/>ADMIN 역할관리 · bootstrap 승격"]:::newsvc
   UDB[("user_db :3315")]:::db
+  PROD["product-service :8084<br/>상품·SKU·재고 · 이미지 · 카탈로그"]:::newsvc
 
   subgraph core["기존 취소 코어 (v1, 불변)"]
     P["payment :8080"]:::svc
@@ -68,9 +69,11 @@ graph LR
   C -->|"Bearer JWT (CSRF 면제)"| GW
   GW -->|"/v1/auth/** (공개: signup·login·refresh)"| USER
   GW -->|"/v1/auth/{logout,me} (인증)"| USER
-  GW -->|"/v1/admin/** (ADMIN 전용: 역할변경 PATCH)"| USER
+  GW -->|"/v1/admin/** (ADMIN: 역할변경 PATCH + 회원목록 GET)"| USER
   GW -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| P
   GW -->|"주문 생성 /v1/orders (X-User-Id, order-link)"| O
+  GW -->|"상품 브라우징 GET /v1/products·/v1/categories/** (공개, strip)"| PROD
+  GW -->|"이미지 write + 상품생성 POST /v1/products (ADMIN 인증·신뢰헤더)"| PROD
   P -->|"order 검증 items:verify (X-User-Id 포워딩, fail-closed)"| O
   USER --- UDB
 
@@ -84,6 +87,8 @@ graph LR
       게이트웨이가 클라이언트발 <code>X-User-*</code>를 전 경로에서 strip 후 재설정하기 때문. 단 payment(:8080)에
       직접 도달하면 헤더 위조가 가능하므로, <strong>k3s NetworkPolicy로 payment ingress를 게이트웨이 파드로만 제한</strong>하는
       것이 배포 전 필수 게이트다(domain-rules.md §8-3). 없으면 인가 전체가 무력화된다.
+      <br/><strong>product도 동일 클래스:</strong> <code>POST /v1/products</code>(상품 생성)가 신뢰헤더 <code>X-User-Role</code>만으로
+      ADMIN을 판정하므로, <code>infra/k8s/networkpolicy/product-ingress.yaml</code>(게이트웨이 파드 전용)이 배포 게이트에 추가된다.
     </p>
 
     <h2>2. 인증 시퀀스 — 발급(공개) → 검증(게이트) → 신뢰헤더 전달</h2>
@@ -125,7 +130,14 @@ sequenceDiagram
       <code>app.admin.bootstrap-emails</code>(env)에 등재된 이메일이 signup 시 자동 승격 — <strong>부트스트랩</strong>.
       이후 변경은 <code>PATCH /v1/admin/users/{id}/role</code>(범용 승격/강등)로, 게이트웨이 <code>/v1/admin/**</code>
       인증 라우트를 거쳐 user-service가 <code>hasRole(ADMIN)</code>로 인가한다(비-ADMIN 403). role은 로그인 시점 JWT에
-      임베드되므로 <strong>승격 후 재로그인 시 반영</strong>(기존 토큰 무효화는 별도). 상품 이미지 write 등 ADMIN 전용 기능의 근거.
+      임베드되므로 <strong>승격 후 재로그인 시 반영</strong>(기존 토큰 무효화는 별도).
+    </p>
+    <p class="note">
+      <strong>어드민 콘솔(v1.0):</strong> 별도 엔트리 <code>admin.html</code>(react-router)이 이 인증 경계 위에서 동작한다.
+      진입 시 <code>GET /v1/auth/me</code>로 역할을 확인해 비-ADMIN은 로그인으로 리다이렉트(프론트 가드), 실제 인가는 항상 서버가 판정.
+      ADMIN 전용 기능 3종이 게이트웨이 인증 라우트를 거친다 — <strong>회원관리</strong> <code>GET /v1/admin/users</code>·<code>PATCH …/role</code>(user-service <code>hasRole(ADMIN)</code>),
+      <strong>상품 이미지</strong> write, <strong>상품 생성</strong> <code>POST /v1/products</code>. 뒤 둘은 product-service가 주입된 <code>X-User-Role=ADMIN</code>을 <em>재검증</em>(비-ADMIN 403).
+      게이트웨이는 기존 <code>POST /v1/products</code>를 미노출(404)했으나 어드민 상품 등록을 위해 <strong>ADMIN 인증 라우트로 노출</strong>했다(client-facing 경계 확장).
     </p>
 
     <h2>3. 기존 취소 코어와의 연결 — 인증 경계가 앞단에 얹힘</h2>

@@ -31,9 +31,10 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
  *       (D-CONTEXT-5, order-link Phase 1 GW-01)</li>
  *   <li>product 공개 브라우징(토큰 불요): GET /v1/products/**, /v1/categories/** → product downstream,
  *       strip만(Task 9)</li>
- *   <li>product 이미지 write(인증): POST .../images/presign, POST .../images, DELETE .../images/{id},
- *       PUT .../images/order → product downstream, JwtTrustHeaderFilter 부착. POST /v1/products(시드)는
- *       GET이 아니고 /images 하위도 아니므로 어느 라우트에도 걸리지 않아 노출되지 않는다(Task 9)</li>
+ *   <li>product 관리자 write(인증): POST /v1/products(시드), POST .../images/presign, POST .../images,
+ *       DELETE .../images/{id}, PUT .../images/order → product downstream, JwtTrustHeaderFilter 부착.
+ *       POST /v1/products(시드)는 ADMIN 인증 라우트로 노출된다 — downstream(product-service)이
+ *       X-User-Role=ADMIN을 재검증(Task 8b)</li>
  * </ul>
  * merchant-limit/risk는 payment가 HTTP/Kafka로 부르는 <b>내부</b> 서비스 → 게이트웨이 미노출(D-P2-5).
  */
@@ -112,7 +113,8 @@ public class RouteConfig {
     /**
      * product-service 공개 브라우징(GET만) — 토큰 불요. userAuthPublicRoute와 동일하게 신뢰 헤더는
      * 무조건 strip(공개 GET에도 클라 위조 X-User-* 차단 — T-02-01/D-P2-3 동일 원칙).
-     * POST /v1/products(시드)는 GET이 아니므로 이 predicate에 걸리지 않아 노출되지 않는다.
+     * POST /v1/products(시드)는 GET이 아니므로 이 predicate에는 걸리지 않지만, 별도 인증 라우트
+     * (productAdminWriteRoute)로 노출된다(Task 8b).
      */
     @Bean
     RouterFunction<ServerResponse> productBrowseRoute(
@@ -128,20 +130,23 @@ public class RouteConfig {
     }
 
     /**
-     * product-service 이미지 관리(presign/confirm/delete/reorder) — 인증 라우트. 실제 엔드포인트는
-     * "/images:presign"(콜론 리터럴)이 아니라 "/images/presign"(세그먼트) — Task 6에서 Spring MVC가
-     * ':presign' 콜론 형태를 라우팅하지 못한다고 확인돼 세그먼트 형태로 구현됐다.
+     * product-service 관리자 write(상품 생성 시드 + 이미지 presign/confirm/delete/reorder) — 인증 라우트.
+     * POST /v1/products(정확 경로)는 ADMIN 전용 상품 생성 시드 — downstream(product-service)이
+     * X-User-Role=ADMIN을 재검증한다(Task 8b). 이미지 실제 엔드포인트는 "/images:presign"(콜론 리터럴)이
+     * 아니라 "/images/presign"(세그먼트) — Task 6에서 Spring MVC가 ':presign' 콜론 형태를 라우팅하지
+     * 못한다고 확인돼 세그먼트 형태로 구현됐다.
      * strip→verify→inject는 JwtTrustHeaderFilter가 담당.
      */
     @Bean
-    RouterFunction<ServerResponse> productImageWriteRoute(
+    RouterFunction<ServerResponse> productAdminWriteRoute(
             JwtTrustHeaderFilter jwt,
             @Value("${gateway.downstream.product-uri}") String productUri) {
         RequestPredicate write = POST("/v1/products/*/images/presign")
                 .or(POST("/v1/products/*/images"))
                 .or(DELETE("/v1/products/*/images/*"))
-                .or(PUT("/v1/products/*/images/order"));
-        return route("product-image-write")
+                .or(PUT("/v1/products/*/images/order"))
+                .or(POST("/v1/products"));
+        return route("product-admin-write")
                 .route(write, http())
                 .before(uri(productUri))
                 .filter(jwt)

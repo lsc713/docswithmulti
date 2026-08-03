@@ -2,12 +2,16 @@ package com.example.user.presentation.controller;
 
 import com.example.user.application.usecase.AdminUseCase;
 import com.example.user.application.usecase.AdminUseCase.RoleChangeResult;
+import com.example.user.application.usecase.UserQueryUseCase;
 import com.example.user.presentation.dto.ChangeRoleRequest;
+import com.example.user.presentation.dto.UserListResponse;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -17,9 +21,18 @@ import java.util.Map;
 @RequestMapping("/v1/admin/users")
 public class AdminController {
     private final AdminUseCase adminUseCase;
+    private final UserQueryUseCase userQuery;
 
-    public AdminController(AdminUseCase adminUseCase) {
+    public AdminController(AdminUseCase adminUseCase, UserQueryUseCase userQuery) {
         this.adminUseCase = adminUseCase;
+        this.userQuery = userQuery;
+    }
+
+    @GetMapping
+    public UserListResponse list(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        return userQuery.listUsers(page, size);
     }
 
     @PatchMapping("/{userId}/role")
