@@ -3,11 +3,13 @@ package com.example.product.presentation.controller;
 import com.example.product.application.service.CatalogService;
 import com.example.product.application.service.CatalogService.ProductAttributeSeed;
 import com.example.product.application.service.CatalogService.SkuSeed;
+import com.example.product.common.exception.application.ForbiddenException;
 import com.example.product.presentation.dto.SeedRequest;
 import com.example.product.presentation.dto.SeedResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +25,16 @@ public class ProductController {
         this.catalogService = catalogService;
     }
 
+    private static void requireAdmin(String role) {
+        if (!"ADMIN".equals(role)) {
+            throw new ForbiddenException();
+        }
+    }
+
     @PostMapping
-    public SeedResponse seed(@Valid @RequestBody SeedRequest req) {
+    public SeedResponse seed(@RequestHeader(value = "X-User-Role", required = false) String role,
+                             @Valid @RequestBody SeedRequest req) {
+        requireAdmin(role);
         List<ProductAttributeSeed> attributes = req.attributesOrEmpty().stream()
                 .map(a -> new ProductAttributeSeed(a.attributeId(), a.isVariant()))
                 .toList();

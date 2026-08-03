@@ -154,6 +154,7 @@ class StockConcurrencyIntegrationTest {
     private HttpResponse<String> post(String path, String body) throws Exception {
         HttpRequest req = HttpRequest.newBuilder(URI.create("http://localhost:" + port + path))
                 .header("Content-Type", "application/json")
+                .header("X-User-Role", "ADMIN")
                 .POST(HttpRequest.BodyPublishers.ofString(body))
                 .build();
         return http.send(req, HttpResponse.BodyHandlers.ofString());
