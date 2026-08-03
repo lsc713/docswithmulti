@@ -1,7 +1,9 @@
 package com.example.product.infrastructure.config;
 
+import com.example.product.application.interfaces.AttributeRepository;
 import com.example.product.application.interfaces.CancelRestoreDlqRepository;
 import com.example.product.application.interfaces.CategoryRepository;
+import com.example.product.application.interfaces.ProductVariantRepository;
 import com.example.product.application.interfaces.ProcessedCancelEventRepository;
 import com.example.product.application.interfaces.ProductImageRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
@@ -79,5 +81,17 @@ public class PersistenceConfig {
                                                          ProductSkuJpaRepository skuJpa,
                                                          CategoryJpaRepository categoryJpa) {
         return new ProductQueryRepositoryImpl(productJpa, skuJpa, categoryJpa);
+    }
+
+    @Bean
+    public AttributeRepository attributeRepository(AttributeJpaRepository attributeJpa,
+                                                   AttributeValueJpaRepository valueJpa) {
+        return new AttributeRepositoryImpl(attributeJpa, valueJpa);
+    }
+
+    @Bean
+    public ProductVariantRepository productVariantRepository(ProductAttributeJpaRepository productAttributeJpa,
+                                                             SkuAttributeValueJpaRepository skuValueJpa) {
+        return new ProductVariantRepositoryImpl(productAttributeJpa, skuValueJpa);
     }
 }

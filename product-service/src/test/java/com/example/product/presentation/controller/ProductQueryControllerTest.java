@@ -49,7 +49,7 @@ class ProductQueryControllerTest {
     @Test
     void detail_maps_image_keys_to_presigned_urls() throws Exception {
         when(queryService.detail(1L)).thenReturn(new ProductQueryService.ProductDetail(
-                1L, "상품", List.of(), List.of(), List.of(new ProductQueryService.ImageRef(9L, "k1"))));
+                1L, "상품", List.of(), List.of(), List.of(new ProductQueryService.ImageRef(9L, "k1")), List.of()));
         when(port.presignDownload("k1")).thenReturn("http://minio/get/k1");
 
         mvc.perform(get("/v1/products/1"))
@@ -61,7 +61,7 @@ class ProductQueryControllerTest {
     @Test
     void detail_returns_empty_images_when_no_images() throws Exception {
         when(queryService.detail(2L)).thenReturn(new ProductQueryService.ProductDetail(
-                2L, "상품2", List.of(), List.of(), List.of()));
+                2L, "상품2", List.of(), List.of(), List.of(), List.of()));
 
         mvc.perform(get("/v1/products/2"))
                 .andExpect(status().isOk())
