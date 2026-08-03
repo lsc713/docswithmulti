@@ -35,6 +35,11 @@ export const api = {
     req(`/v1/products/${id}/images/${imageId}`, { method: 'DELETE', csrf: true }),
   reorderImages:      (id, imageIds) =>
     req(`/v1/products/${id}/images/order`, { method: 'PUT', body: { imageIds }, csrf: true }),
+
+  adminUsers:   (page = 0, size = 20) => req(`/v1/admin/users?page=${page}&size=${size}`),
+  changeRole:   (userId, role) =>
+    req(`/v1/admin/users/${userId}/role`, { method: 'PATCH', body: { role }, csrf: true }),
+  createProduct: (body) => req('/v1/products', { method: 'POST', body, csrf: true }),
 }
 
 export async function putToS3(uploadUrl, file) {
