@@ -11,7 +11,8 @@ import java.util.function.Function;
  * + 구조화 변형(variantOptions + 각 SKU variant). 기존 필드는 그대로 병존(하위호환).
  */
 public record ProductDetailResponse(Long id, String name, List<Category> category, List<Image> images,
-                                    List<Sku> skus, List<VariantOption> variantOptions) {
+                                    List<Sku> skus, List<VariantOption> variantOptions,
+                                    List<VariantOption> specs) {
 
     public record Category(int level, Long id, String name) {}
 
@@ -36,6 +37,9 @@ public record ProductDetailResponse(Long id, String name, List<Category> categor
         List<VariantOption> variantOptions = d.variantOptions().stream()
                 .map(o -> new VariantOption(o.attribute(), o.values()))
                 .toList();
-        return new ProductDetailResponse(d.id(), d.name(), category, images, skus, variantOptions);
+        List<VariantOption> specs = d.specs().stream()
+                .map(o -> new VariantOption(o.attribute(), o.values()))
+                .toList();
+        return new ProductDetailResponse(d.id(), d.name(), category, images, skus, variantOptions, specs);
     }
 }

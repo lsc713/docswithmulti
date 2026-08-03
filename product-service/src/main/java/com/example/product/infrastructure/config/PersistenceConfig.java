@@ -91,7 +91,8 @@ public class PersistenceConfig {
 
     @Bean
     public ProductVariantRepository productVariantRepository(ProductAttributeJpaRepository productAttributeJpa,
-                                                             SkuAttributeValueJpaRepository skuValueJpa) {
-        return new ProductVariantRepositoryImpl(productAttributeJpa, skuValueJpa);
+                                                             SkuAttributeValueJpaRepository skuValueJpa,
+                                                             ProductDescriptiveValueJpaRepository descriptiveValueJpa) {
+        return new ProductVariantRepositoryImpl(productAttributeJpa, skuValueJpa, descriptiveValueJpa);
     }
 }

@@ -16,6 +16,7 @@ public record SeedRequest(
         @NotBlank String name,
         @NotNull Long categoryId, // 누락 시 400 INVALID_REQUEST (leaf 여부는 서비스에서 PRODUCT_001)
         @Valid List<AttributeLine> attributes,      // 선언 속성 + 역할(변형/서술). 선택적.
+        List<Long> descriptiveValueIds,             // 서술 속성값(상품 레벨, 다속성·다값). 선택적(null → 빈 목록).
         @NotEmpty @Valid List<SkuLine> skus
 ) {
     public record AttributeLine(
@@ -34,5 +35,10 @@ public record SeedRequest(
     /** null → 빈 목록 정규화. */
     public List<AttributeLine> attributesOrEmpty() {
         return attributes == null ? List.of() : attributes;
+    }
+
+    /** null → 빈 목록 정규화. */
+    public List<Long> descriptiveValueIdsOrEmpty() {
+        return descriptiveValueIds == null ? List.of() : descriptiveValueIds;
     }
 }

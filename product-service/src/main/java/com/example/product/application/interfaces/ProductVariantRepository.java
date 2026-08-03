@@ -11,14 +11,26 @@ public interface ProductVariantRepository {
 
     void saveSkuVariantValues(Long skuId, List<Long> attributeValueIds);
 
+    /** 서술값 저장(상품 레벨, 다속성·다값). product_descriptive_value insert. */
+    void saveProductDescriptiveValues(Long productId, List<Long> attributeValueIds);
+
     /** 상세 조립용: SKU × 변형 속성값 조인 (ORDER BY sku.id, attribute.id). */
     List<VariantRow> findVariantRows(Long productId);
+
+    /** 상세 조립용: 상품 × 서술 속성값 조인 (ORDER BY attribute.id, value.id). */
+    List<DescriptiveRow> findDescriptiveRows(Long productId);
 
     /** 네이티브 인터페이스 프로젝션 — 컬럼 alias 가 getter 명과 매칭. */
     interface VariantRow {
         Long getSkuId();
         String getSkuCode();
         Long getAttributeId();
+        String getAttributeName();
+        String getValue();
+    }
+
+    /** 서술 프로젝션 — attributeName/value alias 매칭. */
+    interface DescriptiveRow {
         String getAttributeName();
         String getValue();
     }

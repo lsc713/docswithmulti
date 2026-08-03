@@ -9,11 +9,14 @@ public class ProductVariantRepositoryImpl implements ProductVariantRepository {
 
     private final ProductAttributeJpaRepository productAttributeJpa;
     private final SkuAttributeValueJpaRepository skuValueJpa;
+    private final ProductDescriptiveValueJpaRepository descriptiveValueJpa;
 
     public ProductVariantRepositoryImpl(ProductAttributeJpaRepository productAttributeJpa,
-                                        SkuAttributeValueJpaRepository skuValueJpa) {
+                                        SkuAttributeValueJpaRepository skuValueJpa,
+                                        ProductDescriptiveValueJpaRepository descriptiveValueJpa) {
         this.productAttributeJpa = productAttributeJpa;
         this.skuValueJpa = skuValueJpa;
+        this.descriptiveValueJpa = descriptiveValueJpa;
     }
 
     @Override
@@ -29,7 +32,19 @@ public class ProductVariantRepositoryImpl implements ProductVariantRepository {
     }
 
     @Override
+    public void saveProductDescriptiveValues(Long productId, List<Long> attributeValueIds) {
+        descriptiveValueJpa.saveAll(attributeValueIds.stream()
+                .map(vid -> ProductDescriptiveValueJpaEntity.of(productId, vid))
+                .toList());
+    }
+
+    @Override
     public List<VariantRow> findVariantRows(Long productId) {
         return skuValueJpa.findVariantRows(productId);
+    }
+
+    @Override
+    public List<DescriptiveRow> findDescriptiveRows(Long productId) {
+        return descriptiveValueJpa.findDescriptiveRows(productId);
     }
 }

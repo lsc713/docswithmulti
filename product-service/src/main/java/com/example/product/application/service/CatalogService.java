@@ -6,6 +6,7 @@ import com.example.product.application.interfaces.ProductRepository;
 import com.example.product.application.interfaces.ProductSkuRepository;
 import com.example.product.application.interfaces.ProductStockRepository;
 import com.example.product.application.interfaces.ProductVariantRepository;
+import com.example.product.common.exception.application.DescriptiveValueInvalidException;
 import com.example.product.common.exception.application.ProductCategoryInvalidException;
 import com.example.product.common.exception.application.VariantCombinationDuplicateException;
 import com.example.product.common.exception.application.VariantIncompleteException;
@@ -69,11 +70,18 @@ public class CatalogService {
     /** 하위호환 오버로드: 변형 선언 없는 기존 등록. */
     @Transactional
     public SeedResult seed(String name, Long categoryId, List<SkuSeed> skus) {
-        return seed(name, categoryId, List.of(), skus);
+        return seed(name, categoryId, List.of(), skus, List.of());
+    }
+
+    /** 하위호환 오버로드: 서술값 없는 등록. */
+    @Transactional
+    public SeedResult seed(String name, Long categoryId, List<ProductAttributeSeed> attributes, List<SkuSeed> skus) {
+        return seed(name, categoryId, attributes, skus, List.of());
     }
 
     @Transactional
-    public SeedResult seed(String name, Long categoryId, List<ProductAttributeSeed> attributes, List<SkuSeed> skus) {
+    public SeedResult seed(String name, Long categoryId, List<ProductAttributeSeed> attributes,
+                           List<SkuSeed> skus, List<Long> descriptiveValueIds) {
         // PLINK-01: categoryId 는 존재하는 leaf(level 3)여야 한다. 부재/비-leaf 모두 400 PRODUCT_001.
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ProductCategoryInvalidException(categoryId));
@@ -83,6 +91,10 @@ public class CatalogService {
 
         // 변형 검증(persist 전 fail-fast, 예외 시 TX 롤백). 소속→완전성→유일성 순 (VAR-02).
         validateVariants(attributes, skus);
+
+        // 서술 소속 검증(persist 전 fail-fast). 중복 제거로 복합키 충돌 회피.
+        List<Long> distinctDescriptive = descriptiveValueIds.stream().distinct().toList();
+        validateDescriptiveMembership(attributes, distinctDescriptive);
 
         Product product = productRepository.save(Product.create(name, categoryId));
 
@@ -102,7 +114,34 @@ public class CatalogService {
             }
             return new SeededSku(sku.getId(), sku.getSkuCode());
         }).toList();
+
+        // 서술값 저장(VAR-03): 상품 레벨 다속성·다값. 재고 경로 무변경(INV-01).
+        if (!distinctDescriptive.isEmpty()) {
+            variantRepository.saveProductDescriptiveValues(product.getId(), distinctDescriptive);
+        }
         return new SeedResult(product.getId(), seeded);
+    }
+
+    /**
+     * 서술 소속 검증 (VAR-03). descriptiveValueIds 각 값은 그 상품이 서술로 선언한(is_variant=false)
+     * 속성 소속이어야 한다 — 미존재 값이거나 변형/미선언 속성 소속이면 400 DESCRIPTIVE_001.
+     * 완전성·유일성은 미강제(태그 의미).
+     */
+    private void validateDescriptiveMembership(List<ProductAttributeSeed> attributes, List<Long> descriptiveValueIds) {
+        if (descriptiveValueIds.isEmpty()) {
+            return;
+        }
+        Set<Long> declaredDescriptiveAttrIds = attributes.stream()
+                .filter(a -> !a.isVariant())
+                .map(ProductAttributeSeed::attributeId)
+                .collect(Collectors.toSet());
+        Map<Long, Long> attrByValue = attributeRepository.findAttributeIdByValueIds(descriptiveValueIds);
+        for (Long vid : descriptiveValueIds) {
+            Long attrId = attrByValue.get(vid);
+            if (attrId == null || !declaredDescriptiveAttrIds.contains(attrId)) {
+                throw new DescriptiveValueInvalidException();
+            }
+        }
     }
 
     /**

@@ -49,10 +49,11 @@ public class ProductQueryService {
     /** id + 원본 S3 key. presign 은 컨트롤러 책임, id는 delete/reorder 배선용. */
     public record ImageRef(Long id, String s3Key) {}
 
-    /** images: sort_order asc. */
+    /** images: sort_order asc. specs: 서술 속성별 값 배열(다값), 변형과 병존. */
     public record ProductDetail(Long id, String name,
                                 List<CategoryPathNode> category, List<SkuDetail> skus,
-                                List<ImageRef> images, List<VariantOption> variantOptions) {}
+                                List<ImageRef> images, List<VariantOption> variantOptions,
+                                List<VariantOption> specs) {}
 
     /** BROWSE-01: 카테고리 스코프 상품 카드(최소가 + 썸네일) 목록. category 부재 → 404, valid-but-empty → 빈 페이지. */
     @Transactional(readOnly = true)
@@ -92,7 +93,16 @@ public class ProductQueryService {
                 .map(img -> new ImageRef(img.getId(), img.getS3Key()))
                 .toList();
 
-        return new ProductDetail(product.getId(), product.getName(), path, skus, images, variantOptions);
+        // 서술 조립: rows(ORDER BY attribute.id, value.id) → specs(속성별 값 집합, 다값).
+        Map<String, LinkedHashSet<String>> specsByAttr = new LinkedHashMap<>();
+        for (ProductVariantRepository.DescriptiveRow r : variantRepository.findDescriptiveRows(productId)) {
+            specsByAttr.computeIfAbsent(r.getAttributeName(), k -> new LinkedHashSet<>()).add(r.getValue());
+        }
+        List<VariantOption> specs = specsByAttr.entrySet().stream()
+                .map(e -> new VariantOption(e.getKey(), List.copyOf(e.getValue())))
+                .toList();
+
+        return new ProductDetail(product.getId(), product.getName(), path, skus, images, variantOptions, specs);
     }
 
     /** leaf 에서 parent 로 올라가며 조상 수집 후 root→leaf 로 뒤집는다 (정상 트리는 3노드). */

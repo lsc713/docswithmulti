@@ -22,6 +22,7 @@ public enum ErrorCode {
     VARIANT_INCOMPLETE("VARIANT_001", 400, "SKU 변형 조합이 선언된 변형 속성을 정확히 하나씩 커버해야 합니다."),
     VARIANT_COMBINATION_DUPLICATE("VARIANT_002", 409, "상품 내 변형 조합이 중복됩니다."),
     VARIANT_VALUE_INVALID("VARIANT_003", 400, "변형값이 그 상품의 변형 속성 소속이 아닙니다."),
+    DESCRIPTIVE_VALUE_INVALID("DESCRIPTIVE_001", 400, "서술값이 그 상품의 서술 속성 소속이 아닙니다."),
     INTERNAL_ERROR("INTERNAL_ERROR", 500, "서버 오류가 발생했습니다.");
 
     private final String code;

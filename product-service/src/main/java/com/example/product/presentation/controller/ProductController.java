@@ -32,6 +32,7 @@ public class ProductController {
                 .map(s -> new SkuSeed(s.skuCode(), s.optionSummary(), s.initialStock(), s.price(),
                         s.variantValueIds() == null ? List.of() : s.variantValueIds()))
                 .toList();
-        return SeedResponse.from(catalogService.seed(req.name(), req.categoryId(), attributes, skus));
+        return SeedResponse.from(catalogService.seed(req.name(), req.categoryId(), attributes, skus,
+                req.descriptiveValueIdsOrEmpty()));
     }
 }
