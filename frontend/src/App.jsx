@@ -16,7 +16,7 @@ export default function App() {
   useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
 
   function handleBuy(lines) {
-    if (!me) { setAuthOpen(true); return }          // 로그인 후 재시도
+    if (!me) { setAuthOpen(true); return }
     setView({ name: 'checkout', lines })
   }
 

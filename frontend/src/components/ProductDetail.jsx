@@ -18,7 +18,7 @@ export default function ProductDetail({ id, me, onBack, onBuy }) {
 
   const categoryPath = product.category?.map(c => c.name).join(' > ')
   const setSkuQty = (skuId, max) => (e) => {
-    const v = Math.max(0, Math.min(max, Number(e.target.value) || 0))
+    const v = Math.max(0, Math.min(max, Math.floor(Number(e.target.value) || 0)))
     setQty(q => ({ ...q, [skuId]: v }))
   }
   const lines = (product.skus ?? [])
@@ -47,7 +47,7 @@ export default function ProductDetail({ id, me, onBack, onBuy }) {
               <td>₩{s.price.toLocaleString()}</td>
               <td>{s.availableQty}</td>
               <td>
-                <input className="qty-input" type="number" min="0" max={s.availableQty}
+                <input className="qty-input" type="number" min="0" max={s.availableQty} step="1"
                        value={qty[s.skuId] ?? 0} onChange={setSkuQty(s.skuId, s.availableQty)} />
               </td>
             </tr>
