@@ -1,8 +1,11 @@
 package com.example.settlement.infrastructure.config;
 
+import com.example.settlement.application.interfaces.MerchantSettlementConfigRepository;
 import com.example.settlement.application.interfaces.ProcessedSettlementEventRepository;
 import com.example.settlement.application.interfaces.SettlementLineRepository;
 import com.example.settlement.application.interfaces.SettlementRepository;
+import com.example.settlement.infrastructure.persistence.MerchantSettlementConfigJpaRepository;
+import com.example.settlement.infrastructure.persistence.MerchantSettlementConfigRepositoryImpl;
 import com.example.settlement.infrastructure.persistence.ProcessedSettlementEventJpaRepository;
 import com.example.settlement.infrastructure.persistence.ProcessedSettlementEventRepositoryImpl;
 import com.example.settlement.infrastructure.persistence.SettlementJpaRepository;
@@ -41,5 +44,11 @@ public class PersistenceConfig {
     public ProcessedSettlementEventRepository processedSettlementEventRepository(
         ProcessedSettlementEventJpaRepository jpa) {
         return new ProcessedSettlementEventRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public MerchantSettlementConfigRepository merchantSettlementConfigRepository(
+        MerchantSettlementConfigJpaRepository jpa) {
+        return new MerchantSettlementConfigRepositoryImpl(jpa);
     }
 }
