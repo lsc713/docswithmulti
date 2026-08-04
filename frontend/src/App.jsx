@@ -53,12 +53,15 @@ export default function App() {
       )}
       {view.name === 'cart' && (
         <Cart items={cart} onQty={onQty} onRemove={onRemove}
-              onOrder={(lines) => setView({ name: 'checkout', lines })}
+              onOrder={(lines) => setView({ name: 'checkout', lines, fromCart: true })}
               onBack={() => setView({ name: 'home' })} />
       )}
       {view.name === 'checkout' && (
         <Checkout lines={view.lines}
-                  onPaid={async (payment) => { try { await api.clearCart() } catch { /* noop */ } setCart([]); setView({ name: 'success', payment }) }}
+                  onPaid={async (payment) => {
+                    if (view.fromCart) { try { await api.clearCart() } catch { /* noop */ } setCart([]) }
+                    setView({ name: 'success', payment })
+                  }}
                   onBack={() => setView({ name: 'home' })} />
       )}
       {view.name === 'success' && (
