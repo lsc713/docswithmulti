@@ -411,3 +411,15 @@
 .cart-total { text-align: right; font-size: 18px; margin: 12px 0; }
 .cart-btn { margin-top: 12px; margin-left: 8px; padding: 10px 16px; background: #0ea5e9; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
 .cart-btn:disabled { opacity: 0.5; cursor: default; }
+.history { max-width: 680px; margin: 0 auto; padding: 16px; }
+.history-list { list-style: none; padding: 0; }
+.history-item { border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; margin-bottom: 12px; }
+.history-head { display: flex; justify-content: space-between; align-items: center; }
+.history-date { color: #6b7280; font-size: 13px; }
+.history-key { font-size: 12px; color: #9ca3af; margin: 4px 0; }
+.history-items { list-style: none; padding: 0; margin: 8px 0; }
+.history-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.badge { padding: 2px 10px; border-radius: 999px; font-size: 12px; }
+.badge.COMPLETED { background: #dcfce7; color: #14532d; }
+.badge.CANCELLED { background: #fee2e2; color: #7f1d1d; }
+.badge.PARTIAL_CANCELLED { background: #fef9c3; color: #713f12; }

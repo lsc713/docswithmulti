@@ -8,17 +8,27 @@ import ProductDetail from './components/ProductDetail'
 import Checkout from './components/Checkout'
 import OrderSuccess from './components/OrderSuccess'
 import Cart from './components/Cart'
+import OrderHistory from './components/OrderHistory'
 
 export default function App() {
   const [me, setMe] = useState(null)
   const [view, setView] = useState({ name: 'home' })
   const [authOpen, setAuthOpen] = useState(false)
   const [cart, setCart] = useState([])
+  const [payments, setPayments] = useState([])
 
   useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
 
   const loadCart = () => api.getCart().then(r => setCart(r.items)).catch(() => setCart([]))
   useEffect(() => { if (me) loadCart() }, [me])
+
+  const loadPayments = () => api.getPayments().then(setPayments).catch(() => setPayments([]))
+
+  async function handleCancel(key, items, reason) {
+    try { await api.cancelPayment(key, { cancelReason: reason, cancelItems: items }) }
+    catch (e) { alert(e.message); return }
+    await loadPayments()   // 상태 갱신(CANCELLED 반영)
+  }
 
   function handleBuy(lines) {
     if (!me) { setAuthOpen(true); return }
@@ -44,7 +54,8 @@ export default function App() {
               onLoginClick={() => setAuthOpen(true)}
               onLogout={async () => { await api.logout(); setMe(null) }}
               cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
-              onCart={() => setView({ name: 'cart' })} />
+              onCart={() => setView({ name: 'cart' })}
+              onHistory={() => { loadPayments(); setView({ name: 'history' }) }} />
 
       {view.name === 'home' && <Home onOpen={(id) => setView({ name: 'detail', id })} />}
       {view.name === 'detail' && (
@@ -66,6 +77,9 @@ export default function App() {
       )}
       {view.name === 'success' && (
         <OrderSuccess payment={view.payment} onHome={() => setView({ name: 'home' })} />
+      )}
+      {view.name === 'history' && (
+        <OrderHistory payments={payments} onCancel={handleCancel} onBack={() => setView({ name: 'home' })} />
       )}
 
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)}
