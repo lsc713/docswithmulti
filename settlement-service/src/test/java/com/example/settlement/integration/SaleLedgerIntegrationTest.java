@@ -97,6 +97,53 @@ class SaleLedgerIntegrationTest {
         assertThat(type).isEqualTo("SALE");
     }
 
+    @Test
+    @DisplayName("SALE-02 멱등: 같은 payment.completed 2회 → SALE 라인 1건, gross 1회만 증분")
+    void duplicateEvent_countedOnce() throws Exception {
+        long merchantId = 91L;
+        String dupJson = """
+                {"paymentKey":"PAY-DUP-1","merchantId":91,"totalAmount":40000,\
+                "items":[{"paymentItemId":1,"itemAmount":40000}],\
+                "completedAt":"2026-07-31T00:00:00.123Z"}""";
+        // 같은 키 → 단일 파티션 순서 보장. 2회 발행(중복) 후 마커 이벤트로 '둘 다 소비됨'을 관측 가능하게 확정.
+        publish("payment.completed", "PAY-DUP-1", dupJson);
+        publish("payment.completed", "PAY-DUP-1", dupJson);
+        String markerJson = """
+                {"paymentKey":"PAY-DUP-MARKER","merchantId":91,"totalAmount":10000,\
+                "items":[{"paymentItemId":9,"itemAmount":10000}],\
+                "completedAt":"2026-07-31T00:00:00.123Z"}""";
+        publish("payment.completed", "PAY-DUP-MARKER", markerJson);
+
+        // 마커 라인이 보이면 앞선 중복 2건은 이미 (순서대로) 소비 완료.
+        await().atMost(Duration.ofSeconds(30))
+                .pollInterval(Duration.ofMillis(500))
+                .untilAsserted(() -> assertThat(lineCount("sale:PAY-DUP-MARKER")).isEqualTo(1));
+
+        assertThat(lineCount("sale:PAY-DUP-1")).isEqualTo(1); // 중복 적재 없음
+        // gross = 40000(1회만) + 10000(마커) = 50000 → 이중 증분이면 90000이 됐을 것.
+        BigDecimal gross = jdbc.queryForObject(
+                "SELECT gross_amount FROM settlement WHERE merchant_id = ?", BigDecimal.class, merchantId);
+        assertThat(gross).isEqualByComparingTo("50000");
+    }
+
+    @Test
+    @DisplayName("SALE-02 주경계: 2026-08-02T15:00:00Z(= Mon 08-03 00:00 KST) → period_start 2026-08-03(다음 KST 주)")
+    void fifteenHundredZ_bucketsIntoNextKstWeek() throws Exception {
+        String json = """
+                {"paymentKey":"PAY-WEEK-1","merchantId":92,"totalAmount":15000,\
+                "items":[{"paymentItemId":1,"itemAmount":15000}],\
+                "completedAt":"2026-08-02T15:00:00Z"}""";
+        publish("payment.completed", "PAY-WEEK-1", json);
+
+        await().atMost(Duration.ofSeconds(30))
+                .pollInterval(Duration.ofMillis(500))
+                .untilAsserted(() -> assertThat(lineCount("sale:PAY-WEEK-1")).isEqualTo(1));
+
+        LocalDate periodStart = jdbc.queryForObject(
+                "SELECT period_start FROM settlement WHERE merchant_id = 92", Date.class).toLocalDate();
+        assertThat(periodStart).isEqualTo(LocalDate.of(2026, 8, 3)); // 이전 주(07-27) 아님 — Z→KST 변환 후 날짜
+    }
+
     private int lineCount(String eventId) {
         Integer c = jdbc.queryForObject(
                 "SELECT COUNT(*) FROM settlement_line WHERE event_id = ?", Integer.class, eventId);

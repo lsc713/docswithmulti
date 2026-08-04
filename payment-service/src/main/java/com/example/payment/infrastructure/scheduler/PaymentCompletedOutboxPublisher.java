@@ -34,10 +34,10 @@ public class PaymentCompletedOutboxPublisher {
     private final RedissonClient redissonClient;
     private final OperationAlertPort operationAlertPort;
 
-    @Value("${kafka.topic.payment-completed}")
+    @Value("${kafka.topic.payment-completed:payment.completed}")
     private String topic;
 
-    @Value("${scheduler.lock.payment-completed-outbox}")
+    @Value("${scheduler.lock.payment-completed-outbox:lock:scheduler:payment-completed-outbox}")
     private String lockKey;
 
     @Value("${payment.completed.outbox.batch-size:1000}")
