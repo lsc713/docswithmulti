@@ -22,7 +22,8 @@ test('장바구니: 담기 → 장바구니 → 수량수정 → 주문하기 �
   // dev(StrictMode) 이중 effect로 인한 2차 fetch가 늦게 도착하며 qty state를 리셋하는 것을 피하기 위해
   // 상세 데이터 fetch가 완전히 안정될 때까지 대기 (테스트 타이밍 조정, 앱 코드 무변경)
   await page.waitForLoadState('networkidle')
-  await page.locator('.qty-input').first().fill('1')
+  // 여러 SKU 중 재고 있는 것만 선택 (max="0"은 다른 E2E 반복 실행으로 소진된 SKU) — 앱 코드 무변경, 셀렉터 조정
+  await page.locator('.qty-input:not([max="0"])').first().fill('1')
   await page.click('.cart-btn')
 
   // 장바구니 뷰(담기 후 자동 이동) → 개수/합계 확인
@@ -39,7 +40,10 @@ test('장바구니: 담기 → 장바구니 → 수량수정 → 주문하기 �
   await page.click('.pay-btn')                              // 결제하기(Checkout)
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
 
-  // 장바구니 비워졌는지 (네비바 개수 0 / 재진입 빈 목록)
+  // 장바구니 비워졌는지 — reload로 App 재마운트 → api.me() → loadCart()가 실제 GET /v1/cart 재조회하도록 강제
+  // (클릭만으로는 onPaid의 낙관적 setCart([])만 확인하게 되어 서버 측 실제 clear 여부를 검증 못함)
   await page.click('text=쇼핑 계속하기')
+  await page.reload()
+  await expect(page.locator('.navbar-right span')).toBeVisible()
   await expect(page.locator('.navbar-right')).toContainText('장바구니(0)')
 })
