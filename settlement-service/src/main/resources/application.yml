@@ -31,10 +31,27 @@ spring:
     consumer:
       group-id: settlement-service          # NEW consumer group → payment.cancelled fan-out (payment diff 0)
 
+  data:
+    redis:                                  # reconcile 스케줄러 Redisson 분산락 (product 정렬)
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
 kafka:
   topic:
     payment-cancelled: payment.cancelled
     payment-completed: payment.completed
+
+external:
+  payment-service:
+    url: ${PAYMENT_SERVICE_URL:http://localhost:8080}   # reconcile HTTP pull 대상 (payment 8080)
+
+scheduler:
+  lock:
+    settlement-reconcile: lock:scheduler:settlement-reconcile
+
+settlement:
+  reconcile:
+    grace-days: 1                           # 주마감 유예: period_end < today(KST) − grace 만 finalize 대상
 
 logging:
   level:

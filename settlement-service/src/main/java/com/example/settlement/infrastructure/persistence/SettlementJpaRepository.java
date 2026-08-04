@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -59,4 +60,26 @@ public interface SettlementJpaRepository extends JpaRepository<SettlementJpaEnti
     List<SettlementJpaEntity> findByMerchantIdOrderByPeriodStartDesc(long merchantId);
 
     List<SettlementJpaEntity> findByMerchantIdAndStatusOrderByPeriodStartDesc(long merchantId, String status);
+
+    /** finalize 대상 선별: status='OPEN' AND period_end < cutoff. idx_settlement_status_period 커버. */
+    List<SettlementJpaEntity> findByStatusAndPeriodEndBefore(String status, LocalDate cutoff);
+
+    /**
+     * fee/vat/net + FINALIZED 를 status-guarded 단일 원자 UPDATE. gross/cancel 은 건드리지 않음(원자 증분 권위 유지).
+     * @return 갱신 행 수(0 = 이미 FINALIZED/경합 — blind retry 금지).
+     */
+    // reconcile 는 트랜잭션 밖에서 이 한 번의 원자 UPDATE 만 직접 호출 → 자체 TX 필요
+    // (ensureRow/addGrossAmount 은 record() 의 TransactionTemplate 안에서만 호출됨).
+    @Transactional
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query(value = """
+        UPDATE settlement
+           SET fee_amount = :fee, vat_amount = :vat, net_amount = :net,
+               status = 'FINALIZED', finalized_at = CURRENT_TIMESTAMP(3), updated_at = CURRENT_TIMESTAMP(3)
+         WHERE id = :id AND status = 'OPEN'
+        """, nativeQuery = true)
+    int finalizeOpen(@Param("id") long id,
+                     @Param("fee") BigDecimal fee,
+                     @Param("vat") BigDecimal vat,
+                     @Param("net") BigDecimal net);
 }

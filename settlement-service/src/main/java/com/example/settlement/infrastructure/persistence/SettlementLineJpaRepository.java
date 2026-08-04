@@ -26,4 +26,13 @@ public interface SettlementLineJpaRepository extends JpaRepository<SettlementLin
                    @Param("occurredAt") Instant occurredAt);
 
     List<SettlementLineJpaEntity> findBySettlementIdOrderByOccurredAtAscIdAsc(long settlementId);
+
+    /** type 별 Σamount (리컨실 drift 탐지의 권위 집계). 각 행 = {type:String, sum:BigDecimal}. */
+    @Query(value = """
+        SELECT type, COALESCE(SUM(amount), 0)
+          FROM settlement_line
+         WHERE settlement_id = :settlementId
+         GROUP BY type
+        """, nativeQuery = true)
+    List<Object[]> sumByType(@Param("settlementId") long settlementId);
 }

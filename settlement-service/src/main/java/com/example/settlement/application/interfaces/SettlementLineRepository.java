@@ -5,6 +5,7 @@ import com.example.settlement.domain.entity.SettlementLine;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Map;
 
 public interface SettlementLineRepository {
 
@@ -13,4 +14,7 @@ public interface SettlementLineRepository {
                 BigDecimal amount, String eventId, Instant occurredAt);
 
     List<SettlementLine> findBySettlementId(long settlementId);
+
+    /** type('SALE'/'CANCEL') → Σamount. 없는 타입은 키 부재(호출부가 default 0). 리컨실 drift 탐지의 권위 집계. */
+    Map<String, BigDecimal> sumLinesByType(long settlementId);
 }

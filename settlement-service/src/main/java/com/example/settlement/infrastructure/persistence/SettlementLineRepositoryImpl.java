@@ -5,7 +5,9 @@ import com.example.settlement.domain.entity.SettlementLine;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SettlementLineRepositoryImpl implements SettlementLineRepository {
 
@@ -26,5 +28,14 @@ public class SettlementLineRepositoryImpl implements SettlementLineRepository {
         return jpa.findBySettlementIdOrderByOccurredAtAscIdAsc(settlementId).stream()
             .map(SettlementLineJpaEntity::toDomain)
             .toList();
+    }
+
+    @Override
+    public Map<String, BigDecimal> sumLinesByType(long settlementId) {
+        Map<String, BigDecimal> sums = new LinkedHashMap<>();
+        for (Object[] row : jpa.sumByType(settlementId)) {
+            sums.put((String) row[0], new BigDecimal(row[1].toString())); // JDBC 숫자타입 편차 방어
+        }
+        return sums;
     }
 }

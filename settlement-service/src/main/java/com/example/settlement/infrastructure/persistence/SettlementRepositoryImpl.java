@@ -53,4 +53,16 @@ public class SettlementRepositoryImpl implements SettlementRepository {
     public Optional<Settlement> findById(long id) {
         return jpa.findById(id).map(SettlementJpaEntity::toDomain);
     }
+
+    @Override
+    public List<Settlement> findFinalizable(LocalDate cutoff) {
+        return jpa.findByStatusAndPeriodEndBefore("OPEN", cutoff).stream()
+            .map(SettlementJpaEntity::toDomain)
+            .toList();
+    }
+
+    @Override
+    public int finalizeOpen(long id, BigDecimal fee, BigDecimal vat, BigDecimal net) {
+        return jpa.finalizeOpen(id, fee, vat, net);
+    }
 }
