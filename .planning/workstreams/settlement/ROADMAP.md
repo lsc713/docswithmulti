@@ -18,7 +18,7 @@ last_updated: 2026-08-03
 ## Phases
 
 - [x] **Phase 1: 서비스 골격 + 취소 적재 CORE (tracer)** - settlement-service 세우고 기존 payment.cancelled로 취소를 원장에 멱등 적재·주별 집계·조회, payment 코드 변경 0 ✅ GOAL ACHIEVED (5/5, 9 tests, payment diff 0)
-- [ ] **Phase 2: 매출 이벤트 + 수수료·net 산출** - payment.completed 아웃박스 신설 + settlement 매출 적재, 요율 기반 fee+VAT+net 산출
+- [x] **Phase 2: 매출 이벤트 + 수수료·net 산출** - payment.completed 아웃박스 신설 + settlement 매출 적재, 요율 기반 fee+VAT+net 산출 ✅ GOAL ACHIEVED (5/5, cancel core diff 0, 447 tests green)
 - [ ] **Phase 3: 배치 리컨실 + 확정** - 주 마감 리컨실러가 payment DB 대조로 누락 보정 후 OPEN→FINALIZED 확정
 
 ## Phase Details
