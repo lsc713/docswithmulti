@@ -2,7 +2,9 @@ package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.application.interfaces.PaymentRepository;
 import com.example.payment.domain.entity.Payment;
+import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -38,5 +40,11 @@ public class PaymentRepositoryImpl implements PaymentRepository {
         PaymentJpaEntity entity = PaymentJpaEntity.from(payment);
         PaymentJpaEntity saved = jpaRepository.save(entity);
         return saved.toDomain();
+    }
+
+    @Override
+    public List<Payment> findByUserId(long userId, int page, int size) {
+        return jpaRepository.findByUserIdOrderByIdDesc(userId, PageRequest.of(page, size))
+            .stream().map(PaymentJpaEntity::toDomain).toList();
     }
 }
