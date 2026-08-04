@@ -23,39 +23,50 @@ class CancelAuthorizerTest {
     @DisplayName("(1) ADMIN → 대상 merchantId 무관 통과")
     void admin_always_authorized() {
         // 대상 merchantId 가 무엇이든(null 포함) 통과
-        assertThatCode(() -> authorizer.authorize("ADMIN", null, 999L)).doesNotThrowAnyException();
-        assertThatCode(() -> authorizer.authorize("ADMIN", 1L, 2L)).doesNotThrowAnyException();
+        assertThatCode(() -> authorizer.authorize("ADMIN", null, null, null, 999L)).doesNotThrowAnyException();
+        assertThatCode(() -> authorizer.authorize("ADMIN", null, null, 1L, 2L)).doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("(2) MERCHANT + 헤더 merchantId == 대상 merchantId → 통과")
     void merchant_matching_merchant_authorized() {
-        assertThatCode(() -> authorizer.authorize("MERCHANT", 7L, 7L)).doesNotThrowAnyException();
+        assertThatCode(() -> authorizer.authorize("MERCHANT", null, null, 7L, 7L)).doesNotThrowAnyException();
     }
 
     @Test
     @DisplayName("(3) MERCHANT + 헤더 merchantId != 대상 merchantId → 403")
     void merchant_mismatch_forbidden() {
-        assertForbidden(() -> authorizer.authorize("MERCHANT", 7L, 8L));
+        assertForbidden(() -> authorizer.authorize("MERCHANT", null, null, 7L, 8L));
     }
 
     @Test
     @DisplayName("(4) MERCHANT + 헤더 merchantId 누락(null) → 403")
     void merchant_missing_header_forbidden() {
-        assertForbidden(() -> authorizer.authorize("MERCHANT", null, 7L));
+        assertForbidden(() -> authorizer.authorize("MERCHANT", null, null, null, 7L));
     }
 
     @Test
-    @DisplayName("(5) USER → 소유 여부 무관 403 (self-cancel 분기 미채택)")
-    void user_forbidden_even_if_owner() {
-        // USER 는 대상 payment 소유 여부와 무관하게 항상 403 (우리 정책은 self-cancel 미허용)
-        assertForbidden(() -> authorizer.authorize("USER", 7L, 7L));
+    @DisplayName("(5) USER + 본인 결제(requestUserId == targetUserId) → 통과 (P3, 정책 전환)")
+    void user_owner_authorized() {
+        assertThatCode(() -> authorizer.authorize("USER", 7L, 7L, null, null)).doesNotThrowAnyException();
+    }
+
+    @Test
+    @DisplayName("(5b) USER + 타인 결제(requestUserId != targetUserId) → 403")
+    void user_non_owner_forbidden() {
+        assertForbidden(() -> authorizer.authorize("USER", 7L, 8L, null, null));
+    }
+
+    @Test
+    @DisplayName("(5c) USER + requestUserId 누락(null) → 403")
+    void user_missing_request_user_id_forbidden() {
+        assertForbidden(() -> authorizer.authorize("USER", null, 7L, null, null));
     }
 
     @Test
     @DisplayName("(6) role 누락(null) → 403")
     void missing_role_forbidden() {
-        assertForbidden(() -> authorizer.authorize(null, 7L, 7L));
+        assertForbidden(() -> authorizer.authorize(null, 7L, 7L, null, null));
     }
 
     private void assertForbidden(org.assertj.core.api.ThrowableAssert.ThrowingCallable call) {

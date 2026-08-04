@@ -6,6 +6,7 @@ import com.example.payment.application.service.CancelPaymentCommand;
 import com.example.payment.application.usecase.CancelAuthorizationUseCase;
 import com.example.payment.application.usecase.CancelPaymentUseCase;
 import com.example.payment.domain.entity.CancelRequest;
+import com.example.payment.domain.entity.Payment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -168,8 +170,11 @@ class CancelControllerTest {
     }
 
     @Test
-    @DisplayName("tracer: USER 역할 취소는 취소 코어 진입 전 403 + cancel never-invoked (D-P3-1, D-P3-2)")
-    void user_role_cancel_forbidden_before_core() throws Exception {
+    @DisplayName("tracer: USER 역할 + 타인 결제 취소는 취소 코어 진입 전 403 + cancel never-invoked (P3, 정책 전환)")
+    void user_role_non_owner_cancel_forbidden_before_core() throws Exception {
+        when(paymentRepository.findByPaymentKey("pay_001")).thenReturn(Optional.of(
+            Payment.of("pay_001", 7L, 99L, "TOSS", BigDecimal.valueOf(30_000), "KRW", 90)));
+
         mockMvcWithRealAuthz().perform(post("/v1/payments/{paymentKey}/cancel", "pay_001")
                 .header("X-User-Role", "USER")
                 .header("X-User-Id", "42")
@@ -183,6 +188,28 @@ class CancelControllerTest {
 
         // 무권한은 취소 플로우 진입 전에 차단 — 코어는 한 번도 호출되지 않는다
         verify(cancelPaymentUseCase, never()).cancel(any());
+    }
+
+    @Test
+    @DisplayName("tracer: USER 역할 + 본인 결제(자가취소) 는 인가 통과 후 기존 취소 플로우 진입 (P3, 정책 전환)")
+    void user_role_owner_cancel_passes_through_to_core() throws Exception {
+        when(paymentRepository.findByPaymentKey("pay_001")).thenReturn(Optional.of(
+            Payment.of("pay_001", 7L, 42L, "TOSS", BigDecimal.valueOf(30_000), "KRW", 90)));
+        when(cancelPaymentUseCase.cancel(any())).thenReturn(
+            CancelRequest.create(1L, "hashUser", BigDecimal.valueOf(30_000), "고객 변심", List.of(1L), null));
+
+        mockMvcWithRealAuthz().perform(post("/v1/payments/{paymentKey}/cancel", "pay_001")
+                .header("X-User-Role", "USER")
+                .header("X-User-Id", "42")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("""
+                    {
+                      "cancelReason": "고객 변심",
+                      "cancelItems": [{"paymentItemId": 1}]
+                    }"""))
+            .andExpect(status().isOk());
+
+        verify(cancelPaymentUseCase).cancel(any());
     }
 
     @Test
