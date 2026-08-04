@@ -15,6 +15,9 @@ public interface SettlementRepository {
     /** ensureRow로 보장된 헤더의 id 조회. */
     long findId(long merchantId, LocalDate periodStart);
 
+    /** (merchant_id, period_start) 헤더 status('OPEN'/'FINALIZED') 조회. 헤더 부재 시 empty. FINALIZED 불변 가드용. */
+    Optional<String> findStatus(long merchantId, LocalDate periodStart);
+
     /** cancel_amount 원자 증분(UPDATE ... SET cancel_amount = cancel_amount + :amount). */
     int addCancelAmount(long merchantId, LocalDate periodStart, BigDecimal amount);
 

@@ -75,7 +75,7 @@ public class SettlementReconcileService {
         }
     }
 
-    void reconcileAndFinalize(Settlement h) {
+    public void reconcileAndFinalize(Settlement h) {
         Instant from = h.getPeriodStart().atStartOfDay(KST).toInstant();
         Instant to = h.getPeriodEnd().plusDays(1).atStartOfDay(KST).toInstant(); // exclusive
 

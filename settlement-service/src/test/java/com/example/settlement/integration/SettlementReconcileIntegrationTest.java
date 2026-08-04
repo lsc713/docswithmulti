@@ -1,10 +1,15 @@
 package com.example.settlement.integration;
 
+import com.example.settlement.application.interfaces.OperationAlertPort;
 import com.example.settlement.application.interfaces.PaymentSettlementPort;
 import com.example.settlement.application.interfaces.PaymentSettlementPort.CancelView;
 import com.example.settlement.application.interfaces.PaymentSettlementPort.PaymentView;
+import com.example.settlement.application.interfaces.SettlementRepository;
 import com.example.settlement.application.service.SettlementConfigService;
 import com.example.settlement.application.service.SettlementReconcileService;
+import com.example.settlement.application.usecase.RecordCancellationUseCase;
+import com.example.settlement.application.usecase.RecordSaleUseCase;
+import com.example.settlement.domain.entity.Settlement;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +31,11 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -66,8 +75,15 @@ class SettlementReconcileIntegrationTest {
     @Autowired JdbcTemplate jdbc;
     @Autowired SettlementReconcileService reconcileService;
     @Autowired SettlementConfigService configService;
+    @Autowired SettlementRepository settlementRepo;
+    @Autowired RecordSaleUseCase saleLedger;
+    @Autowired RecordCancellationUseCase cancelLedger;
 
     @MockitoBean PaymentSettlementPort paymentSettlementPort;
+    @MockitoBean OperationAlertPort alertPort;
+
+    // 이벤트 시각(UTC) — 모두 KST 주 2026-07-27~08-02 에 귀속.
+    private static final Instant IN_WEEK = Instant.parse("2026-07-31T00:00:00.123Z");
 
     private static final LocalDate PERIOD_START = LocalDate.of(2026, 7, 27);
     private static final LocalDate PERIOD_END = LocalDate.of(2026, 8, 2);
@@ -114,13 +130,136 @@ class SettlementReconcileIntegrationTest {
         assertThat(statusOf(settlementId)).isEqualTo("FINALIZED");
     }
 
+    @Test
+    @DisplayName("불변 가드(라이브 경로): FINALIZED 헤더에 늦은 SALE/CANCEL record() → 라인/증분 없음 + alert")
+    void lateEventOnFinalized_liveConsumerPath_alertsNoWrite() {
+        long m = 502L;
+        long id = seedFinalizedHeader(m);
+
+        saleLedger.record(new RecordSaleUseCase.Command("PAY-LATE-A", m, new BigDecimal("30000"), IN_WEEK));
+        cancelLedger.record(new RecordCancellationUseCase.Command("9002", "PAY-LATE-A", m, new BigDecimal("5000"), IN_WEEK));
+
+        assertThat(lineCount("sale:PAY-LATE-A")).isZero();     // 라인 미적재
+        assertThat(lineCount("cancel:9002")).isZero();
+        assertThat(decOf(id, "gross_amount")).isEqualByComparingTo("0");   // 증분 없음
+        assertThat(decOf(id, "cancel_amount")).isEqualByComparingTo("0");
+        assertThat(statusOf(id)).isEqualTo("FINALIZED");
+        verify(alertPort, times(2)).alert(contains("late event on FINALIZED settlement"));
+    }
+
+    @Test
+    @DisplayName("불변 가드(리컨실 경로): FINALIZED 헤더에 리컨실 back-fill → 라인 없음 + late-event alert + finalize 0-row alert(재실행 멱등)")
+    void lateEventOnFinalized_reconcilePath_alertsNoWrite() {
+        long m = 506L;
+        long id = seedFinalizedHeader(m);
+        configService.setRate(m, new BigDecimal("0.10"));
+        PaymentView pv = new PaymentView("PAY-LATE-E", m, new BigDecimal("50000"), "COMPLETED", IN_WEEK, List.of());
+        when(paymentSettlementPort.fetch(eq(m), any(), any())).thenReturn(List.of(pv));
+
+        Settlement h = settlementRepo.findById(id).orElseThrow();
+        reconcileService.reconcileAndFinalize(h);   // 예외 없이 완료
+
+        assertThat(lineCount("sale:PAY-LATE-E")).isZero();               // 가드가 back-fill insert 차단
+        assertThat(statusOf(id)).isEqualTo("FINALIZED");
+        verify(alertPort, atLeastOnce()).alert(contains("late event on FINALIZED settlement"));
+        verify(alertPort, atLeastOnce()).alert(contains("finalize raced/already-finalized"));
+    }
+
+    @Test
+    @DisplayName("요율 미설정 → finalize 유예: 헤더 OPEN 유지(finalized_at null) + back-fill 라인 존재 + alert")
+    void rateUnset_defersFinalize() {
+        long m = 503L;
+        long id = seedOpenHeader(m);   // 요율 설정 안 함
+        PaymentView pv = new PaymentView("PAY-DEFER-B", m, new BigDecimal("40000"), "COMPLETED", IN_WEEK, List.of());
+        when(paymentSettlementPort.fetch(eq(m), any(), any())).thenReturn(List.of(pv));
+
+        Settlement h = settlementRepo.findById(id).orElseThrow();
+        reconcileService.reconcileAndFinalize(h);
+
+        assertThat(lineCount("sale:PAY-DEFER-B")).isEqualTo(1);   // back-fill 은 됨
+        assertThat(statusOf(id)).isEqualTo("OPEN");               // finalize 유예
+        assertThat(finalizedAtNull(id)).isTrue();
+        verify(alertPort, atLeastOnce()).alert(contains("rate unset, defer finalize"));
+    }
+
+    @Test
+    @DisplayName("드리프트 alert-only: 헤더 gross 가 Σlines 와 어긋나면 alert + Σlines 권위로 finalize, 헤더 gross 미재작성")
+    void headerDrift_isAlertOnly_finalizeUsesLineSums() {
+        long m = 504L;
+        long id = seedOpenHeaderWithAmounts(m, new BigDecimal("30000"), BigDecimal.ZERO); // gross 스큐
+        seedLineDirect(id, "SALE", "PAY-DRIFT-C", new BigDecimal("50000"), "sale:PAY-DRIFT-C", IN_WEEK); // Σ=50000
+        configService.setRate(m, new BigDecimal("0.10"));
+        when(paymentSettlementPort.fetch(eq(m), any(), any())).thenReturn(List.of()); // back-fill 없음
+
+        Settlement h = settlementRepo.findById(id).orElseThrow();
+        reconcileService.reconcileAndFinalize(h);
+
+        verify(alertPort, atLeastOnce()).alert(contains("settlement drift"));
+        assertThat(statusOf(id)).isEqualTo("FINALIZED");
+        // fee/vat/net 은 Σlines(50000) 권위: fee=5000, vat=500, net=50000-0-5000-500=44500
+        assertThat(decOf(id, "fee_amount")).isEqualByComparingTo("5000.00");
+        assertThat(decOf(id, "vat_amount")).isEqualByComparingTo("500.00");
+        assertThat(decOf(id, "net_amount")).isEqualByComparingTo("44500.00");
+        // 헤더 gross 는 재작성하지 않음(drift alert-only) — 스큐값 30000 유지
+        assertThat(decOf(id, "gross_amount")).isEqualByComparingTo("30000");
+    }
+
+    @Test
+    @DisplayName("교차주 carrier(D-Q1): createdAt 이 창 이전인 결제 → SALE skip, in-window CANCEL 만 back-fill")
+    void crossWeekCarrier_backfillsCancelOnly() {
+        long m = 505L;
+        long id = seedOpenHeader(m);
+        configService.setRate(m, new BigDecimal("0.10"));
+        PaymentView carrier = new PaymentView(
+                "PAY-XWEEK-D", m, new BigDecimal("70000"), "COMPLETED",
+                Instant.parse("2026-07-20T00:00:00Z"),          // 창(07-26T15Z~) 이전 → 이전 주 SALE
+                List.of(new CancelView("7005", new BigDecimal("10000"), IN_WEEK))); // 창 안 CANCEL
+        when(paymentSettlementPort.fetch(eq(m), any(), any())).thenReturn(List.of(carrier));
+
+        Settlement h = settlementRepo.findById(id).orElseThrow();
+        reconcileService.reconcileAndFinalize(h);
+
+        assertThat(lineCount("sale:PAY-XWEEK-D")).isZero();      // carrier SALE 은 이 헤더에 미적재
+        assertThat(lineCount("cancel:7005")).isEqualTo(1);       // CANCEL 만 back-fill
+        assertThat(linesOf(id)).isEqualTo(1);
+    }
+
     private long seedOpenHeader(long merchantId) {
+        return seedOpenHeaderWithAmounts(merchantId, BigDecimal.ZERO, BigDecimal.ZERO);
+    }
+
+    private long seedOpenHeaderWithAmounts(long merchantId, BigDecimal gross, BigDecimal cancel) {
         jdbc.update("""
             INSERT INTO settlement
                 (merchant_id, period_start, period_end, gross_amount, cancel_amount,
                  fee_amount, vat_amount, net_amount, status, created_at, updated_at)
-            VALUES (?, ?, ?, 0, 0, 0, 0, 0, 'OPEN', CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3))
+            VALUES (?, ?, ?, ?, ?, 0, 0, 0, 'OPEN', CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3))
+            """, merchantId, java.sql.Date.valueOf(PERIOD_START), java.sql.Date.valueOf(PERIOD_END),
+            gross, cancel);
+        return headerId(merchantId);
+    }
+
+    private long seedFinalizedHeader(long merchantId) {
+        jdbc.update("""
+            INSERT INTO settlement
+                (merchant_id, period_start, period_end, gross_amount, cancel_amount,
+                 fee_amount, vat_amount, net_amount, status, finalized_at, created_at, updated_at)
+            VALUES (?, ?, ?, 0, 0, 0, 0, 0, 'FINALIZED',
+                    CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3))
             """, merchantId, java.sql.Date.valueOf(PERIOD_START), java.sql.Date.valueOf(PERIOD_END));
+        return headerId(merchantId);
+    }
+
+    private void seedLineDirect(long settlementId, String type, String paymentKey,
+                                BigDecimal amount, String eventId, Instant occurredAt) {
+        jdbc.update("""
+            INSERT INTO settlement_line
+                (settlement_id, type, payment_key, amount, event_id, occurred_at, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP(3))
+            """, settlementId, type, paymentKey, amount, eventId, java.sql.Timestamp.from(occurredAt));
+    }
+
+    private long headerId(long merchantId) {
         Long id = jdbc.queryForObject(
                 "SELECT id FROM settlement WHERE merchant_id = ? AND period_start = ?",
                 Long.class, merchantId, java.sql.Date.valueOf(PERIOD_START));

@@ -1,5 +1,6 @@
 package com.example.settlement.application.service;
 
+import com.example.settlement.application.interfaces.OperationAlertPort;
 import com.example.settlement.application.interfaces.ProcessedSettlementEventRepository;
 import com.example.settlement.application.interfaces.SettlementLineRepository;
 import com.example.settlement.application.interfaces.SettlementRepository;
@@ -24,15 +25,18 @@ public class CancelLedgerService implements RecordCancellationUseCase {
     private final SettlementRepository settlementRepo;
     private final SettlementLineRepository lineRepo;
     private final ProcessedSettlementEventRepository processedRepo;
+    private final OperationAlertPort operationAlertPort;
     private final TransactionTemplate transactionTemplate;
 
     public CancelLedgerService(SettlementRepository settlementRepo,
                                SettlementLineRepository lineRepo,
                                ProcessedSettlementEventRepository processedRepo,
+                               OperationAlertPort operationAlertPort,
                                TransactionTemplate transactionTemplate) {
         this.settlementRepo = settlementRepo;
         this.lineRepo = lineRepo;
         this.processedRepo = processedRepo;
+        this.operationAlertPort = operationAlertPort;
         this.transactionTemplate = transactionTemplate;
     }
 
@@ -49,6 +53,15 @@ public class CancelLedgerService implements RecordCancellationUseCase {
             settlementRepo.ensureRow(cmd.merchantId(), periodStart, periodEnd);
             long settlementId = settlementRepo.findId(cmd.merchantId(), periodStart);
 
+            // FINALIZED 불변 가드(공유 chokepoint — 라이브 컨슈머·리컨실 모두 여기 경유). 늦은 이벤트는
+            // 라인/증분/마커 없이 alert 만(삼키는 0-row UPDATE 금지 — RESEARCH Pitfall 4). ensureRow 는 status 를
+            // OPEN 으로 리셋하지 않으므로(ON DUPLICATE = merchant_id=merchant_id) 그 뒤 status 읽기는 안전.
+            if (isFinalized(cmd.merchantId(), periodStart)) {
+                operationAlertPort.alert("late event on FINALIZED settlement merchant=" + cmd.merchantId()
+                    + " period=" + periodStart + " eventId=" + eventId);
+                return null;
+            }
+
             // 라인 insert가 증분보다 먼저 — UK 충돌 시 증분까지 같은 TX에서 롤백.
             lineRepo.insert(settlementId, "CANCEL", cmd.paymentKey(),
                 cmd.cancelAmount(), eventId, cmd.occurredAt());
@@ -57,5 +70,11 @@ public class CancelLedgerService implements RecordCancellationUseCase {
             processedRepo.save(eventId);
             return null;
         });
+    }
+
+    private boolean isFinalized(long merchantId, LocalDate periodStart) {
+        return settlementRepo.findStatus(merchantId, periodStart)
+            .filter("FINALIZED"::equals)
+            .isPresent();
     }
 }

@@ -32,6 +32,11 @@ public class SettlementRepositoryImpl implements SettlementRepository {
     }
 
     @Override
+    public Optional<String> findStatus(long merchantId, LocalDate periodStart) {
+        return Optional.ofNullable(jpa.findStatusByMerchantIdAndPeriodStart(merchantId, periodStart));
+    }
+
+    @Override
     public int addCancelAmount(long merchantId, LocalDate periodStart, BigDecimal amount) {
         return jpa.addCancelAmount(merchantId, periodStart, amount);
     }

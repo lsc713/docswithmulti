@@ -57,6 +57,11 @@ public interface SettlementJpaRepository extends JpaRepository<SettlementJpaEnti
     Long findIdByMerchantIdAndPeriodStart(@Param("merchantId") long merchantId,
                                           @Param("periodStart") LocalDate periodStart);
 
+    @Query(value = "SELECT status FROM settlement WHERE merchant_id = :merchantId AND period_start = :periodStart",
+        nativeQuery = true)
+    String findStatusByMerchantIdAndPeriodStart(@Param("merchantId") long merchantId,
+                                                @Param("periodStart") LocalDate periodStart);
+
     List<SettlementJpaEntity> findByMerchantIdOrderByPeriodStartDesc(long merchantId);
 
     List<SettlementJpaEntity> findByMerchantIdAndStatusOrderByPeriodStartDesc(long merchantId, String status);
