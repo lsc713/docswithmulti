@@ -8,14 +8,14 @@ created: 2026-08-03
 ## Current Position
 
 **Status:** In progress
-**Current Phase:** 01-core-tracer
+**Current Phase:** 02-net
 **Last Activity:** 2026-08-04
-**Last Activity Description:** Executed 01-01-PLAN (settlement core tracer) — module scaffold + cancel ingestion + query API, 9 tests green
+**Last Activity Description:** Executed 02-03-PLAN (INV-01 Phase 2 re-scope gate) — cancel CORE diff 0 denylist + creation-path allowlist (INV01_PASS), 4-module no-regression 447 tests green. Phase 2 complete.
 
 ## Progress
 
-**Phases Complete:** 0
-**Current Plan:** 01-02 (next)
+**Phases Complete:** 2
+**Current Plan:** 03-01 (next phase)
 
 ## Decisions
 
@@ -25,5 +25,5 @@ created: 2026-08-03
 
 ## Session Continuity
 
-**Stopped At:** Completed 01-01-PLAN.md
+**Stopped At:** Completed 02-03-PLAN.md (Phase 2 done)
 **Resume File:** None

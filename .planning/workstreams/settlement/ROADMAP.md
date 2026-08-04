@@ -44,7 +44,10 @@ last_updated: 2026-08-03
   1. payment-service가 결제 생성 TX에서 `payment_event_outbox`에 `payment.completed`를 원자 INSERT하고 발행한다(cancel outbox 패턴 복제). 취소 TX1/2/3·cancel outbox·재고 경로는 diff 0을 유지한다(INV-01 재검증).
   2. settlement가 `payment.completed`를 구독해 `event_id=sale:{paymentKey}` UK로 SALE 라인을 적재하고(멱등), 정산주 헤더 `gross_amount`가 원자 증분한다.
   3. `merchant_settlement_config`(요율)로 `fee=round(gross×rate,2,HALF_UP)`, `vat=round(fee×0.1,2,HALF_UP)`, `net=gross−cancel−fee−vat`가 정확히 산출된다(BigDecimal scale 2 HALF_UP, 경계값 포함). 요율 미설정 가맹점은 net 확정을 보류한다.
-**Plans**: TBD
+**Plans**: 3 plans
+- [x] 02-01-PLAN.md — SALE 수직 슬라이스(tracer): payment.completed 아웃박스(V19, 생성 TX INSERT + 폴 발행, completedAt Z형) + settlement SALE 적재/gross 원자증분/멱등/KST주경계 (SALE-01/SALE-02) [wave 1] ✅
+- [x] 02-02-PLAN.md — fee/VAT/net 순수 계산기 + merchant_settlement_config 엔티티/조회·upsert·PUT 경로(요율 검증) (FEE-01/FEE-02) [wave 1] ✅
+- [x] 02-03-PLAN.md — INV-01 재검증 게이트(취소 CORE diff 0 denylist + 생성경로 allowlist) + 4모듈 무회귀 (INV-01) [wave 2] ✅ INV01_PASS · 447 tests green
 
 ### Phase 3: 배치 리컨실 + 확정
 **Goal**: 주 마감 배치 리컨실러가 payment DB를 대조해 이벤트 누락분을 보정 적재하고, gross/cancel을 재검증한 뒤 fee/vat/net을 확정하며 OPEN→FINALIZED로 전이한다.
@@ -61,5 +64,5 @@ last_updated: 2026-08-03
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. 서비스 골격 + 취소 적재 CORE | 2/2 | Complete | 2026-08-04 |
-| 2. 매출 이벤트 + 수수료·net 산출 | 0/? | Not started | - |
+| 2. 매출 이벤트 + 수수료·net 산출 | 3/3 | Complete | 2026-08-04 |
 | 3. 배치 리컨실 + 확정 | 0/? | Not started | - |
