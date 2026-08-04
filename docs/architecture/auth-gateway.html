@@ -174,13 +174,17 @@ flowchart TD
   S(["신뢰헤더 X-User-Role"]) --> Q1{"role?"}
   Q1 -->|"ADMIN"| OK(["취소 진행 → 기존 플로우"]):::ok
   Q1 -->|"MERCHANT"| Q2{"X-Merchant-Id ==<br/>payment.merchantId?"}
-  Q1 -->|"USER · 누락"| NO(["403 FORBIDDEN_PAYMENT"]):::no
+  Q1 -->|"USER"| Q3{"X-User-Id ==<br/>payment.userId?"}
+  Q1 -->|"누락"| NO(["403 FORBIDDEN_PAYMENT"]):::no
   Q2 -->|"일치"| OK
   Q2 -->|"불일치 · 파싱 실패"| NO
+  Q3 -->|"일치"| OK
+  Q3 -->|"불일치 · 파싱 실패"| NO
     </div>
     <p class="note">
       ADMIN은 전체 취소 허용(payment 조회 불요). MERCHANT는 대상 <code>payment.merchantId</code>를 read-only 1회 조회해
-      본인 가맹점만 허용. <code>X-User-Id</code>는 인가에 미사용(감사 로깅용). 판정 로직은 domain 순수 POJO(<code>CancelAuthorizer</code>).
+      본인 가맹점만 허용. USER는 대상 <code>payment.userId</code>를 read-only 1회 조회해 본인 결제만 자가취소 허용. <code>X-User-Id</code>는
+      USER 인가 판정용 및 감사 로깅용. 판정 로직은 domain 순수 POJO(<code>CancelAuthorizer</code>).
     </p>
 
     <script type="module">

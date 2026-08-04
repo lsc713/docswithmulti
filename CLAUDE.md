@@ -45,7 +45,7 @@ DDL은 각 모듈 `db/migration/V1__create_*_core.sql ~ V7`을 직접 읽는다.
 
 ## 확장 기능 (v2.0 인증 경계 · v3.0 재고 — 둘 다 main 반영됨)
 
-- **v2.0 인증 경계**: api-gateway가 JWT를 **단일 지점에서 검증** → 신뢰헤더(X-User-Id/X-User-Role/X-Merchant-Id)를 downstream에 전달, downstream은 재검증 없이 헤더만 신뢰. payment 취소는 역할 인가(ADMIN=전체, MERCHANT=본인 가맹점, 그 외 403). **배포 시 NetworkPolicy로 payment ingress를 게이트웨이 파드로만 제한 필수** — 없으면 헤더 스푸핑으로 인가 우회. 시각화: `docs/architecture/auth-gateway.html`.
+- **v2.0 인증 경계**: api-gateway가 JWT를 **단일 지점에서 검증** → 신뢰헤더(X-User-Id/X-User-Role/X-Merchant-Id)를 downstream에 전달, downstream은 재검증 없이 헤더만 신뢰. payment 취소는 역할 인가(ADMIN=전체, MERCHANT=본인 가맹점, USER=본인 결제 자가취소, 그 외 403). **배포 시 NetworkPolicy로 payment ingress를 게이트웨이 파드로만 제한 필수** — 없으면 헤더 스푸핑으로 인가 우회. 시각화: `docs/architecture/auth-gateway.html`.
 - **v3.0 SKU 재고 수명주기**: 결제 생성 시 product에 재고 **동기 예약**(오버셀 방지 원자 조건부 UPDATE, product 장애/부족 시 fail-closed로 결제 거부) → 취소 시 `payment.cancelled`(payload에 skuId/quantity)로 product가 SKU 재고 **복원**. reserve/release는 paymentKey 멱등. **취소 코어 불변** — CancelTxWriter.buildPayload에 2필드 추가 외 취소 TX/멱등/스케줄러/outbox 무변경. 설계: `@docs/superpowers/specs/2026-07-30-sku-stock-lifecycle-design.md`.
 - **어드민 콘솔 v1.0**: 프론트(admin.html + react-router 라우팅) + `GET /v1/admin/users` 신설(user-service). `POST /v1/products`는 게이트웨이 신뢰헤더 `X-User-Role`만으로 ADMIN 인가 판단 — **배포 시 NetworkPolicy로 product ingress를 게이트웨이 파드로만 제한 필수**(payment와 동일 클래스, `infra/k8s/networkpolicy/product-ingress.yaml`) — 없으면 헤더 스푸핑으로 ADMIN 인가 우회. 취소 코어·스토어프론트 불변식 무영향.
 
