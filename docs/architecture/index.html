@@ -23,13 +23,13 @@
   </head>
   <body>
     <h1>결제 취소 시스템 Architecture</h1>
-    <p class="meta">Generated 2026-07-11 · updated 2026-08-03 · source: <code>payment/risk/merchant-limit/order-service</code> + v2.0 <code>api-gateway/user-service</code> + <code>frontend(Vite+React)</code> + <code>order-link(주문↔결제 검증)</code> + <code>product-catalog(카테고리·조회)</code> + <code>admin-console(회원·상품 ADMIN 관리)</code> · 스택: Java 21 · Spring Boot · MySQL(모듈별 독립) · Kafka · Redis</p>
+    <p class="meta">Generated 2026-07-11 · updated 2026-08-04 · source: <code>payment/risk/merchant-limit/order-service</code> + v2.0 <code>api-gateway/user-service</code> + <code>frontend(Vite+React)</code> + <code>order-link(주문↔결제 검증)</code> + <code>product-catalog(카테고리·조회)</code> + <code>admin-console(회원·상품 ADMIN 관리)</code> + <code>checkout(정방향 구매: 바로구매·장바구니·주문내역/자가취소)</code> + <code>settlement(정산 집계 코어)</code> · 스택: Java 21 · Spring Boot · MySQL(모듈별 독립) · Kafka · Redis</p>
     <nav>▸ <a href="./auth-gateway.html">인증 경계 (API Gateway + user-service, v2.0) →</a> · <a href="./cancel-flow.html">취소 플로우 상세 (TX 경계·커밋 구조·복구) →</a> · <a href="./product-catalog.html">상품 카탈로그 (카테고리 트리·브라우징) →</a> · <a href="./perf-anatomy.html">부하가 드러낸 설계 (1~4막 실측) →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a> · <a href="./k3s-scaleout.html">k3s 수평 스케일아웃 (멀티노드·실측 5종) →</a></nav>
 
     <h2>1. 서비스 의존 토폴로지</h2>
     <p class="legend">
       실선 = 동기 HTTP · 점선 = Kafka 비동기 이벤트 · <span style="color:#3b82f6">파랑</span> 취소 코어 서비스 ·
-      <span style="color:#c026d3">보라</span> 게이트웨이 · <span style="color:#16a34a">초록</span> v2.0 신규 ·
+      <span style="color:#c026d3">보라</span> 게이트웨이 · <span style="color:#16a34a">초록</span> 신규 서비스(v2.0 인증·프론트·정산 등) ·
       <span style="color:#d97706">노랑</span> DB(모듈별 독립) · <span style="color:#6b7280">회색</span> 인프라/외부.
       모듈 간 DB 직접 접근 없음 — 전부 HTTP 또는 Kafka 경유. 인증 경계 상세는
       <a href="./auth-gateway.html">인증 경계 (v2.0)</a> 참조.
@@ -52,13 +52,15 @@ graph LR
   payment["payment-service :8080<br/>취소 핵심 로직 + 인가 pre-check"]:::svc
   risk["risk-management :8083<br/>취소검증 + 한도 소진"]:::svc
   merchant["merchant-limit :8082<br/>일일 취소한도 원본"]:::svc
-  order["order-service :8081<br/>주문 생성·검증(items:verify) + 상태 동기화"]:::svc
-  product["product-service :8084<br/>SKU 재고 예약·복원 (v3.0) + 카테고리 트리·상품 조회 (catalog) + SKU 가격·다중 이미지(S3 presigned)"]:::newsvc
+  order["order-service :8081<br/>주문 생성·검증(items:verify) + 상태 동기화 + 서버 장바구니(/v1/cart)"]:::svc
+  product["product-service :8084<br/>SKU 재고 예약·복원 (v3.0) + 카테고리 트리·상품 조회 (catalog) + SKU 가격·다중 이미지(S3 presigned) + 속성·변형 정규화(attribute)"]:::newsvc
+  settle["settlement-service :8086<br/>취소·매출 원장 + 수수료/VAT/net + 리컨실·FINALIZE (정산 집계 코어)"]:::newsvc
 
   pdb[("payment_db")]:::db
   rdb[("risk_db")]:::db
   mdb[("merchant_db")]:::db
   odb[("order_db")]:::db
+  sdb[("settlement_db")]:::db
 
   redis{{"Redis<br/>daily_limit 캐시"}}:::infra
   kafka{{"Kafka 3-broker"}}:::infra
@@ -68,8 +70,8 @@ graph LR
   client -->|"Bearer JWT (API 클라)"| gw
   gw -->|"/v1/auth/** (login·me·logout·refresh)"| user
   gw -->|"/v1/admin/** (ADMIN: 역할변경 PATCH + 회원목록 GET)"| user
-  gw -->|"취소 + 신뢰헤더 X-User-Id/Role/Merchant-Id"| payment
-  gw -->|"주문 생성 POST /v1/orders (X-User-Id, order-link)"| order
+  gw -->|"취소 + 결제 생성 POST /v1/payments + 결제 조회 GET (신뢰헤더 X-User-Id/Role/Merchant-Id)"| payment
+  gw -->|"주문 생성 POST /v1/orders + 장바구니 /v1/cart (X-User-Id, order-link)"| order
   gw -->|"카테고리·상품 조회 GET (공개·strip) + 이미지 write + 상품생성 POST /v1/products (ADMIN 인증·신뢰헤더)"| product
   user --- udb
 
@@ -80,10 +82,14 @@ graph LR
   risk -->|"HTTP daily_limit (최초 / 스냅샷 없을 때만)"| merchant
 
   payment -.->|"payment.cancelled (OUTBOX 정식)"| kafka
+  payment -.->|"payment.completed (OUTBOX V19)"| kafka
   kafka -.-> order
   kafka -.->|"재고 복원 (v3.0)"| product
+  kafka -.->|"취소·매출 적재 (멱등)"| settle
   merchant -.->|"merchant.limit.updated (Outbox)"| kafka
   kafka -.-> risk
+
+  settle -->|"HTTP 리컨실 조회 (FINALIZE 전 대조)"| payment
 
   product --- pddb[("product_db")]:::db
 
@@ -91,6 +97,7 @@ graph LR
   risk --- rdb
   merchant --- mdb
   order --- odb
+  settle --- sdb
   payment -.- redis
   risk -.- redis
     </div>

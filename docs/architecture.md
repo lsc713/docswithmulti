@@ -49,15 +49,17 @@ domain과 application은 프레임워크 없이 테스트 가능하게 유지한
 
 | 모듈 | 포트 | 소유 테이블 |
 |------|------|-----------|
-| `payment-service` | 8080 | payment, payment_item(+sku_id/quantity, v3.0), cancel_request, cancel_request_history, cancel_event_outbox, compensation_retry, stock_release_retry(v3.0) |
-| `order-service` | 8081 | order, order_item, processed_cancel_event |
+| `payment-service` | 8080 | payment, payment_item(+sku_id/quantity, v3.0), cancel_request, cancel_request_history, cancel_event_outbox, payment_event_outbox(payment.completed, V19), compensation_retry, stock_release_retry(v3.0) |
+| `order-service` | 8081 | order, order_item, cart_item(서버 장바구니), processed_cancel_event |
 | `merchant-limit-service` | 8082 | merchant, merchant_cancel_limit, merchant_cancel_limit_history |
 | `risk-management-service` | 8083 | merchant_cancel_usage, cancel_usage_history, cancel_usage_compensation |
-| `product-service` | 8084 | **as-built(v3.0 최소):** product, product_sku, product_stock, stock_reservation, processed_cancel_event |
+| `product-service` | 8084 | product, product_sku, product_stock, stock_reservation, category, product_image, attribute, attribute_value, product_attribute, sku_attribute_value, product_descriptive_value, cancel_restore_dlq, processed_cancel_event |
 | `user-service` | 8085 | users, refresh_tokens (v2.0) |
+| `settlement-service` | 8086 | settlement, settlement_line, merchant_settlement_config, processed_settlement_event (정산 집계 코어) |
 | `api-gateway` | 8000 | 없음(무상태) (v2.0) |
 
-> - **product-service는 as-built로 최소 카탈로그(product/sku/stock/reservation)만.** 원래 설계의 풀 카탈로그(product_version·attribute·image·category)는 후속 백필(경로 Y). 설계: `docs/superpowers/specs/2026-07-30-sku-stock-lifecycle-design.md`.
+> - **product-service 카탈로그 확장됨:** v3.0 재고(product/sku/stock/reservation)에 category(카테고리 트리)·product_image(다중 이미지)·attribute/attribute_value/product_attribute/sku_attribute_value/product_descriptive_value(속성·변형 정규화, #92)가 추가됐다. 잔여 백필은 자유텍스트 검색·product_version. 설계: `docs/superpowers/specs/2026-07-30-sku-stock-lifecycle-design.md`.
+> - **settlement-service(8086)는 정산 집계 코어:** payment.cancelled·payment.completed를 멱등 구독해 취소·매출 원장(settlement/settlement_line)에 적재, 수수료/VAT/net 계산 후 payment 리컨실 조회로 대조해 FINALIZE. 취소 코어 무영향.
 > - **v2.0 인증 경계·v3.0 재고 흐름은 아래 별도 섹션 참조.**
 > - `idempotency_key` 테이블 제거: `cancel_request.request_hash` UK가 중복 차단 담당
 > - `compensation_retry`는 payment-service DB에만 존재 (보상 API 호출 주체가 payment-service)
