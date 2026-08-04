@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>정산 집계 코어 – 원장·리컨실·FINALIZE</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        max-width: 1100px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        color: #1a1a1a;
+      }
+      h1 { margin-bottom: 0.25rem; }
+      .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; }
+      nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.85rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      .note { background: #f0fdf4; border-left: 3px solid #16a34a; padding: 0.6rem 1rem; font-size: 0.9rem; margin: 1rem 0; }
+      .formula { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.8rem 1.1rem; font-size: 0.92rem; margin: 1rem 0; }
+      .formula code { background: #eef2ff; }
+      table { border-collapse: collapse; font-size: 0.88rem; margin: 1rem 0; width: 100%; }
+      th, td { border: 1px solid #e2e8f0; padding: 0.4rem 0.6rem; text-align: left; }
+      th { background: #f8fafc; }
+    </style>
+  </head>
+  <body>
+    <h1>정산 집계 코어 — 원장 · 리컨실 · FINALIZE</h1>
+    <p class="meta">settlement v1.0 (2026-08-04, PR #95 · main 514251d) · 신규 settlement-service :8086 · 독립 <code>settlement_db</code> Flyway V1 · payment V19(payment.completed 아웃박스) · 취소 코어 diff 0</p>
+    <nav>▸ <a href="./index.html">← 아키텍처 개요</a> · <a href="./cancel-flow.html">취소 플로우 상세 →</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
+
+    <p class="legend">
+      완료 결제·취소를 <b>가맹점 × 정산주(KST 월~일)</b>로 집계해 <b>수수료+VAT를 뗀 net 지급 예정액</b>을
+      원장에 확정하는 슬라이스. 매출/취소는 <b>Kafka 이벤트로 실시간 적재</b>(멱등) + <b>주 마감 배치 리컨실</b>(payment DB 대조)로
+      누락 보정 후 <b>OPEN→FINALIZED</b>. payment <b>취소 코어는 한 줄도 안 바뀜</b>(INV-01) —
+      payment 변경은 결제 생성경로 <code>payment.completed</code> 아웃박스 + 읽기전용 리컨실 조회 API 뿐.
+    </p>
+
+    <h2>1. 데이터 모델 (settlement_db · Flyway V1)</h2>
+    <p class="legend">
+      <span style="color:#16a34a">초록</span> 원장(헤더·라인) · <span style="color:#2563eb">파랑</span> 요율 원본 ·
+      <span style="color:#d97706">노랑</span> 멱등 가드. 라인이 금액의 원천, 헤더는 Σ라인의 원자 증분 캐시(리컨실이 정합 검증). 전 금액 <code>DECIMAL(19,2)</code> KRW.
+    </p>
+    <div class="mermaid">
+graph TD
+  classDef ledger fill:#dcfce7,stroke:#16a34a,color:#14532d;
+  classDef rate fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef guard fill:#fde68a,stroke:#d97706,color:#5b3a00;
+
+  hdr["settlement (헤더)<br/>id · merchant_id · period_start~period_end (KST 월~일)<br/>gross · cancel · fee · vat · net_amount<br/>status(OPEN|FINALIZED) · finalized_at<br/>UK(merchant_id, period_start)"]:::ledger
+  line["settlement_line (라인·감사추적)<br/>id · settlement_id(FK) · type(SALE|CANCEL)<br/>payment_key · amount · occurred_at<br/>event_id · UK(event_id) ← 멱등 원천"]:::ledger
+  cfg["merchant_settlement_config (요율 원본)<br/>merchant_id(PK) · fee_rate DECIMAL(5,4) · active<br/>settlement 자체 소유(merchant_id 관례참조, cross-DB FK 없음)"]:::rate
+  proc["processed_settlement_event<br/>event_id(PK) ← 컨슈머 멱등 이중가드"]:::guard
+
+  line -->|"settlement_id (Σlines = gross/cancel)"| hdr
+  cfg -.->|"fee_rate (FINALIZE 시 net 산출)"| hdr
+  proc -.->|"event_id 선체크 + 라인 UK = 이중 멱등"| line
+    </div>
+
+    <div class="note">
+      <b>멱등 이중가드:</b> <code>processed_settlement_event</code> 선체크 + <code>settlement_line.event_id</code> UK.
+      event_id = <code>sale:{paymentKey}</code> / <code>cancel:{cancelRequestId}</code>.
+      라인 insert가 헤더 원자 증분보다 <b>먼저·같은 TX</b> → 재전달 시 UK 충돌로 증분까지 롤백(이중 증분 불가).
+    </div>
+
+    <h2>2. 이벤트 적재 + 리컨실 → FINALIZE 흐름</h2>
+    <p class="legend">
+      실선 = 동기 HTTP · 점선 = Kafka 비동기. <span style="color:#2563eb">파랑</span> 실시간 적재 ·
+      <span style="color:#c026d3">보라</span> 주 마감 배치(Redisson 분산락). 이벤트 유실 대비 <b>최종 정합은 리컨실이 backstop</b>.
+    </p>
+    <div class="mermaid">
+flowchart TD
+  classDef svc fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef batch fill:#fae8ff,stroke:#c026d3,color:#701a75;
+  classDef db fill:#fde68a,stroke:#d97706,color:#5b3a00;
+  classDef infra fill:#e5e7eb,stroke:#9ca3af,color:#374151;
+
+  P["payment-service"]:::svc
+  K{{"Kafka"}}:::infra
+  S["settlement-service"]:::svc
+  SDB[("settlement_db")]:::db
+  SCHED["리컨실 스케줄러<br/>@Scheduled + Redisson tryLock"]:::batch
+
+  P -.->|"payment.completed (아웃박스 V19, 생성 TX 원자)"| K
+  P -.->|"payment.cancelled (OUTBOX 정식, 기존)"| K
+  K -.->|"SALE 적재 (event_id=sale:key, gross 원자증분)"| S
+  K -.->|"CANCEL 적재 (event_id=cancel:reqId, cancel 원자증분)"| S
+  S -->|"라인 append + 헤더 upsert(OPEN)"| SDB
+
+  SCHED -->|"status=OPEN AND period_end < today(KST)−grace"| SDB
+  SCHED -->|"① HTTP GET /v1/payments/settlement?merchantId&from&to (읽기전용 대조)"| P
+  SCHED -->|"② 누락 SALE/CANCEL 보정 적재 (record() 재사용, event_id UK 중복무시)"| SDB
+  SCHED -->|"③ gross/cancel = Σlines 재검증 → fee/vat/net 산출·영속"| SDB
+  SCHED -->|"④ status-guarded UPDATE WHERE status='OPEN' → FINALIZED + finalized_at"| SDB
+    </div>
+
+    <div class="note">
+      <b>FINALIZED 불변 가드:</b> 확정 후 도착한 늦은 SALE/CANCEL(또는 리컨실)이 FINALIZED 헤더를 만나면
+      공유 <code>record()</code> 초크포인트가 <code>OperationAlertPort</code>로 <b>알림만</b> — 무단 증분도, 무단 드롭도 아님.
+      finalize는 <code>WHERE status='OPEN'</code> 원자 UPDATE(0행이면 알림). 요율 미설정 가맹점은 확정 <b>보류</b>(OPEN 유지).
+    </div>
+
+    <h2>3. 산식 (BigDecimal scale 2 · HALF_UP)</h2>
+    <p class="legend">정산주 귀속과 net 산출 규칙. 상세·계산 예시는 <code>docs/settlement.md</code>.</p>
+    <div class="formula">
+      <b>정산주 귀속</b> (KST 월~일): <code>occurredAt(UTC)</code> → <code>.atZone(Asia/Seoul)</code> → <code>.toLocalDate()</code> → <code>previousOrSame(MONDAY)</code> = <code>period_start</code>.
+      <br/>※ UTC 날짜를 먼저 뽑으면 안 됨 — KST 변환 <b>후</b> 날짜(예: <code>2026-08-02T15:00Z</code> = 월 00:00 KST → 그 주).
+    </div>
+    <div class="formula">
+      <code>gross</code> = Σ SALE.amount (= payment.totalAmount)　·　<code>cancel</code> = Σ CANCEL.amount (= Σ itemAmount)<br/>
+      <code>fee</code> = round(gross × fee_rate, 2, HALF_UP)<br/>
+      <code>vat</code> = round(fee × 0.10, 2, HALF_UP)　<span style="color:#666">(수수료의 부가세, 이미 반올림된 fee에서)</span><br/>
+      <code>net</code> = gross − cancel − fee − vat
+    </div>
+    <table>
+      <tr><th>예시 (요율 3.3%)</th><th>계산</th><th>값</th></tr>
+      <tr><td>SALE 39,000+29,000+50,000</td><td>gross</td><td>118,000.00</td></tr>
+      <tr><td>CANCEL 29,000</td><td>cancel</td><td>29,000.00</td></tr>
+      <tr><td>fee = 118,000 × 0.0330</td><td>round HALF_UP</td><td>3,894.00</td></tr>
+      <tr><td>vat = 3,894.00 × 0.10</td><td>round HALF_UP</td><td>389.40</td></tr>
+      <tr><td><b>net = gross − cancel − fee − vat</b></td><td></td><td><b>84,716.60</b></td></tr>
+    </table>
+    <p class="legend">
+      취소는 <b>거래액만</b> net에서 차감 — 이미 뗀 수수료 환급은 v1.0 범위 밖(fee는 gross 기준). 요율 미설정 → 확정 보류.
+    </p>
+
+    <h2>4. 불변 경계 (INV-01) — 취소 코어 diff 0</h2>
+    <p class="legend">
+      매 phase merge-base git diff <b>denylist/allowlist 게이트</b>로 기계 강제(3회 통과). payment 변경은 오른쪽 allowlist 뿐.
+    </p>
+    <div class="mermaid">
+graph LR
+  classDef frozen fill:#dbeafe,stroke:#3b82f6,color:#1e3a5f;
+  classDef allow fill:#dcfce7,stroke:#16a34a,color:#14532d;
+
+  subgraph DENY["취소 코어 = byte-identical diff 0 (denylist)"]
+    d1["CancelTxWriter · CancelPaymentService"]:::frozen
+    d2["cancel_event_outbox 3종 · CancelEventOutboxRepository"]:::frozen
+    d3["복구 스케줄러 3종 · cancel_request 멱등"]:::frozen
+    d4["재고 예약/복원 · OutboxDataSourceConfig · V1~V18"]:::frozen
+  end
+  subgraph ALLOW["payment 허용 변경 (allowlist)"]
+    a1["PaymentCreateTxWriter (생성 TX outbox INSERT 1줄)"]:::allow
+    a2["PaymentEventOutbox* · 발행자 · V19"]:::allow
+    a3["PaymentSettlement* (읽기전용 리컨실 조회 API)"]:::allow
+  end
+    </div>
+
+    <div class="note">
+      <b>배포 게이트:</b> settlement_db 스키마 + Kafka <code>payment.completed</code>/<code>payment.cancelled</code> consumer(group=settlement-service)
+      + <b>Redis(Redisson)</b> 배선(리컨실 분산락). <code>GET /v1/payments/settlement</code>는 <b>호출자 인가 없음</b>(교차가맹점 재무 조회)
+      → NetworkPolicy로 payment ingress를 게이트웨이 파드로만 제한 필수(payment/product와 동일 클래스).
+    </div>
+
+    <h2>5. 범위 밖 (정산 v2 — 각 별도 마일스톤)</h2>
+    <p class="legend">
+      지급 실행(payout·은행이체·FINALIZED→PAID 상태머신) · 요율 차등/이력(effective-dated) · 정산 명세서(statement) 발급 ·
+      취소 수수료 환급 · 주기 다양화(일/월별) · 조정·정정(adjustment) 원장 · 가맹점 정산계좌 관리.
+    </p>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>

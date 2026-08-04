@@ -60,11 +60,13 @@ product-attribute v1.0 (속성/변형 정규화: 전역 속성사전·변형 조
 - v3.0: product-service 배포 매니페스트(infra/k8s) + 외부 MySQL에 product_db 스키마 + Kafka `payment.cancelled` consumer(group=product-service) 배선
 - 어드민 콘솔: k3s NetworkPolicy(product ingress→게이트웨이만, `infra/k8s/networkpolicy/product-ingress.yaml`, payment와 동일 클래스) 배포 필수 — 없으면 `POST /v1/products` X-User-Role 스푸핑으로 ADMIN 인가 우회
 - 카탈로그: 실 S3(버킷 CORS) + 프론트 CSP를 실 도메인으로(현재 `localhost:9000` 하드코딩) + user `app.admin.bootstrap-emails` 실값. 프론트 라이브 E2E는 로컬 스택으로 5/5 검증(전체 스택 기동 필요)
+- 정산(settlement-service): (1) 배포 매니페스트(infra/k8s) + 외부 MySQL에 `settlement_db` 스키마(Flyway V1) (2) Kafka `payment.completed`·`payment.cancelled` consumer(group=settlement-service) 배선 (3) **Redis(Redisson) 배선** — 배치 리컨실 스케줄러 분산락 의존(REDIS_HOST/PORT, product/order와 동일 클래스) (4) **`GET /v1/payments/settlement`는 호출자 인가 없음(교차가맹점 재무 조회)** → k3s NetworkPolicy로 payment ingress를 게이트웨이 파드로만 제한 필수(없으면 헤더 스푸핑으로 임의 가맹점 정산액 열람, payment/product와 동일 클래스). fee/vat/net은 리컨실 FINALIZE 시 영속 — 요율 미설정 가맹점은 확정 보류(config 선주입 필요)
 
 ## 후속 후보
 
 - product 풀 카탈로그 백필(자유텍스트 검색·version) — image·category·SKU 가격·**attribute/변형 정규화(#92)**는 반영됨
 - 취소 복원 후속: 크로스-서비스 리컨실러(두 레그 완료 상태 대조·복구 = cancel-restore 접근 2) · 예약 시점 이동(재고 예약을 주문/체크아웃 시점 + 만료 = B1)
+- 정산 v2: 지급 실행(payout·은행이체·FINALIZED→PAID 상태머신) · 요율 차등/이력(effective-dated) · 정산 명세서(statement) 발급 · 취소 수수료 환급(현재는 취소 거래액만 net 차감) · 주기 다양화(일/월별) · 조정·정정(adjustment) 원장 · 가맹점 정산계좌 관리
 - M1 검증 트랙(실측 재현·무중단 하드닝·용량 개선) 재개
 - CI 파이프라인(PR build+test 게이트) 부재
 
