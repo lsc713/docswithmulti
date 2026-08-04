@@ -37,6 +37,10 @@ public class CancelApprovalJpaEntity {
     @Column(name = "reason", nullable = false, length = 500)
     private String reason;
 
+    // String(not @Enumerated CancelApprovalStatus)로 유지: Spring Data 파생 쿼리
+    // (findFirstByPaymentIdAndStatus/findByStatus)가 String 인자를 받아 프로퍼티 타입과
+    // 일치해야 하며, enum 타입이면 Hibernate 6에서 QueryArgumentException 발생.
+    // enum↔String 변환은 fromDomain(.name())/toDomain(valueOf)에 격리 — 포트는 enum 유지.
     @Column(name = "status", nullable = false, length = 20)
     private String status;
 
