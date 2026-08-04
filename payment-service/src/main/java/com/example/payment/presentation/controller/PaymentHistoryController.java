@@ -26,7 +26,9 @@ public class PaymentHistoryController {
         @RequestHeader("X-User-Id") long userId,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size) {
-        return paymentHistoryQuery.list(userId, page, size);
+        int safePage = Math.max(0, page);
+        int safeSize = Math.min(100, Math.max(1, size));
+        return paymentHistoryQuery.list(userId, safePage, safeSize);
     }
 
     @GetMapping("/{paymentKey}")

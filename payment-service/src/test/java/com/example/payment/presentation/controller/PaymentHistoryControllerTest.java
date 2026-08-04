@@ -71,6 +71,18 @@ class PaymentHistoryControllerTest {
     }
 
     @Test
+    @DisplayName("GET /v1/payments?page=-1&size=0: 음수/과대 입력도 500 대신 200 + 클램프된 값 전파")
+    void list_clamps_invalid_page_and_size() throws Exception {
+        when(query.list(eq(7L), eq(0), eq(1))).thenReturn(List.of());
+
+        mockMvc.perform(get("/v1/payments").header("X-User-Id", "7").param("page", "-1").param("size", "0"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray());
+
+        verify(query).list(7L, 0, 1);
+    }
+
+    @Test
     @DisplayName("GET /v1/payments/{paymentKey}: 본인 소유면 200 + 상세")
     void detail_returns_200_for_owner() throws Exception {
         when(query.detail(7L, "pay_x")).thenReturn(
