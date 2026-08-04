@@ -1,10 +1,13 @@
 package com.example.payment.infrastructure.config;
 
+import com.example.payment.application.interfaces.CancelApprovalRepository;
 import com.example.payment.application.interfaces.CancelRequestRepository;
 import com.example.payment.application.interfaces.PaymentItemRepository;
 import com.example.payment.application.interfaces.PaymentRepository;
 import com.example.payment.domain.policy.CancelPeriodPolicy;
 import com.example.payment.domain.service.CancelDomainService;
+import com.example.payment.infrastructure.persistence.CancelApprovalJpaRepository;
+import com.example.payment.infrastructure.persistence.CancelApprovalRepositoryImpl;
 import com.example.payment.infrastructure.persistence.CancelRequestJpaRepository;
 import com.example.payment.infrastructure.persistence.CancelRequestRepositoryImpl;
 import com.example.payment.infrastructure.persistence.PaymentItemJpaRepository;
@@ -58,6 +61,14 @@ public class PersistenceConfig {
     @Bean
     public CancelRequestRepository cancelRequestRepository(CancelRequestJpaRepository jpaRepository) {
         return new CancelRequestRepositoryImpl(jpaRepository);
+    }
+
+    /**
+     * CancelApprovalRepository 구현체 주입
+     */
+    @Bean
+    public CancelApprovalRepository cancelApprovalRepository(CancelApprovalJpaRepository jpaRepository) {
+        return new CancelApprovalRepositoryImpl(jpaRepository);
     }
 
     @Bean
