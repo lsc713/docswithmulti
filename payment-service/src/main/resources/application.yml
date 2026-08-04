@@ -71,6 +71,15 @@ logging:
 kafka:
   topic:
     payment-cancelled: payment.cancelled
+    payment-completed: payment.completed
+
+# payment.completed 아웃박스 (생성 경로). cancel.outbox.* 와 독립 — 절대 결합 금지.
+payment:
+  completed:
+    outbox:
+      poll-ms: ${PAYMENT_COMPLETED_OUTBOX_POLL_MS:10000}
+      batch-size: ${PAYMENT_COMPLETED_OUTBOX_BATCH_SIZE:1000}
+      max-retries: ${PAYMENT_COMPLETED_OUTBOX_MAX_RETRIES:10}
 
 cancel:
   publish:
@@ -93,6 +102,7 @@ scheduler:
     stock-release-retry: lock:scheduler:stock-release-retry
     cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
     cancel-outbox-purge: lock:scheduler:cancel-outbox-purge
+    payment-completed-outbox: lock:scheduler:payment-completed-outbox
 
 # 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
 management:
