@@ -42,6 +42,12 @@ export const api = {
   createProduct: (body) => req('/v1/products', { method: 'POST', body, csrf: true }),
   createOrder:   (b) => req('/v1/orders',   { method: 'POST', body: b, csrf: true }),
   createPayment: (b) => req('/v1/payments', { method: 'POST', body: b, csrf: true }),
+
+  getCart:        ()             => req('/v1/cart'),
+  addCartItem:    (b)            => req('/v1/cart/items', { method: 'POST', body: b, csrf: true }),
+  updateCartItem: (skuId, quantity) => req(`/v1/cart/items/${skuId}`, { method: 'PATCH', body: { quantity }, csrf: true }),
+  removeCartItem: (skuId)        => req(`/v1/cart/items/${skuId}`, { method: 'DELETE', csrf: true }),
+  clearCart:      ()             => req('/v1/cart', { method: 'DELETE', csrf: true }),
 }
 
 export async function putToS3(uploadUrl, file) {

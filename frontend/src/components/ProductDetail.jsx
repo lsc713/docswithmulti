@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { api } from '../api'
 import ImageManager from './ImageManager'
 
-export default function ProductDetail({ id, me, onBack, onBuy }) {
+export default function ProductDetail({ id, me, onBack, onBuy, onAddToCart }) {
   const [product, setProduct] = useState(null)
   const [error, setError] = useState(null)
   const [qty, setQty] = useState({}) // skuId -> quantity
@@ -56,6 +56,7 @@ export default function ProductDetail({ id, me, onBack, onBuy }) {
       </table>
 
       <button className="buy-btn" disabled={lines.length === 0} onClick={() => onBuy(lines)}>구매하기</button>
+      <button className="cart-btn" disabled={lines.length === 0} onClick={() => onAddToCart(lines)}>장바구니 담기</button>
 
       {me?.role === 'ADMIN' && (
         <ImageManager productId={id} images={product.images} onChanged={load} />
