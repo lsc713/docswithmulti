@@ -15,6 +15,8 @@ public enum ErrorCode {
     PAYOUT_SIGNATURE_INVALID("PAYOUT_SIGNATURE_INVALID", 401, "지급 콜백 서명이 유효하지 않습니다."),
     // 404
     SETTLEMENT_NOT_FOUND("SETTLEMENT_NOT_FOUND", 404, "정산 내역을 찾을 수 없습니다."),
+    PAYOUT_NOT_FOUND("PAYOUT_NOT_FOUND", 404, "지급 건을 찾을 수 없습니다."),
+    PAYOUT_ACCOUNT_NOT_FOUND("PAYOUT_ACCOUNT_NOT_FOUND", 404, "지급 계좌를 찾을 수 없습니다."),
     // 500
     INTERNAL_ERROR("INTERNAL_ERROR", 500, "서버 오류가 발생했습니다.");
 

@@ -4,6 +4,7 @@ import com.example.settlement.application.service.PayoutService;
 import com.example.settlement.domain.entity.Payout;
 import com.example.settlement.presentation.dto.PayoutResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,13 @@ public class PayoutController {
     @PostMapping("/{id}/payout")
     public PayoutResponse approve(@PathVariable long id) {
         Payout p = service.approve(id);
+        return new PayoutResponse(p.getId(), p.getStatus(), p.getAmount());
+    }
+
+    /** 지급 상태 조회(PAY-03). 없으면 PAYOUT_NOT_FOUND(404, GlobalExceptionHandler). */
+    @GetMapping("/{id}/payout")
+    public PayoutResponse payout(@PathVariable long id) {
+        Payout p = service.getPayout(id);
         return new PayoutResponse(p.getId(), p.getStatus(), p.getAmount());
     }
 }

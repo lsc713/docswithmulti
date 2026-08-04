@@ -1,9 +1,12 @@
 package com.example.settlement.presentation.controller;
 
 import com.example.settlement.application.service.PayoutService;
+import com.example.settlement.domain.entity.MerchantPayoutAccount;
 import com.example.settlement.presentation.dto.PayoutAccountRequest;
+import com.example.settlement.presentation.dto.PayoutAccountResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,5 +32,13 @@ public class PayoutAccountController {
     ) {
         service.upsertAccount(merchantId, request.bankCode(), request.accountNumber(), request.holderName());
         return ResponseEntity.ok().build();
+    }
+
+    /** 활성 계좌 조회(ACCT-02). 없으면 PAYOUT_ACCOUNT_NOT_FOUND(404, GlobalExceptionHandler). */
+    @GetMapping("/{merchantId}")
+    public PayoutAccountResponse get(@PathVariable long merchantId) {
+        MerchantPayoutAccount a = service.getAccount(merchantId);
+        return new PayoutAccountResponse(
+            a.getMerchantId(), a.getBankCode(), a.getAccountNumber(), a.getHolderName(), a.isActive());
     }
 }

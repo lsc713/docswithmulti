@@ -1,7 +1,9 @@
 package com.example.settlement.application.service;
 
 import com.example.settlement.application.exception.InvalidPayoutAccountException;
+import com.example.settlement.application.exception.MerchantPayoutAccountNotFoundException;
 import com.example.settlement.application.exception.PayoutAccountInactiveException;
+import com.example.settlement.application.exception.PayoutNotFoundException;
 import com.example.settlement.application.exception.PayoutNotPayableException;
 import com.example.settlement.application.exception.SettlementNotFoundException;
 import com.example.settlement.application.interfaces.BankTransferPort;
@@ -52,6 +54,18 @@ public class PayoutService {
         requireNonBlank(accountNumber, "accountNumber");
         requireNonBlank(holderName, "holderName");
         accountRepo.upsert(merchantId, bankCode, accountNumber, holderName);
+    }
+
+    /** 활성 지급 계좌 조회(ACCT-02). 없으면 404. */
+    public MerchantPayoutAccount getAccount(long merchantId) {
+        return accountRepo.findActive(merchantId)
+            .orElseThrow(() -> new MerchantPayoutAccountNotFoundException(merchantId));
+    }
+
+    /** 정산 헤더의 지급 건 조회(PAY-03). 없으면 404. */
+    public Payout getPayout(long settlementId) {
+        return payoutRepo.findBySettlementId(settlementId)
+            .orElseThrow(() -> new PayoutNotFoundException(settlementId));
     }
 
     /** FINALIZED 정산 → PROCESSING 지급 승인 + 은행 제출. */
