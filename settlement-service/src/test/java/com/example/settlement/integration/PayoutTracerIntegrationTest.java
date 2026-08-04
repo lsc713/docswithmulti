@@ -117,6 +117,7 @@ class PayoutTracerIntegrationTest {
         HttpResponse<String> cb = post("/v1/payouts/callback",
                 "{\"transferRef\":\"" + ref + "\",\"result\":\"PAID\"}", "wrong-secret");
         assertThat(cb.statusCode()).isEqualTo(401);
+        assertThat(cb.body()).contains("PAYOUT_SIGNATURE_INVALID");   // {code,message} 에러 바디
         assertThat(statusOf(ref)).isEqualTo("PROCESSING");   // 상태 무변경
         assertThat(paidAtNull(ref)).isTrue();
     }

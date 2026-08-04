@@ -1,5 +1,9 @@
 package com.example.settlement.application.service;
 
+import com.example.settlement.application.exception.InvalidPayoutAccountException;
+import com.example.settlement.application.exception.PayoutAccountInactiveException;
+import com.example.settlement.application.exception.PayoutNotPayableException;
+import com.example.settlement.application.exception.SettlementNotFoundException;
 import com.example.settlement.application.interfaces.BankTransferPort;
 import com.example.settlement.application.interfaces.MerchantPayoutAccountRepository;
 import com.example.settlement.application.interfaces.PayoutRepository;
@@ -18,7 +22,8 @@ import java.math.BigDecimal;
  *
  * <p>approve: FINALIZED 정산 헤더의 <b>자기 DB 행</b>에서 net_amount 를 읽어(결제 HTTP 없음, INV-01) 스냅샷으로 지급.
  * 가드(FINALIZED ∧ active 계좌 ∧ net>0 ∧ 기존 지급 없음) 통과 시 transfer_ref='PO-'+settlementId 로
- * PROCESSING 단일 INSERT → <b>save 후</b> BankTransferPort.submit. 검증 실패는 IllegalArgumentException(→400).
+ * PROCESSING 단일 INSERT → <b>save 후</b> BankTransferPort.submit. 검증 실패는 BusinessException(→400,
+ * PAYOUT_NOT_PAYABLE / PAYOUT_ACCOUNT_INACTIVE) 또는 SETTLEMENT_NOT_FOUND(404, GlobalExceptionHandler).
  * 비-@Transactional: save 는 자체 TX 로 커밋되고, transfer_ref durable 확보 후 network submit(2차 write 없음).
  */
 @Slf4j
@@ -52,19 +57,18 @@ public class PayoutService {
     /** FINALIZED 정산 → PROCESSING 지급 승인 + 은행 제출. */
     public Payout approve(long settlementId) {
         Settlement s = settlementRepo.findById(settlementId)
-            .orElseThrow(() -> new IllegalArgumentException("정산 헤더가 없습니다: " + settlementId));
+            .orElseThrow(() -> new SettlementNotFoundException(settlementId));
         if (!"FINALIZED".equals(s.getStatus())) {
-            throw new IllegalArgumentException("FINALIZED 정산만 지급 승인 가능합니다: status=" + s.getStatus());
+            throw new PayoutNotPayableException("FINALIZED 정산만 지급 승인 가능합니다. status=" + s.getStatus());
         }
         BigDecimal net = s.getNetAmount();
         if (net == null || net.signum() <= 0) {
-            throw new IllegalArgumentException("net_amount가 0 이하입니다: " + net);
+            throw new PayoutNotPayableException("net_amount가 0 이하입니다: " + net);
         }
         MerchantPayoutAccount account = accountRepo.findActive(s.getMerchantId())
-            .orElseThrow(() -> new IllegalArgumentException(
-                "활성 지급 계좌가 없습니다: merchant=" + s.getMerchantId()));
+            .orElseThrow(() -> new PayoutAccountInactiveException(s.getMerchantId()));
         if (payoutRepo.findBySettlementId(settlementId).isPresent()) {
-            throw new IllegalArgumentException("이미 지급 건이 존재합니다: settlement=" + settlementId);
+            throw new PayoutNotPayableException("이미 지급 건이 존재합니다. settlement=" + settlementId);
         }
 
         String transferRef = "PO-" + settlementId;
@@ -76,7 +80,7 @@ public class PayoutService {
 
     private static void requireNonBlank(String value, String field) {
         if (value == null || value.isBlank()) {
-            throw new IllegalArgumentException(field + "는 필수입니다.");
+            throw new InvalidPayoutAccountException(field);
         }
     }
 }

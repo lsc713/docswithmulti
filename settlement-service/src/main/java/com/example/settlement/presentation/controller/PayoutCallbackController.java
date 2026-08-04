@@ -1,5 +1,6 @@
 package com.example.settlement.presentation.controller;
 
+import com.example.settlement.application.exception.PayoutSignatureException;
 import com.example.settlement.application.service.PayoutResultService;
 import com.example.settlement.presentation.dto.PayoutCallbackRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,8 @@ import java.security.MessageDigest;
  * 은행 지급 결과 webhook (CONFIRM-01). <b>은행→서비스</b> push 라우트 — 게이트웨이 JWT 인증 라우트가 아니다.
  * settlement-service 에는 Spring Security 가 없어 서명(shared-secret)만으로 인증:
  * X-Bank-Signature 헤더를 ${payout.webhook.secret} 과 constant-time(MessageDigest.isEqual) 비교,
- * 불일치 시 401 을 ResponseEntity 로 <b>직접 반환</b>(예외 throw 시 GlobalExceptionHandler 가 500 으로 삼킴).
+ * 불일치 시 PayoutSignatureException(PAYOUT_SIGNATURE_INVALID) 을 throw → GlobalExceptionHandler 가
+ * ErrorCode.httpStatus(401)·{code,message} 로 매핑(상태 무변경).
  *
  * <p><b>배포 NetworkPolicy 주의</b>: 이 콜백은 (mock) 은행이 직접 호출해야 하므로 query/config 라우트처럼
  * 게이트웨이 파드 전용 ingress 로 묶으면 안 된다(SettlementQueryController 와 ingress 클래스가 다름).
@@ -43,7 +45,7 @@ public class PayoutCallbackController {
         byte[] provided = signature == null ? new byte[0] : signature.getBytes(StandardCharsets.UTF_8);
         if (!MessageDigest.isEqual(secretBytes, provided)) {
             log.warn("[payout-callback] 서명 불일치 — 401, 상태 무변경 ref={}", request.transferRef());
-            return ResponseEntity.status(401).build();
+            throw new PayoutSignatureException();
         }
         resultService.applyResult(request.transferRef(), request.result(), null);
         return ResponseEntity.ok().build();
