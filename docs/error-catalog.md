@@ -93,6 +93,7 @@ fail-closed)로 결제를 거부한다.
 |------|---------|--------|
 | `PAYMENT_NOT_FOUND` | 결제 정보를 찾을 수 없습니다. | `{ "paymentKey": "pay_xyz" }` |
 | `PAYMENT_ITEM_NOT_FOUND` | 취소 항목을 찾을 수 없습니다. | `{ "paymentItemId": 99 }` |
+| `CANCEL_APPROVAL_NOT_FOUND` | 취소 승인 요청을 찾을 수 없습니다. | `{ "approvalId": 12 }` |
 
 ### 멱등 중복 (409)
 
@@ -100,6 +101,7 @@ fail-closed)로 결제를 거부한다.
 |------|---------|--------|
 | `IDEMPOTENT_DUPLICATION` | 이미 처리된 요청입니다. | `{ "originalStatus": "COMPLETED", "cancelRequestId": "cr_abc" }` |
 | `IDEMPOTENCY_KEY_CONFLICT` | 이미 다른 요청에 사용된 Idempotency-Key입니다. | `{ "idempotencyKey": "..." }` |
+| `CANCEL_APPROVAL_CONFLICT` | 이미 진행 중이거나 결정된 취소 승인 요청입니다. | `{ "approvalId": 12 }` |
 
 ### 비즈니스 규칙 위반 (422)
 
