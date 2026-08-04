@@ -17,14 +17,14 @@
 
 ## 구현 상태
 
-- [x] payment-service (취소 플로우 + **OUTBOX 정식 발행**, order 주문 생성 API 소비 아님)
-- [x] order-service (주문 생성 API `POST /v1/orders` + Kafka Consumer 상태 동기화)
+- [x] payment-service (취소 플로우 + **OUTBOX 정식 발행**, order 주문 생성 API 소비 아님 · **결제 조회 GET** `GET /v1/payments`·`/{key}`(X-User-Id 소유 스코프) + **구매자 자가취소**(USER 소유자 분기, 취소 TX 코어 불변))
+- [x] order-service (주문 생성 API `POST /v1/orders` + Kafka Consumer 상태 동기화 · **서버 장바구니** `/v1/cart` CRUD)
 - [x] merchant-limit-service (한도 원본 + `merchant.limit.updated` Outbox 발행)
 - [x] risk-management-service (취소 검증 + 한도 소진)
 - [x] product-service (재고 예약·복원 v3.0 · 카테고리 브라우징 + **SKU 가격** + **다중 이미지**(S3 presigned))
 - [x] **user-service** (회원가입/로그인/JWT, v2.0 · **ADMIN 역할관리** `PATCH /v1/admin/users/{id}/role` + bootstrap 승격)
 - [x] **api-gateway** (단일 진입점·JWT 검증·신뢰헤더, v2.0 · product 브라우징/이미지 + `/v1/admin/**` 라우팅)
-- [x] **frontend** (Vite+React) — 상품 그리드·상세/갤러리 + ADMIN 이미지 관리(presign 업로드·삭제·순서변경) + 로그인 nav 모달
+- [x] **frontend** (Vite+React) — 상품 그리드·상세/갤러리 + ADMIN 이미지 관리(presign 업로드·삭제·순서변경) + 로그인 nav 모달 + **체크아웃 흐름**(바로구매·장바구니·주문내역/자가취소, 상품→주문→결제)
 
 ## 마일스톤 진행
 
@@ -41,18 +41,23 @@ cancel-restore v1.0 (취소 복원 일관성 — 레그 하드닝 B2: order·pro
 어드민 콘솔 v1.0 (로그인/대시보드/상품·회원 관리, 별도 admin.html + react-router
   + `GET /v1/admin/users` 신설 + `POST /v1/products` ADMIN 게이트웨이 노출·product 인가 재검증
   (GATE-01 확장), 취소/스토어 불변)                                (완료, PR #93 머지)
+product-attribute v1.0 (속성/변형 정규화: 전역 속성사전·변형 조합·서술 specs)  (완료, PR #92 머지)
+체크아웃 (정방향 구매 종단간, 3단계 스택 PR)
+  P1 바로구매 (상품→주문→결제, skuId 노출 + 금액규약 itemAmount=단가×수량)  (완료, PR #94 머지)
+  P2 서버 장바구니 (order-service cart 테이블·CRUD + 게이트웨이 라우트)      (완료, PR #98 머지, 구 #96 스택삭제로 재생성)
+  P3 주문내역 + 구매자 자가취소 (결제 조회 GET + CancelAuthorizer USER 소유자 분기)  (완료, PR #97 머지)
 ```
 
 ## 배포 시점 남은 것 (코드는 머지, 라이브 미적용)
 
-- v2.0: k3s NetworkPolicy(payment ingress→게이트웨이만) + JWT_SECRET 실값 주입 (없으면 인증 경계 무력)
+- v2.0: k3s NetworkPolicy(payment ingress→게이트웨이만) + JWT_SECRET 실값 주입 (없으면 인증 경계 무력). **P3 자가취소로 X-User-Id가 취소 인가에 load-bearing** — 이 NetworkPolicy 없으면 헤더 위조로 임의 결제 취소 가능
 - v3.0: product-service 배포 매니페스트(infra/k8s) + 외부 MySQL에 product_db 스키마 + Kafka `payment.cancelled` consumer(group=product-service) 배선
 - 어드민 콘솔: k3s NetworkPolicy(product ingress→게이트웨이만, `infra/k8s/networkpolicy/product-ingress.yaml`, payment와 동일 클래스) 배포 필수 — 없으면 `POST /v1/products` X-User-Role 스푸핑으로 ADMIN 인가 우회
 - 카탈로그: 실 S3(버킷 CORS) + 프론트 CSP를 실 도메인으로(현재 `localhost:9000` 하드코딩) + user `app.admin.bootstrap-emails` 실값. 프론트 라이브 E2E는 로컬 스택으로 5/5 검증(전체 스택 기동 필요)
 
 ## 후속 후보
 
-- product 풀 카탈로그 백필(attribute·정규화 옵션·자유텍스트 검색·version) — image·category·SKU 가격은 반영됨
+- product 풀 카탈로그 백필(자유텍스트 검색·version) — image·category·SKU 가격·**attribute/변형 정규화(#92)**는 반영됨
 - 취소 복원 후속: 크로스-서비스 리컨실러(두 레그 완료 상태 대조·복구 = cancel-restore 접근 2) · 예약 시점 이동(재고 예약을 주문/체크아웃 시점 + 만료 = B1)
 - M1 검증 트랙(실측 재현·무중단 하드닝·용량 개선) 재개
 - CI 파이프라인(PR build+test 게이트) 부재
