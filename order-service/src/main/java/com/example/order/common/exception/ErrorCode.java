@@ -18,6 +18,7 @@ public enum ErrorCode {
 
     // 404 - 리소스 없음
     ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", 404, "주문 항목을 찾을 수 없습니다."),
+    CART_ITEM_NOT_FOUND("CART_ITEM_NOT_FOUND", 404, "장바구니 항목을 찾을 수 없습니다."),
 
     // 409 - 비즈니스 규칙 위반 (복수 order 걸침)
     ORDER_ITEMS_MULTIPLE_ORDERS("ORDER_ITEMS_MULTIPLE_ORDERS", 409, "요청된 항목이 여러 주문에 걸쳐 있습니다.");
