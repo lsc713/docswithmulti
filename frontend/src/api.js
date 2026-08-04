@@ -40,6 +40,8 @@ export const api = {
   changeRole:   (userId, role) =>
     req(`/v1/admin/users/${userId}/role`, { method: 'PATCH', body: { role }, csrf: true }),
   createProduct: (body) => req('/v1/products', { method: 'POST', body, csrf: true }),
+  createOrder:   (b) => req('/v1/orders',   { method: 'POST', body: b, csrf: true }),
+  createPayment: (b) => req('/v1/payments', { method: 'POST', body: b, csrf: true }),
 }
 
 export async function putToS3(uploadUrl, file) {

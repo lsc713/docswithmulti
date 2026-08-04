@@ -20,7 +20,7 @@ public interface ProductQueryRepository {
     /** BROWSE-01: 상품 카드(최소가 + 썸네일) 최신순 페이징. thumbnailKey = 상품별 최소 sort_order 이미지 key(없으면 null). */
     Page<ProductCard> findCardsByCategoryIds(List<Long> categoryIds, int page, int size);
 
-    record SkuStock(String skuCode, String optionSummary, int availableQty, long price) {}
+    record SkuStock(Long skuId, String skuCode, String optionSummary, int availableQty, long price) {}
 
     record ProductCard(Long id, String name, long minPrice, String thumbnailKey) {}
 }
