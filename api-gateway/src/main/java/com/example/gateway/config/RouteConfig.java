@@ -29,6 +29,7 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
  *   <li>order 생성(인증): POST /v1/orders(정확 경로) → order downstream, JwtTrustHeaderFilter 부착.
  *       /v1/orders/items:verify(payment 전용 내부 검증)는 이 경로에 걸리지 않아 노출되지 않는다
  *       (D-CONTEXT-5, order-link Phase 1 GW-01)</li>
+ *   <li>cart(인증): /v1/cart/** → order downstream(cart는 order-service에 위치), JwtTrustHeaderFilter 부착</li>
  *   <li>product 공개 브라우징(토큰 불요): GET /v1/products/**, /v1/categories/** → product downstream,
  *       strip만(Task 9)</li>
  *   <li>product 관리자 write(인증): POST /v1/products(시드), POST .../images/presign, POST .../images,
@@ -105,6 +106,18 @@ public class RouteConfig {
             @Value("${gateway.downstream.order-uri}") String orderUri) {
         return route("order")
                 .route(path("/v1/orders"), http())
+                .before(uri(orderUri))
+                .filter(jwt)
+                .build();
+    }
+
+    /** 장바구니(cart) — 인증 라우트. order-service downstream(cart는 order-service에 위치). */
+    @Bean
+    RouterFunction<ServerResponse> cartRoute(
+            JwtTrustHeaderFilter jwt,
+            @Value("${gateway.downstream.order-uri}") String orderUri) {
+        return route("cart")
+                .route(path("/v1/cart/**"), http())
                 .before(uri(orderUri))
                 .filter(jwt)
                 .build();

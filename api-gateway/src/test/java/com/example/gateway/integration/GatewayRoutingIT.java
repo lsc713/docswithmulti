@@ -338,6 +338,39 @@ class GatewayRoutingIT {
         userDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
+    // === Task 3: /v1/cart secured route → order downstream (cart는 order-service에 위치) ===
+
+    @Test
+    void cart_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/cart"))).GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        orderDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void cart_validJwt_routesToOrderDownstream_withTrustHeaderInjected() throws Exception {
+        orderDownstream.stubFor(get(urlPathEqualTo("/v1/cart"))
+                .willReturn(aResponse().withStatus(200).withBody("{\"items\":[]}")));
+
+        String token = accessToken(42L, "USER", null);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/cart")))
+                        .header("Authorization", "Bearer " + token)
+                        .header(JwtTrustHeaderFilter.H_USER_ID, "9999") // 위조 → strip
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        orderDownstream.verify(getRequestedFor(urlPathEqualTo("/v1/cart"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ID, equalTo("42")));
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
     @Test
     void verifyPath_notRoutedToOrderDownstream() throws Exception {
         String token = accessToken(42L, "USER", null);
