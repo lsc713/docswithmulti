@@ -1,6 +1,7 @@
 package com.example.payment.application.interfaces;
 
 import com.example.payment.domain.entity.Payment;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,4 +20,7 @@ public interface PaymentRepository {
     Optional<Payment> findById(Long paymentId);
 
     Payment save(Payment payment);
+
+    /** 주문내역: 본인 결제 최신순 페이지 조회 (P3). */
+    List<Payment> findByUserId(long userId, int page, int size);
 }

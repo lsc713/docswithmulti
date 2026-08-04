@@ -42,6 +42,9 @@ export const api = {
   createProduct: (body) => req('/v1/products', { method: 'POST', body, csrf: true }),
   createOrder:   (b) => req('/v1/orders',   { method: 'POST', body: b, csrf: true }),
   createPayment: (b) => req('/v1/payments', { method: 'POST', body: b, csrf: true }),
+  getPayments:   () => req('/v1/payments'),
+  getPayment:    (key) => req(`/v1/payments/${key}`),
+  cancelPayment: (key, body) => req(`/v1/payments/${key}/cancel`, { method: 'POST', body, csrf: true }),
 
   getCart:        ()             => req('/v1/cart'),
   addCartItem:    (b)            => req('/v1/cart/items', { method: 'POST', body: b, csrf: true }),
