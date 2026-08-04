@@ -7,32 +7,58 @@ import Home from './components/Home'
 import ProductDetail from './components/ProductDetail'
 import Checkout from './components/Checkout'
 import OrderSuccess from './components/OrderSuccess'
+import Cart from './components/Cart'
 
 export default function App() {
   const [me, setMe] = useState(null)
   const [view, setView] = useState({ name: 'home' })
   const [authOpen, setAuthOpen] = useState(false)
+  const [cart, setCart] = useState([])
 
   useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
+
+  const loadCart = () => api.getCart().then(r => setCart(r.items)).catch(() => setCart([]))
+  useEffect(() => { if (me) loadCart() }, [me])
 
   function handleBuy(lines) {
     if (!me) { setAuthOpen(true); return }
     setView({ name: 'checkout', lines })
   }
 
+  async function handleAddToCart(lines) {
+    if (!me) { setAuthOpen(true); return }
+    for (const l of lines) {
+      await api.addCartItem({ skuId: l.skuId, productId: l.productId, itemName: l.itemName,
+        optionSummary: l.optionSummary, unitPrice: l.unitPrice, quantity: l.quantity })
+    }
+    await loadCart()
+    setView({ name: 'cart' })
+  }
+
+  const onQty = async (skuId, q) => { await api.updateCartItem(skuId, q); loadCart() }
+  const onRemove = async (skuId) => { await api.removeCartItem(skuId); loadCart() }
+
   return (
     <>
       <NavBar me={me} onHome={() => setView({ name: 'home' })}
               onLoginClick={() => setAuthOpen(true)}
-              onLogout={async () => { await api.logout(); setMe(null) }} />
+              onLogout={async () => { await api.logout(); setMe(null) }}
+              cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
+              onCart={() => setView({ name: 'cart' })} />
 
       {view.name === 'home' && <Home onOpen={(id) => setView({ name: 'detail', id })} />}
       {view.name === 'detail' && (
-        <ProductDetail id={view.id} me={me} onBack={() => setView({ name: 'home' })} onBuy={handleBuy} />
+        <ProductDetail id={view.id} me={me} onBack={() => setView({ name: 'home' })} onBuy={handleBuy}
+                       onAddToCart={handleAddToCart} />
+      )}
+      {view.name === 'cart' && (
+        <Cart items={cart} onQty={onQty} onRemove={onRemove}
+              onOrder={(lines) => setView({ name: 'checkout', lines })}
+              onBack={() => setView({ name: 'home' })} />
       )}
       {view.name === 'checkout' && (
         <Checkout lines={view.lines}
-                  onPaid={(payment) => setView({ name: 'success', payment })}
+                  onPaid={async (payment) => { try { await api.clearCart() } catch { /* noop */ } setCart([]); setView({ name: 'success', payment }) }}
                   onBack={() => setView({ name: 'home' })} />
       )}
       {view.name === 'success' && (
