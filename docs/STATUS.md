@@ -24,6 +24,7 @@
 - [x] product-service (재고 예약·복원 v3.0 · 카테고리 브라우징 + **SKU 가격** + **다중 이미지**(S3 presigned))
 - [x] **user-service** (회원가입/로그인/JWT, v2.0 · **ADMIN 역할관리** `PATCH /v1/admin/users/{id}/role` + bootstrap 승격)
 - [x] **api-gateway** (단일 진입점·JWT 검증·신뢰헤더, v2.0 · product 브라우징/이미지 + `/v1/admin/**` 라우팅)
+- [x] **settlement-service** (신규 정산 백엔드 v1.0 · 8086 독립 MySQL — 취소·매출 원장(가맹점×정산주 KST) + 요율 수수료/VAT/net + `payment.completed`/`payment.cancelled` 구독 + Redisson 배치 리컨실·OPEN→FINALIZED. **payment-service는 `payment.completed` 아웃박스 발행(V19) + 리컨실 조회 `GET /v1/payments/settlement`(읽기 전용) 추가 — 취소 코어 diff 0**)
 - [x] **frontend** (Vite+React) — 상품 그리드·상세/갤러리 + ADMIN 이미지 관리(presign 업로드·삭제·순서변경) + 로그인 nav 모달 + **체크아웃 흐름**(바로구매·장바구니·주문내역/자가취소, 상품→주문→결제)
 
 ## 마일스톤 진행
@@ -46,6 +47,11 @@ product-attribute v1.0 (속성/변형 정규화: 전역 속성사전·변형 조
   P1 바로구매 (상품→주문→결제, skuId 노출 + 금액규약 itemAmount=단가×수량)  (완료, PR #94 머지)
   P2 서버 장바구니 (order-service cart 테이블·CRUD + 게이트웨이 라우트)      (완료, PR #98 머지, 구 #96 스택삭제로 재생성)
   P3 주문내역 + 구매자 자가취소 (결제 조회 GET + CancelAuthorizer USER 소유자 분기)  (완료, PR #97 머지)
+정산 집계 코어 v1.0 (신규 settlement-service 8086, 3 phase)
+  P1 취소 적재 (원장 4테이블 + payment.cancelled 구독·멱등 + KST 주별 집계)   (완료)
+  P2 매출+수수료 (payment.completed 아웃박스 V19 + SALE 적재 + fee/VAT/net)   (완료)
+  P3 리컨실+확정 (payment 리컨실 조회 API + Redisson 배치 → OPEN→FINALIZED)   (완료)
+  전체: 취소 코어 diff 0 게이트 3회·456 tests green                        (완료, PR #95 머지 514251d)
 ```
 
 ## 배포 시점 남은 것 (코드는 머지, 라이브 미적용)
