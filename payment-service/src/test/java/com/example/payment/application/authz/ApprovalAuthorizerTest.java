@@ -26,9 +26,13 @@ class ApprovalAuthorizerTest {
         assertThrows(CancelNotAuthorizedException.class, () ->
             authz.authorizeDecision(new AuthenticatedUser("1", "MERCHANT", "not-a-number"), 42L));
     }
-    @Test void blank_role_cannot_decide() {
+    @Test void null_role_cannot_decide() {
         assertThrows(CancelNotAuthorizedException.class, () ->
             authz.authorizeDecision(new AuthenticatedUser("1", null, null), 42L));
+    }
+    @Test void merchant_with_null_merchantId_cannot_decide() {
+        assertThrows(CancelNotAuthorizedException.class, () ->
+            authz.authorizeDecision(new AuthenticatedUser("1", "MERCHANT", null), 42L));
     }
     @Test void request_owner_ok() {
         authz.authorizeRequest(new AuthenticatedUser("7", "USER", null), 7L); // no throw
@@ -40,5 +44,13 @@ class ApprovalAuthorizerTest {
     @Test void request_malformed_userId_rejected() {
         assertThrows(CancelNotAuthorizedException.class, () ->
             authz.authorizeRequest(new AuthenticatedUser("not-a-number", "USER", null), 7L));
+    }
+    @Test void request_null_userId_rejected() {
+        assertThrows(CancelNotAuthorizedException.class, () ->
+            authz.authorizeRequest(new AuthenticatedUser(null, "USER", null), 7L));
+    }
+    @Test void request_blank_userId_rejected() {
+        assertThrows(CancelNotAuthorizedException.class, () ->
+            authz.authorizeRequest(new AuthenticatedUser("", "USER", null), 7L));
     }
 }
