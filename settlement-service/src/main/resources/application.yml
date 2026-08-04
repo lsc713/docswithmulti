@@ -48,10 +48,19 @@ external:
 scheduler:
   lock:
     settlement-reconcile: lock:scheduler:settlement-reconcile
+    payout-poll: lock:scheduler:payout-poll          # poll backstop 분산락(reconcile 와 별개 키)
 
 settlement:
   reconcile:
     grace-days: 1                           # 주마감 유예: period_end < today(KST) − grace 만 finalize 대상
+
+payout:
+  webhook:
+    secret: ${PAYOUT_WEBHOOK_SECRET:local-dev-secret}   # env 주입(운영). 리터럴은 non-prod 부팅용 placeholder(CLAUDE.md 시크릿 금지)
+  bank:
+    url: ${PAYOUT_BANK_URL:http://localhost:9099}       # !local BankTransferHttpClient stub 대상
+  poll:
+    grace-seconds: 60                       # PROCESSING updated_at < now-grace 만 poll 대상
 
 logging:
   level:
