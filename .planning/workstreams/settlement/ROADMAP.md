@@ -19,7 +19,7 @@ last_updated: 2026-08-03
 
 - [x] **Phase 1: 서비스 골격 + 취소 적재 CORE (tracer)** - settlement-service 세우고 기존 payment.cancelled로 취소를 원장에 멱등 적재·주별 집계·조회, payment 코드 변경 0 ✅ GOAL ACHIEVED (5/5, 9 tests, payment diff 0)
 - [x] **Phase 2: 매출 이벤트 + 수수료·net 산출** - payment.completed 아웃박스 신설 + settlement 매출 적재, 요율 기반 fee+VAT+net 산출 ✅ GOAL ACHIEVED (5/5, cancel core diff 0, 447 tests green)
-- [ ] **Phase 3: 배치 리컨실 + 확정** - 주 마감 리컨실러가 payment DB 대조로 누락 보정 후 OPEN→FINALIZED 확정
+- [x] **Phase 3: 배치 리컨실 + 확정** - 주 마감 리컨실러가 payment DB 대조로 누락 보정 후 OPEN→FINALIZED 확정 ✅ GOAL ACHIEVED (6/6, cancel core diff 0, 456 tests green)
 
 ## Phase Details
 
@@ -58,9 +58,9 @@ last_updated: 2026-08-03
   2. Redisson 분산락 스케줄러가 주 마감된 OPEN 원장을 대상으로 payment 조회 결과와 대조해 이벤트 누락 SALE/CANCEL 라인을 보정 적재한다 — 이미 적재된 event_id는 UK로 중복 무시된다(이벤트 유실 시나리오에서 최종 정합 복구).
   3. 리컨실 후 gross/cancel 재검증 → fee/vat/net 확정 → OPEN→FINALIZED 전이(finalized_at). FINALIZED 헤더는 금액·라인이 불변이고, 마감 후 도착 이벤트/불일치는 `OperationAlertPort`로 알림된다.
 **Plans**: 3 plans
-- [ ] 03-01-PLAN.md — RECON-03 payment 읽기전용 조회 API `GET /v1/payments/settlement`(신규 PaymentSettlement* 파일, SALE=created_at·CANCEL=completed_at 독립 윈도우, 마이그레이션 0) (RECON-03) [wave 1]
-- [ ] 03-02-PLAN.md — settlement 모듈 배선(Redisson·HTTP·alert·@EnableScheduling·TestRedissonConfig) + 리컨실→확정 tracer(주마감 OPEN 대조·record() 보정적재·Σlines 재검증·status-guarded OPEN→FINALIZED) + FINALIZED 불변가드·요율미설정 유예·drift 알림 (RECON-01/02) [wave 1]
-- [ ] 03-03-PLAN.md — INV-01 Phase 3 게이트(취소 CORE diff 0 denylist + PaymentSettlement allowlist 확장 + payment 마이그레이션 0) + 4모듈 무회귀 (INV-01) [wave 2]
+- [x] 03-01-PLAN.md — RECON-03 payment 읽기전용 조회 API `GET /v1/payments/settlement`(신규 PaymentSettlement* 파일, SALE=created_at·CANCEL=completed_at 독립 윈도우, 마이그레이션 0) (RECON-03) [wave 1]
+- [x] 03-02-PLAN.md — settlement 모듈 배선(Redisson·HTTP·alert·@EnableScheduling·TestRedissonConfig) + 리컨실→확정 tracer(주마감 OPEN 대조·record() 보정적재·Σlines 재검증·status-guarded OPEN→FINALIZED) + FINALIZED 불변가드·요율미설정 유예·drift 알림 (RECON-01/02) [wave 1]
+- [x] 03-03-PLAN.md — INV-01 Phase 3 게이트(취소 CORE diff 0 denylist + PaymentSettlement allowlist 확장 + payment 마이그레이션 0) + 4모듈 무회귀 (INV-01) [wave 2]
 
 ## Progress
 
@@ -68,4 +68,4 @@ last_updated: 2026-08-03
 |-------|----------------|--------|-----------|
 | 1. 서비스 골격 + 취소 적재 CORE | 2/2 | Complete | 2026-08-04 |
 | 2. 매출 이벤트 + 수수료·net 산출 | 3/3 | Complete | 2026-08-04 |
-| 3. 배치 리컨실 + 확정 | 0/3 | Planned | - |
+| 3. 배치 리컨실 + 확정 | 3/3 | Complete | 2026-08-04 |

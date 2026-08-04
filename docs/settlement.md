@@ -143,7 +143,7 @@ tracer-first 수직 슬라이스. Phase 1은 기존 이벤트만으로 골격을
 |---|---|---|---|
 | **1. 서비스 골격 + 취소 적재 (tracer)** | settlement-service 신설, 기존 `payment.cancelled` 구독 → CANCEL 라인 멱등 적재, KST 주별 헤더 집계, 조회 API. payment 코드 변경 0. | SETUP-01, CANCEL-01/02, QUERY-01, INV-01 | ✅ **완료** (GOAL ACHIEVED, 9 tests, payment diff 0, 무회귀 431 tests) |
 | **2. 매출 이벤트 + 수수료·net** | `payment.completed` 아웃박스(생성 TX 원자 INSERT + poll 발행) 신설, settlement SALE 적재/gross 증분, 요율 기반 fee+VAT+net 산출(compute-on-read). 취소 코어 diff 0 재검증. | SALE-01/02, FEE-01/02 | ✅ **완료** (GOAL ACHIEVED 5/5, 취소 코어 diff 0, 447 tests green) |
-| **3. 배치 리컨실 + 확정** | payment 리컨실 조회 API 신설, Redisson 스케줄러가 주 마감분 대조·누락 보정 → gross/cancel 재검증 → fee/vat/net 확정 → OPEN→FINALIZED. 불일치 시 알림. | RECON-01/02/03 | ⬜ **예정** |
+| **3. 배치 리컨실 + 확정** | payment 리컨실 조회 API(`GET /v1/payments/settlement`, 읽기전용·독립윈도우) 신설, Redisson 스케줄러가 주 마감(period_end < today−grace) OPEN 원장 대조·record() 보정적재(event_id UK 중복무시) → Σlines 재검증 → fee/vat/net **영속** → status-guarded OPEN→FINALIZED. FINALIZED 후 늦은 이벤트는 공유 record() 가드가 알림. | RECON-01/02/03 | ✅ **완료** (GOAL ACHIEVED 6/6, 456 tests green) |
 
 ### 범위 밖 (다음 슬라이스 → 각 별도)
 
