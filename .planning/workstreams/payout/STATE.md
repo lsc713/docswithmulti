@@ -7,17 +7,17 @@ created: 2026-08-04
 
 ## Current Position
 
-**Status:** Phase 1 complete
-**Current Phase:** 01-paid-tracer (complete)
+**Status:** Phase 2 in progress
+**Current Phase:** 02-hardening (in progress)
 **Last Activity:** 2026-08-05
-**Last Activity Description:** 01-03 INV-01 gate — settlement-only confinement INV01_PASS + 4-module no-regression 501/501 green
+**Last Activity Description:** 02-01 PAY-02 — 중복/경합 approve() → 409-return-existing (uk_payout_settlement + DIVE→409 catch, 이중지급 차단). PayoutApproveHardeningIntegrationTest 6/6 + 전체 settlement-service suite green
 
 ## Progress
 
 **Phases Complete:** 1
-**Current Plan:** Phase 1 done (01-01, 01-02, 01-03) — next: Phase 2 (double-payout guard + retry + edge hardening)
+**Current Plan:** 02-01 done (PAY-02 double-pay guard) — next: 02-02, 02-03
 
 ## Session Continuity
 
-**Stopped At:** Completed 01-03-PLAN.md (Phase 1 INV-01 gate)
+**Stopped At:** Completed 02-01-PLAN.md (PAY-02 409-return-existing)
 **Resume File:** None
