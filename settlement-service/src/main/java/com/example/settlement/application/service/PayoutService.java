@@ -3,6 +3,7 @@ package com.example.settlement.application.service;
 import com.example.settlement.application.exception.InvalidPayoutAccountException;
 import com.example.settlement.application.exception.MerchantPayoutAccountNotFoundException;
 import com.example.settlement.application.exception.PayoutAccountInactiveException;
+import com.example.settlement.application.exception.PayoutAlreadyExistsException;
 import com.example.settlement.application.exception.PayoutNotFoundException;
 import com.example.settlement.application.exception.PayoutNotPayableException;
 import com.example.settlement.application.exception.SettlementNotFoundException;
@@ -14,6 +15,7 @@ import com.example.settlement.domain.entity.MerchantPayoutAccount;
 import com.example.settlement.domain.entity.Payout;
 import com.example.settlement.domain.entity.Settlement;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,13 +83,25 @@ public class PayoutService {
         }
         MerchantPayoutAccount account = accountRepo.findActive(s.getMerchantId())
             .orElseThrow(() -> new PayoutAccountInactiveException(s.getMerchantId()));
-        if (payoutRepo.findBySettlementId(settlementId).isPresent()) {
-            throw new PayoutNotPayableException("이미 지급 건이 존재합니다. settlement=" + settlementId);
-        }
+        // pre-check: 순차 재승인 → 409-return-existing(이중지급 차단)
+        payoutRepo.findBySettlementId(settlementId).ifPresent(existing -> {
+            throw new PayoutAlreadyExistsException(existing);
+        });
 
         String transferRef = "PO-" + settlementId;
-        Payout payout = payoutRepo.insertProcessing(settlementId, s.getMerchantId(), net, transferRef);
-        bankTransferPort.submit(transferRef, account, net);   // save 후 제출(strictly after)
+        Payout payout;
+        try {
+            payout = payoutRepo.insertProcessing(settlementId, s.getMerchantId(), net, transferRef);
+        } catch (DataIntegrityViolationException dup) {
+            // ponytail: approve() 는 의도적으로 비-@Transactional. @GeneratedValue(IDENTITY) 는 save() 시점에
+            // INSERT 를 flush 하므로 uk_payout_settlement 위반이 여기(catch)에서 DIVE 로 표면화된다 → 경합 패자를
+            // 409-return-existing 으로 전환. @Transactional 래퍼를 두면 INSERT 가 commit 시점으로 이동해 catch 를
+            // 벗어나고 패자가 500 으로 회귀 + submit 이 이미 발사됨(이중지급). 승자 재조회 후 409, 없으면 원 예외 재던짐.
+            Payout won = payoutRepo.findBySettlementId(settlementId)
+                .orElseThrow(() -> dup);
+            throw new PayoutAlreadyExistsException(won);
+        }
+        bankTransferPort.submit(transferRef, account, net);   // INSERT 성공 후 제출(strictly after) — 패자는 여기 도달 못함
         log.info("[payout] 승인 settlement={} transferRef={} amount={}", settlementId, transferRef, net);
         return payout;
     }
