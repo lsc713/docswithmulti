@@ -48,6 +48,7 @@ public class PayoutPollScheduler {
         }
         try {
             payoutResultService.pollStuckProcessing();
+            payoutResultService.retryFailed();   // RETRY-01: 같은 락 안에서 FAILED 재시도/DEAD — 새 빈 없음
         } finally {
             if (lock.isHeldByCurrentThread()) {
                 lock.unlock();
