@@ -70,6 +70,22 @@ fail-closed)로 결제를 거부한다.
 | `ORDER_OWNERSHIP_MISMATCH` | 403 | 해당 주문에 대한 권한이 없습니다. | order-service verify 403 재매핑 |
 | `ORDER_VERIFY_UNAVAILABLE` | 503 | 주문 검증 서비스가 일시적으로 이용 불가합니다. | order-service 장애/타임아웃/비2xx/CB OPEN (fail-closed) |
 
+### 지급(payout) 오류 (settlement-service) — 계좌 설정·조회/승인/콜백 (ACCT-01/ACCT-02/PAY-01/PAY-03/CONFIRM-01)
+
+settlement-service `ErrorCode` enum(모듈 별도 원본, payment/order 의 `ErrorCode`와 무관)에서 관리.
+envelope는 `{code, message}`(`GlobalExceptionHandler` → `BusinessException`). 정산 헤더 없음은
+기존 `SETTLEMENT_NOT_FOUND`(404) 재사용.
+
+| code | 상태코드 | message | 발생 지점 · 의미 |
+|------|---------|---------|-----------------|
+| `INVALID_PAYOUT_ACCOUNT` | 400 | 지급 계좌 정보가 올바르지 않습니다. | 계좌 upsert 시 bankCode/accountNumber/holderName 공백 |
+| `PAYOUT_NOT_PAYABLE` | 400 | 지급 승인할 수 없는 정산입니다. | 승인 가드: FINALIZED 아님 / net ≤ 0 / 이미 지급 존재 |
+| `PAYOUT_ACCOUNT_INACTIVE` | 400 | 활성 지급 계좌가 없습니다. | 승인 시 가맹점 활성 지급 계좌 미설정 |
+| `PAYOUT_SIGNATURE_INVALID` | 401 | 지급 콜백 서명이 유효하지 않습니다. | webhook X-Bank-Signature 불일치 (상태 무변경) |
+| `PAYOUT_ALREADY_EXISTS` | 409 | 이미 지급 건이 존재합니다. | 승인 시 정산에 이미 payout 존재(uk_payout_settlement) — 순차 재승인 또는 경합 패자. 바디는 기존 payout(id/status/amount, PayoutResponse) — 전용 핸들러가 {code,message} 대신 반환 |
+| `PAYOUT_ACCOUNT_NOT_FOUND` | 404 | 지급 계좌를 찾을 수 없습니다. | GET 계좌 조회 시 활성 계좌 없음 (ACCT-02) |
+| `PAYOUT_NOT_FOUND` | 404 | 지급 건을 찾을 수 없습니다. | GET 지급 조회 시 정산 헤더의 지급 건 없음 (PAY-03) |
+
 ### 요청 형식 오류 (400)
 
 | code | message | detail |
