@@ -51,6 +51,11 @@ export const api = {
   updateCartItem: (skuId, quantity) => req(`/v1/cart/items/${skuId}`, { method: 'PATCH', body: { quantity }, csrf: true }),
   removeCartItem: (skuId)        => req(`/v1/cart/items/${skuId}`, { method: 'DELETE', csrf: true }),
   clearCart:      ()             => req('/v1/cart', { method: 'DELETE', csrf: true }),
+
+  cancelRequests: (status = 'REQUESTED') => req(`/v1/cancel-requests?status=${status}`),
+  approveCancel:  (id) => req(`/v1/cancel-requests/${id}/approve`, { method: 'POST', csrf: true }),
+  rejectCancel:   (id, decisionReason) =>
+    req(`/v1/cancel-requests/${id}/reject`, { method: 'POST', body: { decisionReason }, csrf: true }),
 }
 
 export async function putToS3(uploadUrl, file) {

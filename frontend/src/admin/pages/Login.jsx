@@ -13,7 +13,7 @@ export default function Login() {
     try {
       await api.login(form)
       const me = await api.me()
-      if (me.role !== 'ADMIN') { setErr('관리자 권한이 없습니다.'); return }
+      if (!['ADMIN', 'MERCHANT'].includes(me.role)) { setErr('관리자/판매자 권한이 없습니다.'); return }
       navigate('/admin', { replace: true })
     } catch (e) { setErr(e.message) }
   }
