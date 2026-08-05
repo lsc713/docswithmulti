@@ -46,11 +46,14 @@ last_updated: 2026-08-04
   2. FAILED payout을 폴 스케줄러가 재제출한다(attempt_count<max, transfer_ref 동일 → 목 은행 dedup, PROCESSING 복귀). attempt_count≥max → 종단 FAILED + `OperationAlertPort` 알림 1회(재알림 억제).
   3. 웹훅 서명 불일치 → 401·상태불변. 웹훅과 폴이 같은 payout에 도착 → `applyResult` status-guarded UPDATE로 종단 1회만 반영(둘째 0행 no-op), 중복콜백 멱등.
   4. INV-01 재검증 — settlement-only diff, Flyway V2만, 4모듈 무회귀.
-**Plans**: TBD
+**Plans**: 3 plans (순차 — 같은 worktree gradle 테스트 레이스 회피)
+- [ ] 02-01-PLAN.md — PAY-02: 중복/경합 승인 → 409(기존 payout 반환), DIVE→409 race-loser, 3개 400 가드·404 유지
+- [ ] 02-02-PLAN.md — RETRY-01: FAILED 재시도(claim+resubmit, transfer_ref 동일)·종단 DEAD·알림 1회, 기존 poll 틱 배선
+- [ ] 02-03-PLAN.md — INV-01 재검증 게이트(settlement-only·V2만·V3 없음)·4모듈 무회귀
 
 ## Progress
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. 계좌 + 승인·제출 + 확인→PAID | 3/3 | Complete | 2026-08-05 |
-| 2. 이중지급 방지 + 실패 재시도 + 엣지 | 0/? | Not started | - |
+| 2. 이중지급 방지 + 실패 재시도 + 엣지 | 0/3 | Planned | - |
