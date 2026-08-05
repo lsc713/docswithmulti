@@ -61,6 +61,9 @@ payout:
     url: ${PAYOUT_BANK_URL:http://localhost:9099}       # !local BankTransferHttpClient stub 대상
   poll:
     grace-seconds: 60                       # PROCESSING updated_at < now-grace 만 poll 대상
+  retry:
+    max-attempts: 5                         # FAILED 재제출 상한 — attempt_count >= max 면 DEAD 전이(cancel-restore dead-threshold 미러)
+    grace-seconds: 60                       # FAILED updated_at < now-grace 만 재시도 대상(backoff)
 
 logging:
   level:

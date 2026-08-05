@@ -40,7 +40,23 @@ public class PayoutRepositoryImpl implements PayoutRepository {
     }
 
     @Override
+    public List<Payout> findRetryableFailed(Instant cutoff) {
+        return jpa.findByStatusAndUpdatedAtBefore("FAILED", cutoff)
+            .stream().map(PayoutJpaEntity::toDomain).toList();
+    }
+
+    @Override
     public int applyResult(String transferRef, String result, String err) {
         return jpa.applyResult(transferRef, result, err);
+    }
+
+    @Override
+    public int claimForRetry(String transferRef, int max) {
+        return jpa.claimForRetry(transferRef, max);
+    }
+
+    @Override
+    public int markDeadIfExhausted(String transferRef, int max, String err) {
+        return jpa.markDeadIfExhausted(transferRef, max, err);
     }
 }
