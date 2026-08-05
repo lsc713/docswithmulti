@@ -9,6 +9,7 @@ function leaves(tree) {
 
 export default function Dashboard() {
   const [stats, setStats] = useState({ users: '—', categories: '—', products: '—' })
+  const [pending, setPending] = useState('—')
 
   useEffect(() => {
     (async () => {
@@ -22,6 +23,9 @@ export default function Dashboard() {
         products: counts.reduce((a, b) => a + b, 0),
       })
     })().catch(() => { /* 카드에 — 유지 */ })
+    api.cancelRequests('REQUESTED')
+      .then(r => setPending((r.items ?? []).length))
+      .catch(() => setPending('—'))
   }, [])
 
   return (
@@ -31,6 +35,7 @@ export default function Dashboard() {
         <div className="admin-card"><div className="num">{stats.users}</div><div className="label">총 회원 수</div></div>
         <div className="admin-card"><div className="num">{stats.categories}</div><div className="label">카테고리 수</div></div>
         <div className="admin-card"><div className="num">{stats.products}</div><div className="label">상품 총수</div></div>
+        <div className="admin-card"><div className="num">{pending}</div><div className="label">대기 중 취소요청</div></div>
       </div>
     </>
   )
