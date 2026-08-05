@@ -518,6 +518,58 @@ class GatewayRoutingIT {
         userDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
+    // === Task 7 (cancel-approval P1): /v1/cancel-requests secured route → payment downstream ===
+
+    @Test
+    void cancelRequests_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/cancel-requests"))).GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        assertThat(res.body()).contains("TOKEN_MISSING");
+        paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void cancelRequests_validJwt_routesToPaymentDownstream_withTrustHeaderInjected() throws Exception {
+        paymentDownstream.stubFor(get(urlPathEqualTo("/v1/cancel-requests"))
+                .willReturn(aResponse().withStatus(200).withBody("[]")));
+
+        String token = accessToken(42L, "USER", null);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/cancel-requests")))
+                        .header("Authorization", "Bearer " + token)
+                        .header(JwtTrustHeaderFilter.H_USER_ID, "9999") // 위조 → strip
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        paymentDownstream.verify(getRequestedFor(urlPathEqualTo("/v1/cancel-requests"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ID, equalTo("42")));
+        orderDownstream.verify(0, anyRequestedFor(anyUrl()));
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    // 생성 경로는 /v1/payments/** predicate가 이미 커버 — 별도 라우트 없이도 라우팅됨을 증명.
+    @Test
+    void cancelRequestsCreate_validJwt_routesToPaymentDownstream_coveredByPaymentsRoute() throws Exception {
+        paymentDownstream.stubFor(post(urlPathMatching("/v1/payments/.*/cancel-requests"))
+                .willReturn(aResponse().withStatus(201).withBody("{\"id\":1}")));
+
+        String token = accessToken(42L, "USER", 7L);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payments/PK123/cancel-requests")))
+                        .header("Authorization", "Bearer " + token)
+                        .POST(HttpRequest.BodyPublishers.noBody())
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(201);
+        paymentDownstream.verify(postRequestedFor(urlPathMatching("/v1/payments/.*/cancel-requests"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ID, equalTo("42")));
+    }
+
     private String gateway(String path) {
         return "http://localhost:" + gatewayPort + path;
     }

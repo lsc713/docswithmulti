@@ -28,12 +28,14 @@ public enum ErrorCode {
     PAYMENT_NOT_FOUND("PAYMENT_NOT_FOUND", 404, "결제 정보를 찾을 수 없습니다."),
     PAYMENT_ITEM_NOT_FOUND("PAYMENT_ITEM_NOT_FOUND", 404, "취소 항목을 찾을 수 없습니다."),
     ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", 404, "주문 항목을 찾을 수 없습니다."),
+    CANCEL_APPROVAL_NOT_FOUND("CANCEL_APPROVAL_NOT_FOUND", 404, "취소 승인 요청을 찾을 수 없습니다."),
 
     // 409 - 멱등 중복 / 재고 부족
     IDEMPOTENT_DUPLICATION("IDEMPOTENT_DUPLICATION", 409, "이미 처리된 요청입니다."),
     STOCK_INSUFFICIENT("STOCK_INSUFFICIENT", 409, "재고가 부족하여 결제를 생성할 수 없습니다."),
     IDEMPOTENCY_KEY_CONFLICT("IDEMPOTENCY_KEY_CONFLICT", 409, "이미 다른 요청에 사용된 Idempotency-Key입니다."),
     ORDER_ITEMS_MULTIPLE_ORDERS("ORDER_ITEMS_MULTIPLE_ORDERS", 409, "요청된 항목이 여러 주문에 걸쳐 있습니다."),
+    CANCEL_APPROVAL_CONFLICT("CANCEL_APPROVAL_CONFLICT", 409, "이미 진행 중이거나 결정된 취소 승인 요청입니다."),
 
     // 422 - 비즈니스 규칙 위반
     INVALID_PAYMENT_STATUS("INVALID_PAYMENT_STATUS", 422, "현재 결제 상태에서는 취소할 수 없습니다."),
