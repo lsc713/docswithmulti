@@ -17,7 +17,7 @@ last_updated: 2026-08-04
 
 ## Phases
 
-- [ ] **Phase 1: 계좌 + 승인·제출 + 확인→PAID (tracer)** - 계좌 설정, FINALIZED 승인→목 이체 제출, 웹훅/폴로 PROCESSING→PAID 종단 관통, settlement-only 증명
+- [x] **Phase 1: 계좌 + 승인·제출 + 확인→PAID (tracer)** - 계좌 설정, FINALIZED 승인→목 이체 제출, 웹훅/폴로 PROCESSING→PAID 종단 관통, settlement-only 증명
 - [ ] **Phase 2: 이중지급 방지 + 실패 재시도 + 엣지 하드닝** - 중복승인 409·net 가드, FAILED 재시도·DEAD+알림, 웹훅 서명·순서무관 수렴 멱등, INV 게이트
 
 ## Phase Details
@@ -33,9 +33,9 @@ last_updated: 2026-08-04
   4. `BankTransferPort` + `@Profile("local") MockBankTransferClient`가 이체를 시뮬레이션한다(payment PgCancelPort 패턴). settlement-service에 Redis(Redisson)·HTTP 클라이언트가 배선되고 Testcontainers(MySQL+Redis)로 기동한다.
   5. payment/order/product/merchant diff 0 — payout은 settlement-service 국한, Flyway V2만 추가(V1 무변경), 기존 정산·리컨실 통합테스트 무회귀. merge-base git diff 게이트가 증명한다.
 **Plans**: 3 plans (tracer-first)
-- [ ] 01-01-PLAN.md — E2E 트레이서: 계좌 upsert → FINALIZED 승인·목 제출 → 서명 웹훅/폴 → PROCESSING→PAID (ACCT-01·PAY-01·CONFIRM-01/02/03·MOCK-01)
-- [ ] 01-02-PLAN.md — 확장: GET 계좌/payout(404)·빈값 400·순서무관 수렴 멱등 (ACCT-02·PAY-03·CONFIRM-03)
-- [ ] 01-03-PLAN.md — INV-01 게이트(settlement-only)·4모듈 무회귀
+- [x] 01-01-PLAN.md — E2E 트레이서: 계좌 upsert → FINALIZED 승인·목 제출 → 서명 웹훅/폴 → PROCESSING→PAID (ACCT-01·PAY-01·CONFIRM-01/02/03·MOCK-01)
+- [x] 01-02-PLAN.md — 확장: GET 계좌/payout(404)·빈값 400·순서무관 수렴 멱등 (ACCT-02·PAY-03·CONFIRM-03)
+- [x] 01-03-PLAN.md — INV-01 게이트(settlement-only)·4모듈 무회귀
 
 ### Phase 2: 이중지급 방지 + 실패 재시도 + 엣지 하드닝
 **Goal**: 중복 승인·경합에서 이중지급을 막고, 이체 실패를 재시도·종단 처리하며, 웹훅 서명·순서무관 수렴을 멱등하게 보장한다.
@@ -52,5 +52,5 @@ last_updated: 2026-08-04
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. 계좌 + 승인·제출 + 확인→PAID | 0/3 | Planned | - |
+| 1. 계좌 + 승인·제출 + 확인→PAID | 3/3 | Complete | 2026-08-05 |
 | 2. 이중지급 방지 + 실패 재시도 + 엣지 | 0/? | Not started | - |
