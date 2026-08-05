@@ -18,7 +18,7 @@ last_updated: 2026-08-04
 ## Phases
 
 - [x] **Phase 1: 계좌 + 승인·제출 + 확인→PAID (tracer)** - 계좌 설정, FINALIZED 승인→목 이체 제출, 웹훅/폴로 PROCESSING→PAID 종단 관통, settlement-only 증명
-- [ ] **Phase 2: 이중지급 방지 + 실패 재시도 + 엣지 하드닝** - 중복승인 409·net 가드, FAILED 재시도·DEAD+알림, 웹훅 서명·순서무관 수렴 멱등, INV 게이트
+- [x] **Phase 2: 이중지급 방지 + 실패 재시도 + 엣지 하드닝** ✅ GOAL ACHIEVED (4/4, settlement-only, 513 tests green) - 중복승인 409·net 가드, FAILED 재시도·DEAD+알림, 웹훅 서명·순서무관 수렴 멱등, INV 게이트
 
 ## Phase Details
 
