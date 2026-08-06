@@ -7,7 +7,6 @@ import com.example.payment.common.exception.domain.CancelNotAuthorizedException;
 import com.example.payment.common.exception.domain.DuplicateCancelRequestException;
 import com.example.payment.domain.entity.CancelApproval;
 import com.example.payment.domain.entity.CancelApprovalStatus;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -40,16 +39,14 @@ class CancelApprovalControllerIT {
     @Mock CancelApprovalUseCase useCase;
 
     MockMvc mockMvc;
-    ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
-        objectMapper = new ObjectMapper();
         CancelApprovalController controller = new CancelApprovalController(useCase);
         mockMvc = MockMvcBuilders
             .standaloneSetup(controller)
             .setControllerAdvice(new GlobalExceptionHandler())
-            .setMessageConverters(new MappingJackson2HttpMessageConverter(objectMapper))
+            .setMessageConverters(new JacksonJsonHttpMessageConverter())
             .build();
     }
 
@@ -75,7 +72,9 @@ class CancelApprovalControllerIT {
             .andExpect(status().isCreated())
             .andExpect(jsonPath("$.id").value(1))
             .andExpect(jsonPath("$.paymentKey").value("pay_001"))
-            .andExpect(jsonPath("$.status").value("REQUESTED"));
+            .andExpect(jsonPath("$.status").value("REQUESTED"))
+            .andExpect(jsonPath("$.requesterUserId").value(7))
+            .andExpect(jsonPath("$.createdAt").exists());
 
         ArgumentCaptor<AuthenticatedUser> captor = ArgumentCaptor.forClass(AuthenticatedUser.class);
         verify(useCase).request(eq("pay_001"), captor.capture(), eq("고객 변심"));
@@ -121,7 +120,9 @@ class CancelApprovalControllerIT {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.items.length()").value(2))
             .andExpect(jsonPath("$.items[0].paymentKey").value("pay_001"))
-            .andExpect(jsonPath("$.items[1].paymentKey").value("pay_002"));
+            .andExpect(jsonPath("$.items[1].paymentKey").value("pay_002"))
+            .andExpect(jsonPath("$.items[0].requesterUserId").value(7))
+            .andExpect(jsonPath("$.items[0].createdAt").exists());
 
         ArgumentCaptor<AuthenticatedUser> captor = ArgumentCaptor.forClass(AuthenticatedUser.class);
         verify(useCase).list(captor.capture(), eq(CancelApprovalStatus.REQUESTED));
