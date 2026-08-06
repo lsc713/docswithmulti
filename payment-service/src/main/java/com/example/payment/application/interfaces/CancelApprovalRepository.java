@@ -10,4 +10,5 @@ public interface CancelApprovalRepository {
     Optional<CancelApproval> findById(long id);
     Optional<CancelApproval> findActiveRequestedByPaymentId(long paymentId);
     List<CancelApproval> findByStatus(CancelApprovalStatus status);
+    Optional<CancelApproval> findLatestByPaymentId(long paymentId);
 }

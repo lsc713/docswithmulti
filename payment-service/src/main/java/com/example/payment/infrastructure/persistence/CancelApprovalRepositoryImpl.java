@@ -34,4 +34,9 @@ public class CancelApprovalRepositoryImpl implements CancelApprovalRepository {
     public List<CancelApproval> findByStatus(CancelApprovalStatus status) {
         return jpa.findByStatus(status.name()).stream().map(CancelApprovalJpaEntity::toDomain).toList();
     }
+
+    @Override
+    public Optional<CancelApproval> findLatestByPaymentId(long paymentId) {
+        return jpa.findFirstByPaymentIdOrderByIdDesc(paymentId).map(CancelApprovalJpaEntity::toDomain);
+    }
 }
