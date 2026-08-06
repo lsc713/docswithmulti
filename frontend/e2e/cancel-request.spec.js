@@ -65,9 +65,13 @@ test('USER 직접취소 403 회귀: 로그인 상태로 POST /v1/payments/{key}/
   await login(page, USER)
   const paymentKey = await buyOneItem(page)
 
+  // 유효한 취소 바디를 보내 @Valid 400을 배제 → authz 가 실제로 실행되어 403 이 인가 거부임을 보장.
+  // (authz 는 paymentKey/role 만 사용하고 바디는 그 뒤에 쓰이므로 item id 실제 매칭 불필요.)
   const res = await page.request.post(`${GW}/v1/payments/${paymentKey}/cancel`, {
-    data: {},
+    data: { cancelReason: 'USER 직접취소 시도', cancelItems: [{ paymentItemId: 1 }] },
     headers: { 'X-CSRF-Token': await csrfToken(page) },
   })
   expect(res.status()).toBe(403)
+  // CSRF 실패(CSRF_TOKEN_INVALID)와 구분 — 403 이 도메인 인가 거부(FORBIDDEN_PAYMENT)임을 확정.
+  expect((await res.json()).code).toBe('FORBIDDEN_PAYMENT')
 })

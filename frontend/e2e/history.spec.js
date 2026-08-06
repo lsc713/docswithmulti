@@ -8,8 +8,8 @@ test.beforeAll(async ({ request }) => {
   await request.post(`${GW}/v1/auth/signup`, { data: USER }).catch(() => {})
 })
 
-test('주문내역: 구매 → 내역 → 자가취소 → CANCELLED', async ({ page }) => {
-  page.on('dialog', d => d.accept('E2E 취소'))          // window.prompt 자동 수락
+test('주문내역: 구매 → 내역 → 취소 요청 → 취소 요청됨', async ({ page }) => {
+  page.on('dialog', d => d.accept('E2E 취소 요청'))       // window.prompt(사유) 자동 수락
 
   await page.goto(BASE)
   await page.click('.navbar-right button')               // 로그인
@@ -29,11 +29,11 @@ test('주문내역: 구매 → 내역 → 자가취소 → CANCELLED', async ({ 
   await page.click('.checkout .pay-btn')
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
 
-  // 주문내역 → 취소하기 → CANCELLED
+  // 주문내역 → 취소 요청 → 취소 요청됨 (P3: 즉시취소 대신 승인 요청 제출)
   await page.click('text=쇼핑 계속하기')
   await page.click('text=주문내역')
   await expect(page.locator('.history-item').first()).toBeVisible()
   await expect(page.locator('.history-item .badge').first()).toHaveText('결제완료')
-  await page.locator('.history-item button:has-text("취소하기")').first().click()
-  await expect(page.locator('.history-item .badge').first()).toHaveText('취소됨', { timeout: 15_000 })
+  await page.locator('.history-item button:has-text("취소 요청")').first().click()
+  await expect(page.locator('.history-item .crs-badge').first()).toHaveText('취소 요청됨', { timeout: 15_000 })
 })
