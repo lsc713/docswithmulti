@@ -87,27 +87,23 @@ class CancelAuthorizationServiceTest {
     }
 
     @Test
-    @DisplayName("(5) USER + 본인 결제(payment.userId == header userId) → 1회 로드 후 통과 (P3)")
-    void user_owner_loads_once_and_passes() {
-        Payment payment = Payment.of(PAYMENT_KEY, 7L, 42L, "TOSS", BigDecimal.valueOf(30_000), "KRW", 90);
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY)).thenReturn(Optional.of(payment));
-        AuthenticatedUser user = new AuthenticatedUser("42", "USER", null);
-
-        assertThatCode(() -> service.authorize(user, PAYMENT_KEY)).doesNotThrowAnyException();
-
-        verify(paymentRepository, times(1)).findByPaymentKey(PAYMENT_KEY);
-    }
-
-    @Test
-    @DisplayName("(5b) USER + 타인 결제(payment.userId != header userId) → 1회 로드 후 403 (P3)")
-    void user_non_owner_forbidden() {
-        Payment payment = Payment.of(PAYMENT_KEY, 7L, 99L, "TOSS", BigDecimal.valueOf(30_000), "KRW", 90);
-        when(paymentRepository.findByPaymentKey(PAYMENT_KEY)).thenReturn(Optional.of(payment));
+    @DisplayName("(5) USER + 본인 결제여도 → 로드 없이 곧바로 403 (P3: 직접취소는 요청 흐름으로 전환)")
+    void user_owner_forbidden_without_load() {
         AuthenticatedUser user = new AuthenticatedUser("42", "USER", null);
 
         assertForbidden(() -> service.authorize(user, PAYMENT_KEY));
 
-        verify(paymentRepository, times(1)).findByPaymentKey(PAYMENT_KEY);
+        verify(paymentRepository, never()).findByPaymentKey(any());
+    }
+
+    @Test
+    @DisplayName("(5b) USER + 타인 결제 → 로드 없이 곧바로 403 (P3)")
+    void user_non_owner_forbidden_without_load() {
+        AuthenticatedUser user = new AuthenticatedUser("42", "USER", null);
+
+        assertForbidden(() -> service.authorize(user, PAYMENT_KEY));
+
+        verify(paymentRepository, never()).findByPaymentKey(any());
     }
 
     @Test
