@@ -116,7 +116,59 @@ class ReserveHoldIntegrationTest {
                 .submit(eq("PO-" + settlementId), any(), eq(new BigDecimal("9000.00")));
     }
 
+    @Test
+    @DisplayName("유보 정책 X(미설정): payout=net, reserve 행 0건 (하위호환)")
+    void noReserveConfig_payoutEqualsNet_noReserveRow() throws Exception {
+        long merchantId = 802L;
+        BigDecimal net = new BigDecimal("10000.00");
+        assertThat(putAccount(merchantId).statusCode()).isEqualTo(200);
+        long settlementId = seed(merchantId, net, "FINALIZED");
+
+        HttpResponse<String> res = approve(settlementId);
+        assertThat(res.statusCode()).isEqualTo(200);
+
+        BigDecimal payoutAmount = jdbc.queryForObject(
+                "SELECT amount FROM payout WHERE settlement_id = ?", BigDecimal.class, settlementId);
+        assertThat(payoutAmount).isEqualByComparingTo(net);
+        assertThat(countReserve(settlementId)).isEqualTo(0);
+        verify(bankTransferPort, times(1))
+                .submit(eq("PO-" + settlementId), any(), eq(new BigDecimal("10000.00")));
+    }
+
+    @Test
+    @DisplayName("cap 소진: 기존 HELD held≥cap → reserve=0 → payout=net, 신규 reserve 행 미생성")
+    void capExhausted_reserveZero_payoutEqualsNet() throws Exception {
+        long merchantId = 803L;
+        BigDecimal net = new BigDecimal("10000.00");
+        seedReserveConfig(merchantId, "0.1000", "1000.00", 7);   // cap 1000
+        // 기존 HELD reserve(가상의 이전 정산 9990001) 로 current_held=1000 ≥ cap 1000 → room 0
+        seedHeldReserve(9990001L, merchantId, "1000.00");
+        assertThat(putAccount(merchantId).statusCode()).isEqualTo(200);
+        long settlementId = seed(merchantId, net, "FINALIZED");
+
+        HttpResponse<String> res = approve(settlementId);
+        assertThat(res.statusCode()).isEqualTo(200);
+
+        BigDecimal payoutAmount = jdbc.queryForObject(
+                "SELECT amount FROM payout WHERE settlement_id = ?", BigDecimal.class, settlementId);
+        assertThat(payoutAmount).isEqualByComparingTo(net);
+        assertThat(countReserve(settlementId)).isEqualTo(0);   // 신규 정산엔 reserve 행 없음
+        verify(bankTransferPort, times(1))
+                .submit(eq("PO-" + settlementId), any(), eq(new BigDecimal("10000.00")));
+    }
+
     // --- helpers ---
+
+    private void seedHeldReserve(long settlementId, long merchantId, String amount) {
+        jdbc.update("""
+            INSERT INTO reserve
+                (settlement_id, merchant_id, amount, status, hold_until, transfer_ref,
+                 attempt_count, last_error, held_at, released_at, created_at, updated_at)
+            VALUES (?, ?, ?, 'HELD', ?, ?, 1, NULL,
+                    CURRENT_TIMESTAMP(3), NULL, CURRENT_TIMESTAMP(3), CURRENT_TIMESTAMP(3))
+            """, settlementId, merchantId, new BigDecimal(amount),
+            java.sql.Date.valueOf(LocalDate.now(KST).plusDays(7)), "RSV-" + settlementId);
+    }
 
     private void seedReserveConfig(long merchantId, String rate, String cap, int holdDays) {
         jdbc.update("""
