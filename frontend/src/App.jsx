@@ -24,10 +24,10 @@ export default function App() {
 
   const loadPayments = () => api.getPayments().then(setPayments).catch(() => setPayments([]))
 
-  async function handleCancel(key, items, reason) {
-    try { await api.cancelPayment(key, { cancelReason: reason, cancelItems: items }) }
+  async function handleRequestCancel(key, reason) {
+    try { await api.requestCancel(key, reason) }
     catch (e) { alert(e.message); return }
-    await loadPayments()   // 상태 갱신(CANCELLED 반영)
+    await loadPayments()   // cancelRequestStatus 갱신
   }
 
   function handleBuy(lines) {
@@ -79,7 +79,7 @@ export default function App() {
         <OrderSuccess payment={view.payment} onHome={() => setView({ name: 'home' })} />
       )}
       {view.name === 'history' && (
-        <OrderHistory payments={payments} onCancel={handleCancel} onBack={() => setView({ name: 'home' })} />
+        <OrderHistory payments={payments} onRequestCancel={handleRequestCancel} onBack={() => setView({ name: 'home' })} />
       )}
 
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)}
