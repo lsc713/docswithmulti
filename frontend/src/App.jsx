@@ -26,8 +26,8 @@ export default function App() {
 
   async function handleRequestCancel(key, reason) {
     try { await api.requestCancel(key, reason) }
-    catch (e) { alert(e.message); return }
-    await loadPayments()   // cancelRequestStatus 갱신
+    catch (e) { alert(e.message) }
+    await loadPayments()   // 성공/실패 무관 서버 상태 반영 (409 중복요청이어도 '취소 요청됨'으로 갱신)
   }
 
   function handleBuy(lines) {
