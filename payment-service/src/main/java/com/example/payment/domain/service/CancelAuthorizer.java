@@ -7,8 +7,7 @@ import com.example.payment.common.exception.domain.CancelNotAuthorizedException;
  * 정책:
  *   - ADMIN                          → 전체 허용
  *   - MERCHANT                       → headerMerchantId == targetMerchantId (둘 다 non-null)
- *   - USER + requestUserId == targetUserId (둘 다 non-null) → 본인 결제 취소 허용 (P3, 정책 전환)
- *   - 그 외(role 누락·불일치·소유 불일치·merchantId 누락) → 403
+ *   - 그 외(role 누락·불일치·소유 불일치·merchantId 누락, USER 포함) → 403
  */
 public class CancelAuthorizer {
 
@@ -20,11 +19,6 @@ public class CancelAuthorizer {
         if ("MERCHANT".equals(role)
                 && headerMerchantId != null && targetMerchantId != null
                 && headerMerchantId.equals(targetMerchantId)) {
-            return;
-        }
-        if ("USER".equals(role)
-                && requestUserId != null && targetUserId != null
-                && requestUserId.equals(targetUserId)) {
             return;
         }
         throw new CancelNotAuthorizedException();

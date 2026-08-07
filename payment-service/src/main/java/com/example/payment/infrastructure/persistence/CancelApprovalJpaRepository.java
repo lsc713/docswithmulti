@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface CancelApprovalJpaRepository extends JpaRepository<CancelApprovalJpaEntity, Long> {
     Optional<CancelApprovalJpaEntity> findFirstByPaymentIdAndStatus(long paymentId, String status);
     List<CancelApprovalJpaEntity> findByStatus(String status);
+    Optional<CancelApprovalJpaEntity> findFirstByPaymentIdOrderByIdDesc(long paymentId);
 }

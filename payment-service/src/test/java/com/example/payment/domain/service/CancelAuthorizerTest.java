@@ -46,9 +46,9 @@ class CancelAuthorizerTest {
     }
 
     @Test
-    @DisplayName("(5) USER + 본인 결제(requestUserId == targetUserId) → 통과 (P3, 정책 전환)")
-    void user_owner_authorized() {
-        assertThatCode(() -> authorizer.authorize("USER", 7L, 7L, null, null)).doesNotThrowAnyException();
+    @DisplayName("(5) USER 는 직접취소 불가 → 403 (P3: 승인 요청 흐름으로 전환)")
+    void user_direct_cancel_forbidden() {
+        assertForbidden(() -> authorizer.authorize("USER", 7L, 7L, null, null));
     }
 
     @Test

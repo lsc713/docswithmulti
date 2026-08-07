@@ -172,9 +172,7 @@ class CancelControllerTest {
     @Test
     @DisplayName("tracer: USER 역할 + 타인 결제 취소는 취소 코어 진입 전 403 + cancel never-invoked (P3, 정책 전환)")
     void user_role_non_owner_cancel_forbidden_before_core() throws Exception {
-        when(paymentRepository.findByPaymentKey("pay_001")).thenReturn(Optional.of(
-            Payment.of("pay_001", 7L, 99L, "TOSS", BigDecimal.valueOf(30_000), "KRW", 90)));
-
+        // P3: USER 는 소유 여부와 무관하게 직접취소 불가 — payment 로드 없이 곧바로 403
         mockMvcWithRealAuthz().perform(post("/v1/payments/{paymentKey}/cancel", "pay_001")
                 .header("X-User-Role", "USER")
                 .header("X-User-Id", "42")
@@ -191,13 +189,9 @@ class CancelControllerTest {
     }
 
     @Test
-    @DisplayName("tracer: USER 역할 + 본인 결제(자가취소) 는 인가 통과 후 기존 취소 플로우 진입 (P3, 정책 전환)")
-    void user_role_owner_cancel_passes_through_to_core() throws Exception {
-        when(paymentRepository.findByPaymentKey("pay_001")).thenReturn(Optional.of(
-            Payment.of("pay_001", 7L, 42L, "TOSS", BigDecimal.valueOf(30_000), "KRW", 90)));
-        when(cancelPaymentUseCase.cancel(any())).thenReturn(
-            CancelRequest.create(1L, "hashUser", BigDecimal.valueOf(30_000), "고객 변심", List.of(1L), null));
-
+    @DisplayName("tracer: USER 역할은 본인 결제여도 직접취소 불가 → 403 + cancel never-invoked (P3: 승인 요청 흐름으로 전환)")
+    void user_role_direct_cancel_forbidden() throws Exception {
+        // P3: 체크아웃 P3 의 USER 자가취소를 승인 요청 흐름으로 대체 — 본인 결제여도 직접취소 403
         mockMvcWithRealAuthz().perform(post("/v1/payments/{paymentKey}/cancel", "pay_001")
                 .header("X-User-Role", "USER")
                 .header("X-User-Id", "42")
@@ -207,9 +201,9 @@ class CancelControllerTest {
                       "cancelReason": "고객 변심",
                       "cancelItems": [{"paymentItemId": 1}]
                     }"""))
-            .andExpect(status().isOk());
+            .andExpect(status().isForbidden());
 
-        verify(cancelPaymentUseCase).cancel(any());
+        verify(cancelPaymentUseCase, never()).cancel(any());
     }
 
     @Test

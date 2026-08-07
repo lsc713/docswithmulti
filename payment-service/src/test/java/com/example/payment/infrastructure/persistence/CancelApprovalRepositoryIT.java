@@ -80,4 +80,23 @@ class CancelApprovalRepositoryIT extends AbstractRepositoryTest {
         var rejectedList = repo.findByStatus(CancelApprovalStatus.REJECTED);
         assertThat(rejectedList).extracting(CancelApproval::getId).containsExactly(toReject.getId());
     }
+
+    @Test
+    @DisplayName("findLatestByPaymentId: REQUESTED 저장 후 그 건이 조회되고, REJECTED(새 행) 저장 후에는 최신(REJECTED)이 조회된다. 승인건 없으면 empty")
+    void findLatestByPaymentId_returns_most_recent() {
+        assertThat(repo.findLatestByPaymentId(400L)).isEmpty();
+
+        CancelApproval first = repo.save(CancelApproval.request(400L, "pay_key_5", 1L, "사유1"));
+        CancelApproval latestAfterFirst = repo.findLatestByPaymentId(400L).orElseThrow();
+        assertThat(latestAfterFirst.getId()).isEqualTo(first.getId());
+        assertThat(latestAfterFirst.getStatus()).isEqualTo(CancelApprovalStatus.REQUESTED);
+
+        CancelApproval second = CancelApproval.request(400L, "pay_key_5", 1L, "재요청");
+        second.reject(9L, "ADMIN", "재고 부족");
+        CancelApproval savedSecond = repo.save(second); // 새 행, id > first, status=REJECTED
+
+        CancelApproval latest = repo.findLatestByPaymentId(400L).orElseThrow();
+        assertThat(latest.getId()).isEqualTo(savedSecond.getId());
+        assertThat(latest.getStatus()).isEqualTo(CancelApprovalStatus.REJECTED);
+    }
 }
