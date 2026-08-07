@@ -1,6 +1,7 @@
 package com.example.payment.application.service;
 
 import com.example.payment.application.exception.PaymentNotFoundException;
+import com.example.payment.application.interfaces.CancelApprovalRepository;
 import com.example.payment.application.interfaces.PaymentItemRepository;
 import com.example.payment.application.interfaces.PaymentRepository;
 import com.example.payment.application.usecase.PaymentHistoryQuery;
@@ -20,13 +21,23 @@ public class PaymentHistoryService implements PaymentHistoryQuery {
 
     private final PaymentRepository paymentRepository;
     private final PaymentItemRepository paymentItemRepository;
+    private final CancelApprovalRepository cancelApprovalRepository;
 
     @Override
     @Transactional(readOnly = true)
     public List<PaymentSummaryResponse> list(long userId, int page, int size) {
-        // ponytail: 결제당 items 조회(N+1) — 데모 규모 전제. 규모 시 배치 조회로 교체.
+        // ponytail: 결제당 items/승인건 조회(N+1) — 데모 규모 전제. 규모 시 배치 조회로 교체.
         return paymentRepository.findByUserId(userId, page, size).stream()
-            .map(p -> PaymentSummaryResponse.from(p, paymentItemRepository.findAllByPaymentIdOrderByIdAsc(p.getId())))
+            .map(p -> {
+                String crs = cancelApprovalRepository.findLatestByPaymentId(p.getId())
+                    .map(a -> switch (a.getStatus()) {
+                        case REQUESTED -> "REQUESTED";
+                        case REJECTED -> "REJECTED";
+                        default -> null;   // APPROVED → payment.status 가 CANCELLED 로 이미 표현
+                    })
+                    .orElse(null);
+                return PaymentSummaryResponse.from(p, paymentItemRepository.findAllByPaymentIdOrderByIdAsc(p.getId()), crs);
+            })
             .toList();
     }
 

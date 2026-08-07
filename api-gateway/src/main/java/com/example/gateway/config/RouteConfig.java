@@ -22,7 +22,11 @@ import static org.springframework.web.servlet.function.RequestPredicates.path;
 /**
  * 게이트웨이 라우트 (GATE-01, D-P2-5). client-facing 서비스만 노출한다:
  * <ul>
- *   <li>payment 취소(인증): /v1/payments/** → payment downstream, JwtTrustHeaderFilter 부착</li>
+ *   <li>payment 취소(인증): /v1/payments/** → payment downstream, JwtTrustHeaderFilter 부착.
+ *       POST /v1/payments/{key}/cancel-requests(취소 승인요청 생성, cancel-approval P1)는 이 predicate가
+ *       이미 커버하므로 별도 라우트 불필요</li>
+ *   <li>취소 승인요청 조회/승인/반려(인증): /v1/cancel-requests/** → payment downstream,
+ *       JwtTrustHeaderFilter 부착(cancel-approval P1, Task 7)</li>
  *   <li>user-service 공개(토큰 불요): /v1/auth/{signup,login,refresh} → user downstream, strip만</li>
  *   <li>user-service 인증: /v1/auth/{logout,me}, /v1/admin/** → user downstream, JwtTrustHeaderFilter 부착
  *       (admin/**의 role 인가는 user-service 자체 JwtAuthenticationFilter가 재검증)</li>
@@ -49,6 +53,23 @@ public class RouteConfig {
             @Value("${gateway.downstream.payment-uri}") String paymentUri) {
         return route("payment")
                 .route(path("/v1/payments/**"), http())
+                .before(uri(paymentUri))
+                .filter(jwt)
+                .build();
+    }
+
+    /**
+     * 취소 승인요청(cancel-requests) — 인증 라우트, payment downstream. 조회/승인/반려 등
+     * {@code /v1/cancel-requests/**} 전체를 payment-service로 보낸다. 생성 경로
+     * {@code POST /v1/payments/{key}/cancel-requests}는 이미 위 paymentRoute가 커버하므로 여기서는
+     * 별도 predicate가 필요 없다(cancel-approval P1, Task 7).
+     */
+    @Bean
+    RouterFunction<ServerResponse> cancelRequestsRoute(
+            JwtTrustHeaderFilter jwt,
+            @Value("${gateway.downstream.payment-uri}") String paymentUri) {
+        return route("cancel-requests")
+                .route(path("/v1/cancel-requests/**"), http())
                 .before(uri(paymentUri))
                 .filter(jwt)
                 .build();

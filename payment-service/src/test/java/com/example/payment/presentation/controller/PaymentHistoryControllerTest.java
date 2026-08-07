@@ -48,12 +48,13 @@ class PaymentHistoryControllerTest {
     void list_returns_user_payments_with_default_paging() throws Exception {
         when(query.list(7L, 0, 20)).thenReturn(List.of(
             new PaymentSummaryResponse("pay_x", new BigDecimal("29000"), "COMPLETED", "2026-08-04T00:00", 1L,
-                List.of(new PaymentSummaryResponse.Item(3L, "티", new BigDecimal("29000"), "ACTIVE")))));
+                List.of(new PaymentSummaryResponse.Item(3L, "티", new BigDecimal("29000"), "ACTIVE")), "REQUESTED")));
 
         mockMvc.perform(get("/v1/payments").header("X-User-Id", "7"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].paymentKey").value("pay_x"))
-            .andExpect(jsonPath("$[0].items[0].paymentItemId").value(3));
+            .andExpect(jsonPath("$[0].items[0].paymentItemId").value(3))
+            .andExpect(jsonPath("$[0].cancelRequestStatus").value("REQUESTED"));
 
         verify(query).list(7L, 0, 20);
     }

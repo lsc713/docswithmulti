@@ -13,8 +13,9 @@ export default function Login() {
     try {
       await api.login(form)
       const me = await api.me()
-      if (me.role !== 'ADMIN') { setErr('관리자 권한이 없습니다.'); return }
-      navigate('/admin', { replace: true })
+      if (!['ADMIN', 'MERCHANT'].includes(me.role)) { setErr('관리자/판매자 권한이 없습니다.'); return }
+      // MERCHANT는 대시보드/상품/회원 API가 ADMIN 전용이라 취소 요청 큐로 바로 보낸다
+      navigate(me.role === 'ADMIN' ? '/admin' : '/admin/cancel-requests', { replace: true })
     } catch (e) { setErr(e.message) }
   }
 

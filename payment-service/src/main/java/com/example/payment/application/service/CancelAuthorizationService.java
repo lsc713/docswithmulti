@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
  * payment 는 이 경계를 넘어온 X-User-* 헤더 role 을 <b>무검증 신뢰</b>한다 — JWT 재검증·spring-security
  * 의존 없음 (D-P3-3). payment 로 직접 도달해 헤더를 위조하는 스푸핑은 코드가 아니라 NetworkPolicy 로 막는다.
  *
- * <p>로드 최소화 (D-P3-5): ADMIN 은 payment 로드 없이 즉시 domain 위임. USER·MERCHANT 경로에서
- * findByPaymentKey 로 대상 payment 를 read-only 1회 로드해 targetUserId/targetMerchantId 를 얻는다
- * (P3: USER 자가취소 소유 판정을 위해 USER 경로도 로드하도록 확장).
+ * <p>로드 최소화 (D-P3-5): ADMIN 은 payment 로드 없이 즉시 domain 위임. MERCHANT 경로만
+ * findByPaymentKey 로 대상 payment 를 read-only 1회 로드해 targetMerchantId 를 얻는다
+ * (USER 는 항상 403 이므로 로드하지 않는다 — 직접취소는 요청 흐름으로 전환됨, P3).
  */
 @Service
 @RequiredArgsConstructor
@@ -42,10 +42,10 @@ public class CancelAuthorizationService implements CancelAuthorizationUseCase {
         Long headerMerchantId = parseLong(user.merchantId());
         Long requestUserId = parseLong(user.userId());
 
-        // USER·MERCHANT 경로: 대상 payment read-only 1회 로드 (소유/가맹점 확인)
+        // MERCHANT 경로만: 대상 payment read-only 1회 로드 (가맹점 확인). USER 는 로드 없이 곧바로 403.
         Long targetUserId = null;
         Long targetMerchantId = null;
-        if ("USER".equals(role) || "MERCHANT".equals(role)) {
+        if ("MERCHANT".equals(role)) {
             Payment payment = paymentRepository.findByPaymentKey(paymentKey)
                 .orElseThrow(() -> new PaymentNotFoundException(paymentKey));
             targetUserId = payment.getUserId();
