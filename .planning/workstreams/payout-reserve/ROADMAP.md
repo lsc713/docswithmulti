@@ -17,7 +17,7 @@ last_updated: 2026-08-05
 
 ## Phases
 
-- [ ] **Phase 1: 유보 정책 + 승인 홀드** - reserve config(rate/cap/hold_days) + payout 승인 유보 차감(net−reserve, cap)·HELD 행·조회, 하위호환·payout 코어 무회귀
+- [x] **Phase 1: 유보 정책 + 승인 홀드** - reserve config(rate/cap/hold_days) + payout 승인 유보 차감(net−reserve, cap)·HELD 행·조회, 하위호환·payout 코어 무회귀
 - [ ] **Phase 2: 유보 릴리스 수명주기** - 만기 릴리스 스케줄러 → 자체이체 → 웹훅/폴 확인 → RELEASED, 재시도·RELEASE_DEAD, INV 게이트
 
 ## Phase Details
@@ -52,5 +52,5 @@ last_updated: 2026-08-05
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. 유보 정책 + 승인 홀드 | 0/3 | Not started | - |
+| 1. 유보 정책 + 승인 홀드 | 3/3 | Complete (INV-01 PASS) | 2026-08-07 |
 | 2. 유보 릴리스 수명주기 | 0/? | Not started | - |
