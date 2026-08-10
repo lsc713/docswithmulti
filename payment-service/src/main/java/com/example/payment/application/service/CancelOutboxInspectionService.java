@@ -15,10 +15,12 @@ import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelStatus;
 import com.example.payment.domain.entity.PaymentStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.util.Set;
 
 @Service
+@ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
 public class CancelOutboxInspectionService implements CancelOutboxInspectionUseCase {
 
     private static final Set<PaymentStatus> CANCELLED_PAYMENT_STATUSES = Set.of(

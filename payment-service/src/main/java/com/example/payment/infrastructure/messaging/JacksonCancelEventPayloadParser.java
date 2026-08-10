@@ -18,7 +18,11 @@ public class JacksonCancelEventPayloadParser implements CancelEventPayloadParser
 
     private final ObjectMapper objectMapper;
 
-    public JacksonCancelEventPayloadParser(ObjectMapper objectMapper) {
+    public JacksonCancelEventPayloadParser() {
+        this(new ObjectMapper());
+    }
+
+    JacksonCancelEventPayloadParser(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

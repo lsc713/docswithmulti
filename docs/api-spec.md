@@ -310,3 +310,66 @@ GET /v1/payments/{paymentKey}/cancels
 | `CANCELLED` | 취소됨 (아이템 단위 전액 취소) |
 
 > 부분취소는 지원하지 않는다. 아이템은 ACTIVE → CANCELLED만 전이된다.
+
+---
+
+## 4. DEAD 취소 outbox 상태 검사 (내부 운영자 전용)
+
+이 API는 원본 outbox와 주문·재고의 현재 상태를 읽기만 하며 Kafka 발행이나 DB 쓰기를
+수행하지 않는다. public API Gateway에는 노출하지 않는다.
+
+```http
+GET /internal/cancel-outbox/{outboxId}
+X-User-Role: ADMIN
+X-User-Id: operator-1
+```
+
+| 헤더 | 필수 | 설명 |
+|------|------|------|
+| `X-User-Role` | 필수 | 내부 인증 경계가 주입한 `ADMIN` 역할 |
+| `X-User-Id` | 필수 | 비어 있지 않은 운영자 식별자 |
+
+### Response 200
+
+```json
+{
+  "outboxId": 6,
+  "cancelRequestId": 27,
+  "decision": "REDRIVE_REQUIRED",
+  "reasonCode": null,
+  "order": {
+    "status": "APPLIED",
+    "evidence": [
+      {"targetId": 101, "currentStatus": "CANCELLED", "actualQuantity": null, "expectedQuantity": null}
+    ]
+  },
+  "stock": {
+    "status": "NOT_APPLIED",
+    "evidence": [
+      {"targetId": 8, "currentStatus": "RESERVED", "actualQuantity": 1, "expectedQuantity": 2}
+    ]
+  }
+}
+```
+
+`decision`은 다음 네 값 중 하나다.
+
+| 값 | 의미 |
+|----|------|
+| `REDRIVE_REQUIRED` | 주문 또는 재고에 아직 적용되지 않아 재발행 후보임 |
+| `ALREADY_APPLIED` | 주문과 재고에 모두 적용돼 재발행이 필요 없음 |
+| `NOT_ELIGIBLE` | 원본 상태나 payload가 안전 조건을 충족하지 않음 |
+| `UNKNOWN` | downstream 장애로 안전하게 판단할 수 없음 |
+
+각 레그의 `status`는 `APPLIED`, `NOT_APPLIED`, `INCONSISTENT`, `UNKNOWN` 중 하나다.
+의존 서비스 timeout, 5xx 또는 CircuitBreaker open은 레그와 전체 판정을 `UNKNOWN`으로
+fail-closed 처리하며 `ALREADY_APPLIED`로 추정하지 않는다. 안전 조건에서 단락된 경우
+`order`와 `stock`은 `null`일 수 있다. 응답에는 원본 payload와 payment key를 포함하지 않는다.
+
+### Error responses
+
+| HTTP | code | 조건 |
+|------|------|------|
+| 401 | `INTERNAL_AUTHENTICATION_REQUIRED` | 내부 역할 헤더가 없거나 비어 있음 |
+| 403 | `CANCEL_OUTBOX_REDRIVE_FORBIDDEN` | 운영자 식별자가 없거나 역할이 `ADMIN`이 아님 |
+| 404 | `CANCEL_OUTBOX_NOT_FOUND` | 해당 outbox가 존재하지 않음 |
