@@ -20,15 +20,20 @@ public enum ErrorCode {
     EMPTY_CANCEL_ITEMS("EMPTY_CANCEL_ITEMS", 400, "취소 항목이 비어있습니다."),
     INVALID_CANCEL_AMOUNT("INVALID_CANCEL_AMOUNT", 400, "취소 금액은 1원 이상이어야 합니다."),
 
+    // 401 - 내부 인증 오류
+    INTERNAL_AUTHENTICATION_REQUIRED("INTERNAL_AUTHENTICATION_REQUIRED", 401, "내부 인증 정보가 필요합니다."),
+
     // 403 - 인가 오류
     FORBIDDEN_PAYMENT("FORBIDDEN_PAYMENT", 403, "해당 결제에 대한 취소 권한이 없습니다."),
     ORDER_OWNERSHIP_MISMATCH("ORDER_OWNERSHIP_MISMATCH", 403, "해당 주문에 대한 권한이 없습니다."),
+    CANCEL_OUTBOX_REDRIVE_FORBIDDEN("CANCEL_OUTBOX_REDRIVE_FORBIDDEN", 403, "취소 아웃박스 복구 권한이 없습니다."),
 
     // 404 - 리소스 없음
     PAYMENT_NOT_FOUND("PAYMENT_NOT_FOUND", 404, "결제 정보를 찾을 수 없습니다."),
     PAYMENT_ITEM_NOT_FOUND("PAYMENT_ITEM_NOT_FOUND", 404, "취소 항목을 찾을 수 없습니다."),
     ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", 404, "주문 항목을 찾을 수 없습니다."),
     CANCEL_APPROVAL_NOT_FOUND("CANCEL_APPROVAL_NOT_FOUND", 404, "취소 승인 요청을 찾을 수 없습니다."),
+    CANCEL_OUTBOX_NOT_FOUND("CANCEL_OUTBOX_NOT_FOUND", 404, "취소 아웃박스를 찾을 수 없습니다."),
 
     // 409 - 멱등 중복 / 재고 부족
     IDEMPOTENT_DUPLICATION("IDEMPOTENT_DUPLICATION", 409, "이미 처리된 요청입니다."),

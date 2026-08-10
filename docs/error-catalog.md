@@ -46,6 +46,16 @@ envelope는 `{code, message}` (user-service `GlobalExceptionHandler`와 동일 �
 | `TOKEN_INVALID` | 인증 실패 | 서명 불일치 / JWT 형식 오류 / alg 혼동(none·비대칭 위장) |
 | `TOKEN_EXPIRED` | 인증 실패 | 만료(`exp` 경과) 토큰 |
 
+### 취소 outbox 복구 검사 오류 — payment-service 내부 API
+
+| HTTP | code | message | 발생 조건 |
+|------|------|---------|----------|
+| 401 | `INTERNAL_AUTHENTICATION_REQUIRED` | 내부 인증 정보가 필요합니다. | `X-User-Role` 누락 또는 공백 |
+| 403 | `CANCEL_OUTBOX_REDRIVE_FORBIDDEN` | 취소 아웃박스 복구 권한이 없습니다. | 비-ADMIN 역할 또는 운영자 식별자 누락·공백 |
+| 404 | `CANCEL_OUTBOX_NOT_FOUND` | 취소 아웃박스를 찾을 수 없습니다. | 요청한 outbox ID가 존재하지 않음 |
+
+내부 검사 응답과 오류 메시지는 원본 payload, payment key, 내부 예외 문자열을 노출하지 않는다.
+
 ### 주문 검증 오류 (order-service) — `POST /v1/orders/items:verify` (내부 전용, OVER-01)
 
 order-service `ErrorCode` enum(모듈 별도 원본, payment의 `ErrorCode`와 무관)에서 관리. envelope는 `{code, message}`.
@@ -198,12 +208,17 @@ public enum ErrorCode {
     INVALID_CANCEL_AMOUNT("INVALID_CANCEL_AMOUNT", 400, "취소 금액은 1원 이상이어야 합니다."),
     COMPENSATION_MERCHANT_MISMATCH("COMPENSATION_MERCHANT_MISMATCH", 400, "보상 요청의 가맹점이 차감 이력과 일치하지 않습니다."),
 
+    // 401 - 내부 인증 오류
+    INTERNAL_AUTHENTICATION_REQUIRED("INTERNAL_AUTHENTICATION_REQUIRED", 401, "내부 인증 정보가 필요합니다."),
+
     // 403 - 인가 오류
     FORBIDDEN_PAYMENT("FORBIDDEN_PAYMENT", 403, "해당 결제에 대한 취소 권한이 없습니다."),
+    CANCEL_OUTBOX_REDRIVE_FORBIDDEN("CANCEL_OUTBOX_REDRIVE_FORBIDDEN", 403, "취소 아웃박스 복구 권한이 없습니다."),
 
     // 404 - 리소스 없음
     PAYMENT_NOT_FOUND("PAYMENT_NOT_FOUND", 404, "결제 정보를 찾을 수 없습니다."),
     PAYMENT_ITEM_NOT_FOUND("PAYMENT_ITEM_NOT_FOUND", 404, "취소 항목을 찾을 수 없습니다."),
+    CANCEL_OUTBOX_NOT_FOUND("CANCEL_OUTBOX_NOT_FOUND", 404, "취소 아웃박스를 찾을 수 없습니다."),
 
     // 409 - 멱등 중복
     IDEMPOTENT_DUPLICATION("IDEMPOTENT_DUPLICATION", 409, "이미 처리된 요청입니다."),
@@ -279,6 +294,9 @@ public abstract class BusinessException extends RuntimeException {
 | `MerchantCancelLimitExceededException` | `MERCHANT_CANCEL_LIMIT_EXCEEDED` |
 | `CompensationMerchantMismatchException` | `COMPENSATION_MERCHANT_MISMATCH` |
 | `DataInconsistencyException` | `INTERNAL_ERROR` |
+| `InternalAuthenticationRequiredException` | `INTERNAL_AUTHENTICATION_REQUIRED` |
+| `CancelOutboxForbiddenException` | `CANCEL_OUTBOX_REDRIVE_FORBIDDEN` |
+| `CancelOutboxNotFoundException` | `CANCEL_OUTBOX_NOT_FOUND` |
 
 ### infrastructure/exception — 외부 연동 실패
 

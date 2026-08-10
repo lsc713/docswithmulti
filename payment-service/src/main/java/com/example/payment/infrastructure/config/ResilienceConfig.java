@@ -58,6 +58,16 @@ public class ResilienceConfig {
         return registry.circuitBreaker("order-service");
     }
 
+    @Bean
+    public CircuitBreaker orderCancelStatusCircuitBreaker(CircuitBreakerRegistry registry) {
+        return registry.circuitBreaker("order-cancel-status");
+    }
+
+    @Bean
+    public CircuitBreaker stockRestoreStatusCircuitBreaker(CircuitBreakerRegistry registry) {
+        return registry.circuitBreaker("stock-restore-status");
+    }
+
     /**
      * WR-04: 조회성 호출(isCharged) 전용 CircuitBreaker.
      * validateAndReserve/compensate(쓰기·보상)와 분리해, 조회 호출의 일시적 실패율 증가가
