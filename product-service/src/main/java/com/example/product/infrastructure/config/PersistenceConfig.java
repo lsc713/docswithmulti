@@ -11,6 +11,8 @@ import com.example.product.application.interfaces.ProductRepository;
 import com.example.product.application.interfaces.ProductSkuRepository;
 import com.example.product.application.interfaces.ProductStockRepository;
 import com.example.product.application.interfaces.StockReservationRepository;
+import com.example.product.application.service.InspectCancelRestoreService;
+import com.example.product.application.usecase.InspectCancelRestoreUseCase;
 import com.example.product.infrastructure.persistence.*;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
@@ -64,6 +66,14 @@ public class PersistenceConfig {
     @Bean
     public ProcessedCancelEventRepository processedCancelEventRepository(ProcessedCancelEventJpaRepository jpa) {
         return new ProcessedCancelEventRepositoryImpl(jpa);
+    }
+
+    @Bean
+    public InspectCancelRestoreUseCase inspectCancelRestoreUseCase(
+        ProcessedCancelEventRepository processedCancelEventRepository,
+        StockReservationRepository stockReservationRepository) {
+        return new InspectCancelRestoreService(
+            processedCancelEventRepository, stockReservationRepository);
     }
 
     @Bean
