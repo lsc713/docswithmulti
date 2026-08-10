@@ -85,7 +85,7 @@ public class OutboxDataSourceConfig {
 
     @Bean
     @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
-    public com.example.payment.application.interfaces.CancelEventOutboxRepository cancelEventOutboxRepository(
+    public com.example.payment.infrastructure.persistence.CancelEventOutboxRepositoryImpl cancelEventOutboxRepository(
             com.example.payment.infrastructure.persistence.CancelEventOutboxJpaRepository jpaRepository,
             NamedParameterJdbcTemplate cancelOutboxJdbcTemplate) {
         return new com.example.payment.infrastructure.persistence.CancelEventOutboxRepositoryImpl(

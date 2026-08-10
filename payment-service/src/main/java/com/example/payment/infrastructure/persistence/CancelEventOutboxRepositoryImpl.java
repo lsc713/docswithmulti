@@ -1,12 +1,17 @@
 package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.application.interfaces.CancelEventOutboxRepository;
+import com.example.payment.application.interfaces.CancelOutboxSourcePort;
+import com.example.payment.domain.entity.CancelStatus;
+import com.example.payment.domain.entity.PaymentStatus;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
-public class CancelEventOutboxRepositoryImpl implements CancelEventOutboxRepository {
+public class CancelEventOutboxRepositoryImpl
+    implements CancelEventOutboxRepository, CancelOutboxSourcePort {
 
     private final CancelEventOutboxJpaRepository jpaRepository;          // insertPending — 메인 풀/TX3
     private final NamedParameterJdbcTemplate outboxJdbc;                 // find+mark — 전용 풀
@@ -34,6 +39,31 @@ public class CancelEventOutboxRepositoryImpl implements CancelEventOutboxReposit
             (rs, n) -> new PendingOutbox(
                 rs.getLong("id"), rs.getLong("cancel_request_id"), rs.getString("payload"),
                 rs.getInt("retry_count")));
+    }
+
+    @Override
+    public Optional<SourceSnapshot> findById(long outboxId) {
+        List<SourceSnapshot> rows = outboxJdbc.query("""
+            SELECT o.id AS outbox_id,
+                   o.cancel_request_id,
+                   o.payload,
+                   o.status AS outbox_status,
+                   cr.status AS cancel_status,
+                   p.status AS payment_status
+              FROM cancel_event_outbox o
+              JOIN cancel_request cr ON cr.id = o.cancel_request_id
+              JOIN payment p ON p.id = cr.payment_id
+             WHERE o.id = :outboxId
+            """,
+            new MapSqlParameterSource("outboxId", outboxId),
+            (rs, rowNum) -> new SourceSnapshot(
+                rs.getLong("outbox_id"),
+                rs.getLong("cancel_request_id"),
+                rs.getString("payload"),
+                rs.getString("outbox_status"),
+                CancelStatus.valueOf(rs.getString("cancel_status")),
+                PaymentStatus.valueOf(rs.getString("payment_status"))));
+        return rows.stream().findFirst();
     }
 
     @Override
