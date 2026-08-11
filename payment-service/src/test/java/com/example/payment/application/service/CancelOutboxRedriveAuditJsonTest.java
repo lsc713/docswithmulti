@@ -84,6 +84,26 @@ class CancelOutboxRedriveAuditJsonTest {
     }
 
     @Test
+    void unknownInspectionUsesSafeStableShapeWithoutSourceData() throws Exception {
+        JsonNode json = objectMapper.readTree(auditJson.unknownInspection());
+
+        assertThat(json.propertyNames())
+            .containsExactly("decision", "reasonCode", "order", "stock");
+        assertThat(json.get("decision").stringValue()).isEqualTo("UNKNOWN");
+        assertThat(json.get("reasonCode").stringValue()).isEqualTo("DOWNSTREAM_UNKNOWN");
+        assertThat(json.at("/order/status").stringValue()).isEqualTo("UNKNOWN");
+        assertThat(json.at("/order/evidence").isArray()).isTrue();
+        assertThat(json.at("/order/evidence").size()).isZero();
+        assertThat(json.at("/stock/status").stringValue()).isEqualTo("UNKNOWN");
+        assertThat(json.at("/stock/evidence").isArray()).isTrue();
+        assertThat(json.at("/stock/evidence").size()).isZero();
+        assertThat(json.findValue("payload")).isNull();
+        assertThat(json.findValue("paymentKey")).isNull();
+        assertThat(json.findValue("outboxId")).isNull();
+        assertThat(json.findValue("cancelRequestId")).isNull();
+    }
+
+    @Test
     void explicitAuditNamesIgnoreGlobalNamingStrategy() {
         ObjectMapper snakeCaseMapper = JsonMapper.builder()
             .propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE)
