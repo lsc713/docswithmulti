@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { runProductName } from './helpers/catalog-setup'
 import { clearCartViaApi, createPaidOrderViaApi } from './helpers/order-payment'
 import { openFirstInStockProductDetail } from './helpers/product-detail'
 
@@ -12,7 +13,7 @@ test.beforeAll(async ({ request }) => {
 
 test('장바구니: 담기 → 장바구니 → 수량수정 → 주문 미리보기 → API 결제 fixture + 서버 비움', async ({ page }) => {
   await page.goto(BASE)
-  await page.click('.navbar-right button')                 // 로그인 모달
+  await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
   await page.fill('input[placeholder="email"]', USER.email)
   await page.fill('input[placeholder="password"]', USER.password)
   await page.click('.modal button[type="submit"]')
@@ -21,7 +22,7 @@ test('장바구니: 담기 → 장바구니 → 수량수정 → 주문 미리�
   // 상품 상세(재고 있는 시드 상품을 이름으로 특정 — 다른 E2E가 만든 재고 0 상품과의 충돌 방지) → 수량 1 → 장바구니 담기
   const selection = await openFirstInStockProductDetail(
     page,
-    page.locator('.grid .card:has-text("베이직 티셔츠")')
+    page.locator('.grid .card', { has: page.getByText(runProductName(), { exact: true }) })
   )
   const { detail } = selection
   await detail.getByRole('button', { name: '장바구니 담기' }).click()

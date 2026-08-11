@@ -4,6 +4,7 @@ import { defineConfig } from '@playwright/test'
 // 이미 떠 있어야 한다. dev proxy 없음 → 브라우저가 :5173 → :8000 실제 cross-origin 호출(CORS 검증).
 export default defineConfig({
   testDir: './e2e',
+  globalSetup: './e2e/global-setup.js',
   timeout: 30_000,
   use: {
     baseURL: 'http://localhost:5173',

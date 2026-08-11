@@ -22,7 +22,7 @@ test('저니: 로그인 → 대시보드 → 상품 생성 → 상세/이미지 
   await page.fill('input[placeholder="password"]', ADMIN.password)
   await page.click('button.primary')
   await expect(page).toHaveURL(/\/admin$/)
-  await expect(page.locator('.admin-card')).toHaveCount(3)
+  await expect(page.locator('.admin-card')).toHaveCount(4)
 
   // 상품 생성 (재실행 가능하도록 이름/SKU에 타임스탬프로 유일성 부여)
   const runId = Date.now()

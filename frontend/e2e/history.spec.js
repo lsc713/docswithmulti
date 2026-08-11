@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { runProductName } from './helpers/catalog-setup'
 import { createPaidOrderViaApi } from './helpers/order-payment'
 import { openFirstInStockProductDetail } from './helpers/product-detail'
 
@@ -14,7 +15,7 @@ test('주문내역: 구매 → 내역 → 취소 요청 → 취소 요청됨', a
   page.on('dialog', d => d.accept('E2E 취소 요청'))       // window.prompt(사유) 자동 수락
 
   await page.goto(BASE)
-  await page.click('.navbar-right button')               // 로그인
+  await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
   await page.fill('input[placeholder="email"]', USER.email)
   await page.fill('input[placeholder="password"]', USER.password)
   await page.click('.modal button[type="submit"]')
@@ -23,7 +24,7 @@ test('주문내역: 구매 → 내역 → 취소 요청 → 취소 요청됨', a
   // 실 상품 선택 데이터로 API 결제 1건 생성
   const selection = await openFirstInStockProductDetail(
     page,
-    page.locator('.grid .card:has-text("베이직 티셔츠")')
+    page.locator('.grid .card', { has: page.getByText(runProductName(), { exact: true }) })
   )
   const paymentKey = await createPaidOrderViaApi(page, selection)
 

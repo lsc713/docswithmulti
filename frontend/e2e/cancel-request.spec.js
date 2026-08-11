@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { runProductName } from './helpers/catalog-setup'
 import { createPaidOrderViaApi } from './helpers/order-payment'
 import { openFirstInStockProductDetail } from './helpers/product-detail'
 
@@ -12,7 +13,7 @@ test.beforeAll(async ({ request }) => {
 
 async function login(page, user) {
   await page.goto(BASE)
-  await page.click('.navbar-right button')               // 로그인
+  await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
   await page.fill('input[placeholder="email"]', user.email)
   await page.fill('input[placeholder="password"]', user.password)
   await page.click('.modal button[type="submit"]')
@@ -23,7 +24,7 @@ async function login(page, user) {
 async function buyOneItem(page) {
   const selection = await openFirstInStockProductDetail(
     page,
-    page.locator('.grid .card:has-text("베이직 티셔츠")')
+    page.locator('.grid .card', { has: page.getByText(runProductName(), { exact: true }) })
   )
   const paymentKey = await createPaidOrderViaApi(page, selection)
   await page.goto(BASE)
