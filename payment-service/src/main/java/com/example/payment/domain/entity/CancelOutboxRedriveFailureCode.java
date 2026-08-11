@@ -1,6 +1,10 @@
 package com.example.payment.domain.entity;
 
 public enum CancelOutboxRedriveFailureCode {
+    OUTBOX_NOT_DEAD,
+    CANCEL_NOT_COMPLETED,
+    PAYMENT_NOT_CANCELLED,
+    INVALID_PAYLOAD,
     PREFLIGHT_UNKNOWN,
     KAFKA_TIMEOUT,
     KAFKA_SEND_FAILED,

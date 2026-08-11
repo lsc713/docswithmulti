@@ -101,7 +101,7 @@ class CancelOutboxRedriveTelemetryTest {
             CancelOutboxRedriveFailureCode.DOWNSTREAM_UNKNOWN);
         telemetry.executorRejected();
 
-        assertThat(appender.list).hasSize(8);
+        assertThat(appender.list).hasSize(7);
         assertEvent(0, Level.INFO, "cancel_redrive_requested", "REQUESTED");
         assertEvent(1, Level.INFO, "cancel_redrive_claimed", "REDRIVING");
         assertEvent(2, Level.INFO, "cancel_redrive_publish_acked", "REDRIVING");
@@ -122,9 +122,6 @@ class CancelOutboxRedriveTelemetryTest {
         assertThat(fields(appender.list.get(6)))
             .containsEntry("failureStage", "CONVERGENCE")
             .containsEntry("errorCode", "DOWNSTREAM_UNKNOWN");
-        assertThat(fields(appender.list.get(7)))
-            .containsExactly(Map.entry("event", "cancel_redrive_executor_rejected"));
-
         String emitted = appender.list.stream()
             .map(event -> event.getFormattedMessage() + fields(event))
             .collect(Collectors.joining("\n"));
@@ -133,6 +130,17 @@ class CancelOutboxRedriveTelemetryTest {
             .doesNotContain(SECRET_PAYLOAD)
             .doesNotContain(SECRET_PAYMENT_KEY)
             .doesNotContain(SECRET_EXCEPTION);
+    }
+
+    @Test
+    void executorRejectionIncrementsCounterWithoutEmittingALogEvent() {
+        telemetry.executorRejected();
+
+        assertThat(appender.list).isEmpty();
+        assertThat(registry.get("payment.cancel.redrive.executor.rejected.total")
+            .counter().getId().getTags()).isEmpty();
+        assertThat(registry.get("payment.cancel.redrive.executor.rejected.total")
+            .counter().count()).isEqualTo(1.0);
     }
 
     @Test

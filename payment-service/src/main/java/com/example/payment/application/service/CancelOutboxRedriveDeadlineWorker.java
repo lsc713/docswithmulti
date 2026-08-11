@@ -2,6 +2,7 @@ package com.example.payment.application.service;
 
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
 import com.example.payment.application.model.CancelOutboxDecision;
+import com.example.payment.application.model.CancelOutboxReasonCode;
 import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
 import com.example.payment.domain.entity.CancelOutboxRedriveFailureCode;
@@ -60,7 +61,7 @@ public class CancelOutboxRedriveDeadlineWorker {
                 redrive, CancelOutboxRedriveFailureCode.DOWNSTREAM_UNKNOWN, snapshot);
             case NOT_ELIGIBLE -> failConvergence(
                 redrive,
-                CancelOutboxRedriveFailureCode.valueOf(result.reasonCode().name()),
+                failureCode(result.reasonCode()),
                 snapshot);
         }
     }
@@ -78,5 +79,19 @@ public class CancelOutboxRedriveDeadlineWorker {
                 CancelOutboxRedriveFailureStage.CONVERGENCE,
                 failureCode);
         }
+    }
+
+    private static CancelOutboxRedriveFailureCode failureCode(
+        CancelOutboxReasonCode reasonCode
+    ) {
+        return switch (reasonCode) {
+            case OUTBOX_NOT_DEAD -> CancelOutboxRedriveFailureCode.OUTBOX_NOT_DEAD;
+            case CANCEL_NOT_COMPLETED -> CancelOutboxRedriveFailureCode.CANCEL_NOT_COMPLETED;
+            case PAYMENT_NOT_CANCELLED -> CancelOutboxRedriveFailureCode.PAYMENT_NOT_CANCELLED;
+            case INVALID_PAYLOAD -> CancelOutboxRedriveFailureCode.INVALID_PAYLOAD;
+            case INCONSISTENT_DOWNSTREAM_STATE ->
+                CancelOutboxRedriveFailureCode.INCONSISTENT_DOWNSTREAM_STATE;
+            case DOWNSTREAM_UNKNOWN -> CancelOutboxRedriveFailureCode.DOWNSTREAM_UNKNOWN;
+        };
     }
 }

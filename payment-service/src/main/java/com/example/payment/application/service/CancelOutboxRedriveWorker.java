@@ -6,6 +6,7 @@ import com.example.payment.application.exception.CancelEventReplayException;
 import com.example.payment.application.interfaces.CancelEventReplayPort;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
 import com.example.payment.application.interfaces.CancelOutboxSourcePort;
+import com.example.payment.application.model.CancelOutboxReasonCode;
 import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
 import com.example.payment.domain.entity.CancelOutboxRedriveFailureCode;
@@ -80,7 +81,7 @@ public class CancelOutboxRedriveWorker {
                 redrive,
                 CancelOutboxRedriveStatus.REJECTED,
                 null,
-                CancelOutboxRedriveFailureCode.valueOf(result.reasonCode().name()));
+                failureCode(result.reasonCode()));
             case REDRIVE_REQUIRED -> replay(redrive, beforeState);
             case UNKNOWN -> failPublish(
                 redrive, CancelOutboxRedriveFailureCode.PREFLIGHT_UNKNOWN, beforeState);
@@ -144,5 +145,19 @@ public class CancelOutboxRedriveWorker {
     ) {
         requireWrite(written, redrive.getId());
         telemetry.terminal(redrive, status, stage, code);
+    }
+
+    private static CancelOutboxRedriveFailureCode failureCode(
+        CancelOutboxReasonCode reasonCode
+    ) {
+        return switch (reasonCode) {
+            case OUTBOX_NOT_DEAD -> CancelOutboxRedriveFailureCode.OUTBOX_NOT_DEAD;
+            case CANCEL_NOT_COMPLETED -> CancelOutboxRedriveFailureCode.CANCEL_NOT_COMPLETED;
+            case PAYMENT_NOT_CANCELLED -> CancelOutboxRedriveFailureCode.PAYMENT_NOT_CANCELLED;
+            case INVALID_PAYLOAD -> CancelOutboxRedriveFailureCode.INVALID_PAYLOAD;
+            case INCONSISTENT_DOWNSTREAM_STATE ->
+                CancelOutboxRedriveFailureCode.INCONSISTENT_DOWNSTREAM_STATE;
+            case DOWNSTREAM_UNKNOWN -> CancelOutboxRedriveFailureCode.DOWNSTREAM_UNKNOWN;
+        };
     }
 }

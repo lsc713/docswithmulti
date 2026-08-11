@@ -18,6 +18,10 @@ import com.example.payment.domain.entity.CancelStatus;
 import com.example.payment.domain.entity.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.ArgumentCaptor;
 import tools.jackson.databind.ObjectMapper;
 
 import java.time.Clock;
@@ -25,6 +29,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
@@ -143,6 +148,35 @@ class CancelOutboxRedriveWorkerTest {
             org.mockito.ArgumentMatchers.isNull(),
             org.mockito.ArgumentMatchers.eq(
                 CancelOutboxRedriveFailureCode.INCONSISTENT_DOWNSTREAM_STATE));
+        verifyNoInteractions(sourcePort, replayPort);
+    }
+
+    @ParameterizedTest
+    @MethodSource("validNotEligibleReasons")
+    void everyValidNotEligibleReasonCompletesRejectionTelemetry(
+        CancelOutboxReasonCode reasonCode,
+        String expectedFailureCode
+    ) {
+        stubStarted(inspectionResult(CancelOutboxDecision.NOT_ELIGIBLE, reasonCode));
+        when(repository.reject(
+            org.mockito.ArgumentMatchers.eq(REDRIVE_ID),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.eq(reasonCode.name()),
+            org.mockito.ArgumentMatchers.eq(NOW)))
+            .thenReturn(true);
+        ArgumentCaptor<CancelOutboxRedriveFailureCode> code =
+            ArgumentCaptor.forClass(CancelOutboxRedriveFailureCode.class);
+
+        worker.start(REDRIVE_ID);
+
+        verify(telemetry).terminal(
+            org.mockito.ArgumentMatchers.any(CancelOutboxRedrive.class),
+            org.mockito.ArgumentMatchers.eq(CancelOutboxRedriveStatus.REJECTED),
+            org.mockito.ArgumentMatchers.isNull(),
+            code.capture());
+        org.assertj.core.api.Assertions.assertThat(code.getValue().name())
+            .isEqualTo(expectedFailureCode);
         verifyNoInteractions(sourcePort, replayPort);
     }
 
@@ -440,6 +474,17 @@ class CancelOutboxRedriveWorkerTest {
             reasonCode,
             new CancelRestoreLegSnapshot(CancelRestoreLegStatus.APPLIED, List.of()),
             new CancelRestoreLegSnapshot(CancelRestoreLegStatus.APPLIED, List.of()));
+    }
+
+    private static Stream<Arguments> validNotEligibleReasons() {
+        return Stream.of(
+            Arguments.of(CancelOutboxReasonCode.OUTBOX_NOT_DEAD, "OUTBOX_NOT_DEAD"),
+            Arguments.of(CancelOutboxReasonCode.CANCEL_NOT_COMPLETED, "CANCEL_NOT_COMPLETED"),
+            Arguments.of(CancelOutboxReasonCode.PAYMENT_NOT_CANCELLED, "PAYMENT_NOT_CANCELLED"),
+            Arguments.of(CancelOutboxReasonCode.INVALID_PAYLOAD, "INVALID_PAYLOAD"),
+            Arguments.of(
+                CancelOutboxReasonCode.INCONSISTENT_DOWNSTREAM_STATE,
+                "INCONSISTENT_DOWNSTREAM_STATE"));
     }
 
     private CancelOutboxRedrive redriving() {

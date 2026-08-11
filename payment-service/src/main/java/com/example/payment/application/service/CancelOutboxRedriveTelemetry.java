@@ -88,9 +88,6 @@ public class CancelOutboxRedriveTelemetry {
     }
 
     public void executorRejected() {
-        log.atWarn()
-            .addKeyValue("event", "cancel_redrive_executor_rejected")
-            .log("Cancel outbox redrive executor rejected task");
         registry.counter(EXECUTOR_REJECTED_COUNTER).increment();
     }
 
