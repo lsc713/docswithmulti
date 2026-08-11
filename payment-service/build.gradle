@@ -54,4 +54,6 @@ dependencies {
 
     // Redisson (분산락) — Spring Boot 4.x / Spring Framework 7.x 호환
     implementation 'org.redisson:redisson-spring-boot-starter:4.3.1'
+
+    testImplementation 'org.testcontainers:kafka:1.19.7'
 }

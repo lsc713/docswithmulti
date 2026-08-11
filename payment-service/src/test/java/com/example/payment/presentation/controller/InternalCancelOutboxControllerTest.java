@@ -13,7 +13,6 @@ import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
 import com.example.payment.domain.entity.CancelOutboxRedriveFailureStage;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -25,12 +24,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 import java.util.stream.Stream;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -60,11 +60,12 @@ class InternalCancelOutboxControllerTest {
         var redriveService = new CancelOutboxRedriveService(
             redriveRepository,
             Clock.fixed(Instant.parse("2026-08-11T00:00:00Z"), ZoneOffset.UTC));
+        var objectMapper = JsonMapper.builder().build();
         var controller = new InternalCancelOutboxController(
-            useCase, redriveService, redriveService, new InternalOperatorAccess());
+            useCase, redriveService, redriveService, new InternalOperatorAccess(), objectMapper);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
             .setControllerAdvice(new GlobalExceptionHandler())
-            .setMessageConverters(new MappingJackson2HttpMessageConverter(new ObjectMapper()))
+            .setMessageConverters(new JacksonJsonHttpMessageConverter(objectMapper))
             .build();
     }
 
@@ -122,6 +123,41 @@ class InternalCancelOutboxControllerTest {
             .andExpect(jsonPath("$.afterState").value(nullValue()))
             .andExpect(jsonPath("$.payload").doesNotExist())
             .andExpect(jsonPath("$.paymentKey").doesNotExist());
+    }
+
+    @Test
+    void adminOperatorGetsStoredAuditJsonAsObjectsInsteadOfEncodedStrings() throws Exception {
+        when(redriveRepository.findById(8L)).thenReturn(java.util.Optional.of(redrive(
+            8L, 42L, CancelOutboxRedriveStatus.RESOLVED, null,
+            "operator-1", "replay", Instant.parse("2026-08-11T00:00:00Z"),
+            Instant.parse("2026-08-11T00:00:01Z"), Instant.parse("2026-08-11T00:00:03Z"),
+            "{\"topic\":\"payment.cancelled\",\"partition\":0,\"offset\":12}", null,
+            "{\"decision\":\"REDRIVE_REQUIRED\",\"order\":{\"status\":\"NOT_APPLIED\"}}",
+            "{\"decision\":\"ALREADY_APPLIED\",\"order\":{\"status\":\"APPLIED\"}}")));
+
+        mockMvc.perform(get("/internal/cancel-outbox/redrives/8")
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "operator-1"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result.topic").value("payment.cancelled"))
+            .andExpect(jsonPath("$.result.partition").value(0))
+            .andExpect(jsonPath("$.beforeState.order.status").value("NOT_APPLIED"))
+            .andExpect(jsonPath("$.afterState.order.status").value("APPLIED"));
+    }
+
+    @Test
+    void corruptStoredAuditJsonFailsTheRequestInsteadOfReturningAString() throws Exception {
+        when(redriveRepository.findById(9L)).thenReturn(java.util.Optional.of(redrive(
+            9L, 43L, CancelOutboxRedriveStatus.REDRIVING, null,
+            "operator-1", "replay", Instant.parse("2026-08-11T00:00:00Z"),
+            Instant.parse("2026-08-11T00:00:01Z"), null,
+            "{", null, null, null)));
+
+        mockMvc.perform(get("/internal/cancel-outbox/redrives/9")
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "operator-1"))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
     }
 
     @Test
