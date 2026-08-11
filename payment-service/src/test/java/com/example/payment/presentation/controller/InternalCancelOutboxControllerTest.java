@@ -175,6 +175,20 @@ class InternalCancelOutboxControllerTest {
         verifyNoInteractions(redriveRepository);
     }
 
+    @ParameterizedTest
+    @MethodSource("unreadableRequestBodies")
+    void unreadableRequestBodyReturns400AndCreatesNoRedrive(String content) throws Exception {
+        mockMvc.perform(post("/internal/cancel-outbox/41/redrives")
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "operator-1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content))
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.code").value("INVALID_REQUEST"));
+
+        verifyNoInteractions(redriveRepository);
+    }
+
     @Test
     void requestUseCaseExceptionsMapToStable404And409Codes() throws Exception {
         when(redriveRepository.createRequested(anyLong(), any(), any(), any()))
@@ -284,6 +298,10 @@ class InternalCancelOutboxControllerTest {
             "{\"reason\":null}",
             "{\"reason\":\" \\t\\n\"}",
             "{\"reason\":\"😀" + "😀".repeat(500) + "\"}");
+    }
+
+    private static Stream<String> unreadableRequestBodies() {
+        return Stream.of("", "{\"reason\":", "null");
     }
 
     private static CancelOutboxRedrive redrive(
