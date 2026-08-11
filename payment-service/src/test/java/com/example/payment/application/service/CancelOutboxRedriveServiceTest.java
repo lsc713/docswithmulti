@@ -7,6 +7,7 @@ import com.example.payment.domain.entity.CancelOutboxRedrive;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.lang.reflect.Constructor;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -81,5 +82,14 @@ class CancelOutboxRedriveServiceTest {
 
         assertThat(service.get(7L)).isSameAs(redrive);
         verify(repository).findById(7L);
+    }
+
+    @Test
+    void requestBoundaryDependsOnlyOnRepositoryAndClock() {
+        Constructor<?>[] constructors = CancelOutboxRedriveService.class.getConstructors();
+
+        assertThat(constructors).hasSize(1);
+        assertThat(constructors[0].getParameterTypes())
+            .containsExactly(CancelOutboxRedriveRepository.class, Clock.class);
     }
 }

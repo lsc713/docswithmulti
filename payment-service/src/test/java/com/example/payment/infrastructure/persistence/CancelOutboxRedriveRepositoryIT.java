@@ -4,8 +4,11 @@ import com.example.payment.application.exception.CancelOutboxNotDeadException;
 import com.example.payment.application.exception.CancelOutboxNotFoundException;
 import com.example.payment.application.exception.RedriveAlreadyResolvedException;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
+import com.example.payment.application.service.CancelOutboxRedriveService;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import java.time.Instant;
+import java.time.Clock;
+import java.time.ZoneOffset;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -43,6 +46,25 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
         assertThat(loaded.getLastError()).isNull();
         assertThat(loaded.getBeforeState()).isNull();
         assertThat(loaded.getAfterState()).isNull();
+        assertThat(jdbc.queryForObject(
+            "SELECT status FROM cancel_event_outbox WHERE id = ?", String.class, outboxId))
+            .isEqualTo("DEAD");
+    }
+
+    @Test
+    void realRequestBoundaryPersistsRequestedWorkWithoutChangingDeadSourceWithin500Milliseconds() {
+        long outboxId = seedCancelledPaymentCompletedRequestAndDeadOutbox(9_200_150L);
+        Instant requestedAt = Instant.parse("2026-08-11T01:02:03.123456Z");
+        var service = new CancelOutboxRedriveService(
+            repository, Clock.fixed(requestedAt, ZoneOffset.UTC));
+
+        long startedAt = System.nanoTime();
+        var created = service.request(outboxId, "operator-1", "  장애 복구  ");
+        long elapsedNanos = System.nanoTime() - startedAt;
+
+        assertThat(elapsedNanos).isLessThan(500_000_000L);
+        assertThat(repository.findById(created.getId()).orElseThrow().getStatus())
+            .isEqualTo(CancelOutboxRedriveStatus.REQUESTED);
         assertThat(jdbc.queryForObject(
             "SELECT status FROM cancel_event_outbox WHERE id = ?", String.class, outboxId))
             .isEqualTo("DEAD");
