@@ -41,6 +41,9 @@ public enum ErrorCode {
     IDEMPOTENCY_KEY_CONFLICT("IDEMPOTENCY_KEY_CONFLICT", 409, "이미 다른 요청에 사용된 Idempotency-Key입니다."),
     ORDER_ITEMS_MULTIPLE_ORDERS("ORDER_ITEMS_MULTIPLE_ORDERS", 409, "요청된 항목이 여러 주문에 걸쳐 있습니다."),
     CANCEL_APPROVAL_CONFLICT("CANCEL_APPROVAL_CONFLICT", 409, "이미 진행 중이거나 결정된 취소 승인 요청입니다."),
+    CANCEL_OUTBOX_NOT_DEAD("CANCEL_OUTBOX_NOT_DEAD", 409, "DEAD 상태의 취소 아웃박스만 복구할 수 있습니다."),
+    ACTIVE_REDRIVE_EXISTS("ACTIVE_REDRIVE_EXISTS", 409, "이미 진행 중인 취소 아웃박스 복구 요청이 있습니다."),
+    REDRIVE_ALREADY_RESOLVED("REDRIVE_ALREADY_RESOLVED", 409, "이미 해결된 취소 아웃박스 복구 요청이 있습니다."),
 
     // 422 - 비즈니스 규칙 위반
     INVALID_PAYMENT_STATUS("INVALID_PAYMENT_STATUS", 422, "현재 결제 상태에서는 취소할 수 없습니다."),
