@@ -2,6 +2,7 @@ package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.application.exception.ActiveRedriveExistsException;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
+import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -81,6 +82,37 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
         assertThat(persistedRows).isZero();
     }
 
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void concurrentTryStartCallsHaveExactlyOneCasWinner() throws Exception {
+        long outboxId = seedDeadOutbox(9_300_003L);
+        long redriveId = repository.createRequested(
+            outboxId, "operator-1", "claim", Instant.parse("2026-08-11T05:02:00Z")).getId();
+        Instant startedAt = Instant.parse("2026-08-11T05:02:03.123456Z");
+        TransactionTemplate transaction = new TransactionTemplate(transactionManager);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        CountDownLatch start = new CountDownLatch(1);
+
+        try {
+            List<Future<Boolean>> futures = List.of(
+                executor.submit(() -> tryStartAfterSignal(transaction, start, redriveId, startedAt)),
+                executor.submit(() -> tryStartAfterSignal(transaction, start, redriveId, startedAt)));
+            start.countDown();
+
+            List<Boolean> results = List.of(
+                futures.get(0).get(30, TimeUnit.SECONDS),
+                futures.get(1).get(30, TimeUnit.SECONDS));
+
+            assertThat(results).containsExactlyInAnyOrder(true, false);
+            var loaded = repository.findById(redriveId).orElseThrow();
+            assertThat(loaded.getStatus()).isEqualTo(CancelOutboxRedriveStatus.REDRIVING);
+            assertThat(loaded.getStartedAt()).isEqualTo(startedAt);
+        } finally {
+            executor.shutdownNow();
+            executor.awaitTermination(30, TimeUnit.SECONDS);
+        }
+    }
+
     private Result createAfterStart(TransactionTemplate transaction, CountDownLatch start, long outboxId)
         throws InterruptedException {
         start.await(30, TimeUnit.SECONDS);
@@ -91,6 +123,14 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
         } catch (RuntimeException error) {
             return new Result(false, error);
         }
+    }
+
+    private boolean tryStartAfterSignal(
+        TransactionTemplate transaction, CountDownLatch start, long redriveId, Instant startedAt
+    ) throws InterruptedException {
+        start.await(30, TimeUnit.SECONDS);
+        return Boolean.TRUE.equals(transaction.execute(
+            status -> repository.tryStart(redriveId, startedAt)));
     }
 
     private long seedDeadOutbox(long cancelRequestId) {
