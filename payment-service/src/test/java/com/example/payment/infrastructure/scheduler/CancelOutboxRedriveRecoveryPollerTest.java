@@ -55,8 +55,10 @@ class CancelOutboxRedriveRecoveryPollerTest {
         CancelOutboxRedriveStalePublishWorker staleWorker = mock(CancelOutboxRedriveStalePublishWorker.class);
         CancelOutboxRedriveDeadlineWorker deadlineWorker = mock(CancelOutboxRedriveDeadlineWorker.class);
         CancelOutboxRedriveTaskExecutor executor = mock(CancelOutboxRedriveTaskExecutor.class);
+        Clock clock = mock(Clock.class);
         CancelOutboxRedrive unpublished = redrive(7L, null);
         CancelOutboxRedrive published = redrive(8L, "ACK");
+        when(clock.instant()).thenReturn(NOW, NOW.plusSeconds(1));
         when(repository.findExpiredUnpublished(NOW.minusSeconds(60), 37))
             .thenReturn(List.of(unpublished));
         when(repository.findExpiredPublished(NOW.minusSeconds(60), 37))
@@ -64,10 +66,11 @@ class CancelOutboxRedriveRecoveryPollerTest {
         when(executor.tryExecute(any())).thenReturn(true);
         var poller = new CancelOutboxRedriveRecoveryPoller(
             repository, staleWorker, deadlineWorker, executor,
-            Clock.fixed(NOW, ZoneOffset.UTC), 60, 37);
+            clock, 60, 37);
 
         poller.poll();
 
+        verify(clock).instant();
         var repositoryOrder = inOrder(repository);
         repositoryOrder.verify(repository).findExpiredUnpublished(NOW.minusSeconds(60), 37);
         repositoryOrder.verify(repository).findExpiredPublished(NOW.minusSeconds(60), 37);
@@ -77,8 +80,10 @@ class CancelOutboxRedriveRecoveryPollerTest {
         ArgumentCaptor<Runnable> tasks = ArgumentCaptor.forClass(Runnable.class);
         verify(executor, org.mockito.Mockito.times(2)).tryExecute(tasks.capture());
         tasks.getAllValues().get(0).run();
-        tasks.getAllValues().get(1).run();
         verify(staleWorker).expire(unpublished);
+        verify(deadlineWorker, never()).check(any());
+
+        tasks.getAllValues().get(1).run();
         verify(deadlineWorker).check(published);
     }
 
