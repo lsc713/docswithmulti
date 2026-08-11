@@ -2,6 +2,29 @@
 
 이 절차는 `DEAD` 상태인 결제 취소 outbox를 점검하고, 안전 조건을 만족할 때만 같은 이벤트를 다시 발행합니다. 모든 내부 API 호출에는 관리자 역할과 작업자 식별자가 필요합니다.
 
+## 0. 로컬 자동 smoke fixture
+
+운영 명령을 사용하기 전에 다음 테스트로 전체 흐름을 재현할 수 있습니다. 테스트는 Testcontainers의 임시 MySQL과 Kafka를 클래스 전체에서 한 번씩 사용하고, 유효한 `DEAD` 원본 행을 자동으로 시드한 뒤 실제 HTTP 인증·컨트롤러·직렬화와 dispatcher/convergence를 통과합니다. 로컬 DB의 기존 데이터는 변경하지 않습니다.
+
+```bash
+./gradlew :payment-service:test \
+  --tests 'com.example.payment.integration.CancelOutboxRedriveWorkerIT.operatorHttpFlowInspectsRequestsDispatchesAndReadsResolvedJsonObjects'
+```
+
+실행 중인 로컬 payment DB에서 수동 절차를 확인하려면 기존 `DEAD` 행을 안전한 필드만 조회해 선택합니다. 비밀번호는 명령행에 쓰지 않고 프롬프트에서 입력합니다.
+
+```bash
+docker compose exec mysql-payment \
+  mysql --user=payment --password payment_db \
+  --execute="SELECT id, status, retry_count, created_at
+               FROM cancel_event_outbox
+              WHERE status = 'DEAD'
+              ORDER BY created_at DESC
+              LIMIT 20;"
+```
+
+조회한 `id`를 아래 `OUTBOX_ID`에 사용합니다. 안전 조건을 우회하기 위해 `PENDING` 또는 `PUBLISHED` 행을 SQL로 `DEAD`로 바꾸지 않습니다. 사용할 `DEAD` 행이 없다면 위 자동 smoke fixture를 사용하거나, 로컬 환경의 정상 outbox 실패 처리로 생성된 행을 기다립니다.
+
 ## 1. 작업 변수 설정
 
 ```bash
@@ -45,7 +68,9 @@ POST는 작업을 접수한 뒤 HTTP 202와 `REQUESTED` 상태를 반환합니�
 ## 4. 2초 간격으로 상태 확인
 
 ```bash
-while true; do
+REDRIVE_DEADLINE_EPOCH=$(( $(date +%s) + 60 ))
+
+while :; do
   REDRIVE_RESPONSE=$(curl --fail --silent --show-error \
     -H "X-User-Role: ADMIN" \
     -H "X-User-Id: ${OPERATOR_ID}" \
@@ -59,6 +84,12 @@ while true; do
       break
       ;;
   esac
+
+  if [ "$(date +%s)" -ge "${REDRIVE_DEADLINE_EPOCH}" ]; then
+    printf '%s\n' \
+      "REDRIVING이 60초 안에 수렴하지 않았습니다. 자동 폴링을 중단하고 수동 조사하세요."
+    break
+  fi
 
   sleep 2
 done

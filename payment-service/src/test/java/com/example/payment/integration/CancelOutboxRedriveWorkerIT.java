@@ -10,6 +10,7 @@ import com.example.payment.application.model.CancelRestoreLegStatus;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import com.example.payment.infrastructure.scheduler.CancelOutboxRedriveConvergencePoller;
 import com.example.payment.infrastructure.scheduler.CancelOutboxRedriveDispatcher;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -33,10 +34,14 @@ import org.mockito.Answers;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -47,6 +52,10 @@ import tools.jackson.databind.ObjectMapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Testcontainers
 @SpringBootTest(properties = {
@@ -91,8 +100,10 @@ class CancelOutboxRedriveWorkerIT {
     @Autowired CancelOutboxRedriveDispatcher dispatcher;
     @Autowired CancelOutboxRedriveConvergencePoller convergencePoller;
     @Autowired ObjectMapper objectMapper;
+    @Autowired WebApplicationContext webApplicationContext;
 
     private static KafkaConsumer<String, String> consumer;
+    private MockMvc mockMvc;
 
     @BeforeAll
     static void createTopicAndConsumer() throws Exception {
@@ -118,6 +129,7 @@ class CancelOutboxRedriveWorkerIT {
     void resetDoublesAndDrainKafka() {
         reset(orderStatusPort, stockStatusPort);
         drainKafka();
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
 
     @AfterEach
@@ -138,6 +150,7 @@ class CancelOutboxRedriveWorkerIT {
     @Test
     void dispatchPublishesExactStoredEventPersistsAckAndConvergesWithoutReplay() throws Exception {
         var source = seedDeadSource(101L, validPayload(101L));
+        SourceState sourceBefore = sourceState(source.outboxId());
         stubInspection(CancelRestoreLegStatus.NOT_APPLIED, CancelRestoreLegStatus.APPLIED);
         var requested = repository.createRequested(source.outboxId(), "operator-1", "recover", Instant.now());
 
@@ -156,12 +169,7 @@ class CancelOutboxRedriveWorkerIT {
         assertThat(ack.path("topic").asString()).isEqualTo(TOPIC);
         assertThat(ack.path("partition").asInt()).isEqualTo(record.partition());
         assertThat(ack.path("offset").asLong()).isEqualTo(record.offset());
-        assertThat(jdbc.queryForObject(
-            "SELECT status FROM cancel_event_outbox WHERE id = ?", String.class, source.outboxId()))
-            .isEqualTo("DEAD");
-        assertThat(jdbc.queryForObject(
-            "SELECT CAST(payload AS CHAR) FROM cancel_event_outbox WHERE id = ?",
-            String.class, source.outboxId())).isEqualTo(source.storedPayload());
+        assertThat(sourceState(source.outboxId())).isEqualTo(sourceBefore);
 
         stubInspection(CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.APPLIED);
         convergencePoller.poll();
@@ -182,6 +190,59 @@ class CancelOutboxRedriveWorkerIT {
             afterSecondPoll.getAfterState(), afterSecondPoll.getCompletedAt().toString()))
             .isEqualTo(terminalState);
         assertThat(consumer.poll(Duration.ofMillis(700))).isEmpty();
+        assertThat(sourceState(source.outboxId())).isEqualTo(sourceBefore);
+    }
+
+    @Test
+    void operatorHttpFlowInspectsRequestsDispatchesAndReadsResolvedJsonObjects() throws Exception {
+        var source = seedDeadSource(401L, validPayload(401L));
+        SourceState sourceBefore = sourceState(source.outboxId());
+        stubInspection(CancelRestoreLegStatus.NOT_APPLIED, CancelRestoreLegStatus.APPLIED);
+
+        mockMvc.perform(get("/internal/cancel-outbox/{outboxId}", source.outboxId())
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "operator-http"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.outboxId").value(source.outboxId()))
+            .andExpect(jsonPath("$.decision").value("REDRIVE_REQUIRED"))
+            .andExpect(jsonPath("$.order.status").value("NOT_APPLIED"))
+            .andExpect(jsonPath("$.stock.status").value("APPLIED"));
+
+        String postBody = mockMvc.perform(post("/internal/cancel-outbox/{outboxId}/redrives", source.outboxId())
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "operator-http")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"reason\":\"operator smoke\"}"))
+            .andExpect(status().isAccepted())
+            .andExpect(jsonPath("$.status").value("REQUESTED"))
+            .andExpect(jsonPath("$.requestedBy").value("operator-http"))
+            .andExpect(jsonPath("$.reason").value("operator smoke"))
+            .andReturn().getResponse().getContentAsString();
+        long redriveId = objectMapper.readTree(postBody).path("redriveId").asLong();
+        assertThat(redriveId).isPositive();
+
+        dispatcher.dispatch();
+        ConsumerRecord<String, String> record = consumeOne();
+        assertThat(record.key()).isEqualTo("401");
+        assertThat(record.value()).isEqualTo(source.storedPayload());
+
+        stubInspection(CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.APPLIED);
+        convergencePoller.poll();
+
+        mockMvc.perform(get("/internal/cancel-outbox/redrives/{redriveId}", redriveId)
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "operator-http"))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.redriveId").value(redriveId))
+            .andExpect(jsonPath("$.status").value("RESOLVED"))
+            .andExpect(jsonPath("$.result.topic").value(TOPIC))
+            .andExpect(jsonPath("$.result.partition").value(record.partition()))
+            .andExpect(jsonPath("$.result.offset").value(record.offset()))
+            .andExpect(jsonPath("$.beforeState.decision").value("REDRIVE_REQUIRED"))
+            .andExpect(jsonPath("$.beforeState.order.status").value("NOT_APPLIED"))
+            .andExpect(jsonPath("$.afterState.decision").value("ALREADY_APPLIED"))
+            .andExpect(jsonPath("$.afterState.order.status").value("APPLIED"));
+        assertThat(sourceState(source.outboxId())).isEqualTo(sourceBefore);
     }
 
     @Test
@@ -252,6 +313,19 @@ class CancelOutboxRedriveWorkerIT {
             + "\",\"cancelledItems\":[{\"orderItemId\":11,\"skuId\":21,\"quantity\":2}]}";
     }
 
+    private SourceState sourceState(long outboxId) {
+        return jdbc.queryForObject("""
+            SELECT status, CAST(payload AS CHAR) AS payload, retry_count, last_error, published_at
+              FROM cancel_event_outbox
+             WHERE id = ?
+            """, (resultSet, rowNum) -> new SourceState(
+                resultSet.getString("status"),
+                resultSet.getString("payload"),
+                resultSet.getInt("retry_count"),
+                resultSet.getString("last_error"),
+                resultSet.getTimestamp("published_at")), outboxId);
+    }
+
     private void stubInspection(
         CancelRestoreLegStatus orderStatus,
         CancelRestoreLegStatus stockStatus
@@ -288,4 +362,12 @@ class CancelOutboxRedriveWorkerIT {
     }
 
     private record SourceFixture(long outboxId, String storedPayload) {}
+
+    private record SourceState(
+        String status,
+        String payload,
+        int retryCount,
+        String lastError,
+        Timestamp publishedAt
+    ) {}
 }
