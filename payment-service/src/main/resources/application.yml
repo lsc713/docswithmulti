@@ -84,6 +84,8 @@ payment:
 cancel:
   publish:
     mode: ${CANCEL_PUBLISH_MODE:OUTBOX}   # INLINE | INLINE_ASYNC | OUTBOX
+  redrive:
+    publish-timeout-ms: ${CANCEL_REDRIVE_PUBLISH_TIMEOUT_MS:5000}
   outbox:
     poll-ms: ${CANCEL_OUTBOX_POLL_MS:10000}
     batch-size: ${CANCEL_OUTBOX_BATCH_SIZE:1000}
