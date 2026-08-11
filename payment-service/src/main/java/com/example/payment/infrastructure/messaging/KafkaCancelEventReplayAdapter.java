@@ -1,5 +1,6 @@
 package com.example.payment.infrastructure.messaging;
 
+import com.example.payment.application.exception.CancelEventReplayException;
 import com.example.payment.application.interfaces.CancelEventReplayPort;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -41,16 +42,11 @@ public class KafkaCancelEventReplayAdapter implements CancelEventReplayPort {
             return new ReplayResult(metadata.topic(), metadata.partition(), metadata.offset());
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            throw new CancelEventReplayException(cancelRequestId, e);
-        } catch (ExecutionException | TimeoutException | RuntimeException e) {
-            throw new CancelEventReplayException(cancelRequestId, e);
+            throw new CancelEventReplayException(cancelRequestId, CancelEventReplayException.Kind.SEND_FAILED, e);
+        } catch (TimeoutException e) {
+            throw new CancelEventReplayException(cancelRequestId, CancelEventReplayException.Kind.TIMEOUT, e);
+        } catch (ExecutionException | RuntimeException e) {
+            throw new CancelEventReplayException(cancelRequestId, CancelEventReplayException.Kind.SEND_FAILED, e);
         }
-    }
-}
-
-final class CancelEventReplayException extends RuntimeException {
-
-    CancelEventReplayException(long cancelRequestId, Throwable cause) {
-        super("Cancel event replay failed. cancelRequestId=" + cancelRequestId, cause);
     }
 }

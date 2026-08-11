@@ -1,5 +1,6 @@
 package com.example.payment.application.service;
 
+import com.example.payment.application.exception.CancelEventReplayException;
 import com.example.payment.application.exception.CancelOutboxRedriveNotFoundException;
 import com.example.payment.application.interfaces.CancelEventReplayPort;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
@@ -159,6 +160,11 @@ class CancelOutboxRedriveWorkerTest {
         verify(sourcePort, never()).findById(REDRIVE_ID);
         verify(replayPort).replay(CANCEL_REQUEST_ID, payload);
         verifyNoMoreInteractions(replayPort);
+        verify(repository, never()).failPublish(
+            org.mockito.ArgumentMatchers.anyLong(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.any());
         verify(repository).recordPublished(
             REDRIVE_ID,
             inspectionJson,
@@ -166,18 +172,25 @@ class CancelOutboxRedriveWorkerTest {
     }
 
     @Test
-    void unknownLeavesClaimedRowUntouchedForFailurePolicy() {
+    void unknownFailsPreflightWithoutReplayOrPublishedWrite() {
         var result = inspectionResult(
             CancelOutboxDecision.UNKNOWN,
             CancelOutboxReasonCode.DOWNSTREAM_UNKNOWN);
         stubStarted(result);
+        String unknownJson = "{\"decision\":\"UNKNOWN\","
+            + "\"reasonCode\":\"DOWNSTREAM_UNKNOWN\",\"order\":{\"status\":\"APPLIED\",\"evidence\":[]},"
+            + "\"stock\":{\"status\":\"APPLIED\",\"evidence\":[]}}";
+        when(repository.failPublish(
+            REDRIVE_ID, "PREFLIGHT_UNKNOWN", unknownJson, NOW)).thenReturn(true);
 
         worker.start(REDRIVE_ID);
 
-        verify(repository).tryStart(REDRIVE_ID, NOW);
-        verify(repository).findById(REDRIVE_ID);
-        verifyNoMoreInteractions(repository);
+        verify(repository).failPublish(REDRIVE_ID, "PREFLIGHT_UNKNOWN", unknownJson, NOW);
         verifyNoInteractions(sourcePort, replayPort);
+        verify(repository, never()).recordPublished(
+            org.mockito.ArgumentMatchers.anyLong(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.anyString());
     }
 
     @Test
@@ -228,7 +241,7 @@ class CancelOutboxRedriveWorkerTest {
     }
 
     @Test
-    void replayExceptionPropagatesAfterExactlyOneAttemptWithoutTerminalWrite() {
+    void unexpectedReplayExceptionPropagatesAfterExactlyOneAttemptWithoutTerminalWrite() {
         String payload = "{\"cancelRequestId\":77}";
         stubStarted(inspectionResult(CancelOutboxDecision.REDRIVE_REQUIRED, null));
         when(sourcePort.findById(SOURCE_OUTBOX_ID)).thenReturn(Optional.of(
@@ -251,6 +264,86 @@ class CancelOutboxRedriveWorkerTest {
         verify(replayPort).replay(CANCEL_REQUEST_ID, payload);
         verifyNoMoreInteractions(replayPort);
         verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void replayTimeoutFailsPublishUsingPreflightSnapshot() {
+        String payload = "{\"cancelRequestId\":77}";
+        String inspectionJson = "{\"decision\":\"REDRIVE_REQUIRED\","
+            + "\"reasonCode\":null,\"order\":{\"status\":\"APPLIED\",\"evidence\":[]},"
+            + "\"stock\":{\"status\":\"APPLIED\",\"evidence\":[]}}";
+        stubStarted(inspectionResult(CancelOutboxDecision.REDRIVE_REQUIRED, null));
+        when(sourcePort.findById(SOURCE_OUTBOX_ID)).thenReturn(Optional.of(source(payload)));
+        when(replayPort.replay(CANCEL_REQUEST_ID, payload)).thenThrow(
+            new CancelEventReplayException(CANCEL_REQUEST_ID, CancelEventReplayException.Kind.TIMEOUT,
+                new java.util.concurrent.TimeoutException("broker detail")));
+        when(repository.failPublish(REDRIVE_ID, "KAFKA_TIMEOUT", inspectionJson, NOW)).thenReturn(true);
+
+        worker.start(REDRIVE_ID);
+
+        verify(repository).failPublish(REDRIVE_ID, "KAFKA_TIMEOUT", inspectionJson, NOW);
+        verify(repository, never()).recordPublished(
+            org.mockito.ArgumentMatchers.anyLong(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.anyString());
+    }
+
+    @Test
+    void replaySendFailureFailsPublishUsingPreflightSnapshot() {
+        String payload = "{\"cancelRequestId\":77}";
+        String inspectionJson = "{\"decision\":\"REDRIVE_REQUIRED\","
+            + "\"reasonCode\":null,\"order\":{\"status\":\"APPLIED\",\"evidence\":[]},"
+            + "\"stock\":{\"status\":\"APPLIED\",\"evidence\":[]}}";
+        stubStarted(inspectionResult(CancelOutboxDecision.REDRIVE_REQUIRED, null));
+        when(sourcePort.findById(SOURCE_OUTBOX_ID)).thenReturn(Optional.of(source(payload)));
+        when(replayPort.replay(CANCEL_REQUEST_ID, payload)).thenThrow(
+            new CancelEventReplayException(CANCEL_REQUEST_ID, CancelEventReplayException.Kind.SEND_FAILED,
+                new IllegalStateException("broker detail")));
+        when(repository.failPublish(REDRIVE_ID, "KAFKA_SEND_FAILED", inspectionJson, NOW)).thenReturn(true);
+
+        worker.start(REDRIVE_ID);
+
+        verify(repository).failPublish(REDRIVE_ID, "KAFKA_SEND_FAILED", inspectionJson, NOW);
+        verify(repository, never()).recordPublished(
+            org.mockito.ArgumentMatchers.anyLong(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.anyString());
+    }
+
+    @Test
+    void preflightFailureCasLoserIsBenignWhenReloadedRowIsTerminal() {
+        var result = inspectionResult(
+            CancelOutboxDecision.UNKNOWN,
+            CancelOutboxReasonCode.DOWNSTREAM_UNKNOWN);
+        when(repository.tryStart(REDRIVE_ID, NOW)).thenReturn(true);
+        when(repository.findById(REDRIVE_ID))
+            .thenReturn(Optional.of(redriving()))
+            .thenReturn(Optional.of(terminal()));
+        when(inspection.inspect(SOURCE_OUTBOX_ID)).thenReturn(result);
+
+        worker.start(REDRIVE_ID);
+
+        verify(repository).failPublish(
+            REDRIVE_ID,
+            "PREFLIGHT_UNKNOWN",
+            "{\"decision\":\"UNKNOWN\",\"reasonCode\":\"DOWNSTREAM_UNKNOWN\",\"order\":{\"status\":\"APPLIED\",\"evidence\":[]},\"stock\":{\"status\":\"APPLIED\",\"evidence\":[]}}",
+            NOW);
+        verifyNoInteractions(sourcePort, replayPort);
+    }
+
+    @Test
+    void preflightFailureCasLoserRaisesSafeStateExceptionWhenReloadedRowIsActive() {
+        var result = inspectionResult(
+            CancelOutboxDecision.UNKNOWN,
+            CancelOutboxReasonCode.DOWNSTREAM_UNKNOWN);
+        stubStarted(result);
+
+        assertThatThrownBy(() -> worker.start(REDRIVE_ID))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessage("Unexpected cancel outbox redrive state: 7");
+
+        verify(repository, org.mockito.Mockito.times(2)).findById(REDRIVE_ID);
+        verifyNoInteractions(sourcePort, replayPort);
     }
 
     @Test
@@ -278,7 +371,7 @@ class CancelOutboxRedriveWorkerTest {
     }
 
     @Test
-    void publishedConditionalWriteFailureIsSurfacedWithoutSecondReplay() {
+    void brokerAckWithPublishedWriteFailureRaisesSafeStateWithoutFailureWriteOrSecondReplay() {
         String payload = "{\"cancelRequestId\":77}";
         stubStarted(inspectionResult(CancelOutboxDecision.REDRIVE_REQUIRED, null));
         when(sourcePort.findById(SOURCE_OUTBOX_ID)).thenReturn(Optional.of(
@@ -298,6 +391,11 @@ class CancelOutboxRedriveWorkerTest {
 
         verify(replayPort).replay(CANCEL_REQUEST_ID, payload);
         verifyNoMoreInteractions(replayPort);
+        verify(repository, never()).failPublish(
+            org.mockito.ArgumentMatchers.anyLong(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.anyString(),
+            org.mockito.ArgumentMatchers.any());
     }
 
     private void stubStarted(CancelOutboxInspectionUseCase.Result result) {
@@ -334,5 +432,32 @@ class CancelOutboxRedriveWorkerTest {
             null,
             null,
             null);
+    }
+
+    private CancelOutboxRedrive terminal() {
+        return CancelOutboxRedrive.reconstitute(
+            REDRIVE_ID,
+            SOURCE_OUTBOX_ID,
+            CancelOutboxRedriveStatus.FAILED,
+            null,
+            "operator-1",
+            "recover dead outbox",
+            NOW.minusSeconds(60),
+            NOW,
+            NOW,
+            null,
+            "PREFLIGHT_UNKNOWN",
+            "{}",
+            null);
+    }
+
+    private CancelOutboxSourcePort.SourceSnapshot source(String payload) {
+        return new CancelOutboxSourcePort.SourceSnapshot(
+            SOURCE_OUTBOX_ID,
+            CANCEL_REQUEST_ID,
+            payload,
+            "DEAD",
+            CancelStatus.COMPLETED,
+            PaymentStatus.CANCELLED);
     }
 }

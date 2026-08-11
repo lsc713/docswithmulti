@@ -2,6 +2,7 @@ package com.example.payment.application.service;
 
 import com.example.payment.application.exception.CancelOutboxNotFoundException;
 import com.example.payment.application.exception.CancelOutboxRedriveNotFoundException;
+import com.example.payment.application.exception.CancelEventReplayException;
 import com.example.payment.application.interfaces.CancelEventReplayPort;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
 import com.example.payment.application.interfaces.CancelOutboxSourcePort;
@@ -67,19 +68,38 @@ public class CancelOutboxRedriveWorker {
                     clock.instant()),
                 redriveId);
             case REDRIVE_REQUIRED -> replay(redriveId, sourceOutboxId, beforeState);
-            case UNKNOWN -> {
-                // Issue #108 owns failure/unknown terminal-state policy.
-            }
+            case UNKNOWN -> failPublish(redriveId, "PREFLIGHT_UNKNOWN", beforeState);
         }
     }
 
     private void replay(long redriveId, long sourceOutboxId, String beforeState) {
         var source = sourcePort.findById(sourceOutboxId)
             .orElseThrow(() -> new CancelOutboxNotFoundException(sourceOutboxId));
-        var replayResult = replayPort.replay(source.cancelRequestId(), source.payload());
+        CancelEventReplayPort.ReplayResult replayResult;
+        try {
+            replayResult = replayPort.replay(source.cancelRequestId(), source.payload());
+        } catch (CancelEventReplayException e) {
+            failPublish(redriveId, switch (e.kind()) {
+                case TIMEOUT -> "KAFKA_TIMEOUT";
+                case SEND_FAILED -> "KAFKA_SEND_FAILED";
+            }, beforeState);
+            return;
+        }
         requireWrite(
             repository.recordPublished(redriveId, beforeState, auditJson.replay(replayResult)),
             redriveId);
+    }
+
+    private void failPublish(long redriveId, String failureCode, String beforeState) {
+        if (repository.failPublish(redriveId, failureCode, beforeState, clock.instant())) {
+            return;
+        }
+        boolean isTerminal = repository.findById(redriveId)
+            .map(redrive -> redrive.getStatus().isTerminal())
+            .orElse(false);
+        if (!isTerminal) {
+            throw new IllegalStateException("Unexpected cancel outbox redrive state: " + redriveId);
+        }
     }
 
     private void requireWrite(boolean written, long redriveId) {
