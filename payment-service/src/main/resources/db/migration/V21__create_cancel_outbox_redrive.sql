@@ -25,7 +25,7 @@ CREATE TABLE cancel_outbox_redrive (
                'RESOLVED_ALREADY_APPLIED', 'REJECTED', 'FAILED')
   ),
   CONSTRAINT chk_cancel_outbox_redrive_failure_stage CHECK (
-    (status = 'FAILED' AND failure_stage IN ('PUBLISH', 'CONVERGENCE')) OR
+    (status = 'FAILED' AND failure_stage IS NOT NULL AND failure_stage IN ('PUBLISH', 'CONVERGENCE')) OR
     (status <> 'FAILED' AND failure_stage IS NULL)
   )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
