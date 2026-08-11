@@ -6,9 +6,9 @@ const baseURL = 'http://127.0.0.1:5173'
 const gateway = 'http://localhost:8000'
 const artifactDir = 'artifacts/t_e927b56e-checkout-payment'
 const orderItems = [
-  { skuId: 11, productId: 1, itemName: '미니멀 울 블레이저', optionSummary: '블랙 / M', unitPrice: 149000, quantity: 1, availableQty: 4 },
-  { skuId: 22, productId: 2, itemName: '소프트 니트 카디건', optionSummary: '오트밀 / L', unitPrice: 79000, quantity: 2, availableQty: 5 },
-  { skuId: 33, productId: 3, itemName: '오버사이즈 코튼 셔츠', optionSummary: '화이트 / Free', unitPrice: 63000, quantity: 1, availableQty: 2 },
+  { skuId: 11, productId: 1, itemName: '미니멀 울 블레이저', optionSummary: '블랙 / M', unitPrice: 149000, quantity: 1 },
+  { skuId: 22, productId: 2, itemName: '소프트 니트 카디건', optionSummary: '오트밀 / L', unitPrice: 79000, quantity: 2 },
+  { skuId: 33, productId: 3, itemName: '오버사이즈 코튼 셔츠', optionSummary: '화이트 / Free', unitPrice: 63000, quantity: 1 },
 ]
 
 const browser = await chromium.launch({
@@ -23,21 +23,19 @@ try {
     const context = await browser.newContext({ viewport: { width, height: width === 1440 ? 1100 : 844 } })
     const page = await context.newPage()
     await page.addInitScript(({ state }) => sessionStorage.setItem('fashion-shop:order-flow', JSON.stringify(state)), {
-      state: { orderItems, source: 'cart' },
+      state: { ownerUserId: 7, flowState: { orderItems, source: 'cart' } },
     })
-    await page.route(`${gateway}/v1/auth/me`, route => route.fulfill({ json: { id: 7, name: '구매자', email: 'buyer@example.com', role: 'USER' } }))
+    await page.route(`${gateway}/v1/auth/me`, route => route.fulfill({ json: { userId: 7, name: '구매자', email: 'buyer@example.com', role: 'USER' } }))
     await page.route(`${gateway}/v1/cart`, route => route.fulfill({ json: { items: [] } }))
     let orderCalls = 0
     let paymentCalls = 0
     await page.route(`${gateway}/v1/orders`, route => {
       orderCalls += 1
-      return route.fulfill({ status: 201, json: { orderId: 91, status: 'CREATED', items: orderItems.map((item, index) => ({ orderItemId: index + 101, itemName: item.itemName })) } })
+      return route.abort()
     })
     await page.route(`${gateway}/v1/payments`, async route => {
       paymentCalls += 1
-      await new Promise(resolve => setTimeout(resolve, 120))
-      if (width === 1440 && paymentCalls === 1) return route.fulfill({ status: 503, json: { message: '일시적인 결제 오류' } })
-      return route.fulfill({ json: { paymentKey: 'pay_visual', totalAmount: 370000, status: 'COMPLETED', items: [] } })
+      return route.abort()
     })
     await page.goto(`${baseURL}/checkout?case=initial-${width}`)
     await page.getByRole('heading', { name: '주문할 상품을 확인해 주세요' }).waitFor()
@@ -47,15 +45,17 @@ try {
     if (width === 1440) assert.ok((await page.locator('.order-item-card').first().boundingBox()).width >= 780)
     await page.screenshot({ path: `${artifactDir}/checkout-${width}.png`, fullPage: true })
 
-    await page.getByRole('button', { name: '변경 사항 확인 후 결제하기' }).first().click()
-    await page.getByRole('heading', { name: '결제 수단을 선택해 주세요' }).waitFor()
+    assert.equal(await page.getByRole('button', { name: '결제 연동 준비 중' }).first().isDisabled(), true)
+    assert.match(await page.getByRole('alert').textContent(), /서버 재검증 미지원으로 결제 불가/)
+    await page.goto(`${baseURL}/payment?case=initial-${width}`)
+    await page.getByRole('heading', { name: '결제 수단을 확인해 주세요' }).waitFor()
     assert.equal(new URL(page.url()).pathname, '/payment')
     await page.reload()
-    await page.getByRole('heading', { name: '결제 수단을 선택해 주세요' }).waitFor()
+    await page.getByRole('heading', { name: '결제 수단을 확인해 주세요' }).waitFor()
     await page.getByRole('button', { name: '← 주문서로 돌아가기 · 상태 유지' }).click()
     await page.getByRole('heading', { name: '주문할 상품을 확인해 주세요' }).waitFor()
-    await page.getByRole('button', { name: '변경 사항 확인 후 결제하기' }).first().click()
-    await page.getByRole('heading', { name: '결제 수단을 선택해 주세요' }).waitFor()
+    await page.goto(`${baseURL}/payment?case=return-${width}`)
+    await page.getByRole('heading', { name: '결제 수단을 확인해 주세요' }).waitFor()
     assert.equal(await page.locator('.navbar-brand').textContent(), 'fashion-shop')
     assert.ok((await page.locator('.navbar-brand').boundingBox()).width >= 90)
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
@@ -71,27 +71,17 @@ try {
       assert.equal(overlaps, false)
     }
     await page.screenshot({ path: `${artifactDir}/payment-${width}.png`, fullPage: true })
-    if (width === 1440) {
-      const submit = page.locator('.payment-submit')
-      await submit.click()
-      assert.equal(await submit.isDisabled(), true)
-      await submit.click({ force: true })
-      await page.getByRole('alert').waitFor()
-      assert.equal(orderCalls, 1)
-      assert.equal(paymentCalls, 1)
-      await submit.click()
-      await page.getByRole('heading', { name: /결제 완료/ }).waitFor()
-      assert.equal(orderCalls, 1)
-      assert.equal(paymentCalls, 2)
-    }
+    assert.equal(await page.locator('.payment-submit').isDisabled(), true)
+    assert.equal(orderCalls, 0)
+    assert.equal(paymentCalls, 0)
 
     await context.close()
 
     const verifyCheckoutState = async (state, caseName, verify) => {
       const stateContext = await browser.newContext({ viewport: { width, height: width === 1440 ? 1100 : 844 } })
-      if (state) await stateContext.addInitScript(({ value }) => sessionStorage.setItem('fashion-shop:order-flow', JSON.stringify(value)), { value: state })
+      if (state) await stateContext.addInitScript(({ value }) => sessionStorage.setItem('fashion-shop:order-flow', JSON.stringify({ ownerUserId: 7, flowState: value })), { value: state })
       const statePage = await stateContext.newPage()
-      await statePage.route(`${gateway}/v1/auth/me`, route => route.fulfill({ json: { id: 7, name: '구매자', email: 'buyer@example.com', role: 'USER' } }))
+      await statePage.route(`${gateway}/v1/auth/me`, route => route.fulfill({ json: { userId: 7, name: '구매자', email: 'buyer@example.com', role: 'USER' } }))
       await statePage.route(`${gateway}/v1/cart`, route => route.fulfill({ json: { items: [] } }))
       await statePage.goto(`${baseURL}/checkout?case=${caseName}-${width}`)
       await verify(statePage)
@@ -110,10 +100,10 @@ try {
       assert.equal(await statePage.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true)
       if (width === 1440) assert.equal(await statePage.locator('.order-item-list').evaluate(element => element.scrollHeight > element.clientHeight), true)
     })
-    await verifyCheckoutState({ orderItems: [{ ...orderItems[0], quantity: 5, availableQty: 1, price: 159000 }], source: 'product' }, 'blocked', async statePage => {
+    await verifyCheckoutState({ orderItems: [orderItems[0]], source: 'product' }, 'single', async statePage => {
       await statePage.getByRole('heading', { name: '주문할 상품을 확인해 주세요' }).waitFor()
-      assert.equal(await statePage.getByRole('button', { name: '변경 사항 확인 후 결제하기' }).first().isDisabled(), true)
-      assert.match(await statePage.locator('.order-item-card').textContent(), /재고 1개.*가격 변경/s)
+      assert.equal(await statePage.locator('.order-item-card').count(), 1)
+      assert.equal(await statePage.getByRole('button', { name: '결제 연동 준비 중' }).first().isDisabled(), true)
     })
     await verifyCheckoutState(null, 'empty', statePage => statePage.getByRole('heading', { name: '주문할 상품이 없어요' }).waitFor())
   }

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { continueCheckoutAndPay, openFirstInStockProductDetail } from './helpers/product-detail'
+import { openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -9,7 +9,7 @@ test.beforeAll(async ({ request }) => {
   await request.post(`${GW}/v1/auth/signup`, { data: USER }).catch(() => {})
 })
 
-test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 → 결제 → 완료', async ({ page }) => {
+test('바로구매: 로그인 → 상품상세 수량선택 → 주문 미리보기 → 결제 차단', async ({ page }) => {
   // 로그인 (스토어프론트 모달)
   await page.goto(BASE)
   await page.click('.navbar-right button')            // 로그인
@@ -25,11 +25,8 @@ test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 →
   )
   await detail.getByRole('button', { name: '구매하기' }).click()
 
-  // 체크아웃 → 총액 표시 → 결제
+  // 체크아웃 → 총액 미리보기 → 서버 계약 준비 전 결제 차단
   await expect(page.getByTestId('grand-total')).toContainText('₩')
-  await continueCheckoutAndPay(page)
-
-  // 완료 화면 (paymentKey 노출) — 결제 생성이 product-service 재고 동기 예약을 거치므로 여유 타임아웃
-  await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
-  await expect(page.locator('.success-key code')).toContainText('pay_')
+  await expect(page.getByRole('button', { name: '결제 연동 준비 중' }).first()).toBeDisabled()
+  await expect(page.getByRole('alert')).toContainText('서버 재검증 미지원으로 결제 불가')
 })

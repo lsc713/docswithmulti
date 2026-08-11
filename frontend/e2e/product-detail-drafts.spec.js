@@ -76,7 +76,7 @@ async function mockStorefront(page, { productHandler, authenticated = false } = 
   const cartItems = []
   await page.route('http://localhost:8000/v1/auth/me', route =>
     route.fulfill(authenticated
-      ? { contentType: 'application/json', json: { id: 1, email: 'buyer@example.com', name: '구매자', role: 'USER' } }
+      ? { contentType: 'application/json', json: { userId: 1, email: 'buyer@example.com', name: '구매자', role: 'USER' } }
       : { status: 401, contentType: 'application/json', body: '{}' }))
   await page.route('http://localhost:8000/v1/cart', route =>
     route.fulfill({ contentType: 'application/json', json: { items: cartItems } }))

@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { continueCheckoutAndPay, openFirstInStockProductDetail } from './helpers/product-detail'
+import { createPaidOrderViaApi } from './helpers/order-payment'
+import { openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -23,17 +24,14 @@ async function loginBuyer(page, user) {
   await expect(page.locator('.navbar-right span')).toBeVisible()
 }
 
-// 바로구매로 결제 1건 생성 → paymentKey 반환 후 홈으로 복귀 (재호출 가능하도록)
+// 실 상품 선택 데이터로 API 결제 1건 생성 → paymentKey 반환 후 홈으로 복귀 (재호출 가능하도록)
 async function buyOneItem(page) {
-  const { detail } = await openFirstInStockProductDetail(
+  const selection = await openFirstInStockProductDetail(
     page,
     page.locator('.grid .card:has-text("베이직 티셔츠")')
   )
-  await detail.getByRole('button', { name: '구매하기' }).click()
-  await continueCheckoutAndPay(page)
-  await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
-  const paymentKey = (await page.locator('.success-key code').textContent()).trim()
-  await page.click('text=쇼핑 계속하기')
+  const paymentKey = await createPaidOrderViaApi(page, selection)
+  await page.goto(BASE)
   return paymentKey
 }
 

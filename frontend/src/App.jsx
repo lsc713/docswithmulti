@@ -11,7 +11,7 @@ import Payment from './components/Payment'
 import OrderSuccess from './components/OrderSuccess'
 import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
-import { normalizeOrderItems, persistOrderRouteState, resolveOrderRouteState, ORDER_FLOW_SESSION_KEY } from './orderFlow'
+import { clearOrderRouteState, normalizeOrderItems, persistOrderRouteState, resolveOrderRouteState } from './orderFlow'
 
 const DETAIL_DRAFTS = new Set(['editorial', 'gallery', 'compact'])
 const STORE_PATHS = { home: '/', cart: '/cart', history: '/history', success: '/order-success', detail: '/' }
@@ -27,7 +27,7 @@ function getDetailDraftRequest(search) {
 function getInitialView() {
   const path = window.location.pathname
   if (path === '/checkout' || path === '/payment') {
-    return { name: path.slice(1), flowState: resolveOrderRouteState(undefined) }
+    return { name: path.slice(1), flowState: null }
   }
   if (path === '/cart' || path === '/history') return { name: path.slice(1) }
   const storedView = window.history.state?.storeView
@@ -45,17 +45,42 @@ export default function App() {
   const draftRequest = getDetailDraftRequest(window.location.search)
   const draftOpen = view.name === 'home' && draftRequest !== null
 
-  useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
+  function hideOrderFlowClientState() {
+    setCart([])
+    setView(current => current.name === 'checkout' || current.name === 'payment'
+      ? { name: current.name, flowState: null }
+      : current)
+  }
+
+  function clearOrderFlowClientState() {
+    clearOrderRouteState()
+    hideOrderFlowClientState()
+  }
+
+  useEffect(() => {
+    api.me().then(user => {
+      setMe(user)
+      const restoredFlowState = resolveOrderRouteState(undefined, user.userId)
+      const name = window.location.pathname === '/checkout'
+        ? 'checkout'
+        : window.location.pathname === '/payment' ? 'payment' : null
+      if (name) setView({ name, flowState: restoredFlowState })
+    }).catch(error => {
+      setMe(null)
+      if (error.status === 401) clearOrderFlowClientState()
+      else hideOrderFlowClientState()
+    })
+  }, [])
 
   useEffect(() => {
     const onPopState = event => {
       const name = window.location.pathname === '/checkout' ? 'checkout' : window.location.pathname === '/payment' ? 'payment' : null
-      if (name) setView({ name, flowState: resolveOrderRouteState(undefined) })
+      if (name) setView({ name, flowState: resolveOrderRouteState(undefined, me?.userId) })
       else setView(event.state?.storeView ?? getInitialView())
     }
     window.addEventListener('popstate', onPopState)
     return () => window.removeEventListener('popstate', onPopState)
-  }, [])
+  }, [me?.userId])
 
   const loadCart = () => api.getCart().then(r => setCart(r.items)).catch(() => setCart([]))
   useEffect(() => { if (me) loadCart() }, [me])
@@ -70,7 +95,7 @@ export default function App() {
   }
 
   function openOrderRoute(name, flowState) {
-    persistOrderRouteState(flowState)
+    if (!persistOrderRouteState(flowState, me?.userId)) return
     window.history.replaceState({ ...(window.history.state ?? {}), storeView: view }, '', window.location.href)
     window.history.pushState(null, '', `/${name}`)
     setView({ name, flowState })
@@ -116,7 +141,11 @@ export default function App() {
       <NavBar home={view.name === 'home' && !draftOpen} me={me} onHome={handleHome}
               productQuery={productQuery} onProductQueryChange={setProductQuery}
               onLoginClick={() => setAuthOpen(true)}
-              onLogout={async () => { await api.logout(); setMe(null) }}
+              onLogout={async () => {
+                await api.logout()
+                clearOrderFlowClientState()
+                setMe(null)
+              }}
               cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
               onCart={() => openStoreView({ name: 'cart' })}
               onHistory={() => openStoreView({ name: 'history' })} />
@@ -137,8 +166,6 @@ export default function App() {
       )}
       {view.name === 'checkout' && (
         <Checkout flowState={view.flowState} me={me}
-                  onContinue={() => openOrderRoute('payment', view.flowState)}
-                  onRetry={() => setView({ name: 'checkout', flowState: resolveOrderRouteState(undefined) })}
                   onBack={() => {
                     const source = view.flowState?.source
                     const returnView = source === 'cart'
@@ -151,15 +178,6 @@ export default function App() {
       )}
       {view.name === 'payment' && (
         <Payment flowState={view.flowState}
-                 onOrderCreated={createdOrderItems => {
-                   const flowState = { ...view.flowState, createdOrderItems }
-                   if (persistOrderRouteState(flowState)) setView({ name: 'payment', flowState })
-                 }}
-                 onPaid={async payment => {
-                   sessionStorage.removeItem(ORDER_FLOW_SESSION_KEY)
-                   openStoreView({ name: 'success', payment }, true)
-                   if (view.flowState?.source === 'cart') { try { await api.clearCart() } catch { /* noop */ } setCart([]) }
-                 }}
                  onBack={() => window.history.back()} />
       )}
       {view.name === 'success' && (
@@ -170,7 +188,11 @@ export default function App() {
       )}
 
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)}
-                 onAuthed={(u) => { setMe(u); setAuthOpen(false) }} />
+                 onAuthed={(u) => {
+                   clearOrderFlowClientState()
+                   setMe(u)
+                   setAuthOpen(false)
+                 }} />
     </>
   )
 }

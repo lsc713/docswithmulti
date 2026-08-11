@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { continueCheckoutAndPay, openFirstInStockProductDetail } from './helpers/product-detail'
+import { createPaidOrderViaApi } from './helpers/order-payment'
+import { openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -19,20 +20,18 @@ test('주문내역: 구매 → 내역 → 취소 요청 → 취소 요청됨', a
   await page.click('.modal button[type="submit"]')
   await expect(page.locator('.navbar-right span')).toBeVisible()
 
-  // 바로구매로 결제 1건 생성
-  const { detail } = await openFirstInStockProductDetail(
+  // 실 상품 선택 데이터로 API 결제 1건 생성
+  const selection = await openFirstInStockProductDetail(
     page,
     page.locator('.grid .card:has-text("베이직 티셔츠")')
   )
-  await detail.getByRole('button', { name: '구매하기' }).click()
-  await continueCheckoutAndPay(page)
-  await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
+  const paymentKey = await createPaidOrderViaApi(page, selection)
 
   // 주문내역 → 취소 요청 → 취소 요청됨 (P3: 즉시취소 대신 승인 요청 제출)
-  await page.click('text=쇼핑 계속하기')
   await page.click('text=주문내역')
-  await expect(page.locator('.history-item').first()).toBeVisible()
-  await expect(page.locator('.history-item .badge').first()).toHaveText('결제완료')
-  await page.locator('.history-item button:has-text("취소 요청")').first().click()
-  await expect(page.locator('.history-item .crs-badge').first()).toHaveText('취소 요청됨', { timeout: 15_000 })
+  const row = page.locator('.history-item', { hasText: paymentKey })
+  await expect(row).toBeVisible()
+  await expect(row.locator('.badge')).toHaveText('결제완료')
+  await row.locator('button:has-text("취소 요청")').click()
+  await expect(row.locator('.crs-badge')).toHaveText('취소 요청됨', { timeout: 15_000 })
 })
