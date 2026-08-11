@@ -4,10 +4,11 @@ import com.example.payment.application.interfaces.CancelEventReplayPort;
 import com.example.payment.application.model.CancelRestoreLegSnapshot;
 import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 
@@ -56,7 +57,7 @@ public class CancelOutboxRedriveAuditJson {
     private String write(Object value) {
         try {
             return objectMapper.writeValueAsString(value);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new IllegalStateException("Failed to encode cancel outbox redrive audit JSON", e);
         }
     }
@@ -64,27 +65,34 @@ public class CancelOutboxRedriveAuditJson {
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonPropertyOrder({"decision", "reasonCode", "order", "stock"})
     private record InspectionAudit(
-        String decision,
-        String reasonCode,
-        LegAudit order,
-        LegAudit stock
+        @JsonProperty("decision") String decision,
+        @JsonProperty("reasonCode") String reasonCode,
+        @JsonProperty("order") LegAudit order,
+        @JsonProperty("stock") LegAudit stock
     ) {}
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonPropertyOrder({"status", "evidence"})
-    private record LegAudit(String status, List<EvidenceAudit> evidence) {}
+    private record LegAudit(
+        @JsonProperty("status") String status,
+        @JsonProperty("evidence") List<EvidenceAudit> evidence
+    ) {}
 
     @JsonInclude(JsonInclude.Include.ALWAYS)
     @JsonPropertyOrder({"targetId", "currentStatus", "actualQuantity", "expectedQuantity"})
     private record EvidenceAudit(
-        long targetId,
-        String currentStatus,
-        Integer actualQuantity,
-        Integer expectedQuantity
+        @JsonProperty("targetId") long targetId,
+        @JsonProperty("currentStatus") String currentStatus,
+        @JsonProperty("actualQuantity") Integer actualQuantity,
+        @JsonProperty("expectedQuantity") Integer expectedQuantity
     ) {}
 
     @JsonPropertyOrder({"topic", "partition", "offset"})
-    private record ReplayAudit(String topic, int partition, long offset) {}
+    private record ReplayAudit(
+        @JsonProperty("topic") String topic,
+        @JsonProperty("partition") int partition,
+        @JsonProperty("offset") long offset
+    ) {}
 
-    private record OutcomeAudit(String outcome) {}
+    private record OutcomeAudit(@JsonProperty("outcome") String outcome) {}
 }

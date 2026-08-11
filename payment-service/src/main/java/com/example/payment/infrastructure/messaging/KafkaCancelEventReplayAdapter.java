@@ -23,6 +23,9 @@ public class KafkaCancelEventReplayAdapter implements CancelEventReplayPort {
         @Value("${kafka.topic.payment-cancelled}") String topic,
         @Value("${cancel.redrive.publish-timeout-ms:5000}") long publishTimeoutMs
     ) {
+        if (publishTimeoutMs <= 0) {
+            throw new IllegalArgumentException("publishTimeoutMs must be greater than 0");
+        }
         this.kafkaTemplate = kafkaTemplate;
         this.topic = topic;
         this.publishTimeoutMs = publishTimeoutMs;

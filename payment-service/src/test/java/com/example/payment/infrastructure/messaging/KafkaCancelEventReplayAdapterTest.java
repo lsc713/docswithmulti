@@ -15,6 +15,7 @@ import org.springframework.kafka.support.SendResult;
 import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.same;
@@ -35,6 +36,22 @@ class KafkaCancelEventReplayAdapterTest {
     @BeforeEach
     void setUp() {
         adapter = new KafkaCancelEventReplayAdapter(kafkaTemplate, TOPIC, 10L);
+    }
+
+    @Test
+    void zeroPublishTimeoutFailsFastBeforeSend() {
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> new KafkaCancelEventReplayAdapter(kafkaTemplate, TOPIC, 0L))
+            .withMessage("publishTimeoutMs must be greater than 0");
+        verifyNoMoreInteractions(kafkaTemplate);
+    }
+
+    @Test
+    void negativePublishTimeoutFailsFastBeforeSend() {
+        assertThatIllegalArgumentException()
+            .isThrownBy(() -> new KafkaCancelEventReplayAdapter(kafkaTemplate, TOPIC, -1L))
+            .withMessage("publishTimeoutMs must be greater than 0");
+        verifyNoMoreInteractions(kafkaTemplate);
     }
 
     @Test
