@@ -38,17 +38,22 @@ public class OrderCancelStatusHttpClient implements OrderCancelStatusPort {
         } catch (Error e) {
             throw e;
         } catch (Throwable t) {
-            log.warn("order cancel restore inspection unavailable. cancelRequestId={}",
-                command.cancelRequestId(), t);
+            log.atWarn()
+                .addKeyValue("event", "cancel_restore_inspection_unavailable")
+                .addKeyValue("leg", "order")
+                .addKeyValue("exceptionClass", t.getClass().getSimpleName())
+                .log("Cancel restore inspection unavailable");
             return unknown();
         }
     }
 
     private CancelRestoreLegSnapshot inspectDownstream(Command command) {
-        String url = baseUrl + "/internal/cancel-restores/"
-            + command.cancelRequestId() + ":inspect";
+        String url = baseUrl + "/internal/cancel-restores/{cancelRequestId}:inspect";
         ResponseEntity<InspectResponse> response = restTemplate.postForEntity(
-            url, new InspectRequest(command.orderItemIds()), InspectResponse.class);
+            url,
+            new InspectRequest(command.orderItemIds()),
+            InspectResponse.class,
+            command.cancelRequestId());
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             throw new IllegalStateException(
                 "order inspection response is not successful: " + response.getStatusCode());

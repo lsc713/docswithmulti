@@ -143,7 +143,7 @@ CLI 응답에서는 `status`, `failureStage`, `lastError` 조합을 그대로 �
 | 상태 조합 | 의미 | 안전한 다음 작업 |
 | --- | --- | --- |
 | `FAILED / PUBLISH / PREFLIGHT_UNKNOWN` | 발행 전 order 또는 stock 점검이 `UNKNOWN`이어서 Kafka send를 호출하지 않았습니다. | 하위 점검 API의 가용성을 복구하고 2절을 다시 실행합니다. `REDRIVE_REQUIRED`가 확인될 때만 새 redrive를 요청합니다. |
-| `FAILED / PUBLISH / KAFKA_TIMEOUT` | Kafka future가 제한 시간 안에 완료되지 않았습니다. broker가 이벤트를 받았는지는 이 상태만으로 단정할 수 없습니다. | consumer 적용 상태와 broker 장애를 먼저 확인하고 2절을 다시 실행합니다. 수동 Kafka 발행은 하지 않습니다. |
+| `FAILED / PUBLISH / KAFKA_TIMEOUT` | Kafka future가 제한 시간 안에 완료되지 않았습니다. broker가 이벤트를 받았는지는 이 상태만으로 단정할 수 없습니다. | **반드시 inspect-before-retry를 수행합니다.** consumer 적용 상태와 broker 장애를 먼저 확인하고 2절을 다시 실행합니다. `REDRIVE_REQUIRED`여도 order와 product consumer의 cancel request 기준 중복 전달/idempotency 회귀 검증이 성공한 경우에만 새 요청을 만듭니다. 검증이 누락됐거나 실패하면 replacement attempt를 만들지 않고 수동 정합성 복구로 전환합니다. 수동 Kafka 발행은 하지 않습니다. |
 | `FAILED / PUBLISH / KAFKA_SEND_FAILED` | Kafka future가 예외로 완료되었거나 send 단계가 실패했습니다. | producer/broker 오류를 복구한 뒤 하위 적용 상태를 다시 점검합니다. 새 요청은 점검 결과가 `REDRIVE_REQUIRED`일 때만 만듭니다. |
 | `FAILED / PUBLISH / PUBLISH_STATE_UNKNOWN` | broker ACK 뒤 DB의 ACK 저장 전에 프로세스가 중단됐거나, ACK 없는 `REDRIVING` 행이 정확히 60초에 도달했습니다. 이벤트는 이미 전달됐을 수 있습니다. | **반드시 inspect-before-retry를 수행합니다.** 2절에서 양쪽이 `APPLIED`면 재발행하지 않습니다. `REDRIVE_REQUIRED`여도 consumer의 중복 처리 보장을 확인한 뒤 새 reason으로 요청합니다. |
 | `FAILED / CONVERGENCE / CONVERGENCE_TIMEOUT` | ACK는 저장됐지만 정확히 60초의 최종 점검에서도 한쪽 이상이 `NOT_APPLIED`였습니다. | `afterState`의 안전한 상태·수량 증거로 미적용 consumer를 조사합니다. 동일 이벤트 재요청은 자동화하지 않습니다. |

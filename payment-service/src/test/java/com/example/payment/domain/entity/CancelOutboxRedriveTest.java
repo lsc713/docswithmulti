@@ -118,6 +118,10 @@ class CancelOutboxRedriveTest {
         assertThat(CancelOutboxRedriveFailureCode.values())
             .extracting(CancelOutboxRedriveFailureCode::name)
             .containsExactly(
+                "OUTBOX_NOT_DEAD",
+                "CANCEL_NOT_COMPLETED",
+                "PAYMENT_NOT_CANCELLED",
+                "INVALID_PAYLOAD",
                 "PREFLIGHT_UNKNOWN",
                 "KAFKA_TIMEOUT",
                 "KAFKA_SEND_FAILED",
