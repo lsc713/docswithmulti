@@ -36,29 +36,44 @@ class CancelOutboxRedriveMigrationIT extends AbstractRepositoryTest {
     }
 
     @Test
-    void pollingQueryPlansUseDedicatedIndexes() {
-        String requestedKey = jdbc.queryForObject("""
-            EXPLAIN
-            SELECT id
-              FROM cancel_outbox_redrive
-             WHERE status = 'REQUESTED'
-             ORDER BY requested_at, id
-             LIMIT 100
-            """, (rs, rowNum) -> rs.getString("key"));
-        String convergenceKey = jdbc.queryForObject("""
+    void redrivePhaseQueryPlansUseConvergencePollingIndex() {
+        String normalConvergenceKey = jdbc.queryForObject("""
             EXPLAIN
             SELECT id, source_outbox_id, status, failure_stage, requested_by, reason, requested_at,
                    started_at, completed_at, result, last_error, before_state, after_state
               FROM cancel_outbox_redrive
              WHERE status = 'REDRIVING'
                AND result IS NOT NULL
-               AND started_at >= '2026-08-11 00:00:00.000000'
+               AND started_at > '2026-08-11 00:00:00.000000'
              ORDER BY started_at, id
              LIMIT 100
             """, (rs, rowNum) -> rs.getString("key"));
+        String expiredUnpublishedKey = jdbc.queryForObject("""
+            EXPLAIN
+            SELECT id, source_outbox_id, status, failure_stage, requested_by, reason, requested_at,
+                   started_at, completed_at, result, last_error, before_state, after_state
+              FROM cancel_outbox_redrive
+             WHERE status = 'REDRIVING'
+               AND result IS NULL
+               AND started_at <= '2026-08-11 00:00:00.000000'
+             ORDER BY started_at, id
+            LIMIT 100
+            """, (rs, rowNum) -> rs.getString("key"));
+        String expiredPublishedKey = jdbc.queryForObject("""
+            EXPLAIN
+            SELECT id, source_outbox_id, status, failure_stage, requested_by, reason, requested_at,
+                   started_at, completed_at, result, last_error, before_state, after_state
+              FROM cancel_outbox_redrive
+             WHERE status = 'REDRIVING'
+               AND result IS NOT NULL
+               AND started_at <= '2026-08-11 00:00:00.000000'
+             ORDER BY started_at, id
+            LIMIT 100
+            """, (rs, rowNum) -> rs.getString("key"));
 
-        assertThat(requestedKey).isEqualTo("idx_cancel_outbox_redrive_requested_poll");
-        assertThat(convergenceKey).isEqualTo("idx_cancel_outbox_redrive_convergence_poll");
+        assertThat(normalConvergenceKey).isEqualTo("idx_cancel_outbox_redrive_convergence_poll");
+        assertThat(expiredUnpublishedKey).isEqualTo("idx_cancel_outbox_redrive_convergence_poll");
+        assertThat(expiredPublishedKey).isEqualTo("idx_cancel_outbox_redrive_convergence_poll");
     }
 
     private List<String> indexColumns(String indexName) {

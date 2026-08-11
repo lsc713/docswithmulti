@@ -143,6 +143,18 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
         assertThatThrownBy(() -> repository.findConverging(threshold, -1))
             .isInstanceOf(IllegalArgumentException.class)
             .hasMessageContaining("limit");
+        assertThatThrownBy(() -> repository.findExpiredUnpublished(threshold, 0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
+        assertThatThrownBy(() -> repository.findExpiredUnpublished(threshold, -1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
+        assertThatThrownBy(() -> repository.findExpiredPublished(threshold, 0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
+        assertThatThrownBy(() -> repository.findExpiredPublished(threshold, -1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
     }
 
     @Test
@@ -172,7 +184,7 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
         Instant threshold = Instant.parse("2026-08-11T05:30:00Z");
 
         repository.tryStart(unpublished, threshold);
-        startAndRecordPublished(tooOld, Instant.parse("2026-08-11T05:29:59.999999Z"), 1);
+        startAndRecordPublished(tooOld, threshold, 1);
         startAndRecordPublished(second, Instant.parse("2026-08-11T05:32:00Z"), 2);
         startAndRecordPublished(first, Instant.parse("2026-08-11T05:31:00Z"), 3);
         startAndRecordPublished(resolved, Instant.parse("2026-08-11T05:33:00Z"), 4);
@@ -187,6 +199,84 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
         assertThat(repository.findConverging(threshold, 10))
             .extracting(redrive -> redrive.getId())
             .doesNotContain(requested, unpublished, tooOld, resolved);
+    }
+
+    @Test
+    void findsExpiredRowsByUnpublishedAndPublishedPhasesAtInclusiveDeadline() {
+        Instant cutoff = Instant.parse("2026-08-11T06:01:00Z");
+        Instant afterCutoff = cutoff.plusNanos(1_000);
+        long unpublishedAtCutoff = createRequested(9_200_526L, "2026-08-11T06:00:00Z");
+        long unpublishedAfterCutoff = createRequested(9_200_527L, "2026-08-11T06:00:01Z");
+        long publishedAtCutoff = createRequested(9_200_528L, "2026-08-11T06:00:02Z");
+        long publishedAfterCutoff = createRequested(9_200_529L, "2026-08-11T06:00:03Z");
+        long terminal = createRequested(9_200_530L, "2026-08-11T06:00:04Z");
+
+        assertThat(repository.tryStart(unpublishedAtCutoff, cutoff)).isTrue();
+        assertThat(repository.tryStart(unpublishedAfterCutoff, afterCutoff)).isTrue();
+        startAndRecordPublished(publishedAtCutoff, cutoff, 8);
+        startAndRecordPublished(publishedAfterCutoff, afterCutoff, 9);
+        startAndRecordPublished(terminal, cutoff, 10);
+        assertThat(repository.resolve(
+            terminal, "{\"decision\":\"ALREADY_APPLIED\"}", cutoff.plusSeconds(1))).isTrue();
+
+        assertThat(repository.findExpiredUnpublished(cutoff, 10))
+            .extracting(redrive -> redrive.getId())
+            .contains(unpublishedAtCutoff)
+            .doesNotContain(unpublishedAfterCutoff, publishedAtCutoff, publishedAfterCutoff, terminal);
+        assertThat(repository.findExpiredPublished(cutoff, 10))
+            .extracting(redrive -> redrive.getId())
+            .contains(publishedAtCutoff)
+            .doesNotContain(unpublishedAtCutoff, unpublishedAfterCutoff, publishedAfterCutoff, terminal);
+    }
+
+    @Test
+    void failsPublishOnlyOnceForUnacknowledgedRedrivingRowsAndPersistsAuditEvidence() throws Exception {
+        long requested = createRequested(9_200_531L, "2026-08-11T06:02:00Z");
+        long acknowledged = createRequested(9_200_532L, "2026-08-11T06:02:01Z");
+        String before = "{\"decision\":\"REDRIVE_REQUIRED\"}";
+        Instant completedAt = Instant.parse("2026-08-11T06:03:02.123456Z");
+
+        assertThat(repository.failPublish(requested, "KAFKA_TIMEOUT", before, completedAt)).isFalse();
+        assertThat(repository.tryStart(requested, Instant.parse("2026-08-11T06:03:00Z"))).isTrue();
+        assertThat(repository.tryStart(acknowledged, Instant.parse("2026-08-11T06:03:01Z"))).isTrue();
+        assertThat(repository.recordPublished(
+            acknowledged, before, "{\"topic\":\"payment.cancelled\",\"offset\":11}")).isTrue();
+        assertThat(repository.failPublish(acknowledged, "KAFKA_TIMEOUT", before, completedAt)).isFalse();
+        assertThat(repository.failPublish(requested, "KAFKA_TIMEOUT", before, completedAt)).isTrue();
+        assertThat(repository.failPublish(requested, "changed", "{}", completedAt)).isFalse();
+
+        var loaded = repository.findById(requested).orElseThrow();
+        assertThat(loaded.getStatus()).isEqualTo(CancelOutboxRedriveStatus.FAILED);
+        assertThat(loaded.getFailureStage()).isEqualTo(CancelOutboxRedriveFailureStage.PUBLISH);
+        assertThat(loaded.getLastError()).isEqualTo("KAFKA_TIMEOUT");
+        assertJsonEquals(before, loaded.getBeforeState());
+        assertThat(loaded.getCompletedAt()).isEqualTo(completedAt);
+        assertThat(loaded.getResult()).isNull();
+    }
+
+    @Test
+    void failsConvergenceOnlyOnceAfterAcknowledgementAndPreservesPublishedEvidence() throws Exception {
+        long id = createRequested(9_200_533L, "2026-08-11T06:04:00Z");
+        String before = "{\"decision\":\"REDRIVE_REQUIRED\"}";
+        String ack = "{\"topic\":\"payment.cancelled\",\"offset\":12}";
+        String after = "{\"order\":\"UNKNOWN\"}";
+        Instant completedAt = Instant.parse("2026-08-11T06:05:02.123456Z");
+
+        assertThat(repository.failConvergence(id, "CONVERGENCE_TIMEOUT", after, completedAt)).isFalse();
+        assertThat(repository.tryStart(id, Instant.parse("2026-08-11T06:05:00Z"))).isTrue();
+        assertThat(repository.failConvergence(id, "CONVERGENCE_TIMEOUT", after, completedAt)).isFalse();
+        assertThat(repository.recordPublished(id, before, ack)).isTrue();
+        assertThat(repository.failConvergence(id, "CONVERGENCE_TIMEOUT", after, completedAt)).isTrue();
+        assertThat(repository.failConvergence(id, "changed", "{}", completedAt)).isFalse();
+
+        var loaded = repository.findById(id).orElseThrow();
+        assertThat(loaded.getStatus()).isEqualTo(CancelOutboxRedriveStatus.FAILED);
+        assertThat(loaded.getFailureStage()).isEqualTo(CancelOutboxRedriveFailureStage.CONVERGENCE);
+        assertJsonEquals(before, loaded.getBeforeState());
+        assertJsonEquals(ack, loaded.getResult());
+        assertJsonEquals(after, loaded.getAfterState());
+        assertThat(loaded.getLastError()).isEqualTo("CONVERGENCE_TIMEOUT");
+        assertThat(loaded.getCompletedAt()).isEqualTo(completedAt);
     }
 
     @Test

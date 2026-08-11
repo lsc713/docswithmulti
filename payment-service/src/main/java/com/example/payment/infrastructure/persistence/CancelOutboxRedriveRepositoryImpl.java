@@ -155,6 +155,44 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
     }
 
     @Override
+    public boolean failPublish(long redriveId, String lastError, String beforeState, Instant completedAt) {
+        return jdbc.update("""
+            UPDATE cancel_outbox_redrive
+               SET status = 'FAILED',
+                   failure_stage = 'PUBLISH',
+                   last_error = :lastError,
+                   before_state = :beforeState,
+                   completed_at = :completedAt
+             WHERE id = :redriveId
+               AND status = 'REDRIVING'
+               AND result IS NULL
+            """, new MapSqlParameterSource()
+            .addValue("redriveId", redriveId)
+            .addValue("lastError", lastError)
+            .addValue("beforeState", beforeState)
+            .addValue("completedAt", Timestamp.from(completedAt))) == 1;
+    }
+
+    @Override
+    public boolean failConvergence(long redriveId, String lastError, String afterState, Instant completedAt) {
+        return jdbc.update("""
+            UPDATE cancel_outbox_redrive
+               SET status = 'FAILED',
+                   failure_stage = 'CONVERGENCE',
+                   last_error = :lastError,
+                   after_state = :afterState,
+                   completed_at = :completedAt
+             WHERE id = :redriveId
+               AND status = 'REDRIVING'
+               AND result IS NOT NULL
+            """, new MapSqlParameterSource()
+            .addValue("redriveId", redriveId)
+            .addValue("lastError", lastError)
+            .addValue("afterState", afterState)
+            .addValue("completedAt", Timestamp.from(completedAt))) == 1;
+    }
+
+    @Override
     public List<CancelOutboxRedrive> findConverging(Instant startedAfter, int limit) {
         requirePositiveLimit(limit);
         return jdbc.query("""
@@ -163,11 +201,45 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
               FROM cancel_outbox_redrive
              WHERE status = 'REDRIVING'
                AND result IS NOT NULL
-               AND started_at >= :startedAfter
+               AND started_at > :startedAfter
              ORDER BY started_at, id
              LIMIT :limit
             """, new MapSqlParameterSource()
             .addValue("startedAfter", Timestamp.from(startedAfter))
+            .addValue("limit", limit), ROW_MAPPER);
+    }
+
+    @Override
+    public List<CancelOutboxRedrive> findExpiredUnpublished(Instant cutoff, int limit) {
+        requirePositiveLimit(limit);
+        return jdbc.query("""
+            SELECT id, source_outbox_id, status, failure_stage, requested_by, reason, requested_at,
+                   started_at, completed_at, result, last_error, before_state, after_state
+              FROM cancel_outbox_redrive
+             WHERE status = 'REDRIVING'
+               AND result IS NULL
+               AND started_at <= :cutoff
+             ORDER BY started_at, id
+             LIMIT :limit
+            """, new MapSqlParameterSource()
+            .addValue("cutoff", Timestamp.from(cutoff))
+            .addValue("limit", limit), ROW_MAPPER);
+    }
+
+    @Override
+    public List<CancelOutboxRedrive> findExpiredPublished(Instant cutoff, int limit) {
+        requirePositiveLimit(limit);
+        return jdbc.query("""
+            SELECT id, source_outbox_id, status, failure_stage, requested_by, reason, requested_at,
+                   started_at, completed_at, result, last_error, before_state, after_state
+              FROM cancel_outbox_redrive
+             WHERE status = 'REDRIVING'
+               AND result IS NOT NULL
+               AND started_at <= :cutoff
+             ORDER BY started_at, id
+             LIMIT :limit
+            """, new MapSqlParameterSource()
+            .addValue("cutoff", Timestamp.from(cutoff))
             .addValue("limit", limit), ROW_MAPPER);
     }
 
