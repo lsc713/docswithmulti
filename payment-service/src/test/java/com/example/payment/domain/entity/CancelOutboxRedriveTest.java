@@ -113,6 +113,28 @@ class CancelOutboxRedriveTest {
         assertThat(redrive.getAfterState()).isEqualTo("{\"after\":false}");
     }
 
+    @Test
+    void failureCodesAreStableUppercaseNamesWithoutAlternateMapping() {
+        assertThat(CancelOutboxRedriveFailureCode.values())
+            .extracting(CancelOutboxRedriveFailureCode::name)
+            .containsExactly(
+                "OUTBOX_NOT_DEAD",
+                "CANCEL_NOT_COMPLETED",
+                "PAYMENT_NOT_CANCELLED",
+                "INVALID_PAYLOAD",
+                "PREFLIGHT_UNKNOWN",
+                "KAFKA_TIMEOUT",
+                "KAFKA_SEND_FAILED",
+                "PUBLISH_STATE_UNKNOWN",
+                "CONVERGENCE_TIMEOUT",
+                "DOWNSTREAM_UNKNOWN",
+                "INCONSISTENT_DOWNSTREAM_STATE");
+        for (CancelOutboxRedriveFailureCode code : CancelOutboxRedriveFailureCode.values()) {
+            assertThat(code.name()).matches("[A-Z]+(?:_[A-Z]+)*");
+            assertThat(CancelOutboxRedriveFailureCode.valueOf(code.name())).isSameAs(code);
+        }
+    }
+
     private CancelOutboxRedrive requested() {
         return CancelOutboxRedrive.requested(41L, "operator-1", "복구", REQUESTED_AT);
     }

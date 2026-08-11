@@ -48,7 +48,8 @@ inspect_cancel_outbox() {
     return 1
   fi
 
-  printf '%s\n' "${INSPECTION_RESPONSE}" | jq
+  printf '%s\n' "${INSPECTION_RESPONSE}" |
+    jq '{outboxId, decision, reasonCode, order, stock}'
 }
 
 inspect_cancel_outbox
@@ -74,7 +75,8 @@ request_cancel_redrive() {
     return 1
   fi
 
-  printf '%s\n' "${REDRIVE_RESPONSE}" | jq || return 1
+  printf '%s\n' "${REDRIVE_RESPONSE}" |
+    jq '{redriveId, status, requestedBy, requestedAt}' || return 1
   REDRIVE_ID=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -er '.redriveId') || return 1
 }
 
@@ -106,11 +108,14 @@ while :; do
     break
   fi
 
-  printf '%s\n' "${REDRIVE_RESPONSE}" | jq || break
+  printf '%s\n' "${REDRIVE_RESPONSE}" |
+    jq '{redriveId, sourceOutboxId, status, failureStage, lastError,
+         requestedBy, requestedAt, startedAt, completedAt,
+         result, beforeState, afterState}' || break
   REDRIVE_STATUS=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -er '.status') || break
 
   case "${REDRIVE_STATUS}" in
-    RESOLVED|RESOLVED_ALREADY_APPLIED|REJECTED)
+    RESOLVED|RESOLVED_ALREADY_APPLIED|REJECTED|FAILED)
       break
       ;;
   esac
@@ -124,8 +129,53 @@ done
 - `RESOLVED`: 이벤트 발행 ACK를 저장했고 order와 stock 모두 `APPLIED`로 수렴했습니다.
 - `RESOLVED_ALREADY_APPLIED`: 발행 전 점검에서 이미 양쪽이 적용된 것을 확인해 Kafka에는 발행하지 않았습니다.
 - `REJECTED`: 원본 또는 하위 시스템 상태가 안전한 재발행 조건을 만족하지 않아 발행하지 않았습니다. `lastError`의 안전한 reason code를 확인합니다.
+- `FAILED`: `failureStage`와 `lastError`를 함께 확인합니다. 동일 source outbox에 새 요청을 만들 수 있지만, 아래 표의 점검을 마치기 전에는 자동 재요청하지 않습니다.
 - `REDRIVING`: 사전 점검, broker ACK 대기, 또는 최대 60초의 수렴 관찰 중입니다.
 
-`REDRIVING`이 60초를 넘으면 자동으로 다시 요청하거나 payload를 수동 발행하지 않습니다. 이 경우 수동 조사 대상으로 전환하고, publish/convergence 실패의 최종 상태 처리와 복구 정책을 제공할 issue #108이 반영될 때까지 원본 outbox와 redrive 행을 보존합니다.
+`REDRIVING`이 60초를 넘으면 자동으로 다시 요청하거나 payload를 수동 발행하지 않습니다. recovery poller가 `startedAt` 기준 정확히 60초가 된 행을 최종 처리하므로 다음 상태 조회에서 `FAILED` 또는 `RESOLVED`를 확인합니다. executor 포화로 recovery 작업이 거절되면 행은 그대로 남고 다음 recovery polling 주기에 다시 선택됩니다.
 
-운영 로그와 장애 티켓에는 redrive ID, source outbox ID, 상태, reason code만 기록합니다. 원본 payload와 payment key는 복사하지 않습니다.
+운영 로그와 장애 티켓에는 redrive attempt ID, `requestedAt`/`startedAt`/`completedAt`, `status`, `failureStage`, `lastError`의 bounded code만 기록합니다. 운영자가 입력한 자유 형식 reason, 원본 payload, payment key는 복사하지 않습니다.
+
+## 5. 종료 상태 해석과 안전한 다음 작업
+
+CLI 응답에서는 `status`, `failureStage`, `lastError` 조합을 그대로 사용합니다. `failureStage`나 `lastError`가 `null`인 경우 임의의 기본값으로 해석하지 않습니다.
+
+| 상태 조합 | 의미 | 안전한 다음 작업 |
+| --- | --- | --- |
+| `FAILED / PUBLISH / PREFLIGHT_UNKNOWN` | 발행 전 order 또는 stock 점검이 `UNKNOWN`이어서 Kafka send를 호출하지 않았습니다. | 하위 점검 API의 가용성을 복구하고 2절을 다시 실행합니다. `REDRIVE_REQUIRED`가 확인될 때만 새 redrive를 요청합니다. |
+| `FAILED / PUBLISH / KAFKA_TIMEOUT` | Kafka future가 제한 시간 안에 완료되지 않았습니다. broker가 이벤트를 받았는지는 이 상태만으로 단정할 수 없습니다. | **반드시 inspect-before-retry를 수행합니다.** consumer 적용 상태와 broker 장애를 먼저 확인하고 2절을 다시 실행합니다. `REDRIVE_REQUIRED`여도 order와 product consumer의 cancel request 기준 중복 전달/idempotency 회귀 검증이 성공한 경우에만 새 요청을 만듭니다. 검증이 누락됐거나 실패하면 replacement attempt를 만들지 않고 수동 정합성 복구로 전환합니다. 수동 Kafka 발행은 하지 않습니다. |
+| `FAILED / PUBLISH / KAFKA_SEND_FAILED` | Kafka future가 예외로 완료되었거나 send 단계가 실패했습니다. | producer/broker 오류를 복구한 뒤 하위 적용 상태를 다시 점검합니다. 새 요청은 점검 결과가 `REDRIVE_REQUIRED`일 때만 만듭니다. |
+| `FAILED / PUBLISH / PUBLISH_STATE_UNKNOWN` | broker ACK 뒤 DB의 ACK 저장 전에 프로세스가 중단됐거나, ACK 없는 `REDRIVING` 행이 정확히 60초에 도달했습니다. 이벤트는 이미 전달됐을 수 있습니다. | **반드시 inspect-before-retry를 수행합니다.** 2절에서 양쪽이 `APPLIED`면 재발행하지 않습니다. `REDRIVE_REQUIRED`여도 consumer의 중복 처리 보장을 확인한 뒤 새 reason으로 요청합니다. |
+| `FAILED / CONVERGENCE / CONVERGENCE_TIMEOUT` | ACK는 저장됐지만 정확히 60초의 최종 점검에서도 한쪽 이상이 `NOT_APPLIED`였습니다. | `afterState`의 안전한 상태·수량 증거로 미적용 consumer를 조사합니다. 동일 이벤트 재요청은 자동화하지 않습니다. |
+| `FAILED / CONVERGENCE / DOWNSTREAM_UNKNOWN` | ACK는 저장됐지만 최종 점검이 `UNKNOWN`이거나 점검 호출이 실패했습니다. | 하위 점검 가용성을 복구한 뒤 2절을 다시 실행합니다. 현재 결과만으로 재발행 여부를 결정하지 않습니다. |
+| `FAILED / CONVERGENCE / INCONSISTENT_DOWNSTREAM_STATE` | ACK 뒤 최종 점검에서 수량 또는 상태 불일치가 확인됐습니다. | 수동 정합성 복구 대상으로 전환하고 재발행하지 않습니다. `afterState`의 안전한 증거만 티켓에 남깁니다. |
+| `FAILED / CONVERGENCE / OUTBOX_NOT_DEAD` | ACK 저장 뒤 최종 점검에서 원본 outbox가 더 이상 `DEAD`가 아니었습니다. 원본 불변 조건 위반 또는 잘못된 운영 변경 가능성이 있습니다. | 원본과 모든 attempt를 보존하고 수동 감사 대상으로 전환합니다. 상태를 SQL로 되돌리거나 다시 발행하지 않습니다. |
+| `FAILED / CONVERGENCE / CANCEL_NOT_COMPLETED` | ACK 저장 뒤 최종 점검에서 취소 요청이 더 이상 `COMPLETED`가 아니었습니다. | 취소 상태 회귀 원인을 수동 조사하고 재발행하지 않습니다. 결제·주문 정합성을 별도 복구합니다. |
+| `FAILED / CONVERGENCE / PAYMENT_NOT_CANCELLED` | ACK 저장 뒤 최종 점검에서 결제가 취소 완료 상태가 아니었습니다. | 결제 상태와 consumer 적용 이력을 수동 대조하고 재발행하지 않습니다. |
+| `FAILED / CONVERGENCE / INVALID_PAYLOAD` | ACK 저장 뒤 최종 점검에서 저장 이벤트가 현재 payload 검증을 통과하지 못했습니다. | payload를 CLI로 조회·수정하지 않습니다. producer/schema 변경과 원본 무결성을 조사하고 재발행하지 않습니다. |
+| `RESOLVED / - / -` | ACK가 저장됐고 order와 stock 모두 `APPLIED`로 수렴했습니다. | 추가 발행 없이 attempt ID와 종료 timestamp/status만 기록합니다. |
+| `RESOLVED_ALREADY_APPLIED / - / -` | preflight에서 양쪽이 이미 `APPLIED`여서 Kafka 발행 없이 종료했습니다. | 추가 작업이 없습니다. 이 attempt ID를 변경 이력에 남깁니다. |
+| `REJECTED / - / OUTBOX_NOT_DEAD` | 요청한 source outbox가 `DEAD`가 아니어서 발행 전 거절됐습니다. | SQL로 상태를 바꾸지 않습니다. 0절의 안전한 필드 조회로 실제 `DEAD` 행을 다시 선택하거나 이 작업을 종료합니다. |
+| `REJECTED / - / CANCEL_NOT_COMPLETED` | 취소 요청이 `COMPLETED`가 아니어서 발행 전 거절됐습니다. | 취소 처리 상태를 수동 조사하고 재발행하지 않습니다. |
+| `REJECTED / - / PAYMENT_NOT_CANCELLED` | 결제가 취소 완료 상태가 아니어서 발행 전 거절됐습니다. | 결제 상태를 수동 조사하고 재발행하지 않습니다. |
+| `REJECTED / - / INVALID_PAYLOAD` | 저장된 원본 이벤트가 필수 필드, source ID 일치, item 형식 검증을 통과하지 못했습니다. | payload를 CLI로 조회·복사·수정하지 않습니다. 생성 경로와 원본 데이터 문제를 별도 장애로 조사합니다. |
+| `REJECTED / - / INCONSISTENT_DOWNSTREAM_STATE` | 발행 전 점검에서 order 또는 stock의 상태·수량 불일치가 확인됐습니다. | 수동 정합성 복구 대상으로 전환하고 재발행하지 않습니다. 안전한 점검 증거만 티켓에 남깁니다. |
+| 알 수 없는 `status / failureStage / lastError` 조합 | 현재 runbook에 없는 신규·오염 code이거나 CLI/API 버전이 맞지 않습니다. | fail closed로 중단합니다. 재요청·수동 발행·SQL 상태 변경을 하지 말고 원본과 attempt를 보존해 서비스 담당자에게 에스컬레이션합니다. |
+
+새 요청은 새 redrive ID를 생성합니다. 이전 `FAILED` attempt를 덮어쓰지 않으므로 장애 티켓에는 각 attempt ID, timestamp, status, failure stage, bounded code만 시간순으로 남깁니다. 운영자가 입력한 자유 형식 reason은 로그, 티켓, 채팅에 복사하지 않습니다.
+
+## 6. executor 포화와 recovery 확인
+
+redrive dispatcher, convergence poller, recovery poller는 queue가 없는 최대 5개 공용 executor를 사용합니다. 다음 Micrometer meter를 대시보드에서 함께 확인합니다.
+
+- `payment.cancel.redrive.executor.active`: 실행 중인 작업 수입니다. 지속적으로 `5`이면 포화 상태입니다.
+- `payment.cancel.redrive.executor.rejected.total`: 빈 slot 없이 제출돼 거절된 누적 작업 수입니다. 증가량으로 포화를 경보합니다.
+- `payment.cancel.redrive.terminal.total{status="FAILED",failure_stage="PUBLISH|CONVERGENCE"}`: 단계별 최종 실패 수입니다.
+
+queue가 없으므로 여섯 번째 요청이나 recovery 작업은 executor 밖에 적재되지 않습니다. DB 상태가 `REQUESTED` 또는 만료된 `REDRIVING`으로 유지되어 다음 polling 주기에 다시 선택됩니다. 포화 중에는 SQL로 상태를 바꾸거나 스케줄러를 동시에 수동 호출하지 말고, active가 내려간 뒤 정상 polling으로 해당 ID가 시작 또는 최종 처리되는지 4절의 60초 제한 안에서 확인합니다.
+
+## 7. ACK 저장 crash window와 중복 이벤트 전제
+
+Kafka ACK 수신과 `cancel_outbox_redrive.result` 저장은 하나의 원자 트랜잭션이 아닙니다. ACK 직후 상태 저장이 실패하면 첫 attempt는 `REDRIVING/result=null`로 남았다가 정확히 60초에 `FAILED/PUBLISH/PUBLISH_STATE_UNKNOWN`이 됩니다. inspect-before-retry 뒤 새 attempt를 만들면 원본 `DEAD` 행은 변경하지 않은 채 동일한 Kafka key와 payload가 다시 발행될 수 있습니다.
+
+따라서 이 복구 절차는 order와 product consumer가 cancel request 기준으로 중복 이벤트를 idempotent no-op 처리한다는 보장에 의존합니다. 해당 회귀 테스트가 통과하지 않는 배포에서는 `PUBLISH_STATE_UNKNOWN`을 재시도하지 않고 수동 정합성 복구로 전환합니다. 운영 명령, 로그, 티켓에는 payload나 payment key를 출력하거나 요청하지 않습니다.

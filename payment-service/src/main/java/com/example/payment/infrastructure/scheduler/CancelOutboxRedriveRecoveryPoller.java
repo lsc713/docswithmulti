@@ -1,7 +1,8 @@
 package com.example.payment.infrastructure.scheduler;
 
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
-import com.example.payment.application.service.CancelOutboxRedriveConvergenceWorker;
+import com.example.payment.application.service.CancelOutboxRedriveDeadlineWorker;
+import com.example.payment.application.service.CancelOutboxRedriveStalePublishWorker;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,18 +15,20 @@ import java.time.Clock;
 @Slf4j
 @Component
 @ConditionalOnProperty(name = "cancel.publish.mode", havingValue = "OUTBOX", matchIfMissing = true)
-public class CancelOutboxRedriveConvergencePoller {
+public class CancelOutboxRedriveRecoveryPoller {
 
     private final CancelOutboxRedriveRepository repository;
-    private final CancelOutboxRedriveConvergenceWorker worker;
+    private final CancelOutboxRedriveStalePublishWorker stalePublishWorker;
+    private final CancelOutboxRedriveDeadlineWorker deadlineWorker;
     private final CancelOutboxRedriveTaskExecutor executor;
     private final Clock clock;
     private final long observationSeconds;
     private final int batchSize;
 
-    public CancelOutboxRedriveConvergencePoller(
+    public CancelOutboxRedriveRecoveryPoller(
         CancelOutboxRedriveRepository repository,
-        CancelOutboxRedriveConvergenceWorker worker,
+        CancelOutboxRedriveStalePublishWorker stalePublishWorker,
+        CancelOutboxRedriveDeadlineWorker deadlineWorker,
         CancelOutboxRedriveTaskExecutor executor,
         Clock clock,
         @Value("${cancel.redrive.observation-seconds:60}") long observationSeconds,
@@ -38,7 +41,8 @@ public class CancelOutboxRedriveConvergencePoller {
             throw new IllegalArgumentException("batchSize must be greater than 0");
         }
         this.repository = repository;
-        this.worker = worker;
+        this.stalePublishWorker = stalePublishWorker;
+        this.deadlineWorker = deadlineWorker;
         this.executor = executor;
         this.clock = clock;
         this.observationSeconds = observationSeconds;
@@ -46,21 +50,35 @@ public class CancelOutboxRedriveConvergencePoller {
     }
 
     @Scheduled(
-        fixedDelayString = "${cancel.redrive.convergence-ms:2000}",
-        initialDelayString = "${cancel.redrive.convergence-initial-delay-ms:2000}")
+        fixedDelayString = "${cancel.redrive.recovery-ms:2000}",
+        initialDelayString = "${cancel.redrive.recovery-initial-delay-ms:2000}")
     public void poll() {
-        var startedAfter = clock.instant().minusSeconds(observationSeconds);
-        for (var redrive : repository.findConverging(startedAfter, batchSize)) {
-            executor.tryExecute(() -> check(redrive));
+        var cutoff = clock.instant().minusSeconds(observationSeconds);
+        for (var redrive : repository.findExpiredUnpublished(cutoff, batchSize)) {
+            executor.tryExecute(() -> expireStalePublish(redrive));
+        }
+        for (var redrive : repository.findExpiredPublished(cutoff, batchSize)) {
+            executor.tryExecute(() -> checkDeadline(redrive));
         }
     }
 
-    private void check(CancelOutboxRedrive redrive) {
+    private void expireStalePublish(CancelOutboxRedrive redrive) {
         try {
-            worker.check(redrive);
+            stalePublishWorker.expire(redrive);
         } catch (Exception exception) {
             log.warn(
-                "CANCEL_REDRIVE_CONVERGENCE_ITEM_FAILED redriveId={} exceptionType={}",
+                "CANCEL_REDRIVE_STALE_PUBLISH_ITEM_FAILED redriveId={} exceptionType={}",
+                redrive.getId(),
+                exception.getClass().getSimpleName());
+        }
+    }
+
+    private void checkDeadline(CancelOutboxRedrive redrive) {
+        try {
+            deadlineWorker.check(redrive);
+        } catch (Exception exception) {
+            log.warn(
+                "CANCEL_REDRIVE_DEADLINE_ITEM_FAILED redriveId={} exceptionType={}",
                 redrive.getId(),
                 exception.getClass().getSimpleName());
         }

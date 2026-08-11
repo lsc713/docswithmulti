@@ -1,5 +1,6 @@
 package com.example.payment.infrastructure.messaging;
 
+import com.example.payment.application.exception.CancelEventReplayException;
 import com.example.payment.application.interfaces.CancelEventReplayPort;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -80,10 +81,13 @@ class KafkaCancelEventReplayAdapterTest {
         adapter = new KafkaCancelEventReplayAdapter(kafkaTemplate, TOPIC, 1L);
 
         assertThatThrownBy(() -> adapter.replay(77L, payload))
-            .isInstanceOf(CancelEventReplayException.class)
-            .hasMessage("Cancel event replay failed. cancelRequestId=77")
-            .hasMessageNotContaining(payload)
-            .hasMessageNotContaining(TOPIC);
+            .isInstanceOfSatisfying(CancelEventReplayException.class, exception -> {
+                assertThat(exception.kind()).isEqualTo(CancelEventReplayException.Kind.TIMEOUT);
+                assertThat(exception)
+                    .hasMessage("Cancel event replay failed. cancelRequestId=77")
+                    .hasMessageNotContaining(payload)
+                    .hasMessageNotContaining(TOPIC);
+            });
     }
 
     @Test
@@ -94,10 +98,30 @@ class KafkaCancelEventReplayAdapterTest {
         given(kafkaTemplate.send(TOPIC, "77", payload)).willReturn(failed);
 
         assertThatThrownBy(() -> adapter.replay(77L, payload))
-            .isInstanceOf(CancelEventReplayException.class)
-            .hasMessage("Cancel event replay failed. cancelRequestId=77")
-            .hasMessageNotContaining("broker leaked detail")
-            .hasCauseInstanceOf(java.util.concurrent.ExecutionException.class);
+            .isInstanceOfSatisfying(CancelEventReplayException.class, exception -> {
+                assertThat(exception.kind()).isEqualTo(CancelEventReplayException.Kind.SEND_FAILED);
+                assertThat(exception)
+                    .hasMessage("Cancel event replay failed. cancelRequestId=77")
+                    .hasMessageNotContaining("broker leaked detail")
+                    .hasCauseInstanceOf(java.util.concurrent.ExecutionException.class);
+            });
+    }
+
+    @Test
+    void cancellationMapsToSendFailedWithoutLeakingPayloadOrDependencyMessage() {
+        String payload = "secret-payload";
+        CompletableFuture<SendResult<String, String>> cancelled = new CompletableFuture<>();
+        cancelled.cancel(true);
+        given(kafkaTemplate.send(TOPIC, "77", payload)).willReturn(cancelled);
+
+        assertThatThrownBy(() -> adapter.replay(77L, payload))
+            .isInstanceOfSatisfying(CancelEventReplayException.class, exception -> {
+                assertThat(exception.kind()).isEqualTo(CancelEventReplayException.Kind.SEND_FAILED);
+                assertThat(exception)
+                    .hasMessage("Cancel event replay failed. cancelRequestId=77")
+                    .hasMessageNotContaining(payload)
+                    .hasMessageNotContaining(TOPIC);
+            });
     }
 
     @Test
@@ -109,9 +133,12 @@ class KafkaCancelEventReplayAdapterTest {
         Thread.currentThread().interrupt();
         try {
             assertThatThrownBy(() -> adapter.replay(77L, payload))
-                .isInstanceOf(CancelEventReplayException.class)
-                .hasMessage("Cancel event replay failed. cancelRequestId=77")
-                .hasCauseInstanceOf(InterruptedException.class);
+                .isInstanceOfSatisfying(CancelEventReplayException.class, exception -> {
+                    assertThat(exception.kind()).isEqualTo(CancelEventReplayException.Kind.SEND_FAILED);
+                    assertThat(exception)
+                        .hasMessage("Cancel event replay failed. cancelRequestId=77")
+                        .hasCauseInstanceOf(InterruptedException.class);
+                });
             assertThat(Thread.currentThread().isInterrupted()).isTrue();
         } finally {
             Thread.interrupted();

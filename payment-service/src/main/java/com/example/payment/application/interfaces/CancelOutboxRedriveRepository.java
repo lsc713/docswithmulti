@@ -15,7 +15,15 @@ public interface CancelOutboxRedriveRepository {
 
     boolean recordPublished(long redriveId, String beforeState, String result);
 
+    boolean failPublish(long redriveId, String lastError, String beforeState, Instant completedAt);
+
+    boolean failConvergence(long redriveId, String lastError, String afterState, Instant completedAt);
+
     List<CancelOutboxRedrive> findConverging(Instant startedAfter, int limit);
+
+    List<CancelOutboxRedrive> findExpiredUnpublished(Instant cutoff, int limit);
+
+    List<CancelOutboxRedrive> findExpiredPublished(Instant cutoff, int limit);
 
     boolean resolveAlreadyApplied(long redriveId, String beforeState, String afterState,
                                   String result, Instant completedAt);

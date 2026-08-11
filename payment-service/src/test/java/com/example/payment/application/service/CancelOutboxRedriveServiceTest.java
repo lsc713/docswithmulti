@@ -27,12 +27,15 @@ class CancelOutboxRedriveServiceTest {
     private static final Instant NOW = Instant.parse("2026-08-11T00:00:00Z");
 
     private CancelOutboxRedriveRepository repository;
+    private CancelOutboxRedriveTelemetry telemetry;
     private CancelOutboxRedriveService service;
 
     @BeforeEach
     void setUp() {
         repository = mock(CancelOutboxRedriveRepository.class);
-        service = new CancelOutboxRedriveService(repository, Clock.fixed(NOW, ZoneOffset.UTC));
+        telemetry = mock(CancelOutboxRedriveTelemetry.class);
+        service = new CancelOutboxRedriveService(
+            repository, telemetry, Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
     @ParameterizedTest
@@ -65,6 +68,7 @@ class CancelOutboxRedriveServiceTest {
 
         assertThat(result.getReason()).isEqualTo(reason);
         verify(repository).createRequested(41L, "operator-1", reason, NOW);
+        verify(telemetry).requested(result);
     }
 
     @Test
@@ -90,6 +94,9 @@ class CancelOutboxRedriveServiceTest {
 
         assertThat(constructors).hasSize(1);
         assertThat(constructors[0].getParameterTypes())
-            .containsExactly(CancelOutboxRedriveRepository.class, Clock.class);
+            .containsExactly(
+                CancelOutboxRedriveRepository.class,
+                CancelOutboxRedriveTelemetry.class,
+                Clock.class);
     }
 }

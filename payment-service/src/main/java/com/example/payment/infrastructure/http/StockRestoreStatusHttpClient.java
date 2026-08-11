@@ -22,7 +22,7 @@ public class StockRestoreStatusHttpClient implements StockRestoreStatusPort {
     private final CircuitBreaker circuitBreaker;
 
     public StockRestoreStatusHttpClient(
-        RestTemplate restTemplate,
+        @Qualifier("cancelOutboxInspectionRestTemplate") RestTemplate restTemplate,
         @Value("${external.product-service.url}") String baseUrl,
         @Qualifier("stockRestoreStatusCircuitBreaker") CircuitBreaker circuitBreaker
     ) {
@@ -38,22 +38,24 @@ public class StockRestoreStatusHttpClient implements StockRestoreStatusPort {
         } catch (Error e) {
             throw e;
         } catch (Throwable t) {
-            log.warn("stock restore inspection unavailable. cancelRequestId={}",
-                command.cancelRequestId(), t);
+            log.atWarn()
+                .addKeyValue("event", "cancel_restore_inspection_unavailable")
+                .addKeyValue("leg", "stock")
+                .addKeyValue("exceptionClass", t.getClass().getSimpleName())
+                .log("Cancel restore inspection unavailable");
             return unknown();
         }
     }
 
     private CancelRestoreLegSnapshot inspectDownstream(Command command) {
-        String url = baseUrl + "/internal/cancel-restores/"
-            + command.cancelRequestId() + ":inspect";
+        String url = baseUrl + "/internal/cancel-restores/{cancelRequestId}:inspect";
         InspectRequest request = new InspectRequest(
             command.paymentKey(),
             command.items().stream()
                 .map(item -> new ItemRequest(item.skuId(), item.quantity()))
                 .toList());
         ResponseEntity<InspectResponse> response = restTemplate.postForEntity(
-            url, request, InspectResponse.class);
+            url, request, InspectResponse.class, command.cancelRequestId());
         if (!response.getStatusCode().is2xxSuccessful() || response.getBody() == null) {
             throw new IllegalStateException(
                 "stock inspection response is not successful: " + response.getStatusCode());

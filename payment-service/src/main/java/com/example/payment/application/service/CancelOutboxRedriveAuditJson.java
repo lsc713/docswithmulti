@@ -37,6 +37,14 @@ public class CancelOutboxRedriveAuditJson {
         return write(new OutcomeAudit("ALREADY_APPLIED"));
     }
 
+    public String unknownInspection() {
+        return write(new InspectionAudit(
+            "UNKNOWN",
+            "DOWNSTREAM_UNKNOWN",
+            new LegAudit("UNKNOWN", List.of()),
+            new LegAudit("UNKNOWN", List.of())));
+    }
+
     private LegAudit leg(CancelRestoreLegSnapshot snapshot) {
         if (snapshot == null) {
             return null;
