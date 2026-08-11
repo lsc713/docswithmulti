@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { api } from '../api'
 import abstractArt from '../assets/detail-draft-art.svg'
 import './ProductDetailDraft.css'
@@ -136,6 +136,178 @@ function DraftPurchasePanel({ product, onBuy, onAddToCart, compact = false }) {
   )
 }
 
+function GalleryPurchasePanel({ product, onBuy, onAddToCart }) {
+  const skus = product.skus ?? []
+  const hasStructuredVariants = (product.variantOptions?.length ?? 0) > 0
+  const variantOptions = hasStructuredVariants
+    ? product.variantOptions
+    : skus.length > 0
+      ? [{ attribute: '옵션', values: skus.map(sku => sku.optionSummary) }]
+      : []
+  const listboxIdPrefix = useId()
+  const [selectedVariants, setSelectedVariants] = useState({})
+  const [openAttributes, setOpenAttributes] = useState({})
+  const [pendingFocus, setPendingFocus] = useState(null)
+  const [quantity, setQuantity] = useState(1)
+  const triggerRefs = useRef({})
+  const listboxRefs = useRef({})
+  const selectedSku = hasStructuredVariants
+    ? skus.find(sku =>
+      sku.availableQty > 0 &&
+      variantOptions.every(({ attribute }) => sku.variant?.[attribute] === selectedVariants[attribute]))
+    : skus.find(sku =>
+      sku.availableQty > 0 && sku.optionSummary === selectedVariants['옵션'])
+  const allSoldOut = skus.length === 0 || skus.every(sku => sku.availableQty <= 0)
+
+  const line = selectedSku ? [{
+    skuId: selectedSku.skuId,
+    productId: product.id,
+    itemName: product.name,
+    optionSummary: selectedSku.optionSummary,
+    unitPrice: selectedSku.price,
+    quantity,
+  }] : []
+
+  useEffect(() => {
+    if (!pendingFocus) return
+    const listbox = listboxRefs.current[pendingFocus]
+    const option = listbox?.querySelector('[aria-selected="true"]:not(:disabled), [role="option"]:not(:disabled)')
+    option?.focus()
+    setPendingFocus(null)
+  }, [openAttributes, pendingFocus])
+
+  useEffect(() => {
+    if (!selectedSku) return
+    setQuantity(current => Math.min(Math.max(current, 1), selectedSku.availableQty))
+  }, [selectedSku])
+
+  const closeDisclosure = (attribute) => {
+    setOpenAttributes(current => ({ ...current, [attribute]: false }))
+    triggerRefs.current[attribute]?.focus()
+  }
+
+  const selectVariant = (attribute, value) => {
+    setSelectedVariants(current => {
+      if (!hasStructuredVariants) return { ...current, [attribute]: value }
+
+      const next = { ...current, [attribute]: value }
+      let compatibleSkus = skus.filter(sku =>
+        sku.availableQty > 0 && sku.variant?.[attribute] === value)
+
+      variantOptions.forEach(({ attribute: otherAttribute }) => {
+        if (otherAttribute === attribute || next[otherAttribute] === undefined) return
+        const narrowedSkus = compatibleSkus.filter(sku =>
+          sku.variant?.[otherAttribute] === next[otherAttribute])
+        if (narrowedSkus.length > 0) compatibleSkus = narrowedSkus
+        else delete next[otherAttribute]
+      })
+
+      return next
+    })
+    closeDisclosure(attribute)
+  }
+
+  const handleOptionKeyDown = (event, attribute, value) => {
+    const enabledOptions = [...event.currentTarget.closest('[role="listbox"]')
+      .querySelectorAll('[role="option"]:not(:disabled)')]
+    const currentIndex = enabledOptions.indexOf(event.currentTarget)
+    let nextIndex
+
+    if (event.key === 'ArrowDown') nextIndex = (currentIndex + 1) % enabledOptions.length
+    if (event.key === 'ArrowUp') nextIndex = (currentIndex - 1 + enabledOptions.length) % enabledOptions.length
+    if (event.key === 'Home') nextIndex = 0
+    if (event.key === 'End') nextIndex = enabledOptions.length - 1
+
+    if (nextIndex !== undefined) {
+      event.preventDefault()
+      enabledOptions[nextIndex]?.focus()
+    } else if (event.key === 'Escape') {
+      event.preventDefault()
+      closeDisclosure(attribute)
+    } else if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      selectVariant(attribute, value)
+    }
+  }
+
+  const updateQuantity = (event) => {
+    const next = Math.floor(Number(event.target.value) || 1)
+    setQuantity(Math.min(Math.max(next, 1), selectedSku?.availableQty ?? 1))
+  }
+
+  return (
+    <section className="detail-draft-purchase" aria-label="구매 정보">
+      <div className="detail-draft-disclosures">
+        <p className="detail-draft-disclosures-label">옵션 선택</p>
+        {variantOptions.length === 0 && <p className="detail-draft-stock-message">등록된 옵션이 없습니다.</p>}
+        {variantOptions.map(({ attribute, values }, index) => {
+          const isOpen = Boolean(openAttributes[attribute])
+          const listboxId = `${listboxIdPrefix}-${index}`
+          return (
+            <div key={attribute} className="detail-draft-disclosure">
+              <button type="button" className="detail-draft-disclosure-trigger"
+                      aria-expanded={isOpen} aria-controls={listboxId}
+                      ref={element => { triggerRefs.current[attribute] = element }}
+                      onClick={() => {
+                        setOpenAttributes(current => ({ ...current, [attribute]: !isOpen }))
+                        if (!isOpen) setPendingFocus(attribute)
+                      }}
+                      onKeyDown={event => {
+                        if (event.key !== 'Escape' || !isOpen) return
+                        event.preventDefault()
+                        closeDisclosure(attribute)
+                      }}>
+                {attribute} · {selectedVariants[attribute] ?? '선택 안 됨'}
+              </button>
+              {isOpen && (
+                <div id={listboxId}
+                     className={`detail-draft-listbox${values.length >= 12 ? ' detail-draft-listbox--scrollable' : ''}`}
+                     role="listbox" aria-label={`${attribute} 옵션`}
+                     ref={element => { listboxRefs.current[attribute] = element }}>
+                  {values.map(value => {
+                    const available = hasStructuredVariants
+                      ? skus.some(sku =>
+                        sku.availableQty > 0 &&
+                        sku.variant?.[attribute] === value)
+                      : skus.some(sku => sku.availableQty > 0 && sku.optionSummary === value)
+                    return (
+                      <button key={value} type="button" role="option" disabled={!available}
+                              aria-selected={selectedVariants[attribute] === value}
+                              onClick={() => selectVariant(attribute, value)}
+                              onKeyDown={event => handleOptionKeyDown(event, attribute, value)}>
+                        {value}{!available && ' · 품절'}
+                      </button>
+                    )
+                  })}
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      <label className="detail-draft-quantity">
+        <span>수량</span>
+        <input type="number" aria-label="수량" min="1" max={selectedSku?.availableQty ?? 1}
+               step="1" value={quantity} disabled={!selectedSku} onChange={updateQuantity} />
+      </label>
+
+      <div className="detail-draft-selection-status" role="status" aria-live="polite">
+        {allSoldOut
+          ? '현재 모든 옵션이 품절되었습니다.'
+          : selectedSku
+            ? `${selectedSku.optionSummary}, ${quantity}개 선택됨`
+            : '구매할 옵션을 선택해 주세요.'}
+      </div>
+
+      <div className="detail-draft-actions">
+        <button type="button" className="detail-draft-buy" disabled={!selectedSku} onClick={() => onBuy(line)}>구매하기</button>
+        <button type="button" className="detail-draft-cart" disabled={!selectedSku} onClick={() => onAddToCart(line)}>장바구니 담기</button>
+      </div>
+    </section>
+  )
+}
+
 function SampleCard({ title, children }) {
   return (
     <article className="detail-draft-info-card">
@@ -166,7 +338,7 @@ function GalleryLayout(props) {
       <ProductSummary product={product} kicker="GALLERY FOCUS · 디자인 제안 · 샘플" />
       <ProductVisual product={product} gallery />
       <div className="detail-draft-gallery-buy">
-        <DraftPurchasePanel {...props} />
+        <GalleryPurchasePanel {...props} />
         <div className="detail-draft-card-grid">
           <SampleCard title="배송">영업일 기준 2–3일 내 출고 제안</SampleCard>
           <SampleCard title="리뷰">부드러운 소재감 · 4.8 / 5 제안</SampleCard>

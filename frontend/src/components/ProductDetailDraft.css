@@ -207,6 +207,70 @@ body:has(.detail-draft-main) {
   font-weight: 750;
 }
 
+.detail-draft-disclosures {
+  display: grid;
+  gap: 10px;
+}
+
+.detail-draft-disclosures-label {
+  margin: 0 0 2px;
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.detail-draft-disclosure-trigger {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid #cfc4b8;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .46);
+  color: var(--detail-draft-ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.detail-draft-listbox {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #d8cec3;
+  border-radius: 14px;
+  background: white;
+}
+
+.detail-draft-listbox--scrollable {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.detail-draft-listbox button {
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--detail-draft-ink);
+  cursor: pointer;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+.detail-draft-listbox button:hover,
+.detail-draft-listbox button[aria-selected="true"] {
+  background: var(--detail-draft-oat);
+}
+
+.detail-draft-listbox button:disabled {
+  color: var(--detail-draft-muted);
+  cursor: not-allowed;
+  opacity: .58;
+}
+
 .detail-draft-option {
   display: flex;
   min-width: 0;
