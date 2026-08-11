@@ -4,6 +4,8 @@ import com.example.payment.application.interfaces.CancelEventReplayPort;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
 import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
+import com.example.payment.domain.entity.CancelOutboxRedriveFailureCode;
+import com.example.payment.domain.entity.CancelOutboxRedriveFailureStage;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,13 +28,16 @@ class CancelOutboxRedriveStalePublishWorkerTest {
     private static final String BEFORE_STATE = "{\"decision\":\"ALREADY_APPLIED\"}";
 
     private CancelOutboxRedriveRepository repository;
+    private CancelOutboxRedriveTelemetry telemetry;
     private CancelOutboxRedriveStalePublishWorker worker;
 
     @BeforeEach
     void setUp() {
         repository = mock(CancelOutboxRedriveRepository.class);
+        telemetry = mock(CancelOutboxRedriveTelemetry.class);
         worker = new CancelOutboxRedriveStalePublishWorker(
             repository,
+            telemetry,
             Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
@@ -40,9 +45,15 @@ class CancelOutboxRedriveStalePublishWorkerTest {
     void expiryOnlyMarksPublishStateUnknownWithRecordedBeforeState() {
         when(repository.failPublish(REDRIVE_ID, "PUBLISH_STATE_UNKNOWN", BEFORE_STATE, NOW)).thenReturn(true);
 
-        worker.expire(unpublished());
+        CancelOutboxRedrive redrive = unpublished();
+        worker.expire(redrive);
 
         verify(repository).failPublish(REDRIVE_ID, "PUBLISH_STATE_UNKNOWN", BEFORE_STATE, NOW);
+        verify(telemetry).terminal(
+            redrive,
+            CancelOutboxRedriveStatus.FAILED,
+            CancelOutboxRedriveFailureStage.PUBLISH,
+            CancelOutboxRedriveFailureCode.PUBLISH_STATE_UNKNOWN);
         verifyNoMoreInteractions(repository);
     }
 
@@ -53,6 +64,7 @@ class CancelOutboxRedriveStalePublishWorkerTest {
         worker.expire(unpublished());
 
         verify(repository).failPublish(REDRIVE_ID, "PUBLISH_STATE_UNKNOWN", BEFORE_STATE, NOW);
+        verifyNoMoreInteractions(telemetry);
         verifyNoMoreInteractions(repository);
     }
 

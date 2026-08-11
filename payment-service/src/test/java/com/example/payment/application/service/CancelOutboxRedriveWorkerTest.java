@@ -11,6 +11,8 @@ import com.example.payment.application.model.CancelRestoreLegSnapshot;
 import com.example.payment.application.model.CancelRestoreLegStatus;
 import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
+import com.example.payment.domain.entity.CancelOutboxRedriveFailureCode;
+import com.example.payment.domain.entity.CancelOutboxRedriveFailureStage;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import com.example.payment.domain.entity.CancelStatus;
 import com.example.payment.domain.entity.PaymentStatus;
@@ -46,6 +48,7 @@ class CancelOutboxRedriveWorkerTest {
     private CancelOutboxInspectionUseCase inspection;
     private CancelOutboxSourcePort sourcePort;
     private CancelEventReplayPort replayPort;
+    private CancelOutboxRedriveTelemetry telemetry;
     private CancelOutboxRedriveWorker worker;
 
     @BeforeEach
@@ -54,12 +57,14 @@ class CancelOutboxRedriveWorkerTest {
         inspection = mock(CancelOutboxInspectionUseCase.class);
         sourcePort = mock(CancelOutboxSourcePort.class);
         replayPort = mock(CancelEventReplayPort.class);
+        telemetry = mock(CancelOutboxRedriveTelemetry.class);
         worker = new CancelOutboxRedriveWorker(
             repository,
             inspection,
             sourcePort,
             replayPort,
             new CancelOutboxRedriveAuditJson(new ObjectMapper()),
+            telemetry,
             Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
@@ -71,7 +76,7 @@ class CancelOutboxRedriveWorkerTest {
 
         verify(repository).tryStart(REDRIVE_ID, NOW);
         verifyNoMoreInteractions(repository);
-        verifyNoInteractions(inspection, sourcePort, replayPort);
+        verifyNoInteractions(inspection, sourcePort, replayPort, telemetry);
     }
 
     @Test
@@ -94,6 +99,12 @@ class CancelOutboxRedriveWorkerTest {
             INSPECTION_JSON,
             "{\"outcome\":\"ALREADY_APPLIED\"}",
             NOW);
+        verify(telemetry).claimed(org.mockito.ArgumentMatchers.any(CancelOutboxRedrive.class));
+        verify(telemetry).terminal(
+            org.mockito.ArgumentMatchers.any(CancelOutboxRedrive.class),
+            org.mockito.ArgumentMatchers.eq(CancelOutboxRedriveStatus.RESOLVED_ALREADY_APPLIED),
+            org.mockito.ArgumentMatchers.isNull(),
+            org.mockito.ArgumentMatchers.isNull());
         verifyNoInteractions(sourcePort, replayPort);
         verify(repository, never()).recordPublished(
             org.mockito.ArgumentMatchers.anyLong(),
@@ -126,6 +137,12 @@ class CancelOutboxRedriveWorkerTest {
             json,
             "INCONSISTENT_DOWNSTREAM_STATE",
             NOW);
+        verify(telemetry).terminal(
+            org.mockito.ArgumentMatchers.any(CancelOutboxRedrive.class),
+            org.mockito.ArgumentMatchers.eq(CancelOutboxRedriveStatus.REJECTED),
+            org.mockito.ArgumentMatchers.isNull(),
+            org.mockito.ArgumentMatchers.eq(
+                CancelOutboxRedriveFailureCode.INCONSISTENT_DOWNSTREAM_STATE));
         verifyNoInteractions(sourcePort, replayPort);
     }
 
@@ -169,6 +186,9 @@ class CancelOutboxRedriveWorkerTest {
             REDRIVE_ID,
             inspectionJson,
             "{\"topic\":\"payment.cancelled\",\"partition\":3,\"offset\":902}");
+        verify(telemetry).publishAcked(
+            org.mockito.ArgumentMatchers.any(CancelOutboxRedrive.class),
+            org.mockito.ArgumentMatchers.eq(ack));
     }
 
     @Test
@@ -186,6 +206,11 @@ class CancelOutboxRedriveWorkerTest {
         worker.start(REDRIVE_ID);
 
         verify(repository).failPublish(REDRIVE_ID, "PREFLIGHT_UNKNOWN", unknownJson, NOW);
+        verify(telemetry).terminal(
+            org.mockito.ArgumentMatchers.any(CancelOutboxRedrive.class),
+            org.mockito.ArgumentMatchers.eq(CancelOutboxRedriveStatus.FAILED),
+            org.mockito.ArgumentMatchers.eq(CancelOutboxRedriveFailureStage.PUBLISH),
+            org.mockito.ArgumentMatchers.eq(CancelOutboxRedriveFailureCode.PREFLIGHT_UNKNOWN));
         verifyNoInteractions(sourcePort, replayPort);
         verify(repository, never()).recordPublished(
             org.mockito.ArgumentMatchers.anyLong(),

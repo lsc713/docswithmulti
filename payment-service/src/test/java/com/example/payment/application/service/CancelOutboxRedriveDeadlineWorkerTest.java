@@ -8,6 +8,8 @@ import com.example.payment.application.model.CancelRestoreLegSnapshot;
 import com.example.payment.application.model.CancelRestoreLegStatus;
 import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
+import com.example.payment.domain.entity.CancelOutboxRedriveFailureCode;
+import com.example.payment.domain.entity.CancelOutboxRedriveFailureStage;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,16 +48,19 @@ class CancelOutboxRedriveDeadlineWorkerTest {
 
     private CancelOutboxRedriveRepository repository;
     private CancelOutboxInspectionUseCase inspection;
+    private CancelOutboxRedriveTelemetry telemetry;
     private CancelOutboxRedriveDeadlineWorker worker;
 
     @BeforeEach
     void setUp() {
         repository = mock(CancelOutboxRedriveRepository.class);
         inspection = mock(CancelOutboxInspectionUseCase.class);
+        telemetry = mock(CancelOutboxRedriveTelemetry.class);
         worker = new CancelOutboxRedriveDeadlineWorker(
             repository,
             inspection,
             new CancelOutboxRedriveAuditJson(new ObjectMapper()),
+            telemetry,
             Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
@@ -66,10 +71,12 @@ class CancelOutboxRedriveDeadlineWorkerTest {
             CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.APPLIED));
         when(repository.resolve(REDRIVE_ID, ALREADY_APPLIED_SNAPSHOT, NOW)).thenReturn(true);
 
-        worker.check(redriving());
+        CancelOutboxRedrive redrive = redriving();
+        worker.check(redrive);
 
         verify(inspection).inspect(SOURCE_OUTBOX_ID);
         verify(repository).resolve(REDRIVE_ID, ALREADY_APPLIED_SNAPSHOT, NOW);
+        verify(telemetry).terminal(redrive, CancelOutboxRedriveStatus.RESOLVED, null, null);
         verifyNoMoreInteractions(repository);
     }
 
@@ -81,11 +88,17 @@ class CancelOutboxRedriveDeadlineWorkerTest {
         when(repository.failConvergence(
             REDRIVE_ID, "CONVERGENCE_TIMEOUT", REDRIVE_REQUIRED_SNAPSHOT, NOW)).thenReturn(true);
 
-        worker.check(redriving());
+        CancelOutboxRedrive redrive = redriving();
+        worker.check(redrive);
 
         verify(inspection).inspect(SOURCE_OUTBOX_ID);
         verify(repository).failConvergence(
             REDRIVE_ID, "CONVERGENCE_TIMEOUT", REDRIVE_REQUIRED_SNAPSHOT, NOW);
+        verify(telemetry).terminal(
+            redrive,
+            CancelOutboxRedriveStatus.FAILED,
+            CancelOutboxRedriveFailureStage.CONVERGENCE,
+            CancelOutboxRedriveFailureCode.CONVERGENCE_TIMEOUT);
         verifyNoMoreInteractions(repository);
     }
 
@@ -149,6 +162,7 @@ class CancelOutboxRedriveDeadlineWorkerTest {
         verify(inspection).inspect(SOURCE_OUTBOX_ID);
         verify(repository).failConvergence(
             REDRIVE_ID, "CONVERGENCE_TIMEOUT", REDRIVE_REQUIRED_SNAPSHOT, NOW);
+        verifyNoMoreInteractions(telemetry);
         verifyNoMoreInteractions(repository);
     }
 

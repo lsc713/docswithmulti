@@ -1,5 +1,6 @@
 package com.example.payment.infrastructure.scheduler;
 
+import com.example.payment.application.service.CancelOutboxRedriveTelemetry;
 import com.example.payment.infrastructure.config.CancelOutboxRedriveExecutorConfig;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 class CancelOutboxRedriveTaskExecutorTest {
 
@@ -101,19 +103,36 @@ class CancelOutboxRedriveTaskExecutorTest {
     @Test
     void propagatesFailuresOtherThanSpringTaskRejection() {
         ThreadPoolTaskExecutor springExecutor = mock(ThreadPoolTaskExecutor.class);
+        CancelOutboxRedriveTelemetry telemetry = mock(CancelOutboxRedriveTelemetry.class);
         doThrow(new IllegalStateException("executor not initialized"))
             .when(springExecutor).execute(org.mockito.ArgumentMatchers.any(Runnable.class));
-        CancelOutboxRedriveTaskExecutor executor = new CancelOutboxRedriveTaskExecutor(springExecutor);
+        CancelOutboxRedriveTaskExecutor executor =
+            new CancelOutboxRedriveTaskExecutor(springExecutor, telemetry);
 
         assertThatThrownBy(() -> executor.tryExecute(() -> { }))
             .isInstanceOf(IllegalStateException.class)
             .hasMessage("executor not initialized");
     }
 
+    @Test
+    void rejectedTaskIsRecordedByFocusedTelemetryBoundary() {
+        ThreadPoolTaskExecutor springExecutor = mock(ThreadPoolTaskExecutor.class);
+        CancelOutboxRedriveTelemetry telemetry = mock(CancelOutboxRedriveTelemetry.class);
+        doThrow(new org.springframework.core.task.TaskRejectedException("full"))
+            .when(springExecutor).execute(org.mockito.ArgumentMatchers.any(Runnable.class));
+        CancelOutboxRedriveTaskExecutor executor =
+            new CancelOutboxRedriveTaskExecutor(springExecutor, telemetry);
+
+        assertThat(executor.tryExecute(() -> { })).isFalse();
+
+        verify(telemetry).executorRejected();
+    }
+
     private CancelOutboxRedriveTaskExecutor newExecutor() {
         configuredExecutor = new CancelOutboxRedriveExecutorConfig().cancelRedriveExecutor(5, 10);
         configuredExecutor.initialize();
-        return new CancelOutboxRedriveTaskExecutor(configuredExecutor);
+        return new CancelOutboxRedriveTaskExecutor(
+            configuredExecutor, mock(CancelOutboxRedriveTelemetry.class));
     }
 
     private boolean waitForActiveCount(

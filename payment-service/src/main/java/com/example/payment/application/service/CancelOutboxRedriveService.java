@@ -14,10 +14,16 @@ import org.springframework.transaction.annotation.Transactional;
 public class CancelOutboxRedriveService implements CancelOutboxRedriveUseCase, CancelOutboxRedriveQuery {
 
     private final CancelOutboxRedriveRepository repository;
+    private final CancelOutboxRedriveTelemetry telemetry;
     private final Clock clock;
 
-    public CancelOutboxRedriveService(CancelOutboxRedriveRepository repository, Clock clock) {
+    public CancelOutboxRedriveService(
+        CancelOutboxRedriveRepository repository,
+        CancelOutboxRedriveTelemetry telemetry,
+        Clock clock
+    ) {
         this.repository = repository;
+        this.telemetry = telemetry;
         this.clock = clock;
     }
 
@@ -25,7 +31,10 @@ public class CancelOutboxRedriveService implements CancelOutboxRedriveUseCase, C
     @Transactional
     public CancelOutboxRedrive request(long outboxId, String requestedBy, String reason) {
         validateReason(reason);
-        return repository.createRequested(outboxId, requestedBy, reason, clock.instant());
+        CancelOutboxRedrive redrive =
+            repository.createRequested(outboxId, requestedBy, reason, clock.instant());
+        telemetry.requested(redrive);
+        return redrive;
     }
 
     @Override

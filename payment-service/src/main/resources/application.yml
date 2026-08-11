@@ -86,6 +86,9 @@ cancel:
     mode: ${CANCEL_PUBLISH_MODE:OUTBOX}   # INLINE | INLINE_ASYNC | OUTBOX
   redrive:
     publish-timeout-ms: ${CANCEL_REDRIVE_PUBLISH_TIMEOUT_MS:5000}
+    inspection:
+      connect-timeout-ms: ${CANCEL_REDRIVE_INSPECTION_CONNECT_TIMEOUT_MS:1000}
+      read-timeout-ms: ${CANCEL_REDRIVE_INSPECTION_READ_TIMEOUT_MS:1000}
     max-concurrency: ${CANCEL_REDRIVE_MAX_CONCURRENCY:5}
     shutdown-await-seconds: ${CANCEL_REDRIVE_SHUTDOWN_AWAIT_SECONDS:10}
     dispatch-ms: ${CANCEL_REDRIVE_DISPATCH_MS:1000}

@@ -37,16 +37,19 @@ class CancelOutboxRedriveConvergenceWorkerTest {
 
     private CancelOutboxRedriveRepository repository;
     private CancelOutboxInspectionUseCase inspection;
+    private CancelOutboxRedriveTelemetry telemetry;
     private CancelOutboxRedriveConvergenceWorker worker;
 
     @BeforeEach
     void setUp() {
         repository = mock(CancelOutboxRedriveRepository.class);
         inspection = mock(CancelOutboxInspectionUseCase.class);
+        telemetry = mock(CancelOutboxRedriveTelemetry.class);
         worker = new CancelOutboxRedriveConvergenceWorker(
             repository,
             inspection,
             new CancelOutboxRedriveAuditJson(new ObjectMapper()),
+            telemetry,
             Clock.fixed(NOW, ZoneOffset.UTC));
     }
 
@@ -62,6 +65,11 @@ class CancelOutboxRedriveConvergenceWorkerTest {
 
         verify(inspection).inspect(SOURCE_OUTBOX_ID);
         verify(repository).resolve(REDRIVE_ID, FINAL_SNAPSHOT, NOW);
+        verify(telemetry).terminal(
+            redrive,
+            CancelOutboxRedriveStatus.RESOLVED,
+            null,
+            null);
         verifyNoMoreInteractions(repository);
     }
 
@@ -93,6 +101,7 @@ class CancelOutboxRedriveConvergenceWorkerTest {
                 isolatedRepository,
                 isolatedInspection,
                 new CancelOutboxRedriveAuditJson(new ObjectMapper()),
+                mock(CancelOutboxRedriveTelemetry.class),
                 Clock.fixed(NOW, ZoneOffset.UTC));
             when(isolatedInspection.inspect(SOURCE_OUTBOX_ID)).thenReturn(result(
                 decision,
@@ -120,6 +129,7 @@ class CancelOutboxRedriveConvergenceWorkerTest {
         worker.check(redrive);
 
         verify(repository).resolve(REDRIVE_ID, FINAL_SNAPSHOT, NOW);
+        verifyNoMoreInteractions(telemetry);
         verifyNoMoreInteractions(repository);
     }
 

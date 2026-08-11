@@ -22,7 +22,7 @@ public class StockRestoreStatusHttpClient implements StockRestoreStatusPort {
     private final CircuitBreaker circuitBreaker;
 
     public StockRestoreStatusHttpClient(
-        RestTemplate restTemplate,
+        @Qualifier("cancelOutboxInspectionRestTemplate") RestTemplate restTemplate,
         @Value("${external.product-service.url}") String baseUrl,
         @Qualifier("stockRestoreStatusCircuitBreaker") CircuitBreaker circuitBreaker
     ) {

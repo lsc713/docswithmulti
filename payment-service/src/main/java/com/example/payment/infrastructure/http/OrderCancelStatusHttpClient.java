@@ -22,7 +22,7 @@ public class OrderCancelStatusHttpClient implements OrderCancelStatusPort {
     private final CircuitBreaker circuitBreaker;
 
     public OrderCancelStatusHttpClient(
-        RestTemplate restTemplate,
+        @Qualifier("cancelOutboxInspectionRestTemplate") RestTemplate restTemplate,
         @Value("${external.order-service.url}") String baseUrl,
         @Qualifier("orderCancelStatusCircuitBreaker") CircuitBreaker circuitBreaker
     ) {

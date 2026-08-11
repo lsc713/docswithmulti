@@ -9,6 +9,7 @@ import com.example.payment.application.model.CancelOutboxDecision;
 import com.example.payment.application.model.CancelRestoreLegSnapshot;
 import com.example.payment.application.model.CancelRestoreLegStatus;
 import com.example.payment.application.service.CancelOutboxRedriveService;
+import com.example.payment.application.service.CancelOutboxRedriveTelemetry;
 import com.example.payment.application.usecase.CancelOutboxInspectionUseCase;
 import com.example.payment.domain.entity.CancelOutboxRedrive;
 import com.example.payment.domain.entity.CancelOutboxRedriveFailureStage;
@@ -62,6 +63,7 @@ class InternalCancelOutboxControllerTest {
     void setUp() {
         var redriveService = new CancelOutboxRedriveService(
             redriveRepository,
+            org.mockito.Mockito.mock(CancelOutboxRedriveTelemetry.class),
             Clock.fixed(Instant.parse("2026-08-11T00:00:00Z"), ZoneOffset.UTC));
         var objectMapper = JsonMapper.builder().build();
         var controller = new InternalCancelOutboxController(

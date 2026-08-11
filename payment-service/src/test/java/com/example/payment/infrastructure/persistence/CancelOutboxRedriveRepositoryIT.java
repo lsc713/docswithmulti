@@ -6,6 +6,7 @@ import com.example.payment.application.exception.CancelOutboxNotFoundException;
 import com.example.payment.application.exception.RedriveAlreadyResolvedException;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
 import com.example.payment.application.service.CancelOutboxRedriveService;
+import com.example.payment.application.service.CancelOutboxRedriveTelemetry;
 import com.example.payment.domain.entity.CancelOutboxRedriveFailureStage;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import java.time.Clock;
@@ -61,7 +62,9 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
         long outboxId = seedCancelledPaymentCompletedRequestAndDeadOutbox(9_200_150L);
         Instant requestedAt = Instant.parse("2026-08-11T01:02:03.123456Z");
         var service = new CancelOutboxRedriveService(
-            repository, Clock.fixed(requestedAt, ZoneOffset.UTC));
+            repository,
+            org.mockito.Mockito.mock(CancelOutboxRedriveTelemetry.class),
+            Clock.fixed(requestedAt, ZoneOffset.UTC));
 
         long startedAt = System.nanoTime();
         var created = service.request(outboxId, "operator-1", "  장애 복구  ");

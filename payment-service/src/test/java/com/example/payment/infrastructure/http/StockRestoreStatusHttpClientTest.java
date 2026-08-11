@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -24,6 +25,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class StockRestoreStatusHttpClientTest {
+
+    @Test
+    void constructorRequiresInspectionRestTemplateQualifier() throws Exception {
+        var parameter = StockRestoreStatusHttpClient.class.getConstructors()[0].getParameters()[0];
+
+        assertThat(parameter.getAnnotation(Qualifier.class).value())
+            .isEqualTo("cancelOutboxInspectionRestTemplate");
+    }
 
     private RestTemplate restTemplate;
     private CircuitBreaker circuitBreaker;
