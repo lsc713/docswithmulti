@@ -3,12 +3,15 @@ package com.example.payment.infrastructure.scheduler;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
 import com.example.payment.application.service.CancelOutboxRedriveWorker;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -17,6 +20,17 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class CancelOutboxRedriveDispatcherTest {
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1})
+    void rejectsNonPositiveBatchSize(int batchSize) {
+        CancelOutboxRedriveRepository repository = mock(CancelOutboxRedriveRepository.class);
+        CancelOutboxRedriveWorker worker = mock(CancelOutboxRedriveWorker.class);
+
+        assertThatThrownBy(() -> new CancelOutboxRedriveDispatcher(repository, worker, batchSize))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("batchSize must be greater than 0");
+    }
 
     @Test
     void dispatchesRequestedIdsSequentiallyInRepositoryOrder() {

@@ -22,6 +22,9 @@ public class CancelOutboxRedriveDispatcher {
         CancelOutboxRedriveWorker worker,
         @Value("${cancel.redrive.batch-size:100}") int batchSize
     ) {
+        if (batchSize <= 0) {
+            throw new IllegalArgumentException("batchSize must be greater than 0");
+        }
         this.repository = repository;
         this.worker = worker;
         this.batchSize = batchSize;
@@ -32,8 +35,11 @@ public class CancelOutboxRedriveDispatcher {
         for (long redriveId : repository.findRequestedIds(batchSize)) {
             try {
                 worker.start(redriveId);
-            } catch (Exception ignored) {
-                log.warn("Cancel outbox redrive dispatch failed; redriveId={}", redriveId);
+            } catch (Exception exception) {
+                log.warn(
+                    "CANCEL_REDRIVE_DISPATCH_ITEM_FAILED redriveId={} exceptionType={}",
+                    redriveId,
+                    exception.getClass().getSimpleName());
             }
         }
     }

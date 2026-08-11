@@ -6,6 +6,8 @@ import com.example.payment.application.service.CancelOutboxRedriveConvergenceWor
 import com.example.payment.domain.entity.CancelOutboxRedrive;
 import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import java.lang.reflect.Method;
@@ -16,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
@@ -25,6 +28,38 @@ import static org.mockito.Mockito.when;
 class CancelOutboxRedriveConvergencePollerTest {
 
     private static final Instant NOW = Instant.parse("2026-08-11T01:02:03Z");
+
+    @ParameterizedTest
+    @ValueSource(ints = {0, -1})
+    void rejectsNonPositiveBatchSize(int batchSize) {
+        CancelOutboxRedriveRepository repository = mock(CancelOutboxRedriveRepository.class);
+        CancelOutboxRedriveConvergenceWorker worker = mock(CancelOutboxRedriveConvergenceWorker.class);
+
+        assertThatThrownBy(() -> new CancelOutboxRedriveConvergencePoller(
+            repository,
+            worker,
+            Clock.fixed(NOW, ZoneOffset.UTC),
+            60,
+            batchSize))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("batchSize must be greater than 0");
+    }
+
+    @ParameterizedTest
+    @ValueSource(longs = {0, -1})
+    void rejectsNonPositiveObservationSeconds(long observationSeconds) {
+        CancelOutboxRedriveRepository repository = mock(CancelOutboxRedriveRepository.class);
+        CancelOutboxRedriveConvergenceWorker worker = mock(CancelOutboxRedriveConvergenceWorker.class);
+
+        assertThatThrownBy(() -> new CancelOutboxRedriveConvergencePoller(
+            repository,
+            worker,
+            Clock.fixed(NOW, ZoneOffset.UTC),
+            observationSeconds,
+            100))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("observationSeconds must be greater than 0");
+    }
 
     @Test
     void queriesObservationWindowAndConfiguredBatchThenChecksSequentially() {

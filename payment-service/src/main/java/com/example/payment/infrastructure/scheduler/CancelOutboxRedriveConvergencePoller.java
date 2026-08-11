@@ -28,6 +28,12 @@ public class CancelOutboxRedriveConvergencePoller {
         @Value("${cancel.redrive.observation-seconds:60}") long observationSeconds,
         @Value("${cancel.redrive.batch-size:100}") int batchSize
     ) {
+        if (observationSeconds <= 0) {
+            throw new IllegalArgumentException("observationSeconds must be greater than 0");
+        }
+        if (batchSize <= 0) {
+            throw new IllegalArgumentException("batchSize must be greater than 0");
+        }
         this.repository = repository;
         this.worker = worker;
         this.clock = clock;
@@ -41,8 +47,11 @@ public class CancelOutboxRedriveConvergencePoller {
         for (var redrive : repository.findConverging(startedAfter, batchSize)) {
             try {
                 worker.check(redrive);
-            } catch (Exception ignored) {
-                log.warn("Cancel outbox redrive convergence check failed; redriveId={}", redrive.getId());
+            } catch (Exception exception) {
+                log.warn(
+                    "CANCEL_REDRIVE_CONVERGENCE_ITEM_FAILED redriveId={} exceptionType={}",
+                    redrive.getId(),
+                    exception.getClass().getSimpleName());
             }
         }
     }
