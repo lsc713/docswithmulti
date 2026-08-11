@@ -31,17 +31,20 @@ public class CancelOutboxRedriveDeadlineWorker {
     }
 
     public void check(CancelOutboxRedrive redrive) {
+        CancelOutboxInspectionUseCase.Result result;
+        String snapshot;
         try {
-            var result = inspection.inspect(redrive.getSourceOutboxId());
-            String snapshot = auditJson.inspection(result);
-            switch (result.decision()) {
-                case ALREADY_APPLIED -> repository.resolve(redrive.getId(), snapshot, clock.instant());
-                case REDRIVE_REQUIRED -> failConvergence(redrive.getId(), "CONVERGENCE_TIMEOUT", snapshot);
-                case UNKNOWN -> failConvergence(redrive.getId(), "DOWNSTREAM_UNKNOWN", snapshot);
-                case NOT_ELIGIBLE -> failConvergence(redrive.getId(), result.reasonCode().name(), snapshot);
-            }
+            result = inspection.inspect(redrive.getSourceOutboxId());
+            snapshot = auditJson.inspection(result);
         } catch (Exception exception) {
             failConvergence(redrive.getId(), "DOWNSTREAM_UNKNOWN", auditJson.unknownInspection());
+            return;
+        }
+        switch (result.decision()) {
+            case ALREADY_APPLIED -> repository.resolve(redrive.getId(), snapshot, clock.instant());
+            case REDRIVE_REQUIRED -> failConvergence(redrive.getId(), "CONVERGENCE_TIMEOUT", snapshot);
+            case UNKNOWN -> failConvergence(redrive.getId(), "DOWNSTREAM_UNKNOWN", snapshot);
+            case NOT_ELIGIBLE -> failConvergence(redrive.getId(), result.reasonCode().name(), snapshot);
         }
     }
 

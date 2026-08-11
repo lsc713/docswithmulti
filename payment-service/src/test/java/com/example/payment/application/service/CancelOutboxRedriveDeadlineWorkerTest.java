@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -144,6 +145,42 @@ class CancelOutboxRedriveDeadlineWorkerTest {
             REDRIVE_ID, "CONVERGENCE_TIMEOUT", REDRIVE_REQUIRED_SNAPSHOT, NOW)).thenReturn(false);
 
         worker.check(redriving());
+
+        verify(inspection).inspect(SOURCE_OUTBOX_ID);
+        verify(repository).failConvergence(
+            REDRIVE_ID, "CONVERGENCE_TIMEOUT", REDRIVE_REQUIRED_SNAPSHOT, NOW);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void resolveFailureDoesNotAttemptACompensatingConvergenceFailure() {
+        when(inspection.inspect(SOURCE_OUTBOX_ID)).thenReturn(result(
+            CancelOutboxDecision.ALREADY_APPLIED, null,
+            CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.APPLIED));
+        when(repository.resolve(REDRIVE_ID, ALREADY_APPLIED_SNAPSHOT, NOW))
+            .thenThrow(new IllegalStateException("repository unavailable"));
+
+        assertThatThrownBy(() -> worker.check(redriving()))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessage("repository unavailable");
+
+        verify(inspection).inspect(SOURCE_OUTBOX_ID);
+        verify(repository).resolve(REDRIVE_ID, ALREADY_APPLIED_SNAPSHOT, NOW);
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void convergenceFailureDoesNotAttemptASecondTerminalTransition() {
+        when(inspection.inspect(SOURCE_OUTBOX_ID)).thenReturn(result(
+            CancelOutboxDecision.REDRIVE_REQUIRED, null,
+            CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.NOT_APPLIED));
+        when(repository.failConvergence(
+            REDRIVE_ID, "CONVERGENCE_TIMEOUT", REDRIVE_REQUIRED_SNAPSHOT, NOW))
+            .thenThrow(new IllegalStateException("repository unavailable"));
+
+        assertThatThrownBy(() -> worker.check(redriving()))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessage("repository unavailable");
 
         verify(inspection).inspect(SOURCE_OUTBOX_ID);
         verify(repository).failConvergence(
