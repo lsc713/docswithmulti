@@ -34,6 +34,7 @@ public enum ErrorCode {
     ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", 404, "주문 항목을 찾을 수 없습니다."),
     CANCEL_APPROVAL_NOT_FOUND("CANCEL_APPROVAL_NOT_FOUND", 404, "취소 승인 요청을 찾을 수 없습니다."),
     CANCEL_OUTBOX_NOT_FOUND("CANCEL_OUTBOX_NOT_FOUND", 404, "취소 아웃박스를 찾을 수 없습니다."),
+    CANCEL_OUTBOX_REDRIVE_NOT_FOUND("CANCEL_OUTBOX_REDRIVE_NOT_FOUND", 404, "취소 아웃박스 복구 요청을 찾을 수 없습니다."),
 
     // 409 - 멱등 중복 / 재고 부족
     IDEMPOTENT_DUPLICATION("IDEMPOTENT_DUPLICATION", 409, "이미 처리된 요청입니다."),
