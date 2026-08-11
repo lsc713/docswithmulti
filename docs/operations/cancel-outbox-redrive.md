@@ -38,10 +38,20 @@ OPERATOR_ID=ops@example.com
 ## 2. 원본 outbox 점검
 
 ```bash
-curl --fail --silent --show-error \
-  -H "X-User-Role: ADMIN" \
-  -H "X-User-Id: ${OPERATOR_ID}" \
-  "${PAYMENT_BASE_URL}/internal/cancel-outbox/${OUTBOX_ID}" | jq
+inspect_cancel_outbox() {
+  if ! INSPECTION_RESPONSE=$(curl --fail --silent --show-error \
+    --connect-timeout 3 --max-time 10 \
+    -H "X-User-Role: ADMIN" \
+    -H "X-User-Id: ${OPERATOR_ID}" \
+    "${PAYMENT_BASE_URL}/internal/cancel-outbox/${OUTBOX_ID}"); then
+    printf '%s\n' "outbox 점검 요청에 실패했습니다. 작업을 중단하세요." >&2
+    return 1
+  fi
+
+  printf '%s\n' "${INSPECTION_RESPONSE}" | jq
+}
+
+inspect_cancel_outbox
 ```
 
 응답의 `decision`과 `reasonCode`, `order`, `stock`만 확인합니다. 이 API는 replay payload와 payment key를 반환하지 않습니다.
@@ -51,16 +61,24 @@ curl --fail --silent --show-error \
 사유에는 payload나 payment key를 넣지 말고 작업 목적만 기록합니다.
 
 ```bash
-REDRIVE_RESPONSE=$(curl --fail --silent --show-error \
-  -X POST \
-  -H "X-User-Role: ADMIN" \
-  -H "X-User-Id: ${OPERATOR_ID}" \
-  -H "Content-Type: application/json" \
-  -d '{"reason":"consumer 장애 복구 후 취소 이벤트 재발행"}' \
-  "${PAYMENT_BASE_URL}/internal/cancel-outbox/${OUTBOX_ID}/redrives")
+request_cancel_redrive() {
+  if ! REDRIVE_RESPONSE=$(curl --fail --silent --show-error \
+    --connect-timeout 3 --max-time 10 \
+    -X POST \
+    -H "X-User-Role: ADMIN" \
+    -H "X-User-Id: ${OPERATOR_ID}" \
+    -H "Content-Type: application/json" \
+    -d '{"reason":"consumer 장애 복구 후 취소 이벤트 재발행"}' \
+    "${PAYMENT_BASE_URL}/internal/cancel-outbox/${OUTBOX_ID}/redrives"); then
+    printf '%s\n' "redrive 요청에 실패했습니다. 상태 조회를 시작하지 마세요." >&2
+    return 1
+  fi
 
-printf '%s\n' "${REDRIVE_RESPONSE}" | jq
-REDRIVE_ID=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -er '.redriveId')
+  printf '%s\n' "${REDRIVE_RESPONSE}" | jq || return 1
+  REDRIVE_ID=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -er '.redriveId') || return 1
+}
+
+request_cancel_redrive
 ```
 
 POST는 작업을 접수한 뒤 HTTP 202와 `REQUESTED` 상태를 반환합니다.
@@ -71,25 +89,31 @@ POST는 작업을 접수한 뒤 HTTP 202와 `REQUESTED` 상태를 반환합니�
 REDRIVE_DEADLINE_EPOCH=$(( $(date +%s) + 60 ))
 
 while :; do
-  REDRIVE_RESPONSE=$(curl --fail --silent --show-error \
+  REDRIVE_NOW_EPOCH=$(date +%s)
+  if [ "${REDRIVE_NOW_EPOCH}" -ge "${REDRIVE_DEADLINE_EPOCH}" ]; then
+    printf '%s\n' \
+      "REDRIVING이 60초 안에 수렴하지 않았습니다. 자동 폴링을 중단하고 수동 조사하세요."
+    break
+  fi
+  REDRIVE_REMAINING_SECONDS=$(( REDRIVE_DEADLINE_EPOCH - REDRIVE_NOW_EPOCH ))
+
+  if ! REDRIVE_RESPONSE=$(curl --fail --silent --show-error \
+    --connect-timeout 3 --max-time "${REDRIVE_REMAINING_SECONDS}" \
     -H "X-User-Role: ADMIN" \
     -H "X-User-Id: ${OPERATOR_ID}" \
-    "${PAYMENT_BASE_URL}/internal/cancel-outbox/redrives/${REDRIVE_ID}")
+    "${PAYMENT_BASE_URL}/internal/cancel-outbox/redrives/${REDRIVE_ID}"); then
+    printf '%s\n' "redrive 상태 조회에 실패했습니다. 자동 폴링을 중단하세요." >&2
+    break
+  fi
 
-  printf '%s\n' "${REDRIVE_RESPONSE}" | jq
-  REDRIVE_STATUS=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -r '.status')
+  printf '%s\n' "${REDRIVE_RESPONSE}" | jq || break
+  REDRIVE_STATUS=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -er '.status') || break
 
   case "${REDRIVE_STATUS}" in
     RESOLVED|RESOLVED_ALREADY_APPLIED|REJECTED)
       break
       ;;
   esac
-
-  if [ "$(date +%s)" -ge "${REDRIVE_DEADLINE_EPOCH}" ]; then
-    printf '%s\n' \
-      "REDRIVING이 60초 안에 수렴하지 않았습니다. 자동 폴링을 중단하고 수동 조사하세요."
-    break
-  fi
 
   sleep 2
 done

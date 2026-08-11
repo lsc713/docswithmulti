@@ -16,31 +16,34 @@ import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.List;
-import java.util.stream.Stream;
 import tools.jackson.databind.json.JsonMapper;
 
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -158,6 +161,26 @@ class InternalCancelOutboxControllerTest {
                 .header("X-User-Id", "operator-1"))
             .andExpect(status().isInternalServerError())
             .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("nonObjectStoredJson")
+    void validNonObjectStoredAuditJsonFailsWithoutExposingItsValue(
+        String storedJson,
+        String sensitiveToken
+    ) throws Exception {
+        when(redriveRepository.findById(10L)).thenReturn(java.util.Optional.of(redrive(
+            10L, 44L, CancelOutboxRedriveStatus.REDRIVING, null,
+            "operator-1", "replay", Instant.parse("2026-08-11T00:00:00Z"),
+            Instant.parse("2026-08-11T00:00:01Z"), null,
+            storedJson, null, null, null)));
+
+        mockMvc.perform(get("/internal/cancel-outbox/redrives/10")
+                .header("X-User-Role", "ADMIN")
+                .header("X-User-Id", "operator-1"))
+            .andExpect(status().isInternalServerError())
+            .andExpect(jsonPath("$.code").value("INTERNAL_ERROR"))
+            .andExpect(content().string(not(containsString(sensitiveToken))));
     }
 
     @Test
@@ -338,6 +361,14 @@ class InternalCancelOutboxControllerTest {
 
     private static Stream<String> unreadableRequestBodies() {
         return Stream.of("", "{\"reason\":", "null");
+    }
+
+    private static Stream<Arguments> nonObjectStoredJson() {
+        return Stream.of(
+            Arguments.of("\"sensitive-payment-key\"", "sensitive-payment-key"),
+            Arguments.of("424242", "424242"),
+            Arguments.of("null", "null"),
+            Arguments.of("[\"sensitive-array-value\"]", "sensitive-array-value"));
     }
 
     private static CancelOutboxRedrive redrive(

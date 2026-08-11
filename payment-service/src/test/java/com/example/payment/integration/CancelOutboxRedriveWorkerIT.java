@@ -16,12 +16,14 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.UUID;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -153,10 +155,14 @@ class CancelOutboxRedriveWorkerIT {
         SourceState sourceBefore = sourceState(source.outboxId());
         stubInspection(CancelRestoreLegStatus.NOT_APPLIED, CancelRestoreLegStatus.APPLIED);
         var requested = repository.createRequested(source.outboxId(), "operator-1", "recover", Instant.now());
+        Map<TopicPartition, Long> offsetsBeforeDispatch = endOffsets();
 
         dispatcher.dispatch();
 
         ConsumerRecord<String, String> record = consumeOne();
+        Map<TopicPartition, Long> offsetsAfterDispatch = endOffsets();
+        assertSingleAppend(offsetsBeforeDispatch, offsetsAfterDispatch, record);
+        assertConsumerAt(offsetsAfterDispatch);
         assertThat(record.key()).isEqualTo("101");
         assertThat(record.value()).isEqualTo(source.storedPayload());
 
@@ -173,6 +179,7 @@ class CancelOutboxRedriveWorkerIT {
 
         stubInspection(CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.APPLIED);
         convergencePoller.poll();
+        assertThat(endOffsets()).isEqualTo(offsetsAfterDispatch);
 
         var resolved = repository.findById(requested.getId()).orElseThrow();
         assertThat(resolved.getStatus()).isEqualTo(CancelOutboxRedriveStatus.RESOLVED);
@@ -189,7 +196,8 @@ class CancelOutboxRedriveWorkerIT {
             afterSecondPoll.getStatus().name(), afterSecondPoll.getResult(),
             afterSecondPoll.getAfterState(), afterSecondPoll.getCompletedAt().toString()))
             .isEqualTo(terminalState);
-        assertThat(consumer.poll(Duration.ofMillis(700))).isEmpty();
+        assertThat(endOffsets()).isEqualTo(offsetsAfterDispatch);
+        assertConsumerAt(offsetsAfterDispatch);
         assertThat(sourceState(source.outboxId())).isEqualTo(sourceBefore);
     }
 
@@ -220,14 +228,19 @@ class CancelOutboxRedriveWorkerIT {
             .andReturn().getResponse().getContentAsString();
         long redriveId = objectMapper.readTree(postBody).path("redriveId").asLong();
         assertThat(redriveId).isPositive();
+        Map<TopicPartition, Long> offsetsBeforeDispatch = endOffsets();
 
         dispatcher.dispatch();
         ConsumerRecord<String, String> record = consumeOne();
+        Map<TopicPartition, Long> offsetsAfterDispatch = endOffsets();
+        assertSingleAppend(offsetsBeforeDispatch, offsetsAfterDispatch, record);
+        assertConsumerAt(offsetsAfterDispatch);
         assertThat(record.key()).isEqualTo("401");
         assertThat(record.value()).isEqualTo(source.storedPayload());
 
         stubInspection(CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.APPLIED);
         convergencePoller.poll();
+        assertThat(endOffsets()).isEqualTo(offsetsAfterDispatch);
 
         mockMvc.perform(get("/internal/cancel-outbox/redrives/{redriveId}", redriveId)
                 .header("X-User-Role", "ADMIN")
@@ -250,6 +263,7 @@ class CancelOutboxRedriveWorkerIT {
         var source = seedDeadSource(201L, validPayload(201L));
         stubInspection(CancelRestoreLegStatus.APPLIED, CancelRestoreLegStatus.APPLIED);
         var requested = repository.createRequested(source.outboxId(), "operator-2", "confirm", Instant.now());
+        Map<TopicPartition, Long> offsetsBeforeDispatch = endOffsets();
 
         dispatcher.dispatch();
 
@@ -258,7 +272,8 @@ class CancelOutboxRedriveWorkerIT {
             .isEqualTo(CancelOutboxRedriveStatus.RESOLVED_ALREADY_APPLIED);
         assertThat(objectMapper.readTree(terminal.getResult()).path("outcome").asString())
             .isEqualTo("ALREADY_APPLIED");
-        assertThat(consumer.poll(Duration.ofMillis(700))).isEmpty();
+        assertThat(endOffsets()).isEqualTo(offsetsBeforeDispatch);
+        assertConsumerAt(offsetsBeforeDispatch);
     }
 
     @ParameterizedTest
@@ -271,6 +286,7 @@ class CancelOutboxRedriveWorkerIT {
             stubInspection(CancelRestoreLegStatus.INCONSISTENT, CancelRestoreLegStatus.APPLIED);
         }
         var requested = repository.createRequested(source.outboxId(), "operator-3", "verify", Instant.now());
+        Map<TopicPartition, Long> offsetsBeforeDispatch = endOffsets();
 
         dispatcher.dispatch();
 
@@ -278,7 +294,8 @@ class CancelOutboxRedriveWorkerIT {
         assertThat(terminal.getStatus()).isEqualTo(CancelOutboxRedriveStatus.REJECTED);
         assertThat(terminal.getLastError()).isEqualTo(
             invalidPayload ? "INVALID_PAYLOAD" : "INCONSISTENT_DOWNSTREAM_STATE");
-        assertThat(consumer.poll(Duration.ofMillis(700))).isEmpty();
+        assertThat(endOffsets()).isEqualTo(offsetsBeforeDispatch);
+        assertConsumerAt(offsetsBeforeDispatch);
     }
 
     private SourceFixture seedDeadSource(long cancelRequestId, String payload) {
@@ -347,6 +364,30 @@ class CancelOutboxRedriveWorkerIT {
         return records.iterator().next();
     }
 
+    private Map<TopicPartition, Long> endOffsets() {
+        Set<TopicPartition> assignment = Set.copyOf(consumer.assignment());
+        assertThat(assignment).containsExactly(new TopicPartition(TOPIC, 0));
+        return Map.copyOf(consumer.endOffsets(assignment));
+    }
+
+    private void assertConsumerAt(Map<TopicPartition, Long> expectedOffsets) {
+        expectedOffsets.forEach((partition, offset) ->
+            assertThat(consumer.position(partition))
+                .as("consumer position for %s", partition)
+                .isEqualTo(offset));
+    }
+
+    private void assertSingleAppend(
+        Map<TopicPartition, Long> before,
+        Map<TopicPartition, Long> after,
+        ConsumerRecord<String, String> record
+    ) {
+        TopicPartition partition = new TopicPartition(record.topic(), record.partition());
+        assertThat(record.offset()).isEqualTo(before.get(partition));
+        assertThat(after.get(partition)).isEqualTo(before.get(partition) + 1L);
+        assertThat(after).hasSameSizeAs(before);
+    }
+
     private static void awaitAssignment() {
         Instant deadline = Instant.now().plusSeconds(10);
         while (consumer.assignment().isEmpty() && Instant.now().isBefore(deadline)) {
@@ -359,6 +400,7 @@ class CancelOutboxRedriveWorkerIT {
         while (!consumer.poll(Duration.ofMillis(100)).isEmpty()) {
             // Drain records from the preceding scenario before asserting no-publish behavior.
         }
+        assertConsumerAt(endOffsets());
     }
 
     private record SourceFixture(long outboxId, String storedPayload) {}

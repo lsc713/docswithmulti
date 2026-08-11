@@ -47,11 +47,16 @@ public record CancelOutboxRedriveResponse(
         if (value == null) {
             return null;
         }
+        final JsonNode node;
         try {
-            return objectMapper.readTree(value);
+            node = objectMapper.readTree(value);
         } catch (JacksonException exception) {
             throw new IllegalStateException("Corrupt cancel outbox redrive " + field + " JSON", exception);
         }
+        if (node == null || !node.isObject()) {
+            throw new IllegalStateException("Corrupt cancel outbox redrive " + field + " JSON");
+        }
+        return node;
     }
 
     private static String asText(Instant instant) {
