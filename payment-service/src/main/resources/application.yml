@@ -86,10 +86,14 @@ cancel:
     mode: ${CANCEL_PUBLISH_MODE:OUTBOX}   # INLINE | INLINE_ASYNC | OUTBOX
   redrive:
     publish-timeout-ms: ${CANCEL_REDRIVE_PUBLISH_TIMEOUT_MS:5000}
+    max-concurrency: ${CANCEL_REDRIVE_MAX_CONCURRENCY:5}
+    shutdown-await-seconds: ${CANCEL_REDRIVE_SHUTDOWN_AWAIT_SECONDS:10}
     dispatch-ms: ${CANCEL_REDRIVE_DISPATCH_MS:1000}
     dispatch-initial-delay-ms: ${CANCEL_REDRIVE_DISPATCH_INITIAL_DELAY_MS:1000}
     convergence-ms: ${CANCEL_REDRIVE_CONVERGENCE_MS:2000}
     convergence-initial-delay-ms: ${CANCEL_REDRIVE_CONVERGENCE_INITIAL_DELAY_MS:2000}
+    recovery-ms: ${CANCEL_REDRIVE_RECOVERY_MS:2000}
+    recovery-initial-delay-ms: ${CANCEL_REDRIVE_RECOVERY_INITIAL_DELAY_MS:2000}
     observation-seconds: ${CANCEL_REDRIVE_OBSERVATION_SECONDS:60}
     batch-size: ${CANCEL_REDRIVE_BATCH_SIZE:100}
   outbox:

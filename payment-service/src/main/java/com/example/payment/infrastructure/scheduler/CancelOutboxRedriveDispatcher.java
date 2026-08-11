@@ -15,11 +15,13 @@ public class CancelOutboxRedriveDispatcher {
 
     private final CancelOutboxRedriveRepository repository;
     private final CancelOutboxRedriveWorker worker;
+    private final CancelOutboxRedriveTaskExecutor executor;
     private final int batchSize;
 
     public CancelOutboxRedriveDispatcher(
         CancelOutboxRedriveRepository repository,
         CancelOutboxRedriveWorker worker,
+        CancelOutboxRedriveTaskExecutor executor,
         @Value("${cancel.redrive.batch-size:100}") int batchSize
     ) {
         if (batchSize <= 0) {
@@ -27,6 +29,7 @@ public class CancelOutboxRedriveDispatcher {
         }
         this.repository = repository;
         this.worker = worker;
+        this.executor = executor;
         this.batchSize = batchSize;
     }
 
@@ -35,14 +38,18 @@ public class CancelOutboxRedriveDispatcher {
         initialDelayString = "${cancel.redrive.dispatch-initial-delay-ms:1000}")
     public void dispatch() {
         for (long redriveId : repository.findRequestedIds(batchSize)) {
-            try {
-                worker.start(redriveId);
-            } catch (Exception exception) {
-                log.warn(
-                    "CANCEL_REDRIVE_DISPATCH_ITEM_FAILED redriveId={} exceptionType={}",
-                    redriveId,
-                    exception.getClass().getSimpleName());
-            }
+            executor.tryExecute(() -> start(redriveId));
+        }
+    }
+
+    private void start(long redriveId) {
+        try {
+            worker.start(redriveId);
+        } catch (Exception exception) {
+            log.warn(
+                "CANCEL_REDRIVE_DISPATCH_ITEM_FAILED redriveId={} exceptionType={}",
+                redriveId,
+                exception.getClass().getSimpleName());
         }
     }
 }
