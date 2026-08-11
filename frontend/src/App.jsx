@@ -16,6 +16,7 @@ export default function App() {
   const [authOpen, setAuthOpen] = useState(false)
   const [cart, setCart] = useState([])
   const [payments, setPayments] = useState([])
+  const [productQuery, setProductQuery] = useState('')
 
   useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
 
@@ -50,14 +51,15 @@ export default function App() {
 
   return (
     <>
-      <NavBar me={me} onHome={() => setView({ name: 'home' })}
+      <NavBar home={view.name === 'home'} me={me} onHome={() => setView({ name: 'home' })}
+              productQuery={productQuery} onProductQueryChange={setProductQuery}
               onLoginClick={() => setAuthOpen(true)}
               onLogout={async () => { await api.logout(); setMe(null) }}
               cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
               onCart={() => setView({ name: 'cart' })}
               onHistory={() => { loadPayments(); setView({ name: 'history' }) }} />
 
-      {view.name === 'home' && <Home onOpen={(id) => setView({ name: 'detail', id })} />}
+      {view.name === 'home' && <Home query={productQuery} onOpen={(id) => setView({ name: 'detail', id })} />}
       {view.name === 'detail' && (
         <ProductDetail id={view.id} me={me} onBack={() => setView({ name: 'home' })} onBuy={handleBuy}
                        onAddToCart={handleAddToCart} />

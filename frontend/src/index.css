@@ -50,62 +50,118 @@
   }
 }
 
-body {
-  margin: 0;
-}
+body { margin: 0; }
 
 #root {
   width: 1126px;
   max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
   min-height: 100svh;
+  margin: 0 auto;
+  border-inline: 1px solid var(--border);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
+  text-align: center;
 }
 
 h1,
 h2 {
+  color: var(--text-h);
   font-family: var(--heading);
   font-weight: 500;
-  color: var(--text-h);
 }
 
 h1 {
+  margin: 32px 0;
   font-size: 56px;
   letter-spacing: -1.68px;
-  margin: 32px 0;
+
   @media (max-width: 1024px) {
-    font-size: 36px;
     margin: 20px 0;
+    font-size: 36px;
   }
 }
+
 h2 {
+  margin: 0 0 8px;
   font-size: 24px;
   line-height: 118%;
   letter-spacing: -0.24px;
-  margin: 0 0 8px;
+
   @media (max-width: 1024px) {
     font-size: 20px;
   }
 }
-p {
-  margin: 0;
-}
+
+p { margin: 0; }
 
 code,
 .counter {
-  font-family: var(--mono);
   display: inline-flex;
   border-radius: 4px;
   color: var(--text-h);
+  font-family: var(--mono);
 }
 
 code {
-  font-size: 15px;
-  line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+  font-size: 15px;
+  line-height: 135%;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+body:has(#root > .home) {
+  min-width: 320px;
+  background: #faf7f2;
+}
+
+html:has(#root > .home) { scroll-behavior: smooth; }
+
+#root:has(> .home) {
+  --paper: #faf7f2;
+  --ink: #1a1714;
+  --text: #574d42;
+  --text-h: #1f1c1a;
+  --bg: #fff;
+  --border: #dbd6cf;
+  --accent: #1c1a17;
+  --accent-bg: #f0e5d6;
+  --accent-border: #594a3b;
+  --social-bg: #e8e3db;
+  --shadow: rgba(31, 28, 26, .12) 0 10px 24px;
+  --sans: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --heading: var(--sans);
+
+  width: 100%;
+  border: 0;
+  background: var(--paper);
+  color: var(--text);
+  font: 16px normal var(--sans);
+  letter-spacing: normal;
+  text-align: left;
+}
+
+#root:has(> .home),
+#root:has(> .home) * { box-sizing: border-box; }
+
+#root:has(> .home) button,
+#root:has(> .home) input { font-family: inherit; }
+
+#root:has(> .home) button:focus-visible,
+#root:has(> .home) input:focus-visible,
+#root:has(> .home) [tabindex]:focus-visible {
+  outline: 2px solid #594a3b;
+  outline-offset: 3px;
 }
