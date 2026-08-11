@@ -128,6 +128,24 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
     }
 
     @Test
+    void rejectsNonPositivePollingLimitsBeforeQueryingMySql() {
+        Instant threshold = Instant.parse("2026-08-11T05:00:00Z");
+
+        assertThatThrownBy(() -> repository.findRequestedIds(0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
+        assertThatThrownBy(() -> repository.findRequestedIds(-1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
+        assertThatThrownBy(() -> repository.findConverging(threshold, 0))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
+        assertThatThrownBy(() -> repository.findConverging(threshold, -1))
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessageContaining("limit");
+    }
+
+    @Test
     void recordsPublishedEvidenceOnlyOnceForRedrivingRowWithoutResult() throws Exception {
         long requested = createRequested(9_200_510L, "2026-08-11T05:10:00Z");
         String before = "{\"decision\":\"REDRIVE_REQUIRED\"}";
@@ -217,6 +235,25 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
     }
 
     @Test
+    void noPublishTerminalOperationsRefuseRowsWithPublishedResult() {
+        long alreadyAppliedId = createRequested(9_200_545L, "2026-08-11T05:45:00Z");
+        long rejectedId = createRequested(9_200_546L, "2026-08-11T05:46:00Z");
+        Instant completedAt = Instant.parse("2026-08-11T05:47:02.123456Z");
+
+        startAndRecordPublished(alreadyAppliedId, Instant.parse("2026-08-11T05:47:00Z"), 5);
+        startAndRecordPublished(rejectedId, Instant.parse("2026-08-11T05:47:01Z"), 6);
+
+        assertThat(repository.resolveAlreadyApplied(
+            alreadyAppliedId, "{}", "{}", "{}", completedAt)).isFalse();
+        assertThat(repository.reject(
+            rejectedId, "{}", "{}", "INCONSISTENT_DOWNSTREAM_STATE", completedAt)).isFalse();
+        assertThat(repository.findById(alreadyAppliedId).orElseThrow().getStatus())
+            .isEqualTo(CancelOutboxRedriveStatus.REDRIVING);
+        assertThat(repository.findById(rejectedId).orElseThrow().getStatus())
+            .isEqualTo(CancelOutboxRedriveStatus.REDRIVING);
+    }
+
+    @Test
     void resolvesOnlyFromRedrivingAndPreservesPublishedEvidence() throws Exception {
         long id = createRequested(9_200_550L, "2026-08-11T05:50:00Z");
         String before = "{\"decision\":\"REDRIVE_REQUIRED\"}";
@@ -226,6 +263,7 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
 
         assertThat(repository.resolve(id, after, completedAt)).isFalse();
         repository.tryStart(id, Instant.parse("2026-08-11T05:51:00Z"));
+        assertThat(repository.resolve(id, after, completedAt)).isFalse();
         repository.recordPublished(id, before, ack);
         assertThat(repository.resolve(id, after, completedAt)).isTrue();
         assertThat(repository.resolve(id, "{}", completedAt)).isFalse();

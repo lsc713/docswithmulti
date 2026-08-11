@@ -114,6 +114,7 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
 
     @Override
     public List<Long> findRequestedIds(int limit) {
+        requirePositiveLimit(limit);
         return jdbc.query("""
             SELECT id
               FROM cancel_outbox_redrive
@@ -155,6 +156,7 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
 
     @Override
     public List<CancelOutboxRedrive> findConverging(Instant startedAfter, int limit) {
+        requirePositiveLimit(limit);
         return jdbc.query("""
             SELECT id, source_outbox_id, status, failure_stage, requested_by, reason, requested_at,
                    started_at, completed_at, result, last_error, before_state, after_state
@@ -183,6 +185,7 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
                    completed_at = :completedAt
              WHERE id = :redriveId
                AND status = 'REDRIVING'
+               AND result IS NULL
             """, new MapSqlParameterSource()
             .addValue("redriveId", redriveId)
             .addValue("beforeState", beforeState)
@@ -205,6 +208,7 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
                    completed_at = :completedAt
              WHERE id = :redriveId
                AND status = 'REDRIVING'
+               AND result IS NULL
             """, new MapSqlParameterSource()
             .addValue("redriveId", redriveId)
             .addValue("beforeState", beforeState)
@@ -223,10 +227,17 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
                    completed_at = :completedAt
              WHERE id = :redriveId
                AND status = 'REDRIVING'
+               AND result IS NOT NULL
             """, new MapSqlParameterSource()
             .addValue("redriveId", redriveId)
             .addValue("afterState", afterState)
             .addValue("completedAt", Timestamp.from(completedAt))) == 1;
+    }
+
+    private static void requirePositiveLimit(int limit) {
+        if (limit <= 0) {
+            throw new IllegalArgumentException("limit must be positive");
+        }
     }
 
     private static boolean isActiveRedriveUniqueConstraint(DuplicateKeyException exception) {

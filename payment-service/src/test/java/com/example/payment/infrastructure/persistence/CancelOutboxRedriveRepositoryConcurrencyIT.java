@@ -57,8 +57,12 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
                  WHERE source_outbox_id = ? AND status IN ('REQUESTED', 'REDRIVING')
                 """, Integer.class, outboxId)).isEqualTo(1);
         } finally {
-            executor.shutdownNow();
-            executor.awaitTermination(30, TimeUnit.SECONDS);
+            try {
+                executor.shutdownNow();
+                executor.awaitTermination(30, TimeUnit.SECONDS);
+            } finally {
+                deleteFixture(outboxId);
+            }
         }
     }
 
@@ -68,18 +72,22 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
         long outboxId = seedDeadOutbox(9_300_002L);
         TransactionTemplate transaction = new TransactionTemplate(transactionManager);
 
-        transaction.executeWithoutResult(status -> {
-            repository.createRequested(
-                outboxId, "operator-1", "rollback", Instant.parse("2026-08-11T05:01:00Z"));
-            status.setRollbackOnly();
-        });
+        try {
+            transaction.executeWithoutResult(status -> {
+                repository.createRequested(
+                    outboxId, "operator-1", "rollback", Instant.parse("2026-08-11T05:01:00Z"));
+                status.setRollbackOnly();
+            });
 
-        Integer persistedRows = transaction.execute(status -> jdbc.queryForObject("""
-            SELECT COUNT(*) FROM cancel_outbox_redrive
-             WHERE source_outbox_id = ?
-            """, Integer.class, outboxId));
+            Integer persistedRows = transaction.execute(status -> jdbc.queryForObject("""
+                SELECT COUNT(*) FROM cancel_outbox_redrive
+                 WHERE source_outbox_id = ?
+                """, Integer.class, outboxId));
 
-        assertThat(persistedRows).isZero();
+            assertThat(persistedRows).isZero();
+        } finally {
+            deleteFixture(outboxId);
+        }
     }
 
     @Test
@@ -108,8 +116,12 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
             assertThat(loaded.getStatus()).isEqualTo(CancelOutboxRedriveStatus.REDRIVING);
             assertThat(loaded.getStartedAt()).isEqualTo(startedAt);
         } finally {
-            executor.shutdownNow();
-            executor.awaitTermination(30, TimeUnit.SECONDS);
+            try {
+                executor.shutdownNow();
+                executor.awaitTermination(30, TimeUnit.SECONDS);
+            } finally {
+                deleteFixture(outboxId);
+            }
         }
     }
 
@@ -139,6 +151,11 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
             VALUES (?, JSON_OBJECT('cancelRequestId', ?), 'DEAD')
             """, cancelRequestId, cancelRequestId);
         return jdbc.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+    }
+
+    private void deleteFixture(long outboxId) {
+        jdbc.update("DELETE FROM cancel_outbox_redrive WHERE source_outbox_id = ?", outboxId);
+        jdbc.update("DELETE FROM cancel_event_outbox WHERE id = ?", outboxId);
     }
 
     private record Result(boolean created, RuntimeException error) {}
