@@ -42,6 +42,9 @@ kafka:
     payment-cancelled: payment.cancelled
 
 cancel:
+  redrive:
+    dispatch-initial-delay-ms: 86400000
+    convergence-initial-delay-ms: 86400000
   outbox:
     poll-ms: 10000
     batch-size: 1000

@@ -30,7 +30,9 @@ public class CancelOutboxRedriveDispatcher {
         this.batchSize = batchSize;
     }
 
-    @Scheduled(fixedDelayString = "${cancel.redrive.dispatch-ms:1000}")
+    @Scheduled(
+        fixedDelayString = "${cancel.redrive.dispatch-ms:1000}",
+        initialDelayString = "${cancel.redrive.dispatch-initial-delay-ms:1000}")
     public void dispatch() {
         for (long redriveId : repository.findRequestedIds(batchSize)) {
             try {

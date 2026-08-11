@@ -78,10 +78,12 @@ class CancelOutboxRedriveDispatcherTest {
     }
 
     @Test
-    void dispatchUsesConfiguredDefaultFixedDelayProperty() throws Exception {
+    void dispatchUsesConfiguredDefaultSchedulingProperties() throws Exception {
         Method method = CancelOutboxRedriveDispatcher.class.getMethod("dispatch");
 
         assertThat(method.getAnnotation(Scheduled.class).fixedDelayString())
             .isEqualTo("${cancel.redrive.dispatch-ms:1000}");
+        assertThat(method.getAnnotation(Scheduled.class).initialDelayString())
+            .isEqualTo("${cancel.redrive.dispatch-initial-delay-ms:1000}");
     }
 }

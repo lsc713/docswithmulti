@@ -41,7 +41,9 @@ public class CancelOutboxRedriveConvergencePoller {
         this.batchSize = batchSize;
     }
 
-    @Scheduled(fixedDelayString = "${cancel.redrive.convergence-ms:2000}")
+    @Scheduled(
+        fixedDelayString = "${cancel.redrive.convergence-ms:2000}",
+        initialDelayString = "${cancel.redrive.convergence-initial-delay-ms:2000}")
     public void poll() {
         var startedAfter = clock.instant().minusSeconds(observationSeconds);
         for (var redrive : repository.findConverging(startedAfter, batchSize)) {

@@ -111,11 +111,13 @@ class CancelOutboxRedriveConvergencePollerTest {
     }
 
     @Test
-    void pollUsesConfiguredDefaultFixedDelayPropertyAndHasNoReplayDependency() throws Exception {
+    void pollUsesConfiguredDefaultSchedulingPropertiesAndHasNoReplayDependency() throws Exception {
         Method method = CancelOutboxRedriveConvergencePoller.class.getMethod("poll");
 
         assertThat(method.getAnnotation(Scheduled.class).fixedDelayString())
             .isEqualTo("${cancel.redrive.convergence-ms:2000}");
+        assertThat(method.getAnnotation(Scheduled.class).initialDelayString())
+            .isEqualTo("${cancel.redrive.convergence-initial-delay-ms:2000}");
         assertThat(Arrays.stream(CancelOutboxRedriveConvergencePoller.class.getConstructors())
             .flatMap(constructor -> Arrays.stream(constructor.getParameterTypes())))
             .doesNotContain(CancelEventReplayPort.class);
