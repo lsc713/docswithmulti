@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -24,13 +25,11 @@ async function loginBuyer(page, user) {
 
 // 바로구매로 결제 1건 생성 → paymentKey 반환 후 홈으로 복귀 (재호출 가능하도록)
 async function buyOneItem(page) {
-  await page.click('.grid .card:has-text("베이직 티셔츠")')
-  await page.waitForSelector('.buy-btn')
-  // dev(StrictMode) 이중 effect로 인한 2차 fetch가 qty state를 리셋하는 것을 피하기 위해 대기
-  // (checkout.spec.js/history.spec.js와 동일한 타이밍 조정, 앱 코드 무변경)
-  await page.waitForLoadState('networkidle')
-  await page.locator('.qty-input').first().fill('1')
-  await page.click('.buy-btn')
+  const { detail } = await openFirstInStockProductDetail(
+    page,
+    page.locator('.grid .card:has-text("베이직 티셔츠")')
+  )
+  await detail.getByRole('button', { name: '구매하기' }).click()
   await page.click('.checkout .pay-btn')
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
   const paymentKey = (await page.locator('.success-key code').textContent()).trim()

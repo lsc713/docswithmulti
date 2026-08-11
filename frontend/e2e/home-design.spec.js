@@ -164,14 +164,14 @@ test('product buttons do not repeat visible product names through image alt text
   await expect(firstCard.locator('img')).toHaveAttribute('alt', '')
 })
 
-test('opening a product keeps the established non-home typography and header treatment', async ({ page }) => {
+test('opening a product applies the adopted Gallery typography and keeps the non-home header treatment', async ({ page }) => {
   await mockStorefront(page)
   await page.goto('/')
   await page.locator('.grid .card').first().click()
 
-  const detailHeading = page.locator('.product-detail h1')
+  const detailHeading = page.getByRole('main', { name: '상품 상세' }).getByRole('heading', { level: 1 })
   await expect(detailHeading).toHaveText('미니멀 울 블레이저')
-  await expect(detailHeading).toHaveCSS('font-weight', '500')
+  await expect(detailHeading).toHaveCSS('font-weight', '600')
   await expect(page.locator('.announcement')).toHaveCount(0)
   await expect(page.locator('.navbar')).not.toHaveCSS('height', '96px')
 })

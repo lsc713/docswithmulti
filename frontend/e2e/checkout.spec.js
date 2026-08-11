@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -18,14 +19,11 @@ test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 →
   await expect(page.locator('.navbar-right span')).toBeVisible()  // 로그인됨
 
   // 상품 상세 진입 + 수량 1 선택 (재고 있는 시드 상품을 이름으로 특정 — 다른 E2E가 만든 재고 0 상품과의 충돌 방지)
-  await page.click('.grid .card:has-text("베이직 티셔츠")')
-  await page.waitForSelector('.buy-btn')
-  // dev(StrictMode) 이중 effect로 인한 2차 fetch가 늦게 도착하며 qty state를 리셋하는 것을 피하기 위해
-  // 상세 데이터 fetch가 완전히 안정될 때까지 대기 (테스트 타이밍 조정, 앱 코드 무변경)
-  await page.waitForLoadState('networkidle')
-  const firstQty = page.locator('.qty-input').first()
-  await firstQty.fill('1')
-  await page.click('.buy-btn')
+  const { detail } = await openFirstInStockProductDetail(
+    page,
+    page.locator('.grid .card:has-text("베이직 티셔츠")')
+  )
+  await detail.getByRole('button', { name: '구매하기' }).click()
 
   // 체크아웃 → 총액 표시 → 결제
   await expect(page.locator('.checkout h1')).toHaveText('주문하기')

@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { api } from '../api'
 import abstractArt from '../assets/detail-draft-art.svg'
+import ImageManager from './ImageManager'
 import './ProductDetailDraft.css'
 
 const VARIANT_NAMES = {
@@ -13,7 +14,7 @@ function formatPrice(value) {
   return `₩${Number(value ?? 0).toLocaleString('ko-KR')}`
 }
 
-function ProductVisual({ product, gallery = false }) {
+function ProductVisual({ product, gallery = false, production = false }) {
   const images = product.images ?? []
   const [activeImage, setActiveImage] = useState(0)
   const image = images[activeImage]
@@ -24,10 +25,12 @@ function ProductVisual({ product, gallery = false }) {
     <section className={`detail-draft-visual${gallery ? ' detail-draft-visual-gallery' : ''}`}
              aria-label="상품 이미지">
       <div className="detail-draft-image-stage">
-        <img className="detail-draft-abstract-art" src={abstractArt} alt="" />
+        {!production && <img className="detail-draft-abstract-art" src={abstractArt} alt="" />}
         {image && <img className="detail-draft-api-image" src={image.url} alt={`${product.name} ${activeImage + 1}`}
+                       onLoad={event => { event.currentTarget.hidden = false }}
                        onError={event => { event.currentTarget.hidden = true }} />}
-        <span className="detail-draft-image-note">LOCAL ART · SAMPLE</span>
+        {!image && production && <div className="detail-draft-image-empty">이미지 없음</div>}
+        {!production && <span className="detail-draft-image-note">LOCAL ART · SAMPLE</span>}
       </div>
       {gallery && images.length > 1 && (
         <div className="detail-draft-thumbnails" aria-label="상품 이미지 선택">
@@ -35,7 +38,7 @@ function ProductVisual({ product, gallery = false }) {
             <button key={item.id} type="button" aria-label={`상품 이미지 ${index + 1}`}
                     aria-current={activeImage === index ? 'true' : undefined}
                     onClick={() => setActiveImage(index)}>
-              <img src={abstractArt} alt="" />
+              {!production && <img src={abstractArt} alt="" />}
               <img className="detail-draft-thumbnail-api" src={item.url} alt=""
                    onError={event => { event.currentTarget.hidden = true }} />
             </button>
@@ -46,21 +49,23 @@ function ProductVisual({ product, gallery = false }) {
   )
 }
 
-function ProductSummary({ product, kicker }) {
+function ProductSummary({ product, kicker, production = false }) {
   const category = product.category?.map(item => item.name).join(' · ')
   const prices = (product.skus ?? []).map(item => item.price)
   const displayPrice = prices.length ? Math.min(...prices) : product.minPrice
 
   return (
     <header className="detail-draft-summary">
-      <p className="detail-draft-kicker">{kicker}</p>
+      {!production && <p className="detail-draft-kicker">{kicker}</p>}
       {category && <p className="detail-draft-category">{category}</p>}
       <h1>{product.name}</h1>
       <p className="detail-draft-price">{formatPrice(displayPrice)}</p>
-      <p className="detail-draft-sample-copy">
-        일상의 움직임을 따라 유연하게 정돈되는 균형 잡힌 실루엣입니다.
-        <span>디자인 제안 · 샘플</span>
-      </p>
+      {!production && (
+        <p className="detail-draft-sample-copy">
+          일상의 움직임을 따라 유연하게 정돈되는 균형 잡힌 실루엣입니다.
+          <span>디자인 제안 · 샘플</span>
+        </p>
+      )}
     </header>
   )
 }
@@ -332,17 +337,19 @@ function EditorialLayout(props) {
 }
 
 function GalleryLayout(props) {
-  const { product } = props
+  const { product, production = false } = props
   return (
     <div className="detail-draft-gallery-layout">
-      <ProductSummary product={product} kicker="GALLERY FOCUS · 디자인 제안 · 샘플" />
-      <ProductVisual product={product} gallery />
+      <ProductSummary product={product} kicker="GALLERY FOCUS · 디자인 제안 · 샘플" production={production} />
+      <ProductVisual product={product} gallery production={production} />
       <div className="detail-draft-gallery-buy">
         <GalleryPurchasePanel {...props} />
-        <div className="detail-draft-card-grid">
-          <SampleCard title="배송">영업일 기준 2–3일 내 출고 제안</SampleCard>
-          <SampleCard title="리뷰">부드러운 소재감 · 4.8 / 5 제안</SampleCard>
-        </div>
+        {!production && (
+          <div className="detail-draft-card-grid">
+            <SampleCard title="배송">영업일 기준 2–3일 내 출고 제안</SampleCard>
+            <SampleCard title="리뷰">부드러운 소재감 · 4.8 / 5 제안</SampleCard>
+          </div>
+        )}
       </div>
     </div>
   )
@@ -366,7 +373,7 @@ const LAYOUTS = {
   compact: CompactLayout,
 }
 
-export default function ProductDetailDraft({ id, variant, onBack, onBuy, onAddToCart }) {
+export default function ProductDetailDraft({ id, variant, production = false, me, onBack, onBuy, onAddToCart }) {
   const [requestKey, setRequestKey] = useState(0)
   const [state, setState] = useState({ status: 'loading', product: null, error: null })
   const requestRef = useRef(null)
@@ -387,7 +394,7 @@ export default function ProductDetailDraft({ id, variant, onBack, onBuy, onAddTo
   }, [id, requestKey])
 
   const Layout = useMemo(() => LAYOUTS[variant], [variant])
-  const label = `${VARIANT_NAMES[variant]} 상품 상세`
+  const label = production ? '상품 상세' : `${VARIANT_NAMES[variant]} 상품 상세`
 
   if (state.status === 'loading') {
     return (
@@ -404,7 +411,7 @@ export default function ProductDetailDraft({ id, variant, onBack, onBuy, onAddTo
     return (
       <main className={`detail-draft-main detail-draft-main--${variant}`} aria-label={label}>
         <div className="detail-draft-state">
-          <p className="detail-draft-kicker">404 · PRODUCT NOT FOUND</p>
+          {!production && <p className="detail-draft-kicker">404 · PRODUCT NOT FOUND</p>}
           <h1>상품을 찾을 수 없어요</h1>
           <button type="button" className="detail-draft-back" onClick={onBack}>홈으로 돌아가기</button>
         </div>
@@ -416,7 +423,7 @@ export default function ProductDetailDraft({ id, variant, onBack, onBuy, onAddTo
     return (
       <main className={`detail-draft-main detail-draft-main--${variant}`} aria-label={label}>
         <div className="detail-draft-state" role="alert">
-          <p className="detail-draft-kicker">CONNECTION ERROR</p>
+          {!production && <p className="detail-draft-kicker">CONNECTION ERROR</p>}
           <h1>상품을 불러오지 못했어요</h1>
           <p>{state.error?.message}</p>
           <button type="button" className="detail-draft-back" onClick={() => setRequestKey(key => key + 1)}>다시 시도</button>
@@ -427,8 +434,12 @@ export default function ProductDetailDraft({ id, variant, onBack, onBuy, onAddTo
 
   return (
     <main className={`detail-draft-main detail-draft-main--${variant}`} aria-label={label}>
-      <button type="button" className="detail-draft-back" onClick={onBack}>← 컬렉션으로</button>
-      <Layout product={state.product} onBuy={onBuy} onAddToCart={onAddToCart} />
+      <button type="button" className="detail-draft-back" onClick={onBack}>{production ? '뒤로' : '← 컬렉션으로'}</button>
+      <Layout product={state.product} production={production} onBuy={onBuy} onAddToCart={onAddToCart} />
+      {production && me?.role === 'ADMIN' && (
+        <ImageManager productId={id} images={state.product.images}
+                      onChanged={() => setRequestKey(key => key + 1)} />
+      )}
     </main>
   )
 }

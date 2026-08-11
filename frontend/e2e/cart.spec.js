@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -17,14 +18,11 @@ test('장바구니: 담기 → 장바구니 → 수량수정 → 주문하기 �
   await expect(page.locator('.navbar-right span')).toBeVisible()
 
   // 상품 상세(재고 있는 시드 상품을 이름으로 특정 — 다른 E2E가 만든 재고 0 상품과의 충돌 방지) → 수량 1 → 장바구니 담기
-  await page.click('.grid .card:has-text("베이직 티셔츠")')
-  await page.waitForSelector('.cart-btn')
-  // dev(StrictMode) 이중 effect로 인한 2차 fetch가 늦게 도착하며 qty state를 리셋하는 것을 피하기 위해
-  // 상세 데이터 fetch가 완전히 안정될 때까지 대기 (테스트 타이밍 조정, 앱 코드 무변경)
-  await page.waitForLoadState('networkidle')
-  // 여러 SKU 중 재고 있는 것만 선택 (max="0"은 다른 E2E 반복 실행으로 소진된 SKU) — 앱 코드 무변경, 셀렉터 조정
-  await page.locator('.qty-input:not([max="0"])').first().fill('1')
-  await page.click('.cart-btn')
+  const { detail } = await openFirstInStockProductDetail(
+    page,
+    page.locator('.grid .card:has-text("베이직 티셔츠")')
+  )
+  await detail.getByRole('button', { name: '장바구니 담기' }).click()
 
   // 장바구니 뷰(담기 후 자동 이동) → 개수/합계 확인
   await expect(page.locator('.cart h1')).toHaveText('장바구니')

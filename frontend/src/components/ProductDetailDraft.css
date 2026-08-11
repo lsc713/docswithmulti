@@ -169,6 +169,15 @@ body:has(.detail-draft-main) {
   object-fit: contain;
 }
 
+.detail-draft-image-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--detail-draft-muted);
+  font-size: 13px;
+}
+
 .detail-draft-api-image[hidden],
 .detail-draft-thumbnail-api[hidden] {
   display: none;
