@@ -150,19 +150,25 @@ class CancelOutboxRedriveRepositoryIT extends AbstractRepositoryTest {
         long tooOld = createRequested(9_200_522L, "2026-08-11T05:22:00Z");
         long second = createRequested(9_200_523L, "2026-08-11T05:23:00Z");
         long first = createRequested(9_200_524L, "2026-08-11T05:24:00Z");
+        long resolved = createRequested(9_200_525L, "2026-08-11T05:25:00Z");
         Instant threshold = Instant.parse("2026-08-11T05:30:00Z");
 
         repository.tryStart(unpublished, threshold);
         startAndRecordPublished(tooOld, Instant.parse("2026-08-11T05:29:59.999999Z"), 1);
         startAndRecordPublished(second, Instant.parse("2026-08-11T05:32:00Z"), 2);
         startAndRecordPublished(first, Instant.parse("2026-08-11T05:31:00Z"), 3);
+        startAndRecordPublished(resolved, Instant.parse("2026-08-11T05:33:00Z"), 4);
+        assertThat(repository.resolve(
+            resolved,
+            "{\"decision\":\"ALREADY_APPLIED\"}",
+            Instant.parse("2026-08-11T05:34:00Z"))).isTrue();
 
         assertThat(repository.findConverging(threshold, 2))
             .extracting(redrive -> redrive.getId())
             .containsExactly(first, second);
         assertThat(repository.findConverging(threshold, 10))
             .extracting(redrive -> redrive.getId())
-            .doesNotContain(requested, unpublished, tooOld);
+            .doesNotContain(requested, unpublished, tooOld, resolved);
     }
 
     @Test
