@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { continueCheckoutAndPay, openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -26,9 +26,8 @@ test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 →
   await detail.getByRole('button', { name: '구매하기' }).click()
 
   // 체크아웃 → 총액 표시 → 결제
-  await expect(page.locator('.checkout h1')).toHaveText('주문하기')
-  await expect(page.locator('.checkout-total')).toContainText('₩')
-  await page.click('.pay-btn')
+  await expect(page.getByTestId('grand-total')).toContainText('₩')
+  await continueCheckoutAndPay(page)
 
   // 완료 화면 (paymentKey 노출) — 결제 생성이 product-service 재고 동기 예약을 거치므로 여유 타임아웃
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })

@@ -1,3 +1,5 @@
+import { expect } from '@playwright/test'
+
 function isProductDetailGet(response) {
   const url = new URL(response.url())
   return response.request().method() === 'GET' && /^\/v1\/products\/[^/]+$/.test(url.pathname)
@@ -45,4 +47,12 @@ export async function openFirstInStockProductDetail(page, productCard, quantity 
 
   await detail.getByRole('spinbutton', { name: '수량' }).fill(String(quantity))
   return { detail, product, sku }
+}
+
+export async function continueCheckoutAndPay(page) {
+  await expect(page.getByRole('heading', { name: '주문할 상품을 확인해 주세요' })).toBeVisible()
+  await page.getByRole('button', { name: '변경 사항 확인 후 결제하기' }).first().click()
+  await expect(page).toHaveURL(/\/payment$/)
+  await expect(page.getByRole('heading', { name: '결제 수단을 선택해 주세요' })).toBeVisible()
+  await page.getByRole('button', { name: /결제하기$/ }).first().click()
 }

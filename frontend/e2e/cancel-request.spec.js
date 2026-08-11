@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { continueCheckoutAndPay, openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -25,7 +25,7 @@ async function buyOneItem(page) {
     page.locator('.grid .card:has-text("베이직 티셔츠")')
   )
   await detail.getByRole('button', { name: '구매하기' }).click()
-  await page.click('.checkout .pay-btn')
+  await continueCheckoutAndPay(page)
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
   const paymentKey = (await page.locator('.success-key code').textContent()).trim()
   await page.click('text=쇼핑 계속하기')

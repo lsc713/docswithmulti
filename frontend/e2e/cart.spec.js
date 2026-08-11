@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { continueCheckoutAndPay, openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -33,9 +33,8 @@ test('장바구니: 담기 → 장바구니 → 수량수정 → 주문하기 �
   await page.waitForTimeout(300)
 
   // 주문하기 → 결제 → 완료
-  await page.click('.pay-btn')                              // 주문하기(Cart) → checkout
-  await expect(page.locator('.checkout h1')).toHaveText('주문하기')
-  await page.click('.pay-btn')                              // 결제하기(Checkout)
+  await page.getByRole('button', { name: '주문하기' }).click()
+  await continueCheckoutAndPay(page)
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
 
   // 장바구니 비워졌는지 — reload로 App 재마운트 → api.me() → loadCart()가 실제 GET /v1/cart 재조회하도록 강제

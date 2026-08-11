@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { continueCheckoutAndPay, openFirstInStockProductDetail } from './helpers/product-detail'
 
 const BASE = 'http://localhost:5173'
 const GW = 'http://localhost:8000'
@@ -25,7 +25,7 @@ test('주문내역: 구매 → 내역 → 취소 요청 → 취소 요청됨', a
     page.locator('.grid .card:has-text("베이직 티셔츠")')
   )
   await detail.getByRole('button', { name: '구매하기' }).click()
-  await page.click('.checkout .pay-btn')
+  await continueCheckoutAndPay(page)
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
 
   // 주문내역 → 취소 요청 → 취소 요청됨 (P3: 즉시취소 대신 승인 요청 제출)

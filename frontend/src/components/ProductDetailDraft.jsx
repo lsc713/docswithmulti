@@ -84,6 +84,11 @@ function DraftPurchasePanel({ product, onBuy, onAddToCart, compact = false }) {
     optionSummary: selectedSku.optionSummary,
     unitPrice: selectedSku.price,
     quantity,
+    imageUrl: product.images?.[0]?.url,
+    variant: selectedSku.variant,
+    availableQty: selectedSku.availableQty,
+    price: selectedSku.price,
+    skuCode: selectedSku.skuCode,
   }] : []
 
   const selectSku = (sku) => {
@@ -171,6 +176,11 @@ function GalleryPurchasePanel({ product, onBuy, onAddToCart }) {
     optionSummary: selectedSku.optionSummary,
     unitPrice: selectedSku.price,
     quantity,
+    imageUrl: product.images?.[0]?.url,
+    variant: selectedSku.variant,
+    availableQty: selectedSku.availableQty,
+    price: selectedSku.price,
+    skuCode: selectedSku.skuCode,
   }] : []
 
   useEffect(() => {

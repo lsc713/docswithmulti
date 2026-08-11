@@ -7,11 +7,14 @@ import Home from './components/Home'
 import ProductDetail from './components/ProductDetail'
 import ProductDetailDraft from './components/ProductDetailDraft'
 import Checkout from './components/Checkout'
+import Payment from './components/Payment'
 import OrderSuccess from './components/OrderSuccess'
 import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
+import { normalizeOrderItems, persistOrderRouteState, resolveOrderRouteState, ORDER_FLOW_SESSION_KEY } from './orderFlow'
 
 const DETAIL_DRAFTS = new Set(['editorial', 'gallery', 'compact'])
+const STORE_PATHS = { home: '/', cart: '/cart', history: '/history', success: '/order-success', detail: '/' }
 
 function getDetailDraftRequest(search) {
   const params = new URLSearchParams(search)
@@ -21,9 +24,20 @@ function getDetailDraftRequest(search) {
   return { variant, productId: Number(product) }
 }
 
+function getInitialView() {
+  const path = window.location.pathname
+  if (path === '/checkout' || path === '/payment') {
+    return { name: path.slice(1), flowState: resolveOrderRouteState(undefined) }
+  }
+  if (path === '/cart' || path === '/history') return { name: path.slice(1) }
+  const storedView = window.history.state?.storeView
+  if (path === '/order-success' && storedView?.name === 'success' && storedView.payment) return storedView
+  return { name: 'home' }
+}
+
 export default function App() {
   const [me, setMe] = useState(null)
-  const [view, setView] = useState({ name: 'home' })
+  const [view, setView] = useState(getInitialView)
   const [authOpen, setAuthOpen] = useState(false)
   const [cart, setCart] = useState([])
   const [payments, setPayments] = useState([])
@@ -33,10 +47,21 @@ export default function App() {
 
   useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
 
+  useEffect(() => {
+    const onPopState = event => {
+      const name = window.location.pathname === '/checkout' ? 'checkout' : window.location.pathname === '/payment' ? 'payment' : null
+      if (name) setView({ name, flowState: resolveOrderRouteState(undefined) })
+      else setView(event.state?.storeView ?? getInitialView())
+    }
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
   const loadCart = () => api.getCart().then(r => setCart(r.items)).catch(() => setCart([]))
   useEffect(() => { if (me) loadCart() }, [me])
 
   const loadPayments = () => api.getPayments().then(setPayments).catch(() => setPayments([]))
+  useEffect(() => { if (view.name === 'history') loadPayments() }, [view.name])
 
   async function handleRequestCancel(key, reason) {
     try { await api.requestCancel(key, reason) }
@@ -44,9 +69,22 @@ export default function App() {
     await loadPayments()   // 성공/실패 무관 서버 상태 반영 (409 중복요청이어도 '취소 요청됨'으로 갱신)
   }
 
+  function openOrderRoute(name, flowState) {
+    persistOrderRouteState(flowState)
+    window.history.replaceState({ ...(window.history.state ?? {}), storeView: view }, '', window.location.href)
+    window.history.pushState(null, '', `/${name}`)
+    setView({ name, flowState })
+  }
+
+  function openStoreView(nextView, replace = false) {
+    window.history[replace ? 'replaceState' : 'pushState']({ storeView: nextView }, '', STORE_PATHS[nextView.name] ?? '/')
+    setView(nextView)
+  }
+
   function handleBuy(lines) {
     if (!me) { setAuthOpen(true); return }
-    setView({ name: 'checkout', lines })
+    const orderItems = normalizeOrderItems(lines)
+    openOrderRoute('checkout', { orderItems, source: 'product', productId: orderItems[0]?.productId })
   }
 
   async function handleAddToCart(lines) {
@@ -56,7 +94,7 @@ export default function App() {
         optionSummary: l.optionSummary, unitPrice: l.unitPrice, quantity: l.quantity })
     }
     await loadCart()
-    setView({ name: 'cart' })
+    openStoreView({ name: 'cart' })
   }
 
   const onQty = async (skuId, q) => { await api.updateCartItem(skuId, q); loadCart() }
@@ -69,7 +107,8 @@ export default function App() {
       url.searchParams.delete('product')
       window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`)
     }
-    setView({ name: 'home' })
+    if (window.location.pathname === '/' && view.name === 'home') setView({ name: 'home' })
+    else openStoreView({ name: 'home' })
   }
 
   return (
@@ -79,8 +118,8 @@ export default function App() {
               onLoginClick={() => setAuthOpen(true)}
               onLogout={async () => { await api.logout(); setMe(null) }}
               cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
-              onCart={() => setView({ name: 'cart' })}
-              onHistory={() => { loadPayments(); setView({ name: 'history' }) }} />
+              onCart={() => openStoreView({ name: 'cart' })}
+              onHistory={() => openStoreView({ name: 'history' })} />
 
       {view.name === 'home' && !draftOpen && <Home query={productQuery} onOpen={(id) => setView({ name: 'detail', id })} />}
       {draftOpen && (
@@ -88,27 +127,46 @@ export default function App() {
                             onBack={handleHome} onBuy={handleBuy} onAddToCart={handleAddToCart} />
       )}
       {view.name === 'detail' && (
-        <ProductDetail id={view.id} me={me} onBack={() => setView({ name: 'home' })} onBuy={handleBuy}
+        <ProductDetail id={view.id} me={me} onBack={handleHome} onBuy={handleBuy}
                        onAddToCart={handleAddToCart} />
       )}
       {view.name === 'cart' && (
         <Cart items={cart} onQty={onQty} onRemove={onRemove}
-              onOrder={(lines) => setView({ name: 'checkout', lines, fromCart: true })}
-              onBack={() => setView({ name: 'home' })} />
+              onOrder={(lines) => openOrderRoute('checkout', { orderItems: normalizeOrderItems(lines), source: 'cart' })}
+              onBack={handleHome} />
       )}
       {view.name === 'checkout' && (
-        <Checkout lines={view.lines}
-                  onPaid={async (payment) => {
-                    if (view.fromCart) { try { await api.clearCart() } catch { /* noop */ } setCart([]) }
-                    setView({ name: 'success', payment })
-                  }}
-                  onBack={() => setView({ name: 'home' })} />
+        <Checkout flowState={view.flowState} me={me}
+                  onContinue={() => openOrderRoute('payment', view.flowState)}
+                  onRetry={() => setView({ name: 'checkout', flowState: resolveOrderRouteState(undefined) })}
+                  onBack={() => {
+                    const source = view.flowState?.source
+                    const returnView = source === 'cart'
+                      ? { name: 'cart' }
+                      : source === 'product' && view.flowState?.productId
+                        ? { name: 'detail', id: view.flowState.productId }
+                        : { name: 'home' }
+                    openStoreView(returnView)
+                  }} />
+      )}
+      {view.name === 'payment' && (
+        <Payment flowState={view.flowState}
+                 onOrderCreated={createdOrderItems => {
+                   const flowState = { ...view.flowState, createdOrderItems }
+                   if (persistOrderRouteState(flowState)) setView({ name: 'payment', flowState })
+                 }}
+                 onPaid={async payment => {
+                   sessionStorage.removeItem(ORDER_FLOW_SESSION_KEY)
+                   openStoreView({ name: 'success', payment }, true)
+                   if (view.flowState?.source === 'cart') { try { await api.clearCart() } catch { /* noop */ } setCart([]) }
+                 }}
+                 onBack={() => window.history.back()} />
       )}
       {view.name === 'success' && (
-        <OrderSuccess payment={view.payment} onHome={() => setView({ name: 'home' })} />
+        <OrderSuccess payment={view.payment} onHome={handleHome} />
       )}
       {view.name === 'history' && (
-        <OrderHistory payments={payments} onRequestCancel={handleRequestCancel} onBack={() => setView({ name: 'home' })} />
+        <OrderHistory payments={payments} onRequestCancel={handleRequestCancel} onBack={handleHome} />
       )}
 
       <AuthModal open={authOpen} onClose={() => setAuthOpen(false)}
