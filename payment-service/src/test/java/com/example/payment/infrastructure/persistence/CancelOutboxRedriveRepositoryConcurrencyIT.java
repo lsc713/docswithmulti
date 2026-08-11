@@ -61,6 +61,26 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
         }
     }
 
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void requestedRedriveIsNotVisibleAfterCallerTransactionRollsBack() {
+        long outboxId = seedDeadOutbox(9_300_002L);
+        TransactionTemplate transaction = new TransactionTemplate(transactionManager);
+
+        transaction.executeWithoutResult(status -> {
+            repository.createRequested(
+                outboxId, "operator-1", "rollback", Instant.parse("2026-08-11T05:01:00Z"));
+            status.setRollbackOnly();
+        });
+
+        Integer persistedRows = transaction.execute(status -> jdbc.queryForObject("""
+            SELECT COUNT(*) FROM cancel_outbox_redrive
+             WHERE source_outbox_id = ?
+            """, Integer.class, outboxId));
+
+        assertThat(persistedRows).isZero();
+    }
+
     private Result createAfterStart(TransactionTemplate transaction, CountDownLatch start, long outboxId)
         throws InterruptedException {
         start.await(30, TimeUnit.SECONDS);
