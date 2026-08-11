@@ -112,6 +112,134 @@ public class CancelOutboxRedriveRepositoryImpl implements CancelOutboxRedriveRep
         return rows.stream().findFirst();
     }
 
+    @Override
+    public List<Long> findRequestedIds(int limit) {
+        requirePositiveLimit(limit);
+        return jdbc.query("""
+            SELECT id
+              FROM cancel_outbox_redrive
+             WHERE status = 'REQUESTED'
+             ORDER BY requested_at, id
+             LIMIT :limit
+            """, new MapSqlParameterSource("limit", limit),
+            (rs, rowNum) -> rs.getLong("id"));
+    }
+
+    @Override
+    public boolean tryStart(long redriveId, Instant startedAt) {
+        return jdbc.update("""
+            UPDATE cancel_outbox_redrive
+               SET status = 'REDRIVING',
+                   failure_stage = NULL,
+                   started_at = :startedAt
+             WHERE id = :redriveId
+               AND status = 'REQUESTED'
+            """, new MapSqlParameterSource()
+            .addValue("redriveId", redriveId)
+            .addValue("startedAt", Timestamp.from(startedAt))) == 1;
+    }
+
+    @Override
+    public boolean recordPublished(long redriveId, String beforeState, String result) {
+        return jdbc.update("""
+            UPDATE cancel_outbox_redrive
+               SET before_state = :beforeState,
+                   result = :result
+             WHERE id = :redriveId
+               AND status = 'REDRIVING'
+               AND result IS NULL
+            """, new MapSqlParameterSource()
+            .addValue("redriveId", redriveId)
+            .addValue("beforeState", beforeState)
+            .addValue("result", result)) == 1;
+    }
+
+    @Override
+    public List<CancelOutboxRedrive> findConverging(Instant startedAfter, int limit) {
+        requirePositiveLimit(limit);
+        return jdbc.query("""
+            SELECT id, source_outbox_id, status, failure_stage, requested_by, reason, requested_at,
+                   started_at, completed_at, result, last_error, before_state, after_state
+              FROM cancel_outbox_redrive
+             WHERE status = 'REDRIVING'
+               AND result IS NOT NULL
+               AND started_at >= :startedAfter
+             ORDER BY started_at, id
+             LIMIT :limit
+            """, new MapSqlParameterSource()
+            .addValue("startedAfter", Timestamp.from(startedAfter))
+            .addValue("limit", limit), ROW_MAPPER);
+    }
+
+    @Override
+    public boolean resolveAlreadyApplied(
+        long redriveId, String beforeState, String afterState, String result, Instant completedAt
+    ) {
+        return jdbc.update("""
+            UPDATE cancel_outbox_redrive
+               SET status = 'RESOLVED_ALREADY_APPLIED',
+                   failure_stage = NULL,
+                   before_state = :beforeState,
+                   after_state = :afterState,
+                   result = :result,
+                   completed_at = :completedAt
+             WHERE id = :redriveId
+               AND status = 'REDRIVING'
+               AND result IS NULL
+            """, new MapSqlParameterSource()
+            .addValue("redriveId", redriveId)
+            .addValue("beforeState", beforeState)
+            .addValue("afterState", afterState)
+            .addValue("result", result)
+            .addValue("completedAt", Timestamp.from(completedAt))) == 1;
+    }
+
+    @Override
+    public boolean reject(
+        long redriveId, String beforeState, String afterState, String lastError, Instant completedAt
+    ) {
+        return jdbc.update("""
+            UPDATE cancel_outbox_redrive
+               SET status = 'REJECTED',
+                   failure_stage = NULL,
+                   before_state = :beforeState,
+                   after_state = :afterState,
+                   last_error = :lastError,
+                   completed_at = :completedAt
+             WHERE id = :redriveId
+               AND status = 'REDRIVING'
+               AND result IS NULL
+            """, new MapSqlParameterSource()
+            .addValue("redriveId", redriveId)
+            .addValue("beforeState", beforeState)
+            .addValue("afterState", afterState)
+            .addValue("lastError", lastError)
+            .addValue("completedAt", Timestamp.from(completedAt))) == 1;
+    }
+
+    @Override
+    public boolean resolve(long redriveId, String afterState, Instant completedAt) {
+        return jdbc.update("""
+            UPDATE cancel_outbox_redrive
+               SET status = 'RESOLVED',
+                   failure_stage = NULL,
+                   after_state = :afterState,
+                   completed_at = :completedAt
+             WHERE id = :redriveId
+               AND status = 'REDRIVING'
+               AND result IS NOT NULL
+            """, new MapSqlParameterSource()
+            .addValue("redriveId", redriveId)
+            .addValue("afterState", afterState)
+            .addValue("completedAt", Timestamp.from(completedAt))) == 1;
+    }
+
+    private static void requirePositiveLimit(int limit) {
+        if (limit <= 0) {
+            throw new IllegalArgumentException("limit must be positive");
+        }
+    }
+
     private static boolean isActiveRedriveUniqueConstraint(DuplicateKeyException exception) {
         for (Throwable current = exception; current != null; current = current.getCause()) {
             String message = current.getMessage();

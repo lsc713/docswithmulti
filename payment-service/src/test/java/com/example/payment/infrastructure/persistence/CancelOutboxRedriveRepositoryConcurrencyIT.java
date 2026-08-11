@@ -2,6 +2,7 @@ package com.example.payment.infrastructure.persistence;
 
 import com.example.payment.application.exception.ActiveRedriveExistsException;
 import com.example.payment.application.interfaces.CancelOutboxRedriveRepository;
+import com.example.payment.domain.entity.CancelOutboxRedriveStatus;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -56,8 +57,12 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
                  WHERE source_outbox_id = ? AND status IN ('REQUESTED', 'REDRIVING')
                 """, Integer.class, outboxId)).isEqualTo(1);
         } finally {
-            executor.shutdownNow();
-            executor.awaitTermination(30, TimeUnit.SECONDS);
+            try {
+                executor.shutdownNow();
+                executor.awaitTermination(30, TimeUnit.SECONDS);
+            } finally {
+                deleteFixture(outboxId);
+            }
         }
     }
 
@@ -67,18 +72,57 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
         long outboxId = seedDeadOutbox(9_300_002L);
         TransactionTemplate transaction = new TransactionTemplate(transactionManager);
 
-        transaction.executeWithoutResult(status -> {
-            repository.createRequested(
-                outboxId, "operator-1", "rollback", Instant.parse("2026-08-11T05:01:00Z"));
-            status.setRollbackOnly();
-        });
+        try {
+            transaction.executeWithoutResult(status -> {
+                repository.createRequested(
+                    outboxId, "operator-1", "rollback", Instant.parse("2026-08-11T05:01:00Z"));
+                status.setRollbackOnly();
+            });
 
-        Integer persistedRows = transaction.execute(status -> jdbc.queryForObject("""
-            SELECT COUNT(*) FROM cancel_outbox_redrive
-             WHERE source_outbox_id = ?
-            """, Integer.class, outboxId));
+            Integer persistedRows = transaction.execute(status -> jdbc.queryForObject("""
+                SELECT COUNT(*) FROM cancel_outbox_redrive
+                 WHERE source_outbox_id = ?
+                """, Integer.class, outboxId));
 
-        assertThat(persistedRows).isZero();
+            assertThat(persistedRows).isZero();
+        } finally {
+            deleteFixture(outboxId);
+        }
+    }
+
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    void concurrentTryStartCallsHaveExactlyOneCasWinner() throws Exception {
+        long outboxId = seedDeadOutbox(9_300_003L);
+        long redriveId = repository.createRequested(
+            outboxId, "operator-1", "claim", Instant.parse("2026-08-11T05:02:00Z")).getId();
+        Instant startedAt = Instant.parse("2026-08-11T05:02:03.123456Z");
+        TransactionTemplate transaction = new TransactionTemplate(transactionManager);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
+        CountDownLatch start = new CountDownLatch(1);
+
+        try {
+            List<Future<Boolean>> futures = List.of(
+                executor.submit(() -> tryStartAfterSignal(transaction, start, redriveId, startedAt)),
+                executor.submit(() -> tryStartAfterSignal(transaction, start, redriveId, startedAt)));
+            start.countDown();
+
+            List<Boolean> results = List.of(
+                futures.get(0).get(30, TimeUnit.SECONDS),
+                futures.get(1).get(30, TimeUnit.SECONDS));
+
+            assertThat(results).containsExactlyInAnyOrder(true, false);
+            var loaded = repository.findById(redriveId).orElseThrow();
+            assertThat(loaded.getStatus()).isEqualTo(CancelOutboxRedriveStatus.REDRIVING);
+            assertThat(loaded.getStartedAt()).isEqualTo(startedAt);
+        } finally {
+            try {
+                executor.shutdownNow();
+                executor.awaitTermination(30, TimeUnit.SECONDS);
+            } finally {
+                deleteFixture(outboxId);
+            }
+        }
     }
 
     private Result createAfterStart(TransactionTemplate transaction, CountDownLatch start, long outboxId)
@@ -93,12 +137,25 @@ class CancelOutboxRedriveRepositoryConcurrencyIT extends AbstractRepositoryTest 
         }
     }
 
+    private boolean tryStartAfterSignal(
+        TransactionTemplate transaction, CountDownLatch start, long redriveId, Instant startedAt
+    ) throws InterruptedException {
+        start.await(30, TimeUnit.SECONDS);
+        return Boolean.TRUE.equals(transaction.execute(
+            status -> repository.tryStart(redriveId, startedAt)));
+    }
+
     private long seedDeadOutbox(long cancelRequestId) {
         jdbc.update("""
             INSERT INTO cancel_event_outbox (cancel_request_id, payload, status)
             VALUES (?, JSON_OBJECT('cancelRequestId', ?), 'DEAD')
             """, cancelRequestId, cancelRequestId);
         return jdbc.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+    }
+
+    private void deleteFixture(long outboxId) {
+        jdbc.update("DELETE FROM cancel_outbox_redrive WHERE source_outbox_id = ?", outboxId);
+        jdbc.update("DELETE FROM cancel_event_outbox WHERE id = ?", outboxId);
     }
 
     private record Result(boolean created, RuntimeException error) {}

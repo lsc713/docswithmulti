@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import tools.jackson.databind.ObjectMapper;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +27,7 @@ public class InternalCancelOutboxController {
     private final CancelOutboxRedriveUseCase redriveUseCase;
     private final CancelOutboxRedriveQuery redriveQuery;
     private final InternalOperatorAccess operatorAccess;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/internal/cancel-outbox/{outboxId}")
     public CancelOutboxInspectionResponse inspect(
@@ -46,7 +48,7 @@ public class InternalCancelOutboxController {
     ) {
         operatorAccess.requireAdmin(role, operatorId);
         return ResponseEntity.accepted().body(CancelOutboxRedriveResponse.from(
-            redriveUseCase.request(outboxId, operatorId, request.reason())));
+            redriveUseCase.request(outboxId, operatorId, request.reason()), objectMapper));
     }
 
     @GetMapping("/internal/cancel-outbox/redrives/{redriveId}")
@@ -56,6 +58,6 @@ public class InternalCancelOutboxController {
         @RequestHeader(value = "X-User-Id", required = false) String operatorId
     ) {
         operatorAccess.requireAdmin(role, operatorId);
-        return CancelOutboxRedriveResponse.from(redriveQuery.get(redriveId));
+        return CancelOutboxRedriveResponse.from(redriveQuery.get(redriveId), objectMapper);
     }
 }
