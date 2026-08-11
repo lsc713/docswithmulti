@@ -76,7 +76,7 @@ request_cancel_redrive() {
   fi
 
   printf '%s\n' "${REDRIVE_RESPONSE}" |
-    jq '{redriveId, status, requestedBy, reason, requestedAt}' || return 1
+    jq '{redriveId, status, requestedBy, requestedAt}' || return 1
   REDRIVE_ID=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -er '.redriveId') || return 1
 }
 
@@ -110,7 +110,7 @@ while :; do
 
   printf '%s\n' "${REDRIVE_RESPONSE}" |
     jq '{redriveId, sourceOutboxId, status, failureStage, lastError,
-         requestedBy, reason, requestedAt, startedAt, completedAt,
+         requestedBy, requestedAt, startedAt, completedAt,
          result, beforeState, afterState}' || break
   REDRIVE_STATUS=$(printf '%s\n' "${REDRIVE_RESPONSE}" | jq -er '.status') || break
 
@@ -134,7 +134,7 @@ done
 
 `REDRIVING`이 60초를 넘으면 자동으로 다시 요청하거나 payload를 수동 발행하지 않습니다. recovery poller가 `startedAt` 기준 정확히 60초가 된 행을 최종 처리하므로 다음 상태 조회에서 `FAILED` 또는 `RESOLVED`를 확인합니다. executor 포화로 recovery 작업이 거절되면 행은 그대로 남고 다음 recovery polling 주기에 다시 선택됩니다.
 
-운영 로그와 장애 티켓에는 redrive ID, source outbox ID, 상태, reason code만 기록합니다. 원본 payload와 payment key는 복사하지 않습니다.
+운영 로그와 장애 티켓에는 redrive attempt ID, `requestedAt`/`startedAt`/`completedAt`, `status`, `failureStage`, `lastError`의 bounded code만 기록합니다. 운영자가 입력한 자유 형식 reason, 원본 payload, payment key는 복사하지 않습니다.
 
 ## 5. 종료 상태 해석과 안전한 다음 작업
 
@@ -149,11 +149,20 @@ CLI 응답에서는 `status`, `failureStage`, `lastError` 조합을 그대로 �
 | `FAILED / CONVERGENCE / CONVERGENCE_TIMEOUT` | ACK는 저장됐지만 정확히 60초의 최종 점검에서도 한쪽 이상이 `NOT_APPLIED`였습니다. | `afterState`의 안전한 상태·수량 증거로 미적용 consumer를 조사합니다. 동일 이벤트 재요청은 자동화하지 않습니다. |
 | `FAILED / CONVERGENCE / DOWNSTREAM_UNKNOWN` | ACK는 저장됐지만 최종 점검이 `UNKNOWN`이거나 점검 호출이 실패했습니다. | 하위 점검 가용성을 복구한 뒤 2절을 다시 실행합니다. 현재 결과만으로 재발행 여부를 결정하지 않습니다. |
 | `FAILED / CONVERGENCE / INCONSISTENT_DOWNSTREAM_STATE` | ACK 뒤 최종 점검에서 수량 또는 상태 불일치가 확인됐습니다. | 수동 정합성 복구 대상으로 전환하고 재발행하지 않습니다. `afterState`의 안전한 증거만 티켓에 남깁니다. |
+| `FAILED / CONVERGENCE / OUTBOX_NOT_DEAD` | ACK 저장 뒤 최종 점검에서 원본 outbox가 더 이상 `DEAD`가 아니었습니다. 원본 불변 조건 위반 또는 잘못된 운영 변경 가능성이 있습니다. | 원본과 모든 attempt를 보존하고 수동 감사 대상으로 전환합니다. 상태를 SQL로 되돌리거나 다시 발행하지 않습니다. |
+| `FAILED / CONVERGENCE / CANCEL_NOT_COMPLETED` | ACK 저장 뒤 최종 점검에서 취소 요청이 더 이상 `COMPLETED`가 아니었습니다. | 취소 상태 회귀 원인을 수동 조사하고 재발행하지 않습니다. 결제·주문 정합성을 별도 복구합니다. |
+| `FAILED / CONVERGENCE / PAYMENT_NOT_CANCELLED` | ACK 저장 뒤 최종 점검에서 결제가 취소 완료 상태가 아니었습니다. | 결제 상태와 consumer 적용 이력을 수동 대조하고 재발행하지 않습니다. |
+| `FAILED / CONVERGENCE / INVALID_PAYLOAD` | ACK 저장 뒤 최종 점검에서 저장 이벤트가 현재 payload 검증을 통과하지 못했습니다. | payload를 CLI로 조회·수정하지 않습니다. producer/schema 변경과 원본 무결성을 조사하고 재발행하지 않습니다. |
+| `RESOLVED / - / -` | ACK가 저장됐고 order와 stock 모두 `APPLIED`로 수렴했습니다. | 추가 발행 없이 attempt ID와 종료 timestamp/status만 기록합니다. |
 | `RESOLVED_ALREADY_APPLIED / - / -` | preflight에서 양쪽이 이미 `APPLIED`여서 Kafka 발행 없이 종료했습니다. | 추가 작업이 없습니다. 이 attempt ID를 변경 이력에 남깁니다. |
+| `REJECTED / - / OUTBOX_NOT_DEAD` | 요청한 source outbox가 `DEAD`가 아니어서 발행 전 거절됐습니다. | SQL로 상태를 바꾸지 않습니다. 0절의 안전한 필드 조회로 실제 `DEAD` 행을 다시 선택하거나 이 작업을 종료합니다. |
+| `REJECTED / - / CANCEL_NOT_COMPLETED` | 취소 요청이 `COMPLETED`가 아니어서 발행 전 거절됐습니다. | 취소 처리 상태를 수동 조사하고 재발행하지 않습니다. |
+| `REJECTED / - / PAYMENT_NOT_CANCELLED` | 결제가 취소 완료 상태가 아니어서 발행 전 거절됐습니다. | 결제 상태를 수동 조사하고 재발행하지 않습니다. |
 | `REJECTED / - / INVALID_PAYLOAD` | 저장된 원본 이벤트가 필수 필드, source ID 일치, item 형식 검증을 통과하지 못했습니다. | payload를 CLI로 조회·복사·수정하지 않습니다. 생성 경로와 원본 데이터 문제를 별도 장애로 조사합니다. |
-| `REJECTED / - / 그 외 code` | 원본이 `DEAD`가 아니거나 취소·결제 상태 또는 하위 상태가 안전 조건을 만족하지 않습니다. | `lastError`에 해당하는 원본/하위 상태를 수정 또는 확인하고, 안전 점검 전에는 재요청하지 않습니다. |
+| `REJECTED / - / INCONSISTENT_DOWNSTREAM_STATE` | 발행 전 점검에서 order 또는 stock의 상태·수량 불일치가 확인됐습니다. | 수동 정합성 복구 대상으로 전환하고 재발행하지 않습니다. 안전한 점검 증거만 티켓에 남깁니다. |
+| 알 수 없는 `status / failureStage / lastError` 조합 | 현재 runbook에 없는 신규·오염 code이거나 CLI/API 버전이 맞지 않습니다. | fail closed로 중단합니다. 재요청·수동 발행·SQL 상태 변경을 하지 말고 원본과 attempt를 보존해 서비스 담당자에게 에스컬레이션합니다. |
 
-새 요청은 새 redrive ID를 생성합니다. 이전 `FAILED` attempt를 덮어쓰지 않으므로 장애 티켓에는 모든 attempt ID와 각 reason을 시간순으로 남깁니다.
+새 요청은 새 redrive ID를 생성합니다. 이전 `FAILED` attempt를 덮어쓰지 않으므로 장애 티켓에는 각 attempt ID, timestamp, status, failure stage, bounded code만 시간순으로 남깁니다. 운영자가 입력한 자유 형식 reason은 로그, 티켓, 채팅에 복사하지 않습니다.
 
 ## 6. executor 포화와 recovery 확인
 
