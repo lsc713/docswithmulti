@@ -15,7 +15,12 @@ async function req(path, { method = 'GET', body, csrf = false, signal } = {}) {
     signal,
   })
   const data = await res.json().catch(() => ({}))
-  if (!res.ok) throw new Error(data.message || data.code || `HTTP ${res.status}`)
+  if (!res.ok) {
+    const error = new Error(data.message || data.code || `HTTP ${res.status}`)
+    error.status = res.status
+    if (data.code !== undefined) error.code = data.code
+    throw error
+  }
   return data
 }
 

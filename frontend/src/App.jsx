@@ -5,10 +5,21 @@ import NavBar from './components/NavBar'
 import AuthModal from './components/AuthModal'
 import Home from './components/Home'
 import ProductDetail from './components/ProductDetail'
+import ProductDetailDraft from './components/ProductDetailDraft'
 import Checkout from './components/Checkout'
 import OrderSuccess from './components/OrderSuccess'
 import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
+
+const DETAIL_DRAFTS = new Set(['editorial', 'gallery', 'compact'])
+
+function getDetailDraftRequest(search) {
+  const params = new URLSearchParams(search)
+  const variant = params.get('detailDraft')
+  const product = params.get('product')
+  if (!DETAIL_DRAFTS.has(variant) || !/^\d+$/.test(product ?? '')) return null
+  return { variant, productId: Number(product) }
+}
 
 export default function App() {
   const [me, setMe] = useState(null)
@@ -17,6 +28,8 @@ export default function App() {
   const [cart, setCart] = useState([])
   const [payments, setPayments] = useState([])
   const [productQuery, setProductQuery] = useState('')
+  const draftRequest = getDetailDraftRequest(window.location.search)
+  const draftOpen = view.name === 'home' && draftRequest !== null
 
   useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
 
@@ -49,9 +62,19 @@ export default function App() {
   const onQty = async (skuId, q) => { await api.updateCartItem(skuId, q); loadCart() }
   const onRemove = async (skuId) => { await api.removeCartItem(skuId); loadCart() }
 
+  const handleHome = () => {
+    if (draftRequest) {
+      const url = new URL(window.location.href)
+      url.searchParams.delete('detailDraft')
+      url.searchParams.delete('product')
+      window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`)
+    }
+    setView({ name: 'home' })
+  }
+
   return (
     <>
-      <NavBar home={view.name === 'home'} me={me} onHome={() => setView({ name: 'home' })}
+      <NavBar home={view.name === 'home' && !draftOpen} me={me} onHome={handleHome}
               productQuery={productQuery} onProductQueryChange={setProductQuery}
               onLoginClick={() => setAuthOpen(true)}
               onLogout={async () => { await api.logout(); setMe(null) }}
@@ -59,7 +82,11 @@ export default function App() {
               onCart={() => setView({ name: 'cart' })}
               onHistory={() => { loadPayments(); setView({ name: 'history' }) }} />
 
-      {view.name === 'home' && <Home query={productQuery} onOpen={(id) => setView({ name: 'detail', id })} />}
+      {view.name === 'home' && !draftOpen && <Home query={productQuery} onOpen={(id) => setView({ name: 'detail', id })} />}
+      {draftOpen && (
+        <ProductDetailDraft id={draftRequest.productId} variant={draftRequest.variant}
+                            onBack={handleHome} onBuy={handleBuy} onAddToCart={handleAddToCart} />
+      )}
       {view.name === 'detail' && (
         <ProductDetail id={view.id} me={me} onBack={() => setView({ name: 'home' })} onBuy={handleBuy}
                        onAddToCart={handleAddToCart} />
