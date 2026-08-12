@@ -78,3 +78,16 @@ server:
 logging:
   level:
     com.example.product: INFO
+
+# 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true
