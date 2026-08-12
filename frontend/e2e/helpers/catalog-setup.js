@@ -1,17 +1,18 @@
 const GW = 'http://localhost:8000'
 const PRODUCT_SERVICE = 'http://localhost:8084'
-const ADMIN = { email: 'admin@example.com', password: 'password123', name: '관리자', phone: '010-0000-0000' }
+const ADMIN = { password: 'password123', name: '관리자', phone: '010-0000-0000' }
 
-async function json(response, operation) {
+async function json(response, operation, redactions = []) {
   const text = await response.text()
+  const safeText = redactions.reduce((value, secret) => value.replaceAll(secret, '<redacted>'), text)
   let body
   try {
     body = text ? JSON.parse(text) : {}
   } catch {
-    throw new Error(`${operation} returned HTTP ${response.status()} with invalid JSON: ${text}`)
+    throw new Error(`${operation} returned HTTP ${response.status()} with invalid JSON: ${safeText}`)
   }
   if (!response.ok()) {
-    throw new Error(`${operation} failed with HTTP ${response.status()}: ${text || '<empty body>'}`)
+    throw new Error(`${operation} failed with HTTP ${response.status()}: ${safeText || '<empty body>'}`)
   }
   return body
 }
@@ -34,13 +35,20 @@ async function createCategoryPath(request, runKey) {
   return parentId
 }
 
-async function authenticateAdmin(request) {
-  const signup = await request.post(`${GW}/v1/auth/signup`, { data: ADMIN })
-  if (!signup.ok() && signup.status() !== 409) await json(signup, 'POST gateway /v1/auth/signup')
+async function authenticateAdmin(request, email) {
+  const signup = await request.post(`${GW}/v1/auth/signup`, { data: { ...ADMIN, email } })
+  await json(signup, 'POST gateway /v1/auth/signup', [email])
   await json(
-    await request.post(`${GW}/v1/auth/login`, { data: { email: ADMIN.email, password: ADMIN.password } }),
+    await request.post(`${GW}/v1/auth/login`, { data: { email, password: ADMIN.password } }),
     'POST gateway /v1/auth/login',
+    [email],
   )
+  const profile = await json(
+    await request.get(`${GW}/v1/auth/me`),
+    'GET gateway /v1/auth/me',
+    [email],
+  )
+  if (profile.role !== 'ADMIN') throw new Error('The authenticated account must have ADMIN role.')
   const state = await request.storageState()
   const token = state.cookies.find(cookie => cookie.name === 'csrf_token')?.value
   if (!token) throw new Error('POST gateway /v1/auth/login succeeded without a csrf_token cookie.')
@@ -48,9 +56,14 @@ async function authenticateAdmin(request) {
 }
 
 export async function setupRunCatalog(request, { runKey, env = process.env }) {
+  const email = env.E2E_ADMIN_EMAIL
+  if (!email) throw new Error('E2E_ADMIN_EMAIL is required.')
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    throw new Error('E2E_ADMIN_EMAIL must be a valid email address.')
+  }
   const productName = `베이직 티셔츠 ${runKey}`
+  const headers = await authenticateAdmin(request, email)
   const categoryId = await createCategoryPath(request, runKey)
-  const headers = await authenticateAdmin(request)
   const created = await json(
     await request.post(`${GW}/v1/products`, {
       headers,
