@@ -18,6 +18,8 @@ scrape_configs:
         labels: { service: merchant-limit }
       - targets: ["10.0.1.22:8081"]
         labels: { service: order }
+      - targets: ["10.0.1.23:8084"]
+        labels: { service: product }
 
   # ── 호스트 지표 (각 호스트에서 node-exporter.compose.yml 실행) ──
   - job_name: node
@@ -30,12 +32,16 @@ scrape_configs:
         labels: { host: risk }
       - targets: ["10.0.1.22:9100"]
         labels: { host: cold-svc }
+      - targets: ["10.0.1.23:9100"]
+        labels: { host: product }
       - targets: ["10.0.1.30:9100"]
         labels: { host: mysql-payment }
       - targets: ["10.0.1.31:9100"]
         labels: { host: mysql-risk }
       - targets: ["10.0.1.32:9100"]
         labels: { host: cold-db }
+      - targets: ["10.0.1.33:9100"]
+        labels: { host: mysql-product }
       - targets: ["10.0.1.40:9100"]
         labels: { host: infra }
       - targets: ["10.0.1.50:9100"]
@@ -52,6 +58,8 @@ scrape_configs:
         labels: { db: merchant }
       - targets: ["mysqld-exporter-order:9104"]
         labels: { db: order }
+      - targets: ["mysqld-exporter-product:9104"]
+        labels: { db: product }
 
   # ── Redis / Kafka exporters ──
   - job_name: redis

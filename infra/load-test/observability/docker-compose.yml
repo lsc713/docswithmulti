@@ -83,6 +83,13 @@ services:
     environment:
       DATA_SOURCE_NAME: "root:root@(10.0.1.32:3307)/"
 
+  mysqld-exporter-product:
+    image: prom/mysqld-exporter:v0.14.0
+    container_name: mysqld-exporter-product
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "root:root@(10.0.1.33:3306)/"
+
   # ── Redis exporter ──
   redis-exporter:
     image: oliver006/redis_exporter:v1.62.0
