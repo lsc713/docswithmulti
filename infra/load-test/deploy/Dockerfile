@@ -1,7 +1,7 @@
-# 부하 실측용 서비스 이미지 (멀티스테이지, 4개 서비스 공용)
+# 부하 실측용 서비스 이미지 (멀티스테이지, 5개 서비스 공용)
 #   build context = repo root
 #   dockerfile    = infra/load-test/deploy/Dockerfile
-#   ARG MODULE    = payment-service | risk-management-service | merchant-limit-service | order-service
+#   ARG MODULE    = payment-service | risk-management-service | merchant-limit-service | order-service | product-service
 #   CI: docker buildx --platform linux/arm64 → Docker Hub push (loadtest-images.yml)
 
 # build 스테이지는 러너 네이티브 아키텍처에서 실행(--platform=$BUILDPLATFORM).

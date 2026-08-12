@@ -1,11 +1,11 @@
 # role별 배포 + 사설 IP 배선
 
-`terraform apply`로 뜬 9대에 컨테이너를 올린다. 앱은 로컬 `application.yml`(localhost)을 **env로 오버라이드**해 고정 사설 IP를 바라본다. env 이름은 코드베이스 규약(`docker-compose.yml` 주석)과 동일.
+`terraform apply`로 뜬 11대에 컨테이너를 올린다. 앱은 로컬 `application.yml`(localhost)을 **env로 오버라이드**해 고정 사설 IP를 바라본다. env 이름은 코드베이스 규약(`docker-compose.yml` 주석)과 동일.
 
 **배포 모델: 빌드/실행 분리 (Docker Hub pull)**
 - 앱 이미지는 **CI(`.github/workflows/loadtest-images.yml`)가 Docker Hub(public)에 arm64로 빌드/push** — 코드 바뀔 때만.
 - 서버 띄울 때(`terraform apply`)는 **호스트가 pull만** 한다. 호스트에 소스/Gradle 없음.
-- 이미지: `<IMAGE_NS>/cancel-loadtest:<payment|risk-management|merchant-limit|order>-<IMAGE_TAG>` (`IMAGE_NS`=Docker Hub 사용자명).
+- 이미지: `<IMAGE_NS>/cancel-loadtest:<payment|risk-management|merchant-limit|order|product>-<IMAGE_TAG>` (`IMAGE_NS`=Docker Hub 사용자명).
 - 인프라/DB(mysql·redis·kafka)는 공개 이미지라 그대로 pull.
 
 ## 사설 IP · 포트 맵
@@ -16,9 +16,11 @@
 | mysql-payment | 10.0.1.30 | MySQL payment_db | 3306 |
 | mysql-risk | 10.0.1.31 | MySQL risk_db | 3306 |
 | cold-db | 10.0.1.32 | MySQL merchant_db / order_db | 3306 / **3307** |
+| mysql-product | 10.0.1.33 | MySQL product_db | 3306 |
 | payment | 10.0.1.20 | payment-service | 8080 |
 | risk | 10.0.1.21 | risk-management-service | 8083 |
 | cold-svc | 10.0.1.22 | merchant-limit / order | 8082 / 8081 |
+| product | 10.0.1.23 | product-service | 8084 |
 | obs | 10.0.1.50 | 관측 스택 | 3000 / 9090 |
 | k6 | 10.0.1.10 | 부하생성기 | — |
 
@@ -28,10 +30,10 @@
 
 ```bash
 # 로컬(aws cli 인증된 곳)에서 실행. IMAGE_NS = Docker Hub 사용자명.
-IMAGE_NS=<dockerhub-user> ./infra/load-test/deploy/ssm-deploy.sh
-# 특정 role만:  IMAGE_NS=<user> ROLES="payment risk" ./ssm-deploy.sh   (관측 스킵)
-# 특정 태그:    IMAGE_NS=<user> IMAGE_TAG=<sha> ./ssm-deploy.sh
-# 로그를 CloudWatch로: IMAGE_NS=<user> LOG_CLOUDWATCH=1 ./ssm-deploy.sh
+IMAGE_NS=<dockerhub-user> IMAGE_TAG=<sha> REPO_REF=<same-sha> ./infra/load-test/deploy/ssm-deploy.sh
+# 특정 role만:  IMAGE_NS=<user> REPO_REF=<sha> ROLES="payment risk" ./ssm-deploy.sh
+# 특정 revision: IMAGE_NS=<user> IMAGE_TAG=<sha> REPO_REF=<same-sha> ./ssm-deploy.sh
+# 로그를 CloudWatch로: IMAGE_NS=<user> REPO_REF=<sha> LOG_CLOUDWATCH=1 ./ssm-deploy.sh
 ```
 > 앱은 Flyway로 스키마 생성 후 기동. DB/Kafka 준비 전이면 재시도로 수렴(`restart: unless-stopped`). 기동까지 1~3분.
 
@@ -46,7 +48,10 @@ IMAGE_NS=<dockerhub-user> ./infra/load-test/deploy/ssm-deploy.sh
 
 호스트에 `aws ssm start-session`으로 접속해 개별 실행할 때:
 ```bash
-git clone https://github.com/lsc713/docswithmulti.git && cd docswithmulti/infra/load-test/deploy
+git clone --no-checkout https://github.com/lsc713/docswithmulti.git docswithmulti
+git -C docswithmulti fetch --depth 1 origin <sha>
+git -C docswithmulti checkout --detach FETCH_HEAD
+cd docswithmulti/infra/load-test/deploy
 docker compose -f infra.compose.yml up -d                      # 10.0.1.40 (인프라 먼저)
 docker compose -f mysql-payment.compose.yml up -d              # 10.0.1.30 (DB)
 IMAGE_NS=<user> docker compose -f payment.compose.yml pull && \
@@ -60,6 +65,7 @@ curl http://10.0.1.20:8080/actuator/health   # payment
 curl http://10.0.1.21:8083/actuator/health   # risk
 curl http://10.0.1.22:8082/actuator/health   # merchant-limit
 curl http://10.0.1.22:8081/actuator/health   # order
+curl http://10.0.1.23:8084/actuator/health   # product
 ```
 
 ## 주의

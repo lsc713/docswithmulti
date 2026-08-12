@@ -39,9 +39,9 @@ fields @timestamp, @logStream, @message
 
 | 소스 | 방식 | 지표 |
 |------|------|------|
-| 앱 4종 | Micrometer `/actuator/prometheus` (Prometheus pull) | HTTP p95/p99, TPS, 에러율, **HikariCP pending/active**, JVM/GC, Tomcat, 서킷브레이커(risk) |
+| 앱 5종 | Micrometer `/actuator/prometheus` (Prometheus pull) | HTTP p95/p99, TPS, 에러율, **HikariCP pending/active**, JVM/GC, Tomcat, 서킷브레이커(risk) |
 | 각 호스트 | node-exporter (:9100) | CPU/mem/disk/net |
-| MySQL 4종 | mysqld-exporter | **innodb_row_lock_waits**, lock time, deadlock, threads, buffer pool |
+| MySQL 5종 | mysqld-exporter | **innodb_row_lock_waits**, lock time, deadlock, threads, buffer pool |
 | Redis | redis-exporter | **hit ratio**, 메모리, 연결 |
 | Kafka | kafka-exporter | **consumer lag** |
 | k6 | Prometheus remote-write | 클라이언트측 p95/p99, 에러 |
@@ -83,7 +83,7 @@ Grafana 는 이 두 값을 프로비저닝 시점에 `${...}` 로 확장한다(�
 
 ## 기동 순서
 
-**1. 각 호스트(9대)에서 node-exporter** — SSM 접속 후:
+**1. 각 호스트(11대)에서 node-exporter** — SSM 접속 후:
 ```bash
 docker compose -f node-exporter.compose.yml up -d
 ```
@@ -103,6 +103,7 @@ docker compose --env-file /Users/juho/Documents/docswithmulti/.env up -d
 **3. k6 결과를 Grafana로** — k6 호스트(10.0.1.10)에서:
 ```bash
 K6_PROMETHEUS_RW_SERVER_URL=http://10.0.1.50:9090/api/v1/write \
+  K6_PROMETHEUS_RW_TREND_STATS='p(50),p(95),p(99)' \
   k6 run -o experimental-prometheus-rw load-test.js
 ```
 
@@ -114,6 +115,8 @@ K6_PROMETHEUS_RW_SERVER_URL=http://10.0.1.50:9090/api/v1/write \
 |------|------|
 | mysql-payment / risk | `10.0.1.30:3306` / `10.0.1.31:3306` |
 | mysql-merchant / order | `10.0.1.32:3306` / `10.0.1.32:3307` (한 호스트 두 컨테이너) |
+| mysql-product | `10.0.1.33:3306` |
+| product-service | `10.0.1.23:8084` |
 | Redis / Kafka | `10.0.1.40:6379` / `10.0.1.40:9092` |
 
 - mysqld-exporter는 test 편의상 `root/root` 사용. Kafka는 **advertised.listeners를 사설 IP로** 설정해야 exporter가 붙는다.

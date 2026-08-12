@@ -19,10 +19,12 @@ case "$what" in
   prometheus)     role=obs;      rport=9090 ;;  # Status ▸ Targets
   kafka|kafka-ui) role=infra;    rport=8989 ;;  # consumer lag / 토픽
   payment)        role=payment;  rport=8080 ;;  # /actuator/health, /actuator/prometheus
+  product)        role=product;  rport=8084 ;;
+  product-db)     role=mysql-product; rport=3306 ;;
   risk)           role=risk;     rport=8083 ;;
   merchant-limit) role=cold-svc; rport=8082 ;;
   order)          role=cold-svc; rport=8081 ;;
-  *) echo "사용: $0 {grafana|prometheus|kafka|payment|risk|merchant-limit|order}"; exit 1 ;;
+  *) echo "사용: $0 {grafana|prometheus|kafka|payment|product|product-db|risk|merchant-limit|order}"; exit 1 ;;
 esac
 lport="${LOCAL_PORT:-$rport}"
 

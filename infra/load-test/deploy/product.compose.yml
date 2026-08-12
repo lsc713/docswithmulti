@@ -1,0 +1,26 @@
+# product-service — product 호스트(10.0.1.23)에서 실행
+#   IMAGE_NS=<dockerhub-user> docker compose -f product.compose.yml pull && up -d
+
+services:
+  product-service:
+    image: ${IMAGE_NS:?Docker Hub 네임스페이스(IMAGE_NS) 필요}/cancel-loadtest:product-${IMAGE_TAG:-latest}
+    pull_policy: always
+    container_name: product-service
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:mysql://10.0.1.33:3306/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&useAffectedRows=true"
+      SPRING_DATASOURCE_USERNAME: product
+      SPRING_DATASOURCE_PASSWORD: product
+      SPRING_DATA_REDIS_HOST: 10.0.1.40
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "10.0.1.40:9092"
+      APP_S3_ENDPOINT: "http://10.0.1.40:9000"
+      APP_S3_REGION: us-east-1
+      APP_S3_BUCKET: product-images
+      APP_S3_ACCESS_KEY: loadtest
+      APP_S3_SECRET_KEY: loadtest
+      APP_S3_PRESIGN_TTL_SECONDS: "300"
+      APP_S3_PATH_STYLE: "true"
+      JAVA_TOOL_OPTIONS: "-Xmx4g -XX:+UseG1GC ${OTEL_JAVAAGENT:-}"
+      OTEL_SERVICE_NAME: product
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://10.0.1.50:4317"

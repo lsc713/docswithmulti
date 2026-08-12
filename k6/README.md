@@ -12,7 +12,10 @@
 | `hot-merchant.js` | **축 B 경합** — 단일 merchant 집중 (`merchant_cancel_usage` row 경합) |
 | `idempotency-test.js` | **축 B 경합** — 같은 payment 따닥 (request_hash UK + row lock) |
 | `compensation-test.js` | 보상 경로 |
+| `product-detail.js` | 상품 상세 hot/uniform/realistic 분포 부하 |
+| `seed/product-detail-seed.sh` | 상품 상세 대표 데이터 시딩 → `seed/productIds.json` |
 | `run-stage.sh` | TARGET/STAGE/Prometheus 러너 |
+| `run-product-detail-aws.sh` | SSM을 통한 AWS 상품 상세 러너 |
 | `load-test.js` | (레거시) 고정 50 VU 단일 시나리오 — 소규모 HTTP 팩토리 기반 |
 
 ## 순서
@@ -41,6 +44,7 @@ SCRIPT=k6/idempotency-test.js ./k6/run-stage.sh
 
 - Pass/Knee/Breaking 기준과 결과 템플릿은 `docs/load-test/measurement-journey.md` §5~§8.
 - 스테이지 실행마다 §8 실행 로그에 결과 append.
+- 상품 상세 로컬/AWS 실행 순서와 결과 기록은 [`docs/load-test/product-detail.md`](../docs/load-test/product-detail.md).
 
 ## 전제
 

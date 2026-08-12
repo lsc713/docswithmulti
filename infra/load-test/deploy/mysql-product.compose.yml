@@ -1,0 +1,24 @@
+# mysql-product — mysql-product 호스트(10.0.1.33)에서 실행
+#   docker compose -f mysql-product.compose.yml up -d
+
+services:
+  mysql-product:
+    image: mysql:8.0
+    container_name: mysql-product
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: product_db
+      MYSQL_USER: product
+      MYSQL_PASSWORD: product
+    command:
+      - --max-connections=500
+      - --innodb-buffer-pool-size=4G
+    volumes:
+      - mysql-product-data:/var/lib/mysql
+
+volumes:
+  mysql-product-data:
