@@ -1,7 +1,7 @@
 // k6 공통 설정 — TARGET 환경별 BASE URL 스위치
 //
 //   __ENV.TARGET = 'local' (기본, docker-compose) | 'aws' (infra/load-test 사설 IP)
-//   개별 오버라이드: __ENV.PAYMENT_URL / ORDER_URL / MERCHANT_URL
+//   개별 오버라이드: __ENV.PAYMENT_URL / ORDER_URL / MERCHANT_URL / PRODUCT_URL
 
 const TARGET = __ENV.TARGET || 'local';
 
@@ -10,12 +10,14 @@ const PRESETS = {
     PAYMENT:  'http://localhost:8080',
     ORDER:    'http://localhost:8081',
     MERCHANT: 'http://localhost:8082',
+    PRODUCT:  'http://localhost:8084',
   },
   // infra/load-test/deploy 고정 사설 IP (payment=.20, cold-svc=.22)
   aws: {
     PAYMENT:  'http://10.0.1.20:8080',
     ORDER:    'http://10.0.1.22:8081',
     MERCHANT: 'http://10.0.1.22:8082',
+    PRODUCT:  'http://10.0.1.23:8084',
   },
 };
 
@@ -25,6 +27,7 @@ export const BASE = {
   PAYMENT:  __ENV.PAYMENT_URL  || preset.PAYMENT,
   ORDER:    __ENV.ORDER_URL    || preset.ORDER,
   MERCHANT: __ENV.MERCHANT_URL || preset.MERCHANT,
+  PRODUCT:  __ENV.PRODUCT_URL  || preset.PRODUCT,
 };
 
 export const HEADERS = { 'Content-Type': 'application/json' };

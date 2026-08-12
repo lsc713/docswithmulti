@@ -1,0 +1,70 @@
+import http from 'k6/http';
+import { check } from 'k6';
+import { SharedArray } from 'k6/data';
+import { Rate } from 'k6/metrics';
+import { BASE } from './config.js';
+import { selectProductId } from './helpers/product-distribution.js';
+
+const ids = new SharedArray('products', () => JSON.parse(open('./seed/productIds.json')));
+const STAGE = __ENV.STAGE || 'baseline';
+const DISTRIBUTION = __ENV.DISTRIBUTION || 'realistic';
+const productDetailSuccess = new Rate('product_detail_success_rate');
+
+const SCENARIOS = {
+  smoke: { executor: 'shared-iterations', vus: 1, iterations: 20, maxDuration: '2m' },
+  baseline: { executor: 'constant-vus', vus: 10, duration: '3m' },
+  ramp: {
+    executor: 'ramping-vus', startVUs: 10, gracefulRampDown: '10s',
+    stages: [
+      { target: 10, duration: '3m' },
+      { target: 50, duration: '3m' },
+      { target: 100, duration: '3m' },
+    ],
+  },
+  stress: {
+    executor: 'ramping-vus', startVUs: 50, gracefulRampDown: '10s',
+    stages: [
+      { target: 100, duration: '2m' },
+      { target: 200, duration: '2m' },
+      { target: 400, duration: '2m' },
+    ],
+  },
+  soak: { executor: 'constant-vus', vus: 70, duration: '30m' },
+};
+
+if (!SCENARIOS[STAGE]) throw new Error(`알 수 없는 STAGE=${STAGE}. 가능: ${Object.keys(SCENARIOS).join(', ')}`);
+if (!['hot', 'uniform', 'realistic'].includes(DISTRIBUTION)) {
+  throw new Error(`알 수 없는 DISTRIBUTION=${DISTRIBUTION}. 가능: hot, uniform, realistic`);
+}
+
+const strict = STAGE === 'baseline' || STAGE === 'smoke';
+export const options = {
+  scenarios: { [STAGE]: { ...SCENARIOS[STAGE], exec: 'detail', tags: { stage: STAGE, distribution: DISTRIBUTION } } },
+  thresholds: strict
+    ? {
+        http_req_failed: ['rate<0.01'],
+        product_detail_success_rate: ['rate>0.99'],
+      }
+    : {
+        http_req_failed: [{ threshold: 'rate<0.05', abortOnFail: false }],
+        product_detail_success_rate: [{ threshold: 'rate>0.99', abortOnFail: false }],
+      },
+};
+
+export function detail() {
+  const id = selectProductId(ids, DISTRIBUTION);
+  const res = http.get(`${BASE.PRODUCT}/v1/products/${id}`, {
+    tags: { stage: STAGE, distribution: DISTRIBUTION },
+  });
+  const ok = check(res, {
+    'HTTP 200': (r) => r.status === 200,
+    'representative product shape': (r) => {
+      try {
+        const b = r.json();
+        return b.id === id && b.category.length === 3 && b.images.length === 3 &&
+          b.skus.length === 9 && b.variantOptions.length === 2 && b.specs.length === 2;
+      } catch (_) { return false; }
+    },
+  });
+  productDetailSuccess.add(ok, { distribution: DISTRIBUTION });
+}
