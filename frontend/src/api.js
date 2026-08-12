@@ -1,4 +1,6 @@
-const BASE = 'http://localhost:8000'  // 게이트웨이. 실 cross-origin.
+import { resolveApiBaseUrl } from './api-base.js'
+
+const BASE = resolveApiBaseUrl(import.meta.env.VITE_API_BASE_URL)  // 게이트웨이. 실 cross-origin.
 
 function csrfToken() {
   return document.cookie.split('; ').find(c => c.startsWith('csrf_token='))?.split('=')[1]

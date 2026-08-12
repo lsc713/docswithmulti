@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test'
 import { runProductName } from './helpers/catalog-setup'
 import { createPaidOrderViaApi } from './helpers/order-payment'
 import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { resolveE2EUrls } from './helpers/urls.js'
 
-const BASE = 'http://localhost:5173'
-const GW = 'http://localhost:8000'
+const { frontend: BASE, gateway: GW } = resolveE2EUrls()
 const BUYER = { email: `apprbuyer${Date.now()}@example.com`, password: 'password123', name: '승인테스트구매자', phone: '010-7777-8888' }
 const ADMIN = { email: 'admin@example.com', password: 'password123', name: '관리자', phone: '010-0000-0000' }
 const OUTSIDER = { email: `apprsider${Date.now()}@example.com`, password: 'password123', name: '일반유저', phone: '010-9999-0000' }

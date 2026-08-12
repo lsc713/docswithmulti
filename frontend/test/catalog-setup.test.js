@@ -30,6 +30,57 @@ function fakeRequest(handler, cookies = []) {
   }
 }
 
+test('rejects invalid endpoint configuration before any API write', async () => {
+  const request = fakeRequest(() => {
+    throw new Error('API must not be called')
+  })
+
+  await assert.rejects(
+    catalogSetup.setupRunCatalog(request, {
+      runKey: 'invalid-endpoint',
+      env: {
+        E2E_ADMIN_EMAIL: 'bootstrap@example.test',
+        E2E_GATEWAY_BASE_URL: 'https://example.com',
+      },
+    }),
+    /E2E_GATEWAY_BASE_URL must use a local host/,
+  )
+  assert.equal(request.calls.length, 0)
+})
+
+test('uses only overridden gateway and product endpoints for catalog setup', async () => {
+  const gateway = 'http://127.0.0.1:9000'
+  const product = 'http://127.0.0.1:9084'
+  let categoryId = 100
+  const request = fakeRequest((method, url, options) => {
+    if (method === 'POST' && url === `${gateway}/v1/auth/signup`) return new FakeResponse(200)
+    if (method === 'POST' && url === `${gateway}/v1/auth/login`) return new FakeResponse(200)
+    if (method === 'GET' && url === `${gateway}/v1/auth/me`) {
+      return new FakeResponse(200, { role: 'ADMIN' })
+    }
+    if (method === 'POST' && url === `${product}/v1/categories`) {
+      return new FakeResponse(200, { id: categoryId++ })
+    }
+    if (method === 'POST' && url === `${gateway}/v1/products`) {
+      return new FakeResponse(200, { productId: 55, skus: options.data.skus })
+    }
+    throw new Error(`Unexpected ${method} ${url}`)
+  }, [{ name: 'csrf_token', value: 'csrf-value' }])
+
+  await catalogSetup.setupRunCatalog(request, {
+    runKey: 'overridden-endpoints',
+    env: {
+      E2E_ADMIN_EMAIL: 'bootstrap@example.test',
+      E2E_GATEWAY_BASE_URL: `${gateway}/`,
+      E2E_PRODUCT_BASE_URL: `${product}/`,
+    },
+  })
+
+  assert.equal(request.calls.some(call => call.url.startsWith('http://localhost:8000')), false)
+  assert.equal(request.calls.some(call => call.url.startsWith('http://localhost:8084')), false)
+  assert.equal(request.calls.every(call => call.url.startsWith(gateway) || call.url.startsWith(product)), true)
+})
+
 test('rejects a missing admin email before any API write', async () => {
   const request = fakeRequest(() => {
     throw new Error('API must not be called')

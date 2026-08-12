@@ -1,4 +1,6 @@
-const GW = 'http://localhost:8000'
+import { resolveE2EUrls } from './urls.js'
+
+const { gateway: GW } = resolveE2EUrls()
 
 async function csrfHeader(page) {
   const cookies = await page.context().cookies(GW)

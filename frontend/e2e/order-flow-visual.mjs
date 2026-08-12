@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
 import { mkdir } from 'node:fs/promises'
 import { chromium } from '@playwright/test'
+import { resolveE2EUrls } from './helpers/urls.js'
 
-const baseURL = 'http://127.0.0.1:5173'
-const gateway = 'http://localhost:8000'
+const { frontend: baseURL, gateway } = resolveE2EUrls()
 const artifactDir = 'artifacts/t_e927b56e-checkout-payment'
 const orderItems = [
   { skuId: 11, productId: 1, itemName: '미니멀 울 블레이저', optionSummary: '블랙 / M', unitPrice: 149000, quantity: 1 },

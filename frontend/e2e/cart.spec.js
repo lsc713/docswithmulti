@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test'
 import { runProductName } from './helpers/catalog-setup'
 import { clearCartViaApi, createPaidOrderViaApi } from './helpers/order-payment'
 import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { resolveE2EUrls } from './helpers/urls.js'
 
-const BASE = 'http://localhost:5173'
-const GW = 'http://localhost:8000'
+const { frontend: BASE, gateway: GW } = resolveE2EUrls()
 const USER = { email: `cart${Date.now()}@example.com`, password: 'password123', name: '카트유저', phone: '010-4444-5555' }
 
 test.beforeAll(async ({ request }) => {

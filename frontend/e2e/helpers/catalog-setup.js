@@ -1,5 +1,5 @@
-const GW = 'http://localhost:8000'
-const PRODUCT_SERVICE = 'http://localhost:8084'
+import { resolveE2EUrls } from './urls.js'
+
 const ADMIN = { password: 'password123', name: '관리자', phone: '010-0000-0000' }
 
 async function json(response, operation, redactions = []) {
@@ -17,34 +17,34 @@ async function json(response, operation, redactions = []) {
   return body
 }
 
-async function createCategory(request, name, parentId) {
+async function createCategory(request, productBase, name, parentId) {
   const data = parentId === undefined ? { name } : { name, parentId }
   return json(
-    await request.post(`${PRODUCT_SERVICE}/v1/categories`, { data }),
+    await request.post(`${productBase}/v1/categories`, { data }),
     `POST product-service /v1/categories (${name})`,
   )
 }
 
-async function createCategoryPath(request, runKey) {
+async function createCategoryPath(request, productBase, runKey) {
   const names = ['E2E 의류', 'E2E 상의', 'E2E 티셔츠'].map(name => `${name} ${runKey}`)
   let parentId
   for (const name of names) {
-    const category = await createCategory(request, name, parentId)
+    const category = await createCategory(request, productBase, name, parentId)
     parentId = category.id
   }
   return parentId
 }
 
-async function authenticateAdmin(request, email) {
-  const signup = await request.post(`${GW}/v1/auth/signup`, { data: { ...ADMIN, email } })
+async function authenticateAdmin(request, gatewayBase, email) {
+  const signup = await request.post(`${gatewayBase}/v1/auth/signup`, { data: { ...ADMIN, email } })
   await json(signup, 'POST gateway /v1/auth/signup', [email])
   await json(
-    await request.post(`${GW}/v1/auth/login`, { data: { email, password: ADMIN.password } }),
+    await request.post(`${gatewayBase}/v1/auth/login`, { data: { email, password: ADMIN.password } }),
     'POST gateway /v1/auth/login',
     [email],
   )
   const profile = await json(
-    await request.get(`${GW}/v1/auth/me`),
+    await request.get(`${gatewayBase}/v1/auth/me`),
     'GET gateway /v1/auth/me',
     [email],
   )
@@ -56,16 +56,17 @@ async function authenticateAdmin(request, email) {
 }
 
 export async function setupRunCatalog(request, { runKey, env = process.env }) {
+  const { gateway, product } = resolveE2EUrls(env)
   const email = env.E2E_ADMIN_EMAIL
   if (!email) throw new Error('E2E_ADMIN_EMAIL is required.')
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     throw new Error('E2E_ADMIN_EMAIL must be a valid email address.')
   }
   const productName = `베이직 티셔츠 ${runKey}`
-  const headers = await authenticateAdmin(request, email)
-  const categoryId = await createCategoryPath(request, runKey)
+  const headers = await authenticateAdmin(request, gateway, email)
+  const categoryId = await createCategoryPath(request, product, runKey)
   const created = await json(
-    await request.post(`${GW}/v1/products`, {
+    await request.post(`${gateway}/v1/products`, {
       headers,
       data: {
         name: productName,

@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
+import { resolveE2EUrls } from './helpers/urls.js'
 
+const { gateway: GW } = resolveE2EUrls()
 const SESSION_KEY = 'fashion-shop:order-flow'
 const USER_A = { userId: 7, email: 'buyer-a@example.com', name: '구매자 A', role: 'USER' }
 const USER_B = { userId: 8, email: 'buyer-b@example.com', name: '구매자 B', role: 'USER' }
@@ -20,17 +22,17 @@ async function seedSession(page, value) {
 }
 
 async function mockIdentity(page, user = USER_A) {
-  await page.route('http://localhost:8000/v1/auth/me', route => route.fulfill({ json: user }))
-  await page.route('http://localhost:8000/v1/cart', route => route.fulfill({ json: { items: [] } }))
+  await page.route(`${GW}/v1/auth/me`, route => route.fulfill({ json: user }))
+  await page.route(`${GW}/v1/cart`, route => route.fulfill({ json: { items: [] } }))
 }
 
 async function countUnsafePosts(context) {
   const calls = { orders: 0, payments: 0 }
-  await context.route('http://localhost:8000/v1/orders', route => {
+  await context.route(`${GW}/v1/orders`, route => {
     calls.orders += 1
     return route.abort()
   })
-  await context.route('http://localhost:8000/v1/payments', route => {
+  await context.route(`${GW}/v1/payments`, route => {
     calls.payments += 1
     return route.abort()
   })
@@ -83,8 +85,8 @@ test('user B and unauthenticated direct URLs cannot restore user A state', async
   await expect(page.getByRole('heading', { name: '주문할 상품이 없어요' })).toBeVisible()
   await expect(page.locator('.order-item-card')).toHaveCount(0)
 
-  await page.unroute('http://localhost:8000/v1/auth/me')
-  await page.route('http://localhost:8000/v1/auth/me', route => route.fulfill({ status: 401, json: {} }))
+  await page.unroute(`${GW}/v1/auth/me`)
+  await page.route(`${GW}/v1/auth/me`, route => route.fulfill({ status: 401, json: {} }))
   await page.evaluate(({ key, stored }) => sessionStorage.setItem(key, JSON.stringify(stored)), {
     key: SESSION_KEY,
     stored: storedFlow(),
@@ -96,7 +98,7 @@ test('user B and unauthenticated direct URLs cannot restore user A state', async
 
 test('transient identity failure hides but preserves the owned preview for a later verified retry', async ({ page }) => {
   await seedSession(page, storedFlow())
-  await page.route('http://localhost:8000/v1/auth/me', route => route.fulfill({ status: 503, json: {} }))
+  await page.route(`${GW}/v1/auth/me`, route => route.fulfill({ status: 503, json: {} }))
   await page.goto('/checkout')
 
   await expect(page.getByRole('heading', { name: '주문할 상품이 없어요' })).toBeVisible()
@@ -106,11 +108,11 @@ test('transient identity failure hides but preserves the owned preview for a lat
 test('logout clears owned order state, order view state, and cart before another identity', async ({ page }) => {
   let currentUser = USER_A
   await seedSession(page, storedFlow())
-  await page.route('http://localhost:8000/v1/auth/me', route => route.fulfill({ json: currentUser }))
-  await page.route('http://localhost:8000/v1/cart', route => route.fulfill({
+  await page.route(`${GW}/v1/auth/me`, route => route.fulfill({ json: currentUser }))
+  await page.route(`${GW}/v1/cart`, route => route.fulfill({
     json: { items: currentUser.userId === USER_A.userId ? ORDER_ITEMS : [] },
   }))
-  await page.route('http://localhost:8000/v1/auth/logout', route => route.fulfill({ json: {} }))
+  await page.route(`${GW}/v1/auth/logout`, route => route.fulfill({ json: {} }))
   await page.goto('/checkout')
   await expect(page.locator('.order-item-card')).toHaveCount(3)
 
@@ -127,7 +129,7 @@ test('logout clears owned order state, order view state, and cart before another
 test('failed logout keeps the authenticated UI and owned order state intact', async ({ page }) => {
   await seedSession(page, storedFlow())
   await mockIdentity(page)
-  await page.route('http://localhost:8000/v1/auth/logout', route => route.fulfill({ status: 503, json: {} }))
+  await page.route(`${GW}/v1/auth/logout`, route => route.fulfill({ status: 503, json: {} }))
   await page.goto('/checkout')
 
   await page.getByRole('button', { name: '로그아웃' }).click()
@@ -171,9 +173,9 @@ test('ProductDetail buy still opens an owned checkout preview and back returns t
     skus: [{ ...ORDER_ITEMS[0], skuCode: 'BLZ-101', price: 149000, availableQty: 4, variant: { 색상: '블랙', 사이즈: 'M' } }],
   }
   await mockIdentity(page)
-  await page.route('http://localhost:8000/v1/categories', route => route.fulfill({ json: [{ id: 10, name: '아우터', children: [] }] }))
-  await page.route('http://localhost:8000/v1/categories/*/products*', route => route.fulfill({ json: { content: [{ id: 1, name: product.name, minPrice: 149000 }] } }))
-  await page.route('http://localhost:8000/v1/products/1', route => route.fulfill({ json: product }))
+  await page.route(`${GW}/v1/categories`, route => route.fulfill({ json: [{ id: 10, name: '아우터', children: [] }] }))
+  await page.route(`${GW}/v1/categories/*/products*`, route => route.fulfill({ json: { content: [{ id: 1, name: product.name, minPrice: 149000 }] } }))
+  await page.route(`${GW}/v1/products/1`, route => route.fulfill({ json: product }))
   await page.goto('/')
   await page.locator('.grid .card').first().click()
   const detail = page.getByRole('main', { name: '상품 상세' })

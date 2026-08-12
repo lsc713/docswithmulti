@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
+import { resolveE2EUrls } from './helpers/urls.js'
 
+const { gateway: GW } = resolveE2EUrls()
 const categories = [
   { id: 10, name: '아우터', children: [] },
   { id: 20, name: '니트', children: [] },
@@ -23,11 +25,11 @@ async function mockStorefront(page, {
   productsByCategory = defaultProductsByCategory,
   onProductsRequest = () => {},
 } = {}) {
-  await page.route('http://localhost:8000/v1/auth/me', route =>
+  await page.route(`${GW}/v1/auth/me`, route =>
     route.fulfill({ status: 401, contentType: 'application/json', body: '{}' }))
-  await page.route('http://localhost:8000/v1/categories', route =>
+  await page.route(`${GW}/v1/categories`, route =>
     route.fulfill({ contentType: 'application/json', json: categories }))
-  await page.route('http://localhost:8000/v1/categories/*/products*', route => {
+  await page.route(`${GW}/v1/categories/*/products*`, route => {
     const categoryId = Number(new URL(route.request().url()).pathname.split('/')[3])
     onProductsRequest(categoryId)
     return route.fulfill({
@@ -35,7 +37,7 @@ async function mockStorefront(page, {
       json: { content: productsByCategory[categoryId] ?? [] },
     })
   })
-  await page.route('http://localhost:8000/v1/products/*', route => {
+  await page.route(`${GW}/v1/products/*`, route => {
     const id = Number(new URL(route.request().url()).pathname.split('/').at(-1))
     const product = products.find(item => item.id === id) ?? products[0]
     return route.fulfill({
@@ -83,16 +85,16 @@ test('all-empty composition keeps its action and retries every leaf category', a
 
 test('category loading error retries the category tree before products', async ({ page }) => {
   let categoryRequests = 0
-  await page.route('http://localhost:8000/v1/auth/me', route =>
+  await page.route(`${GW}/v1/auth/me`, route =>
     route.fulfill({ status: 401, contentType: 'application/json', body: '{}' }))
-  await page.route('http://localhost:8000/v1/categories', route => {
+  await page.route(`${GW}/v1/categories`, route => {
     categoryRequests += 1
     if (categoryRequests <= 2) {
       return route.fulfill({ status: 503, contentType: 'application/json', json: { message: 'unavailable' } })
     }
     return route.fulfill({ contentType: 'application/json', json: categories })
   })
-  await page.route('http://localhost:8000/v1/categories/*/products*', route => {
+  await page.route(`${GW}/v1/categories/*/products*`, route => {
     const categoryId = Number(new URL(route.request().url()).pathname.split('/')[3])
     return route.fulfill({ contentType: 'application/json', json: { content: defaultProductsByCategory[categoryId] ?? [] } })
   })

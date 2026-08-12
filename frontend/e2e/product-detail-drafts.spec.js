@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test'
+import { resolveE2EUrls } from './helpers/urls.js'
 
+const { gateway: GW } = resolveE2EUrls()
 const PRODUCT_ID = 101
 const SCREENSHOT_DIR = 'test-results/product-detail-drafts/screenshots'
 const GALLERY_ARTIFACT_DIR = 'artifacts/gallery-disclosure'
@@ -74,21 +76,21 @@ const product = {
 
 async function mockStorefront(page, { productHandler, authenticated = false } = {}) {
   const cartItems = []
-  await page.route('http://localhost:8000/v1/auth/me', route =>
+  await page.route(`${GW}/v1/auth/me`, route =>
     route.fulfill(authenticated
       ? { contentType: 'application/json', json: { userId: 1, email: 'buyer@example.com', name: '구매자', role: 'USER' } }
       : { status: 401, contentType: 'application/json', body: '{}' }))
-  await page.route('http://localhost:8000/v1/cart', route =>
+  await page.route(`${GW}/v1/cart`, route =>
     route.fulfill({ contentType: 'application/json', json: { items: cartItems } }))
-  await page.route('http://localhost:8000/v1/cart/items', async route => {
+  await page.route(`${GW}/v1/cart/items`, async route => {
     cartItems.push(await route.request().postDataJSON())
     await route.fulfill({ contentType: 'application/json', json: {} })
   })
-  await page.route('http://localhost:8000/v1/categories', route =>
+  await page.route(`${GW}/v1/categories`, route =>
     route.fulfill({ contentType: 'application/json', json: categories }))
-  await page.route('http://localhost:8000/v1/categories/*/products*', route =>
+  await page.route(`${GW}/v1/categories/*/products*`, route =>
     route.fulfill({ contentType: 'application/json', json: { content: [productSummary] } }))
-  await page.route(`http://localhost:8000/v1/products/${PRODUCT_ID}`, route => {
+  await page.route(`${GW}/v1/products/${PRODUCT_ID}`, route => {
     if (productHandler) return productHandler(route)
     return route.fulfill({ contentType: 'application/json', json: product })
   })
