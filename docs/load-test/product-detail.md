@@ -31,27 +31,102 @@ All three runs must pass the HTTP and representative-response checks. Do not rec
 
 Run only when AWS provisioning and image publishing have been explicitly approved. The committed revision must be available to the repository cloned by the deployment and AWS runner.
 
-### Provision and deploy
+### Preflight
 
-From the repository root, publish the images, wait for that workflow to succeed, then provision and deploy:
+Read [`infra/load-test/README.md`](../../infra/load-test/README.md), including its cost and destroy guidance. From the repository root, verify the local tools, executable scripts, GitHub authentication/workflow/secrets, Terraform configuration, and AWS identity before creating billable resources:
 
 ```bash
-gh workflow run loadtest-images.yml
-terraform -chdir=infra/load-test apply
-IMAGE_NS=<dockerhub-user> ./infra/load-test/deploy/ssm-deploy.sh
+set -euo pipefail
+
+for tool in git gh terraform aws session-manager-plugin mysql jq curl base64; do
+  command -v "$tool" >/dev/null || { echo "Missing tool: $tool" >&2; exit 1; }
+done
+
+for script in \
+  infra/load-test/deploy/ssm-deploy.sh \
+  infra/load-test/deploy/port-forward.sh \
+  k6/seed/product-detail-seed.sh \
+  k6/run-product-detail-aws.sh; do
+  test -x "$script" || { echo "Not executable: $script" >&2; exit 1; }
+done
+
+gh auth status
+gh workflow view loadtest-images.yml --ref main >/dev/null
+GH_SECRETS=$(gh secret list --app actions --json name --jq '.[].name')
+grep -qx DOCKERHUB_USERNAME <<<"$GH_SECRETS"
+grep -qx DOCKERHUB_TOKEN <<<"$GH_SECRETS"
+
+terraform -chdir=infra/load-test init
+terraform -chdir=infra/load-test validate
+aws sts get-caller-identity
 ```
 
-The deployment starts product-service once so Flyway creates the product schema before seeding.
+Secret listing confirms only that the required names exist; it cannot validate their values. Fix any failed check before continuing.
+
+### Provision and deploy
+
+Run AWS operations only after this work is merged to remote `main`, which is the default branch cloned by the deployment scripts. From a clean `main` checkout, create a unique workflow ref at that exact commit, dispatch it, capture the run belonging to that ref and SHA, wait for success, then deploy the immutable SHA image tag:
+
+```bash
+set -euo pipefail
+
+printf 'Docker Hub username: '
+IFS= read -r IMAGE_NS
+test -n "$IMAGE_NS"
+git fetch origin main
+test "$(git branch --show-current)" = main
+git pull --ff-only origin main
+test -z "$(git status --porcelain)"
+
+IMAGE_SHA=$(git rev-parse HEAD)
+test "$IMAGE_SHA" = "$(git rev-parse origin/main)"
+IMAGE_REF="product-detail-loadtest-${IMAGE_SHA}-$(date -u +%Y%m%dT%H%M%SZ)"
+git tag "$IMAGE_REF" "$IMAGE_SHA"
+git push origin "refs/tags/$IMAGE_REF"
+
+gh workflow run loadtest-images.yml --ref "$IMAGE_REF"
+RUN_ID=""
+until [ -n "$RUN_ID" ]; do
+  RUN_ID=$(gh run list --workflow loadtest-images.yml --branch "$IMAGE_REF" \
+    --commit "$IMAGE_SHA" --event workflow_dispatch --limit 1 \
+    --json databaseId --jq '.[0].databaseId // empty')
+  [ -n "$RUN_ID" ] || sleep 3
+done
+gh run watch "$RUN_ID" --exit-status
+
+terraform -chdir=infra/load-test apply
+IMAGE_NS="$IMAGE_NS" IMAGE_TAG="$IMAGE_SHA" ./infra/load-test/deploy/ssm-deploy.sh
+```
+
+The unique tag makes the returned run ID unambiguous, while `IMAGE_TAG="$IMAGE_SHA"` selects the immutable images published by that run. Do not continue if the workflow watch fails.
+
+### Wait for product-service and Flyway
+
+Deployment starts product-service so Flyway can create the schema, but the SSM deploy command completing is not a readiness signal. In terminal 1, open the long-running product tunnel and leave it attached:
+
+```bash
+LOCAL_PORT=18084 ./infra/load-test/deploy/port-forward.sh product
+```
+
+In terminal 2, wait for an HTTP 200 response whose health status is `UP`:
+
+```bash
+until curl -fsS http://127.0.0.1:18084/actuator/health | jq -e '.status == "UP"' >/dev/null; do
+  sleep 2
+done
+```
+
+Only after this succeeds is Flyway/application readiness established. Return to terminal 1 and press `Ctrl-C` to close the product tunnel before opening the database tunnel.
 
 ### Seed through the SSM tunnel
 
-Start the tunnel in one terminal and leave it running; it owns the terminal until `Ctrl-C`:
+In terminal 1, start the database tunnel and leave it running; it owns the terminal until `Ctrl-C`:
 
 ```bash
 LOCAL_PORT=13306 ./infra/load-test/deploy/port-forward.sh product-db
 ```
 
-In a second terminal, seed the private product database:
+In terminal 2, seed the private product database:
 
 ```bash
 MYSQL_PORT=13306 SEED_COUNT=1000 ./k6/seed/product-detail-seed.sh
