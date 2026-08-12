@@ -14,12 +14,12 @@
 | `risk` | c7g.xlarge | 10.0.1.21 | 한도 차감 동시성 |
 | `cold-svc` | c7g.large | 10.0.1.22 | merchant-limit + order (합침) |
 | `product` | c7g.xlarge | 10.0.1.23 | 상품 상세 조회 |
-| `mysql-payment` | r7g.large | 10.0.1.30 | TX3 row lock 대상 |
-| `mysql-risk` | r7g.large | 10.0.1.31 | 한도 소진 경합 |
-| `cold-db` | r7g.large | 10.0.1.32 | mysql-merchant + mysql-order |
+| `mysql-payment` | m7g.large | 10.0.1.30 | TX3 row lock 대상 |
+| `mysql-risk` | m7g.large | 10.0.1.31 | 한도 소진 경합 |
+| `cold-db` | c7g.large | 10.0.1.32 | mysql-merchant + mysql-order |
 | `mysql-product` | m7g.large | 10.0.1.33 | product_db |
 | `infra` | m7g.large | 10.0.1.40 | Redis + Kafka(1-broker) |
-| `obs` | t4g.small | 10.0.1.50 | Prometheus + Grafana |
+| `obs` | t4g.medium | 10.0.1.50 | Prometheus + Grafana |
 
 ## 사전 준비
 

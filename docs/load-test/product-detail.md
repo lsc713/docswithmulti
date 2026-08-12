@@ -38,7 +38,7 @@ Read [`infra/load-test/README.md`](../../infra/load-test/README.md), including i
 ```bash
 set -euo pipefail
 
-for tool in git gh terraform aws session-manager-plugin mysql jq curl base64; do
+for tool in git gh terraform aws session-manager-plugin mysql jq curl base64 tar shasum; do
   command -v "$tool" >/dev/null || { echo "Missing tool: $tool" >&2; exit 1; }
 done
 
@@ -65,7 +65,7 @@ Secret listing confirms only that the required names exist; it cannot validate t
 
 ### Provision and deploy
 
-Run AWS operations only after this work is merged to remote `main`, which is the default branch cloned by the deployment scripts. From a clean `main` checkout, create a unique workflow ref at that exact commit, dispatch it, capture the run belonging to that ref and SHA, wait for success, then deploy the immutable SHA image tag:
+Run AWS operations only after this work is merged to remote `main`. From a clean `main` checkout, create a unique workflow ref at that exact commit, dispatch it, capture the run belonging to that ref and SHA, wait for success, then deploy both the immutable image and repository revision:
 
 ```bash
 set -euo pipefail
@@ -95,10 +95,10 @@ done
 gh run watch "$RUN_ID" --exit-status
 
 terraform -chdir=infra/load-test apply
-IMAGE_NS="$IMAGE_NS" IMAGE_TAG="$IMAGE_SHA" ./infra/load-test/deploy/ssm-deploy.sh
+IMAGE_NS="$IMAGE_NS" IMAGE_TAG="$IMAGE_SHA" REPO_REF="$IMAGE_SHA" ./infra/load-test/deploy/ssm-deploy.sh
 ```
 
-The unique tag makes the returned run ID unambiguous, while `IMAGE_TAG="$IMAGE_SHA"` selects the immutable images published by that run. Do not continue if the workflow watch fails.
+The unique tag makes the returned run ID unambiguous. `IMAGE_TAG="$IMAGE_SHA"` selects the immutable images and `REPO_REF="$IMAGE_SHA"` makes every host detach-checkout the matching Compose/config revision. Do not continue if the workflow watch or deployment fails.
 
 ### Wait for product-service and Flyway
 
@@ -111,9 +111,18 @@ LOCAL_PORT=18084 ./infra/load-test/deploy/port-forward.sh product
 In terminal 2, wait for an HTTP 200 response whose health status is `UP`:
 
 ```bash
-until curl -fsS http://127.0.0.1:18084/actuator/health | jq -e '.status == "UP"' >/dev/null; do
+ready=0
+for _ in {1..90}; do
+  if curl -fsS http://127.0.0.1:18084/actuator/health | jq -e '.status == "UP"' >/dev/null; then
+    ready=1
+    break
+  fi
   sleep 2
 done
+[ "$ready" = 1 ] || {
+  echo "product-service was not UP after 180s; inspect the deployment, then destroy the rig if the run is aborted" >&2
+  exit 1
+}
 ```
 
 Only after this succeeds is Flyway/application readiness established. Return to terminal 1 and press `Ctrl-C` to close the product tunnel before opening the database tunnel.
@@ -139,9 +148,9 @@ Keep the tunnel open until seeding finishes. The seeder writes `k6/seed/productI
 Run one distribution at a time. These smoke runs warm the service and verify the AWS data path; do not include them in the recorded comparison:
 
 ```bash
-DISTRIBUTION=hot STAGE=smoke ./k6/run-product-detail-aws.sh
-DISTRIBUTION=uniform STAGE=smoke ./k6/run-product-detail-aws.sh
-DISTRIBUTION=realistic STAGE=smoke ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=hot STAGE=smoke ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=uniform STAGE=smoke ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=realistic STAGE=smoke ./k6/run-product-detail-aws.sh
 ```
 
 ### Record identical comparisons
@@ -149,13 +158,28 @@ DISTRIBUTION=realistic STAGE=smoke ./k6/run-product-detail-aws.sh
 Keep the dataset, instance types, JVM heap, and stage definitions unchanged. Run all three distributions separately for each recorded stage:
 
 ```bash
-DISTRIBUTION=hot STAGE=baseline ./k6/run-product-detail-aws.sh
-DISTRIBUTION=uniform STAGE=baseline ./k6/run-product-detail-aws.sh
-DISTRIBUTION=realistic STAGE=baseline ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=hot STAGE=baseline ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=uniform STAGE=baseline ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=realistic STAGE=baseline ./k6/run-product-detail-aws.sh
 
-DISTRIBUTION=hot STAGE=ramp ./k6/run-product-detail-aws.sh
-DISTRIBUTION=uniform STAGE=ramp ./k6/run-product-detail-aws.sh
-DISTRIBUTION=realistic STAGE=ramp ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=hot STAGE=ramp ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=uniform STAGE=ramp ./k6/run-product-detail-aws.sh
+REPO_REF="$IMAGE_SHA" DISTRIBUTION=realistic STAGE=ramp ./k6/run-product-detail-aws.sh
+```
+
+Each runner invocation configures Prometheus remote-write trend gauges as p50/p95/p99 and saves a checksum-verified pair under `k6/results/`: `<run>.summary.json` contains the machine-readable aggregate and `<run>.console.log` contains the complete terminal output. The runner exits nonzero rather than recording a partial or truncated transfer. Inspect the newest result before copying values into the log:
+
+```bash
+RESULT=$(ls -t k6/results/*.summary.json | head -1)
+jq '{
+  duration_ms: .state.testRunDurationMs,
+  requests: .metrics.http_reqs.values.count,
+  rps: (.metrics.http_reqs.values.count * 1000 / .state.testRunDurationMs),
+  p50_ms: .metrics.http_req_duration.values.med,
+  p95_ms: .metrics.http_req_duration.values["p(95)"],
+  p99_ms: .metrics.http_req_duration.values["p(99)"],
+  failure_rate: .metrics.http_req_failed.values.rate
+}' "$RESULT"
 ```
 
 For each run, record:

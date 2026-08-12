@@ -36,6 +36,9 @@ if (!SCENARIOS[STAGE]) throw new Error(`알 수 없는 STAGE=${STAGE}. 가능: $
 if (!['hot', 'uniform', 'realistic'].includes(DISTRIBUTION)) {
   throw new Error(`알 수 없는 DISTRIBUTION=${DISTRIBUTION}. 가능: hot, uniform, realistic`);
 }
+if (ids.length < 10 || !ids.every((id) => Number.isInteger(id) && id > 0)) {
+  throw new Error('상품 ID는 10개 이상의 양의 정수여야 합니다');
+}
 
 const strict = STAGE === 'baseline' || STAGE === 'smoke';
 export const options = {

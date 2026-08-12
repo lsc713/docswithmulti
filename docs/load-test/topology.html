@@ -47,13 +47,15 @@ graph LR
     subgraph hot["핫패스 — 단독 분리 관측"]
       PAY["payment-service<br/>c7g.xlarge"]
       RISK["risk-service<br/>c7g.xlarge"]
-      DBP[("mysql-payment<br/>r7g.large · gp3")]
-      DBR[("mysql-risk<br/>r7g.large · gp3")]
+      PRODUCT["product-service<br/>c7g.xlarge"]
+      DBP[("mysql-payment<br/>m7g.large · gp3")]
+      DBR[("mysql-risk<br/>m7g.large · gp3")]
+      DBPRODUCT[("mysql-product<br/>m7g.large · gp3")]
     end
 
     subgraph cold["콜드패스 — 합침"]
       COLDS["merchant-limit<br/>+ order-service"]
-      DBC[("mysql-merchant<br/>+ mysql-order")]
+      DBC[("mysql-merchant + mysql-order<br/>c7g.large")]
     end
 
     subgraph infra["인프라"]
@@ -63,26 +65,30 @@ graph LR
 
     subgraph obs["관측 스택"]
       PROM["Prometheus"]
-      GRAF["Grafana<br/>t4g.small"]
+      GRAF["Grafana<br/>t4g.medium"]
     end
   end
 
   OP --> SSM
   SSM --> PAY
   K6 -->|"HTTP 취소요청"| PAY
+  K6 -->|"HTTP 상품상세"| PRODUCT
   PAY -->|"HTTP + netem 지점"| RISK
   PAY -->|"TX3 row lock"| DBP
   PAY -->|"daily_limit"| REDIS
   PAY -.->|"cold: Redis+스냅샷 miss"| COLDS
   RISK --> DBR
+  PRODUCT --> DBPRODUCT
   COLDS --> DBC
   PAY -.->|"AFTER_COMMIT 발행"| KAFKA
   KAFKA -.->|consume| COLDS
   PAY -.-> PROM
   RISK -.-> PROM
   COLDS -.-> PROM
+  PRODUCT -.-> PROM
   DBP -.->|mysqld_exporter| PROM
   DBR -.-> PROM
+  DBPRODUCT -.-> PROM
   REDIS -.-> PROM
   PROM --> GRAF
 
@@ -90,8 +96,8 @@ graph LR
   classDef db fill:#ede9fe,stroke:#8b5cf6,color:#3b1f6f;
   classDef inf fill:#fef3c7,stroke:#f59e0b,color:#7c4a03;
   classDef ext fill:#f3f4f6,stroke:#9ca3af,color:#374151;
-  class PAY,RISK,COLDS,K6 app;
-  class DBP,DBR,DBC db;
+  class PAY,RISK,PRODUCT,COLDS,K6 app;
+  class DBP,DBR,DBPRODUCT,DBC db;
   class REDIS,KAFKA inf;
   class OP,SSM,PROM,GRAF ext;
     </div>

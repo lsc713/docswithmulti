@@ -6,15 +6,16 @@
 #   관측(node-exporter 전 호스트 + obs 스택)도 함께 배포한다.
 #
 # 사용:
-#   IMAGE_NS=<dockerhub-user> ./ssm-deploy.sh                      # 앱+관측 전체
-#   IMAGE_NS=<user> ROLES="payment risk" ./ssm-deploy.sh          # 특정 role 만(관측 스킵)
-#   IMAGE_NS=<user> LOG_CLOUDWATCH=1 ./ssm-deploy.sh              # 앱 로그를 CloudWatch 로
-#   IMAGE_NS=<user> DEPLOY_OBS=0 ./ssm-deploy.sh                  # 관측 배포 생략
+#   IMAGE_NS=<dockerhub-user> REPO_REF=<sha> ./ssm-deploy.sh       # 앱+관측 전체
+#   IMAGE_NS=<user> REPO_REF=<sha> ROLES="payment risk" ./ssm-deploy.sh  # 특정 role 만
+#   IMAGE_NS=<user> REPO_REF=<sha> LOG_CLOUDWATCH=1 ./ssm-deploy.sh      # CloudWatch 로그
+#   IMAGE_NS=<user> REPO_REF=<sha> DEPLOY_OBS=0 ./ssm-deploy.sh          # 관측 배포 생략
 #
 # 환경변수:
 #   IMAGE_NS       (필수) Docker Hub 네임스페이스 = 사용자명
 #   IMAGE_TAG      (기본 latest) 배포 태그 접미
 #   REPO_URL       (기본 public repo) compose yml clone 소스
+#   REPO_REF       (필수) 배포할 정확한 Git SHA/ref
 #   AWS_REGION     (기본 ap-northeast-2)
 #   LOG_CLOUDWATCH (기본 0) 1이면 앱 컨테이너 로그를 awslogs→CloudWatch 로 전송
 #   DEPLOY_OBS     (기본 1) node-exporter(전 호스트)+obs 스택 배포. ROLES 지정 시 자동 0.
@@ -24,8 +25,14 @@ set -euo pipefail
 IMAGE_NS="${IMAGE_NS:?Docker Hub 사용자명 필요. 예: IMAGE_NS=myuser ./ssm-deploy.sh}"
 IMAGE_TAG="${IMAGE_TAG:-latest}"
 REPO_URL="${REPO_URL:-https://github.com/lsc713/docswithmulti.git}"
+REPO_REF="${REPO_REF:?배포할 Git SHA/ref 필요. 예: REPO_REF=abc123 ./ssm-deploy.sh}"
 REGION="${AWS_REGION:-ap-northeast-2}"
 LOG_CLOUDWATCH="${LOG_CLOUDWATCH:-0}"
+SSM_READY_ATTEMPTS="${SSM_READY_ATTEMPTS:-120}"
+SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-240}"
+case "$SSM_READY_ATTEMPTS:$SSM_POLL_ATTEMPTS" in
+  *[!0-9:]*|0:*|*:0) echo "SSM wait attempts must be positive integers" >&2; exit 1 ;;
+esac
 
 # role → compose 파일 (순서 = 배포 순서: 인프라 → DB → 앱)
 # macOS 기본 bash 3.2 는 연관배열(declare -A) 미지원 → case 로 매핑.
@@ -60,13 +67,34 @@ logging_override() {
 if [ -n "${ROLES:-}" ]; then DEPLOY_OBS="${DEPLOY_OBS:-0}"; else DEPLOY_OBS="${DEPLOY_OBS:-1}"; fi
 ROLES="${ROLES:-$ORDER}"
 
+# SSM agent 가 Online 이 될 때까지 최대 10분(기본값) 대기.
+wait_for_ssm() {
+  local role="$1" iid="$2" attempt st
+  for ((attempt=1; attempt<=SSM_READY_ATTEMPTS; attempt++)); do
+    st=$(aws ssm describe-instance-information --region "$REGION" \
+      --filters "Key=InstanceIds,Values=${iid}" \
+      --query 'InstanceInformationList[0].PingStatus' --output text)
+    case "$st" in
+      Online) return ;;
+      None|Inactive|ConnectionLost) ;;
+      *) echo "  ✗ role=${role} unexpected SSM status: ${st}" >&2; return 1 ;;
+    esac
+    [ "$attempt" -lt "$SSM_READY_ATTEMPTS" ] || {
+      echo "  ✗ role=${role} SSM did not become Online after $((SSM_READY_ATTEMPTS * 5))s" >&2
+      return 1
+    }
+    sleep 5
+  done
+}
+
 # role 태그 인스턴스에 스크립트 전송 후 완료 폴링. stdout 출력.
 ssm_run() {
-  local role="$1" script="$2" iid params cid st
+  local role="$1" script="$2" iid params cid st attempt result=1
   iid=$(aws ec2 describe-instances --region "$REGION" \
     --filters "Name=tag:Role,Values=${role}" "Name=instance-state-name,Values=running" \
-    --query 'Reservations[].Instances[].InstanceId' --output text)
-  [ -n "$iid" ] || { echo "  ⚠ role=${role} 인스턴스(running) 없음 — 건너뜀"; return 1; }
+    --query 'Reservations[].Instances[].InstanceId | [0]' --output text)
+  case "$iid" in ""|None) echo "  ✗ role=${role} 인스턴스(running) 없음" >&2; return 1 ;; esac
+  wait_for_ssm "$role" "$iid"
 
   params=$(jq -n --arg s "$script" '{commands: [$s]}')
   cid=$(aws ssm send-command --region "$REGION" \
@@ -74,38 +102,57 @@ ssm_run() {
     --document-name "AWS-RunShellScript" \
     --comment "loadtest deploy ${role}" \
     --parameters "$params" \
-    --timeout-seconds 600 \
+    --timeout-seconds 900 \
     --query 'Command.CommandId' --output text)
 
-  while :; do
+  for ((attempt=1; attempt<=SSM_POLL_ATTEMPTS; attempt++)); do
     st=$(aws ssm list-command-invocations --region "$REGION" --command-id "$cid" \
-      --query 'CommandInvocations[0].Status' --output text 2>/dev/null || echo Pending)
+      --query 'CommandInvocations[0].Status' --output text)
     case "$st" in
-      Success) break ;;
-      Failed|Cancelled|TimedOut) echo "  ✗ ${role} 실패($st)"; break ;;
-      *) sleep 5 ;;
+      Success) result=0; break ;;
+      Failed|Cancelled|TimedOut) echo "  ✗ ${role} 실패($st)" >&2; break ;;
+      None|Pending|InProgress|Delayed|Cancelling) ;;
+      *) echo "  ✗ ${role} unexpected SSM command status: ${st}" >&2; break ;;
     esac
+    [ "$attempt" -lt "$SSM_POLL_ATTEMPTS" ] || {
+      echo "  ✗ ${role} SSM command did not finish after $((SSM_POLL_ATTEMPTS * 5))s" >&2
+      break
+    }
+    sleep 5
   done
   aws ssm list-command-invocations --region "$REGION" --command-id "$cid" --details \
     --query 'CommandInvocations[0].CommandPlugins[0].Output' --output text | sed 's/^/    /'
+  return "$result"
 }
 
-# 공통 clone 헤더 (repo 가 없으면 clone, 있으면 최신화)
+# 공통 clone 헤더 (bootstrap 준비 후 요청한 revision을 detached checkout)
 clone_header() {
+  local repo_url_q repo_ref_q
+  repo_url_q=$(jq -rn --arg v "$REPO_URL" '$v | @sh')
+  repo_ref_q=$(jq -rn --arg v "$REPO_REF" '$v | @sh')
   cat <<EOF
 set -e
 mkdir -p /opt/loadtest
+attempt=1
+until command -v git >/dev/null && docker info >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; do
+  [ "\$attempt" -lt 120 ] || { echo 'host bootstrap did not finish after 600s' >&2; exit 1; }
+  attempt=\$((attempt + 1))
+  sleep 5
+done
 if [ ! -d /opt/loadtest/repo/.git ]; then
-  git clone --depth 1 '${REPO_URL}' /opt/loadtest/repo
-else
-  git -C /opt/loadtest/repo pull --ff-only || true
+  git clone --no-checkout ${repo_url_q} /opt/loadtest/repo
 fi
+git -C /opt/loadtest/repo fetch --depth 1 origin ${repo_ref_q}
+expected_head=\$(git -C /opt/loadtest/repo rev-parse 'FETCH_HEAD^{commit}')
+git -C /opt/loadtest/repo checkout --detach --force "\$expected_head"
+actual_head=\$(git -C /opt/loadtest/repo rev-parse HEAD)
+[ "\$actual_head" = "\$expected_head" ] || { echo "repo checkout mismatch: \$actual_head != \$expected_head" >&2; exit 1; }
 EOF
 }
 
 for role in $ROLES; do
   file="$(compose_for "$role")"
-  [ -n "$file" ] || { echo "알 수 없는 role: $role"; continue; }
+  [ -n "$file" ] || { echo "알 수 없는 role: $role" >&2; exit 1; }
   extra="$(logging_override "$role")"
   echo "── [$role] ${file} 배포${extra:+ (+CloudWatch 로그)} ──"
 
@@ -117,9 +164,9 @@ cd /opt/loadtest/repo/infra/load-test/deploy
 docker compose -f '${file}' ${extra} pull
 docker compose -f '${file}' ${extra} up -d
 # 호스트 지표: node-exporter (관측용, 항상)
-docker compose -f ../observability/node-exporter.compose.yml up -d >/dev/null 2>&1 || true
+docker compose -f ../observability/node-exporter.compose.yml up -d >/dev/null
 docker compose -f '${file}' ${extra} ps"
-  ssm_run "$role" "$remote" || true
+  ssm_run "$role" "$remote"
 done
 
 # ── 관측 스택 (obs 인스턴스: Prometheus + Grafana + exporters) + obs 호스트 node-exporter ──
@@ -130,7 +177,7 @@ cd /opt/loadtest/repo/infra/load-test/observability
 docker compose up -d
 docker compose -f node-exporter.compose.yml up -d
 docker compose ps"
-  ssm_run "obs" "$obs_remote" || echo "  (obs 인스턴스가 없으면 terraform apply 후 재실행)"
+  ssm_run "obs" "$obs_remote"
 fi
 
 echo
