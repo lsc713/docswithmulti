@@ -171,6 +171,13 @@ done
 
 # ── 관측 스택 (obs 인스턴스: Prometheus + Grafana + exporters) + obs 호스트 node-exporter ──
 if [ "$DEPLOY_OBS" = "1" ]; then
+  echo "── [k6] node-exporter ──"
+  k6_remote="$(clone_header)
+cd /opt/loadtest/repo/infra/load-test/observability
+docker compose -f node-exporter.compose.yml up -d
+docker compose -f node-exporter.compose.yml ps"
+  ssm_run "k6" "$k6_remote"
+
   echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
   obs_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability

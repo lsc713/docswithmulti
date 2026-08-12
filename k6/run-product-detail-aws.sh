@@ -8,13 +8,17 @@ DISTRIBUTION="${DISTRIBUTION:-realistic}"
 REPO_URL="${REPO_URL:-https://github.com/lsc713/docswithmulti.git}"
 REPO_REF="${REPO_REF:?Exact Git SHA/ref required}"
 REGION="${AWS_REGION:-ap-northeast-2}"
+SSM_READY_ATTEMPTS="${SSM_READY_ATTEMPTS:-120}"
+SSM_BOOTSTRAP_ATTEMPTS="${SSM_BOOTSTRAP_ATTEMPTS:-130}"
 SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-721}"
 RESULT_DIR="${RESULT_DIR:-$ROOT/k6/results}"
 RUN_KEY="$(date -u +%Y%m%dT%H%M%SZ)-${STAGE}-${DISTRIBUTION}-$$"
 
 case "$STAGE" in smoke|baseline|ramp|stress|soak) ;; *) echo "Invalid STAGE: $STAGE" >&2; exit 1 ;; esac
 case "$DISTRIBUTION" in hot|uniform|realistic) ;; *) echo "Invalid DISTRIBUTION: $DISTRIBUTION" >&2; exit 1 ;; esac
-case "$SSM_POLL_ATTEMPTS" in ""|*[!0-9]*|0) echo "SSM_POLL_ATTEMPTS must be a positive integer" >&2; exit 1 ;; esac
+case "$SSM_READY_ATTEMPTS:$SSM_BOOTSTRAP_ATTEMPTS:$SSM_POLL_ATTEMPTS" in
+  *[!0-9:]*|0:*|*:0:*|*:0) echo "SSM wait attempts must be positive integers" >&2; exit 1 ;;
+esac
 [ -f "$IDS_FILE" ] || { echo "Missing $IDS_FILE; run k6/seed/product-detail-seed.sh first" >&2; exit 1; }
 for tool in jq aws base64 tar shasum; do
   command -v "$tool" >/dev/null || { echo "$tool is required" >&2; exit 1; }
@@ -26,6 +30,49 @@ IID=$(aws ec2 describe-instances --region "$REGION" \
   --filters "Name=tag:Role,Values=k6" "Name=instance-state-name,Values=running" \
   --query 'Reservations[].Instances[].InstanceId | [0]' --output text)
 case "$IID" in ""|None) echo "No running Role=k6 instance" >&2; exit 1 ;; esac
+
+wait_for_ssm() {
+  local attempt status
+  for ((attempt=1; attempt<=SSM_READY_ATTEMPTS; attempt++)); do
+    status=$(aws ssm describe-instance-information --region "$REGION" \
+      --filters "Key=InstanceIds,Values=${IID}" \
+      --query 'InstanceInformationList[0].PingStatus' --output text)
+    case "$status" in
+      Online) return ;;
+      None|Inactive|ConnectionLost) ;;
+      *) echo "Unexpected Role=k6 SSM status: $status" >&2; return 1 ;;
+    esac
+    [ "$attempt" -lt "$SSM_READY_ATTEMPTS" ] || {
+      echo "Role=k6 SSM did not become Online after $((SSM_READY_ATTEMPTS * 5))s" >&2
+      return 1
+    }
+    sleep 5
+  done
+}
+
+wait_for_ssm
+BOOTSTRAP_PARAMS=$(jq -n '{commands: ["set -e\nattempt=1\nuntil command -v git >/dev/null && docker info >/dev/null 2>&1; do\n  [ \"$attempt\" -lt 120 ] || { echo \"Role=k6 bootstrap did not finish after 600s\" >&2; exit 1; }\n  attempt=$((attempt + 1))\n  sleep 5\ndone"]}')
+BOOTSTRAP_CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" \
+  --document-name AWS-RunShellScript --comment "wait for k6 bootstrap" \
+  --parameters "$BOOTSTRAP_PARAMS" --timeout-seconds 650 \
+  --query 'Command.CommandId' --output text)
+bootstrap_ok=0
+for ((attempt=1; attempt<=SSM_BOOTSTRAP_ATTEMPTS; attempt++)); do
+  status=$(aws ssm list-command-invocations --region "$REGION" --command-id "$BOOTSTRAP_CID" \
+    --query 'CommandInvocations[0].Status' --output text)
+  case "$status" in
+    Success) bootstrap_ok=1; break ;;
+    Failed|Cancelled|TimedOut) echo "Role=k6 bootstrap check failed ($status)" >&2; break ;;
+    None|Pending|InProgress|Delayed|Cancelling) ;;
+    *) echo "Unexpected Role=k6 bootstrap command status: $status" >&2; exit 1 ;;
+  esac
+  [ "$attempt" -lt "$SSM_BOOTSTRAP_ATTEMPTS" ] || {
+    echo "Role=k6 bootstrap command did not finish after $((SSM_BOOTSTRAP_ATTEMPTS * 5))s" >&2
+    break
+  }
+  sleep 5
+done
+[ "$bootstrap_ok" = 1 ] || exit 1
 
 IDS_B64=$(base64 < "$IDS_FILE" | tr -d '\n')
 read -r -d '' REMOTE <<'REMOTE' || true
@@ -56,17 +103,18 @@ set -e
 if [ -s "$summary" ]; then
   tar -czf "$bundle" -C /opt/loadtest/results "${RUN_KEY}.summary.json" "${RUN_KEY}.console.log"
   bytes=$(wc -c < "$bundle" | tr -d ' ')
-  # ponytail: stay below SSM's 24 KB stdout cap; use S3 only if result bundles outgrow this.
-  [ "$bytes" -le 16000 ] || { echo "result artifact exceeds SSM output limit; retained at $bundle" >&2; exit 1; }
+  encoded=$(base64 "$bundle" | tr -d '\n')
+  encoded_chars=${#encoded}
+  # ponytail: leave 2,000 characters below SSM's 24,000-character stdout cap; use S3 if bundles outgrow this.
+  [ "$encoded_chars" -le 22000 ] || { echo "result artifact exceeds SSM output limit; retained at $bundle" >&2; exit 1; }
   checksum=$(sha256sum "$bundle" | awk '{print $1}')
   printf 'K6_RESULT_BEGIN %s %s\n' "$checksum" "$bytes"
-  base64 "$bundle" | tr -d '\n'
+  printf '%s' "$encoded"
   printf '\nK6_RESULT_END\n'
 else
   echo "k6 summary was not created; console retained at $console" >&2
   k6_status=1
 fi
-cat "$console"
 exit "$k6_status"
 REMOTE
 
@@ -100,9 +148,8 @@ done
 output=$(mktemp)
 bundle=$(mktemp)
 trap 'rm -f "$output" "$bundle"' EXIT
-aws ssm list-command-invocations --region "$REGION" --command-id "$CID" --details \
-  --query 'CommandInvocations[0].CommandPlugins[0].Output' --output text > "$output"
-cat "$output"
+aws ssm get-command-invocation --command-id "$CID" --instance-id "$IID" \
+  --query StandardOutputContent --output text --region "$REGION" > "$output"
 
 header=$(sed -n '/^K6_RESULT_BEGIN /{p;q;}' "$output")
 if [ -n "$header" ] && grep -q '^K6_RESULT_END$' "$output"; then
