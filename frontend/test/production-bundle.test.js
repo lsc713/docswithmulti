@@ -12,6 +12,7 @@ test('keeps E2E configuration and write helpers out of the production bundle', a
     'E2E_FRONTEND_BASE_URL',
     'E2E_GATEWAY_BASE_URL',
     'E2E_PRODUCT_BASE_URL',
+    'AUTH_COOKIE_SECURE',
     'setupRunCatalog',
     'E2E-BASIC-TEE',
     'createPaidOrderViaApi',
