@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────
-# 인스턴스 (9대) — 핫패스는 단독, 콜드패스는 합침
+# 인스턴스 (11대) — 핫패스는 단독, 콜드패스는 합침
 #   근거: docs/load-test/measurement-journey.md §0·§9(패밀리 규칙), topology.html
 #   전부 Graviton(ARM) + Spot + gp3 + 사설 IP 고정
 #
@@ -19,13 +19,15 @@ locals {
   #   spot : 생략 시 true(기본 Spot). obs 는 spot=false(온디맨드) — t4g.medium spot 용량
   #          부족으로 실측 도중 관측 스택이 미기동되는 것을 방지(관측이 죽으면 데이터 유실).
   instances = {
-    k6            = { type = "c7g.xlarge", ip = "10.0.1.10", disk = 30 }               # 부하생성기 (분리 필수)
-    payment       = { type = "c7g.xlarge", ip = "10.0.1.20", disk = 30 }               # 핫패스 주인공
-    risk          = { type = "c7g.xlarge", ip = "10.0.1.21", disk = 30 }               # 한도 차감 동시성
-    cold-svc      = { type = "c7g.large", ip = "10.0.1.22", disk = 30 }                # merchant-limit + order (합침)
+    k6            = { type = "c7g.xlarge", ip = "10.0.1.10", disk = 30 } # 부하생성기 (분리 필수)
+    payment       = { type = "c7g.xlarge", ip = "10.0.1.20", disk = 30 } # 핫패스 주인공
+    risk          = { type = "c7g.xlarge", ip = "10.0.1.21", disk = 30 } # 한도 차감 동시성
+    cold-svc      = { type = "c7g.large", ip = "10.0.1.22", disk = 30 }  # merchant-limit + order (합침)
+    product       = { type = "c7g.xlarge", ip = "10.0.1.23", disk = 30 }
     mysql-payment = { type = "m7g.large", ip = "10.0.1.30", disk = 100 }               # TX3 row lock 대상 (r7g 16GB→8GB: 버퍼풀이 I/O 병목 덮는 것 방지)
     mysql-risk    = { type = "m7g.large", ip = "10.0.1.31", disk = 100 }               # 한도 소진 경합 (동상)
     cold-db       = { type = "c7g.large", ip = "10.0.1.32", disk = 100, spot = false } # mysql-merchant + mysql-order (콜드, 4GB). SLO 런 중 Spot 회수 겪어 온디맨드로(회수 재발 방지)
+    mysql-product = { type = "m7g.large", ip = "10.0.1.33", disk = 100 }
     infra         = { type = "m7g.large", ip = "10.0.1.40", disk = 50 }                # Redis + Kafka(1-broker), page cache용 RAM 유지
     obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false } # Prometheus + Grafana, 온디맨드(관측 안정성 우선)
   }

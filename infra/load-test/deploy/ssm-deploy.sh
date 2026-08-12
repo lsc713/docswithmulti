@@ -29,16 +29,18 @@ LOG_CLOUDWATCH="${LOG_CLOUDWATCH:-0}"
 
 # role → compose 파일 (순서 = 배포 순서: 인프라 → DB → 앱)
 # macOS 기본 bash 3.2 는 연관배열(declare -A) 미지원 → case 로 매핑.
-ORDER="infra mysql-payment mysql-risk cold-db cold-svc risk payment"
+ORDER="infra mysql-payment mysql-risk cold-db mysql-product cold-svc risk payment product"
 compose_for() {
   case "$1" in
     infra)         echo infra.compose.yml ;;
     mysql-payment) echo mysql-payment.compose.yml ;;
     mysql-risk)    echo mysql-risk.compose.yml ;;
     cold-db)       echo cold-db.compose.yml ;;
+    mysql-product) echo mysql-product.compose.yml ;;
     cold-svc)      echo cold-svc.compose.yml ;;
     risk)          echo risk.compose.yml ;;
     payment)       echo payment.compose.yml ;;
+    product)       echo product.compose.yml ;;
     *)             echo "" ;;
   esac
 }

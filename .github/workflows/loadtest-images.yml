@@ -17,6 +17,7 @@ on:
       - "risk-management-service/**"
       - "merchant-limit-service/**"
       - "order-service/**"
+      - "product-service/**"
       - "infra/load-test/deploy/Dockerfile"
       - ".github/workflows/loadtest-images.yml"
 
@@ -31,6 +32,7 @@ jobs:
           - { module: risk-management-service, tag: risk-management }
           - { module: merchant-limit-service,  tag: merchant-limit }
           - { module: order-service,           tag: order }
+          - { module: product-service,         tag: product }
     steps:
       - uses: actions/checkout@v4
 
