@@ -43,12 +43,16 @@ CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" \
 
 result=0
 while :; do
-  status=$(aws ssm list-command-invocations --region "$REGION" --command-id "$CID" \
-    --query 'CommandInvocations[0].Status' --output text 2>/dev/null || echo Pending)
+  if ! status=$(aws ssm list-command-invocations --region "$REGION" --command-id "$CID" \
+    --query 'CommandInvocations[0].Status' --output text); then
+    echo "Failed to poll SSM command $CID" >&2
+    exit 1
+  fi
   case "$status" in
     Success) break ;;
     Failed|Cancelled|TimedOut) echo "k6 command failed ($status)" >&2; result=1; break ;;
-    *) sleep 5 ;;
+    Pending|InProgress|Delayed|Cancelling) sleep 5 ;;
+    *) echo "Unexpected SSM command status: $status" >&2; exit 1 ;;
   esac
 done
 aws ssm list-command-invocations --region "$REGION" --command-id "$CID" --details \
