@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test'
 import { runProductName } from './helpers/catalog-setup'
 import { createPaidOrderViaApi } from './helpers/order-payment'
 import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { loginBuyer } from './helpers/login-buyer.js'
 import { resolveE2EUrls } from './helpers/urls.js'
 
 const { frontend: BASE, gateway: GW } = resolveE2EUrls()
@@ -14,16 +15,6 @@ test.beforeAll(async ({ request }) => {
   await request.post(`${GW}/v1/auth/signup`, { data: ADMIN }).catch(() => {})    // 부트스트랩 이메일이면 ADMIN으로 가입됨(admin.spec.js와 동일 관행)
   await request.post(`${GW}/v1/auth/signup`, { data: OUTSIDER }).catch(() => {})
 })
-
-async function loginBuyer(page, user) {
-  await page.goto(BASE)
-  if (await page.locator('.navbar-right span').isVisible().catch(() => false)) return
-  await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
-  await page.fill('input[placeholder="email"]', user.email)
-  await page.fill('input[placeholder="password"]', user.password)
-  await page.click('.modal button[type="submit"]')
-  await expect(page.locator('.navbar-right span')).toBeVisible()
-}
 
 // 실 상품 선택 데이터로 API 결제 1건 생성 → paymentKey 반환 후 홈으로 복귀 (재호출 가능하도록)
 async function buyOneItem(page) {
@@ -60,7 +51,7 @@ async function loginAdmin(page) {
 }
 
 test('ADMIN 승인/반려: 구매자 취소요청 제출(API) → 콘솔에서 승인 → 반려', async ({ page, browser }) => {
-  await loginBuyer(page, BUYER)
+  await loginBuyer(page, BUYER, BASE, GW)
 
   // 승인 변형
   const paymentKey1 = await buyOneItem(page)
@@ -121,7 +112,7 @@ test('MERCHANT 사이드바: route 인터셉트로 role 스텁 → 취소요청�
 })
 
 test('USER 리다이렉트: 일반 구매자 세션으로 /admin/cancel-requests 접근 시 /admin/login으로', async ({ page }) => {
-  await loginBuyer(page, OUTSIDER)
+  await loginBuyer(page, OUTSIDER, BASE, GW)
   await page.goto(`${BASE}/admin/cancel-requests`)
   await expect(page).toHaveURL(/\/admin\/login$/)
 })
