@@ -19,6 +19,8 @@ If you are developing a production application, we recommend using TypeScript wi
 
 백엔드 2개 기동: `./gradlew :user-service:bootRun` + `./gradlew :api-gateway:bootRun` (+ user-service MySQL). 프론트 `npm run dev`.
 
+HTTP 로컬 E2E에서만 user-service와 Playwright 양쪽에 `AUTH_COOKIE_SECURE=false`를 명시적으로 주입한다. 예: `AUTH_COOKIE_SECURE=false ./gradlew :user-service:bootRun`, `AUTH_COOKIE_SECURE=false E2E_ADMIN_EMAIL=... npx playwright test`. 기본값과 운영 설정은 `Secure=true`를 유지한다.
+
 1. [ ] 회원가입 → "안녕하세요 X님" 표시 (Network: login 응답에 `Set-Cookie: access_token=...; HttpOnly` 확인).
 2. [ ] DevTools Application→Cookies: `access_token`/`refresh_token`은 HttpOnly=✓, `csrf_token`은 HttpOnly=✗.
 3. [ ] Console에서 `document.cookie` — access/refresh 토큰이 **안 보임**(httpOnly), csrf만 보임.

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
+import { resolveE2EUrls } from './helpers/urls.js'
 
-const BASE = 'http://localhost:5173'
-const GW = 'http://localhost:8000'
+const { frontend: BASE, gateway: GW } = resolveE2EUrls()
 const ADMIN = { email: 'admin@example.com', password: 'password123', name: '관리자', phone: '010-0000-0000' }
 
 test.beforeAll(async ({ request }) => {
@@ -22,7 +22,7 @@ test('저니: 로그인 → 대시보드 → 상품 생성 → 상세/이미지 
   await page.fill('input[placeholder="password"]', ADMIN.password)
   await page.click('button.primary')
   await expect(page).toHaveURL(/\/admin$/)
-  await expect(page.locator('.admin-card')).toHaveCount(3)
+  await expect(page.locator('.admin-card')).toHaveCount(4)
 
   // 상품 생성 (재실행 가능하도록 이름/SKU에 타임스탬프로 유일성 부여)
   const runId = Date.now()
