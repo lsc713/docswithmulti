@@ -25,10 +25,13 @@ public class StockController {
     @PostMapping("/reserve")
     public ReserveResponse reserve(@Valid @RequestBody ReserveRequest req) {
         var items = req.items().stream()
-                .map(i -> new ReserveItem(i.skuId(), i.qty()))
+                .map(i -> new ReserveItem(i.productId(), i.skuId(), i.qty()))
                 .toList();
-        stockService.reserve(req.paymentKey(), items);
-        return ReserveResponse.ok();
+        var reserved = stockService.reserve(req.paymentKey(), items).stream()
+                .map(i -> new ReserveResponse.Item(
+                        i.skuId(), i.productId(), i.unitPrice(), i.quantity()))
+                .toList();
+        return ReserveResponse.ok(reserved);
     }
 
     @PostMapping("/release")

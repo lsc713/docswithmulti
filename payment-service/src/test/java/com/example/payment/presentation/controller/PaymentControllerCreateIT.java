@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -109,6 +110,30 @@ class PaymentControllerCreateIT {
         ArgumentCaptor<CreatePaymentCommand> captor = ArgumentCaptor.forClass(CreatePaymentCommand.class);
         verify(createPaymentUseCase).create(captor.capture());
         assertThat(captor.getValue().userId()).isEqualTo(42L);
+    }
+
+    @Test
+    @DisplayName("클라이언트 금액이 문자열이거나 생략돼도 서버 가격 계산 경로로 전달된다")
+    void create_clientAmountIsIgnored() throws Exception {
+        when(createPaymentUseCase.create(any())).thenReturn(stubResult());
+
+        for (String itemAmount : List.of(",\"itemAmount\":\"tampered\"", "")) {
+            mockMvc.perform(post("/v1/payments")
+                    .header("X-User-Id", "42")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("""
+                        {"merchantId":1,"pgType":"TOSS","cancelPeriodDays":90,
+                         "items":[{"orderItemId":10,"productId":200,"itemName":"상품A",
+                         "skuId":500,"quantity":2%s}]}
+                        """.formatted(itemAmount)))
+                .andExpect(status().isOk());
+        }
+
+        ArgumentCaptor<CreatePaymentCommand> captor = ArgumentCaptor.forClass(CreatePaymentCommand.class);
+        verify(createPaymentUseCase, times(2)).create(captor.capture());
+        assertThat(captor.getAllValues())
+            .allSatisfy(command -> assertThat(command.items().get(0).itemAmount())
+                .isEqualByComparingTo(BigDecimal.ZERO));
     }
 
     @Test

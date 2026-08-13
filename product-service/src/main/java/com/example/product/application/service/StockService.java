@@ -1,8 +1,12 @@
 package com.example.product.application.service;
 
 import com.example.product.application.interfaces.ProductStockRepository;
+import com.example.product.application.interfaces.ProductSkuRepository;
 import com.example.product.application.interfaces.StockReservationRepository;
+import com.example.product.common.exception.application.InvalidStockReservationException;
 import com.example.product.common.exception.application.StockInsufficientException;
+import com.example.product.domain.entity.ProductSku;
+import com.example.product.domain.entity.StockReservation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,22 +30,47 @@ public class StockService {
 
     private final ProductStockRepository stockRepository;
     private final StockReservationRepository reservationRepository;
+    private final ProductSkuRepository skuRepository;
 
     public StockService(ProductStockRepository stockRepository,
-                        StockReservationRepository reservationRepository) {
+                        StockReservationRepository reservationRepository,
+                        ProductSkuRepository skuRepository) {
         this.stockRepository = stockRepository;
         this.reservationRepository = reservationRepository;
+        this.skuRepository = skuRepository;
     }
 
-    public record ReserveItem(long skuId, int qty) {}
+    public record ReserveItem(long productId, long skuId, int qty) {
+        public ReserveItem(long skuId, int qty) {
+            this(0, skuId, qty);
+        }
+    }
+
+    public record ReservedItem(long skuId, long productId, long unitPrice, int quantity) {}
 
     @Transactional
-    public void reserve(String paymentKey, List<ReserveItem> items) {
+    public List<ReservedItem> reserve(String paymentKey, List<ReserveItem> items) {
+        var reserved = new java.util.ArrayList<ReservedItem>(items.size());
         for (ReserveItem item : items) {
+            ProductSku sku = skuRepository.findById(item.skuId())
+                .orElseThrow(() -> new InvalidStockReservationException(item.productId(), item.skuId()));
+            if (item.productId() > 0 && sku.getProductId() != item.productId()) {
+                throw new InvalidStockReservationException(item.productId(), item.skuId());
+            }
+
             // W1: 예약 INSERT를 차감보다 앞세운 멱등 게이트. affected=0 → 이미 소유됨(loser) → 재사용, 차감 생략.
-            int inserted = reservationRepository.upsertReserved(paymentKey, item.skuId(), item.qty());
+            int inserted = reservationRepository.upsertReserved(
+                paymentKey, item.skuId(), item.qty(), sku.getPrice());
             if (inserted == 0) {
-                continue; // 멱등 재사용 — 중복차감/오버셀 불가
+                StockReservation existing = reservationRepository
+                    .findByPaymentKeyAndSkuIdForUpdate(paymentKey, item.skuId())
+                    .orElseThrow(() -> new IllegalStateException("예약 멱등 행을 찾을 수 없습니다."));
+                if (existing.getQty() != item.qty()) {
+                    throw new InvalidStockReservationException("같은 예약 키의 수량이 다릅니다.");
+                }
+                reserved.add(new ReservedItem(
+                    item.skuId(), sku.getProductId(), existing.getUnitPrice(), existing.getQty()));
+                continue;
             }
             // inserted=1: 이 요청이 예약 소유 → 원자 조건부 차감
             int affected = stockRepository.tryReserve(item.skuId(), item.qty());
@@ -49,7 +78,10 @@ public class StockService {
                 // 부족 → 전체 롤백(방금 INSERT한 예약행 + 앞선 item 차감/예약 모두 원복)
                 throw new StockInsufficientException(item.skuId());
             }
+            reserved.add(new ReservedItem(
+                item.skuId(), sku.getProductId(), sku.getPrice(), item.qty()));
         }
+        return reserved;
     }
 
     @Transactional

@@ -14,6 +14,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +29,12 @@ class ProductStockHttpClientTest {
     ProductStockHttpClient client;
 
     private static final List<ProductStockPort.Item> ITEMS =
-        List.of(new ProductStockPort.Item(500L, 2));
+        List.of(new ProductStockPort.Item(200L, 500L, 2));
+
+    private static final ProductStockHttpClient.ReserveResponse RESERVE_RESPONSE =
+        new ProductStockHttpClient.ReserveResponse(true, List.of(
+            new ProductStockHttpClient.ItemResponse(
+                500L, 200L, BigDecimal.valueOf(10_000), 2)));
 
     @BeforeEach
     void setUp() {
@@ -48,16 +54,19 @@ class ProductStockHttpClientTest {
     @Test
     @DisplayName("reserve 200 → 정상 반환(예외 없음)")
     void reserve_success() {
-        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
-            .thenReturn(org.springframework.http.ResponseEntity.ok().build());
+        when(restTemplate.postForEntity(
+            anyString(), any(), eq(ProductStockHttpClient.ReserveResponse.class)))
+            .thenReturn(org.springframework.http.ResponseEntity.ok(RESERVE_RESPONSE));
 
-        assertDoesNotThrow(() -> client.reserve("pay_1", ITEMS));
+        assertEquals(List.of(new ProductStockPort.ReservedItem(
+            500L, 200L, BigDecimal.valueOf(10_000), 2)), client.reserve("pay_1", ITEMS));
     }
 
     @Test
     @DisplayName("reserve 409(STOCK_INSUFFICIENT) → StockInsufficientException")
     void reserve_conflict_throwsStockInsufficient() {
-        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+        when(restTemplate.postForEntity(
+            anyString(), any(), eq(ProductStockHttpClient.ReserveResponse.class)))
             .thenThrow(HttpClientErrorException.create(
                 HttpStatus.CONFLICT, "Conflict", null, null, null));
 
@@ -67,7 +76,8 @@ class ProductStockHttpClientTest {
     @Test
     @DisplayName("reserve 5xx/비-2xx 응답 → ProductServiceException")
     void reserve_serverError_throwsProductServiceException() {
-        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+        when(restTemplate.postForEntity(
+            anyString(), any(), eq(ProductStockHttpClient.ReserveResponse.class)))
             .thenReturn(org.springframework.http.ResponseEntity.status(500).build());
 
         assertThrows(ProductServiceException.class, () -> client.reserve("pay_1", ITEMS));
@@ -76,7 +86,8 @@ class ProductStockHttpClientTest {
     @Test
     @DisplayName("CircuitBreaker OPEN → CallNotPermittedException → ProductServiceException(fail-closed)")
     void reserve_circuitBreakerOpen_throwsProductServiceException() {
-        when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
+        when(restTemplate.postForEntity(
+            anyString(), any(), eq(ProductStockHttpClient.ReserveResponse.class)))
             .thenThrow(new RuntimeException("connection refused"));
 
         // 2건 실패로 CB OPEN
@@ -87,7 +98,8 @@ class ProductStockHttpClientTest {
         // OPEN 상태 호출 → CallNotPermittedException 래핑 → ProductServiceException
         assertThrows(ProductServiceException.class, () -> client.reserve("pay_3", ITEMS));
         // 3번째 호출은 CB가 차단 → restTemplate 미실행
-        verify(restTemplate, times(2)).postForEntity(anyString(), any(), eq(Void.class));
+        verify(restTemplate, times(2)).postForEntity(
+            anyString(), any(), eq(ProductStockHttpClient.ReserveResponse.class));
     }
 
     @Test
@@ -96,6 +108,7 @@ class ProductStockHttpClientTest {
         when(restTemplate.postForEntity(anyString(), any(), eq(Void.class)))
             .thenReturn(org.springframework.http.ResponseEntity.ok().build());
 
-        assertDoesNotThrow(() -> client.release("pay_1", ITEMS));
+        assertDoesNotThrow(() -> client.release(
+            "pay_1", List.of(new ProductStockPort.Item(500L, 2))));
     }
 }

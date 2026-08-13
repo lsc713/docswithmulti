@@ -12,6 +12,14 @@ import java.util.Optional;
 public interface StockReservationJpaRepository extends JpaRepository<StockReservationJpaEntity, Long> {
     Optional<StockReservationJpaEntity> findByPaymentKeyAndSkuId(String paymentKey, long skuId);
 
+    @Query(value = """
+        SELECT * FROM stock_reservation
+        WHERE payment_key = :paymentKey AND sku_id = :skuId
+        FOR UPDATE
+        """, nativeQuery = true)
+    Optional<StockReservationJpaEntity> findByPaymentKeyAndSkuIdForUpdate(
+        String paymentKey, long skuId);
+
     /**
      * orphan 스캔 (RST-03): status='RESERVED' AND created_at &lt; threshold, idx_reservation_status_created 활용.
      * created_at 오름차순 LIMIT 500 배치 — 오래된 것부터 정리, 한 주기 처리량 상한.
@@ -34,11 +42,11 @@ public interface StockReservationJpaRepository extends JpaRepository<StockReserv
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query(value = """
         INSERT INTO stock_reservation
-            (payment_key, sku_id, qty, status, created_at, updated_at)
-        VALUES (:paymentKey, :skuId, :qty, 'RESERVED', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6))
+            (payment_key, sku_id, qty, unit_price, status, created_at, updated_at)
+        VALUES (:paymentKey, :skuId, :qty, :unitPrice, 'RESERVED', CURRENT_TIMESTAMP(6), CURRENT_TIMESTAMP(6))
         ON DUPLICATE KEY UPDATE payment_key = payment_key
         """, nativeQuery = true)
-    int upsertReserved(String paymentKey, long skuId, int qty);
+    int upsertReserved(String paymentKey, long skuId, int qty, long unitPrice);
 
     /**
      * release 원자 조건부 상태전이 (W2, D-P1-4).

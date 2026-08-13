@@ -42,6 +42,13 @@ class CreatePaymentCompensationTest {
         service = new CreatePaymentService(
             orderVerifyPort, productStockPort, paymentCreateTxWriter, stockReleaseRetryRepository);
         lenient().when(orderVerifyPort.verify(anyLong(), any())).thenReturn(999L);
+        lenient().when(productStockPort.reserve(anyString(), any())).thenAnswer(invocation ->
+            ((List<ProductStockPort.Item>) invocation.getArgument(1)).stream()
+                .map(item -> new ProductStockPort.ReservedItem(
+                    item.skuId(), item.productId(),
+                    item.skuId() == 500L ? BigDecimal.valueOf(15_000) : BigDecimal.valueOf(70_000),
+                    item.qty()))
+                .toList());
     }
 
     private CreatePaymentCommand command() {
@@ -109,5 +116,17 @@ class CreatePaymentCompensationTest {
         // items 직렬화 보존 검증 (payment_item이 롤백돼 없으므로 여기 보존)
         assertTrue(jsonCaptor.getValue().contains("500"));
         assertTrue(jsonCaptor.getValue().contains("501"));
+    }
+
+    @Test
+    @DisplayName("예약 가격 응답이 잘못돼도 이미 잡힌 재고를 해제한다")
+    void invalidReserveResponse_releaseCompensates() {
+        doReturn(List.of()).when(productStockPort).reserve(anyString(), any());
+
+        assertThrows(IllegalStateException.class, () -> service.create(command()));
+
+        verify(productStockPort).release(anyString(), eq(List.of(
+            new ProductStockPort.Item(500L, 2), new ProductStockPort.Item(501L, 1))));
+        verifyNoInteractions(paymentCreateTxWriter);
     }
 }

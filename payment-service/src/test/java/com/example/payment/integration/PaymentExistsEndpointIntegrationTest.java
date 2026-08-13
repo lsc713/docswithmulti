@@ -91,7 +91,9 @@ class PaymentExistsEndpointIntegrationTest {
         mockServer.expect(requestTo(containsString("/v1/orders/items:verify")))
             .andRespond(withSuccess("{\"orderId\":1}", MediaType.APPLICATION_JSON));
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
-            .andRespond(withSuccess());
+            .andRespond(withSuccess("""
+                {"reserved":true,"items":[{"skuId":500,"productId":200,
+                "unitPrice":15000,"quantity":2}]}""", MediaType.APPLICATION_JSON));
 
         String body = objectMapper.writeValueAsString(Map.of(
             "merchantId", 1,

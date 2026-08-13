@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 @RestController
 @RequestMapping("/v1/payments")
 @RequiredArgsConstructor
@@ -41,7 +43,7 @@ public class PaymentController {
                     item.orderItemId(),
                     item.productId(),
                     item.itemName(),
-                    item.itemAmount(),
+                    BigDecimal.ZERO,
                     item.skuId(),
                     item.quantity()
                 ))

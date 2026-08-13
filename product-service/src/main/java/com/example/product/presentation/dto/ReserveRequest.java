@@ -14,6 +14,7 @@ public record ReserveRequest(
         @NotEmpty @Valid List<Item> items
 ) {
     public record Item(
+            @Positive long productId,
             @NotNull Long skuId,
             @Positive int qty  // T-01-02: 음수/0 금지
     ) {}

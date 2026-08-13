@@ -123,9 +123,12 @@ class CreatePaymentReserveIntegrationTest {
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
             .andExpect(method(org.springframework.http.HttpMethod.POST))
             .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.paymentKey").exists())
+            .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.items[0].productId").value(200))
             .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.items[0].skuId").value(500))
             .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.items[0].qty").value(2))
-            .andRespond(withSuccess());
+            .andRespond(withSuccess("""
+                {"reserved":true,"items":[{"skuId":500,"productId":200,
+                "unitPrice":15000,"quantity":2}]}""", MediaType.APPLICATION_JSON));
 
         mockMvc.perform(post("/v1/payments")
                 .header("X-User-Id", "100")

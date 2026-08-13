@@ -108,14 +108,16 @@ class PaymentCompletedOutboxIntegrationTest {
             "cancelPeriodDays", 90,
             "items", List.of(Map.of(
                 "orderItemId", 10, "productId", 200, "itemName", "상품A",
-                "itemAmount", 30000, "skuId", 500, "quantity", 2))));
+                "itemAmount", 1, "skuId", 500, "quantity", 2))));
     }
 
     private void stubOrderVerifyAndReserve() {
         mockServer.expect(requestTo(containsString("/v1/orders/items:verify")))
             .andRespond(withSuccess("{\"orderId\":777}", MediaType.APPLICATION_JSON));
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
-            .andRespond(withSuccess());
+            .andRespond(withSuccess("""
+                {"reserved":true,"items":[{"skuId":500,"productId":200,
+                "unitPrice":10000,"quantity":2}]}""", MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -139,7 +141,11 @@ class PaymentCompletedOutboxIntegrationTest {
         assertThat(node.get("orderId").asLong()).isEqualTo(777L);
         // completedAt은 Instant.parse가 요구하는 트레일링 Z 형식이어야 한다.
         assertThat(node.get("completedAt").asText()).endsWith("Z");
-        assertThat(node.get("totalAmount").asInt()).isEqualTo(30000); // Σ itemAmount, ×quantity 아님 (RESEARCH Pitfall 6)
+        assertThat(node.get("totalAmount").asInt()).isEqualTo(20000);
+        assertThat(jdbcTemplate.queryForObject(
+            "SELECT total_amount FROM payment", BigDecimal.class)).isEqualByComparingTo("20000");
+        assertThat(jdbcTemplate.queryForObject(
+            "SELECT item_amount FROM payment_item", BigDecimal.class)).isEqualByComparingTo("20000");
 
         // 폴 발행 → PENDING→PUBLISHED
         publisher.publish();

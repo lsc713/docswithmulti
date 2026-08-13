@@ -148,7 +148,13 @@ class StockConcurrencyIntegrationTest {
 
     private String reserveBody(String pk, long skuId, int qty) {
         return """
-                {"paymentKey":"%s","items":[{"skuId":%d,"qty":%d}]}""".formatted(pk, skuId, qty);
+                {"paymentKey":"%s","items":[{"productId":%d,"skuId":%d,"qty":%d}]}"""
+                .formatted(pk, productId(skuId), skuId, qty);
+    }
+
+    private long productId(long skuId) {
+        return jdbc.queryForObject(
+                "SELECT product_id FROM product_sku WHERE id = ?", Long.class, skuId);
     }
 
     private HttpResponse<String> post(String path, String body) throws Exception {
