@@ -74,6 +74,7 @@ class ReserveHoldIntegrationTest {
         jdbc.update("DELETE FROM merchant_reserve_config");
         jdbc.update("DELETE FROM payout");
         jdbc.update("DELETE FROM merchant_payout_account");
+        jdbc.update("DELETE FROM settlement_line");
         jdbc.update("DELETE FROM settlement");
         when(bankTransferPort.submit(any(), any(), any())).thenReturn(new TransferAck(true));
     }
