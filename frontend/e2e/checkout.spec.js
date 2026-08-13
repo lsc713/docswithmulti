@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-const BASE = 'http://localhost:5173'
+const BASE = process.env.FRONTEND_BASE ?? 'http://localhost:5173'
 const GW = 'http://localhost:8000'
 const USER = { email: `buyer${Date.now()}@example.com`, password: 'password123', name: '구매자', phone: '010-2222-3333' }
 
@@ -9,6 +9,20 @@ test.beforeAll(async ({ request }) => {
 })
 
 test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 → 결제 → 완료', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.TossPayments = () => ({ payment: () => ({
+      requestPayment: ({ successUrl, orderId, amount }) => {
+        window.location.href = `${successUrl}?paymentKey=toss_test_key&orderId=${orderId}&amount=${amount.value}`
+      },
+    }) })
+  })
+  await page.route('**/v1/payment-attempts/*/confirm', async route => {
+    const body = route.request().postDataJSON()
+    await route.fulfill({ json: {
+      paymentRequestId: body.orderId, paymentKey: body.paymentKey,
+      amount: body.amount, status: 'COMPLETED',
+    } })
+  })
   // 로그인 (스토어프론트 모달)
   await page.goto(BASE)
   await page.click('.navbar-right button')            // 로그인
@@ -34,5 +48,23 @@ test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 →
 
   // 완료 화면 (paymentKey 노출) — 결제 생성이 product-service 재고 동기 예약을 거치므로 여유 타임아웃
   await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
-  await expect(page.locator('.success-key code')).toContainText('pay_')
+  await expect(page.locator('.success-key code')).toContainText('toss_test_key')
+})
+
+test('결제창 취소: 실패 처리 후 같은 주문으로 다시 결제할 수 있다', async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('paymentAttempt', JSON.stringify({
+    paymentRequestId: 'request-1', fromCart: false,
+    lines: [{ productId: 1, skuId: 2, itemName: '상품', unitPrice: 1000, quantity: 1 }],
+    paymentItems: [{ orderItemId: 3, productId: 1, skuId: 2, itemName: '상품', quantity: 1 }],
+  })))
+  await page.route('**/v1/payment-attempts/request-1/fail', route => route.fulfill({ json: {
+    paymentRequestId: 'request-1', paymentKey: null, amount: 1000, status: 'FAILED',
+  } }))
+
+  await page.goto(`${BASE}/payment/fail?code=PAY_PROCESS_CANCELED&orderId=request-1`)
+
+  await expect(page.locator('.payment-result h1')).toContainText('완료하지 못했습니다')
+  await expect(page.locator('.payment-result')).toContainText('결제가 취소되었습니다')
+  await page.click('text=다시 결제')
+  await expect(page.locator('.checkout h1')).toHaveText('주문하기')
 })

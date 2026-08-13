@@ -9,9 +9,14 @@ data:
   KAFKA_BOOTSTRAP_SERVERS: "cancel-kafka-kafka-bootstrap.kafka.svc:9092"
   EXTERNAL_RISK_MANAGEMENT_URL: "http://risk:8083"
   EXTERNAL_MERCHANT_LIMIT_BASE_URL: "http://merchant-limit:8082"
+  EXTERNAL_ORDER_SERVICE_URL: "http://order:8081"
+  EXTERNAL_PRODUCT_SERVICE_URL: "http://product-service:8084"
+  PAYMENT_SERVICE_URL: "http://payment:8080"
   # api-gateway downstream 라우팅(D-P4-6). Deployment env로도 직접 주입되나 배포 설정 단일 출처 유지.
   GATEWAY_DOWNSTREAM_PAYMENT_URI: "http://payment:8080"
   GATEWAY_DOWNSTREAM_USER_URI: "http://user-service:8085"
+  GATEWAY_DOWNSTREAM_ORDER_URI: "http://order:8081"
+  GATEWAY_DOWNSTREAM_PRODUCT_URI: "http://product-service:8084"
   CANCEL_PUBLISH_MODE: "INLINE"
   # 외부 MySQL(고정 사설IP) — DB만 클러스터 밖. order_db는 cold-db:3307(merchant_db=3306).
   PAYMENT_DB_URL: "jdbc:mysql://10.0.1.30:3306/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true"

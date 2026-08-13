@@ -64,8 +64,8 @@ external:
 
 toss:
   base-url: ${TOSS_BASE_URL:https://api.tosspayments.com}
-  client-key: ${TOSS_CLIENT_KEY:test_ck_placeholder}
-  secret-key: ${TOSS_SECRET_KEY:test_sk_placeholder}
+  client-key: ${TOSS_CLIENT_KEY}
+  secret-key: ${TOSS_SECRET_KEY}
   connect-timeout-ms: ${TOSS_CONNECT_TIMEOUT_MS:2000}
   read-timeout-ms: ${TOSS_READ_TIMEOUT_MS:5000}
 

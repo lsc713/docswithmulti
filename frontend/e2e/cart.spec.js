@@ -9,6 +9,20 @@ test.beforeAll(async ({ request }) => {
 })
 
 test('장바구니: 담기 → 장바구니 → 수량수정 → 주문하기 → 결제 → 완료 + 비움', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.TossPayments = () => ({ payment: () => ({
+      requestPayment: ({ successUrl, orderId, amount }) => {
+        window.location.href = `${successUrl}?paymentKey=toss_test_key&orderId=${orderId}&amount=${amount.value}`
+      },
+    }) })
+  })
+  await page.route('**/v1/payment-attempts/*/confirm', async route => {
+    const body = route.request().postDataJSON()
+    await route.fulfill({ json: {
+      paymentRequestId: body.orderId, paymentKey: body.paymentKey,
+      amount: body.amount, status: 'COMPLETED',
+    } })
+  })
   await page.goto(BASE)
   await page.click('.navbar-right button')                 // 로그인 모달
   await page.fill('input[placeholder="email"]', USER.email)

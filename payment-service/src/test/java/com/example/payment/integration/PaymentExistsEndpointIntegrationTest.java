@@ -97,7 +97,7 @@ class PaymentExistsEndpointIntegrationTest {
 
         String body = objectMapper.writeValueAsString(Map.of(
             "merchantId", 1,
-            "pgType", "TOSS",
+            "pgType", "NORMAL",
             "cancelPeriodDays", 90,
             "items", List.of(Map.of(
                 "orderItemId", 10,
@@ -109,7 +109,7 @@ class PaymentExistsEndpointIntegrationTest {
             ))
         ));
 
-        String response = mockMvc.perform(post("/v1/payments")
+        String response = mockMvc.perform(post("/v1/payment-attempts")
                 .header("X-User-Id", "100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(body))
@@ -117,7 +117,7 @@ class PaymentExistsEndpointIntegrationTest {
             .andReturn().getResponse().getContentAsString();
 
         JsonNode node = objectMapper.readTree(response);
-        return node.get("paymentKey").asText();
+        return node.get("paymentRequestId").asText();
     }
 
     @Test

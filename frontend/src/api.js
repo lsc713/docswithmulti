@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:8000'  // 게이트웨이. 실 cross-origin.
+const BASE = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8000'
 
 function csrfToken() {
   return document.cookie.split('; ').find(c => c.startsWith('csrf_token='))?.split('=')[1]
@@ -41,7 +41,10 @@ export const api = {
     req(`/v1/admin/users/${userId}/role`, { method: 'PATCH', body: { role }, csrf: true }),
   createProduct: (body) => req('/v1/products', { method: 'POST', body, csrf: true }),
   createOrder:   (b) => req('/v1/orders',   { method: 'POST', body: b, csrf: true }),
-  createPayment: (b) => req('/v1/payments', { method: 'POST', body: b, csrf: true }),
+  preparePayment: (b) => req('/v1/payment-attempts', { method: 'POST', body: b, csrf: true }),
+  confirmPayment: (id, b) => req(`/v1/payment-attempts/${id}/confirm`, { method: 'POST', body: b, csrf: true }),
+  failPayment:    (id) => req(`/v1/payment-attempts/${id}/fail`, { method: 'POST', csrf: true }),
+  getPaymentAttempt: (id) => req(`/v1/payment-attempts/${id}`),
   getPayments:   () => req('/v1/payments'),
   getPayment:    (key) => req(`/v1/payments/${key}`),
   cancelPayment: (key, body) => req(`/v1/payments/${key}/cancel`, { method: 'POST', body, csrf: true }),

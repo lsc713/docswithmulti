@@ -9,13 +9,26 @@ import Checkout from './components/Checkout'
 import OrderSuccess from './components/OrderSuccess'
 import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
+import PaymentReturn from './components/PaymentReturn'
+
+function savedPaymentAttempt() {
+  try { return JSON.parse(sessionStorage.getItem('paymentAttempt')) }
+  catch { return null }
+}
+
+function initialView() {
+  if (window.location.pathname === '/payment/success') return { name: 'payment-return', kind: 'success' }
+  if (window.location.pathname === '/payment/fail') return { name: 'payment-return', kind: 'fail' }
+  return { name: 'home' }
+}
 
 export default function App() {
   const [me, setMe] = useState(null)
-  const [view, setView] = useState({ name: 'home' })
+  const [view, setView] = useState(initialView)
   const [authOpen, setAuthOpen] = useState(false)
   const [cart, setCart] = useState([])
   const [payments, setPayments] = useState([])
+  const [paymentContext] = useState(savedPaymentAttempt)
 
   useEffect(() => { api.me().then(setMe).catch(() => setMe(null)) }, [])
 
@@ -69,11 +82,27 @@ export default function App() {
       )}
       {view.name === 'checkout' && (
         <Checkout lines={view.lines}
-                  onPaid={async (payment) => {
-                    if (view.fromCart) { try { await api.clearCart() } catch { /* noop */ } setCart([]) }
-                    setView({ name: 'success', payment })
-                  }}
+                  fromCart={view.fromCart}
+                  retryItems={view.retryItems}
                   onBack={() => setView({ name: 'home' })} />
+      )}
+      {view.name === 'payment-return' && (
+        <PaymentReturn kind={view.kind} context={paymentContext}
+          onCompleted={async (payment) => {
+            if (paymentContext?.fromCart) {
+              try { await api.clearCart(); setCart([]) } catch { loadCart() }
+            }
+            sessionStorage.removeItem('paymentAttempt')
+            window.history.replaceState({}, '', '/')
+            setView({ name: 'success', payment: {
+              ...payment, totalAmount: payment.amount,
+            } })
+          }}
+          onRetry={(context) => {
+            window.history.replaceState({}, '', '/')
+            setView({ name: 'checkout', lines: context.lines,
+              fromCart: context.fromCart, retryItems: context.paymentItems })
+          }} />
       )}
       {view.name === 'success' && (
         <OrderSuccess payment={view.payment} onHome={() => setView({ name: 'home' })} />

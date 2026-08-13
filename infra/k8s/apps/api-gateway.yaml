@@ -25,6 +25,8 @@ spec:
             # 릴랙스드 바인딩으로 gateway.downstream.*-uri override(D-P4-6).
             - { name: GATEWAY_DOWNSTREAM_PAYMENT_URI, value: "http://payment:8080" }
             - { name: GATEWAY_DOWNSTREAM_USER_URI, value: "http://user-service:8085" }
+            - { name: GATEWAY_DOWNSTREAM_ORDER_URI, value: "http://order:8081" }
+            - { name: GATEWAY_DOWNSTREAM_PRODUCT_URI, value: "http://product-service:8084" }
           readinessProbe:
             httpGet: { path: /actuator/health/readiness, port: 8000 }
             initialDelaySeconds: 20

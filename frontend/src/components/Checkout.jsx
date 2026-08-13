@@ -2,8 +2,21 @@ import { useState } from 'react'
 import { api } from '../api'
 
 const lineName = (l) => `${l.itemName} ${l.optionSummary ?? ''}`.trim()
+let tossScript
 
-export default function Checkout({ lines, onPaid, onBack }) {
+function loadToss() {
+  if (window.TossPayments) return Promise.resolve(window.TossPayments)
+  if (!tossScript) tossScript = new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = 'https://js.tosspayments.com/v2/standard'
+    script.onload = () => resolve(window.TossPayments)
+    script.onerror = () => reject(new Error('결제창을 불러오지 못했습니다.'))
+    document.head.appendChild(script)
+  })
+  return tossScript
+}
+
+export default function Checkout({ lines, fromCart, retryItems, onBack }) {
   const [err, setErr] = useState('')
   const [busy, setBusy] = useState(false)
   const total = lines.reduce((sum, l) => sum + l.unitPrice * l.quantity, 0)
@@ -11,21 +24,35 @@ export default function Checkout({ lines, onPaid, onBack }) {
   async function pay() {
     setErr(''); setBusy(true)
     try {
-      const order = await api.createOrder({
-        items: lines.map(l => ({ productId: l.productId, itemName: lineName(l), price: l.unitPrice * l.quantity })),
-      })
-      const payment = await api.createPayment({
-        merchantId: 1, pgType: 'TOSS', cancelPeriodDays: 7,
-        items: lines.map((l, i) => ({
+      let paymentItems = retryItems
+      if (!paymentItems) {
+        const order = await api.createOrder({
+          items: lines.map(l => ({ productId: l.productId, itemName: lineName(l), price: l.unitPrice * l.quantity })),
+        })
+        paymentItems = lines.map((l, i) => ({
           orderItemId: order.items[i].orderItemId,
           productId: l.productId,
           itemName: lineName(l),
-          itemAmount: l.unitPrice * l.quantity,
           skuId: l.skuId,
           quantity: l.quantity,
-        })),
+        }))
+      }
+      const prepared = await api.preparePayment({
+        merchantId: 1, pgType: 'NORMAL', cancelPeriodDays: 7, items: paymentItems,
       })
-      onPaid(payment)
+      sessionStorage.setItem('paymentAttempt', JSON.stringify({
+        paymentRequestId: prepared.paymentRequestId, lines, fromCart, paymentItems,
+      }))
+      const TossPayments = await loadToss()
+      await TossPayments(prepared.clientKey).payment({ customerKey: prepared.customerKey })
+        .requestPayment({
+          method: 'CARD',
+          amount: { currency: 'KRW', value: Number(prepared.amount) },
+          orderId: prepared.paymentRequestId,
+          orderName: prepared.orderName,
+          successUrl: `${window.location.origin}/payment/success`,
+          failUrl: `${window.location.origin}/payment/fail`,
+        })
     } catch (e) {
       setErr(e.message)
     } finally {
