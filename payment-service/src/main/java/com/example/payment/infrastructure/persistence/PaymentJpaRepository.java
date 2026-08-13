@@ -9,6 +9,7 @@ import jakarta.persistence.LockModeType;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 /**
  * Payment Spring Data JPA Repository
@@ -26,6 +27,14 @@ public interface PaymentJpaRepository extends JpaRepository<PaymentJpaEntity, Lo
     @Query("SELECT p FROM PaymentJpaEntity p WHERE p.paymentRequestId = :paymentRequestId")
     Optional<PaymentJpaEntity> findByPaymentRequestIdForUpdate(
         @Param("paymentRequestId") String paymentRequestId);
+
+    @Query("SELECT p FROM PaymentJpaEntity p WHERE p.status = com.example.payment.domain.entity.PaymentStatus.PENDING "
+        + "AND ((p.paymentKey IS NULL AND p.createdAt <= :expiresAt) "
+        + "OR (p.paymentKey IS NOT NULL AND p.updatedAt <= :unknownAt)) ORDER BY p.id")
+    List<PaymentJpaEntity> findPendingRecoveryCandidates(
+        @Param("expiresAt") LocalDateTime expiresAt,
+        @Param("unknownAt") LocalDateTime unknownAt,
+        Pageable pageable);
 
     /**
      * paymentKey 존재 여부 (경량 exists 조회)

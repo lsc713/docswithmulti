@@ -59,6 +59,7 @@ public enum ErrorCode {
     MERCHANT_SUSPENDED("MERCHANT_SUSPENDED", 422, "정지된 가맹점의 취소 요청은 처리할 수 없습니다."),
     RISK_REJECTED("RISK_REJECTED", 422, "위험관리 정책에 의해 취소가 거부되었습니다."),
     PAYMENT_CONFIRM_MISMATCH("PAYMENT_CONFIRM_MISMATCH", 422, "결제 승인 정보가 저장된 결제 시도와 다릅니다."),
+    PAYMENT_APPROVAL_REJECTED("PAYMENT_APPROVAL_REJECTED", 422, "결제 승인이 거절되었습니다."),
 
     // 500 - 서버 오류
     INTERNAL_ERROR("INTERNAL_ERROR", 500, "서버 오류가 발생했습니다."),

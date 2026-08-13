@@ -313,6 +313,18 @@ public class Payment {
         return true;
     }
 
+    public boolean failUnconfirmed() {
+        if (status != PaymentStatus.PENDING || paymentKey != null) return false;
+        updateStatus(PaymentStatus.FAILED);
+        return true;
+    }
+
+    public boolean failConfirmed() {
+        if (status != PaymentStatus.PENDING || paymentKey == null) return false;
+        updateStatus(PaymentStatus.FAILED);
+        return true;
+    }
+
     /**
      * 취소 가능한 상태인지 확인
      */

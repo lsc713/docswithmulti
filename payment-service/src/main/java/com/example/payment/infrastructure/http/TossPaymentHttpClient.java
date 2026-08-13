@@ -1,6 +1,7 @@
 package com.example.payment.infrastructure.http;
 
 import com.example.payment.application.exception.PaymentAttemptException;
+import com.example.payment.application.exception.PaymentApprovalRejectedException;
 import com.example.payment.application.interfaces.TossPaymentPort;
 import com.example.payment.common.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.Map;
+import com.example.payment.infrastructure.http.dto.TossPaymentResponse;
 
 @Component
 public class TossPaymentHttpClient implements TossPaymentPort {
@@ -46,8 +48,33 @@ public class TossPaymentHttpClient implements TossPaymentPort {
                     "amount", amount.longValueExact()), headers),
                 Map.class);
         } catch (org.springframework.web.client.HttpStatusCodeException e) {
-            throw new PaymentAttemptException(
-                ErrorCode.PG_SERVICE_UNAVAILABLE, "토스 결제 승인이 거절되었습니다.");
+            if (e.getStatusCode().is4xxClientError()) throw new PaymentApprovalRejectedException();
+            throw new PaymentAttemptException(ErrorCode.PG_SERVICE_UNAVAILABLE);
+        } catch (RuntimeException e) {
+            throw new PaymentAttemptException(ErrorCode.PG_SERVICE_UNAVAILABLE);
+        }
+    }
+
+    @Override
+    public Status getStatus(String paymentKey) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBasicAuth(secretKey, "");
+        try {
+            TossPaymentResponse response = restTemplate.exchange(
+                baseUrl + "/v1/payments/{paymentKey}", HttpMethod.GET,
+                new HttpEntity<>(headers), TossPaymentResponse.class, paymentKey).getBody();
+            if (response == null || response.status() == null) {
+                throw new PaymentAttemptException(ErrorCode.PG_SERVICE_UNAVAILABLE);
+            }
+            return switch (response.status()) {
+                case "DONE" -> Status.DONE;
+                case "ABORTED" -> Status.ABORTED;
+                case "EXPIRED" -> Status.EXPIRED;
+                case "READY", "IN_PROGRESS", "WAITING_FOR_DEPOSIT" -> Status.PENDING;
+                default -> throw new PaymentAttemptException(ErrorCode.PG_SERVICE_UNAVAILABLE);
+            };
+        } catch (PaymentAttemptException e) {
+            throw e;
         } catch (RuntimeException e) {
             throw new PaymentAttemptException(ErrorCode.PG_SERVICE_UNAVAILABLE);
         }

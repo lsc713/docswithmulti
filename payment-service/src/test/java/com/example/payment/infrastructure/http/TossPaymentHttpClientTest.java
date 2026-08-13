@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.*;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TossPaymentHttpClientTest {
     @Test
@@ -28,6 +29,22 @@ class TossPaymentHttpClientTest {
         new TossPaymentHttpClient(
             restTemplate, "https://api.tosspayments.com", "test_sk")
             .confirm("toss_key", "request-1", BigDecimal.valueOf(20_000));
+
+        server.verify();
+    }
+
+    @Test
+    void get_status_maps_toss_terminal_state() {
+        RestTemplate restTemplate = new RestTemplate();
+        MockRestServiceServer server = MockRestServiceServer.createServer(restTemplate);
+        server.expect(requestTo("https://api.tosspayments.com/v1/payments/toss_key"))
+            .andExpect(method(HttpMethod.GET))
+            .andExpect(header("Authorization", "Basic dGVzdF9zazo="))
+            .andRespond(withSuccess("{\"status\":\"DONE\"}", MediaType.APPLICATION_JSON));
+
+        assertThat(new TossPaymentHttpClient(
+            restTemplate, "https://api.tosspayments.com", "test_sk").getStatus("toss_key"))
+            .isEqualTo(com.example.payment.application.interfaces.TossPaymentPort.Status.DONE);
 
         server.verify();
     }

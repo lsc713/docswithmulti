@@ -67,6 +67,20 @@ class PaymentAttemptTxWriterIntegrationTest {
             Integer.class)).isEqualTo(1);
     }
 
+    @Test
+    void failed_unattached_attempt_releases_order_for_a_new_attempt() {
+        String first = "6d36e967-e325-11ce-bfc1-08002be10318";
+        writer.prepare(first, command(), BigDecimal.valueOf(20_000), 88L);
+
+        var failure = writer.failUnconfirmed(first, 42L);
+
+        assertThat(failure.shouldRelease()).isTrue();
+        assertThat(failure.items()).containsExactly(
+            new com.example.payment.application.interfaces.ProductStockPort.Item(200L, 500L, 2));
+        writer.prepare("7d36e967-e325-11ce-bfc1-08002be10318",
+            command(), BigDecimal.valueOf(20_000), 88L);
+    }
+
     private CreatePaymentCommand command() {
         return new CreatePaymentCommand(1L, 42L, "NORMAL", 90, List.of(
             new CreatePaymentCommand.Item(

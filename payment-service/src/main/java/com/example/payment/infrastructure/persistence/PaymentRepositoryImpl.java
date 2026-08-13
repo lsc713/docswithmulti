@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
+import java.time.LocalDateTime;
 
 /**
  * PaymentRepository 구현체
@@ -34,6 +35,15 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     public Optional<Payment> findByPaymentRequestIdForUpdate(String paymentRequestId) {
         return jpaRepository.findByPaymentRequestIdForUpdate(paymentRequestId)
             .map(PaymentJpaEntity::toDomain);
+    }
+
+    @Override
+    public List<Payment> findPendingRecoveryCandidates(
+        LocalDateTime expiresAt, LocalDateTime unknownAt, int size
+    ) {
+        return jpaRepository.findPendingRecoveryCandidates(
+            expiresAt, unknownAt, PageRequest.of(0, size)).stream()
+            .map(PaymentJpaEntity::toDomain).toList();
     }
 
     @Override

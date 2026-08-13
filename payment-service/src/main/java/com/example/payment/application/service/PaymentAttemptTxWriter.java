@@ -3,6 +3,9 @@ package com.example.payment.application.service;
 import com.example.payment.application.interfaces.PaymentEventOutboxRepository;
 import com.example.payment.application.interfaces.PaymentItemRepository;
 import com.example.payment.application.interfaces.PaymentRepository;
+import com.example.payment.application.interfaces.ProductStockPort;
+import com.example.payment.application.exception.PaymentAttemptException;
+import com.example.payment.common.exception.ErrorCode;
 import com.example.payment.domain.entity.Payment;
 import com.example.payment.domain.entity.PaymentItem;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +61,39 @@ public class PaymentAttemptTxWriter {
         return payment;
     }
 
+    @Transactional
+    public FailureResult failUnconfirmed(String paymentRequestId, long userId) {
+        Payment payment = locked(paymentRequestId);
+        if (payment.getUserId() != userId) {
+            throw new PaymentAttemptException(ErrorCode.FORBIDDEN_PAYMENT);
+        }
+        return fail(payment, payment.failUnconfirmed());
+    }
+
+    @Transactional
+    public FailureResult failConfirmed(String paymentRequestId) {
+        Payment payment = locked(paymentRequestId);
+        return fail(payment, payment.failConfirmed());
+    }
+
+    @Transactional
+    public FailureResult expire(String paymentRequestId) {
+        Payment payment = locked(paymentRequestId);
+        return fail(payment, payment.failUnconfirmed());
+    }
+
+    private FailureResult fail(Payment payment, boolean changed) {
+        if (!changed) return new FailureResult(payment, false, List.of());
+        payment = paymentRepository.save(payment);
+        List<ProductStockPort.Item> items = paymentItemRepository
+            .findAllByPaymentIdForUpdate(payment.getId()).stream()
+            .filter(item -> item.getSkuId() != null)
+            .map(item -> new ProductStockPort.Item(
+                item.getProductId(), item.getSkuId(), item.getQuantity()))
+            .toList();
+        return new FailureResult(payment, true, items);
+    }
+
     private Payment locked(String paymentRequestId) {
         return paymentRepository.findByPaymentRequestIdForUpdate(paymentRequestId)
             .orElseThrow(() -> new IllegalArgumentException("결제 시도를 찾을 수 없습니다."));
@@ -83,4 +119,7 @@ public class PaymentAttemptTxWriter {
     }
 
     public record AttachResult(Payment payment, boolean shouldConfirm) {}
+    public record FailureResult(
+        Payment payment, boolean shouldRelease, List<ProductStockPort.Item> items
+    ) {}
 }

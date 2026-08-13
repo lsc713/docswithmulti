@@ -43,6 +43,14 @@ public class PaymentAttemptController {
             paymentRequestId, userId, request.paymentKey(), request.orderId(), request.amount()));
     }
 
+    @PostMapping("/{paymentRequestId}/fail")
+    public ResponseEntity<Status> fail(
+        @RequestHeader("X-User-Id") long userId,
+        @PathVariable String paymentRequestId
+    ) {
+        return ResponseEntity.ok(useCase.fail(paymentRequestId, userId));
+    }
+
     @GetMapping("/{paymentRequestId}")
     public ResponseEntity<Status> get(
         @RequestHeader("X-User-Id") long userId,

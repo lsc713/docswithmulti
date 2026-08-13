@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 public interface PaymentAttemptUseCase {
     Prepared prepare(CreatePaymentCommand command);
     Status confirm(String paymentRequestId, long userId, String paymentKey, String orderId, BigDecimal amount);
+    Status fail(String paymentRequestId, long userId);
     Status get(String paymentRequestId, long userId);
 
     record Prepared(

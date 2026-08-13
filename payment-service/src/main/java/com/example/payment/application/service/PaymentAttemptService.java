@@ -1,6 +1,7 @@
 package com.example.payment.application.service;
 
 import com.example.payment.application.exception.PaymentAttemptException;
+import com.example.payment.application.exception.PaymentApprovalRejectedException;
 import com.example.payment.application.interfaces.OrderVerifyPort;
 import com.example.payment.application.interfaces.ProductStockPort;
 import com.example.payment.application.interfaces.StockReleaseRetryRepository;
@@ -24,6 +25,8 @@ import java.security.MessageDigest;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Slf4j
 @Service
@@ -40,6 +43,9 @@ public class PaymentAttemptService implements PaymentAttemptUseCase {
 
     @Value("${toss.client-key}") private String clientKey;
     @Value("${payment.customer-key-salt}") private String customerKeySalt;
+    @Value("${payment.attempt.recovery.unknown-after-seconds:30}") private long unknownAfterSeconds;
+    @Value("${payment.attempt.recovery.expires-after-seconds:600}") private long expiresAfterSeconds;
+    @Value("${payment.attempt.recovery.batch-size:100}") private int recoveryBatchSize;
 
     @Override
     public Prepared prepare(CreatePaymentCommand command) {
@@ -95,13 +101,54 @@ public class PaymentAttemptService implements PaymentAttemptUseCase {
 
         PaymentAttemptTxWriter.AttachResult attached = txWriter.attach(requestId, userId, paymentKey);
         if (!attached.shouldConfirm()) return status(attached.payment());
-        tossPaymentPort.confirm(paymentKey, requestId, amount);
+        try {
+            tossPaymentPort.confirm(paymentKey, requestId, amount);
+        } catch (PaymentApprovalRejectedException e) {
+            release(txWriter.failConfirmed(requestId));
+            throw new PaymentAttemptException(ErrorCode.PAYMENT_APPROVAL_REJECTED);
+        }
         return status(txWriter.complete(requestId));
     }
 
     @Override
     public Status get(String requestId, long userId) {
         return status(owned(requestId, userId));
+    }
+
+    @Override
+    public Status fail(String requestId, long userId) {
+        PaymentAttemptTxWriter.FailureResult result = txWriter.failUnconfirmed(requestId, userId);
+        release(result);
+        return status(result.payment());
+    }
+
+    public void recoverPending() {
+        LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
+        for (Payment payment : paymentRepository.findPendingRecoveryCandidates(
+            now.minusSeconds(expiresAfterSeconds), now.minusSeconds(unknownAfterSeconds),
+            recoveryBatchSize)) {
+            try {
+                if (payment.getPaymentKey() == null) {
+                    release(txWriter.expire(payment.getPaymentRequestId()));
+                    continue;
+                }
+                switch (tossPaymentPort.getStatus(payment.getPaymentKey())) {
+                    case DONE -> txWriter.complete(payment.getPaymentRequestId());
+                    case ABORTED, EXPIRED -> release(
+                        txWriter.failConfirmed(payment.getPaymentRequestId()));
+                    case PENDING -> { }
+                }
+            } catch (RuntimeException e) {
+                log.warn("결제 시도 복구 보류. paymentRequestId={}",
+                    payment.getPaymentRequestId(), e);
+            }
+        }
+    }
+
+    private void release(PaymentAttemptTxWriter.FailureResult result) {
+        if (result.shouldRelease()) {
+            compensate(result.payment().getPaymentRequestId(), result.items());
+        }
     }
 
     private Payment owned(String requestId, long userId) {

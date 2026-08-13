@@ -34,4 +34,23 @@ class PaymentAttemptTest {
         assertThatThrownBy(() -> payment.attachPaymentKey("second"))
             .isInstanceOf(IllegalStateException.class);
     }
+
+    @Test
+    void only_unattached_pending_attempt_can_fail_from_browser_callback() {
+        Payment payment = Payment.pendingAttempt(
+            "4d36e967-e325-11ce-bfc1-08002be10318",
+            1L, 2L, "NORMAL", BigDecimal.TEN, "KRW", 90, 7L);
+
+        assertThat(payment.failUnconfirmed()).isTrue();
+        assertThat(payment.failUnconfirmed()).isFalse();
+        assertThat(payment.getStatus()).isEqualTo(PaymentStatus.FAILED);
+
+        Payment attached = Payment.pendingAttempt(
+            "5d36e967-e325-11ce-bfc1-08002be10318",
+            1L, 2L, "NORMAL", BigDecimal.TEN, "KRW", 90, 7L);
+        attached.attachPaymentKey("toss_key");
+
+        assertThat(attached.failUnconfirmed()).isFalse();
+        assertThat(attached.getStatus()).isEqualTo(PaymentStatus.PENDING);
+    }
 }
