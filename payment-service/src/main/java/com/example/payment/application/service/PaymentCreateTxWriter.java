@@ -77,9 +77,10 @@ public class PaymentCreateTxWriter {
             .collect(Collectors.joining(",", "[", "]"));
 
         return String.format(
-            "{\"paymentKey\":\"%s\",\"merchantId\":%d,\"totalAmount\":%s," +
+            "{\"paymentKey\":\"%s\",\"orderId\":%d,\"merchantId\":%d,\"totalAmount\":%s," +
             "\"items\":%s,\"completedAt\":\"%s\"}",
             saved.getPaymentKey(),
+            saved.getOrderId(),
             saved.getMerchantId(),
             saved.getTotalAmount().toPlainString(),
             itemsJson,

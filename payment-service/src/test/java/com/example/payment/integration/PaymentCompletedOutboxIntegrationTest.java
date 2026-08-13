@@ -136,6 +136,7 @@ class PaymentCompletedOutboxIntegrationTest {
             "SELECT payload FROM payment_event_outbox", String.class);
         // MySQL JSON 컬럼은 키 순서/공백을 정규화하므로 문자열 매칭 대신 파싱해서 검증한다.
         var node = objectMapper.readTree(payload);
+        assertThat(node.get("orderId").asLong()).isEqualTo(777L);
         // completedAt은 Instant.parse가 요구하는 트레일링 Z 형식이어야 한다.
         assertThat(node.get("completedAt").asText()).endsWith("Z");
         assertThat(node.get("totalAmount").asInt()).isEqualTo(30000); // Σ itemAmount, ×quantity 아님 (RESEARCH Pitfall 6)

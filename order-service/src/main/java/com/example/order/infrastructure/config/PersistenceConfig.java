@@ -7,7 +7,9 @@ import com.example.order.application.interfaces.OrderRepository;
 import com.example.order.application.interfaces.ProcessedCancelEventRepository;
 import com.example.order.application.service.ProcessCancelledItemsService;
 import com.example.order.application.service.InspectCancelRestoreService;
+import com.example.order.application.service.MarkOrderPaymentCompletedService;
 import com.example.order.application.usecase.InspectCancelRestoreUseCase;
+import com.example.order.application.usecase.MarkOrderPaymentCompletedUseCase;
 import com.example.order.application.usecase.ProcessCancelledItemsUseCase;
 import com.example.order.infrastructure.persistence.*;
 import jakarta.persistence.EntityManagerFactory;
@@ -68,6 +70,14 @@ public class PersistenceConfig {
         TransactionTemplate transactionTemplate) {
         return new ProcessCancelledItemsService(
             orderRepository, orderItemRepository, processedCancelEventRepository, transactionTemplate);
+    }
+
+    @Bean
+    public MarkOrderPaymentCompletedUseCase markOrderPaymentCompletedUseCase(
+        OrderRepository orderRepository,
+        TransactionTemplate transactionTemplate
+    ) {
+        return new MarkOrderPaymentCompletedService(orderRepository, transactionTemplate);
     }
 
     @Bean
