@@ -62,6 +62,13 @@ external:
 #    url: http://order-service:8081     # 컨테이너 호스트 대안
     url: http://localhost:8081
 
+toss:
+  base-url: ${TOSS_BASE_URL:https://api.tosspayments.com}
+  client-key: ${TOSS_CLIENT_KEY:test_ck_placeholder}
+  secret-key: ${TOSS_SECRET_KEY:test_sk_placeholder}
+  connect-timeout-ms: ${TOSS_CONNECT_TIMEOUT_MS:2000}
+  read-timeout-ms: ${TOSS_READ_TIMEOUT_MS:5000}
+
 logging:
   level:
     com.example.payment: INFO
@@ -75,6 +82,7 @@ kafka:
 
 # payment.completed 아웃박스 (생성 경로). cancel.outbox.* 와 독립 — 절대 결합 금지.
 payment:
+  customer-key-salt: ${PAYMENT_CUSTOMER_KEY_SALT:local-test-salt}
   completed:
     outbox:
       poll-ms: ${PAYMENT_COMPLETED_OUTBOX_POLL_MS:10000}

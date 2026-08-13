@@ -52,7 +52,7 @@ public class RouteConfig {
             JwtTrustHeaderFilter jwt,
             @Value("${gateway.downstream.payment-uri}") String paymentUri) {
         return route("payment")
-                .route(path("/v1/payments/**"), http())
+                .route(path("/v1/payments/**").or(path("/v1/payment-attempts/**")), http())
                 .before(uri(paymentUri))
                 .filter(jwt)
                 .build();

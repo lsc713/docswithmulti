@@ -25,8 +25,25 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
+    public Optional<Payment> findByPaymentRequestId(String paymentRequestId) {
+        return jpaRepository.findByPaymentRequestId(paymentRequestId)
+            .map(PaymentJpaEntity::toDomain);
+    }
+
+    @Override
+    public Optional<Payment> findByPaymentRequestIdForUpdate(String paymentRequestId) {
+        return jpaRepository.findByPaymentRequestIdForUpdate(paymentRequestId)
+            .map(PaymentJpaEntity::toDomain);
+    }
+
+    @Override
     public boolean existsByPaymentKey(String paymentKey) {
         return jpaRepository.existsByPaymentKey(paymentKey);
+    }
+
+    @Override
+    public boolean existsByPaymentRequestId(String paymentRequestId) {
+        return jpaRepository.existsByPaymentRequestId(paymentRequestId);
     }
 
     @Override

@@ -37,6 +37,14 @@ external:
   order-service:
     url: http://localhost:8081
 
+toss:
+  base-url: http://localhost:9999
+  client-key: test_ck
+  secret-key: test_sk
+
+payment:
+  customer-key-salt: test-salt
+
 kafka:
   topic:
     payment-cancelled: payment.cancelled

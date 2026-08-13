@@ -570,6 +570,23 @@ class GatewayRoutingIT {
                 .withHeader(JwtTrustHeaderFilter.H_USER_ID, equalTo("42")));
     }
 
+    @Test
+    void paymentAttempts_validJwt_routesToPaymentDownstream() throws Exception {
+        paymentDownstream.stubFor(get(urlPathEqualTo("/v1/payment-attempts/request-1"))
+                .willReturn(aResponse().withStatus(200).withBody("{}")));
+
+        String token = accessToken(42L, "USER", null);
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/payment-attempts/request-1")))
+                        .header("Authorization", "Bearer " + token)
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        paymentDownstream.verify(getRequestedFor(urlPathEqualTo("/v1/payment-attempts/request-1"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ID, equalTo("42")));
+    }
+
     private String gateway(String path) {
         return "http://localhost:" + gatewayPort + path;
     }

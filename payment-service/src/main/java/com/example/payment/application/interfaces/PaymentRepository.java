@@ -13,8 +13,14 @@ public interface PaymentRepository {
 
     Optional<Payment> findByPaymentKey(String paymentKey);
 
+    Optional<Payment> findByPaymentRequestId(String paymentRequestId);
+
+    Optional<Payment> findByPaymentRequestIdForUpdate(String paymentRequestId);
+
     /** paymentKey로 커밋된 Payment 존재 여부 (RST-03 orphan 복구 조회) */
     boolean existsByPaymentKey(String paymentKey);
+
+    boolean existsByPaymentRequestId(String paymentRequestId);
 
     /** 복구 스케줄러에서 cancelRequest.getPaymentId()로 Payment 로드 */
     Optional<Payment> findById(Long paymentId);

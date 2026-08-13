@@ -34,6 +34,7 @@ public enum ErrorCode {
     ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", 404, "주문 항목을 찾을 수 없습니다."),
     CANCEL_APPROVAL_NOT_FOUND("CANCEL_APPROVAL_NOT_FOUND", 404, "취소 승인 요청을 찾을 수 없습니다."),
     CANCEL_OUTBOX_NOT_FOUND("CANCEL_OUTBOX_NOT_FOUND", 404, "취소 아웃박스를 찾을 수 없습니다."),
+    PAYMENT_ATTEMPT_NOT_FOUND("PAYMENT_ATTEMPT_NOT_FOUND", 404, "결제 시도를 찾을 수 없습니다."),
     CANCEL_OUTBOX_REDRIVE_NOT_FOUND("CANCEL_OUTBOX_REDRIVE_NOT_FOUND", 404, "취소 아웃박스 복구 요청을 찾을 수 없습니다."),
 
     // 409 - 멱등 중복 / 재고 부족
@@ -45,6 +46,7 @@ public enum ErrorCode {
     CANCEL_OUTBOX_NOT_DEAD("CANCEL_OUTBOX_NOT_DEAD", 409, "DEAD 상태의 취소 아웃박스만 복구할 수 있습니다."),
     ACTIVE_REDRIVE_EXISTS("ACTIVE_REDRIVE_EXISTS", 409, "이미 진행 중인 취소 아웃박스 복구 요청이 있습니다."),
     REDRIVE_ALREADY_RESOLVED("REDRIVE_ALREADY_RESOLVED", 409, "이미 해결된 취소 아웃박스 복구 요청이 있습니다."),
+    PAYMENT_ATTEMPT_CONFLICT("PAYMENT_ATTEMPT_CONFLICT", 409, "진행 중인 결제 시도가 이미 있습니다."),
 
     // 422 - 비즈니스 규칙 위반
     INVALID_PAYMENT_STATUS("INVALID_PAYMENT_STATUS", 422, "현재 결제 상태에서는 취소할 수 없습니다."),
@@ -56,6 +58,7 @@ public enum ErrorCode {
     INVALID_ORDER_STATUS("INVALID_ORDER_STATUS", 422, "현재 주문 상태에서는 취소할 수 없습니다."),
     MERCHANT_SUSPENDED("MERCHANT_SUSPENDED", 422, "정지된 가맹점의 취소 요청은 처리할 수 없습니다."),
     RISK_REJECTED("RISK_REJECTED", 422, "위험관리 정책에 의해 취소가 거부되었습니다."),
+    PAYMENT_CONFIRM_MISMATCH("PAYMENT_CONFIRM_MISMATCH", 422, "결제 승인 정보가 저장된 결제 시도와 다릅니다."),
 
     // 500 - 서버 오류
     INTERNAL_ERROR("INTERNAL_ERROR", 500, "서버 오류가 발생했습니다."),

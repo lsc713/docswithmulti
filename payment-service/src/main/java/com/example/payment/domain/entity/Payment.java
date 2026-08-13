@@ -16,7 +16,8 @@ import java.util.Objects;
 public class Payment {
 
     private final long id;
-    private final String paymentKey;
+    private final String paymentRequestId;
+    private String paymentKey;
     private final long merchantId;
     private final long userId;
     private final String pgType;
@@ -44,7 +45,27 @@ public class Payment {
         LocalDateTime createdAt,
         LocalDateTime updatedAt
     ) {
+        this(id, java.util.UUID.randomUUID().toString(), paymentKey, merchantId, userId, pgType, totalAmount, currency,
+            cancelPeriodDays, orderId, status, createdAt, updatedAt);
+    }
+
+    private Payment(
+        long id,
+        String paymentRequestId,
+        String paymentKey,
+        long merchantId,
+        long userId,
+        String pgType,
+        BigDecimal totalAmount,
+        String currency,
+        int cancelPeriodDays,
+        long orderId,
+        PaymentStatus status,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+    ) {
         this.id = id;
+        this.paymentRequestId = paymentRequestId;
         this.paymentKey = paymentKey;
         this.merchantId = merchantId;
         this.userId = userId;
@@ -177,6 +198,22 @@ public class Payment {
         );
     }
 
+    public static Payment pendingAttempt(
+        String paymentRequestId,
+        long merchantId,
+        long userId,
+        String pgType,
+        BigDecimal totalAmount,
+        String currency,
+        int cancelPeriodDays,
+        long orderId
+    ) {
+        LocalDateTime now = LocalDateTime.now(java.time.ZoneOffset.UTC);
+        return new Payment(
+            0, paymentRequestId, null, merchantId, userId, pgType, totalAmount,
+            currency, cancelPeriodDays, orderId, PaymentStatus.PENDING, now, now);
+    }
+
     /**
      * DB에서 조회한 데이터로 Payment를 재구성한다 (infrastructure 계층용)
      * orderId 없는 레거시 호출부(취소 플로우 테스트 등) 호환 — 0L 센티널 위임.
@@ -231,6 +268,49 @@ public class Payment {
             createdAt,
             updatedAt
         );
+    }
+
+    public static Payment reconstruct(
+        long id,
+        String paymentRequestId,
+        String paymentKey,
+        long merchantId,
+        long userId,
+        String pgType,
+        BigDecimal totalAmount,
+        String currency,
+        int cancelPeriodDays,
+        long orderId,
+        PaymentStatus status,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+    ) {
+        return new Payment(
+            id, paymentRequestId, paymentKey, merchantId, userId, pgType, totalAmount,
+            currency, cancelPeriodDays, orderId, status, createdAt, updatedAt);
+    }
+
+    public boolean attachPaymentKey(String paymentKey) {
+        if (this.paymentKey != null && !this.paymentKey.equals(paymentKey)) {
+            throw new IllegalStateException("다른 PG paymentKey가 이미 연결되어 있습니다.");
+        }
+        if (this.paymentKey != null) {
+            return false;
+        }
+        this.paymentKey = paymentKey;
+        this.updatedAt = LocalDateTime.now(java.time.ZoneOffset.UTC);
+        return true;
+    }
+
+    public boolean complete() {
+        if (status == PaymentStatus.COMPLETED) {
+            return false;
+        }
+        if (status != PaymentStatus.PENDING || paymentKey == null) {
+            throw new IllegalStateException("승인 대기 결제만 완료할 수 있습니다.");
+        }
+        updateStatus(PaymentStatus.COMPLETED);
+        return true;
     }
 
     /**
@@ -291,6 +371,10 @@ public class Payment {
 
     public String getPaymentKey() {
         return paymentKey;
+    }
+
+    public String getPaymentRequestId() {
+        return paymentRequestId;
     }
 
     public long getMerchantId() {
