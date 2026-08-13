@@ -90,7 +90,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
     "cancel.redrive.convergence-initial-delay-ms=86400000",
     "cancel.redrive.recovery-ms=86400000",
     "cancel.redrive.recovery-initial-delay-ms=86400000",
-    "cancel.redrive.publish-timeout-ms=100",
+    "cancel.redrive.publish-timeout-ms=1000",
     "cancel.outbox.poll-ms=86400000",
     "cancel.outbox.purge-ms=86400000",
     "payment.completed.outbox.poll-ms=86400000"

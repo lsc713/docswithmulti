@@ -1,7 +1,11 @@
 import { test, expect } from '@playwright/test'
+import { runProductName } from './helpers/catalog-setup'
+import { createPaidOrderViaApi } from './helpers/order-payment'
+import { openFirstInStockProductDetail } from './helpers/product-detail'
+import { loginBuyer } from './helpers/login-buyer.js'
+import { resolveE2EUrls } from './helpers/urls.js'
 
-const BASE = 'http://localhost:5173'
-const GW = 'http://localhost:8000'
+const { frontend: BASE, gateway: GW } = resolveE2EUrls()
 const BUYER = { email: `apprbuyer${Date.now()}@example.com`, password: 'password123', name: '승인테스트구매자', phone: '010-7777-8888' }
 const ADMIN = { email: 'admin@example.com', password: 'password123', name: '관리자', phone: '010-0000-0000' }
 const OUTSIDER = { email: `apprsider${Date.now()}@example.com`, password: 'password123', name: '일반유저', phone: '010-9999-0000' }
@@ -12,29 +16,14 @@ test.beforeAll(async ({ request }) => {
   await request.post(`${GW}/v1/auth/signup`, { data: OUTSIDER }).catch(() => {})
 })
 
-async function loginBuyer(page, user) {
-  await page.goto(BASE)
-  if (await page.locator('.navbar-right span').isVisible().catch(() => false)) return
-  await page.click('.navbar-right button')
-  await page.fill('input[placeholder="email"]', user.email)
-  await page.fill('input[placeholder="password"]', user.password)
-  await page.click('.modal button[type="submit"]')
-  await expect(page.locator('.navbar-right span')).toBeVisible()
-}
-
-// 바로구매로 결제 1건 생성 → paymentKey 반환 후 홈으로 복귀 (재호출 가능하도록)
+// 실 상품 선택 데이터로 API 결제 1건 생성 → paymentKey 반환 후 홈으로 복귀 (재호출 가능하도록)
 async function buyOneItem(page) {
-  await page.click('.grid .card:has-text("베이직 티셔츠")')
-  await page.waitForSelector('.buy-btn')
-  // dev(StrictMode) 이중 effect로 인한 2차 fetch가 qty state를 리셋하는 것을 피하기 위해 대기
-  // (checkout.spec.js/history.spec.js와 동일한 타이밍 조정, 앱 코드 무변경)
-  await page.waitForLoadState('networkidle')
-  await page.locator('.qty-input').first().fill('1')
-  await page.click('.buy-btn')
-  await page.click('.checkout .pay-btn')
-  await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
-  const paymentKey = (await page.locator('.success-key code').textContent()).trim()
-  await page.click('text=쇼핑 계속하기')
+  const selection = await openFirstInStockProductDetail(
+    page,
+    page.locator('.grid .card', { has: page.getByText(runProductName(), { exact: true }) })
+  )
+  const paymentKey = await createPaidOrderViaApi(page, selection)
+  await page.goto(BASE)
   return paymentKey
 }
 
@@ -62,7 +51,7 @@ async function loginAdmin(page) {
 }
 
 test('ADMIN 승인/반려: 구매자 취소요청 제출(API) → 콘솔에서 승인 → 반려', async ({ page, browser }) => {
-  await loginBuyer(page, BUYER)
+  await loginBuyer(page, BUYER, BASE, GW)
 
   // 승인 변형
   const paymentKey1 = await buyOneItem(page)
@@ -123,7 +112,7 @@ test('MERCHANT 사이드바: route 인터셉트로 role 스텁 → 취소요청�
 })
 
 test('USER 리다이렉트: 일반 구매자 세션으로 /admin/cancel-requests 접근 시 /admin/login으로', async ({ page }) => {
-  await loginBuyer(page, OUTSIDER)
+  await loginBuyer(page, OUTSIDER, BASE, GW)
   await page.goto(`${BASE}/admin/cancel-requests`)
   await expect(page).toHaveURL(/\/admin\/login$/)
 })

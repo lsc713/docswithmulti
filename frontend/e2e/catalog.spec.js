@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { openProductDetail } from './helpers/product-detail'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const FIXTURE_IMAGE = path.join(__dirname, 'fixtures', 'test-image.png')
@@ -17,6 +18,12 @@ function navbar(page) {
 }
 function modal(page) {
   return page.locator('.modal')
+}
+
+async function productImageCount(detail) {
+  const visual = detail.getByRole('region', { name: '상품 이미지' })
+  const thumbnailCount = await visual.getByRole('button', { name: /^상품 이미지 \d+$/ }).count()
+  return thumbnailCount || visual.getByRole('img').count()
 }
 
 async function signupAs(page, { email, name = '관리자', phone = '010-0000-0000', password }) {
@@ -40,12 +47,20 @@ test('비로그인 그리드 조회 → 상세', async ({ page }) => {
   await expect(firstCard).toBeVisible()
   const productName = await firstCard.locator('.name').innerText()
 
-  await firstCard.click()
+  const { detail, product } = await openProductDetail(page, firstCard)
 
-  await expect(page.getByRole('heading', { name: productName })).toBeVisible()
-  await expect(page.locator('.gallery').first()).toBeVisible()
-  await expect(page.getByRole('table')).toBeVisible() // SKU 표
-  await expect(page.locator('.sku-table thead')).toContainText('SKU')
+  await expect(detail.getByRole('heading', { name: productName })).toBeVisible()
+  await expect(detail.getByRole('region', { name: '상품 이미지' })).toBeVisible()
+
+  const variantOptions = product.variantOptions?.length
+    ? product.variantOptions
+    : [{ attribute: '옵션', values: product.skus.map(sku => sku.optionSummary) }]
+  for (const { attribute } of variantOptions) {
+    await expect(detail.getByRole('button', { name: `${attribute} · 선택 안 됨` })).toBeVisible()
+  }
+  const [{ attribute, values }] = variantOptions
+  await detail.getByRole('button', { name: `${attribute} · 선택 안 됨` }).click()
+  await expect(detail.getByRole('listbox', { name: `${attribute} 옵션` }).getByRole('option')).toHaveCount(values.length)
 
   // 뒤로 → 그리드 복귀
   await page.getByRole('button', { name: '뒤로' }).click()
@@ -64,14 +79,13 @@ test('ADMIN 이미지 업로드 → 갤러리 반영', async ({ page }) => {
 
   await signupAs(page, { email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
 
-  await page.locator('.card').first().click()
-  await expect(page.getByRole('table')).toBeVisible()
-  await expect(page.getByRole('heading', { name: '이미지 관리 (ADMIN)' })).toBeVisible()
+  const { detail } = await openProductDetail(page, page.locator('.card').first())
+  await expect(detail.getByRole('heading', { name: '이미지 관리 (ADMIN)' })).toBeVisible()
 
-  const before = await page.locator('.gallery img').count()
+  const before = await productImageCount(detail)
 
   // presign → PUT(MinIO) → confirm 실경로
   await page.getByLabel('이미지 추가').setInputFiles(FIXTURE_IMAGE)
 
-  await expect(page.locator('.gallery img')).toHaveCount(before + 1, { timeout: 15_000 })
+  await expect.poll(() => productImageCount(detail), { timeout: 15_000 }).toBe(before + 1)
 })

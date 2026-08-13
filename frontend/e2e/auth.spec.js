@@ -1,8 +1,9 @@
 import { test, expect } from '@playwright/test'
+import { resolveE2EUrls } from './helpers/urls.js'
 
 // 매 실행 유니크 이메일 (uk_users_email 충돌 방지)
 const uniqueEmail = () => `pw_${Date.now()}_${Math.floor(Math.random() * 1e4)}@example.com`
-const GATEWAY = 'http://localhost:8000'
+const { gateway: GATEWAY } = resolveE2EUrls()
 
 // Task 11 UI 재구성: 로그인/회원가입은 NavBar의 "로그인" 버튼으로 여는 모달(AuthModal).
 // 로그인 상태 표시는 전면 헤딩이 아니라 NavBar의 "{name}님" + "로그아웃" 버튼.

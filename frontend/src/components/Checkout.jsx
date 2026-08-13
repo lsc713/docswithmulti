@@ -1,86 +1,83 @@
-import { useState } from 'react'
-import { api } from '../api'
+import { aggregateOrderItems } from '../orderFlow'
 
-const lineName = (l) => `${l.itemName} ${l.optionSummary ?? ''}`.trim()
-let tossScript
+const money = value => `₩${value.toLocaleString('ko-KR')}`
 
-function loadToss() {
-  if (window.TossPayments) return Promise.resolve(window.TossPayments)
-  if (!tossScript) tossScript = new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = 'https://js.tosspayments.com/v2/standard'
-    script.onload = () => resolve(window.TossPayments)
-    script.onerror = () => reject(new Error('결제창을 불러오지 못했습니다.'))
-    document.head.appendChild(script)
-  })
-  return tossScript
+export function OrderItemCard({ item, compact = false }) {
+  return (
+    <article className={`order-item-card${compact ? ' compact' : ''}`}>
+      <div className="order-item-image">
+        {item.imageUrl ? <img src={item.imageUrl} alt="" /> : <span aria-hidden="true" />}
+      </div>
+      <div className="order-item-copy">
+        <h2>{item.itemName}</h2>
+        <p className="order-item-option">{item.optionSummary}{item.skuCode ? ` · ${item.skuCode}` : ''}</p>
+        <p className="order-item-quantity">{compact ? `${item.quantity}개` : `수량 ${item.quantity} · 단가 ${money(item.unitPrice)}`}</p>
+        {!compact && <p className="item-state">주문 정보 미리보기</p>}
+      </div>
+      <strong className="order-item-total">{money(item.unitPrice * item.quantity)}</strong>
+    </article>
+  )
 }
 
-export default function Checkout({ lines, fromCart, retryItems, onBack }) {
-  const [err, setErr] = useState('')
-  const [busy, setBusy] = useState(false)
-  const total = lines.reduce((sum, l) => sum + l.unitPrice * l.quantity, 0)
-
-  async function pay() {
-    setErr(''); setBusy(true)
-    try {
-      let paymentItems = retryItems
-      if (!paymentItems) {
-        const order = await api.createOrder({
-          items: lines.map(l => ({ productId: l.productId, itemName: lineName(l), price: l.unitPrice * l.quantity })),
-        })
-        paymentItems = lines.map((l, i) => ({
-          orderItemId: order.items[i].orderItemId,
-          productId: l.productId,
-          itemName: lineName(l),
-          skuId: l.skuId,
-          quantity: l.quantity,
-        }))
-      }
-      const prepared = await api.preparePayment({
-        merchantId: 1, pgType: 'NORMAL', cancelPeriodDays: 7, items: paymentItems,
-      })
-      sessionStorage.setItem('paymentAttempt', JSON.stringify({
-        paymentRequestId: prepared.paymentRequestId, lines, fromCart, paymentItems,
-      }))
-      const TossPayments = await loadToss()
-      await TossPayments(prepared.clientKey).payment({ customerKey: prepared.customerKey })
-        .requestPayment({
-          method: 'CARD',
-          amount: { currency: 'KRW', value: Number(prepared.amount) },
-          orderId: prepared.paymentRequestId,
-          orderName: prepared.orderName,
-          successUrl: `${window.location.origin}/payment/success`,
-          failUrl: `${window.location.origin}/payment/fail`,
-        })
-    } catch (e) {
-      setErr(e.message)
-    } finally {
-      setBusy(false)
-    }
-  }
-
+export function OrderTotals({ totals }) {
   return (
-    <main className="checkout">
-      <button onClick={onBack}>뒤로</button>
-      <h1>주문하기</h1>
-      <table className="checkout-table">
-        <thead><tr><th>상품</th><th>옵션</th><th>수량</th><th>단가</th><th>합계</th></tr></thead>
-        <tbody>
-          {lines.map((l, i) => (
-            <tr key={i}>
-              <td>{l.itemName}</td><td>{l.optionSummary}</td><td>{l.quantity}</td>
-              <td>₩{l.unitPrice.toLocaleString()}</td>
-              <td>₩{(l.unitPrice * l.quantity).toLocaleString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p className="checkout-total">총 결제금액 <strong>₩{total.toLocaleString()}</strong></p>
-      <button className="pay-btn" onClick={pay} disabled={busy || lines.length === 0}>
-        {busy ? '결제 중...' : '결제하기'}
-      </button>
-      {err && <p className="error">{err}</p>}
+    <section className="order-totals" aria-label="주문 금액 미리보기">
+      <h2>주문 금액 미리보기</h2>
+      <dl>
+        <div><dt>상품 금액</dt><dd>{money(totals.subtotal)}</dd></div>
+        <div><dt>배송비</dt><dd>{money(totals.shipping)}</dd></div>
+        <div><dt>할인</dt><dd>적용 안 됨</dd></div>
+      </dl>
+      <div className="grand-total"><span>미리보기 합계</span><strong data-testid="grand-total">{money(totals.grandTotal)}</strong></div>
+    </section>
+  )
+}
+
+function EmptyState({ onBack }) {
+  return (
+    <main className="order-flow state">
+      <section className="flow-state-card" role="status">
+        <p className="flow-eyebrow">CHECKOUT</p>
+        <h1>주문할 상품이 없어요</h1><p>상품 또는 장바구니에서 주문할 상품을 선택해 주세요.</p>
+        <button type="button" className="flow-secondary" onClick={onBack}>상품 둘러보기</button>
+      </section>
+    </main>
+  )
+}
+
+export default function Checkout({ flowState, me, onBack, onContinue }) {
+  if (!flowState?.orderItems?.length) return <EmptyState onBack={onBack} />
+
+  const orderItems = flowState.orderItems
+  const totals = aggregateOrderItems(orderItems)
+  return (
+    <main className="order-flow checkout">
+      <header className="flow-heading">
+        <p className="flow-eyebrow">주문서 확인 · {totals.itemCount}개 상품</p>
+        <h1>주문할 상품을 확인해 주세요</h1>
+        <p>표시 금액은 미리보기이며 실제 결제 금액은 서버가 SKU 가격으로 다시 계산합니다.</p>
+      </header>
+      <div className="checkout-layout">
+        <div className="checkout-main">
+          <section className="order-item-list" aria-label="주문 상품">
+            {orderItems.map(item => <OrderItemCard key={item.skuId} item={item} />)}
+          </section>
+          <section className="orderer-card">
+            <h2>주문자</h2>
+            <p>{me?.name ?? '로그인 사용자'}{me?.email ? ` · ${me.email}` : ''}</p>
+            <p className="order-note">배송 정보는 현재 주문 계약에 포함되지 않아 별도 금액을 적용하지 않습니다.</p>
+          </section>
+        </div>
+        <aside className="checkout-summary">
+          <OrderTotals totals={totals} />
+          <button type="button" className="flow-primary" onClick={onContinue}>결제 수단 선택</button>
+          <button type="button" className="flow-secondary" onClick={onBack}>상품 또는 장바구니로 돌아가기</button>
+        </aside>
+      </div>
+      <div className="mobile-flow-cta">
+        <strong>미리보기 합계 {money(totals.grandTotal)}</strong>
+        <button type="button" className="flow-primary" onClick={onContinue}>결제 수단 선택</button>
+      </div>
     </main>
   )
 }
