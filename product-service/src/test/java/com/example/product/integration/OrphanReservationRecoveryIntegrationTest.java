@@ -155,9 +155,14 @@ class OrphanReservationRecoveryIntegrationTest {
 
     private void reserve(String paymentKey, long skuId, int qty) throws Exception {
         MockHttpServletResponse res = send("/v1/stock/reserve", """
-                {"paymentKey":"%s","items":[{"skuId":%d,"qty":%d}]}"""
-                .formatted(paymentKey, skuId, qty));
+                {"paymentKey":"%s","items":[{"productId":%d,"skuId":%d,"qty":%d}]}"""
+                .formatted(paymentKey, productId(skuId), skuId, qty));
         assertThat(res.getStatus()).isEqualTo(200);
+    }
+
+    private long productId(long skuId) {
+        return jdbc.queryForObject(
+                "SELECT product_id FROM product_sku WHERE id = ?", Long.class, skuId);
     }
 
     private void backdate(String paymentKey, LocalDateTime createdAt) {

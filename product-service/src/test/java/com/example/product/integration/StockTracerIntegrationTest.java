@@ -70,19 +70,23 @@ class StockTracerIntegrationTest {
         assertThat(seed.getStatus()).isEqualTo(200);
         Map<?, ?> seedBody = om.readValue(seed.getContentAsString(), Map.class);
         long skuId = ((Number) ((Map<?, ?>) ((java.util.List<?>) seedBody.get("skus")).get(0)).get("skuId")).longValue();
+        long productId = jdbc.queryForObject(
+                "SELECT product_id FROM product_sku WHERE id = ?", Long.class, skuId);
         assertThat(skuId).isPositive();
         assertThat(availableQty(skuId)).isEqualTo(5);
 
         // 2. STOCK-03 happy: reserve qty=3 → 200 reserved:true, available 5→2 (원자 차감)
         MockHttpServletResponse ok = send("/v1/stock/reserve", """
-                {"paymentKey":"PAY-1","items":[{"skuId":%d,"qty":3}]}""".formatted(skuId));
+                {"paymentKey":"PAY-1","items":[{"productId":%d,"skuId":%d,"qty":3}]}"""
+                .formatted(productId, skuId));
         assertThat(ok.getStatus()).isEqualTo(200);
         assertThat(om.readValue(ok.getContentAsString(), Map.class).get("reserved")).isEqualTo(true);
         assertThat(availableQty(skuId)).isEqualTo(2);
 
         // 3. STOCK-03 오버셀 방지: 다른 paymentKey로 reserve qty=5 (남은 2 < 5) → 409 STOCK_001, 미차감
         MockHttpServletResponse insufficient = send("/v1/stock/reserve", """
-                {"paymentKey":"PAY-2","items":[{"skuId":%d,"qty":5}]}""".formatted(skuId));
+                {"paymentKey":"PAY-2","items":[{"productId":%d,"skuId":%d,"qty":5}]}"""
+                .formatted(productId, skuId));
         assertThat(insufficient.getStatus()).isEqualTo(409);
         assertThat(om.readValue(insufficient.getContentAsString(), Map.class).get("code")).isEqualTo("STOCK_001");
         assertThat(availableQty(skuId)).isEqualTo(2); // 부족 시 미차감(롤백)

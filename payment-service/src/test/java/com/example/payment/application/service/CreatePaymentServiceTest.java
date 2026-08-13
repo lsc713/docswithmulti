@@ -47,6 +47,11 @@ class CreatePaymentServiceTest {
         service = new CreatePaymentService(orderVerifyPort, productStockPort, paymentCreateTxWriter,
             stockReleaseRetryRepository);
         lenient().when(orderVerifyPort.verify(anyLong(), any())).thenReturn(VERIFIED_ORDER_ID);
+        lenient().when(productStockPort.reserve(anyString(), any())).thenAnswer(invocation ->
+            ((List<ProductStockPort.Item>) invocation.getArgument(1)).stream()
+                .map(item -> new ProductStockPort.ReservedItem(
+                    item.skuId(), item.productId(), unitPrice(item.skuId()), item.qty()))
+                .toList());
     }
 
     @Test
@@ -87,7 +92,9 @@ class CreatePaymentServiceTest {
         verify(productStockPort).reserve(keyCaptor.capture(), itemsCaptor.capture());
         assertTrue(keyCaptor.getValue().startsWith("pay_"));
         assertEquals(
-            List.of(new ProductStockPort.Item(500L, 2), new ProductStockPort.Item(501L, 1)),
+            List.of(
+                new ProductStockPort.Item(200L, 500L, 2),
+                new ProductStockPort.Item(201L, 501L, 1)),
             itemsCaptor.getValue()
         );
 
@@ -170,5 +177,13 @@ class CreatePaymentServiceTest {
         assertNotNull(result);
         verify(paymentCreateTxWriter).persist(eq(command), anyString(),
             eq(BigDecimal.valueOf(50_000)), eq(VERIFIED_ORDER_ID));
+    }
+
+    private static BigDecimal unitPrice(long skuId) {
+        return switch ((int) skuId) {
+            case 500 -> BigDecimal.valueOf(15_000);
+            case 501 -> BigDecimal.valueOf(70_000);
+            default -> BigDecimal.valueOf(50_000);
+        };
     }
 }

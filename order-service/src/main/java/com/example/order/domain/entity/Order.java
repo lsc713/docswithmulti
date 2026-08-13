@@ -16,11 +16,19 @@ public class Order {
     }
 
     public static Order create(long userId) {
-        return new Order(0, userId, OrderStatus.DELIVERY_WAITING);
+        return new Order(0, userId, OrderStatus.PENDING);
     }
 
     public static Order of(long id, long userId, OrderStatus status) {
         return new Order(id, userId, status);
+    }
+
+    public boolean markPaymentCompleted() {
+        if (status != OrderStatus.PENDING && status != OrderStatus.PAYMENT_VERIFYING) {
+            return false;
+        }
+        status = OrderStatus.DELIVERY_WAITING;
+        return true;
     }
 
     public void cancel() {

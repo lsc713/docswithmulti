@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata: { name: product-allow-gateway, namespace: default }
 spec:
-  # 대상: product-service 파드. api-gateway 파드만 product-service:8084 인그레스 허용 →
+  # 대상: product-service 파드. api-gateway와 재고 예약을 호출하는 payment만 8084 인그레스 허용 →
   # 그 외 파드의 직접 도달(신뢰 헤더 X-User-Role 스푸핑 벡터, POST /v1/products ADMIN 인가 우회) 차단.
   # k3s 기본 flannel + 내장 NetworkPolicy controller가 실제 강제.
   # egress 미지정 — default-deny 미도입이므로 gateway→product-service egress는 이미 허용(최소 정책).
@@ -11,5 +11,6 @@ spec:
   ingress:
     - from:
         - podSelector: { matchLabels: { app: api-gateway } }
+        - podSelector: { matchLabels: { app: payment } }
       ports:
         - { protocol: TCP, port: 8084 }

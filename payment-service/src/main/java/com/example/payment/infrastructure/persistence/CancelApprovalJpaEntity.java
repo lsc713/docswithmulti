@@ -28,7 +28,7 @@ public class CancelApprovalJpaEntity {
     @Column(name = "payment_id", nullable = false)
     private long paymentId;
 
-    @Column(name = "payment_key", nullable = false, length = 64)
+    @Column(name = "payment_key", nullable = false, length = 200)
     private String paymentKey;
 
     @Column(name = "requester_user_id", nullable = false)

@@ -49,6 +49,11 @@ export const api = {
   changeRole:   (userId, role) =>
     req(`/v1/admin/users/${userId}/role`, { method: 'PATCH', body: { role }, csrf: true }),
   createProduct: (body) => req('/v1/products', { method: 'POST', body, csrf: true }),
+  createOrder:   (b) => req('/v1/orders',   { method: 'POST', body: b, csrf: true }),
+  preparePayment: (b) => req('/v1/payment-attempts', { method: 'POST', body: b, csrf: true }),
+  confirmPayment: (id, b) => req(`/v1/payment-attempts/${id}/confirm`, { method: 'POST', body: b, csrf: true }),
+  failPayment:    (id) => req(`/v1/payment-attempts/${id}/fail`, { method: 'POST', csrf: true }),
+  getPaymentAttempt: (id) => req(`/v1/payment-attempts/${id}`),
   getPayments:   () => req('/v1/payments'),
   getPayment:    (key) => req(`/v1/payments/${key}`),
   cancelPayment: (key, body) => req(`/v1/payments/${key}/cancel`, { method: 'POST', body, csrf: true }),

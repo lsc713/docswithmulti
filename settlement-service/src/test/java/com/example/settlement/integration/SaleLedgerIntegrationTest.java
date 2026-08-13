@@ -65,7 +65,7 @@ class SaleLedgerIntegrationTest {
         long merchantId = 77L;
         // totalAmount = 50000 (= Σ items[].itemAmount = 30000 + 20000)
         String json = """
-                {"paymentKey":"PAY-SALE-1","merchantId":77,"totalAmount":50000,\
+                {"paymentKey":"PAY-SALE-1","orderId":7001,"merchantId":77,"totalAmount":50000,\
                 "items":[\
                 {"paymentItemId":1,"itemAmount":30000},\
                 {"paymentItemId":2,"itemAmount":20000}],\

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -38,26 +39,42 @@ public class ProductStockHttpClient implements ProductStockPort {
     }
 
     @Override
-    public void reserve(String paymentKey, List<Item> items) {
-        post("/v1/stock/reserve", paymentKey, items);
+    public List<ReservedItem> reserve(String paymentKey, List<Item> items) {
+        Map<String, Object> body = Map.of(
+            "paymentKey", paymentKey,
+            "items", items.stream()
+                .map(i -> Map.of(
+                    "productId", i.productId(), "skuId", i.skuId(), "qty", i.qty()))
+                .toList()
+        );
+        ReserveResponse response = post(
+            "/v1/stock/reserve", paymentKey, body, ReserveResponse.class).getBody();
+        if (response == null || response.items() == null) {
+            throw new ProductServiceException("product-service 예약 응답이 비어 있습니다.");
+        }
+        return response.items().stream()
+            .map(i -> new ReservedItem(i.skuId(), i.productId(), i.unitPrice(), i.quantity()))
+            .toList();
     }
 
     @Override
     public void release(String paymentKey, List<Item> items) {
-        post("/v1/stock/release", paymentKey, items);
+        Map<String, Object> body = Map.of(
+            "paymentKey", paymentKey,
+            "items", items.stream()
+                .map(i -> Map.of("skuId", i.skuId(), "qty", i.qty()))
+                .toList()
+        );
+        post("/v1/stock/release", paymentKey, body, Void.class);
     }
 
-    private void post(String path, String paymentKey, List<Item> items) {
+    private <T> ResponseEntity<T> post(
+        String path, String paymentKey, Map<String, Object> body, Class<T> responseType
+    ) {
         try {
-            circuitBreaker.executeCheckedSupplier(() -> {
+            return circuitBreaker.executeCheckedSupplier(() -> {
                 String url = baseUrl + path;
-                Map<String, Object> body = Map.of(
-                    "paymentKey", paymentKey,
-                    "items", items.stream()
-                        .map(i -> Map.of("skuId", i.skuId(), "qty", i.qty()))
-                        .toList()
-                );
-                ResponseEntity<Void> response = restTemplate.postForEntity(url, body, Void.class);
+                ResponseEntity<T> response = restTemplate.postForEntity(url, body, responseType);
                 // 명시적 2xx 가드(RiskManagementHttpClient WR-03 규율): 커스텀 에러 핸들러 하에서
                 // 2xx 아닌 응답이 예외 없이 반환돼도 성공으로 오인하지 않는다.
                 if (!response.getStatusCode().is2xxSuccessful()) {
@@ -82,4 +99,10 @@ public class ProductStockHttpClient implements ProductStockPort {
             throw new ProductServiceException("product-service 서비스 오류", t);
         }
     }
+
+    record ReserveResponse(boolean reserved, List<ItemResponse> items) {}
+
+    record ItemResponse(
+        long skuId, long productId, BigDecimal unitPrice, int quantity
+    ) {}
 }

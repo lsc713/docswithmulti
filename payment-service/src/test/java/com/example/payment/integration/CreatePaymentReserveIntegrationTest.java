@@ -94,7 +94,7 @@ class CreatePaymentReserveIntegrationTest {
     private String requestJson() throws Exception {
         return objectMapper.writeValueAsString(Map.of(
             "merchantId", 1,
-            "pgType", "TOSS",
+            "pgType", "NORMAL",
             "cancelPeriodDays", 90,
             "items", List.of(Map.of(
                 "orderItemId", 10,
@@ -123,11 +123,14 @@ class CreatePaymentReserveIntegrationTest {
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
             .andExpect(method(org.springframework.http.HttpMethod.POST))
             .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.paymentKey").exists())
+            .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.items[0].productId").value(200))
             .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.items[0].skuId").value(500))
             .andExpect(org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath("$.items[0].qty").value(2))
-            .andRespond(withSuccess());
+            .andRespond(withSuccess("""
+                {"reserved":true,"items":[{"skuId":500,"productId":200,
+                "unitPrice":15000,"quantity":2}]}""", MediaType.APPLICATION_JSON));
 
-        mockMvc.perform(post("/v1/payments")
+        mockMvc.perform(post("/v1/payment-attempts")
                 .header("X-User-Id", "100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson()))
@@ -156,7 +159,7 @@ class CreatePaymentReserveIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body("{\"code\":\"STOCK_INSUFFICIENT\"}"));
 
-        mockMvc.perform(post("/v1/payments")
+        mockMvc.perform(post("/v1/payment-attempts")
                 .header("X-User-Id", "100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson()))
@@ -174,7 +177,7 @@ class CreatePaymentReserveIntegrationTest {
         // DEFAULT_CONFIG minimumNumberOfCalls 때문에 스텁 실패로는 OPEN 불가 → 직접 강제 전이.
         productServiceCircuitBreaker.transitionToOpenState();
         try {
-            mockMvc.perform(post("/v1/payments")
+            mockMvc.perform(post("/v1/payment-attempts")
                     .header("X-User-Id", "100")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(requestJson()))

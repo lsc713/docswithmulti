@@ -62,6 +62,13 @@ external:
 #    url: http://order-service:8081     # 컨테이너 호스트 대안
     url: http://localhost:8081
 
+toss:
+  base-url: ${TOSS_BASE_URL:https://api.tosspayments.com}
+  client-key: ${TOSS_CLIENT_KEY}
+  secret-key: ${TOSS_SECRET_KEY}
+  connect-timeout-ms: ${TOSS_CONNECT_TIMEOUT_MS:2000}
+  read-timeout-ms: ${TOSS_READ_TIMEOUT_MS:5000}
+
 logging:
   level:
     com.example.payment: INFO
@@ -75,6 +82,13 @@ kafka:
 
 # payment.completed 아웃박스 (생성 경로). cancel.outbox.* 와 독립 — 절대 결합 금지.
 payment:
+  customer-key-salt: ${PAYMENT_CUSTOMER_KEY_SALT:local-test-salt}
+  attempt:
+    recovery:
+      poll-ms: ${PAYMENT_ATTEMPT_RECOVERY_POLL_MS:30000}
+      unknown-after-seconds: ${PAYMENT_ATTEMPT_UNKNOWN_AFTER_SECONDS:30}
+      expires-after-seconds: ${PAYMENT_ATTEMPT_EXPIRES_AFTER_SECONDS:600}
+      batch-size: ${PAYMENT_ATTEMPT_RECOVERY_BATCH_SIZE:100}
   completed:
     outbox:
       poll-ms: ${PAYMENT_COMPLETED_OUTBOX_POLL_MS:10000}
@@ -118,6 +132,7 @@ scheduler:
     cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
     cancel-outbox-purge: lock:scheduler:cancel-outbox-purge
     payment-completed-outbox: lock:scheduler:payment-completed-outbox
+    payment-attempt-recovery: lock:scheduler:payment-attempt-recovery
 
 # 부하 실측 지표 노출 (Micrometer → /actuator/prometheus)
 management:

@@ -40,10 +40,6 @@ public class CreatePaymentService implements CreatePaymentUseCase {
 
     @Override
     public Result create(CreatePaymentCommand command) {
-        BigDecimal totalAmount = command.items().stream()
-            .map(CreatePaymentCommand.Item::itemAmount)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
-
         // (0) order 검증 최전방(부작용 전, PLINK-03) — 실패 시 reserve·persist 미호출(보상 불필요).
         List<Long> orderItemIds = command.items().stream()
             .map(CreatePaymentCommand.Item::orderItemId)
@@ -55,18 +51,54 @@ public class CreatePaymentService implements CreatePaymentUseCase {
 
         // (2) product 재고 동기 예약(TX 밖, HTTP). 실패는 전파 → 결제 거부(fail-closed).
         List<ProductStockPort.Item> reserveItems = command.items().stream()
-            .map(item -> new ProductStockPort.Item(item.skuId(), item.quantity()))
+            .map(item -> new ProductStockPort.Item(
+                item.productId(), item.skuId(), item.quantity()))
             .toList();
-        productStockPort.reserve(paymentKey, reserveItems);
+        List<ProductStockPort.ReservedItem> reserved =
+            productStockPort.reserve(paymentKey, reserveItems);
+        List<ProductStockPort.Item> releaseItems = reserveItems.stream()
+            .map(item -> new ProductStockPort.Item(item.skuId(), item.qty()))
+            .toList();
 
         // (3) 예약 성공 후 payment/payment_item persist(@Transactional, orderId 포함).
         //     persist 실패(TX 롤백 완료 상태) → 예약 고아 회수: release best-effort, 실패 시 재시도 적재(RSV-03, D-P2-6).
         try {
-            return paymentCreateTxWriter.persist(command, paymentKey, totalAmount, orderId);
+            CreatePaymentCommand pricedCommand = applyServerPrices(command, reserved);
+            BigDecimal totalAmount = pricedCommand.items().stream()
+                .map(CreatePaymentCommand.Item::itemAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            return paymentCreateTxWriter.persist(pricedCommand, paymentKey, totalAmount, orderId);
         } catch (RuntimeException e) {
-            compensateReserve(paymentKey, reserveItems);
+            compensateReserve(paymentKey, releaseItems);
             throw e; // 원예외 재던짐 → 결제 실패(payment 미생성). 보상은 응답을 바꾸지 않음.
         }
+    }
+
+    private CreatePaymentCommand applyServerPrices(
+        CreatePaymentCommand command, List<ProductStockPort.ReservedItem> reserved
+    ) {
+        if (reserved == null || reserved.size() != command.items().size()) {
+            throw new IllegalStateException("재고 예약 가격 응답의 항목 수가 다릅니다.");
+        }
+        List<CreatePaymentCommand.Item> items = new java.util.ArrayList<>(reserved.size());
+        for (int i = 0; i < reserved.size(); i++) {
+            CreatePaymentCommand.Item requested = command.items().get(i);
+            ProductStockPort.ReservedItem priced = reserved.get(i);
+            if (priced.skuId() != requested.skuId()
+                || priced.productId() != requested.productId()
+                || priced.quantity() != requested.quantity()
+                || priced.unitPrice() == null
+                || priced.unitPrice().signum() <= 0
+                || priced.unitPrice().stripTrailingZeros().scale() > 0) {
+                throw new IllegalStateException("재고 예약 가격 응답이 요청과 다릅니다.");
+            }
+            BigDecimal amount = priced.unitPrice().multiply(BigDecimal.valueOf(priced.quantity()));
+            items.add(new CreatePaymentCommand.Item(
+                requested.orderItemId(), requested.productId(), requested.itemName(), amount,
+                requested.skuId(), requested.quantity()));
+        }
+        return new CreatePaymentCommand(
+            command.merchantId(), command.userId(), command.pgType(), command.cancelPeriodDays(), items);
     }
 
     /** 예약 해제 보상: release best-effort, 실패 시 stock_release_retry 적재. release는 paymentKey+sku 멱등이라 재시도 안전. */

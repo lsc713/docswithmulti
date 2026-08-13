@@ -10,7 +10,21 @@ test.beforeAll(async ({ request }) => {
   await request.post(`${GW}/v1/auth/signup`, { data: USER }).catch(() => {})
 })
 
-test('바로구매: 로그인 → 상품상세 수량선택 → 주문 미리보기 → 결제 차단', async ({ page }) => {
+test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 → 결제 → 완료', async ({ page }) => {
+  await page.addInitScript(() => {
+    window.TossPayments = () => ({ payment: () => ({
+      requestPayment: ({ successUrl, orderId, amount }) => {
+        window.location.href = `${successUrl}?paymentKey=toss_test_key&orderId=${orderId}&amount=${amount.value}`
+      },
+    }) })
+  })
+  await page.route('**/v1/payment-attempts/*/confirm', async route => {
+    const body = route.request().postDataJSON()
+    await route.fulfill({ json: {
+      paymentRequestId: body.orderId, paymentKey: body.paymentKey,
+      amount: body.amount, status: 'COMPLETED',
+    } })
+  })
   // 로그인 (스토어프론트 모달)
   await page.goto(BASE)
   await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
@@ -26,8 +40,31 @@ test('바로구매: 로그인 → 상품상세 수량선택 → 주문 미리보
   )
   await detail.getByRole('button', { name: '구매하기' }).click()
 
-  // 체크아웃 → 총액 미리보기 → 서버 계약 준비 전 결제 차단
+  // 체크아웃 → 결제 수단 → 결제
+  await expect(page.getByRole('heading', { name: '주문할 상품을 확인해 주세요' })).toBeVisible()
   await expect(page.getByTestId('grand-total')).toContainText('₩')
-  await expect(page.getByRole('button', { name: '결제 연동 준비 중' }).first()).toBeDisabled()
-  await expect(page.getByRole('alert')).toContainText('서버 재검증 미지원으로 결제 불가')
+  await page.getByRole('button', { name: '결제 수단 선택' }).first().click()
+  await page.getByRole('button', { name: '결제하기' }).first().click()
+
+  // 완료 화면 (paymentKey 노출) — 결제 생성이 product-service 재고 동기 예약을 거치므로 여유 타임아웃
+  await expect(page.locator('.order-success h1')).toContainText('결제 완료', { timeout: 15_000 })
+  await expect(page.locator('.success-key code')).toContainText('toss_test_key')
+})
+
+test('결제창 취소: 실패 처리 후 같은 주문으로 다시 결제할 수 있다', async ({ page }) => {
+  await page.addInitScript(() => sessionStorage.setItem('paymentAttempt', JSON.stringify({
+    paymentRequestId: 'request-1', source: 'product',
+    orderItems: [{ productId: 1, skuId: 2, itemName: '상품', optionSummary: '', unitPrice: 1000, quantity: 1 }],
+    paymentItems: [{ orderItemId: 3, productId: 1, skuId: 2, itemName: '상품', quantity: 1 }],
+  })))
+  await page.route('**/v1/payment-attempts/request-1/fail', route => route.fulfill({ json: {
+    paymentRequestId: 'request-1', paymentKey: null, amount: 1000, status: 'FAILED',
+  } }))
+
+  await page.goto(`${BASE}/payment/fail?code=PAY_PROCESS_CANCELED&orderId=request-1`)
+
+  await expect(page.locator('.payment-result h1')).toContainText('완료하지 못했습니다')
+  await expect(page.locator('.payment-result')).toContainText('결제가 취소되었습니다')
+  await page.click('text=다시 결제')
+  await expect(page.getByRole('heading', { name: '결제 수단을 확인해 주세요' })).toBeVisible()
 })

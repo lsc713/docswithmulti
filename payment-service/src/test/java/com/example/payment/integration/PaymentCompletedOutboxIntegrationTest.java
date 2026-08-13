@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -70,6 +71,7 @@ class PaymentCompletedOutboxIntegrationTest {
 
     @Autowired WebApplicationContext webApplicationContext;
     @Autowired RestTemplate restTemplate;
+    @Autowired @Qualifier("tossRestTemplate") RestTemplate tossRestTemplate;
     @Autowired JdbcTemplate jdbcTemplate;
     @Autowired PaymentCompletedOutboxPublisher publisher;
     @Autowired PaymentCreateTxWriter txWriter;
@@ -79,6 +81,7 @@ class PaymentCompletedOutboxIntegrationTest {
 
     MockMvc mockMvc;
     MockRestServiceServer mockServer;
+    MockRestServiceServer tossMockServer;
 
     @BeforeEach
     void setUp() {
@@ -92,6 +95,7 @@ class PaymentCompletedOutboxIntegrationTest {
         when(redissonClient.getLock(anyString())).thenReturn(lock);
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         mockServer = MockRestServiceServer.createServer(restTemplate);
+        tossMockServer = MockRestServiceServer.createServer(tossRestTemplate);
     }
 
     @AfterEach
@@ -104,28 +108,41 @@ class PaymentCompletedOutboxIntegrationTest {
     private String requestJson() throws Exception {
         return objectMapper.writeValueAsString(Map.of(
             "merchantId", 1,
-            "pgType", "TOSS",
+            "pgType", "NORMAL",
             "cancelPeriodDays", 90,
             "items", List.of(Map.of(
                 "orderItemId", 10, "productId", 200, "itemName", "상품A",
-                "itemAmount", 30000, "skuId", 500, "quantity", 2))));
+                "itemAmount", 1, "skuId", 500, "quantity", 2))));
     }
 
     private void stubOrderVerifyAndReserve() {
         mockServer.expect(requestTo(containsString("/v1/orders/items:verify")))
             .andRespond(withSuccess("{\"orderId\":777}", MediaType.APPLICATION_JSON));
         mockServer.expect(requestTo(containsString("/v1/stock/reserve")))
-            .andRespond(withSuccess());
+            .andRespond(withSuccess("""
+                {"reserved":true,"items":[{"skuId":500,"productId":200,
+                "unitPrice":10000,"quantity":2}]}""", MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("생성 TX 안 원자 INSERT: 결제 생성 → PENDING payment_event_outbox 1행, payload completedAt은 ...Z")
     void createPayment_writesOnePendingOutboxRow_withZSuffix() throws Exception {
         stubOrderVerifyAndReserve();
-        mockMvc.perform(post("/v1/payments")
+        String prepared = mockMvc.perform(post("/v1/payment-attempts")
                 .header("X-User-Id", "100")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson()))
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString();
+        String requestId = objectMapper.readTree(prepared).get("paymentRequestId").asText();
+        tossMockServer.expect(requestTo(containsString("/v1/payments/confirm")))
+            .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
+        mockMvc.perform(post("/v1/payment-attempts/{id}/confirm", requestId)
+                .header("X-User-Id", "100")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(Map.of(
+                    "paymentKey", "toss_completed_key", "orderId", requestId,
+                    "amount", 20000))))
             .andExpect(status().isOk());
 
         Integer pending = jdbcTemplate.queryForObject(
@@ -136,9 +153,14 @@ class PaymentCompletedOutboxIntegrationTest {
             "SELECT payload FROM payment_event_outbox", String.class);
         // MySQL JSON 컬럼은 키 순서/공백을 정규화하므로 문자열 매칭 대신 파싱해서 검증한다.
         var node = objectMapper.readTree(payload);
+        assertThat(node.get("orderId").asLong()).isEqualTo(777L);
         // completedAt은 Instant.parse가 요구하는 트레일링 Z 형식이어야 한다.
         assertThat(node.get("completedAt").asText()).endsWith("Z");
-        assertThat(node.get("totalAmount").asInt()).isEqualTo(30000); // Σ itemAmount, ×quantity 아님 (RESEARCH Pitfall 6)
+        assertThat(node.get("totalAmount").asInt()).isEqualTo(20000);
+        assertThat(jdbcTemplate.queryForObject(
+            "SELECT total_amount FROM payment", BigDecimal.class)).isEqualByComparingTo("20000");
+        assertThat(jdbcTemplate.queryForObject(
+            "SELECT item_amount FROM payment_item", BigDecimal.class)).isEqualByComparingTo("20000");
 
         // 폴 발행 → PENDING→PUBLISHED
         publisher.publish();

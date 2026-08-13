@@ -45,7 +45,7 @@ function EmptyState({ onBack }) {
   )
 }
 
-export default function Checkout({ flowState, me, onBack }) {
+export default function Checkout({ flowState, me, onBack, onContinue }) {
   if (!flowState?.orderItems?.length) return <EmptyState onBack={onBack} />
 
   const orderItems = flowState.orderItems
@@ -55,7 +55,7 @@ export default function Checkout({ flowState, me, onBack }) {
       <header className="flow-heading">
         <p className="flow-eyebrow">주문서 확인 · {totals.itemCount}개 상품</p>
         <h1>주문할 상품을 확인해 주세요</h1>
-        <p>상품과 금액은 저장된 주문 미리보기이며 현재 서버 검증 결과가 아닙니다.</p>
+        <p>표시 금액은 미리보기이며 실제 결제 금액은 서버가 SKU 가격으로 다시 계산합니다.</p>
       </header>
       <div className="checkout-layout">
         <div className="checkout-main">
@@ -70,14 +70,13 @@ export default function Checkout({ flowState, me, onBack }) {
         </div>
         <aside className="checkout-summary">
           <OrderTotals totals={totals} />
-          <p id="checkout-blocked" className="flow-blocked" role="alert">서버 재검증 미지원으로 결제 불가</p>
-          <button type="button" className="flow-primary" disabled aria-describedby="checkout-blocked">결제 연동 준비 중</button>
+          <button type="button" className="flow-primary" onClick={onContinue}>결제 수단 선택</button>
           <button type="button" className="flow-secondary" onClick={onBack}>상품 또는 장바구니로 돌아가기</button>
         </aside>
       </div>
       <div className="mobile-flow-cta">
         <strong>미리보기 합계 {money(totals.grandTotal)}</strong>
-        <button type="button" className="flow-primary" disabled aria-describedby="checkout-blocked">결제 연동 준비 중</button>
+        <button type="button" className="flow-primary" onClick={onContinue}>결제 수단 선택</button>
       </div>
     </main>
   )

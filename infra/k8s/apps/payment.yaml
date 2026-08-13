@@ -36,6 +36,8 @@ spec:
             - { name: SPRING_DATASOURCE_URL, valueFrom: { configMapKeyRef: { name: app-config, key: PAYMENT_DB_URL } } }
             - { name: SPRING_DATASOURCE_USERNAME, valueFrom: { secretKeyRef: { name: db-cred, key: PAYMENT_DB_USER } } }
             - { name: SPRING_DATASOURCE_PASSWORD, valueFrom: { secretKeyRef: { name: db-cred, key: PAYMENT_DB_PASS } } }
+            - { name: TOSS_CLIENT_KEY, valueFrom: { secretKeyRef: { name: toss-payment-credentials, key: TOSS_CLIENT_KEY } } }
+            - { name: TOSS_SECRET_KEY, valueFrom: { secretKeyRef: { name: toss-payment-credentials, key: TOSS_SECRET_KEY } } }
             - { name: JAVA_TOOL_OPTIONS, value: "-Xmx2g -XX:+UseG1GC" }
           readinessProbe:
             httpGet: { path: /actuator/health/readiness, port: 8080 }

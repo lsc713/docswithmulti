@@ -33,7 +33,7 @@ try {
       orderCalls += 1
       return route.abort()
     })
-    await page.route(`${gateway}/v1/payments`, async route => {
+    await page.route(`${gateway}/v1/payment-attempts`, async route => {
       paymentCalls += 1
       return route.abort()
     })
@@ -45,8 +45,7 @@ try {
     if (width === 1440) assert.ok((await page.locator('.order-item-card').first().boundingBox()).width >= 780)
     await page.screenshot({ path: `${artifactDir}/checkout-${width}.png`, fullPage: true })
 
-    assert.equal(await page.getByRole('button', { name: '결제 연동 준비 중' }).first().isDisabled(), true)
-    assert.match(await page.getByRole('alert').textContent(), /서버 재검증 미지원으로 결제 불가/)
+    assert.equal(await page.getByRole('button', { name: '결제 수단 선택' }).first().isEnabled(), true)
     await page.goto(`${baseURL}/payment?case=initial-${width}`)
     await page.getByRole('heading', { name: '결제 수단을 확인해 주세요' }).waitFor()
     assert.equal(new URL(page.url()).pathname, '/payment')
@@ -71,7 +70,7 @@ try {
       assert.equal(overlaps, false)
     }
     await page.screenshot({ path: `${artifactDir}/payment-${width}.png`, fullPage: true })
-    assert.equal(await page.locator('.payment-submit').isDisabled(), true)
+    assert.equal(await page.locator('.payment-submit').isEnabled(), true)
     assert.equal(orderCalls, 0)
     assert.equal(paymentCalls, 0)
 
@@ -103,7 +102,7 @@ try {
     await verifyCheckoutState({ orderItems: [orderItems[0]], source: 'product' }, 'single', async statePage => {
       await statePage.getByRole('heading', { name: '주문할 상품을 확인해 주세요' }).waitFor()
       assert.equal(await statePage.locator('.order-item-card').count(), 1)
-      assert.equal(await statePage.getByRole('button', { name: '결제 연동 준비 중' }).first().isDisabled(), true)
+      assert.equal(await statePage.getByRole('button', { name: '결제 수단 선택' }).first().isEnabled(), true)
     })
     await verifyCheckoutState(null, 'empty', statePage => statePage.getByRole('heading', { name: '주문할 상품이 없어요' }).waitFor())
   }

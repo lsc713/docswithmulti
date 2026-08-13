@@ -16,6 +16,7 @@ public class PaymentExistsQueryService implements PaymentExistsQuery {
 
     @Override
     public boolean exists(String paymentKey) {
-        return paymentRepository.existsByPaymentKey(paymentKey);
+        return paymentRepository.existsByPaymentKey(paymentKey)
+            || paymentRepository.existsByPaymentRequestId(paymentKey);
     }
 }

@@ -38,4 +38,16 @@ public class HttpClientConfig {
             .readTimeout(Duration.ofMillis(readTimeoutMs))
             .build();
     }
+
+    @Bean("tossRestTemplate")
+    public RestTemplate tossRestTemplate(
+        RestTemplateBuilder builder,
+        @org.springframework.beans.factory.annotation.Value("${toss.connect-timeout-ms:2000}") long connectTimeoutMs,
+        @org.springframework.beans.factory.annotation.Value("${toss.read-timeout-ms:5000}") long readTimeoutMs
+    ) {
+        return builder
+            .connectTimeout(Duration.ofMillis(connectTimeoutMs))
+            .readTimeout(Duration.ofMillis(readTimeoutMs))
+            .build();
+    }
 }

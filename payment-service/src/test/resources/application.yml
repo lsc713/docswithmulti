@@ -37,6 +37,17 @@ external:
   order-service:
     url: http://localhost:8081
 
+toss:
+  base-url: http://localhost:9999
+  client-key: test_ck
+  secret-key: test_sk
+
+payment:
+  customer-key-salt: test-salt
+  attempt:
+    recovery:
+      poll-ms: 86400000
+
 kafka:
   topic:
     payment-cancelled: payment.cancelled
@@ -57,6 +68,7 @@ scheduler:
     processing-recovery: lock:scheduler:processing-recovery
     compensation-retry: lock:scheduler:compensation-retry
     stock-release-retry: lock:scheduler:stock-release-retry
+    payment-attempt-recovery: lock:scheduler:payment-attempt-recovery
     cancel-outbox-publisher: lock:scheduler:cancel-outbox-publisher
     cancel-outbox-purge: lock:scheduler:cancel-outbox-purge
 

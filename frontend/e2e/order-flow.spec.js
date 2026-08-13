@@ -27,19 +27,19 @@ async function mockIdentity(page, user = USER_A) {
 }
 
 async function countUnsafePosts(context) {
-  const calls = { orders: 0, payments: 0 }
+  const calls = { orders: 0, paymentAttempts: 0 }
   await context.route(`${GW}/v1/orders`, route => {
     calls.orders += 1
     return route.abort()
   })
-  await context.route(`${GW}/v1/payments`, route => {
-    calls.payments += 1
+  await context.route(`${GW}/v1/payment-attempts`, route => {
+    calls.paymentAttempts += 1
     return route.abort()
   })
   return calls
 }
 
-test('tampered preview stays blocked on checkout and payment with zero order/payment calls', async ({ page, context }) => {
+test('tampered preview does not submit an order or payment before explicit confirmation', async ({ page, context }) => {
   const calls = await countUnsafePosts(context)
   await seedSession(page, storedFlow([{ ...ORDER_ITEMS[0], unitPrice: 1 }]))
   await mockIdentity(page)
@@ -47,35 +47,29 @@ test('tampered preview stays blocked on checkout and payment with zero order/pay
   await page.goto('/checkout')
   await expect(page.getByRole('heading', { name: '주문할 상품을 확인해 주세요' })).toBeVisible()
   await expect(page.getByTestId('grand-total')).toHaveText('₩1')
-  await expect(page.getByRole('button', { name: '결제 연동 준비 중' }).first()).toBeDisabled()
-  await expect(page.getByRole('alert')).toContainText('서버 재검증 미지원으로 결제 불가')
+  await page.getByRole('button', { name: '결제 수단 선택' }).first().click()
 
-  await page.goto('/payment')
   await expect(page.getByRole('heading', { name: '결제 수단을 확인해 주세요' })).toBeVisible()
-  await expect(page.getByRole('button', { name: '결제 연동 준비 중' }).first()).toBeDisabled()
-  await expect(page.getByRole('alert')).toContainText('서버 재검증 미지원으로 결제 불가')
-  expect(calls).toEqual({ orders: 0, payments: 0 })
+  await expect(page.getByRole('button', { name: '결제하기' }).first()).toBeEnabled()
+  expect(calls).toEqual({ orders: 0, paymentAttempts: 0 })
 })
 
-test('timeout/retry/remount and multi-tab-like attempts can never submit payment', async ({ page, context }) => {
+test('reload and another tab do not submit payment without an explicit click', async ({ page, context }) => {
   const calls = await countUnsafePosts(context)
   await seedSession(page, storedFlow())
   await mockIdentity(page)
   await page.goto('/payment')
 
-  const submit = page.getByRole('button', { name: '결제 연동 준비 중' }).first()
-  await expect(submit).toBeDisabled()
-  await submit.evaluate(button => button.click())
+  await expect(page.getByRole('button', { name: '결제하기' }).first()).toBeEnabled()
   await page.reload()
-  await expect(page.getByRole('button', { name: '결제 연동 준비 중' }).first()).toBeDisabled()
+  await expect(page.getByRole('button', { name: '결제하기' }).first()).toBeEnabled()
 
   const secondTab = await context.newPage()
   await seedSession(secondTab, storedFlow())
   await mockIdentity(secondTab)
   await secondTab.goto('/payment')
-  await expect(secondTab.getByRole('button', { name: '결제 연동 준비 중' }).first()).toBeDisabled()
-  await secondTab.getByRole('button', { name: '결제 연동 준비 중' }).first().evaluate(button => button.click())
-  expect(calls).toEqual({ orders: 0, payments: 0 })
+  await expect(secondTab.getByRole('button', { name: '결제하기' }).first()).toBeEnabled()
+  expect(calls).toEqual({ orders: 0, paymentAttempts: 0 })
 })
 
 test('user B and unauthenticated direct URLs cannot restore user A state', async ({ page }) => {
@@ -185,7 +179,7 @@ test('ProductDetail buy still opens an owned checkout preview and back returns t
   await detail.getByRole('option', { name: 'M', exact: true }).click()
   await detail.getByRole('button', { name: '구매하기' }).click()
   await expect(page).toHaveURL(/\/checkout$/)
-  await expect(page.getByRole('button', { name: '결제 연동 준비 중' }).first()).toBeDisabled()
+  await expect(page.getByRole('button', { name: '결제 수단 선택' }).first()).toBeEnabled()
   await page.getByRole('button', { name: '상품 또는 장바구니로 돌아가기' }).click()
   await expect(page.getByRole('main', { name: '상품 상세' })).toBeVisible()
 })

@@ -27,7 +27,10 @@ public class PaymentJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "payment_key", unique = true, nullable = false, length = 64)
+    @Column(name = "payment_request_id", length = 36, unique = true)
+    private String paymentRequestId;
+
+    @Column(name = "payment_key", unique = true, length = 200)
     private String paymentKey;
 
     @Column(name = "merchant_id", nullable = false)
@@ -67,6 +70,7 @@ public class PaymentJpaEntity {
 
     private PaymentJpaEntity(
         Long id,
+        String paymentRequestId,
         String paymentKey,
         Long merchantId,
         Long userId,
@@ -80,6 +84,7 @@ public class PaymentJpaEntity {
         LocalDateTime updatedAt
     ) {
         this.id = id;
+        this.paymentRequestId = paymentRequestId;
         this.paymentKey = paymentKey;
         this.merchantId = merchantId;
         this.userId = userId;
@@ -100,6 +105,7 @@ public class PaymentJpaEntity {
     public static PaymentJpaEntity from(Payment payment) {
         return new PaymentJpaEntity(
             payment.getId() == 0 ? null : payment.getId(),
+            payment.getPaymentRequestId(),
             payment.getPaymentKey(),
             payment.getMerchantId(),
             payment.getUserId(),
@@ -120,6 +126,7 @@ public class PaymentJpaEntity {
     public Payment toDomain() {
         return Payment.reconstruct(
             id,
+            paymentRequestId,
             paymentKey,
             merchantId,
             userId,
@@ -142,6 +149,10 @@ public class PaymentJpaEntity {
 
     public String getPaymentKey() {
         return paymentKey;
+    }
+
+    public String getPaymentRequestId() {
+        return paymentRequestId;
     }
 
     public Long getMerchantId() {

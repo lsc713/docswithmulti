@@ -12,6 +12,7 @@ public enum PaymentStatus {
     COMPLETED("결제 완료"),
     PARTIAL_CANCELLED("부분 취소"),
     CANCELLED("전액 취소"),
+    FAILED("결제 실패"),
     CANCEL_FAILED("취소 실패");
 
     private final String description;
@@ -35,6 +36,6 @@ public enum PaymentStatus {
      * 최종 상태인지 확인 (더 이상 변경 불가)
      */
     public boolean isFinal() {
-        return this == CANCELLED || this == CANCEL_FAILED;
+        return this == CANCELLED || this == FAILED || this == CANCEL_FAILED;
     }
 }

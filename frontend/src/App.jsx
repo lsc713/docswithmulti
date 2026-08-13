@@ -11,10 +11,16 @@ import Payment from './components/Payment'
 import OrderSuccess from './components/OrderSuccess'
 import Cart from './components/Cart'
 import OrderHistory from './components/OrderHistory'
+import PaymentReturn from './components/PaymentReturn'
 import { clearOrderRouteState, normalizeOrderItems, persistOrderRouteState, resolveOrderRouteState } from './orderFlow'
 
 const DETAIL_DRAFTS = new Set(['editorial', 'gallery', 'compact'])
 const STORE_PATHS = { home: '/', cart: '/cart', history: '/history', success: '/order-success', detail: '/' }
+
+function savedPaymentAttempt() {
+  try { return JSON.parse(sessionStorage.getItem('paymentAttempt')) }
+  catch { return null }
+}
 
 function getDetailDraftRequest(search) {
   const params = new URLSearchParams(search)
@@ -26,6 +32,8 @@ function getDetailDraftRequest(search) {
 
 function getInitialView() {
   const path = window.location.pathname
+  if (path === '/payment/success') return { name: 'payment-return', kind: 'success' }
+  if (path === '/payment/fail') return { name: 'payment-return', kind: 'fail' }
   if (path === '/checkout' || path === '/payment') {
     return { name: path.slice(1), flowState: null }
   }
@@ -41,6 +49,7 @@ export default function App() {
   const [authOpen, setAuthOpen] = useState(false)
   const [cart, setCart] = useState([])
   const [payments, setPayments] = useState([])
+  const [paymentContext] = useState(savedPaymentAttempt)
   const [productQuery, setProductQuery] = useState('')
   const draftRequest = getDetailDraftRequest(window.location.search)
   const draftOpen = view.name === 'home' && draftRequest !== null
@@ -166,6 +175,7 @@ export default function App() {
       )}
       {view.name === 'checkout' && (
         <Checkout flowState={view.flowState} me={me}
+                  onContinue={() => openOrderRoute('payment', view.flowState)}
                   onBack={() => {
                     const source = view.flowState?.source
                     const returnView = source === 'cart'
@@ -179,6 +189,29 @@ export default function App() {
       {view.name === 'payment' && (
         <Payment flowState={view.flowState}
                  onBack={() => window.history.back()} />
+      )}
+      {view.name === 'payment-return' && (
+        <PaymentReturn kind={view.kind} context={paymentContext}
+          onCompleted={async (payment) => {
+            if (paymentContext?.source === 'cart' || paymentContext?.fromCart) {
+              try { await api.clearCart(); setCart([]) } catch { loadCart() }
+            }
+            sessionStorage.removeItem('paymentAttempt')
+            clearOrderRouteState()
+            const completedPayment = { ...payment, totalAmount: payment.amount }
+            window.history.replaceState({ storeView: { name: 'success', payment: completedPayment } }, '', '/order-success')
+            setView({ name: 'success', payment: completedPayment })
+          }}
+          onRetry={(context) => {
+            const flowState = {
+              orderItems: context.orderItems ?? context.lines,
+              source: context.source ?? (context.fromCart ? 'cart' : 'product'),
+              productId: context.productId,
+              retryItems: context.paymentItems,
+            }
+            window.history.replaceState({}, '', '/payment')
+            setView({ name: 'payment', flowState })
+          }} />
       )}
       {view.name === 'success' && (
         <OrderSuccess payment={view.payment} onHome={handleHome} />
