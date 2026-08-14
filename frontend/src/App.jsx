@@ -223,12 +223,14 @@ export default function App() {
         <OrderHistory payments={payments} onRequestCancel={handleRequestCancel} onBack={handleHome} />
       )}
 
-      <AuthModal open={authOpen} onClose={() => setAuthOpen(false)}
-                 onAuthed={(u) => {
-                   clearOrderFlowClientState()
-                   setMe(u)
-                   setAuthOpen(false)
-                 }} />
+      {authOpen && (
+        <AuthModal open onClose={() => setAuthOpen(false)}
+                   onAuthed={(u) => {
+                     clearOrderFlowClientState()
+                     setMe(u)
+                     setAuthOpen(false)
+                   }} />
+      )}
     </>
   )
 }

@@ -8,6 +8,7 @@
     "build": "vite build",
     "lint": "oxlint",
     "test:unit": "node --test test/*.test.js",
+    "test:modal": "playwright test --config=playwright.modal.config.js",
     "preview": "vite preview"
   },
   "dependencies": {

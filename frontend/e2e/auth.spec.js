@@ -5,7 +5,7 @@ import { resolveE2EUrls } from './helpers/urls.js'
 const uniqueEmail = () => `pw_${Date.now()}_${Math.floor(Math.random() * 1e4)}@example.com`
 const { gateway: GATEWAY } = resolveE2EUrls()
 
-// Task 11 UI 재구성: 로그인/회원가입은 NavBar의 "로그인" 버튼으로 여는 모달(AuthModal).
+// 계정 생성은 API fixture로 격리하고, storefront는 승인된 로그인 전용 모달만 검증한다.
 // 로그인 상태 표시는 전면 헤딩이 아니라 NavBar의 "{name}님" + "로그아웃" 버튼.
 function navbar(page) {
   return page.locator('.navbar')
@@ -18,22 +18,24 @@ async function openAuthModal(page) {
   await navbar(page).getByRole('button', { name: '로그인' }).click()
 }
 
-async function signup(page, { email, name = '홍길동', phone = '010-1234-5678', password = 'pw12345' }) {
+async function createUser(request, user) {
+  const response = await request.post(`${GATEWAY}/v1/auth/signup`, { data: user })
+  expect(response.ok()).toBeTruthy()
+}
+
+async function login(page, { email, password = 'pw12345' }) {
   await page.goto('/')
   await openAuthModal(page)
   const m = modal(page)
-  await m.getByRole('button', { name: '회원가입으로' }).click()
-  await expect(m.getByRole('heading', { name: '회원가입' })).toBeVisible()
-  await m.getByPlaceholder('email').fill(email)
-  await m.getByPlaceholder('password').fill(password)
-  await m.getByPlaceholder('name').fill(name)
-  await m.getByPlaceholder('phone').fill(phone)
-  await m.getByRole('button', { name: '가입' }).click()
+  await m.getByRole('textbox', { name: '이메일' }).fill(email)
+  await m.getByRole('textbox', { name: '비밀번호', exact: true }).fill(password)
+  await m.getByRole('button', { name: '로그인', exact: true }).click()
 }
 
-test('회원가입 → NavBar 표시 → httpOnly 쿠키 격리 → 로그아웃', async ({ page, context }) => {
+test('로그인 → NavBar 표시 → httpOnly 쿠키 격리 → 로그아웃', async ({ page, context, request }) => {
   const email = uniqueEmail()
-  await signup(page, { email })
+  await createUser(request, { email, name: '홍길동', phone: '010-1234-5678', password: 'pw12345' })
+  await login(page, { email })
 
   // 로그인 상태는 NavBar에 이름으로 렌더 (전면 헤딩 없음)
   await expect(navbar(page).getByText('홍길동님')).toBeVisible()
@@ -70,40 +72,37 @@ test('회원가입 → NavBar 표시 → httpOnly 쿠키 격리 → 로그아웃
   expect(after.find((c) => c.name === 'access_token')).toBeUndefined()
 })
 
-test('로그아웃 후 기존 계정 로그인 → NavBar 재표시', async ({ page }) => {
+test('로그아웃 후 기존 계정 로그인 → NavBar 재표시', async ({ page, request }) => {
   const email = uniqueEmail()
-  await signup(page, { email, name: '김철수' })
+  await createUser(request, { email, name: '김철수', phone: '010-1234-5678', password: 'pw12345' })
+  await login(page, { email })
   await expect(navbar(page).getByText('김철수님')).toBeVisible()
   await navbar(page).getByRole('button', { name: '로그아웃' }).click()
 
-  // 모달 컴포넌트는 언마운트되지 않으므로 마지막 모드(회원가입)를 유지 → 로그인 모드로 전환
   await openAuthModal(page)
   const m = modal(page)
-  await m.getByRole('button', { name: '로그인으로' }).click()
   await expect(m.getByRole('heading', { name: '로그인' })).toBeVisible()
-  await m.getByPlaceholder('email').fill(email)
-  await m.getByPlaceholder('password').fill('pw12345')
-  await m.getByRole('button', { name: '로그인' }).click()
+  await m.getByRole('textbox', { name: '이메일' }).fill(email)
+  await m.getByRole('textbox', { name: '비밀번호', exact: true }).fill('pw12345')
+  await m.getByRole('button', { name: '로그인', exact: true }).click()
 
   await expect(navbar(page).getByText('김철수님')).toBeVisible()
 })
 
-test('잘못된 비밀번호 로그인 → 에러 메시지 표시', async ({ page }) => {
+test('잘못된 비밀번호 로그인 → 에러 메시지 표시', async ({ page, request }) => {
   const email = uniqueEmail()
-  await signup(page, { email })
-  await expect(navbar(page).getByText('홍길동님')).toBeVisible()
-  await navbar(page).getByRole('button', { name: '로그아웃' }).click()
+  await createUser(request, { email, name: '홍길동', phone: '010-1234-5678', password: 'pw12345' })
+  await page.goto('/')
 
   await openAuthModal(page)
   const m = modal(page)
-  await m.getByRole('button', { name: '로그인으로' }).click()
   await expect(m.getByRole('heading', { name: '로그인' })).toBeVisible()
-  await m.getByPlaceholder('email').fill(email)
-  await m.getByPlaceholder('password').fill('wrong-password')
-  await m.getByRole('button', { name: '로그인' }).click()
+  await m.getByRole('textbox', { name: '이메일' }).fill(email)
+  await m.getByRole('textbox', { name: '비밀번호', exact: true }).fill('wrong-password')
+  await m.getByRole('button', { name: '로그인', exact: true }).click()
 
   // 백엔드 {code,message} 가 모달 안에 노출되고 로그인 화면 유지
   await expect(m.getByRole('heading', { name: '로그인' })).toBeVisible()
-  await expect(m.locator('p')).toBeVisible()
+  await expect(m.getByRole('alert')).toHaveText('이메일 또는 비밀번호를 확인하세요.')
   await expect(navbar(page).getByText('홍길동님')).toHaveCount(0)
 })
