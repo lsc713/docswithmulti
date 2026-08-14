@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { api } from '../api'
 import { aggregateOrderItems } from '../orderFlow'
+import { createMockPaymentReturnUrl } from '../payment-provider'
 import { OrderItemCard, OrderTotals } from './Checkout'
 
 const lineName = line => `${line.itemName} ${line.optionSummary ?? ''}`.trim()
@@ -58,6 +59,12 @@ export default function Payment({ flowState, onBack }) {
         productId: flowState.productId,
         paymentItems,
       }))
+      const mockReturnUrl = createMockPaymentReturnUrl(
+        import.meta.env.VITE_PAYMENT_PROVIDER, window.location.origin, prepared)
+      if (mockReturnUrl) {
+        window.location.assign(mockReturnUrl)
+        return
+      }
       const TossPayments = await loadToss()
       await TossPayments(prepared.clientKey).payment({ customerKey: prepared.customerKey })
         .requestPayment({
