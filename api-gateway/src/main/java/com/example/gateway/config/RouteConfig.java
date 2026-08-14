@@ -164,9 +164,9 @@ public class RouteConfig {
     }
 
     /**
-     * product-service 관리자 write(상품 생성 시드 + 이미지 presign/confirm/delete/reorder) — 인증 라우트.
-     * POST /v1/products(정확 경로)는 ADMIN 전용 상품 생성 시드 — downstream(product-service)이
-     * X-User-Role=ADMIN을 재검증한다(Task 8b). 이미지 실제 엔드포인트는 "/images:presign"(콜론 리터럴)이
+     * product-service 관리자 write(카테고리/상품 생성 + 이미지 presign/confirm/delete/reorder) — 인증 라우트.
+     * POST /v1/categories와 POST /v1/products(각각 정확 경로)는 ADMIN 전용 생성 — downstream(product-service)이
+     * X-User-Role=ADMIN을 재검증한다. 이미지 실제 엔드포인트는 "/images:presign"(콜론 리터럴)이
      * 아니라 "/images/presign"(세그먼트) — Task 6에서 Spring MVC가 ':presign' 콜론 형태를 라우팅하지
      * 못한다고 확인돼 세그먼트 형태로 구현됐다.
      * strip→verify→inject는 JwtTrustHeaderFilter가 담당.
@@ -175,7 +175,8 @@ public class RouteConfig {
     RouterFunction<ServerResponse> productAdminWriteRoute(
             JwtTrustHeaderFilter jwt,
             @Value("${gateway.downstream.product-uri}") String productUri) {
-        RequestPredicate write = POST("/v1/products/*/images/presign")
+        RequestPredicate write = POST("/v1/categories")
+                .or(POST("/v1/products/*/images/presign"))
                 .or(POST("/v1/products/*/images"))
                 .or(DELETE("/v1/products/*/images/*"))
                 .or(PUT("/v1/products/*/images/order"))

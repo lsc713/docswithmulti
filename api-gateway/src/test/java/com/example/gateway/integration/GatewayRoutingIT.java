@@ -518,6 +518,35 @@ class GatewayRoutingIT {
         userDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
+    @Test
+    void postCategories_noToken_returns401_downstreamNotCalled() throws Exception {
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/categories")))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(401);
+        productDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void postCategories_adminJwt_routesWithRole() throws Exception {
+        productDownstream.stubFor(post(urlPathEqualTo("/v1/categories"))
+                .willReturn(aResponse().withStatus(200).withBody("{\"id\":1,\"level\":1}")));
+
+        HttpResponse<String> res = http.send(
+                withCsrf(HttpRequest.newBuilder(URI.create(gateway("/v1/categories")))
+                        .header("Authorization", "Bearer " + accessToken(42L, "ADMIN", null))
+                        .POST(HttpRequest.BodyPublishers.noBody()))
+                        .build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        productDownstream.verify(postRequestedFor(urlPathEqualTo("/v1/categories"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("ADMIN")));
+    }
+
     // === Task 7 (cancel-approval P1): /v1/cancel-requests secured route → payment downstream ===
 
     @Test
