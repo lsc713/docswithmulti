@@ -49,7 +49,7 @@ export default function App() {
   const [authOpen, setAuthOpen] = useState(false)
   const [cart, setCart] = useState([])
   const [payments, setPayments] = useState([])
-  const [paymentContext] = useState(savedPaymentAttempt)
+  const [paymentContext, setPaymentContext] = useState(savedPaymentAttempt)
   const [productQuery, setProductQuery] = useState('')
   const draftRequest = getDetailDraftRequest(window.location.search)
   const draftOpen = view.name === 'home' && draftRequest !== null
@@ -63,6 +63,8 @@ export default function App() {
 
   function clearOrderFlowClientState() {
     clearOrderRouteState()
+    sessionStorage.removeItem('paymentAttempt')
+    setPaymentContext(null)
     hideOrderFlowClientState()
   }
 
@@ -154,6 +156,7 @@ export default function App() {
                 await api.logout()
                 clearOrderFlowClientState()
                 setMe(null)
+                openStoreView({ name: 'home' }, true)
               }}
               cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
               onCart={() => openStoreView({ name: 'cart' })}

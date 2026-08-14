@@ -20,7 +20,7 @@ async function json(response, operation, redactions = []) {
 async function createCategory(request, productBase, name, parentId) {
   const data = parentId === undefined ? { name } : { name, parentId }
   return json(
-    await request.post(`${productBase}/v1/categories`, { data }),
+    await request.post(`${productBase}/v1/categories`, { data, headers: { 'X-User-Role': 'ADMIN' } }),
     `POST product-service /v1/categories (${name})`,
   )
 }
@@ -37,7 +37,7 @@ async function createCategoryPath(request, productBase, runKey) {
 
 async function authenticateAdmin(request, gatewayBase, email) {
   const signup = await request.post(`${gatewayBase}/v1/auth/signup`, { data: { ...ADMIN, email } })
-  await json(signup, 'POST gateway /v1/auth/signup', [email])
+  if (signup.status() !== 409) await json(signup, 'POST gateway /v1/auth/signup', [email])
   await json(
     await request.post(`${gatewayBase}/v1/auth/login`, { data: { email, password: ADMIN.password } }),
     'POST gateway /v1/auth/login',

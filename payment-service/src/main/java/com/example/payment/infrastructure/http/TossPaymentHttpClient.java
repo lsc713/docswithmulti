@@ -6,6 +6,7 @@ import com.example.payment.application.interfaces.TossPaymentPort;
 import com.example.payment.common.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ import java.util.Map;
 import com.example.payment.infrastructure.http.dto.TossPaymentResponse;
 
 @Component
+@Profile("!mock-pg")
 public class TossPaymentHttpClient implements TossPaymentPort {
     private final RestTemplate restTemplate;
     private final String baseUrl;

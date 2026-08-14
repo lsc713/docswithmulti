@@ -2,9 +2,14 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../../api'
 
-function leaves(tree) {
+function levelThreeCategories(tree) {
   const out = []
-  ;(function walk(ns) { ns.forEach(n => (n.children?.length ? walk(n.children) : out.push(n))) })(tree)
+  ;(function walk(nodes) {
+    nodes.forEach(node => {
+      if (node.level === 3) out.push(node)
+      if (node.children?.length) walk(node.children)
+    })
+  })(tree)
   return out
 }
 const emptySku = () => ({ skuCode: '', optionSummary: '', initialStock: 0, price: 0 })
@@ -17,7 +22,7 @@ export default function ProductCreate() {
   const [err, setErr] = useState('')
   const navigate = useNavigate()
 
-  useEffect(() => { api.categories().then(t => setCats(leaves(t))).catch(() => setCats([])) }, [])
+  useEffect(() => { api.categories().then(t => setCats(levelThreeCategories(t))).catch(() => setCats([])) }, [])
 
   const setSku = (i, k) => (e) => {
     const v = k === 'initialStock' || k === 'price' ? Number(e.target.value) : e.target.value

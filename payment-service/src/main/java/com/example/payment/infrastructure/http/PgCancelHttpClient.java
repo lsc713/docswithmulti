@@ -19,7 +19,7 @@ import java.util.Optional;
 
 @Slf4j
 @Component
-@org.springframework.context.annotation.Profile("!local")
+@org.springframework.context.annotation.Profile("!mock-pg")
 public class PgCancelHttpClient implements PgCancelPort {
 
     private final RestTemplate restTemplate;

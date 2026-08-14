@@ -33,6 +33,7 @@ export const api = {
   logout: ()  => req('/v1/auth/logout', { method: 'POST', csrf: true }),
 
   categories:         (signal)    => req('/v1/categories', { signal }),
+  createCategory:     (body)      => req('/v1/categories', { method: 'POST', body, csrf: true }),
   productsByCategory: (id, page = 0, signal) =>
     req(`/v1/categories/${id}/products?page=${page}`, { signal }),
   product:            (id)        => req(`/v1/products/${id}`),

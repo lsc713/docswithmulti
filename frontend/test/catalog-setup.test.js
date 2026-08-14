@@ -110,28 +110,47 @@ test('rejects an invalid admin email before any API write without exposing it', 
   assert.equal(request.calls.length, 0)
 })
 
-test('treats signup 409 as fatal before catalog writes without exposing the email', async () => {
+test('treats non-409 signup failure as fatal before login without exposing the email', async () => {
   const adminEmail = 'bootstrap@example.test'
   const request = fakeRequest((method, url) => {
-    if (url === 'http://localhost:8084/v1/categories') {
-      return new FakeResponse(200, { id: 1 })
-    }
     if (url === 'http://localhost:8000/v1/auth/signup') {
-      return new FakeResponse(409, { code: 'EMAIL_ALREADY_EXISTS', email: adminEmail })
+      return new FakeResponse(400, { code: 'INVALID_SIGNUP', email: adminEmail })
     }
     throw new Error(`Unexpected ${method} ${url}`)
   })
 
   await assert.rejects(
     catalogSetup.setupRunCatalog(request, {
-      runKey: 'signup-conflict',
+      runKey: 'signup-failure',
       env: { E2E_ADMIN_EMAIL: adminEmail },
     }),
-    error => /POST gateway \/v1\/auth\/signup failed with HTTP 409/.test(error.message)
+    error => /POST gateway \/v1\/auth\/signup failed with HTTP 400/.test(error.message)
       && !error.message.includes(adminEmail),
   )
-  assert.equal(request.calls.filter(call => call.url.includes('/categories')).length, 0)
   assert.equal(request.calls.filter(call => call.url.endsWith('/login')).length, 0)
+})
+
+test('continues from signup 409 through login and strict ADMIN verification', async () => {
+  let nextCategoryId = 1
+  const request = fakeRequest((method, url, options) => {
+    if (url.endsWith('/v1/auth/signup')) return new FakeResponse(409, { code: 'EMAIL_ALREADY_EXISTS' })
+    if (url.endsWith('/v1/auth/login')) return new FakeResponse(200)
+    if (url.endsWith('/v1/auth/me')) return new FakeResponse(200, { role: 'ADMIN' })
+    if (url === 'http://localhost:8084/v1/categories') return new FakeResponse(200, { id: nextCategoryId++ })
+    if (url.endsWith('/v1/products')) return new FakeResponse(200, { productId: 9, skus: options.data.skus })
+    throw new Error(`Unexpected ${method} ${url}`)
+  }, [{ name: 'csrf_token', value: 'csrf-value' }])
+
+  const product = await catalogSetup.setupRunCatalog(request, {
+    runKey: 'signup-conflict',
+    env: { E2E_ADMIN_EMAIL: 'bootstrap@example.test' },
+  })
+
+  assert.equal(product.productId, 9)
+  assert.deepEqual(
+    request.calls.slice(0, 3).map(call => `${call.method} ${new URL(call.url).pathname}`),
+    ['POST /v1/auth/signup', 'POST /v1/auth/login', 'GET /v1/auth/me'],
+  )
 })
 
 test('rejects a logged-in USER before catalog writes', async () => {
@@ -231,6 +250,11 @@ test('creates one run-specific catalog seed and exposes its exact product name',
     { name: 'E2E 의류 run-42' },
     { name: 'E2E 상의 run-42', parentId: 100 },
     { name: 'E2E 티셔츠 run-42', parentId: 101 },
+  ])
+  assert.deepEqual(categoryPosts.map(call => call.headers), [
+    { 'X-User-Role': 'ADMIN' },
+    { 'X-User-Role': 'ADMIN' },
+    { 'X-User-Role': 'ADMIN' },
   ])
   const productPost = request.calls.find(call => call.url === 'http://localhost:8000/v1/products')
   assert.deepEqual(productPost.headers, { 'X-CSRF-Token': 'csrf-value' })

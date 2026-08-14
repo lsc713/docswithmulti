@@ -3,6 +3,7 @@ import { resolveE2EUrls } from './helpers/urls.js'
 
 const { gateway: GW } = resolveE2EUrls()
 const SESSION_KEY = 'fashion-shop:order-flow'
+const PAYMENT_ATTEMPT_KEY = 'paymentAttempt'
 const USER_A = { userId: 7, email: 'buyer-a@example.com', name: '구매자 A', role: 'USER' }
 const USER_B = { userId: 8, email: 'buyer-b@example.com', name: '구매자 B', role: 'USER' }
 const ORDER_ITEMS = [
@@ -101,18 +102,33 @@ test('transient identity failure hides but preserves the owned preview for a lat
 
 test('logout clears owned order state, order view state, and cart before another identity', async ({ page }) => {
   let currentUser = USER_A
+  let paymentCalls = 0
   await seedSession(page, storedFlow())
+  await page.addInitScript(key => sessionStorage.setItem(key, JSON.stringify({ paymentRequestId: 'attempt-a' })), PAYMENT_ATTEMPT_KEY)
   await page.route(`${GW}/v1/auth/me`, route => route.fulfill({ json: currentUser }))
   await page.route(`${GW}/v1/cart`, route => route.fulfill({
     json: { items: currentUser.userId === USER_A.userId ? ORDER_ITEMS : [] },
   }))
   await page.route(`${GW}/v1/auth/logout`, route => route.fulfill({ json: {} }))
+  await page.route(`${GW}/v1/payment-attempts/**`, route => {
+    paymentCalls += 1
+    return route.fulfill({ json: { status: 'FAILED' } })
+  })
   await page.goto('/checkout')
   await expect(page.locator('.order-item-card')).toHaveCount(3)
 
   await page.getByRole('button', { name: '로그아웃' }).click()
   await expect(page.getByRole('button', { name: '로그인' })).toBeVisible()
+  await expect(page).toHaveURL(/\/$/)
+  await expect(page.getByRole('heading', { name: /새로운 균형/ })).toBeVisible()
   await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), SESSION_KEY)).toBeNull()
+  await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), PAYMENT_ATTEMPT_KEY)).toBeNull()
+  await page.evaluate(() => {
+    history.pushState(null, '', '/payment/success?orderId=attempt-a&paymentKey=mock-key&amount=1')
+    dispatchEvent(new PopStateEvent('popstate'))
+  })
+  await expect(page.getByText('결제 시도 정보를 찾을 수 없습니다.')).toBeVisible()
+  expect(paymentCalls).toBe(0)
   currentUser = USER_B
   await page.goto('/checkout')
   await expect(page.getByRole('heading', { name: '주문할 상품이 없어요' })).toBeVisible()
@@ -122,13 +138,17 @@ test('logout clears owned order state, order view state, and cart before another
 
 test('failed logout keeps the authenticated UI and owned order state intact', async ({ page }) => {
   await seedSession(page, storedFlow())
+  await page.addInitScript(key => sessionStorage.setItem(key, JSON.stringify({ paymentRequestId: 'attempt-a' })), PAYMENT_ATTEMPT_KEY)
   await mockIdentity(page)
   await page.route(`${GW}/v1/auth/logout`, route => route.fulfill({ status: 503, json: {} }))
   await page.goto('/checkout')
 
   await page.getByRole('button', { name: '로그아웃' }).click()
+  await expect(page).toHaveURL(/\/checkout$/)
   await expect(page.locator('.navbar-right')).toContainText('구매자 A님')
+  await expect(page.locator('.order-item-card')).toHaveCount(3)
   await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), SESSION_KEY)).not.toBeNull()
+  await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), PAYMENT_ATTEMPT_KEY)).not.toBeNull()
 })
 
 test('one, three, and twelve-item previews remain responsive and payment back returns to checkout', async ({ page }) => {
