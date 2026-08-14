@@ -16,8 +16,8 @@ test('주문내역: 구매 → 내역 → 취소 요청 → 취소 요청됨', a
 
   await page.goto(BASE)
   await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
-  await page.fill('input[placeholder="email"]', USER.email)
-  await page.fill('input[placeholder="password"]', USER.password)
+  await page.getByRole('textbox', { name: '이메일' }).fill(USER.email)
+  await page.getByRole('textbox', { name: '비밀번호', exact: true }).fill(USER.password)
   await page.click('.modal button[type="submit"]')
   await expect(page.locator('.navbar-right span')).toBeVisible()
 

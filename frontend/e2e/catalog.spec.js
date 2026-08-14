@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { openProductDetail } from './helpers/product-detail'
+import { resolveE2EUrls } from './helpers/urls.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const FIXTURE_IMAGE = path.join(__dirname, 'fixtures', 'test-image.png')
@@ -12,6 +13,7 @@ const FIXTURE_IMAGE = path.join(__dirname, 'fixtures', 'test-image.png')
 // `APP_ADMIN_BOOTSTRAP_EMAILS=<E2E_ADMIN_EMAIL>`로 기동해야 한다. 미설정 시 test.skip.
 const ADMIN_EMAIL = process.env.E2E_ADMIN_EMAIL || 'admin-e2e@example.com'
 const ADMIN_PASSWORD = process.env.E2E_ADMIN_PASSWORD || 'pw12345'
+const { gateway: GATEWAY } = resolveE2EUrls()
 
 function navbar(page) {
   return page.locator('.navbar')
@@ -26,17 +28,17 @@ async function productImageCount(detail) {
   return thumbnailCount || visual.getByRole('img').count()
 }
 
-async function signupAs(page, { email, name = '관리자', phone = '010-0000-0000', password }) {
+async function loginAs(page, request, { email, name = '관리자', phone = '010-0000-0000', password }) {
+  const signup = await request.post(`${GATEWAY}/v1/auth/signup`, {
+    data: { email, name, phone, password },
+  })
+  expect(signup.ok()).toBeTruthy()
   await page.goto('/')
   await navbar(page).getByRole('button', { name: '로그인' }).click()
   const m = modal(page)
-  await m.getByRole('button', { name: '회원가입으로' }).click()
-  await expect(m.getByRole('heading', { name: '회원가입' })).toBeVisible()
-  await m.getByPlaceholder('email').fill(email)
-  await m.getByPlaceholder('password').fill(password)
-  await m.getByPlaceholder('name').fill(name)
-  await m.getByPlaceholder('phone').fill(phone)
-  await m.getByRole('button', { name: '가입' }).click()
+  await m.getByRole('textbox', { name: '이메일' }).fill(email)
+  await m.getByRole('textbox', { name: '비밀번호', exact: true }).fill(password)
+  await m.getByRole('button', { name: '로그인', exact: true }).click()
   await expect(m).toHaveCount(0) // 성공 시 모달 닫힘
 }
 
@@ -67,7 +69,7 @@ test('비로그인 그리드 조회 → 상세', async ({ page }) => {
   await expect(page.locator('.grid')).toBeVisible()
 })
 
-test('ADMIN 이미지 업로드 → 갤러리 반영', async ({ page }) => {
+test('ADMIN 이미지 업로드 → 갤러리 반영', async ({ page, request }) => {
   test.skip(
     !process.env.E2E_ADMIN_EMAIL,
     'ADMIN bootstrap 미설정: 이 테스트는 user-service를 ' +
@@ -77,7 +79,7 @@ test('ADMIN 이미지 업로드 → 갤러리 반영', async ({ page }) => {
       '새 이메일을 사용할 것).'
   )
 
-  await signupAs(page, { email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
+  await loginAs(page, request, { email: ADMIN_EMAIL, password: ADMIN_PASSWORD })
 
   const { detail } = await openProductDetail(page, page.locator('.card').first())
   await expect(detail.getByRole('heading', { name: '이미지 관리 (ADMIN)' })).toBeVisible()
