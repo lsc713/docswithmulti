@@ -8,6 +8,7 @@ import ProductCreate from './pages/ProductCreate'
 import ProductDetail from './pages/ProductDetail'
 import Users from './pages/Users'
 import CancelRequests from './pages/CancelRequests'
+import Categories from './pages/Categories'
 
 export default function AdminApp() {
   return (
@@ -20,6 +21,7 @@ export default function AdminApp() {
           <Route path="products" element={<RequireRole roles={['ADMIN']}><ProductList /></RequireRole>} />
           <Route path="products/new" element={<RequireRole roles={['ADMIN']}><ProductCreate /></RequireRole>} />
           <Route path="products/:id" element={<RequireRole roles={['ADMIN']}><ProductDetail /></RequireRole>} />
+          <Route path="categories" element={<RequireRole roles={['ADMIN']}><Categories /></RequireRole>} />
           <Route path="users" element={<RequireRole roles={['ADMIN']}><Users /></RequireRole>} />
         </Route>
         <Route path="*" element={<Navigate to="/admin" replace />} />
