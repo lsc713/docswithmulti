@@ -21,7 +21,7 @@ cd frontend
 VITE_API_BASE_URL=http://localhost:8000 VITE_PAYMENT_PROVIDER=mock npm run dev
 ```
 
-이 모드에서 `결제하기`를 누르면 Toss SDK나 Toss API를 호출하지 않고 기존 `/payment/success` 콜백과 서버 confirm API를 거쳐 결제가 완료됩니다. 관리자 취소 승인은 기존 `MockPgCancelClient`를 사용하므로 외부 PG 취소 호출도 발생하지 않습니다.
+`mock-pg` 프로필 하나가 승인과 취소를 모두 Mock 구현으로 전환합니다. 이 모드에서 `결제하기`를 누르면 Toss SDK나 Toss API를 호출하지 않고 기존 `/payment/success` 콜백과 서버 confirm API를 거쳐 결제가 완료되며, 관리자 취소 승인도 외부 PG를 호출하지 않습니다. 안전을 위해 `prod,mock-pg` 조합은 기동되지 않습니다.
 
 ## 전체 결제·취소 E2E
 

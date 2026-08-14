@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-@Profile("mock-pg")
+@Profile("mock-pg & !prod")
 public class MockTossPaymentClient implements TossPaymentPort {
 
     @Override

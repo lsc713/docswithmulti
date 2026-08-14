@@ -56,6 +56,8 @@ test('ADMIN 카테고리 생성: 대분류 → 중분류 → 소분류 → 상�
   const root = `E2E 대분류 ${runId}`
   const middle = `E2E 중분류 ${runId}`
   const leaf = `E2E 소분류 ${runId}`
+  const emptyRoot = `E2E 빈 대분류 ${runId}`
+  const emptyMiddle = `E2E 빈 중분류 ${runId}`
 
   await page.getByText('카테고리 관리', { exact: true }).click()
   await page.getByPlaceholder('카테고리 이름').fill(root)
@@ -68,6 +70,19 @@ test('ADMIN 카테고리 생성: 대분류 → 중분류 → 소분류 → 상�
   await page.getByPlaceholder('카테고리 이름').fill(leaf)
   await page.getByRole('button', { name: '카테고리 추가' }).click()
 
+  await page.getByLabel('상위 카테고리').selectOption({ label: '대분류' })
+  await page.getByPlaceholder('카테고리 이름').fill(emptyRoot)
+  await page.getByRole('button', { name: '카테고리 추가' }).click()
+
+  await page.getByLabel('상위 카테고리').selectOption({ label: root })
+  await page.getByPlaceholder('카테고리 이름').fill(emptyMiddle)
+  await page.getByRole('button', { name: '카테고리 추가' }).click()
+
   await page.getByText('상품 등록', { exact: true }).click()
-  await expect(page.locator('select').first().getByRole('option', { name: leaf })).toHaveCount(1)
+  const categoryOptions = page.locator('select').first()
+  await expect(categoryOptions.getByRole('option', { name: root })).toHaveCount(0)
+  await expect(categoryOptions.getByRole('option', { name: middle })).toHaveCount(0)
+  await expect(categoryOptions.getByRole('option', { name: emptyRoot })).toHaveCount(0)
+  await expect(categoryOptions.getByRole('option', { name: emptyMiddle })).toHaveCount(0)
+  await expect(categoryOptions.getByRole('option', { name: leaf })).toHaveCount(1)
 })

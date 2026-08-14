@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-@Profile("local")
+@Profile("mock-pg & !prod")
 public class MockPgCancelClient implements PgCancelPort {
 
     @Override
