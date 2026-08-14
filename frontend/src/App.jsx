@@ -154,6 +154,7 @@ export default function App() {
                 await api.logout()
                 clearOrderFlowClientState()
                 setMe(null)
+                openStoreView({ name: 'home' }, true)
               }}
               cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
               onCart={() => openStoreView({ name: 'cart' })}

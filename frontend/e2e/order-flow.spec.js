@@ -112,6 +112,8 @@ test('logout clears owned order state, order view state, and cart before another
 
   await page.getByRole('button', { name: '로그아웃' }).click()
   await expect(page.getByRole('button', { name: '로그인' })).toBeVisible()
+  await expect(page).toHaveURL(/\/$/)
+  await expect(page.getByRole('heading', { name: /새로운 균형/ })).toBeVisible()
   await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), SESSION_KEY)).toBeNull()
   currentUser = USER_B
   await page.goto('/checkout')
@@ -127,6 +129,7 @@ test('failed logout keeps the authenticated UI and owned order state intact', as
   await page.goto('/checkout')
 
   await page.getByRole('button', { name: '로그아웃' }).click()
+  await expect(page).toHaveURL(/\/checkout$/)
   await expect(page.locator('.navbar-right')).toContainText('구매자 A님')
   await expect.poll(() => page.evaluate(key => sessionStorage.getItem(key), SESSION_KEY)).not.toBeNull()
 })
