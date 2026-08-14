@@ -102,9 +102,9 @@ Toss 테스트 키를 사용하면 실제 청구는 발생하지 않습니다. �
 
 ### 현재 PG 프로필 주의사항
 
-- 결제 승인: `local`에서도 Toss API를 실제 호출합니다. 따라서 Toss 테스트 키가 필요합니다.
-- 결제 취소: 현재 `local` 프로필은 `MockPgCancelClient`가 즉시 성공을 반환하므로 Toss 취소 API를 호출하지 않습니다.
-- 실 PG 없이 개발하는 전체 Mock 흐름은 `feat/mock-pg` 브랜치의 `mock-pg` 설정을 사용합니다.
+- `mock-pg`: 결제 승인과 취소를 모두 Mock 클라이언트가 처리하므로 Toss API를 호출하지 않습니다.
+- `mock-pg` 없음: 승인과 취소 모두 실제 Toss HTTP 클라이언트를 사용하므로 Toss 테스트 키 설정이 필요합니다.
+- `prod,mock-pg`: 운영 환경의 Mock PG 사용을 막기 위해 유효하지 않으며 payment-service 기동이 거부됩니다.
 
 ## 검증
 
@@ -112,4 +112,3 @@ Toss 테스트 키를 사용하면 실제 청구는 발생하지 않습니다. �
 ./gradlew test
 cd frontend && npm run test:unit && npm run build
 ```
-
