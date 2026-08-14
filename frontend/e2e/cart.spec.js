@@ -27,8 +27,8 @@ test('장바구니: 담기 → 장바구니 → 수량수정 → 주문하기 �
   })
   await page.goto(BASE)
   await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
-  await page.fill('input[placeholder="email"]', USER.email)
-  await page.fill('input[placeholder="password"]', USER.password)
+  await page.getByRole('textbox', { name: '이메일' }).fill(USER.email)
+  await page.getByRole('textbox', { name: '비밀번호', exact: true }).fill(USER.password)
   await page.click('.modal button[type="submit"]')
   await expect(page.locator('.navbar-right span')).toBeVisible()
 

@@ -28,8 +28,8 @@ test('바로구매: 로그인 → 상품상세 수량선택 → 주문하기 →
   // 로그인 (스토어프론트 모달)
   await page.goto(BASE)
   await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
-  await page.fill('input[placeholder="email"]', USER.email)
-  await page.fill('input[placeholder="password"]', USER.password)
+  await page.getByRole('textbox', { name: '이메일' }).fill(USER.email)
+  await page.getByRole('textbox', { name: '비밀번호', exact: true }).fill(USER.password)
   await page.click('.modal button[type="submit"]')
   await expect(page.locator('.navbar-right span')).toBeVisible()  // 로그인됨
 

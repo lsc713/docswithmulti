@@ -14,8 +14,8 @@ test.beforeAll(async ({ request }) => {
 async function login(page, user) {
   await page.goto(BASE)
   await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
-  await page.fill('input[placeholder="email"]', user.email)
-  await page.fill('input[placeholder="password"]', user.password)
+  await page.getByRole('textbox', { name: '이메일' }).fill(user.email)
+  await page.getByRole('textbox', { name: '비밀번호', exact: true }).fill(user.password)
   await page.click('.modal button[type="submit"]')
   await expect(page.locator('.navbar-right span')).toBeVisible()
 }

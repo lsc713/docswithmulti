@@ -9,8 +9,8 @@ export async function loginBuyer(page, user, base, gateway) {
     return
   }
   await loginButton.click()
-  await page.fill('input[placeholder="email"]', user.email)
-  await page.fill('input[placeholder="password"]', user.password)
+  await page.fill('#login-email', user.email)
+  await page.fill('#login-password', user.password)
   await page.click('.modal button[type="submit"]')
   await userMarker.waitFor({ state: 'visible' })
   const cookies = await page.context().cookies()
