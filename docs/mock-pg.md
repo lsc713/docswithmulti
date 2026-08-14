@@ -8,6 +8,12 @@
 SPRING_PROFILES_ACTIVE=local,mock-pg ./gradlew :payment-service:bootRun
 ```
 
+관리자 E2E를 실행할 때는 `admin-e2e@example.com`이 아직 가입되기 전에 user-service를 아래처럼 기동합니다. 이 이메일은 첫 회원가입 때 ADMIN으로 부트스트랩됩니다.
+
+```bash
+AUTH_COOKIE_SECURE=false APP_ADMIN_BOOTSTRAP_EMAILS=admin-e2e@example.com ./gradlew :user-service:bootRun
+```
+
 프론트엔드는 Mock 결제 공급자를 지정합니다.
 
 ```bash
