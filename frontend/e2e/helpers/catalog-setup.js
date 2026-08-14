@@ -20,7 +20,7 @@ async function json(response, operation, redactions = []) {
 async function createCategory(request, productBase, name, parentId) {
   const data = parentId === undefined ? { name } : { name, parentId }
   return json(
-    await request.post(`${productBase}/v1/categories`, { data }),
+    await request.post(`${productBase}/v1/categories`, { data, headers: { 'X-User-Role': 'ADMIN' } }),
     `POST product-service /v1/categories (${name})`,
   )
 }

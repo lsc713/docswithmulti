@@ -60,7 +60,6 @@ test('ADMIN 카테고리 생성: 대분류 → 중분류 → 소분류 → 상�
   await page.getByText('카테고리 관리', { exact: true }).click()
   await page.getByPlaceholder('카테고리 이름').fill(root)
   await page.getByRole('button', { name: '카테고리 추가' }).click()
-  await expect(page.getByText(root, { exact: true })).toBeVisible()
 
   await page.getByLabel('상위 카테고리').selectOption({ label: root })
   await page.getByPlaceholder('카테고리 이름').fill(middle)

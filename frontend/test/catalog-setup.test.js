@@ -232,6 +232,11 @@ test('creates one run-specific catalog seed and exposes its exact product name',
     { name: 'E2E 상의 run-42', parentId: 100 },
     { name: 'E2E 티셔츠 run-42', parentId: 101 },
   ])
+  assert.deepEqual(categoryPosts.map(call => call.headers), [
+    { 'X-User-Role': 'ADMIN' },
+    { 'X-User-Role': 'ADMIN' },
+    { 'X-User-Role': 'ADMIN' },
+  ])
   const productPost = request.calls.find(call => call.url === 'http://localhost:8000/v1/products')
   assert.deepEqual(productPost.headers, { 'X-CSRF-Token': 'csrf-value' })
   assert.deepEqual(productPost.data, {
