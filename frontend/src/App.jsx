@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import { api } from './api'
 import NavBar from './components/NavBar'
@@ -48,11 +48,33 @@ export default function App() {
   const [view, setView] = useState(getInitialView)
   const [authOpen, setAuthOpen] = useState(false)
   const [cart, setCart] = useState([])
+  const [cartStatus, setCartStatus] = useState('ready')
+  const quantityUpdateQueues = useRef(new Map())
+  const identityVersion = useRef(0)
+  const identityUserId = useRef(null)
+  const cartRevision = useRef(0)
+  const cartLoadVersion = useRef(0)
   const [payments, setPayments] = useState([])
   const [paymentContext, setPaymentContext] = useState(savedPaymentAttempt)
   const [productQuery, setProductQuery] = useState('')
   const draftRequest = getDetailDraftRequest(window.location.search)
   const draftOpen = view.name === 'home' && draftRequest !== null
+  const authenticatedUserId = me?.userId ?? null
+
+  function applyIdentity(user) {
+    const nextUserId = user?.userId ?? null
+    if (identityUserId.current !== nextUserId) {
+      identityVersion.current += 1
+      cartRevision.current += 1
+      quantityUpdateQueues.current.clear()
+      identityUserId.current = nextUserId
+    }
+    if (!user) {
+      setCart([])
+      setCartStatus('ready')
+    }
+    setMe(user)
+  }
 
   function hideOrderFlowClientState() {
     setCart([])
@@ -70,14 +92,14 @@ export default function App() {
 
   useEffect(() => {
     api.me().then(user => {
-      setMe(user)
+      applyIdentity(user)
       const restoredFlowState = resolveOrderRouteState(undefined, user.userId)
       const name = window.location.pathname === '/checkout'
         ? 'checkout'
         : window.location.pathname === '/payment' ? 'payment' : null
       if (name) setView({ name, flowState: restoredFlowState })
     }).catch(error => {
-      setMe(null)
+      applyIdentity(null)
       if (error.status === 401) clearOrderFlowClientState()
       else hideOrderFlowClientState()
     })
@@ -93,8 +115,23 @@ export default function App() {
     return () => window.removeEventListener('popstate', onPopState)
   }, [me?.userId])
 
-  const loadCart = () => api.getCart().then(r => setCart(r.items)).catch(() => setCart([]))
-  useEffect(() => { if (me) loadCart() }, [me])
+  const loadCart = (showLoading = false) => {
+    const requestedRevision = cartRevision.current
+    const requestedLoad = ++cartLoadVersion.current
+    if (showLoading) setCartStatus('loading')
+    return api.getCart()
+      .then(r => {
+        if (cartRevision.current !== requestedRevision || cartLoadVersion.current !== requestedLoad) return
+        setCart(r.items)
+        setCartStatus('ready')
+      })
+      .catch(() => {
+        if (cartRevision.current !== requestedRevision || cartLoadVersion.current !== requestedLoad) return
+        setCart([])
+        setCartStatus('error')
+      })
+  }
+  useEffect(() => { if (authenticatedUserId !== null) loadCart(true) }, [authenticatedUserId])
 
   const loadPayments = () => api.getPayments().then(setPayments).catch(() => setPayments([]))
   useEffect(() => { if (view.name === 'history') loadPayments() }, [view.name])
@@ -133,8 +170,34 @@ export default function App() {
     openStoreView({ name: 'cart' })
   }
 
-  const onQty = async (skuId, q) => { await api.updateCartItem(skuId, q); loadCart() }
-  const onRemove = async (skuId) => { await api.removeCartItem(skuId); loadCart() }
+  const onQty = (skuId, q) => {
+    cartRevision.current += 1
+    setCart(items => items.map(item => item.skuId === skuId ? { ...item, quantity: q } : item))
+    const ownerVersion = identityVersion.current
+    const previous = quantityUpdateQueues.current.get(skuId) ?? Promise.resolve()
+    const request = previous.then(() => {
+      if (identityVersion.current !== ownerVersion) return
+      return api.updateCartItem(skuId, q)
+    }).catch(() => {})
+    quantityUpdateQueues.current.set(skuId, request)
+    request.then(() => {
+      if (quantityUpdateQueues.current.get(skuId) !== request) return
+      quantityUpdateQueues.current.delete(skuId)
+      if (quantityUpdateQueues.current.size === 0) loadCart()
+    })
+    return request
+  }
+  const onRemove = async (skuId) => {
+    const ownerVersion = identityVersion.current
+    cartRevision.current += 1
+    await api.removeCartItem(skuId)
+    if (identityVersion.current !== ownerVersion) return
+    if (quantityUpdateQueues.current.size > 0) {
+      setCart(prev => prev.filter(item => item.skuId !== skuId))
+      return
+    }
+    loadCart()
+  }
 
   const handleHome = () => {
     if (draftRequest) {
@@ -155,7 +218,7 @@ export default function App() {
               onLogout={async () => {
                 await api.logout()
                 clearOrderFlowClientState()
-                setMe(null)
+                applyIdentity(null)
                 openStoreView({ name: 'home' }, true)
               }}
               cartCount={cart.reduce((s, i) => s + i.quantity, 0)}
@@ -172,7 +235,7 @@ export default function App() {
                        onAddToCart={handleAddToCart} />
       )}
       {view.name === 'cart' && (
-        <Cart items={cart} onQty={onQty} onRemove={onRemove}
+        <Cart items={cart} status={cartStatus} onQty={onQty} onRemove={onRemove}
               onOrder={(lines) => openOrderRoute('checkout', { orderItems: normalizeOrderItems(lines), source: 'cart' })}
               onBack={handleHome} />
       )}
@@ -197,7 +260,12 @@ export default function App() {
         <PaymentReturn kind={view.kind} context={paymentContext}
           onCompleted={async (payment) => {
             if (paymentContext?.source === 'cart' || paymentContext?.fromCart) {
-              try { await api.clearCart(); setCart([]) } catch { loadCart() }
+              cartRevision.current += 1
+              try {
+                await api.clearCart()
+                setCart([])
+                setCartStatus('ready')
+              } catch { loadCart() }
             }
             sessionStorage.removeItem('paymentAttempt')
             clearOrderRouteState()
@@ -227,7 +295,7 @@ export default function App() {
         <AuthModal open onClose={() => setAuthOpen(false)}
                    onAuthed={(u) => {
                      clearOrderFlowClientState()
-                     setMe(u)
+                     applyIdentity(u)
                      setAuthOpen(false)
                    }} />
       )}
