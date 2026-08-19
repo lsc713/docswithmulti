@@ -7,6 +7,7 @@ import com.example.product.application.interfaces.ProductVariantRepository;
 import com.example.product.common.exception.application.CategoryNotFoundException;
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.Product;
+import com.example.product.infrastructure.cache.ProductDetailCacheService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,15 +25,18 @@ public class ProductQueryService {
     private final CategoryRepository categoryRepository;
     private final ProductImageRepository imageRepository;
     private final ProductVariantRepository variantRepository;
+    private final ProductDetailCacheService cacheService;
 
     public ProductQueryService(ProductQueryRepository queryRepository,
                                CategoryRepository categoryRepository,
                                ProductImageRepository imageRepository,
-                               ProductVariantRepository variantRepository) {
+                               ProductVariantRepository variantRepository,
+                               ProductDetailCacheService cacheService) {
         this.queryRepository = queryRepository;
         this.categoryRepository = categoryRepository;
         this.imageRepository = imageRepository;
         this.variantRepository = variantRepository;
+        this.cacheService = cacheService;
     }
 
     public record CategoryPathNode(int level, Long id, String name) {}
@@ -65,6 +69,10 @@ public class ProductQueryService {
     /** BROWSE-02: 상품 상세 = 대/중/소 경로 + SKU(코드/옵션/availableQty/price). 부재 → 404. */
     @Transactional(readOnly = true)
     public ProductDetail detail(Long productId) {
+        return cacheService.getOrLoad(productId, ProductDetail.class, () -> loadDetail(productId));
+    }
+
+    private ProductDetail loadDetail(Long productId) {
         Product product = queryRepository.findProductById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
 

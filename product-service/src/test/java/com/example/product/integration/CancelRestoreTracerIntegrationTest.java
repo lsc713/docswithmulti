@@ -47,7 +47,8 @@ class CancelRestoreTracerIntegrationTest {
 
     @Container
     static final KafkaContainer kafka = new KafkaContainer(
-            DockerImageName.parse("confluentinc/cp-kafka:7.5.0"));
+            DockerImageName.parse("confluentinc/cp-kafka:7.5.0"))
+            .withStartupTimeout(Duration.ofMinutes(2));
 
     @DynamicPropertySource
     static void props(DynamicPropertyRegistry r) {
