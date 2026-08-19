@@ -18,7 +18,7 @@ locals {
   #   ip   : private_subnet_cidr(10.0.1.0/24) 내 고정 사설 IP → config/compose 배선 편하게
   #   spot : 생략 시 true(기본 Spot). obs 는 spot=false(온디맨드) — t4g.medium spot 용량
   #          부족으로 실측 도중 관측 스택이 미기동되는 것을 방지(관측이 죽으면 데이터 유실).
-  instances = {
+  full_instances = {
     k6            = { type = "c7g.xlarge", ip = "10.0.1.10", disk = 30 } # 부하생성기 (분리 필수)
     payment       = { type = "c7g.xlarge", ip = "10.0.1.20", disk = 30 } # 핫패스 주인공
     risk          = { type = "c7g.xlarge", ip = "10.0.1.21", disk = 30 } # 한도 차감 동시성
@@ -31,6 +31,14 @@ locals {
     infra         = { type = "m7g.large", ip = "10.0.1.40", disk = 50 }                # Redis + Kafka(1-broker), page cache용 RAM 유지
     obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false } # Prometheus + Grafana, 온디맨드(관측 안정성 우선)
   }
+
+  product_instances = {
+    k6            = { type = "c7g.large", ip = "10.0.1.10", disk = 30 }
+    product       = { type = "c7g.xlarge", ip = "10.0.1.23", disk = 30 }
+    mysql-product = { type = "m7g.large", ip = "10.0.1.33", disk = 50 }
+  }
+
+  instances = var.load_test_profile == "product" ? local.product_instances : local.full_instances
 }
 
 # 도커 + compose 부트스트랩 (배포는 SSM 접속 후 role별로 수행)
@@ -84,4 +92,9 @@ resource "aws_instance" "node" {
     Name = "${var.project}-${each.key}"
     Role = each.key
   }
+
+  depends_on = [
+    aws_route.private_nat_gateway,
+    aws_route.private_nat_instance,
+  ]
 }

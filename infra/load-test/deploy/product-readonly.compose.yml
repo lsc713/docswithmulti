@@ -1,0 +1,15 @@
+services:
+  redis:
+    image: redis:7.2
+    container_name: product-redis
+    restart: unless-stopped
+    network_mode: host
+
+  product-service:
+    depends_on:
+      - redis
+    environment:
+      SPRING_DATA_REDIS_HOST: 127.0.0.1
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "127.0.0.1:9092"
+      SPRING_KAFKA_LISTENER_AUTO_STARTUP: "false"
+      APP_S3_ENDPOINT: "http://127.0.0.1:9000"

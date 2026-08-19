@@ -33,19 +33,54 @@ resource "aws_subnet" "private" {
   tags                    = { Name = "${var.project}-private" }
 }
 
-# NAT Gateway (프라이빗 서브넷의 유일한 인터넷 출구)
-#   ⚠️ 시간당 요금 + 데이터 요금이 이 스택의 주요 유휴 비용원.
-#      테스트 세션마다 terraform destroy 로 정리. (NAT 인스턴스로 교체 시 더 저렴)
+# full은 NAT Gateway, product는 소형 NAT 인스턴스를 인터넷 출구로 사용한다.
 resource "aws_eip" "nat" {
+  count  = var.load_test_profile == "full" ? 1 : 0
   domain = "vpc"
   tags   = { Name = "${var.project}-nat-eip" }
 }
 
 resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat.id
+  count         = var.load_test_profile == "full" ? 1 : 0
+  allocation_id = aws_eip.nat[0].id
   subnet_id     = aws_subnet.public.id
   tags          = { Name = "${var.project}-nat" }
   depends_on    = [aws_internet_gateway.igw]
+}
+
+resource "aws_instance" "nat" {
+  count                       = var.load_test_profile == "product" ? 1 : 0
+  ami                         = data.aws_ssm_parameter.al2023_arm.value
+  instance_type               = "t4g.nano"
+  subnet_id                   = aws_subnet.public.id
+  vpc_security_group_ids      = [aws_security_group.nat.id]
+  associate_public_ip_address = true
+  source_dest_check           = false
+
+  user_data = <<-EOF
+    #!/bin/bash
+    set -e
+    dnf install -y iptables-services
+    echo 'net.ipv4.ip_forward = 1' >/etc/sysctl.d/99-nat.conf
+    sysctl --system
+    outbound_if=$(ip -o route get 1.1.1.1 | awk '{print $5; exit}')
+    iptables -t nat -A POSTROUTING -o "$outbound_if" -j MASQUERADE
+    iptables -P FORWARD ACCEPT
+    service iptables save
+    systemctl enable --now iptables
+  EOF
+
+  root_block_device {
+    volume_type = "gp3"
+    volume_size = 8
+  }
+
+  tags = {
+    Name = "${var.project}-nat-instance"
+    Role = "nat"
+  }
+
+  depends_on = [aws_route_table_association.public]
 }
 
 resource "aws_route_table" "public" {
@@ -61,13 +96,21 @@ resource "aws_route_table" "public" {
 
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
+  tags   = { Name = "${var.project}-private-rt" }
+}
 
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
-  }
+resource "aws_route" "private_nat_gateway" {
+  count                  = var.load_test_profile == "full" ? 1 : 0
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nat[0].id
+}
 
-  tags = { Name = "${var.project}-private-rt" }
+resource "aws_route" "private_nat_instance" {
+  count                  = var.load_test_profile == "product" ? 1 : 0
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  network_interface_id   = aws_instance.nat[0].primary_network_interface_id
 }
 
 resource "aws_route_table_association" "public" {

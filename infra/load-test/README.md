@@ -5,7 +5,12 @@
 - 구성 근거: [`../../docs/load-test/measurement-journey.md`](../../docs/load-test/measurement-journey.md)
 - 구성도: [`../../docs/load-test/topology.html`](../../docs/load-test/topology.html)
 
-## 무엇이 뜨나 (11대)
+## 프로필
+
+- `full` (기본): 기존 결제 취소 실측 11대 + NAT Gateway.
+- `product`: 상품 상세 전용 private 3대(`k6`, `product`, `mysql-product`) + public `t4g.nano` NAT 인스턴스. 모두 같은 AZ이며 테스트 트래픽은 사설 IP만 사용한다.
+
+## full 프로필 (11대)
 
 | role | 인스턴스 | 사설 IP | 역할 |
 |------|---------|---------|------|
@@ -36,6 +41,15 @@ terraform init
 terraform apply
 ```
 
+상품 상세만 측정할 때는 다음 예제를 사용한다. `terraform apply`부터 과금된다.
+
+```bash
+cd infra/load-test
+cp product-only.tfvars.example terraform.tfvars
+terraform init
+terraform apply
+```
+
 apply 후 접속 명령과 사설 IP가 출력된다:
 
 ```bash
@@ -55,14 +69,14 @@ role별로 해당 컨테이너만 올린다 (payment 인스턴스엔 payment-ser
 
 ## ⚠️ 비용 주의
 
-- **NAT Gateway가 주요 유휴 비용원** (시간당 + 데이터). 인스턴스는 Spot이라 저렴.
+- `full`의 **NAT Gateway가 주요 유휴 비용원**이다. `product`는 `t4g.nano` NAT 인스턴스를 사용한다.
 - 테스트 **세션이 끝나면 반드시 정리**:
 
 ```bash
 terraform destroy
 ```
 
-- 더 아끼려면: `use_spot=true` 유지, NAT Gateway를 NAT 인스턴스(t4g.nano)로 교체, 테스트 안 할 땐 `destroy`.
+- `use_spot=true`를 유지하고 테스트하지 않을 때는 리소스를 남기지 않는다.
 
 ## 실측 절차
 

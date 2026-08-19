@@ -16,3 +16,8 @@ output "ssm_connect" {
 output "region" {
   value = var.region
 }
+
+output "egress_mode" {
+  description = "private subnet 인터넷 출구"
+  value       = var.load_test_profile == "product" ? "nat-instance" : "nat-gateway"
+}
