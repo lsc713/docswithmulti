@@ -44,6 +44,12 @@ spring:
   profiles:
     active: local
 
+product:
+  cache:
+    content-soft-ttl-seconds: ${PRODUCT_CACHE_CONTENT_SOFT_TTL_SECONDS:60}
+    content-stale-ttl-seconds: ${PRODUCT_CACHE_CONTENT_STALE_TTL_SECONDS:60}
+    ttl-jitter-ratio: ${PRODUCT_CACHE_TTL_JITTER_RATIO:0.1}
+
 kafka:
   topic:
     payment-cancelled: payment.cancelled
