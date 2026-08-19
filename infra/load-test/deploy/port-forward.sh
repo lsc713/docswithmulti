@@ -12,11 +12,12 @@
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 REGION="${AWS_REGION:-ap-northeast-2}"
+LOAD_TEST_PROFILE="${LOAD_TEST_PROFILE:-full}"
 what="${1:-}"
 
 case "$what" in
   grafana)        role=obs;      rport=3000 ;;  # 대시보드 (admin/admin, 익명 Viewer)
-  prometheus)     role=obs;      rport=9090 ;;  # Status ▸ Targets
+  prometheus)     if [ "$LOAD_TEST_PROFILE" = "product" ]; then role=k6; else role=obs; fi; rport=9090 ;;
   kafka|kafka-ui) role=infra;    rport=8989 ;;  # consumer lag / 토픽
   payment)        role=payment;  rport=8080 ;;  # /actuator/health, /actuator/prometheus
   product)        role=product;  rport=8084 ;;

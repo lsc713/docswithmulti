@@ -31,6 +31,10 @@ require "$RUNNER" 'docker info'
 require "$DEPLOY" 'ssm_run "k6"'
 require "$RUNNER" 'length >= 10'
 require "$SCENARIO" 'ids.length < 10'
+require "$DEPLOY" 'LOAD_TEST_PROFILE'
+require "$DEPLOY" 'product-only.compose.yml'
+require "$ROOT/infra/load-test/deploy/product-readonly.compose.yml" 'SPRING_KAFKA_LISTENER_AUTO_STARTUP'
+require "$RUNNER" 'PROM_URL'
 
 if rg -q "CommandPlugins\[0\]\.Output" "$RUNNER"; then
   echo "runner still reads truncated list-command output" >&2

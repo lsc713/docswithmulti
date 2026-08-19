@@ -38,6 +38,9 @@ public class KafkaConsumerConfig {
     @Value("${spring.kafka.consumer.retry-group-id}")
     private String retryGroupId;
 
+    @Value("${spring.kafka.listener.auto-startup:true}")
+    private boolean listenerAutoStartup;
+
     private final MeterRegistry meterRegistry;
 
     public KafkaConsumerConfig(MeterRegistry meterRegistry) {
@@ -75,6 +78,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        factory.setAutoStartup(listenerAutoStartup);
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
         factory.setCommonErrorHandler(redeliverForeverErrorHandler());
         return factory;
@@ -104,6 +108,7 @@ public class KafkaConsumerConfig {
         ConcurrentKafkaListenerContainerFactory<String, String> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(retryConsumerFactory());
+        factory.setAutoStartup(listenerAutoStartup);
         factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL_IMMEDIATE);
         factory.setCommonErrorHandler(redeliverForeverErrorHandler());
         return factory;

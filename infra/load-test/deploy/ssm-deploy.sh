@@ -19,6 +19,7 @@
 #   AWS_REGION     (기본 ap-northeast-2)
 #   LOG_CLOUDWATCH (기본 0) 1이면 앱 컨테이너 로그를 awslogs→CloudWatch 로 전송
 #   DEPLOY_OBS     (기본 1) node-exporter(전 호스트)+obs 스택 배포. ROLES 지정 시 자동 0.
+#   LOAD_TEST_PROFILE (기본 full) full | product
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 
@@ -27,16 +28,22 @@ IMAGE_TAG="${IMAGE_TAG:-latest}"
 REPO_URL="${REPO_URL:-https://github.com/lsc713/docswithmulti.git}"
 REPO_REF="${REPO_REF:?배포할 Git SHA/ref 필요. 예: REPO_REF=abc123 ./ssm-deploy.sh}"
 REGION="${AWS_REGION:-ap-northeast-2}"
+LOAD_TEST_PROFILE="${LOAD_TEST_PROFILE:-full}"
 LOG_CLOUDWATCH="${LOG_CLOUDWATCH:-0}"
 SSM_READY_ATTEMPTS="${SSM_READY_ATTEMPTS:-120}"
 SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-240}"
 case "$SSM_READY_ATTEMPTS:$SSM_POLL_ATTEMPTS" in
   *[!0-9:]*|0:*|*:0) echo "SSM wait attempts must be positive integers" >&2; exit 1 ;;
 esac
+case "$LOAD_TEST_PROFILE" in full|product) ;; *) echo "LOAD_TEST_PROFILE must be full or product" >&2; exit 1 ;; esac
 
 # role → compose 파일 (순서 = 배포 순서: 인프라 → DB → 앱)
 # macOS 기본 bash 3.2 는 연관배열(declare -A) 미지원 → case 로 매핑.
-ORDER="infra mysql-payment mysql-risk cold-db mysql-product cold-svc risk payment product"
+if [ "$LOAD_TEST_PROFILE" = "product" ]; then
+  ORDER="mysql-product product"
+else
+  ORDER="infra mysql-payment mysql-risk cold-db mysql-product cold-svc risk payment product"
+fi
 compose_for() {
   case "$1" in
     infra)         echo infra.compose.yml ;;
@@ -61,6 +68,14 @@ logging_override() {
     cold-svc) echo "-f logging/cold-svc.cw.yml" ;;
     *)        echo "" ;;
   esac
+}
+
+profile_override() {
+  if [ "$LOAD_TEST_PROFILE" = "product" ] && [ "$1" = "product" ]; then
+    echo "-f product-readonly.compose.yml"
+  else
+    echo ""
+  fi
 }
 
 # ROLES 를 명시하면 관측 배포는 생략(부분 재배포 시 방해 방지).
@@ -153,7 +168,7 @@ EOF
 for role in $ROLES; do
   file="$(compose_for "$role")"
   [ -n "$file" ] || { echo "알 수 없는 role: $role" >&2; exit 1; }
-  extra="$(logging_override "$role")"
+  extra="$(logging_override "$role") $(profile_override "$role")"
   echo "── [$role] ${file} 배포${extra:+ (+CloudWatch 로그)} ──"
 
   remote="$(clone_header)
@@ -171,25 +186,29 @@ done
 
 # ── 관측 스택 (obs 인스턴스: Prometheus + Grafana + exporters) + obs 호스트 node-exporter ──
 if [ "$DEPLOY_OBS" = "1" ]; then
-  echo "── [k6] node-exporter ──"
+  echo "── [k6] 관측 스택 ──"
   k6_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability
 docker compose -f node-exporter.compose.yml up -d
+if [ '${LOAD_TEST_PROFILE}' = 'product' ]; then docker compose -f product-only.compose.yml up -d; fi
 docker compose -f node-exporter.compose.yml ps"
   ssm_run "k6" "$k6_remote"
 
-  echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
-  obs_remote="$(clone_header)
+  if [ "$LOAD_TEST_PROFILE" = "full" ]; then
+    echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
+    obs_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability
 docker compose up -d
 docker compose -f node-exporter.compose.yml up -d
 docker compose ps"
-  ssm_run "obs" "$obs_remote"
+    ssm_run "obs" "$obs_remote"
+  fi
 fi
 
 echo
 echo "── 확인 방법 (SSM 포트포워딩으로 노트북 브라우저에서) ──"
 cat <<'HC'
+  product profile Prometheus: LOAD_TEST_PROFILE=product ./infra/load-test/deploy/port-forward.sh prometheus
   ./infra/load-test/deploy/port-forward.sh grafana   # http://localhost:3000  (대시보드)
   ./infra/load-test/deploy/port-forward.sh kafka      # http://localhost:8989  (consumer lag)
   ./infra/load-test/deploy/port-forward.sh prometheus # http://localhost:9090  (Targets)
