@@ -96,6 +96,42 @@ domain과 application은 프레임워크 없이 테스트 가능하게 유지한
 - payment↔product = HTTP(reserve/release) + Kafka(취소 이벤트)만. reserve/release는 paymentKey 멱등, 취소 코어 불변(payload 필드추가만).
 - 설계: `docs/superpowers/specs/2026-07-30-sku-stock-lifecycle-design.md`.
 
+### 상품 상세 캐시 전략 (v3.1)
+
+상품 상세는 Redis를 먼저 조회한다. `fresh`는 즉시 반환하고, `stale`은 이전 값을 반환하면서 백그라운드 refresh를 수행한다. `miss/expired`는 상품 키별 Redisson single-flight로 DB 조회를 한 번만 허용한다.
+
+```mermaid
+flowchart TD
+    Client["상품 상세 요청<br/>GET /v1/products/{id}"] --> App["product-service"]
+    App --> Redis{"Redis envelope<br/>상태 판정"}
+
+    Redis -->|"FRESH"| Hit["캐시 즉시 반환"]
+    Redis -->|"STALE"| Stale["이전 값 즉시 반환"]
+    Stale --> Refresh["비동기 refresh"]
+    Redis -->|"MISS / EXPIRED"| Lock{"상품 키별<br/>single-flight 락"}
+    Lock -->|"락 대기/실패"| Fallback["DB fallback"]
+    Lock -->|"락 획득"| DB["MySQL 상세 조립"]
+    DB --> Store["Redis 저장<br/>soft TTL + hard TTL + jitter"]
+    Store --> Response["응답 반환"]
+    Refresh --> Lock
+
+    Change["상품·가격·재고 변경"] --> Evict["상품 캐시 키 무효화"]
+    Evict --> Redis
+
+    Reserve["예약·재고 차감"] --> Authority["MySQL 원자 UPDATE<br/>캐시는 판정에 사용하지 않음"]
+
+    classDef cache fill:#e8f4ff,stroke:#2878b5,color:#111;
+    classDef warning fill:#fff4cc,stroke:#d99b00,color:#111;
+    classDef source fill:#ffe1e1,stroke:#d63031,color:#111;
+    class Redis,Hit,Stale,Refresh,Store,Evict cache;
+    class Lock,Fallback warning;
+    class DB,Authority source;
+```
+
+- 상세 응답의 가격·표시 재고는 캐시될 수 있지만, 예약/차감의 최종 기준은 항상 MySQL이다.
+- Redis 장애·역직렬화 실패 시 DB 조회로 graceful fallback한다.
+- 구현 세부: `docs/product-detail-cache-strategy.md`.
+
 ---
 
 ## 모듈 간 통신 전략
