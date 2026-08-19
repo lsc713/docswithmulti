@@ -1,0 +1,577 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": "docs/features/cancel-outbox-redrive/issues.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 246,
+      "nonEmptyLines": 182,
+      "sections": [
+        {
+          "heading": "Cancel Outbox Redrive — 개발 이슈 분해",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "의존성 순서",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "Issue 1 — 운영자가 DEAD 취소 이벤트의 결제·주문·재고 상태를 검사한다",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "사용자 가치",
+          "level": 3,
+          "line": 20
+        },
+        {
+          "heading": "수직 범위",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "구현 메모",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "예상 변경 위치",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "Acceptance Criteria",
+          "level": 3,
+          "line": 49
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 3,
+          "line": 63
+        },
+        {
+          "heading": "Issue 2 — 운영자가 redrive 작업을 생성하고 진행 상태를 추적한다",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "사용자 가치",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "의존성",
+          "level": 3,
+          "line": 80
+        },
+        {
+          "heading": "수직 범위",
+          "level": 3,
+          "line": 84
+        },
+        {
+          "heading": "구현 메모",
+          "level": 3,
+          "line": 93
+        },
+        {
+          "heading": "예상 변경 위치",
+          "level": 3,
+          "line": 101
+        },
+        {
+          "heading": "Acceptance Criteria",
+          "level": 3,
+          "line": 107
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 3,
+          "line": 118
+        },
+        {
+          "heading": "Issue 3 — redrive 작업을 안전하게 판정·재발행하고 최종 수렴시킨다",
+          "level": 2,
+          "line": 128
+        },
+        {
+          "heading": "사용자 가치",
+          "level": 3,
+          "line": 130
+        },
+        {
+          "heading": "의존성",
+          "level": 3,
+          "line": 134
+        },
+        {
+          "heading": "수직 범위",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "구현 메모",
+          "level": 3,
+          "line": 150
+        },
+        {
+          "heading": "Acceptance Criteria",
+          "level": 3,
+          "line": 158
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 3,
+          "line": 173
+        },
+        {
+          "heading": "Issue 4 — 발행 실패·수렴 실패·동시 실행을 안전하게 운영한다",
+          "level": 2,
+          "line": 183
+        },
+        {
+          "heading": "사용자 가치",
+          "level": 3,
+          "line": 185
+        },
+        {
+          "heading": "의존성",
+          "level": 3,
+          "line": 189
+        },
+        {
+          "heading": "수직 범위",
+          "level": 3,
+          "line": 193
+        },
+        {
+          "heading": "구현 메모",
+          "level": 3,
+          "line": 203
+        },
+        {
+          "heading": "Acceptance Criteria",
+          "level": 3,
+          "line": 212
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 3,
+          "line": 223
+        },
+        {
+          "heading": "이슈별 시연 결과",
+          "level": 2,
+          "line": 232
+        },
+        {
+          "heading": "GitHub 등록 시 공통 메타데이터",
+          "level": 2,
+          "line": 241
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 33
+      }
+    },
+    {
+      "path": "docs/features/cancel-outbox-redrive/prd.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 371,
+      "nonEmptyLines": 270,
+      "sections": [
+        {
+          "heading": "Cancel Outbox Redrive PRD",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 개요",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "문제",
+          "level": 3,
+          "line": 11
+        },
+        {
+          "heading": "목적",
+          "level": 3,
+          "line": 15
+        },
+        {
+          "heading": "v1 범위",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "2. 사용자 스토리",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "US-1 — DEAD 이벤트 검사",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "US-2 — 미수렴 이벤트 재발행",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "US-3 — 진행 결과 확인",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "US-4 — 이미 수렴한 이벤트 안전 종결",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "US-5 — 중복 실행 방지",
+          "level": 3,
+          "line": 47
+        },
+        {
+          "heading": "3. 기능 요구사항",
+          "level": 2,
+          "line": 51
+        },
+        {
+          "heading": "3.1 검사",
+          "level": 3,
+          "line": 53
+        },
+        {
+          "heading": "3.2 작업 요청",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "3.3 작업 실행",
+          "level": 3,
+          "line": 67
+        },
+        {
+          "heading": "3.4 수렴 확인",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "3.5 감사",
+          "level": 3,
+          "line": 84
+        },
+        {
+          "heading": "4. 데이터 모델",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "5. API",
+          "level": 2,
+          "line": 111
+        },
+        {
+          "heading": "6. 아키텍처 대안",
+          "level": 2,
+          "line": 123
+        },
+        {
+          "heading": "안 A — Payment 오케스트레이션 + downstream 상태 조회 API",
+          "level": 3,
+          "line": 125
+        },
+        {
+          "heading": "안 B — Downstream 완료 ACK 이벤트",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "안 C — 별도 Operations Reconciler",
+          "level": 3,
+          "line": 151
+        },
+        {
+          "heading": "7개 기준 비교",
+          "level": 3,
+          "line": 163
+        },
+        {
+          "heading": "비교 요약",
+          "level": 3,
+          "line": 175
+        },
+        {
+          "heading": "추천",
+          "level": 3,
+          "line": 183
+        },
+        {
+          "heading": "7. 기술 결정",
+          "level": 2,
+          "line": 194
+        },
+        {
+          "heading": "ADR-1 — Payment 오케스트레이션과 이전 가능한 포트 경계",
+          "level": 3,
+          "line": 196
+        },
+        {
+          "heading": "ADR-2 — 수렴 판정은 처리 기록과 도메인 상태를 함께 사용",
+          "level": 3,
+          "line": 325
+        },
+        {
+          "heading": "8. Out of Scope",
+          "level": 2,
+          "line": 353
+        },
+        {
+          "heading": "9. 용어 정의",
+          "level": 2,
+          "line": 369
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 31
+      }
+    },
+    {
+      "path": "docs/features/cancel-outbox-redrive/spec-fixed.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 260,
+      "nonEmptyLines": 188,
+      "sections": [
+        {
+          "heading": "DEAD 취소 아웃박스 통제 재발행 — 확정 요구사항",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목적",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. Primary User",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "3. 최소 동작 시나리오",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "시나리오 A — 미수렴 이벤트 재발행",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "시나리오 B — 이미 수렴한 이벤트 종결",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "시나리오 C — 재발행 조건 불충족",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "4. 데이터 저장 방식",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "5. 상태 모델",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "진행 상태",
+          "level": 3,
+          "line": 73
+        },
+        {
+          "heading": "실패 단계",
+          "level": 3,
+          "line": 84
+        },
+        {
+          "heading": "6. 동시성 및 경계 조건",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "7. 오류 처리",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "사전 조건 거부",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "발행 실패",
+          "level": 3,
+          "line": 120
+        },
+        {
+          "heading": "수렴 확인 실패",
+          "level": 3,
+          "line": 127
+        },
+        {
+          "heading": "오류 응답",
+          "level": 3,
+          "line": 133
+        },
+        {
+          "heading": "8. 내부 API",
+          "level": 2,
+          "line": 139
+        },
+        {
+          "heading": "DEAD 이벤트 및 현재 상태 검사",
+          "level": 3,
+          "line": 141
+        },
+        {
+          "heading": "재발행 작업 요청",
+          "level": 3,
+          "line": 151
+        },
+        {
+          "heading": "재발행 작업 조회",
+          "level": 3,
+          "line": 166
+        },
+        {
+          "heading": "9. 인증 및 감사",
+          "level": 2,
+          "line": 174
+        },
+        {
+          "heading": "10. 성능 및 실행 제한",
+          "level": 2,
+          "line": 182
+        },
+        {
+          "heading": "11. 단계별 확장",
+          "level": 2,
+          "line": 193
+        },
+        {
+          "heading": "v1 — 이번 구현 범위",
+          "level": 3,
+          "line": 195
+        },
+        {
+          "heading": "v1.1 — 관리자 웹 콘솔",
+          "level": 3,
+          "line": 204
+        },
+        {
+          "heading": "v1.2 — 조건부 자동 복구",
+          "level": 3,
+          "line": 211
+        },
+        {
+          "heading": "향후 — 교차 서비스 정합성 리컨실러",
+          "level": 3,
+          "line": 217
+        },
+        {
+          "heading": "12. Out of Scope",
+          "level": 2,
+          "line": 222
+        },
+        {
+          "heading": "13. 용어 정의",
+          "level": 2,
+          "line": 234
+        },
+        {
+          "heading": "14. 성공 기준",
+          "level": 2,
+          "line": 251
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 31
+      }
+    },
+    {
+      "path": "docs/features/cancel-outbox-redrive/spec-original.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 33,
+      "nonEmptyLines": 24,
+      "sections": [
+        {
+          "heading": "DEAD 취소 아웃박스 통제 재발행 — 초기 아이디어",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "배경",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "초기 요구",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "초기 상태 개념",
+          "level": 2,
+          "line": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    }
+  ]
+}

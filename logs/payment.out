@@ -1,0 +1,257 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-07-10T02:25:53.817+09:00  INFO 90312 --- [payment-service] [           main] c.e.payment.PaymentServiceApplication    : Starting PaymentServiceApplication using Java 22 with PID 90312 (/Users/juho/Documents/docswithmulti/payment-service/build/libs/payment-service.jar started by juho in /Users/juho/Documents/docswithmulti)
+2026-07-10T02:25:53.821+09:00  INFO 90312 --- [payment-service] [           main] c.e.payment.PaymentServiceApplication    : The following 1 profile is active: "local"
+2026-07-10T02:25:54.682+09:00  INFO 90312 --- [payment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-10T02:25:54.682+09:00  INFO 90312 --- [payment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-10T02:25:54.899+09:00  INFO 90312 --- [payment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 208 ms. Found 5 JPA repository interfaces.
+2026-07-10T02:25:55.151+09:00  INFO 90312 --- [payment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-10T02:25:55.152+09:00  INFO 90312 --- [payment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-07-10T02:25:55.167+09:00  INFO 90312 --- [payment-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.payment.infrastructure.persistence.CancelRequestHistoryJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:55.169+09:00  INFO 90312 --- [payment-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.payment.infrastructure.persistence.CancelRequestJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:55.169+09:00  INFO 90312 --- [payment-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.payment.infrastructure.persistence.CompensationRetryJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:55.169+09:00  INFO 90312 --- [payment-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.payment.infrastructure.persistence.PaymentItemJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:55.174+09:00  INFO 90312 --- [payment-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.payment.infrastructure.persistence.PaymentJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:55.174+09:00  INFO 90312 --- [payment-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2026-07-10T02:25:55.914+09:00  INFO 90312 --- [payment-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-07-10T02:25:55.923+09:00  INFO 90312 --- [payment-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-10T02:25:55.924+09:00  INFO 90312 --- [payment-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-07-10T02:25:55.944+09:00  INFO 90312 --- [payment-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2076 ms
+2026-07-10T02:25:56.339+09:00  INFO 90312 --- [payment-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-10T02:25:56.354+09:00  INFO 90312 --- [payment-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-10T02:25:56.533+09:00  INFO 90312 --- [payment-service] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:mysql://localhost:3311/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true (MySQL 8.0)
+2026-07-10T02:25:56.911+09:00  INFO 90312 --- [payment-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table `payment_db`.`flyway_schema_history` does not exist yet
+2026-07-10T02:25:56.916+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 11 migrations (execution time 00:00.021s)
+2026-07-10T02:25:56.944+09:00  INFO 90312 --- [payment-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table `payment_db`.`flyway_schema_history` ...
+2026-07-10T02:25:57.054+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema `payment_db`: << Empty Schema >>
+2026-07-10T02:25:57.075+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "1 - create payment core"
+2026-07-10T02:25:57.209+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "2 - create cancel"
+2026-07-10T02:25:57.278+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "3 - create outbox"
+2026-07-10T02:25:57.325+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "4 - create idempotency"
+2026-07-10T02:25:57.379+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "5 - create compensation"
+2026-07-10T02:25:57.437+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "6 - create shedlock"
+2026-07-10T02:25:57.495+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "7 - add cancel period days to payment"
+2026-07-10T02:25:57.577+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "8 - align cancel schema"
+2026-07-10T02:25:57.739+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "9 - add cancel item ids and pg retry count"
+2026-07-10T02:25:57.810+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "10 - replace outbox with failed kafka event"
+2026-07-10T02:25:57.867+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `payment_db` to version "11 - drop failed kafka event"
+2026-07-10T02:25:57.902+09:00  INFO 90312 --- [payment-service] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 11 migrations to schema `payment_db`, now at version v11 (execution time 00:00.541s)
+2026-07-10T02:25:57.980+09:00  INFO 90312 --- [payment-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-10T02:25:58.039+09:00  INFO 90312 --- [payment-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-07-10T02:25:58.420+09:00  INFO 90312 --- [payment-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-10T02:25:58.467+09:00  WARN 90312 --- [payment-service] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-10T02:25:58.477+09:00  INFO 90312 --- [payment-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3311/payment_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.46
+	Default catalog/schema: payment_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-10T02:25:59.063+09:00  INFO 90312 --- [payment-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-10T02:25:59.064+09:00  INFO 90312 --- [payment-service] [           main] org.hibernate.orm.jdbc.batch             : HHH100501: Automatic JDBC statement batching enabled (maximum batch size 20)
+2026-07-10T02:25:59.091+09:00  INFO 90312 --- [payment-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:25:59.124+09:00  INFO 90312 --- [payment-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-10T02:25:59.958+09:00  INFO 90312 --- [payment-service] [           main] org.redisson.Version                     : Redisson 4.3.1
+2026-07-10T02:26:00.135+09:00  WARN 90312 --- [payment-service] [           main] i.n.r.d.DnsServerAddressStreamProviders  : Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+2026-07-10T02:26:00.335+09:00  INFO 90312 --- [payment-service] [isson-netty-1-6] o.redisson.connection.ConnectionsHolder  : 1 connections initialized for localhost/127.0.0.1:6379
+2026-07-10T02:26:00.367+09:00  INFO 90312 --- [payment-service] [sson-netty-1-20] o.redisson.connection.ConnectionsHolder  : 24 connections initialized for localhost/127.0.0.1:6379
+2026-07-10T02:26:00.442+09:00  WARN 90312 --- [payment-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-10T02:26:00.706+09:00  INFO 90312 --- [payment-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoints beneath base path '/actuator'
+2026-07-10T02:26:00.732+09:00  INFO 90312 --- [payment-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-07-10T02:26:00.738+09:00  INFO 90312 --- [payment-service] [           main] c.e.payment.PaymentServiceApplication    : Started PaymentServiceApplication in 7.417 seconds (process running for 8.035)
+2026-07-10T02:26:00.816+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:26:00.749228 대상=0건
+2026-07-10T02:26:00.832+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.service.PendingRecoveryService   : [pending-recovery] 대상=0건 threshold=2026-07-09T17:21:00.822623Z
+2026-07-10T02:26:00.838+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.ProcessingRecoveryService      : [processing-recovery] 대상=0건 threshold=2026-07-09T17:21:00.835784Z
+2026-07-10T02:26:30.840+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:26:30.831514 대상=0건
+2026-07-10T02:27:00.850+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.service.PendingRecoveryService   : [pending-recovery] 대상=0건 threshold=2026-07-09T17:22:00.842623Z
+2026-07-10T02:27:00.860+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.ProcessingRecoveryService      : [processing-recovery] 대상=0건 threshold=2026-07-09T17:22:00.856497Z
+2026-07-10T02:27:00.871+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:27:00.866813 대상=0건
+2026-07-10T02:27:30.887+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:27:30.882010 대상=0건
+2026-07-10T02:27:53.480+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-10T02:27:53.481+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-10T02:27:53.483+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-07-10T02:28:00.869+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.service.PendingRecoveryService   : [pending-recovery] 대상=0건 threshold=2026-07-09T17:23:00.861812Z
+2026-07-10T02:28:00.877+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.ProcessingRecoveryService      : [processing-recovery] 대상=0건 threshold=2026-07-09T17:23:00.873306Z
+2026-07-10T02:28:00.898+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:28:00.896184 대상=0건
+2026-07-10T02:28:30.926+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:28:30.908534 대상=0건
+2026-07-10T02:29:00.888+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.service.PendingRecoveryService   : [pending-recovery] 대상=0건 threshold=2026-07-09T17:24:00.878025Z
+2026-07-10T02:29:00.895+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.ProcessingRecoveryService      : [processing-recovery] 대상=0건 threshold=2026-07-09T17:24:00.893445Z
+2026-07-10T02:29:00.936+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:29:00.934606 대상=0건
+2026-07-10T02:29:30.950+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:29:30.946777 대상=0건
+2026-07-10T02:29:44.687+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_1, cancelAmount=10000.00, txId=mock-5d8624a1-825e-46e7-b85f-ff412497fc95
+2026-07-10T02:29:44.713+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] o.a.kafka.common.config.AbstractConfig   : ProducerConfig values: 
+	acks = -1
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = payment-service-producer-1
+	compression.gzip.level = -1
+	compression.lz4.level = 9
+	compression.type = none
+	compression.zstd.level = 3
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	enable.metrics.push = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 5
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metadata.recovery.rebootstrap.trigger.ms = 300000
+	metadata.recovery.strategy = rebootstrap
+	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.adaptive.partitioning.enable = true
+	partitioner.availability.timeout.ms = 0
+	partitioner.class = null
+	partitioner.ignore.keys = false
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.assertion.algorithm = RS256
+	sasl.oauthbearer.assertion.claim.aud = null
+	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+	sasl.oauthbearer.assertion.claim.iss = null
+	sasl.oauthbearer.assertion.claim.jti.include = false
+	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+	sasl.oauthbearer.assertion.claim.sub = null
+	sasl.oauthbearer.assertion.file = null
+	sasl.oauthbearer.assertion.private.key.file = null
+	sasl.oauthbearer.assertion.private.key.passphrase = null
+	sasl.oauthbearer.assertion.template.file = null
+	sasl.oauthbearer.client.credentials.client.id = null
+	sasl.oauthbearer.client.credentials.client.secret = null
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+	sasl.oauthbearer.scope = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transaction.two.phase.commit.enable = false
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+2026-07-10T02:29:44.729+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-07-10T02:29:44.738+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=payment-service-producer-1] Instantiated an idempotent producer.
+2026-07-10T02:29:44.755+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 4.1.2
+2026-07-10T02:29:44.756+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: c82fd9b934b4c1e6
+2026-07-10T02:29:44.757+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1783618184754
+2026-07-10T02:29:44.925+09:00  INFO 90312 --- [payment-service] [vice-producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=payment-service-producer-1] Cluster ID: tfpzmv-PSdiQL4SkfIN2Qw
+2026-07-10T02:29:45.043+09:00  INFO 90312 --- [payment-service] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=payment-service-producer-1] ProducerId set to 0 with epoch 0
+2026-07-10T02:29:45.147+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-4] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_2, cancelAmount=10000.00, txId=mock-2a7ebb99-372e-4851-b079-d004f7c8aaee
+2026-07-10T02:29:45.251+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-5] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_3, cancelAmount=10000.00, txId=mock-f5edd73b-9eb2-40c2-a104-db4161360c5f
+2026-07-10T02:29:45.349+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-6] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_4, cancelAmount=10000.00, txId=mock-dab8618e-4379-4e14-889f-f56f3a0d5fe8
+2026-07-10T02:29:45.403+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-7] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_5, cancelAmount=10000.00, txId=mock-2366658b-1657-4cc7-a8cf-f5cc08f3b8db
+2026-07-10T02:29:45.456+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-8] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_6, cancelAmount=10000.00, txId=mock-1e4a02c1-d6e7-4ee5-928f-4bfdfdcac584
+2026-07-10T02:29:45.510+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-9] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_7, cancelAmount=10000.00, txId=mock-cf61e22f-6d52-43a2-ba4c-a5bb02c5da86
+2026-07-10T02:29:45.601+09:00  INFO 90312 --- [payment-service] [io-8080-exec-10] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_8, cancelAmount=10000.00, txId=mock-97129349-105b-4067-9fd8-99dcb1d0cdb7
+2026-07-10T02:29:45.673+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-1] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_9, cancelAmount=10000.00, txId=mock-25a02d24-5b22-4b3e-9e6b-6702e9895173
+2026-07-10T02:29:45.745+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-2] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_10, cancelAmount=10000.00, txId=mock-d72316c3-1ee6-4db2-afad-90fb793fee4d
+2026-07-10T02:29:45.810+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-3] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_11, cancelAmount=10000.00, txId=mock-300e54a1-af7c-4798-b2e5-545ff13a7076
+2026-07-10T02:29:45.867+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-4] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_12, cancelAmount=10000.00, txId=mock-2bf24036-55ec-4d73-83b3-9a16cde54f66
+2026-07-10T02:29:45.931+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-5] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_13, cancelAmount=10000.00, txId=mock-8ac80e21-4f0d-424c-a758-852fb7ef7f42
+2026-07-10T02:29:45.978+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-6] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_14, cancelAmount=10000.00, txId=mock-1b25a1cb-644a-4caa-b470-315baef3e6a0
+2026-07-10T02:29:46.031+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-7] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_15, cancelAmount=10000.00, txId=mock-c4dfd585-2b13-4d57-af0c-5bb02a3239e2
+2026-07-10T02:29:46.084+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-8] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_16, cancelAmount=10000.00, txId=mock-6ef60cfa-a109-4343-9161-9d7beab963cc
+2026-07-10T02:29:46.136+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-9] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_17, cancelAmount=10000.00, txId=mock-fd11bbc6-267b-4de7-83ed-cd8d1de805a7
+2026-07-10T02:29:46.180+09:00  INFO 90312 --- [payment-service] [io-8080-exec-10] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_18, cancelAmount=10000.00, txId=mock-ad286e1b-cc32-49fe-a26a-1839aab39719
+2026-07-10T02:29:46.226+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-1] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_19, cancelAmount=10000.00, txId=mock-009f30fe-0f7c-4eb0-85f1-27b5717286a7
+2026-07-10T02:29:46.272+09:00  INFO 90312 --- [payment-service] [nio-8080-exec-2] c.e.p.i.http.MockPgCancelClient          : [MockPgCancelClient] PG 취소 성공 처리. paymentKey=pay_k6_1783618174_20, cancelAmount=10000.00, txId=mock-0105509d-df22-4c9d-9a69-f86305898aa6
+2026-07-10T02:30:00.901+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.service.PendingRecoveryService   : [pending-recovery] 대상=0건 threshold=2026-07-09T17:25:00.896797Z
+2026-07-10T02:30:00.909+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.ProcessingRecoveryService      : [processing-recovery] 대상=0건 threshold=2026-07-09T17:25:00.906727Z
+2026-07-10T02:30:00.963+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:30:00.960458 대상=0건
+2026-07-10T02:30:31.004+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:30:30.981906 대상=0건
+2026-07-10T02:31:00.912+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.service.PendingRecoveryService   : [pending-recovery] 대상=0건 threshold=2026-07-09T17:26:00.909680Z
+2026-07-10T02:31:00.917+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.ProcessingRecoveryService      : [processing-recovery] 대상=0건 threshold=2026-07-09T17:26:00.916182Z
+2026-07-10T02:31:01.015+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:31:01.013652 대상=0건
+2026-07-10T02:31:31.028+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:31:31.024421 대상=0건
+2026-07-10T02:32:00.956+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.service.PendingRecoveryService   : [pending-recovery] 대상=0건 threshold=2026-07-09T17:27:00.924927Z
+2026-07-10T02:32:00.963+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.ProcessingRecoveryService      : [processing-recovery] 대상=0건 threshold=2026-07-09T17:27:00.960877Z
+2026-07-10T02:32:01.040+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:32:01.035953 대상=0건
+2026-07-10T02:32:31.056+09:00  INFO 90312 --- [payment-service] [   scheduling-1] c.e.p.a.s.CompensationRetryService       : [compensation-retry] 실행 now=2026-07-10T02:32:31.051285 대상=0건
+2026-07-10T02:32:53.331+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-10T02:32:55.341+09:00  INFO 90312 --- [payment-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-07-10T02:32:55.346+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=payment-service-producer-1] Closing the Kafka producer with timeoutMillis = 30000 ms.
+2026-07-10T02:32:55.355+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-07-10T02:32:55.355+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-07-10T02:32:55.355+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-07-10T02:32:55.355+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-07-10T02:32:55.357+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] o.a.kafka.common.utils.AppInfoParser     : App info kafka.producer for payment-service-producer-1 unregistered
+2026-07-10T02:32:55.381+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:32:55.383+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-10T02:32:55.387+09:00  INFO 90312 --- [payment-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

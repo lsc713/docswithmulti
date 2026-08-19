@@ -1,0 +1,816 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java",
+      "type": "file",
+      "name": "CreatePaymentCommand.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java",
+      "summary": "payment-service의 Create Payment Command application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java:CreatePaymentCommand",
+      "type": "class",
+      "name": "CreatePaymentCommand",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java",
+      "lineRange": [
+        6,
+        21
+      ],
+      "summary": "CreatePaymentCommand가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "type": "file",
+      "name": "PaymentCreateTxWriter.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "summary": "payment-service의 Payment Create Tx Writer application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:PaymentCreateTxWriter",
+      "type": "class",
+      "name": "PaymentCreateTxWriter",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "lineRange": [
+        24,
+        89
+      ],
+      "summary": "PaymentCreateTxWriter가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:persist",
+      "type": "function",
+      "name": "persist",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "lineRange": [
+        32,
+        66
+      ],
+      "summary": "persist 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:buildCompletedPayload",
+      "type": "function",
+      "name": "buildCompletedPayload",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "lineRange": [
+        72,
+        88
+      ],
+      "summary": "buildCompletedPayload 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "type": "file",
+      "name": "PaymentExistsQueryService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "summary": "payment-service의 Payment Exists Query Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java:PaymentExistsQueryService",
+      "type": "class",
+      "name": "PaymentExistsQueryService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "lineRange": [
+        11,
+        21
+      ],
+      "summary": "PaymentExistsQueryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java:exists",
+      "type": "function",
+      "name": "exists",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "lineRange": [
+        17,
+        20
+      ],
+      "summary": "exists 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "type": "file",
+      "name": "PaymentHistoryService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "summary": "payment-service의 Payment History Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:PaymentHistoryService",
+      "type": "class",
+      "name": "PaymentHistoryService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "lineRange": [
+        18,
+        52
+      ],
+      "summary": "PaymentHistoryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:list",
+      "type": "function",
+      "name": "list",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "lineRange": [
+        26,
+        42
+      ],
+      "summary": "list 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:detail",
+      "type": "function",
+      "name": "detail",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "lineRange": [
+        44,
+        51
+      ],
+      "summary": "detail 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "type": "file",
+      "name": "CancelApprovalUseCase.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "summary": "payment-service에서 Cancel Approval Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java:CancelApprovalUseCase",
+      "type": "class",
+      "name": "CancelApprovalUseCase",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "lineRange": [
+        14,
+        23
+      ],
+      "summary": "CancelApprovalUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java",
+      "type": "file",
+      "name": "CancelAuthorizationUseCase.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java",
+      "summary": "payment-service에서 Cancel Authorization Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java:CancelAuthorizationUseCase",
+      "type": "class",
+      "name": "CancelAuthorizationUseCase",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "CancelAuthorizationUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "type": "file",
+      "name": "CancelPaymentUseCase.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "summary": "payment-service에서 Cancel Payment Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java:CancelPaymentUseCase",
+      "type": "class",
+      "name": "CancelPaymentUseCase",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "lineRange": [
+        6,
+        8
+      ],
+      "summary": "CancelPaymentUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "type": "file",
+      "name": "CreatePaymentUseCase.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "summary": "payment-service에서 Create Payment Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java:CreatePaymentUseCase",
+      "type": "class",
+      "name": "CreatePaymentUseCase",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "lineRange": [
+        9,
+        12
+      ],
+      "summary": "CreatePaymentUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java",
+      "type": "file",
+      "name": "PaymentExistsQuery.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java",
+      "summary": "payment-service에서 Payment Exists Query 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java:PaymentExistsQuery",
+      "type": "class",
+      "name": "PaymentExistsQuery",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "PaymentExistsQuery가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "type": "file",
+      "name": "PaymentHistoryQuery.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "summary": "payment-service에서 Payment History Query 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java:PaymentHistoryQuery",
+      "type": "class",
+      "name": "PaymentHistoryQuery",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "lineRange": [
+        8,
+        13
+      ],
+      "summary": "PaymentHistoryQuery가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java:CreatePaymentCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java:CreatePaymentCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:PaymentCreateTxWriter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:PaymentCreateTxWriter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:persist",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:persist",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java:buildCompletedPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentCreateTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java:PaymentExistsQueryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java:PaymentExistsQueryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java:exists",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java:exists",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentExistsQueryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:PaymentHistoryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:PaymentHistoryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:list",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:list",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:detail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java:detail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/exception/PaymentNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentDetailResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentHistoryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSummaryResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java:CancelApprovalUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java:CancelApprovalUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java:CancelAuthorizationUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java:CancelAuthorizationUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java:CancelPaymentUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java:CancelPaymentUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java:CreatePaymentUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java:CreatePaymentUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CreatePaymentUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java:PaymentExistsQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentExistsQuery.java:PaymentExistsQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java:PaymentHistoryQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java:PaymentHistoryQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentDetailResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentHistoryQuery.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSummaryResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-07-10T02:25:51.281+09:00  INFO 90291 --- [merchant-limit-service] [           main] c.e.m.MerchantLimitApplication           : Starting MerchantLimitApplication using Java 22 with PID 90291 (/Users/juho/Documents/docswithmulti/merchant-limit-service/build/libs/merchant-limit-service.jar started by juho in /Users/juho/Documents/docswithmulti)
+2026-07-10T02:25:51.284+09:00  INFO 90291 --- [merchant-limit-service] [           main] c.e.m.MerchantLimitApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-07-10T02:25:51.741+09:00  INFO 90291 --- [merchant-limit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-10T02:25:51.741+09:00  INFO 90291 --- [merchant-limit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-10T02:25:51.814+09:00  INFO 90291 --- [merchant-limit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 67 ms. Found 4 JPA repository interfaces.
+2026-07-10T02:25:51.934+09:00  INFO 90291 --- [merchant-limit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-10T02:25:51.935+09:00  INFO 90291 --- [merchant-limit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-07-10T02:25:51.949+09:00  INFO 90291 --- [merchant-limit-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.merchantlimit.infrastructure.persistence.LimitEventOutboxJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:51.949+09:00  INFO 90291 --- [merchant-limit-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.merchantlimit.infrastructure.persistence.LimitHistoryJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:51.950+09:00  INFO 90291 --- [merchant-limit-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.merchantlimit.infrastructure.persistence.MerchantCancelLimitJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:51.950+09:00  INFO 90291 --- [merchant-limit-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.merchantlimit.infrastructure.persistence.MerchantJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:51.950+09:00  INFO 90291 --- [merchant-limit-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2026-07-10T02:25:52.289+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8082 (http)
+2026-07-10T02:25:52.297+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-10T02:25:52.297+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-07-10T02:25:52.310+09:00  INFO 90291 --- [merchant-limit-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 987 ms
+2026-07-10T02:25:52.565+09:00  INFO 90291 --- [merchant-limit-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-10T02:25:52.575+09:00  INFO 90291 --- [merchant-limit-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-10T02:25:52.727+09:00  INFO 90291 --- [merchant-limit-service] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:mysql://localhost:3308/merchant_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true (MySQL 8.0)
+2026-07-10T02:25:53.219+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table `merchant_db`.`flyway_schema_history` does not exist yet
+2026-07-10T02:25:53.223+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.019s)
+2026-07-10T02:25:53.252+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table `merchant_db`.`flyway_schema_history` ...
+2026-07-10T02:25:53.352+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema `merchant_db`: << Empty Schema >>
+2026-07-10T02:25:53.362+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `merchant_db` to version "1 - create merchant limit core"
+2026-07-10T02:25:53.492+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema `merchant_db`, now at version v1 (execution time 00:00.090s)
+2026-07-10T02:25:53.573+09:00  INFO 90291 --- [merchant-limit-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-10T02:25:53.634+09:00  INFO 90291 --- [merchant-limit-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-07-10T02:25:54.337+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-10T02:25:54.450+09:00  INFO 90291 --- [merchant-limit-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3308/merchant_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.46
+	Default catalog/schema: merchant_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-10T02:25:55.327+09:00  INFO 90291 --- [merchant-limit-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-10T02:25:55.374+09:00  INFO 90291 --- [merchant-limit-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:25:55.470+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-10T02:25:55.822+09:00  WARN 90291 --- [merchant-limit-service] [           main] i.n.r.d.DnsServerAddressStreamProviders  : Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+2026-07-10T02:25:56.041+09:00  WARN 90291 --- [merchant-limit-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-10T02:25:56.496+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoints beneath base path '/actuator'
+2026-07-10T02:25:56.561+09:00  INFO 90291 --- [merchant-limit-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8082 (http) with context path '/'
+2026-07-10T02:25:56.568+09:00  INFO 90291 --- [merchant-limit-service] [           main] c.e.m.MerchantLimitApplication           : Started MerchantLimitApplication in 5.589 seconds (process running for 5.918)
+2026-07-10T02:27:53.802+09:00  INFO 90291 --- [merchant-limit-service] [nio-8082-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-10T02:27:53.802+09:00  INFO 90291 --- [merchant-limit-service] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-10T02:27:53.805+09:00  INFO 90291 --- [merchant-limit-service] [nio-8082-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-07-10T02:32:53.509+09:00  INFO 90291 --- [merchant-limit-service] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-10T02:32:55.517+09:00  INFO 90291 --- [merchant-limit-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-07-10T02:32:55.532+09:00  INFO 90291 --- [merchant-limit-service] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:32:55.534+09:00  INFO 90291 --- [merchant-limit-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-10T02:32:55.538+09:00  INFO 90291 --- [merchant-limit-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

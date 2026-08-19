@@ -1,0 +1,700 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 12,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 12,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 12
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-01-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 143,
+      "nonEmptyLines": 125,
+      "sections": [
+        {
+          "heading": "레퍼런스 (반드시 읽고 패턴 복제)",
+          "level": 1,
+          "line": 54
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 120
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 171,
+      "nonEmptyLines": 143,
+      "sections": [
+        {
+          "heading": "Dependency graph",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "Tech tracking",
+          "level": 1,
+          "line": 19
+        },
+        {
+          "heading": "Metrics",
+          "level": 1,
+          "line": 88
+        },
+        {
+          "heading": "Phase 03 Plan 01: 취소 복원 tracer (payload skuId/quantity + product Kafka consumer) Summary",
+          "level": 1,
+          "line": 94
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 98
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 106
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 112
+        },
+        {
+          "heading": "Files Created/Modified",
+          "level": 2,
+          "line": 122
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 134
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 140
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 147
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 150
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 153
+        },
+        {
+          "heading": "Verification Results",
+          "level": 2,
+          "line": 158
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 164
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-02-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 116,
+      "nonEmptyLines": 99,
+      "sections": [
+        {
+          "heading": "레퍼런스 (멱등 패턴 복제원)",
+          "level": 1,
+          "line": 47
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 152,
+      "nonEmptyLines": 122,
+      "sections": [
+        {
+          "heading": "Phase 3 Plan 2: 취소 복원 멱등·부분취소 하드닝 Summary",
+          "level": 1,
+          "line": 75
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 79
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 87
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 92
+        },
+        {
+          "heading": "Files Created/Modified",
+          "level": 2,
+          "line": 101
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 111
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 116
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 118
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 133
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 136
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 139
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 144
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-03-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 118,
+      "nonEmptyLines": 101,
+      "sections": [
+        {
+          "heading": "레퍼런스 (retry/DLQ 복제원)",
+          "level": 1,
+          "line": 48
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 93
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 99
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-03-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 169,
+      "nonEmptyLines": 140,
+      "sections": [
+        {
+          "heading": "Dependency graph",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "Tech tracking",
+          "level": 1,
+          "line": 18
+        },
+        {
+          "heading": "Metrics",
+          "level": 1,
+          "line": 84
+        },
+        {
+          "heading": "Phase 03 Plan 03: product 재고 복원 consumer retry/DLQ 라우팅 (RST-02) Summary",
+          "level": 1,
+          "line": 90
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 94
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 102
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "Files Created/Modified",
+          "level": 2,
+          "line": 118
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 135
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 146
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 149
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 152
+        },
+        {
+          "heading": "Verification Results",
+          "level": 2,
+          "line": 157
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 162
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-04-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 109,
+      "nonEmptyLines": 92,
+      "sections": [
+        {
+          "heading": "레퍼런스",
+          "level": 1,
+          "line": 46
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 83
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 89
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-04-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 128,
+      "nonEmptyLines": 102,
+      "sections": [
+        {
+          "heading": "Phase 3 Plan 4: Payment 존재확인 엔드포인트 Summary",
+          "level": 1,
+          "line": 67
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 79
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "Files Created/Modified",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 100
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 104
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 110
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 116
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 120
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-05-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 139,
+      "nonEmptyLines": 121,
+      "sections": [
+        {
+          "heading": "레퍼런스 (스케줄러/조회 패턴)",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 111
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 118
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-05-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 165,
+      "nonEmptyLines": 143,
+      "sections": [
+        {
+          "heading": "Phase 3 Plan 5: Orphan 예약 복구 스케줄러 Summary",
+          "level": 1,
+          "line": 102
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 106
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 120
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 125
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 130
+        },
+        {
+          "heading": "[Rule 3 - Blocking] redisson 의존 추가에 따른 테스트 인프라 신설",
+          "level": 3,
+          "line": 132
+        },
+        {
+          "heading": "Threat Mitigations Applied",
+          "level": 2,
+          "line": 142
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 147
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 150
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 153
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 157
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-VALIDATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 63,
+      "nonEmptyLines": 48,
+      "sections": [
+        {
+          "heading": "Phase 3 — Validation Strategy",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "Test Infrastructure",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "Sampling Rate",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Per-Task Verification Map",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "Wave 0 Requirements",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "Manual-Only Verifications",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "Validation Sign-Off",
+          "level": 2,
+          "line": 56
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/03-cancel-restore/03-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 116,
+      "nonEmptyLines": 90,
+      "sections": [
+        {
+          "heading": "Phase 3: 취소 복원(Cancel Restore) Verification Report",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "Goal Achievement",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "Observable Truths",
+          "level": 3,
+          "line": 21
+        },
+        {
+          "heading": "Cancel-Core-Logic Gate (최우선 제약)",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "Required Artifacts",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "Key Link Verification",
+          "level": 3,
+          "line": 64
+        },
+        {
+          "heading": "Behavioral Spot-Checks",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "Requirements Coverage",
+          "level": 3,
+          "line": 91
+        },
+        {
+          "heading": "Anti-Patterns Found",
+          "level": 3,
+          "line": 99
+        },
+        {
+          "heading": "Layer / Module Isolation",
+          "level": 3,
+          "line": 103
+        },
+        {
+          "heading": "Gaps Summary",
+          "level": 3,
+          "line": 109
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    }
+  ]
+}

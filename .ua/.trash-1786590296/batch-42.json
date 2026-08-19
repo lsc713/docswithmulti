@@ -1,0 +1,393 @@
+{
+  "nodes": [
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:V1__create_product_core",
+      "type": "table",
+      "name": "V1__create_product_core.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V1__create_product_core.sql",
+      "summary": "product-service database에서 product, product_sku, product_stock, stock_reservation schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:product",
+      "type": "table",
+      "name": "product",
+      "filePath": "product-service/src/main/resources/db/migration/V1__create_product_core.sql",
+      "summary": "product table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:product_sku",
+      "type": "table",
+      "name": "product_sku",
+      "filePath": "product-service/src/main/resources/db/migration/V1__create_product_core.sql",
+      "summary": "product_sku table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:product_stock",
+      "type": "table",
+      "name": "product_stock",
+      "filePath": "product-service/src/main/resources/db/migration/V1__create_product_core.sql",
+      "summary": "product_stock table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:stock_reservation",
+      "type": "table",
+      "name": "stock_reservation",
+      "filePath": "product-service/src/main/resources/db/migration/V1__create_product_core.sql",
+      "summary": "stock_reservation table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V2__create_processed_cancel_event.sql:V2__create_processed_cancel_event",
+      "type": "table",
+      "name": "V2__create_processed_cancel_event.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V2__create_processed_cancel_event.sql",
+      "summary": "product-service database에서 processed_cancel_event schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V2__create_processed_cancel_event.sql:processed_cancel_event",
+      "type": "table",
+      "name": "processed_cancel_event",
+      "filePath": "product-service/src/main/resources/db/migration/V2__create_processed_cancel_event.sql",
+      "summary": "processed_cancel_event table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V3__create_category.sql:V3__create_category",
+      "type": "table",
+      "name": "V3__create_category.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V3__create_category.sql",
+      "summary": "product-service database에서 category schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V3__create_category.sql:category",
+      "type": "table",
+      "name": "category",
+      "filePath": "product-service/src/main/resources/db/migration/V3__create_category.sql",
+      "summary": "category table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V4__link_product_category.sql:V4__link_product_category",
+      "type": "table",
+      "name": "V4__link_product_category.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V4__link_product_category.sql",
+      "summary": "product-service database에서 link product category schema를 관리하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V5__create_cancel_restore_dlq.sql:V5__create_cancel_restore_dlq",
+      "type": "table",
+      "name": "V5__create_cancel_restore_dlq.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V5__create_cancel_restore_dlq.sql",
+      "summary": "product-service database에서 cancel_restore_dlq schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V5__create_cancel_restore_dlq.sql:cancel_restore_dlq",
+      "type": "table",
+      "name": "cancel_restore_dlq",
+      "filePath": "product-service/src/main/resources/db/migration/V5__create_cancel_restore_dlq.sql",
+      "summary": "cancel_restore_dlq table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V6__add_sku_price.sql:V6__add_sku_price",
+      "type": "table",
+      "name": "V6__add_sku_price.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V6__add_sku_price.sql",
+      "summary": "product-service database에서 add sku price schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V7__create_product_image.sql:V7__create_product_image",
+      "type": "table",
+      "name": "V7__create_product_image.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V7__create_product_image.sql",
+      "summary": "product-service database에서 product_image schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V7__create_product_image.sql:product_image",
+      "type": "table",
+      "name": "product_image",
+      "filePath": "product-service/src/main/resources/db/migration/V7__create_product_image.sql",
+      "summary": "product_image table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:V8__create_attribute_variant",
+      "type": "table",
+      "name": "V8__create_attribute_variant.sql",
+      "filePath": "product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql",
+      "summary": "product-service database에서 attribute, attribute_value, product_attribute, sku_attribute_value, product_descriptive_value schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:attribute",
+      "type": "table",
+      "name": "attribute",
+      "filePath": "product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql",
+      "summary": "attribute table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:attribute_value",
+      "type": "table",
+      "name": "attribute_value",
+      "filePath": "product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql",
+      "summary": "attribute_value table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:product_attribute",
+      "type": "table",
+      "name": "product_attribute",
+      "filePath": "product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql",
+      "summary": "product_attribute table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:sku_attribute_value",
+      "type": "table",
+      "name": "sku_attribute_value",
+      "filePath": "product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql",
+      "summary": "sku_attribute_value table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:product_descriptive_value",
+      "type": "table",
+      "name": "product_descriptive_value",
+      "filePath": "product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql",
+      "summary": "product_descriptive_value table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "product-service"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:V1__create_product_core",
+      "target": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:product",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:V1__create_product_core",
+      "target": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:product_sku",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:V1__create_product_core",
+      "target": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:product_stock",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:V1__create_product_core",
+      "target": "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:stock_reservation",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V2__create_processed_cancel_event.sql:V2__create_processed_cancel_event",
+      "target": "table:product-service/src/main/resources/db/migration/V2__create_processed_cancel_event.sql:processed_cancel_event",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V3__create_category.sql:V3__create_category",
+      "target": "table:product-service/src/main/resources/db/migration/V3__create_category.sql:category",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V5__create_cancel_restore_dlq.sql:V5__create_cancel_restore_dlq",
+      "target": "table:product-service/src/main/resources/db/migration/V5__create_cancel_restore_dlq.sql:cancel_restore_dlq",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V7__create_product_image.sql:V7__create_product_image",
+      "target": "table:product-service/src/main/resources/db/migration/V7__create_product_image.sql:product_image",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:V8__create_attribute_variant",
+      "target": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:attribute",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:V8__create_attribute_variant",
+      "target": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:attribute_value",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:V8__create_attribute_variant",
+      "target": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:product_attribute",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:V8__create_attribute_variant",
+      "target": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:sku_attribute_value",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:V8__create_attribute_variant",
+      "target": "table:product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql:product_descriptive_value",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

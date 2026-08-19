@@ -1,0 +1,73 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": "k6/seed/product-detail-seed-test.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 11,
+      "nonEmptyLines": 11,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/seed/product-detail-seed.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 91,
+      "nonEmptyLines": 84,
+      "functions": [
+        {
+          "name": "db",
+          "startLine": 14,
+          "endLine": 14,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/seed/seed.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 99,
+      "nonEmptyLines": 90,
+      "functions": [
+        {
+          "name": "db",
+          "startLine": 39,
+          "endLine": 39,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

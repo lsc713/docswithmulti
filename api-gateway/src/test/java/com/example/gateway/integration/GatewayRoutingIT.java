@@ -55,6 +55,7 @@ class GatewayRoutingIT {
     static final WireMockServer userDownstream = new WireMockServer(options().dynamicPort());
     static final WireMockServer orderDownstream = new WireMockServer(options().dynamicPort());
     static final WireMockServer productDownstream = new WireMockServer(options().dynamicPort());
+    static final WireMockServer settlementDownstream = new WireMockServer(options().dynamicPort());
 
     static {
         // @DynamicPropertySource 서플라이어가 포트를 읽기 전에 기동돼 있어야 함
@@ -62,6 +63,7 @@ class GatewayRoutingIT {
         userDownstream.start();
         orderDownstream.start();
         productDownstream.start();
+        settlementDownstream.start();
     }
 
     @AfterAll
@@ -70,6 +72,7 @@ class GatewayRoutingIT {
         userDownstream.stop();
         orderDownstream.stop();
         productDownstream.stop();
+        settlementDownstream.stop();
     }
 
     @DynamicPropertySource
@@ -78,6 +81,7 @@ class GatewayRoutingIT {
         registry.add("gateway.downstream.user-uri", () -> "http://localhost:" + userDownstream.port());
         registry.add("gateway.downstream.order-uri", () -> "http://localhost:" + orderDownstream.port());
         registry.add("gateway.downstream.product-uri", () -> "http://localhost:" + productDownstream.port());
+        registry.add("gateway.downstream.settlement-uri", () -> "http://localhost:" + settlementDownstream.port());
     }
 
     @LocalServerPort
@@ -102,6 +106,7 @@ class GatewayRoutingIT {
         userDownstream.resetAll();
         orderDownstream.resetAll();
         productDownstream.resetAll();
+        settlementDownstream.resetAll();
     }
 
     @Test
@@ -481,6 +486,40 @@ class GatewayRoutingIT {
         paymentDownstream.verify(0, anyRequestedFor(anyUrl()));
         orderDownstream.verify(0, anyRequestedFor(anyUrl()));
         productDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void adminOrdersRoute_goesToOrderDownstream() throws Exception {
+        orderDownstream.stubFor(get(urlPathEqualTo("/v1/admin/orders"))
+                .willReturn(aResponse().withStatus(200).withBody("[]")));
+
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/admin/orders")))
+                        .header("Authorization", "Bearer " + accessToken(42L, "ADMIN", null))
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        orderDownstream.verify(getRequestedFor(urlPathEqualTo("/v1/admin/orders"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("ADMIN")));
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
+    }
+
+    @Test
+    void adminSettlementsRoute_goesToSettlementDownstream() throws Exception {
+        settlementDownstream.stubFor(get(urlPathEqualTo("/v1/admin/settlements"))
+                .willReturn(aResponse().withStatus(200).withBody("[]")));
+
+        HttpResponse<String> res = http.send(
+                HttpRequest.newBuilder(URI.create(gateway("/v1/admin/settlements?merchantId=1")))
+                        .header("Authorization", "Bearer " + accessToken(42L, "ADMIN", null))
+                        .GET().build(),
+                HttpResponse.BodyHandlers.ofString());
+
+        assertThat(res.statusCode()).isEqualTo(200);
+        settlementDownstream.verify(getRequestedFor(urlPathEqualTo("/v1/admin/settlements"))
+                .withHeader(JwtTrustHeaderFilter.H_USER_ROLE, equalTo("ADMIN")));
+        userDownstream.verify(0, anyRequestedFor(anyUrl()));
     }
 
     @Test

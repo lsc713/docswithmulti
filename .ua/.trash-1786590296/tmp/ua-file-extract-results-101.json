@@ -1,0 +1,1104 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 6
+    }
+  },
+  "results": [
+    {
+      "path": "sysdesign/cancel-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1470,
+      "nonEmptyLines": 1138,
+      "sections": [
+        {
+          "heading": "결제 취소 시스템 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "목차",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "1. 전체 개요",
+          "level": 1,
+          "line": 24
+        },
+        {
+          "heading": "1. 서비스 구조",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "2. 전체 취소 플로우",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "3. 각 단계 요약",
+          "level": 2,
+          "line": 162
+        },
+        {
+          "heading": "4. CancelRequest 상태 머신",
+          "level": 2,
+          "line": 176
+        },
+        {
+          "heading": "5. 핵심 설계 결정 요약",
+          "level": 2,
+          "line": 191
+        },
+        {
+          "heading": "2. TX 1 이전 — 조회, 멱등성 체크, 검증",
+          "level": 1,
+          "line": 202
+        },
+        {
+          "heading": "1. 이 단계가 해결하는 문제",
+          "level": 2,
+          "line": 204
+        },
+        {
+          "heading": "2. 처리 순서",
+          "level": 2,
+          "line": 214
+        },
+        {
+          "heading": "3. request_hash 생성",
+          "level": 2,
+          "line": 226
+        },
+        {
+          "heading": "4. 멱등성 체크 상태별 분기",
+          "level": 2,
+          "line": 271
+        },
+        {
+          "heading": "5. Payment/PaymentItem 상태 검증",
+          "level": 2,
+          "line": 307
+        },
+        {
+          "heading": "6. 실패 케이스",
+          "level": 2,
+          "line": 356
+        },
+        {
+          "heading": "3. TX 1 — CancelRequest PENDING INSERT",
+          "level": 1,
+          "line": 366
+        },
+        {
+          "heading": "1. 이 단계가 해결하는 문제",
+          "level": 2,
+          "line": 368
+        },
+        {
+          "heading": "2. TX 1 내용",
+          "level": 2,
+          "line": 378
+        },
+        {
+          "heading": "3. (payment_id, dedup_key) UK의 역할",
+          "level": 2,
+          "line": 405
+        },
+        {
+          "heading": "4. TX 1이 risk 호출 전에 있어야 하는 이유",
+          "level": 2,
+          "line": 435
+        },
+        {
+          "heading": "5. TX 2 위치",
+          "level": 2,
+          "line": 454
+        },
+        {
+          "heading": "6. FAILED 건 재시도 시 UK 처리",
+          "level": 2,
+          "line": 473
+        },
+        {
+          "heading": "4. risk-management-service 호출 + TX 2",
+          "level": 1,
+          "line": 486
+        },
+        {
+          "heading": "1. 이 단계가 해결하는 문제",
+          "level": 2,
+          "line": 488
+        },
+        {
+          "heading": "2. daily_limit 조회 흐름",
+          "level": 2,
+          "line": 499
+        },
+        {
+          "heading": "3. 가맹점 한도 변경 — merchant.limit.updated Kafka",
+          "level": 2,
+          "line": 534
+        },
+        {
+          "heading": "4. 선차감 + 이중 차감 방어",
+          "level": 2,
+          "line": 581
+        },
+        {
+          "heading": "5. Circuit Breaker",
+          "level": 2,
+          "line": 662
+        },
+        {
+          "heading": "6. 실패 케이스 처리",
+          "level": 2,
+          "line": 694
+        },
+        {
+          "heading": "7. TX 2 — CancelRequest PROCESSING",
+          "level": 2,
+          "line": 720
+        },
+        {
+          "heading": "5. PG사 호출",
+          "level": 1,
+          "line": 735
+        },
+        {
+          "heading": "1. 이 단계가 해결하는 문제",
+          "level": 2,
+          "line": 737
+        },
+        {
+          "heading": "2. PG사 호출 흐름",
+          "level": 2,
+          "line": 747
+        },
+        {
+          "heading": "3. 명확한 실패 처리",
+          "level": 2,
+          "line": 761
+        },
+        {
+          "heading": "4. 타임아웃 처리",
+          "level": 2,
+          "line": 777
+        },
+        {
+          "heading": "5. Circuit Breaker",
+          "level": 2,
+          "line": 799
+        },
+        {
+          "heading": "6. 실패 케이스 정리",
+          "level": 2,
+          "line": 825
+        },
+        {
+          "heading": "6. TX 3 — 취소 완료 처리",
+          "level": 1,
+          "line": 833
+        },
+        {
+          "heading": "1. 이 단계가 해결하는 문제",
+          "level": 2,
+          "line": 835
+        },
+        {
+          "heading": "2. TX 3 내용",
+          "level": 2,
+          "line": 845
+        },
+        {
+          "heading": "3. PaymentItem FOR UPDATE 재조회가 필요한 이유",
+          "level": 2,
+          "line": 865
+        },
+        {
+          "heading": "4. Payment 상태 재계산",
+          "level": 2,
+          "line": 939
+        },
+        {
+          "heading": "5. AFTER_COMMIT Kafka 발행",
+          "level": 2,
+          "line": 955
+        },
+        {
+          "heading": "6. 이력 기록 분리 원칙",
+          "level": 2,
+          "line": 1009
+        },
+        {
+          "heading": "7. TX 3 재실행 시 멱등성",
+          "level": 2,
+          "line": 1025
+        },
+        {
+          "heading": "7. Kafka — 이벤트 발행 및 소비",
+          "level": 1,
+          "line": 1038
+        },
+        {
+          "heading": "1. 토픽 구조",
+          "level": 2,
+          "line": 1040
+        },
+        {
+          "heading": "2. payment.cancelled 페이로드",
+          "level": 2,
+          "line": 1051
+        },
+        {
+          "heading": "3. AFTER_COMMIT + failed_kafka_event",
+          "level": 2,
+          "line": 1096
+        },
+        {
+          "heading": "4. merchant.limit.updated 페이로드",
+          "level": 2,
+          "line": 1131
+        },
+        {
+          "heading": "5. Consumer 멱등성",
+          "level": 2,
+          "line": 1166
+        },
+        {
+          "heading": "6. 순서 보장",
+          "level": 2,
+          "line": 1195
+        },
+        {
+          "heading": "7. DLQ 처리",
+          "level": 2,
+          "line": 1211
+        },
+        {
+          "heading": "8. 스케줄러 — 복구 및 보상 재시도",
+          "level": 1,
+          "line": 1234
+        },
+        {
+          "heading": "1. 스케줄러 4개 (payment-service)",
+          "level": 2,
+          "line": 1236
+        },
+        {
+          "heading": "2. pending-recovery",
+          "level": 2,
+          "line": 1265
+        },
+        {
+          "heading": "3. processing-recovery",
+          "level": 2,
+          "line": 1296
+        },
+        {
+          "heading": "4. outbox-publisher",
+          "level": 2,
+          "line": 1337
+        },
+        {
+          "heading": "5. compensation-retry",
+          "level": 2,
+          "line": 1358
+        },
+        {
+          "heading": "6. risk 장애 시 영향 격리",
+          "level": 2,
+          "line": 1377
+        },
+        {
+          "heading": "7. 운영팀 개입 시점",
+          "level": 2,
+          "line": 1397
+        },
+        {
+          "heading": "8. TPS 확장 전략 및 병목 실증",
+          "level": 2,
+          "line": 1408
+        },
+        {
+          "heading": "부하 테스트 결과 (2026-04-28, k6, docker-compose 단일 인스턴스)",
+          "level": 3,
+          "line": 1410
+        },
+        {
+          "heading": "병목 전파 경로",
+          "level": 3,
+          "line": 1424
+        },
+        {
+          "heading": "전환 기준 (설계 예측 → 실증 반영)",
+          "level": 3,
+          "line": 1438
+        },
+        {
+          "heading": "단계별 확장 전략",
+          "level": 3,
+          "line": 1446
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 66
+      }
+    },
+    {
+      "path": "sysdesign/design-decisions.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 882,
+      "nonEmptyLines": 691,
+      "sections": [
+        {
+          "heading": "설계 결정 고민 — 대안 분석 및 트레이드오프",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. idempotency_key 테이블 설계",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "1-1. 멱등성 설계 변천",
+          "level": 3,
+          "line": 9
+        },
+        {
+          "heading": "1-1. 멱등성 설계 변천",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "1-2. 취약점 분석 및 해결",
+          "level": 3,
+          "line": 91
+        },
+        {
+          "heading": "1-3. FAILED 처리 및 재시도",
+          "level": 3,
+          "line": 100
+        },
+        {
+          "heading": "1-4. cancel_request_history 테이블",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "1-4. Idempotency-Key 헤더 제거",
+          "level": 3,
+          "line": 143
+        },
+        {
+          "heading": "1-5. cancel_request 테이블 변경",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "1-6. TX 3에서 제거된 것",
+          "level": 3,
+          "line": 167
+        },
+        {
+          "heading": "1-7. 재시도 시 응답 생성",
+          "level": 3,
+          "line": 189
+        },
+        {
+          "heading": "2. TX 2 취약점 — PENDING 재처리 이중 차감",
+          "level": 2,
+          "line": 200
+        },
+        {
+          "heading": "2-1. 문제",
+          "level": 3,
+          "line": 202
+        },
+        {
+          "heading": "2-2. 대안",
+          "level": 3,
+          "line": 214
+        },
+        {
+          "heading": "3. PG사 pending 처리 전략",
+          "level": 2,
+          "line": 227
+        },
+        {
+          "heading": "4. Payment FOR UPDATE vs 낙관적 락",
+          "level": 2,
+          "line": 239
+        },
+        {
+          "heading": "5. Outbox Pattern 대안",
+          "level": 2,
+          "line": 259
+        },
+        {
+          "heading": "6. Kafka 페이로드 설계 원칙",
+          "level": 2,
+          "line": 277
+        },
+        {
+          "heading": "7. daily_limit 당일 즉시 반영",
+          "level": 2,
+          "line": 306
+        },
+        {
+          "heading": "7. Exactly-once 달성 방법",
+          "level": 2,
+          "line": 335
+        },
+        {
+          "heading": "8. ShedLock → Redis 분산락 전환",
+          "level": 2,
+          "line": 346
+        },
+        {
+          "heading": "9. FOR UPDATE 한계와 대안",
+          "level": 2,
+          "line": 494
+        },
+        {
+          "heading": "10. TPS 증가 시 확장 전략",
+          "level": 2,
+          "line": 561
+        },
+        {
+          "heading": "11. Circuit Breaker 설계",
+          "level": 2,
+          "line": 629
+        },
+        {
+          "heading": "12. DLQ 설계",
+          "level": 2,
+          "line": 696
+        },
+        {
+          "heading": "12. DB 샤딩 + Consistent Hashing",
+          "level": 2,
+          "line": 721
+        },
+        {
+          "heading": "12-1. 일반 해싱의 문제",
+          "level": 3,
+          "line": 723
+        },
+        {
+          "heading": "12-2. Consistent Hashing",
+          "level": 3,
+          "line": 735
+        },
+        {
+          "heading": "12-3. 가상 노드",
+          "level": 3,
+          "line": 755
+        },
+        {
+          "heading": "12-4. 샤딩 라이브러리 비교",
+          "level": 3,
+          "line": 763
+        },
+        {
+          "heading": "12-5. ShedLock과 샤딩",
+          "level": 3,
+          "line": 774
+        },
+        {
+          "heading": "13. 분산락 구현 방법 상세",
+          "level": 2,
+          "line": 788
+        },
+        {
+          "heading": "13-1. Redisson 기반 (권장)",
+          "level": 3,
+          "line": 790
+        },
+        {
+          "heading": "13-2. Lettuce 기반 스핀락",
+          "level": 3,
+          "line": 820
+        },
+        {
+          "heading": "13-3. 비교표",
+          "level": 3,
+          "line": 850
+        },
+        {
+          "heading": "14. cancel_request_history 트랜잭션 처리",
+          "level": 2,
+          "line": 862
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 36
+      }
+    },
+    {
+      "path": "sysdesign/design-review.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1353,
+      "nonEmptyLines": 1075,
+      "sections": [
+        {
+          "heading": "결제 취소 시스템 — 디자인 리뷰",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 요구사항",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "1-1. 배경",
+          "level": 3,
+          "line": 10
+        },
+        {
+          "heading": "1-2. 목표",
+          "level": 3,
+          "line": 14
+        },
+        {
+          "heading": "1-3. 핵심 문제",
+          "level": 3,
+          "line": 22
+        },
+        {
+          "heading": "2. 시스템 아키텍처",
+          "level": 2,
+          "line": 36
+        },
+        {
+          "heading": "2-1. 전체 구조",
+          "level": 3,
+          "line": 38
+        },
+        {
+          "heading": "2-2. 모듈 간 통신 전략",
+          "level": 3,
+          "line": 67
+        },
+        {
+          "heading": "2-3. 취소 플로우 요약",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "2-4. CancelRequest 상태 머신",
+          "level": 3,
+          "line": 194
+        },
+        {
+          "heading": "3. Database Design",
+          "level": 2,
+          "line": 219
+        },
+        {
+          "heading": "3-1. payment-service DB",
+          "level": 3,
+          "line": 221
+        },
+        {
+          "heading": "3-2. risk-management-service DB",
+          "level": 3,
+          "line": 313
+        },
+        {
+          "heading": "3-3. merchant-limit-service DB",
+          "level": 3,
+          "line": 342
+        },
+        {
+          "heading": "3-4. order-service DB",
+          "level": 3,
+          "line": 362
+        },
+        {
+          "heading": "4. API Design",
+          "level": 2,
+          "line": 382
+        },
+        {
+          "heading": "4-1. 결제 취소 API (External)",
+          "level": 3,
+          "line": 384
+        },
+        {
+          "heading": "4-2. 취소 조회 API (External)",
+          "level": 3,
+          "line": 438
+        },
+        {
+          "heading": "4-3. Internal API — payment → risk-management",
+          "level": 3,
+          "line": 464
+        },
+        {
+          "heading": "4-4. Internal API — risk-management → merchant-limit",
+          "level": 3,
+          "line": 551
+        },
+        {
+          "heading": "4-5. 검증 순서",
+          "level": 3,
+          "line": 569
+        },
+        {
+          "heading": "4-6. 멱등성 처리",
+          "level": 3,
+          "line": 598
+        },
+        {
+          "heading": "4-7. 동시성 처리",
+          "level": 3,
+          "line": 652
+        },
+        {
+          "heading": "4-8. Circuit Breaker",
+          "level": 3,
+          "line": 799
+        },
+        {
+          "heading": "5. Kafka Design",
+          "level": 2,
+          "line": 881
+        },
+        {
+          "heading": "5-1. 토픽 구조",
+          "level": 3,
+          "line": 883
+        },
+        {
+          "heading": "5-2. payment.cancelled 페이로드",
+          "level": 3,
+          "line": 894
+        },
+        {
+          "heading": "5-3. merchant.limit.updated 페이로드 및 흐름",
+          "level": 3,
+          "line": 941
+        },
+        {
+          "heading": "5-4. 순서 보장",
+          "level": 3,
+          "line": 987
+        },
+        {
+          "heading": "5-5. 멱등성 (Exactly-once)",
+          "level": 3,
+          "line": 1002
+        },
+        {
+          "heading": "5-6. Outbox Pattern",
+          "level": 3,
+          "line": 1039
+        },
+        {
+          "heading": "5-7. DLQ 처리 흐름",
+          "level": 3,
+          "line": 1054
+        },
+        {
+          "heading": "6. 스케줄러 설계",
+          "level": 2,
+          "line": 1071
+        },
+        {
+          "heading": "6-1. 스케줄러 위치",
+          "level": 3,
+          "line": 1073
+        },
+        {
+          "heading": "6-2. 스케줄러 4개 상세",
+          "level": 3,
+          "line": 1086
+        },
+        {
+          "heading": "6-3. risk 장애 시 영향 격리",
+          "level": 3,
+          "line": 1154
+        },
+        {
+          "heading": "6-4. Redis 분산락 설정",
+          "level": 3,
+          "line": 1175
+        },
+        {
+          "heading": "7. 설계 결정 대안 분석",
+          "level": 2,
+          "line": 1201
+        },
+        {
+          "heading": "7-1. 트랜잭션 경계 분리",
+          "level": 3,
+          "line": 1203
+        },
+        {
+          "heading": "7-2. SAGA 패턴 (Choreography)",
+          "level": 3,
+          "line": 1217
+        },
+        {
+          "heading": "7-3. daily_limit 조회 전략",
+          "level": 3,
+          "line": 1226
+        },
+        {
+          "heading": "7. TPS 확장 전략",
+          "level": 2,
+          "line": 1245
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 42
+      }
+    },
+    {
+      "path": "sysdesign/interview-qa.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 311,
+      "nonEmptyLines": 245,
+      "sections": [
+        {
+          "heading": "11. 예상 면접 질문",
+          "level": 2,
+          "line": 1
+        },
+        {
+          "heading": "설계 관련",
+          "level": 3,
+          "line": 3
+        },
+        {
+          "heading": "동시성 관련",
+          "level": 3,
+          "line": 13
+        },
+        {
+          "heading": "HTTP 경계와 트랜잭션 관련",
+          "level": 3,
+          "line": 20
+        },
+        {
+          "heading": "Kafka 관련",
+          "level": 3,
+          "line": 26
+        },
+        {
+          "heading": "DB 관련",
+          "level": 3,
+          "line": 34
+        },
+        {
+          "heading": "장애 대응 관련",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "오늘 대화에서 나온 핵심 질문들",
+          "level": 2,
+          "line": 49
+        },
+        {
+          "heading": "DB 커넥션 풀",
+          "level": 3,
+          "line": 51
+        },
+        {
+          "heading": "멱등성",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "동시성",
+          "level": 3,
+          "line": 77
+        },
+        {
+          "heading": "SAGA / 분산 트랜잭션",
+          "level": 3,
+          "line": 88
+        },
+        {
+          "heading": "PG사",
+          "level": 3,
+          "line": 99
+        },
+        {
+          "heading": "Kafka",
+          "level": 3,
+          "line": 107
+        },
+        {
+          "heading": "CancelRequest 상태",
+          "level": 3,
+          "line": 124
+        },
+        {
+          "heading": "ShedLock",
+          "level": 3,
+          "line": 132
+        },
+        {
+          "heading": "추가 질문 (오늘 대화 기반)",
+          "level": 2,
+          "line": 144
+        },
+        {
+          "heading": "멱등성 설계 심화 Q&A",
+          "level": 2,
+          "line": 208
+        },
+        {
+          "heading": "분산락 심화 Q&A",
+          "level": 2,
+          "line": 249
+        },
+        {
+          "heading": "멱등성 취약점 심화 Q&A",
+          "level": 2,
+          "line": 282
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 20
+      }
+    },
+    {
+      "path": "sysdesign/resume-project.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 249,
+      "nonEmptyLines": 160,
+      "sections": [
+        {
+          "heading": "이커머스 결제 취소 시스템",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "프로젝트 개요",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "기술 스택",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "핵심 문제와 해결",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "1. 멱등성 — 중복 취소 요청 방어",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "2. 동시성 — 3가지 케이스 각각 해결",
+          "level": 3,
+          "line": 57
+        },
+        {
+          "heading": "3. 분산 트랜잭션 — SAGA 패턴 (Choreography)",
+          "level": 3,
+          "line": 80
+        },
+        {
+          "heading": "4. Outbox Pattern — DB-Kafka 원자성 보장",
+          "level": 3,
+          "line": 109
+        },
+        {
+          "heading": "5. 서버 재시작 내구성 — CancelRequest 상태 머신",
+          "level": 3,
+          "line": 125
+        },
+        {
+          "heading": "6. 가맹점 취소한도 모듈 분리 설계",
+          "level": 3,
+          "line": 142
+        },
+        {
+          "heading": "7. 분산 스케줄러 — ShedLock",
+          "level": 3,
+          "line": 157
+        },
+        {
+          "heading": "8. Kafka 설계",
+          "level": 3,
+          "line": 170
+        },
+        {
+          "heading": "아키텍처 패턴 요약",
+          "level": 2,
+          "line": 188
+        },
+        {
+          "heading": "경력기술서 한 줄 표현 예시",
+          "level": 2,
+          "line": 206
+        },
+        {
+          "heading": "다음 세션에서 다룰 것",
+          "level": 2,
+          "line": 213
+        },
+        {
+          "heading": "코드 흐름 (이어서)",
+          "level": 3,
+          "line": 215
+        },
+        {
+          "heading": "추가 질문 목록",
+          "level": 3,
+          "line": 219
+        },
+        {
+          "heading": "설계 결정 대안 비교 설명 연습",
+          "level": 3,
+          "line": 244
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 18
+      }
+    },
+    {
+      "path": "sysdesign/system-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 176,
+      "nonEmptyLines": 133,
+      "sections": [
+        {
+          "heading": "이커머스 결제 취소 시스템 — 시스템 디자인",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "관련 문서",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "1. 프로젝트 개요",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "1-1. 한 줄 요약",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "1-2. 핵심 문제 (13가지)",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "중복/멱등 관련",
+          "level": 4,
+          "line": 33
+        },
+        {
+          "heading": "동시성 관련",
+          "level": 4,
+          "line": 38
+        },
+        {
+          "heading": "분산 트랜잭션 관련",
+          "level": 4,
+          "line": 42
+        },
+        {
+          "heading": "장애/복구 관련",
+          "level": 4,
+          "line": 46
+        },
+        {
+          "heading": "데이터 정합성 관련",
+          "level": 4,
+          "line": 51
+        },
+        {
+          "heading": "2. 시스템 아키텍처",
+          "level": 2,
+          "line": 58
+        },
+        {
+          "heading": "레이어 아키텍처",
+          "level": 3,
+          "line": 74
+        },
+        {
+          "heading": "3. 취소 플로우 요약",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "4. Kafka 페이로드",
+          "level": 2,
+          "line": 132
+        },
+        {
+          "heading": "5. 아키텍처 패턴 정리",
+          "level": 2,
+          "line": 158
+        },
+        {
+          "heading": "5. 경력기술서 한 줄 표현",
+          "level": 2,
+          "line": 174
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    }
+  ]
+}

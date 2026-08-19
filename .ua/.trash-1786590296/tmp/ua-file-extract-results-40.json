@@ -1,0 +1,141 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": "order-service/src/main/resources/db/migration/V1__create_order_core.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 25,
+      "nonEmptyLines": 23,
+      "definitions": [
+        {
+          "name": "orders",
+          "kind": "table",
+          "fields": [
+            "id",
+            "status",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 1,
+          "endLine": 7
+        },
+        {
+          "name": "order_item",
+          "kind": "table",
+          "fields": [
+            "id",
+            "order_id",
+            "status",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 9,
+          "endLine": 17
+        },
+        {
+          "name": "processed_cancel_event",
+          "kind": "table",
+          "fields": [
+            "id",
+            "cancel_request_id",
+            "processed_at"
+          ],
+          "startLine": 19,
+          "endLine": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 3
+      }
+    },
+    {
+      "path": "order-service/src/main/resources/db/migration/V3__add_order_item_details.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "order-service/src/main/resources/db/migration/V4__create_cancel_restore_dlq.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 23,
+      "nonEmptyLines": 22,
+      "definitions": [
+        {
+          "name": "cancel_restore_dlq",
+          "kind": "table",
+          "fields": [],
+          "startLine": 8,
+          "endLine": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/resources/db/migration/V5__create_cart.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 14,
+      "nonEmptyLines": 14,
+      "definitions": [
+        {
+          "name": "cart_item",
+          "kind": "table",
+          "fields": [
+            "id",
+            "user_id",
+            "sku_id",
+            "product_id",
+            "item_name",
+            "option_summary",
+            "unit_price",
+            "quantity",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 1,
+          "endLine": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    }
+  ]
+}

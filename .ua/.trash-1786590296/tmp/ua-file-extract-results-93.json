@@ -1,0 +1,366 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 7,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 7,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 7
+    }
+  },
+  "results": [
+    {
+      "path": "infra/load-test/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 70,
+      "nonEmptyLines": 51,
+      "sections": [
+        {
+          "heading": "부하 실측 인프라 (Terraform)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "무엇이 뜨나 (11대)",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "사전 준비",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "실행",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "접속 (SSH 없이 SSM)",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "⚠️ 비용 주의",
+          "level": 2,
+          "line": 56
+        },
+        {
+          "heading": "실측 절차",
+          "level": 2,
+          "line": 67
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "infra/load-test/instances.tf",
+      "language": "terraform",
+      "fileCategory": "infra",
+      "totalLines": 87,
+      "nonEmptyLines": 78,
+      "resources": [
+        {
+          "name": "aws_instance.node",
+          "kind": "aws_instance",
+          "startLine": 51,
+          "endLine": 87
+        },
+        {
+          "name": "data.aws_ssm_parameter.al2023_arm",
+          "kind": "data.aws_ssm_parameter",
+          "startLine": 12,
+          "endLine": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0,
+        "resourceCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/network.tf",
+      "language": "terraform",
+      "fileCategory": "infra",
+      "totalLines": 81,
+      "nonEmptyLines": 66,
+      "resources": [
+        {
+          "name": "aws_vpc.main",
+          "kind": "aws_vpc",
+          "startLine": 8,
+          "endLine": 14
+        },
+        {
+          "name": "aws_internet_gateway.igw",
+          "kind": "aws_internet_gateway",
+          "startLine": 16,
+          "endLine": 19
+        },
+        {
+          "name": "aws_subnet.public",
+          "kind": "aws_subnet",
+          "startLine": 21,
+          "endLine": 26
+        },
+        {
+          "name": "aws_subnet.private",
+          "kind": "aws_subnet",
+          "startLine": 28,
+          "endLine": 34
+        },
+        {
+          "name": "aws_eip.nat",
+          "kind": "aws_eip",
+          "startLine": 39,
+          "endLine": 42
+        },
+        {
+          "name": "aws_nat_gateway.nat",
+          "kind": "aws_nat_gateway",
+          "startLine": 44,
+          "endLine": 49
+        },
+        {
+          "name": "aws_route_table.public",
+          "kind": "aws_route_table",
+          "startLine": 51,
+          "endLine": 60
+        },
+        {
+          "name": "aws_route_table.private",
+          "kind": "aws_route_table",
+          "startLine": 62,
+          "endLine": 71
+        },
+        {
+          "name": "aws_route_table_association.public",
+          "kind": "aws_route_table_association",
+          "startLine": 73,
+          "endLine": 76
+        },
+        {
+          "name": "aws_route_table_association.private",
+          "kind": "aws_route_table_association",
+          "startLine": 78,
+          "endLine": 81
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0,
+        "resourceCount": 10
+      }
+    },
+    {
+      "path": "infra/load-test/outputs.tf",
+      "language": "terraform",
+      "fileCategory": "infra",
+      "totalLines": 18,
+      "nonEmptyLines": 15,
+      "definitions": [
+        {
+          "name": "private_ips",
+          "kind": "output",
+          "fields": [],
+          "startLine": 1,
+          "endLine": 4
+        },
+        {
+          "name": "instance_ids",
+          "kind": "output",
+          "fields": [],
+          "startLine": 6,
+          "endLine": 9
+        },
+        {
+          "name": "ssm_connect",
+          "kind": "output",
+          "fields": [],
+          "startLine": 11,
+          "endLine": 14
+        },
+        {
+          "name": "region",
+          "kind": "output",
+          "fields": [],
+          "startLine": 16,
+          "endLine": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 4,
+        "resourceCount": 0
+      }
+    },
+    {
+      "path": "infra/load-test/security.tf",
+      "language": "terraform",
+      "fileCategory": "infra",
+      "totalLines": 75,
+      "nonEmptyLines": 66,
+      "resources": [
+        {
+          "name": "aws_security_group.internal",
+          "kind": "aws_security_group",
+          "startLine": 6,
+          "endLine": 12
+        },
+        {
+          "name": "aws_vpc_security_group_ingress_rule.self_all",
+          "kind": "aws_vpc_security_group_ingress_rule",
+          "startLine": 15,
+          "endLine": 20
+        },
+        {
+          "name": "aws_vpc_security_group_egress_rule.all_out",
+          "kind": "aws_vpc_security_group_egress_rule",
+          "startLine": 23,
+          "endLine": 28
+        },
+        {
+          "name": "aws_iam_role.ssm",
+          "kind": "aws_iam_role",
+          "startLine": 41,
+          "endLine": 44
+        },
+        {
+          "name": "aws_iam_role_policy_attachment.ssm_core",
+          "kind": "aws_iam_role_policy_attachment",
+          "startLine": 46,
+          "endLine": 49
+        },
+        {
+          "name": "aws_iam_role_policy.cw_logs",
+          "kind": "aws_iam_role_policy",
+          "startLine": 53,
+          "endLine": 70
+        },
+        {
+          "name": "aws_iam_instance_profile.ssm",
+          "kind": "aws_iam_instance_profile",
+          "startLine": 72,
+          "endLine": 75
+        },
+        {
+          "name": "data.aws_iam_policy_document.ec2_assume",
+          "kind": "data.aws_iam_policy_document",
+          "startLine": 31,
+          "endLine": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0,
+        "resourceCount": 8
+      }
+    },
+    {
+      "path": "infra/load-test/variables.tf",
+      "language": "terraform",
+      "fileCategory": "infra",
+      "totalLines": 40,
+      "nonEmptyLines": 34,
+      "definitions": [
+        {
+          "name": "region",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 1,
+          "endLine": 5
+        },
+        {
+          "name": "az",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 7,
+          "endLine": 11
+        },
+        {
+          "name": "project",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 13,
+          "endLine": 17
+        },
+        {
+          "name": "vpc_cidr",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 19,
+          "endLine": 22
+        },
+        {
+          "name": "public_subnet_cidr",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 24,
+          "endLine": 28
+        },
+        {
+          "name": "private_subnet_cidr",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 30,
+          "endLine": 34
+        },
+        {
+          "name": "use_spot",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 36,
+          "endLine": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 7,
+        "resourceCount": 0
+      }
+    },
+    {
+      "path": "infra/load-test/versions.tf",
+      "language": "terraform",
+      "fileCategory": "infra",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0,
+        "resourceCount": 0
+      }
+    }
+  ]
+}

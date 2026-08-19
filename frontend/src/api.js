@@ -1,4 +1,5 @@
 import { resolveApiBaseUrl } from './api-base.js'
+import { buildSettlementPath } from './admin/management.js'
 
 const BASE = resolveApiBaseUrl(import.meta.env.VITE_API_BASE_URL)  // 게이트웨이. 실 cross-origin.
 
@@ -49,6 +50,11 @@ export const api = {
   adminUsers:   (page = 0, size = 20) => req(`/v1/admin/users?page=${page}&size=${size}`),
   changeRole:   (userId, role) =>
     req(`/v1/admin/users/${userId}/role`, { method: 'PATCH', body: { role }, csrf: true }),
+  adminOrders: () => req('/v1/admin/orders'),
+  adminOrder: (id) => req(`/v1/admin/orders/${id}`),
+  adminSettlements: (merchantId, status = '') => req(buildSettlementPath(merchantId, status)),
+  adminSettlement: (id) => req(`/v1/admin/settlements/${id}`),
+  approvePayout: (id) => req(`/v1/admin/settlements/${id}/payout`, { method: 'POST', csrf: true }),
   createProduct: (body) => req('/v1/products', { method: 'POST', body, csrf: true }),
   createOrder:   (b) => req('/v1/orders',   { method: 'POST', body: b, csrf: true }),
   preparePayment: (b) => req('/v1/payment-attempts', { method: 'POST', body: b, csrf: true }),

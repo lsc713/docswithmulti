@@ -1,0 +1,62 @@
+{
+  "nodes": [
+    {
+      "id": "document:infra/load-test/observability/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "infra/load-test/observability/README.md",
+      "summary": "관측 스택 (Prometheus + Grafana + exporters)은(는) 부하 테스트의 사용 안내로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "부하-테스트",
+        "markdown",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:infra/load-test/observability/docker-compose.yml",
+      "type": "service",
+      "name": "docker-compose.yml",
+      "filePath": "infra/load-test/observability/docker-compose.yml",
+      "summary": "부하 테스트 구성 요소를 함께 실행하기 위한 container service와 network 설정을 정의한다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:infra/load-test/observability/node-exporter.compose.yml",
+      "type": "config",
+      "name": "node-exporter.compose.yml",
+      "filePath": "infra/load-test/observability/node-exporter.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/observability/prometheus.yml",
+      "type": "config",
+      "name": "prometheus.yml",
+      "filePath": "infra/load-test/observability/prometheus.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": []
+}

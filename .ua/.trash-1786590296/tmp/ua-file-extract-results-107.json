@@ -1,0 +1,1860 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 24,
+  "filesSkipped": [
+    "risk-management-service/build.gradle"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 24,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 23,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 111,
+      "nonEmptyLines": 98,
+      "functions": [
+        {
+          "name": "KafkaConsumerConfig",
+          "startLine": 43,
+          "endLine": 45,
+          "params": [
+            "meterRegistry"
+          ]
+        },
+        {
+          "name": "consumerFactory",
+          "startLine": 47,
+          "endLine": 62,
+          "params": []
+        },
+        {
+          "name": "redeliverForeverErrorHandler",
+          "startLine": 69,
+          "endLine": 71,
+          "params": []
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "startLine": 73,
+          "endLine": 81,
+          "params": []
+        },
+        {
+          "name": "retryConsumerFactory",
+          "startLine": 83,
+          "endLine": 100,
+          "params": []
+        },
+        {
+          "name": "retryKafkaListenerContainerFactory",
+          "startLine": 102,
+          "endLine": 110,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaConsumerConfig",
+          "startLine": 28,
+          "endLine": 111,
+          "methods": [
+            "KafkaConsumerConfig",
+            "consumerFactory",
+            "redeliverForeverErrorHandler",
+            "kafkaListenerContainerFactory",
+            "retryConsumerFactory",
+            "retryKafkaListenerContainerFactory"
+          ],
+          "properties": [
+            "bootstrapServers",
+            "groupId",
+            "retryGroupId",
+            "meterRegistry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "KafkaConsumerConfig",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "consumerFactory",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "retryConsumerFactory",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "retryKafkaListenerContainerFactory",
+          "line": 102,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaConsumerConfig",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consumerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 53
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 54
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 56
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 57
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 58
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "new DefaultKafkaConsumerFactory<>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "factory.addListener",
+          "lineNumber": 60
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "new MicrometerConsumerListener<>",
+          "lineNumber": 60
+        },
+        {
+          "caller": "redeliverForeverErrorHandler",
+          "callee": "new DefaultErrorHandler",
+          "lineNumber": 70
+        },
+        {
+          "caller": "redeliverForeverErrorHandler",
+          "callee": "new FixedBackOff",
+          "lineNumber": 70
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "new ConcurrentKafkaListenerContainerFactory<>",
+          "lineNumber": 76
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.setConsumerFactory",
+          "lineNumber": 77
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "consumerFactory",
+          "lineNumber": 77
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties().setAckMode",
+          "lineNumber": 78
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties",
+          "lineNumber": 78
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.setCommonErrorHandler",
+          "lineNumber": 79
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "redeliverForeverErrorHandler",
+          "lineNumber": 79
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 85
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 86
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 87
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 88
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 91
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 92
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 93
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 94
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 95
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 96
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "new DefaultKafkaConsumerFactory<>",
+          "lineNumber": 97
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "factory.addListener",
+          "lineNumber": 98
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "new MicrometerConsumerListener<>",
+          "lineNumber": 98
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "new ConcurrentKafkaListenerContainerFactory<>",
+          "lineNumber": 105
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.setConsumerFactory",
+          "lineNumber": 106
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "retryConsumerFactory",
+          "lineNumber": 106
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties().setAckMode",
+          "lineNumber": 107
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties",
+          "lineNumber": 107
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.setCommonErrorHandler",
+          "lineNumber": 108
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "redeliverForeverErrorHandler",
+          "lineNumber": 108
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "producerFactory",
+          "startLine": 27,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "kafkaTemplate",
+          "startLine": 40,
+          "endLine": 43,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaProducerConfig",
+          "startLine": 21,
+          "endLine": 44,
+          "methods": [
+            "producerFactory",
+            "kafkaTemplate"
+          ],
+          "properties": [
+            "bootstrapServers"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "producerFactory",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "kafkaTemplate",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaProducerConfig",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "producerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 29
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 30
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 31
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 32
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 33
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 34
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 35
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 36
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "new DefaultKafkaProducerFactory<>",
+          "lineNumber": 37
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "new KafkaTemplate<>",
+          "lineNumber": 42
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "producerFactory",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 48,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 27,
+          "endLine": 43,
+          "params": [
+            "record",
+            "retryCount",
+            "e"
+          ]
+        },
+        {
+          "name": "headerValue",
+          "startLine": 45,
+          "endLine": 49,
+          "params": [
+            "record",
+            "key"
+          ]
+        },
+        {
+          "name": "truncate",
+          "startLine": 51,
+          "endLine": 54,
+          "params": [
+            "s",
+            "max"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DlqMessage",
+          "startLine": 14,
+          "endLine": 55,
+          "methods": [
+            "of",
+            "headerValue",
+            "truncate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "DlqMessage",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "Instant.now",
+          "lineNumber": 28
+        },
+        {
+          "caller": "of",
+          "callee": "headerValue(record, \"first-failed-at\").orElse",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "headerValue",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "now.toString",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "new DlqMessage",
+          "lineNumber": 30
+        },
+        {
+          "caller": "of",
+          "callee": "record.value",
+          "lineNumber": 31
+        },
+        {
+          "caller": "of",
+          "callee": "new DlqMeta",
+          "lineNumber": 32
+        },
+        {
+          "caller": "of",
+          "callee": "record.topic",
+          "lineNumber": 33
+        },
+        {
+          "caller": "of",
+          "callee": "record.partition",
+          "lineNumber": 34
+        },
+        {
+          "caller": "of",
+          "callee": "record.offset",
+          "lineNumber": 35
+        },
+        {
+          "caller": "of",
+          "callee": "now.toString",
+          "lineNumber": 38
+        },
+        {
+          "caller": "of",
+          "callee": "truncate",
+          "lineNumber": 39
+        },
+        {
+          "caller": "of",
+          "callee": "e.getMessage",
+          "lineNumber": 39
+        },
+        {
+          "caller": "of",
+          "callee": "now.toString",
+          "lineNumber": 40
+        },
+        {
+          "caller": "headerValue",
+          "callee": "record.headers().lastHeader",
+          "lineNumber": 46
+        },
+        {
+          "caller": "headerValue",
+          "callee": "record.headers",
+          "lineNumber": 46
+        },
+        {
+          "caller": "headerValue",
+          "callee": "Optional.empty",
+          "lineNumber": 47
+        },
+        {
+          "caller": "headerValue",
+          "callee": "Optional.of",
+          "lineNumber": 48
+        },
+        {
+          "caller": "headerValue",
+          "callee": "new String",
+          "lineNumber": 48
+        },
+        {
+          "caller": "headerValue",
+          "callee": "header.value",
+          "lineNumber": 48
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.length",
+          "lineNumber": 53
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.substring",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "AttributeJpaRepository",
+          "startLine": 5,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AttributeJpaRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "AttributeValueJpaRepository",
+          "startLine": 8,
+          "endLine": 11,
+          "methods": [
+            "findByIdIn"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AttributeValueJpaRepository",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "CancelRestoreDlqJpaEntity",
+          "startLine": 52,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 54,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "getCancelRequestId",
+          "startLine": 55,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "getLeg",
+          "startLine": 56,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "getPayload",
+          "startLine": 57,
+          "endLine": 57,
+          "params": []
+        },
+        {
+          "name": "getRetryCount",
+          "startLine": 58,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "getAttemptCount",
+          "startLine": 59,
+          "endLine": 59,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 60,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "getLastError",
+          "startLine": 61,
+          "endLine": 61,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreDlqJpaEntity",
+          "startLine": 10,
+          "endLine": 62,
+          "methods": [
+            "CancelRestoreDlqJpaEntity",
+            "getId",
+            "getCancelRequestId",
+            "getLeg",
+            "getPayload",
+            "getRetryCount",
+            "getAttemptCount",
+            "getStatus",
+            "getLastError"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "leg",
+            "payload",
+            "retryCount",
+            "attemptCount",
+            "status",
+            "firstFailedAt",
+            "lastError",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getId",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "getCancelRequestId",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "getLeg",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "getPayload",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "getRetryCount",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "getAttemptCount",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "getLastError",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreDlqJpaEntity",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 76,
+      "nonEmptyLines": 67,
+      "classes": [
+        {
+          "name": "CancelRestoreDlqJpaRepository",
+          "startLine": 16,
+          "endLine": 76,
+          "methods": [
+            "upsertPending",
+            "findRedrivable",
+            "markResolved",
+            "bumpAttempt",
+            "markDead"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreDlqJpaRepository",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "CategoryJpaRepository",
+          "startLine": 9,
+          "endLine": 24,
+          "methods": [
+            "findSelfAndDescendantIds"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CategoryJpaRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "ProcessedCancelEventJpaEntity",
+          "startLine": 23,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 30,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessedCancelEventJpaEntity",
+          "startLine": 6,
+          "endLine": 31,
+          "methods": [
+            "ProcessedCancelEventJpaEntity",
+            "of"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "processedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessedCancelEventJpaEntity",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new ProcessedCancelEventJpaEntity",
+          "lineNumber": 26
+        },
+        {
+          "caller": "of",
+          "callee": "Instant.now",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "ProcessedCancelEventJpaRepository",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [
+            "existsByCancelRequestId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessedCancelEventJpaRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "ProductAttributeJpaRepository",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductAttributeJpaRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "ProductDescriptiveValueJpaEntity",
+          "startLine": 22,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "of",
+          "startLine": 24,
+          "endLine": 29,
+          "params": [
+            "productId",
+            "attributeValueId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductDescriptiveValueJpaEntity",
+          "startLine": 9,
+          "endLine": 54,
+          "methods": [
+            "ProductDescriptiveValueJpaEntity",
+            "of"
+          ],
+          "properties": [
+            "productId",
+            "attributeValueId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ProductDescriptiveValueJpaEntity",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new ProductDescriptiveValueJpaEntity",
+          "lineNumber": 25
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 46
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 46
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "ProductDescriptiveValueJpaRepository",
+          "startLine": 9,
+          "endLine": 29,
+          "methods": [
+            "findDescriptiveRows"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductDescriptiveValueJpaRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "ProductImageJpaRepository",
+          "startLine": 10,
+          "endLine": 20,
+          "methods": [
+            "findByProductIdOrderBySortOrderAscIdAsc",
+            "findByIdAndProductId",
+            "deleteByIdAndProductId",
+            "findMaxSortOrder"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductImageJpaRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 33,
+      "classes": [
+        {
+          "name": "ProductJpaRepository",
+          "startLine": 11,
+          "endLine": 38,
+          "methods": [
+            "findCardsByCategoryIds"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductJpaRepository",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 28,
+      "classes": [
+        {
+          "name": "ProductSkuJpaRepository",
+          "startLine": 9,
+          "endLine": 33,
+          "methods": [
+            "findSkuStockByProductId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductSkuJpaRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "classes": [
+        {
+          "name": "ProductStockJpaRepository",
+          "startLine": 7,
+          "endLine": 34,
+          "methods": [
+            "tryReserve",
+            "restore"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductStockJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/SkuAttributeValueJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "SkuAttributeValueJpaEntity",
+          "startLine": 22,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "of",
+          "startLine": 24,
+          "endLine": 29,
+          "params": [
+            "skuId",
+            "attributeValueId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SkuAttributeValueJpaEntity",
+          "startLine": 9,
+          "endLine": 54,
+          "methods": [
+            "SkuAttributeValueJpaEntity",
+            "of"
+          ],
+          "properties": [
+            "skuId",
+            "attributeValueId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "SkuAttributeValueJpaEntity",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new SkuAttributeValueJpaEntity",
+          "lineNumber": 25
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 46
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 46
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/SkuAttributeValueJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 27,
+      "classes": [
+        {
+          "name": "SkuAttributeValueJpaRepository",
+          "startLine": 9,
+          "endLine": 31,
+          "methods": [
+            "findVariantRows"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SkuAttributeValueJpaRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 50,
+      "classes": [
+        {
+          "name": "StockReservationJpaRepository",
+          "startLine": 12,
+          "endLine": 56,
+          "methods": [
+            "findByPaymentKeyAndSkuId",
+            "findStaleReserved",
+            "upsertReserved",
+            "releaseIfReserved"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "StockReservationJpaRepository",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/storage/S3Config.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 61,
+      "nonEmptyLines": 54,
+      "functions": [
+        {
+          "name": "s3Client",
+          "startLine": 38,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "s3Presigner",
+          "startLine": 48,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "creds",
+          "startLine": 58,
+          "endLine": 60,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "S3Config",
+          "startLine": 24,
+          "endLine": 61,
+          "methods": [
+            "s3Client",
+            "s3Presigner",
+            "creds"
+          ],
+          "properties": [
+            "endpoint",
+            "region",
+            "bucket",
+            "accessKey",
+            "secretKey",
+            "presignTtlSeconds",
+            "pathStyle"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "s3Client",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "s3Presigner",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "S3Config",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "s3Client",
+          "callee": "S3Client.builder()\n                .endpointOverride(URI.create(endpoint))\n                .region(Region.of(region))\n                .credentialsProvider(creds())\n                .serviceConfiguration(S3Configuration.builder().pathStyleAccessEnabled(pathStyle).build()).build",
+          "lineNumber": 40
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Client.builder()\n                .endpointOverride(URI.create(endpoint))\n                .region(Region.of(region))\n                .credentialsProvider(creds()).serviceConfiguration",
+          "lineNumber": 40
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Client.builder()\n                .endpointOverride(URI.create(endpoint))\n                .region(Region.of(region)).credentialsProvider",
+          "lineNumber": 40
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Client.builder()\n                .endpointOverride(URI.create(endpoint)).region",
+          "lineNumber": 40
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Client.builder().endpointOverride",
+          "lineNumber": 40
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Client.builder",
+          "lineNumber": 40
+        },
+        {
+          "caller": "s3Client",
+          "callee": "URI.create",
+          "lineNumber": 41
+        },
+        {
+          "caller": "s3Client",
+          "callee": "Region.of",
+          "lineNumber": 42
+        },
+        {
+          "caller": "s3Client",
+          "callee": "creds",
+          "lineNumber": 43
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Configuration.builder().pathStyleAccessEnabled(pathStyle).build",
+          "lineNumber": 44
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Configuration.builder().pathStyleAccessEnabled",
+          "lineNumber": 44
+        },
+        {
+          "caller": "s3Client",
+          "callee": "S3Configuration.builder",
+          "lineNumber": 44
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Presigner.builder()\n                .endpointOverride(URI.create(endpoint))\n                .region(Region.of(region))\n                .credentialsProvider(creds())\n                .serviceConfiguration(S3Configuration.builder().pathStyleAccessEnabled(pathStyle).build()).build",
+          "lineNumber": 50
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Presigner.builder()\n                .endpointOverride(URI.create(endpoint))\n                .region(Region.of(region))\n                .credentialsProvider(creds()).serviceConfiguration",
+          "lineNumber": 50
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Presigner.builder()\n                .endpointOverride(URI.create(endpoint))\n                .region(Region.of(region)).credentialsProvider",
+          "lineNumber": 50
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Presigner.builder()\n                .endpointOverride(URI.create(endpoint)).region",
+          "lineNumber": 50
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Presigner.builder().endpointOverride",
+          "lineNumber": 50
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Presigner.builder",
+          "lineNumber": 50
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "URI.create",
+          "lineNumber": 51
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "Region.of",
+          "lineNumber": 52
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "creds",
+          "lineNumber": 53
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Configuration.builder().pathStyleAccessEnabled(pathStyle).build",
+          "lineNumber": 54
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Configuration.builder().pathStyleAccessEnabled",
+          "lineNumber": 54
+        },
+        {
+          "caller": "s3Presigner",
+          "callee": "S3Configuration.builder",
+          "lineNumber": 54
+        },
+        {
+          "caller": "creds",
+          "callee": "StaticCredentialsProvider.create",
+          "lineNumber": 59
+        },
+        {
+          "caller": "creds",
+          "callee": "AwsBasicCredentials.create",
+          "lineNumber": 59
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 93,
+      "nonEmptyLines": 79,
+      "sections": [
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kafka",
+          "level": 1,
+          "line": 47
+        },
+        {
+          "heading": "external",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "scheduler",
+          "level": 1,
+          "line": 57
+        },
+        {
+          "heading": "orphan",
+          "level": 1,
+          "line": 62
+        },
+        {
+          "heading": "app",
+          "level": 1,
+          "line": 65
+        },
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 75
+        },
+        {
+          "heading": "logging",
+          "level": 1,
+          "line": 78
+        },
+        {
+          "heading": "management",
+          "level": 1,
+          "line": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/RiskManagementApplication.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RiskManagementApplication",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "main"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "RiskManagementApplication",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "SpringApplication.run",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/KafkaConsumerConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "consumerFactory",
+          "startLine": 25,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "startLine": 37,
+          "endLine": 44,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaConsumerConfig",
+          "startLine": 16,
+          "endLine": 45,
+          "methods": [
+            "consumerFactory",
+            "kafkaListenerContainerFactory"
+          ],
+          "properties": [
+            "bootstrapServers",
+            "groupId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consumerFactory",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaConsumerConfig",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consumerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 27
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 28
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 29
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 30
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 31
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 32
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 33
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "new DefaultKafkaConsumerFactory<>",
+          "lineNumber": 34
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "new ConcurrentKafkaListenerContainerFactory<>",
+          "lineNumber": 40
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.setConsumerFactory",
+          "lineNumber": 41
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "consumerFactory",
+          "lineNumber": 41
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties().setAckMode",
+          "lineNumber": 42
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    }
+  ]
+}

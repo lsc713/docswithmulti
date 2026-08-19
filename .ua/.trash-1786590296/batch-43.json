@@ -1,0 +1,84 @@
+{
+  "nodes": [
+    {
+      "id": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:V1__create_risk_core",
+      "type": "table",
+      "name": "V1__create_risk_core.sql",
+      "filePath": "risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql",
+      "summary": "risk-management-service database에서 merchant_cancel_usage, cancel_usage_history, cancel_usage_compensation schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "risk-management-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:merchant_cancel_usage",
+      "type": "table",
+      "name": "merchant_cancel_usage",
+      "filePath": "risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql",
+      "summary": "merchant_cancel_usage table은 id, merchant_id, kst_date, daily_limit, used_amount, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "risk-management-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:cancel_usage_history",
+      "type": "table",
+      "name": "cancel_usage_history",
+      "filePath": "risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql",
+      "summary": "cancel_usage_history table은 id, cancel_request_id, merchant_id, kst_date, cancel_amount, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "risk-management-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:cancel_usage_compensation",
+      "type": "table",
+      "name": "cancel_usage_compensation",
+      "filePath": "risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql",
+      "summary": "cancel_usage_compensation table은 id, cancel_request_id, merchant_id, restore_amount, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "risk-management-service"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:V1__create_risk_core",
+      "target": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:merchant_cancel_usage",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:V1__create_risk_core",
+      "target": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:cancel_usage_history",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:V1__create_risk_core",
+      "target": "table:risk-management-service/src/main/resources/db/migration/V1__create_risk_core.sql:cancel_usage_compensation",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

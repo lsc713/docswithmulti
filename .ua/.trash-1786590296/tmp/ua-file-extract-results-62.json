@@ -1,0 +1,222 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/order-link/phases/01-api/01-CONTEXT.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 34,
+      "nonEmptyLines": 25,
+      "sections": [
+        {
+          "heading": "Phase 1 Context — 주문 검증 API + 주문 생성 신뢰헤더 + 게이트웨이 경계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Locked Decisions (설계 확정 — 변경 금지)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Canonical References (미러링 대상 — 기존 패턴 따를 것)",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "Claude's Discretion (구현 재량)",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "Scope Fence",
+          "level": 2,
+          "line": 31
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/phases/01-api/01-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 237,
+      "nonEmptyLines": 215,
+      "sections": [
+        {
+          "heading": "Canonical patterns to mirror (read before writing):",
+          "level": 1,
+          "line": 70
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 197
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 205
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/phases/01-api/01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 120,
+      "nonEmptyLines": 98,
+      "sections": [
+        {
+          "heading": "Phase 1 Plan 1: order-service verify API + trust-header create + gateway route + NetworkPolicy Summary",
+          "level": 1,
+          "line": 58
+        },
+        {
+          "heading": "What was built",
+          "level": 2,
+          "line": 62
+        },
+        {
+          "heading": "Tests run + results",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 83
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "Auth gates",
+          "level": 3,
+          "line": 96
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 99
+        },
+        {
+          "heading": "CANCEL-01 Gate Result",
+          "level": 2,
+          "line": 102
+        },
+        {
+          "heading": "Requirement Coverage",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 118
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/phases/01-api/01-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 94,
+      "nonEmptyLines": 69,
+      "sections": [
+        {
+          "heading": "Phase 1: 주문 검증 API + 주문 생성 신뢰헤더 + 게이트웨이 경계 Verification Report",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "Goal Achievement",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "Observable Truths",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "Required Artifacts",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "Key Link Verification",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "Behavioral Spot-Checks",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "Requirements Coverage",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "Anti-Patterns Found",
+          "level": 3,
+          "line": 72
+        },
+        {
+          "heading": "Human Verification Required",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "Gaps Summary",
+          "level": 3,
+          "line": 80
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    }
+  ]
+}

@@ -1,0 +1,1195 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java",
+      "type": "file",
+      "name": "IdempotencyKeyManager.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java",
+      "summary": "결제 기능을 구현하며 IdempotencyKeyManager 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "결제",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java:IdempotencyKeyManager",
+      "type": "class",
+      "name": "IdempotencyKeyManager",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java",
+      "lineRange": [
+        13,
+        29
+      ],
+      "summary": "결제의 IdempotencyKeyManager 책임과 관련 동작을 캡슐화한다.",
+      "tags": [
+        "class",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java",
+      "type": "file",
+      "name": "RiskManagementService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java",
+      "summary": "결제 기능을 구현하며 RiskManagementService 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "결제",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java:RiskManagementService",
+      "type": "class",
+      "name": "RiskManagementService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java",
+      "lineRange": [
+        22,
+        43
+      ],
+      "summary": "결제의 RiskManagementService 책임과 관련 동작을 캡슐화한다.",
+      "tags": [
+        "class",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "type": "file",
+      "name": "RequestHashGenerator.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "summary": "결제 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:RequestHashGenerator",
+      "type": "function",
+      "name": "RequestHashGenerator",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "lineRange": [
+        11,
+        11
+      ],
+      "summary": "결제 흐름에서 RequestHashGenerator 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:generate",
+      "type": "function",
+      "name": "generate",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "lineRange": [
+        17,
+        27
+      ],
+      "summary": "결제 흐름에서 generate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:RequestHashGenerator",
+      "type": "class",
+      "name": "RequestHashGenerator",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "lineRange": [
+        9,
+        28
+      ],
+      "summary": "결제 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "type": "file",
+      "name": "BaseEntity.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "summary": "결제 기능을 구현하며 BaseEntity, BaseEntity 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "결제",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java:BaseEntity",
+      "type": "function",
+      "name": "BaseEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "lineRange": [
+        7,
+        8
+      ],
+      "summary": "결제 흐름에서 BaseEntity 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java:BaseEntity",
+      "type": "class",
+      "name": "BaseEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "lineRange": [
+        5,
+        13
+      ],
+      "summary": "결제 상태를 database record로 매핑하는 JPA entity다.",
+      "tags": [
+        "class",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveExecutorConfig.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "summary": "결제 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java:cancelRedriveExecutor",
+      "type": "function",
+      "name": "cancelRedriveExecutor",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "lineRange": [
+        13,
+        34
+      ],
+      "summary": "결제 흐름에서 cancelRedriveExecutor 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java:CancelOutboxRedriveExecutorConfig",
+      "type": "class",
+      "name": "CancelOutboxRedriveExecutorConfig",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "lineRange": [
+        10,
+        35
+      ],
+      "summary": "결제 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "type": "file",
+      "name": "HttpClientConfig.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "summary": "결제 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "function",
+      "name": "restTemplate",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "lineRange": [
+        16,
+        20
+      ],
+      "summary": "결제 흐름에서 restTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:cancelOutboxInspectionRestTemplate",
+      "type": "function",
+      "name": "cancelOutboxInspectionRestTemplate",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "lineRange": [
+        22,
+        40
+      ],
+      "summary": "결제 흐름에서 cancelOutboxInspectionRestTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "class",
+      "name": "HttpClientConfig",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "lineRange": [
+        11,
+        41
+      ],
+      "summary": "결제 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "type": "file",
+      "name": "KafkaProducerConfig.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "summary": "결제 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "function",
+      "name": "KafkaProducerConfig",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        24,
+        26
+      ],
+      "summary": "결제 흐름에서 KafkaProducerConfig 작업을 수행한다.",
+      "tags": [
+        "function",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "function",
+      "name": "producerFactory",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        28,
+        39
+      ],
+      "summary": "결제 흐름에서 producerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "function",
+      "name": "kafkaTemplate",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        41,
+        44
+      ],
+      "summary": "결제 흐름에서 kafkaTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "class",
+      "name": "KafkaProducerConfig",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        16,
+        45
+      ],
+      "summary": "결제 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "type": "file",
+      "name": "OutboxDataSourceConfig.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "summary": "결제 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:dataSourceProperties",
+      "type": "function",
+      "name": "dataSourceProperties",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        27,
+        32
+      ],
+      "summary": "결제 흐름에서 dataSourceProperties 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:mainPoolProperties",
+      "type": "function",
+      "name": "mainPoolProperties",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        38,
+        43
+      ],
+      "summary": "결제 흐름에서 mainPoolProperties 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:dataSource",
+      "type": "function",
+      "name": "dataSource",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        45,
+        59
+      ],
+      "summary": "결제 흐름에서 dataSource 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelOutboxDataSource",
+      "type": "function",
+      "name": "cancelOutboxDataSource",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        62,
+        77
+      ],
+      "summary": "결제 흐름에서 cancelOutboxDataSource 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelOutboxJdbcTemplate",
+      "type": "function",
+      "name": "cancelOutboxJdbcTemplate",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        79,
+        84
+      ],
+      "summary": "결제 흐름에서 cancelOutboxJdbcTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelEventOutboxRepository",
+      "type": "function",
+      "name": "cancelEventOutboxRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        86,
+        93
+      ],
+      "summary": "결제 흐름에서 cancelEventOutboxRepository 작업을 수행한다.",
+      "tags": [
+        "function",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:outboxPoolProperties",
+      "type": "function",
+      "name": "outboxPoolProperties",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        98,
+        103
+      ],
+      "summary": "결제 흐름에서 outboxPoolProperties 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:OutboxDataSourceConfig",
+      "type": "class",
+      "name": "OutboxDataSourceConfig",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "lineRange": [
+        23,
+        129
+      ],
+      "summary": "결제 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "type": "file",
+      "name": "ResilienceConfig.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "summary": "결제 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:circuitBreakerRegistry",
+      "type": "function",
+      "name": "circuitBreakerRegistry",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        28,
+        31
+      ],
+      "summary": "결제 흐름에서 circuitBreakerRegistry 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:riskManagementCircuitBreaker",
+      "type": "function",
+      "name": "riskManagementCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        33,
+        36
+      ],
+      "summary": "결제 흐름에서 riskManagementCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:pgCancelCircuitBreaker",
+      "type": "function",
+      "name": "pgCancelCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        38,
+        41
+      ],
+      "summary": "결제 흐름에서 pgCancelCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:productServiceCircuitBreaker",
+      "type": "function",
+      "name": "productServiceCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        47,
+        50
+      ],
+      "summary": "결제 흐름에서 productServiceCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:orderServiceCircuitBreaker",
+      "type": "function",
+      "name": "orderServiceCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        56,
+        59
+      ],
+      "summary": "결제 흐름에서 orderServiceCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:orderCancelStatusCircuitBreaker",
+      "type": "function",
+      "name": "orderCancelStatusCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        61,
+        64
+      ],
+      "summary": "결제 흐름에서 orderCancelStatusCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:stockRestoreStatusCircuitBreaker",
+      "type": "function",
+      "name": "stockRestoreStatusCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        66,
+        69
+      ],
+      "summary": "결제 흐름에서 stockRestoreStatusCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:riskManagementReadCircuitBreaker",
+      "type": "function",
+      "name": "riskManagementReadCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        76,
+        79
+      ],
+      "summary": "결제 흐름에서 riskManagementReadCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:pgCancelReadCircuitBreaker",
+      "type": "function",
+      "name": "pgCancelReadCircuitBreaker",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        84,
+        87
+      ],
+      "summary": "결제 흐름에서 pgCancelReadCircuitBreaker 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:ResilienceConfig",
+      "type": "class",
+      "name": "ResilienceConfig",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        16,
+        88
+      ],
+      "summary": "결제 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java:IdempotencyKeyManager",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/IdempotencyKeyManager.java:IdempotencyKeyManager",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java:RiskManagementService",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementService.java:RiskManagementService",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:RequestHashGenerator",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:RequestHashGenerator",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:generate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:generate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:RequestHashGenerator",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/RequestHashGenerator.java:RequestHashGenerator",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java:BaseEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java:BaseEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java:BaseEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/BaseEntity.java:BaseEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java:cancelRedriveExecutor",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java:cancelRedriveExecutor",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java:CancelOutboxRedriveExecutorConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/CancelOutboxRedriveExecutorConfig.java:CancelOutboxRedriveExecutorConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:cancelOutboxInspectionRestTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:cancelOutboxInspectionRestTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:dataSourceProperties",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:dataSourceProperties",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:mainPoolProperties",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:mainPoolProperties",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:dataSource",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:dataSource",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelOutboxDataSource",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelOutboxDataSource",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelOutboxJdbcTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelOutboxJdbcTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelEventOutboxRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:cancelEventOutboxRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:outboxPoolProperties",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:outboxPoolProperties",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:OutboxDataSourceConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/OutboxDataSourceConfig.java:OutboxDataSourceConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:circuitBreakerRegistry",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:circuitBreakerRegistry",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:riskManagementCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:riskManagementCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:pgCancelCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:pgCancelCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:productServiceCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:productServiceCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:orderServiceCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:orderServiceCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:orderCancelStatusCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:orderCancelStatusCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:stockRestoreStatusCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:stockRestoreStatusCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:riskManagementReadCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:riskManagementReadCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:pgCancelReadCircuitBreaker",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:pgCancelReadCircuitBreaker",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:ResilienceConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/ResilienceConfig.java:ResilienceConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    }
+  ]
+}

@@ -1,0 +1,1540 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "type": "file",
+      "name": "InspectCancelRestoreUseCase.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "summary": "product-service에서 Inspect Cancel Restore Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "product-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java:InspectCancelRestoreUseCase",
+      "type": "class",
+      "name": "InspectCancelRestoreUseCase",
+      "filePath": "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "lineRange": [
+        7,
+        27
+      ],
+      "summary": "InspectCancelRestoreUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "type": "file",
+      "name": "ProcessCancelledStockUseCase.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "summary": "product-service에서 Process Cancelled Stock Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "product-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java:ProcessCancelledStockUseCase",
+      "type": "class",
+      "name": "ProcessCancelledStockUseCase",
+      "filePath": "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "lineRange": [
+        11,
+        18
+      ],
+      "summary": "ProcessCancelledStockUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "type": "file",
+      "name": "ReservationStatus.java",
+      "filePath": "product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "summary": "product-service의 Reservation Status domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "product-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java:ReservationStatus",
+      "type": "class",
+      "name": "ReservationStatus",
+      "filePath": "product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "lineRange": [
+        3,
+        6
+      ],
+      "summary": "ReservationStatus domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "type": "file",
+      "name": "StockReservation.java",
+      "filePath": "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "summary": "product-service의 Stock Reservation domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "product-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:StockReservation",
+      "type": "class",
+      "name": "StockReservation",
+      "filePath": "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "lineRange": [
+        8,
+        38
+      ],
+      "summary": "StockReservation domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:StockReservation",
+      "type": "function",
+      "name": "StockReservation",
+      "filePath": "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "lineRange": [
+        18,
+        27
+      ],
+      "summary": "StockReservation 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:reserve",
+      "type": "function",
+      "name": "reserve",
+      "filePath": "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "lineRange": [
+        29,
+        32
+      ],
+      "summary": "reserve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:reconstruct",
+      "type": "function",
+      "name": "reconstruct",
+      "filePath": "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "lineRange": [
+        34,
+        37
+      ],
+      "summary": "reconstruct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "type": "file",
+      "name": "LogOperationAlertAdapter.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "summary": "product-service의 Log Operation Alert Adapter 관련 domain/application 동작을 구현하며 2개의 주요 구조를 포함한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "class",
+      "name": "LogOperationAlertAdapter",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "lineRange": [
+        8,
+        16
+      ],
+      "summary": "LogOperationAlertAdapter가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "function",
+      "name": "alert",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "lineRange": [
+        12,
+        15
+      ],
+      "summary": "alert 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "type": "file",
+      "name": "PersistenceConfig.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "summary": "product-service의 Persistence Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "product-service",
+        "configuration",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "class",
+      "name": "PersistenceConfig",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        26,
+        108
+      ],
+      "summary": "PersistenceConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "function",
+      "name": "transactionManager",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        31,
+        34
+      ],
+      "summary": "transactionManager 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "function",
+      "name": "transactionTemplate",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        36,
+        39
+      ],
+      "summary": "transactionTemplate 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productRepository",
+      "type": "function",
+      "name": "productRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        41,
+        44
+      ],
+      "summary": "productRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:categoryRepository",
+      "type": "function",
+      "name": "categoryRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        46,
+        49
+      ],
+      "summary": "categoryRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productSkuRepository",
+      "type": "function",
+      "name": "productSkuRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        51,
+        54
+      ],
+      "summary": "productSkuRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productStockRepository",
+      "type": "function",
+      "name": "productStockRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        56,
+        59
+      ],
+      "summary": "productStockRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:stockReservationRepository",
+      "type": "function",
+      "name": "stockReservationRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        61,
+        64
+      ],
+      "summary": "stockReservationRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:processedCancelEventRepository",
+      "type": "function",
+      "name": "processedCancelEventRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        66,
+        69
+      ],
+      "summary": "processedCancelEventRepository 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:inspectCancelRestoreUseCase",
+      "type": "function",
+      "name": "inspectCancelRestoreUseCase",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        71,
+        77
+      ],
+      "summary": "inspectCancelRestoreUseCase 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "use-case",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:cancelRestoreDlqRepository",
+      "type": "function",
+      "name": "cancelRestoreDlqRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        79,
+        82
+      ],
+      "summary": "cancelRestoreDlqRepository 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productImageRepository",
+      "type": "function",
+      "name": "productImageRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        84,
+        87
+      ],
+      "summary": "productImageRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productQueryRepository",
+      "type": "function",
+      "name": "productQueryRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        89,
+        94
+      ],
+      "summary": "productQueryRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:attributeRepository",
+      "type": "function",
+      "name": "attributeRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        96,
+        100
+      ],
+      "summary": "attributeRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productVariantRepository",
+      "type": "function",
+      "name": "productVariantRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        102,
+        107
+      ],
+      "summary": "productVariantRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "type": "file",
+      "name": "PaymentQueryHttpClient.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "summary": "product-service의 Payment Query Http Client 관련 domain/application 동작을 구현하며 3개의 주요 구조를 포함한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:PaymentQueryHttpClient",
+      "type": "class",
+      "name": "PaymentQueryHttpClient",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "lineRange": [
+        16,
+        44
+      ],
+      "summary": "PaymentQueryHttpClient가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:PaymentQueryHttpClient",
+      "type": "function",
+      "name": "PaymentQueryHttpClient",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "lineRange": [
+        23,
+        29
+      ],
+      "summary": "PaymentQueryHttpClient 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:exists",
+      "type": "function",
+      "name": "exists",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "lineRange": [
+        34,
+        43
+      ],
+      "summary": "exists 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "type": "file",
+      "name": "PaymentCancelledPayload.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "summary": "product-service의 Payment Cancelled Payload event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "class",
+      "name": "PaymentCancelledPayload",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "lineRange": [
+        13,
+        27
+      ],
+      "summary": "PaymentCancelledPayload가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "type": "file",
+      "name": "PaymentCancelledStockConsumer.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "summary": "product-service의 Payment Cancelled Stock Consumer event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java:PaymentCancelledStockConsumer",
+      "type": "class",
+      "name": "PaymentCancelledStockConsumer",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "lineRange": [
+        24,
+        69
+      ],
+      "summary": "PaymentCancelledStockConsumer가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java:consume",
+      "type": "function",
+      "name": "consume",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "lineRange": [
+        33,
+        68
+      ],
+      "summary": "consume 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "type": "file",
+      "name": "PaymentCancelledStockRetryConsumer.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "summary": "product-service의 Payment Cancelled Stock Retry Consumer event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java:PaymentCancelledStockRetryConsumer",
+      "type": "class",
+      "name": "PaymentCancelledStockRetryConsumer",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "lineRange": [
+        22,
+        66
+      ],
+      "summary": "PaymentCancelledStockRetryConsumer가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java:consume",
+      "type": "function",
+      "name": "consume",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "lineRange": [
+        31,
+        65
+      ],
+      "summary": "consume 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "type": "file",
+      "name": "RetryRouter.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "summary": "product-service의 Retry Router event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "class",
+      "name": "RetryRouter",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        29,
+        164
+      ],
+      "summary": "RetryRouter가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "function",
+      "name": "RetryRouter",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        44,
+        56
+      ],
+      "summary": "RetryRouter 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:route",
+      "type": "function",
+      "name": "route",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        58,
+        65
+      ],
+      "summary": "route 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:publishToRetry",
+      "type": "function",
+      "name": "publishToRetry",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        71,
+        97
+      ],
+      "summary": "publishToRetry 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:publishToDlq",
+      "type": "function",
+      "name": "publishToDlq",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        108,
+        128
+      ],
+      "summary": "publishToDlq 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:parseRetryCount",
+      "type": "function",
+      "name": "parseRetryCount",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        140,
+        149
+      ],
+      "summary": "parseRetryCount 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java:InspectCancelRestoreUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java:InspectCancelRestoreUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java:ProcessCancelledStockUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java:ProcessCancelledStockUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "target": "class:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java:ReservationStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "target": "class:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java:ReservationStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "class:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:StockReservation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "class:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:StockReservation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:StockReservation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:StockReservation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:reserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:reserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:reconstruct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "target": "function:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java:reconstruct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:categoryRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:categoryRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productSkuRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productSkuRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productStockRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productStockRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:stockReservationRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:stockReservationRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:processedCancelEventRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:processedCancelEventRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:inspectCancelRestoreUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:inspectCancelRestoreUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:cancelRestoreDlqRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:cancelRestoreDlqRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productImageRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productImageRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productQueryRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productQueryRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:attributeRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:attributeRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productVariantRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java:productVariantRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/AttributeRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/CategoryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductImageRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductQueryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductSkuRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductStockRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductVariantRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:PaymentQueryHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:PaymentQueryHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:PaymentQueryHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:PaymentQueryHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:exists",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java:exists",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java:PaymentCancelledStockConsumer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java:PaymentCancelledStockConsumer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java:consume",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java:consume",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java:PaymentCancelledStockRetryConsumer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java:PaymentCancelledStockRetryConsumer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java:consume",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java:consume",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:route",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:route",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:publishToRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:publishToDlq",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java:parseRetryCount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

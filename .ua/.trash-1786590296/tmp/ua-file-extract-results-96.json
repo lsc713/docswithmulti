@@ -1,0 +1,147 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": "infra/load-test/observability/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 134,
+      "nonEmptyLines": 104,
+      "sections": [
+        {
+          "heading": "관측 스택 (Prometheus + Grafana + exporters)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "빠른 확인 (노트북 브라우저 — 퍼블릭 IP 불필요)",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "로그 검색 (CloudWatch Logs Insights)",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "무엇을 수집하나",
+          "level": 2,
+          "line": 38
+        },
+        {
+          "heading": "oncall 알림 (Grafana → Slack → oncall 스킬)",
+          "level": 2,
+          "line": 49
+        },
+        {
+          "heading": "기동 순서",
+          "level": 2,
+          "line": 84
+        },
+        {
+          "heading": "전제 (배포 시 맞춰야 함 — task #2)",
+          "level": 2,
+          "line": 110
+        },
+        {
+          "heading": "더 깊은 대시보드 (수동 import)",
+          "level": 2,
+          "line": 124
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "infra/load-test/observability/docker-compose.yml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 112,
+      "nonEmptyLines": 101,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "volumes",
+          "level": 1,
+          "line": 109
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/observability/node-exporter.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 15,
+      "nonEmptyLines": 14,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "infra/load-test/observability/prometheus.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 70,
+      "nonEmptyLines": 65,
+      "sections": [
+        {
+          "heading": "global",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "scrape_configs",
+          "level": 1,
+          "line": 8
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    }
+  ]
+}

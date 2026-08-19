@@ -1,0 +1,765 @@
+{
+  "nodes": [
+    {
+      "id": "file:k6/compensation-test.js",
+      "type": "file",
+      "name": "compensation-test.js",
+      "filePath": "k6/compensation-test.js",
+      "summary": "compensation-test의 핵심 동작과 경계 조건을 검증하는 자동화 테스트다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/compensation-test.js:setup",
+      "type": "function",
+      "name": "setup",
+      "filePath": "k6/compensation-test.js",
+      "lineRange": [
+        35,
+        38
+      ],
+      "summary": "setup 시나리오의 기대 결과를 검증한다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/config.js",
+      "type": "file",
+      "name": "config.js",
+      "filePath": "k6/config.js",
+      "summary": "k6의 config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "k6",
+        "configuration",
+        "javascript"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/helpers/data-factory.js",
+      "type": "file",
+      "name": "data-factory.js",
+      "filePath": "k6/helpers/data-factory.js",
+      "summary": "data-factory 시나리오와 지표를 정의해 commerce API의 부하 특성을 검증한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/helpers/data-factory.js:createMerchant",
+      "type": "function",
+      "name": "createMerchant",
+      "filePath": "k6/helpers/data-factory.js",
+      "lineRange": [
+        16,
+        31
+      ],
+      "summary": "createMerchant 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:k6/helpers/data-factory.js:createOrder",
+      "type": "function",
+      "name": "createOrder",
+      "filePath": "k6/helpers/data-factory.js",
+      "lineRange": [
+        33,
+        48
+      ],
+      "summary": "createOrder 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:k6/helpers/data-factory.js:createPayment",
+      "type": "function",
+      "name": "createPayment",
+      "filePath": "k6/helpers/data-factory.js",
+      "lineRange": [
+        50,
+        68
+      ],
+      "summary": "createPayment 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:k6/helpers/data-factory.js:buildPaymentPool",
+      "type": "function",
+      "name": "buildPaymentPool",
+      "filePath": "k6/helpers/data-factory.js",
+      "lineRange": [
+        82,
+        146
+      ],
+      "summary": "buildPaymentPool 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:k6/helpers/product-distribution.js",
+      "type": "file",
+      "name": "product-distribution.js",
+      "filePath": "k6/helpers/product-distribution.js",
+      "summary": "product-distribution 시나리오와 지표를 정의해 commerce API의 부하 특성을 검증한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:k6/helpers/product-distribution.js:selectProductId",
+      "type": "function",
+      "name": "selectProductId",
+      "filePath": "k6/helpers/product-distribution.js",
+      "lineRange": [
+        1,
+        10
+      ],
+      "summary": "selectProductId 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/hot-merchant.js",
+      "type": "file",
+      "name": "hot-merchant.js",
+      "filePath": "k6/hot-merchant.js",
+      "summary": "hot-merchant 시나리오와 지표를 정의해 commerce API의 부하 특성을 검증한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/hot-merchant.js:cancel",
+      "type": "function",
+      "name": "cancel",
+      "filePath": "k6/hot-merchant.js",
+      "lineRange": [
+        48,
+        71
+      ],
+      "summary": "cancel 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/idempotency-test.js",
+      "type": "file",
+      "name": "idempotency-test.js",
+      "filePath": "k6/idempotency-test.js",
+      "summary": "idempotency-test의 핵심 동작과 경계 조건을 검증하는 자동화 테스트다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/idempotency-test.js:setup",
+      "type": "function",
+      "name": "setup",
+      "filePath": "k6/idempotency-test.js",
+      "lineRange": [
+        30,
+        45
+      ],
+      "summary": "setup 시나리오의 기대 결과를 검증한다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:k6/idempotency-test.js:teardown",
+      "type": "function",
+      "name": "teardown",
+      "filePath": "k6/idempotency-test.js",
+      "lineRange": [
+        77,
+        115
+      ],
+      "summary": "teardown 시나리오의 기대 결과를 검증한다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/load-test.js",
+      "type": "file",
+      "name": "load-test.js",
+      "filePath": "k6/load-test.js",
+      "summary": "load-test의 핵심 동작과 경계 조건을 검증하는 자동화 테스트다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/load-test.js:setup",
+      "type": "function",
+      "name": "setup",
+      "filePath": "k6/load-test.js",
+      "lineRange": [
+        36,
+        42
+      ],
+      "summary": "setup 시나리오의 기대 결과를 검증한다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/product-detail.js",
+      "type": "file",
+      "name": "product-detail.js",
+      "filePath": "k6/product-detail.js",
+      "summary": "product-detail 시나리오와 지표를 정의해 commerce API의 부하 특성을 검증한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/product-detail.js:detail",
+      "type": "function",
+      "name": "detail",
+      "filePath": "k6/product-detail.js",
+      "lineRange": [
+        57,
+        73
+      ],
+      "summary": "detail 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/product-distribution-test.js",
+      "type": "file",
+      "name": "product-distribution-test.js",
+      "filePath": "k6/product-distribution-test.js",
+      "summary": "product-distribution-test의 핵심 동작과 경계 조건을 검증하는 자동화 테스트다.",
+      "tags": [
+        "k6",
+        "test",
+        "javascript"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/realistic-mix.js",
+      "type": "file",
+      "name": "realistic-mix.js",
+      "filePath": "k6/realistic-mix.js",
+      "summary": "realistic-mix 시나리오와 지표를 정의해 commerce API의 부하 특성을 검증한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/realistic-mix.js:cancel",
+      "type": "function",
+      "name": "cancel",
+      "filePath": "k6/realistic-mix.js",
+      "lineRange": [
+        83,
+        101
+      ],
+      "summary": "cancel 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:k6/realistic-mix.js:mix",
+      "type": "function",
+      "name": "mix",
+      "filePath": "k6/realistic-mix.js",
+      "lineRange": [
+        103,
+        131
+      ],
+      "summary": "mix 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/slo-arrival.js",
+      "type": "file",
+      "name": "slo-arrival.js",
+      "filePath": "k6/slo-arrival.js",
+      "summary": "slo-arrival 시나리오와 지표를 정의해 commerce API의 부하 특성을 검증한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/slo-arrival.js:cancel",
+      "type": "function",
+      "name": "cancel",
+      "filePath": "k6/slo-arrival.js",
+      "lineRange": [
+        91,
+        116
+      ],
+      "summary": "cancel 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:k6/slo-arrival.js:handleSummary",
+      "type": "function",
+      "name": "handleSummary",
+      "filePath": "k6/slo-arrival.js",
+      "lineRange": [
+        119,
+        148
+      ],
+      "summary": "handleSummary 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/stages.js",
+      "type": "file",
+      "name": "stages.js",
+      "filePath": "k6/stages.js",
+      "summary": "stages 시나리오와 지표를 정의해 commerce API의 부하 특성을 검증한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/stages.js:cancel",
+      "type": "function",
+      "name": "cancel",
+      "filePath": "k6/stages.js",
+      "lineRange": [
+        77,
+        104
+      ],
+      "summary": "cancel 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "k6",
+        "load-test",
+        "javascript",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:k6/compensation-test.js",
+      "target": "function:k6/compensation-test.js:setup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/compensation-test.js",
+      "target": "function:k6/compensation-test.js:setup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/compensation-test.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/compensation-test.js",
+      "target": "file:k6/helpers/data-factory.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:createMerchant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:createMerchant",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:createOrder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:createOrder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:createPayment",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:createPayment",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:buildPaymentPool",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "function:k6/helpers/data-factory.js:buildPaymentPool",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/helpers/data-factory.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/helpers/product-distribution.js",
+      "target": "function:k6/helpers/product-distribution.js:selectProductId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/helpers/product-distribution.js",
+      "target": "function:k6/helpers/product-distribution.js:selectProductId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/hot-merchant.js",
+      "target": "function:k6/hot-merchant.js:cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/hot-merchant.js",
+      "target": "function:k6/hot-merchant.js:cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/hot-merchant.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/idempotency-test.js",
+      "target": "function:k6/idempotency-test.js:setup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/idempotency-test.js",
+      "target": "function:k6/idempotency-test.js:setup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/idempotency-test.js",
+      "target": "function:k6/idempotency-test.js:teardown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/idempotency-test.js",
+      "target": "function:k6/idempotency-test.js:teardown",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/idempotency-test.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/idempotency-test.js",
+      "target": "file:k6/helpers/data-factory.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/load-test.js",
+      "target": "function:k6/load-test.js:setup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/load-test.js",
+      "target": "function:k6/load-test.js:setup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/load-test.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/load-test.js",
+      "target": "file:k6/helpers/data-factory.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/product-detail.js",
+      "target": "function:k6/product-detail.js:detail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/product-detail.js",
+      "target": "function:k6/product-detail.js:detail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/product-detail.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/product-detail.js",
+      "target": "file:k6/helpers/product-distribution.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/product-distribution-test.js",
+      "target": "file:k6/helpers/product-distribution.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/realistic-mix.js",
+      "target": "function:k6/realistic-mix.js:cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/realistic-mix.js",
+      "target": "function:k6/realistic-mix.js:mix",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/realistic-mix.js",
+      "target": "function:k6/realistic-mix.js:mix",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/realistic-mix.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/slo-arrival.js",
+      "target": "function:k6/slo-arrival.js:cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/slo-arrival.js",
+      "target": "function:k6/slo-arrival.js:cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/slo-arrival.js",
+      "target": "function:k6/slo-arrival.js:handleSummary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/slo-arrival.js",
+      "target": "function:k6/slo-arrival.js:handleSummary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/slo-arrival.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:k6/stages.js",
+      "target": "function:k6/stages.js:cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:k6/stages.js",
+      "target": "function:k6/stages.js:cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:k6/stages.js",
+      "target": "file:k6/config.js",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

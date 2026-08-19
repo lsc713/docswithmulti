@@ -1,0 +1,227 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/settlement/phases/02-net/02-01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 92,
+      "nonEmptyLines": 76,
+      "sections": [
+        {
+          "heading": "Phase 02 Plan 01: SALE Vertical Slice (Tracer) Summary",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "What was built",
+          "level": 2,
+          "line": 57
+        },
+        {
+          "heading": "Verification",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 70
+        },
+        {
+          "heading": "Parallel-safety confirmation",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 89
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/settlement/phases/02-net/02-02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 89,
+      "nonEmptyLines": 73,
+      "sections": [
+        {
+          "heading": "Phase 2 Plan 2: Fee/VAT/net calculator + merchant rate config Summary",
+          "level": 1,
+          "line": 52
+        },
+        {
+          "heading": "Tasks Completed",
+          "level": 2,
+          "line": 56
+        },
+        {
+          "heading": "Tests",
+          "level": 2,
+          "line": 64
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 70
+        },
+        {
+          "heading": "Full-suite note (honest)",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "Parallel-safety confirmation",
+          "level": 2,
+          "line": 78
+        },
+        {
+          "heading": "Threat Flags",
+          "level": 2,
+          "line": 82
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".planning/workstreams/settlement/phases/02-net/02-03-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 60,
+      "nonEmptyLines": 48,
+      "sections": [
+        {
+          "heading": "Phase 2 Plan 3: INV-01 (Phase 2 re-scope) gate + 4-module no-regression Summary",
+          "level": 1,
+          "line": 31
+        },
+        {
+          "heading": "What was done",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "Verification",
+          "level": 2,
+          "line": 47
+        },
+        {
+          "heading": "Threat Flags",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 57
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": ".planning/workstreams/settlement/phases/02-net/02-03-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 102,
+      "nonEmptyLines": 75,
+      "sections": [
+        {
+          "heading": "02-03 VERIFICATION — INV-01 (Phase 2 re-scope) gate + 4-module no-regression",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Re-scope statement",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "Task 1 — INV-01 (Phase 2) merge-base gate: **PASS** (`INV01_PASS`)",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "(1) Denylist — cancel CORE + stock path: **diff 0** ✅",
+          "level": 3,
+          "line": 22
+        },
+        {
+          "heading": "(2) Allowlist — the only changed payment-service paths ✅",
+          "level": 3,
+          "line": 38
+        },
+        {
+          "heading": "(3) V19 collision check ✅",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "Task 2 — Full-suite no-regression: **PASS** (all 4 modules green)",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "Verdict",
+          "level": 2,
+          "line": 92
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    }
+  ]
+}

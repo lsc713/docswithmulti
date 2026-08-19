@@ -1,0 +1,100 @@
+{
+  "nodes": [
+    {
+      "id": "document:k6/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "k6/README.md",
+      "summary": "k6 부하 스크립트은(는) 프로젝트 구현의 사용 안내로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "프로젝트-구현",
+        "markdown",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/product-detail-aws-static-test.sh",
+      "type": "file",
+      "name": "product-detail-aws-static-test.sh",
+      "filePath": "k6/product-detail-aws-static-test.sh",
+      "summary": "상품 상세 조회 작업을 반복 실행하기 위한 command-line 자동화 script다.",
+      "tags": [
+        "test",
+        "상품-상세-조회",
+        "shell",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/run-compensation.sh",
+      "type": "file",
+      "name": "run-compensation.sh",
+      "filePath": "k6/run-compensation.sh",
+      "summary": "프로젝트 구현 작업을 반복 실행하기 위한 command-line 자동화 script다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "shell",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:k6/run-product-detail-aws.sh",
+      "type": "file",
+      "name": "run-product-detail-aws.sh",
+      "filePath": "k6/run-product-detail-aws.sh",
+      "summary": "상품 상세 조회 작업을 반복 실행하기 위한 command-line 자동화 script다.",
+      "tags": [
+        "source-code",
+        "상품-상세-조회",
+        "shell",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:k6/run-product-detail-aws.sh:wait_for_ssm",
+      "type": "function",
+      "name": "wait_for_ssm",
+      "filePath": "k6/run-product-detail-aws.sh",
+      "lineRange": [
+        34,
+        51
+      ],
+      "summary": "상품 상세 조회 흐름에서 wait_for_ssm 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:k6/run-stage.sh",
+      "type": "file",
+      "name": "run-stage.sh",
+      "filePath": "k6/run-stage.sh",
+      "summary": "프로젝트 구현 작업을 반복 실행하기 위한 command-line 자동화 script다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "shell",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:k6/run-product-detail-aws.sh",
+      "target": "function:k6/run-product-detail-aws.sh:wait_for_ssm",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    }
+  ]
+}

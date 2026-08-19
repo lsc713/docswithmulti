@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/architecture.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "Architecture guide",
+  "summary": "System-wide design guide covering layer structure, multi-module topology, table ownership, and inter-module communication strategy.",
+  "scope": ["layered architecture", "multi-module structure", "payment-service", "order-service", "merchant-limit-service", "risk-management-service", "product-service", "inter-module communication", "MySQL", "Kafka"],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": null,
+  "notes": "Prose-heavy design/onboarding guide explaining structure and rationale. Tables describe module-to-table ownership (reference), not API/schema contracts. No Decision/Consequences (not ADR), no user stories/acceptance criteria (not PRD), no endpoint/request-response schemas (not SPEC). Classified DOC."
+}

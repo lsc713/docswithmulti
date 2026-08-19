@@ -1,0 +1,788 @@
+{
+  "nodes": [
+    {
+      "id": "config:.claude/mcp.json",
+      "type": "config",
+      "name": "mcp.json",
+      "filePath": ".claude/mcp.json",
+      "summary": "프로젝트 구현에 사용되는 json configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "프로젝트-구현",
+        "json",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.gitattributes",
+      "type": "file",
+      "name": ".gitattributes",
+      "filePath": ".gitattributes",
+      "summary": "프로젝트 구현 기능을 지원하는 unknown source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "unknown",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.github/pull_request_template.md",
+      "type": "document",
+      "name": "pull_request_template.md",
+      "filePath": ".github/pull_request_template.md",
+      "summary": "요약 (Summary)은(는) 프로젝트 구현의 기술 문서로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.planning/onboarding/SUMMARY.md",
+      "type": "document",
+      "name": "SUMMARY.md",
+      "filePath": ".planning/onboarding/SUMMARY.md",
+      "summary": "Onboarding Summary은(는) 프로젝트 구현의 구현 결과 요약로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.planning/workstreams/cancel-restore/phases/01-product-leg-hardening/01-PLAN.md",
+      "type": "document",
+      "name": "01-PLAN.md",
+      "filePath": ".planning/workstreams/cancel-restore/phases/01-product-leg-hardening/01-PLAN.md",
+      "summary": "수정 대상 (product 레그)은(는) 취소 재고 복원의 구현 계획로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:.planning/workstreams/order-link/milestones/v1.0-REQUIREMENTS.md",
+      "type": "document",
+      "name": "v1.0-REQUIREMENTS.md",
+      "filePath": ".planning/workstreams/order-link/milestones/v1.0-REQUIREMENTS.md",
+      "summary": "Requirements Archive — order-link v1.0 (모두 완료)은(는) 주문의 기술 문서로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.planning/workstreams/order-link/milestones/v1.0-ROADMAP.md",
+      "type": "document",
+      "name": "v1.0-ROADMAP.md",
+      "filePath": ".planning/workstreams/order-link/milestones/v1.0-ROADMAP.md",
+      "summary": "Milestone Archive — order-link v1.0: 주문(order) → 결제 검증 링크은(는) 주문의 기술 문서로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.planning/workstreams/order-link/phases/.gitkeep",
+      "type": "file",
+      "name": ".gitkeep",
+      "filePath": ".planning/workstreams/order-link/phases/.gitkeep",
+      "summary": "주문 기능을 지원하는 unknown source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:.planning/workstreams/product-catalog/phases/01-category-taxonomy/01-PLAN.md",
+      "type": "document",
+      "name": "01-PLAN.md",
+      "filePath": ".planning/workstreams/product-catalog/phases/01-category-taxonomy/01-PLAN.md",
+      "summary": "Existing hexagonal patterns to mirror EXACTLY (copy structure, not just style):은(는) 상품 카탈로그의 구현 계획로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.planning/workstreams/product-catalog/phases/01-category-taxonomy/01-SUMMARY.md",
+      "type": "document",
+      "name": "01-SUMMARY.md",
+      "filePath": ".planning/workstreams/product-catalog/phases/01-category-taxonomy/01-SUMMARY.md",
+      "summary": "Phase 1 Plan 01: Category Taxonomy Summary은(는) 상품 카탈로그의 구현 결과 요약로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:.planning/workstreams/product-catalog/phases/02-product-link-browse/02-PLAN.md",
+      "type": "document",
+      "name": "02-PLAN.md",
+      "filePath": ".planning/workstreams/product-catalog/phases/02-product-link-browse/02-PLAN.md",
+      "summary": "Phase 1 category stack is the freshest exemplar — same module, same hexagonal shape:은(는) 상품 카탈로그의 구현 계획로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:.planning/workstreams/product-catalog/phases/02-product-link-browse/02-SUMMARY.md",
+      "type": "document",
+      "name": "02-SUMMARY.md",
+      "filePath": ".planning/workstreams/product-catalog/phases/02-product-link-browse/02-SUMMARY.md",
+      "summary": "Phase 2 Plan 02: Product ↔ Category Link + Browse Summary은(는) 상품 카탈로그의 구현 결과 요약로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "구현-계획",
+        "개발-프로세스",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:.ua/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".ua/.understandignore",
+      "summary": "프로젝트 구현 기능을 지원하는 unknown source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "unknown",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.ua/config.json",
+      "type": "config",
+      "name": "config.json",
+      "filePath": ".ua/config.json",
+      "summary": "프로젝트 구현에 사용되는 json configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.ua/intermediate/scan-result.json",
+      "type": "config",
+      "name": "scan-result.json",
+      "filePath": ".ua/intermediate/scan-result.json",
+      "summary": "프로젝트 구현에 사용되는 json configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "프로젝트-구현",
+        "json",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:api-gateway/build.gradle",
+      "type": "config",
+      "name": "build.gradle",
+      "filePath": "api-gateway/build.gradle",
+      "summary": "프로젝트 구현 module의 Gradle plugin, dependency와 test/build 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "프로젝트-구현",
+        "gradle",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "type": "file",
+      "name": "ApiGatewayApplication.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "summary": "프로젝트 구현 Spring Boot service를 시작하는 application entry point다.",
+      "tags": [
+        "source-code",
+        "entry-point",
+        "spring-boot",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "lineRange": [
+        9,
+        11
+      ],
+      "summary": "프로젝트 구현 흐름에서 main 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java:ApiGatewayApplication",
+      "type": "class",
+      "name": "ApiGatewayApplication",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "lineRange": [
+        6,
+        12
+      ],
+      "summary": "프로젝트 구현 service의 Spring Boot 실행을 시작한다.",
+      "tags": [
+        "class",
+        "entry-point",
+        "spring-boot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "type": "file",
+      "name": "CorsConfig.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "summary": "프로젝트 구현 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java:corsConfigurationSource",
+      "type": "function",
+      "name": "corsConfigurationSource",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "lineRange": [
+        17,
+        28
+      ],
+      "summary": "프로젝트 구현 흐름에서 corsConfigurationSource 작업을 수행한다.",
+      "tags": [
+        "function",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java:CorsConfig",
+      "type": "class",
+      "name": "CorsConfig",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "lineRange": [
+        14,
+        37
+      ],
+      "summary": "프로젝트 구현 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:api-gateway/src/main/resources/application.yml",
+      "type": "config",
+      "name": "application.yml",
+      "filePath": "api-gateway/src/main/resources/application.yml",
+      "summary": "프로젝트 구현 Spring Boot service의 port, datasource, Kafka 및 운영 설정을 구성한다.",
+      "tags": [
+        "configuration",
+        "프로젝트-구현",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:common-observability/build.gradle",
+      "type": "config",
+      "name": "build.gradle",
+      "filePath": "common-observability/build.gradle",
+      "summary": "관측성 module의 Gradle plugin, dependency와 test/build 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "관측성",
+        "gradle",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "type": "file",
+      "name": "DataSourceProxyQueryCountReader.java",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "summary": "관측성 기능을 구현하며 DataSourceProxyQueryCountReader, readAndReset 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "관측성",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java:readAndReset",
+      "type": "function",
+      "name": "readAndReset",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "lineRange": [
+        10,
+        15
+      ],
+      "summary": "관측성 흐름에서 readAndReset 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java:DataSourceProxyQueryCountReader",
+      "type": "class",
+      "name": "DataSourceProxyQueryCountReader",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "lineRange": [
+        8,
+        16
+      ],
+      "summary": "관측성의 DataSourceProxyQueryCountReader 책임과 관련 동작을 캡슐화한다.",
+      "tags": [
+        "class",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "type": "file",
+      "name": "QueryCountAutoConfiguration.java",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "summary": "관측성 기능을 구현하며 QueryCountAutoConfiguration, queryCountReader, queryCountFilter 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountReader",
+      "type": "function",
+      "name": "queryCountReader",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "lineRange": [
+        22,
+        25
+      ],
+      "summary": "관측성 흐름에서 queryCountReader 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountFilter",
+      "type": "function",
+      "name": "queryCountFilter",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "lineRange": [
+        27,
+        30
+      ],
+      "summary": "관측성 흐름에서 queryCountFilter 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountDataSourceProxyPostProcessor",
+      "type": "function",
+      "name": "queryCountDataSourceProxyPostProcessor",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "lineRange": [
+        33,
+        47
+      ],
+      "summary": "관측성 흐름에서 queryCountDataSourceProxyPostProcessor 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:QueryCountAutoConfiguration",
+      "type": "class",
+      "name": "QueryCountAutoConfiguration",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "lineRange": [
+        18,
+        48
+      ],
+      "summary": "관측성 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "type": "file",
+      "name": "QueryCountFilter.java",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "summary": "관측성 기능을 구현하며 QueryCountFilter, QueryCountFilter, doFilterInternal 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "관측성",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:QueryCountFilter",
+      "type": "function",
+      "name": "QueryCountFilter",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "lineRange": [
+        23,
+        26
+      ],
+      "summary": "관측성 흐름에서 QueryCountFilter 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:doFilterInternal",
+      "type": "function",
+      "name": "doFilterInternal",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "lineRange": [
+        28,
+        45
+      ],
+      "summary": "관측성 흐름에서 doFilterInternal 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:QueryCountFilter",
+      "type": "class",
+      "name": "QueryCountFilter",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "lineRange": [
+        18,
+        46
+      ],
+      "summary": "관측성의 QueryCountFilter 책임과 관련 동작을 캡슐화한다.",
+      "tags": [
+        "class",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java",
+      "type": "file",
+      "name": "QueryCountReader.java",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java",
+      "summary": "관측성 기능을 구현하며 QueryCountReader 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "관측성",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java:QueryCountReader",
+      "type": "class",
+      "name": "QueryCountReader",
+      "filePath": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java",
+      "lineRange": [
+        7,
+        10
+      ],
+      "summary": "관측성의 QueryCountReader 책임과 관련 동작을 캡슐화한다.",
+      "tags": [
+        "class",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:common-observability/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports",
+      "type": "file",
+      "name": "org.springframework.boot.autoconfigure.AutoConfiguration.imports",
+      "filePath": "common-observability/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports",
+      "summary": "관측성 기능을 지원하는 imports source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java:main",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java:main",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java:ApiGatewayApplication",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java:ApiGatewayApplication",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java:corsConfigurationSource",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java:corsConfigurationSource",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java:CorsConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java:CorsConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java:readAndReset",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java:readAndReset",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java:DataSourceProxyQueryCountReader",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java:DataSourceProxyQueryCountReader",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountReader",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountReader",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountFilter",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountFilter",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountDataSourceProxyPostProcessor",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:queryCountDataSourceProxyPostProcessor",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:QueryCountAutoConfiguration",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java:QueryCountAutoConfiguration",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:QueryCountFilter",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:QueryCountFilter",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "target": "function:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:doFilterInternal",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:QueryCountFilter",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java:QueryCountFilter",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java:QueryCountReader",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java",
+      "target": "class:common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java:QueryCountReader",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    }
+  ]
+}

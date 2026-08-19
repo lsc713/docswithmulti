@@ -1,0 +1,3563 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 26,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 26,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 26,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "OrderOwnershipMismatchException",
+          "startLine": 9,
+          "endLine": 11,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderOwnershipMismatchException",
+          "startLine": 7,
+          "endLine": 12,
+          "methods": [
+            "OrderOwnershipMismatchException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderOwnershipMismatchException",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "OrderOwnershipMismatchException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "VerifyOrderItemNotFoundException",
+          "startLine": 15,
+          "endLine": 18,
+          "params": [
+            "missingOrderItemIds"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "VerifyOrderItemNotFoundException",
+          "startLine": 13,
+          "endLine": 19,
+          "methods": [
+            "VerifyOrderItemNotFoundException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "VerifyOrderItemNotFoundException",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "VerifyOrderItemNotFoundException",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "VerifyOrderItemNotFoundException",
+          "callee": "ErrorCode.ORDER_ITEM_NOT_FOUND.getDefaultMessage",
+          "lineNumber": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "resolveOrderId",
+          "startLine": 21,
+          "endLine": 34,
+          "params": [
+            "requestedIds",
+            "foundItems"
+          ]
+        },
+        {
+          "name": "checkOwnership",
+          "startLine": 36,
+          "endLine": 40,
+          "params": [
+            "order",
+            "requesterUserId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderItemVerifier",
+          "startLine": 19,
+          "endLine": 41,
+          "methods": [
+            "resolveOrderId",
+            "checkOwnership"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "resolveOrderId",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "checkOwnership",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "OrderItemVerifier",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.stream().map(OrderItem::getId).collect",
+          "lineNumber": 22
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.stream().map",
+          "lineNumber": 22
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.stream",
+          "lineNumber": 22
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "Collectors.toSet",
+          "lineNumber": 22
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "requestedIds.stream().filter(id -> !foundIds.contains(id)).toList",
+          "lineNumber": 23
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "requestedIds.stream().filter",
+          "lineNumber": 23
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "requestedIds.stream",
+          "lineNumber": 23
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundIds.contains",
+          "lineNumber": 23
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "missingIds.isEmpty",
+          "lineNumber": 24
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "new VerifyOrderItemNotFoundException",
+          "lineNumber": 25
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.stream().map(OrderItem::getOrderId).collect",
+          "lineNumber": 28
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.stream().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "Collectors.toSet",
+          "lineNumber": 28
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "orderIds.size",
+          "lineNumber": 29
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "new OrderItemsMultipleOrdersException",
+          "lineNumber": 30
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.get(0).getOrderId",
+          "lineNumber": 33
+        },
+        {
+          "caller": "resolveOrderId",
+          "callee": "foundItems.get",
+          "lineNumber": 33
+        },
+        {
+          "caller": "checkOwnership",
+          "callee": "order.getUserId",
+          "lineNumber": 37
+        },
+        {
+          "caller": "checkOwnership",
+          "callee": "new OrderOwnershipMismatchException",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "alert",
+          "startLine": 12,
+          "endLine": 15,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LogOperationAlertAdapter",
+          "startLine": 8,
+          "endLine": 16,
+          "methods": [
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "alert",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "LogOperationAlertAdapter",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "alert",
+          "callee": "log.error",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "producerFactory",
+          "startLine": 25,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "kafkaTemplate",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "retryRouter",
+          "startLine": 43,
+          "endLine": 53,
+          "params": [
+            "kafkaTemplate",
+            "objectMapper",
+            "cancelRestoreDlqRepository",
+            "operationAlertPort",
+            "retryTopic",
+            "dlqTopic"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaProducerConfig",
+          "startLine": 19,
+          "endLine": 54,
+          "methods": [
+            "producerFactory",
+            "kafkaTemplate",
+            "retryRouter"
+          ],
+          "properties": [
+            "bootstrapServers"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "producerFactory",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "kafkaTemplate",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "retryRouter",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaProducerConfig",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "producerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 27
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 28
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 29
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 30
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 31
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 32
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 33
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "props.put",
+          "lineNumber": 34
+        },
+        {
+          "caller": "producerFactory",
+          "callee": "new DefaultKafkaProducerFactory<>",
+          "lineNumber": 35
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "new KafkaTemplate<>",
+          "lineNumber": 40
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "producerFactory",
+          "lineNumber": 40
+        },
+        {
+          "caller": "retryRouter",
+          "callee": "new RetryRouter",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 81,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "transactionManager",
+          "startLine": 27,
+          "endLine": 30,
+          "params": [
+            "emf"
+          ]
+        },
+        {
+          "name": "transactionTemplate",
+          "startLine": 32,
+          "endLine": 35,
+          "params": [
+            "transactionManager"
+          ]
+        },
+        {
+          "name": "orderRepository",
+          "startLine": 37,
+          "endLine": 40,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "orderItemRepository",
+          "startLine": 42,
+          "endLine": 45,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "processedCancelEventRepository",
+          "startLine": 47,
+          "endLine": 51,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "cancelRestoreDlqRepository",
+          "startLine": 53,
+          "endLine": 56,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "cartRepository",
+          "startLine": 58,
+          "endLine": 61,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "processCancelledItemsUseCase",
+          "startLine": 63,
+          "endLine": 71,
+          "params": [
+            "orderRepository",
+            "orderItemRepository",
+            "processedCancelEventRepository",
+            "transactionTemplate"
+          ]
+        },
+        {
+          "name": "inspectCancelRestoreUseCase",
+          "startLine": 73,
+          "endLine": 80,
+          "params": [
+            "processedCancelEventRepository",
+            "orderItemRepository",
+            "orderRepository"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PersistenceConfig",
+          "startLine": 22,
+          "endLine": 81,
+          "methods": [
+            "transactionManager",
+            "transactionTemplate",
+            "orderRepository",
+            "orderItemRepository",
+            "processedCancelEventRepository",
+            "cancelRestoreDlqRepository",
+            "cartRepository",
+            "processCancelledItemsUseCase",
+            "inspectCancelRestoreUseCase"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "transactionManager",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "transactionTemplate",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "orderRepository",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "orderItemRepository",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "processedCancelEventRepository",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "cancelRestoreDlqRepository",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "cartRepository",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "processCancelledItemsUseCase",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "inspectCancelRestoreUseCase",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "PersistenceConfig",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "transactionManager",
+          "callee": "new JpaTransactionManager",
+          "lineNumber": 29
+        },
+        {
+          "caller": "transactionTemplate",
+          "callee": "new TransactionTemplate",
+          "lineNumber": 34
+        },
+        {
+          "caller": "orderRepository",
+          "callee": "new OrderRepositoryImpl",
+          "lineNumber": 39
+        },
+        {
+          "caller": "orderItemRepository",
+          "callee": "new OrderItemRepositoryImpl",
+          "lineNumber": 44
+        },
+        {
+          "caller": "processedCancelEventRepository",
+          "callee": "new ProcessedCancelEventRepositoryImpl",
+          "lineNumber": 50
+        },
+        {
+          "caller": "cancelRestoreDlqRepository",
+          "callee": "new CancelRestoreDlqRepositoryImpl",
+          "lineNumber": 55
+        },
+        {
+          "caller": "cartRepository",
+          "callee": "new CartRepositoryImpl",
+          "lineNumber": 60
+        },
+        {
+          "caller": "processCancelledItemsUseCase",
+          "callee": "new ProcessCancelledItemsService",
+          "lineNumber": 69
+        },
+        {
+          "caller": "inspectCancelRestoreUseCase",
+          "callee": "new InspectCancelRestoreService",
+          "lineNumber": 78
+        }
+      ],
+      "metrics": {
+        "importCount": 9,
+        "exportCount": 10,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 59,
+      "functions": [
+        {
+          "name": "consume",
+          "startLine": 28,
+          "endLine": 66,
+          "params": [
+            "record",
+            "ack"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentCancelledConsumer",
+          "startLine": 18,
+          "endLine": 67,
+          "methods": [
+            "consume"
+          ],
+          "properties": [
+            "processUseCase",
+            "retryRouter",
+            "objectMapper",
+            "meterRegistry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consume",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentCancelledConsumer",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consume",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 35
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 35
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream()\n                .map(PaymentCancelledPayload.CancelledItem::orderItemId).toList",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream().map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "processUseCase.execute",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "new ProcessCancelledItemsUseCase.Command",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "Instant.parse",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledAt",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "meterRegistry.timer(\"cancel.event.e2e.latency\").record",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consume",
+          "callee": "meterRegistry.timer",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consume",
+          "callee": "Duration.between",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consume",
+          "callee": "Instant.now",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 53
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consume",
+          "callee": "retryRouter.route",
+          "lineNumber": 59
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 61
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 61
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "PaymentCancelledPayload",
+          "startLine": 6,
+          "endLine": 18,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentCancelledPayload",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 48,
+      "functions": [
+        {
+          "name": "consume",
+          "startLine": 23,
+          "endLine": 54,
+          "params": [
+            "record",
+            "ack"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentCancelledRetryConsumer",
+          "startLine": 14,
+          "endLine": 55,
+          "methods": [
+            "consume"
+          ],
+          "properties": [
+            "processUseCase",
+            "retryRouter",
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consume",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentCancelledRetryConsumer",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consume",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 30
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 30
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream()\n                .map(PaymentCancelledPayload.CancelledItem::orderItemId).toList",
+          "lineNumber": 31
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream().map",
+          "lineNumber": 31
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream",
+          "lineNumber": 31
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems",
+          "lineNumber": 31
+        },
+        {
+          "caller": "consume",
+          "callee": "processUseCase.execute",
+          "lineNumber": 35
+        },
+        {
+          "caller": "consume",
+          "callee": "new ProcessCancelledItemsUseCase.Command",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 39
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "retryRouter.route",
+          "lineNumber": 47
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 159,
+      "nonEmptyLines": 141,
+      "functions": [
+        {
+          "name": "RetryRouter",
+          "startLine": 40,
+          "endLine": 51,
+          "params": [
+            "kafkaTemplate",
+            "objectMapper",
+            "cancelRestoreDlqRepository",
+            "operationAlertPort",
+            "retryTopic",
+            "dlqTopic"
+          ]
+        },
+        {
+          "name": "route",
+          "startLine": 53,
+          "endLine": 60,
+          "params": [
+            "record",
+            "e"
+          ]
+        },
+        {
+          "name": "isDataError",
+          "startLine": 62,
+          "endLine": 64,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "publishToRetry",
+          "startLine": 66,
+          "endLine": 92,
+          "params": [
+            "record",
+            "retryCount",
+            "e"
+          ]
+        },
+        {
+          "name": "publishToDlq",
+          "startLine": 103,
+          "endLine": 123,
+          "params": [
+            "record",
+            "retryCount",
+            "e"
+          ]
+        },
+        {
+          "name": "extractCancelRequestId",
+          "startLine": 126,
+          "endLine": 133,
+          "params": [
+            "record"
+          ]
+        },
+        {
+          "name": "parseRetryCount",
+          "startLine": 135,
+          "endLine": 144,
+          "params": [
+            "record"
+          ]
+        },
+        {
+          "name": "headerStringValue",
+          "startLine": 146,
+          "endLine": 150,
+          "params": [
+            "record",
+            "key"
+          ]
+        },
+        {
+          "name": "retryDelay",
+          "startLine": 152,
+          "endLine": 158,
+          "params": [
+            "retryCount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RetryRouter",
+          "startLine": 26,
+          "endLine": 159,
+          "methods": [
+            "RetryRouter",
+            "route",
+            "isDataError",
+            "publishToRetry",
+            "publishToDlq",
+            "extractCancelRequestId",
+            "parseRetryCount",
+            "headerStringValue",
+            "retryDelay"
+          ],
+          "properties": [
+            "MAX_RETRY_COUNT",
+            "LEG",
+            "kafkaTemplate",
+            "objectMapper",
+            "cancelRestoreDlqRepository",
+            "operationAlertPort",
+            "retryTopic",
+            "dlqTopic"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RetryRouter",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "route",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "RetryRouter",
+          "line": 26,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "route",
+          "callee": "parseRetryCount",
+          "lineNumber": 54
+        },
+        {
+          "caller": "route",
+          "callee": "isDataError",
+          "lineNumber": 55
+        },
+        {
+          "caller": "route",
+          "callee": "publishToDlq",
+          "lineNumber": 56
+        },
+        {
+          "caller": "route",
+          "callee": "publishToRetry",
+          "lineNumber": 58
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "Instant.now",
+          "lineNumber": 68
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.toString",
+          "lineNumber": 70
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "headerStringValue(record, \"first-failed-at\").orElse",
+          "lineNumber": 71
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "headerStringValue",
+          "lineNumber": 71
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.toString",
+          "lineNumber": 71
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "new ProducerRecord<>",
+          "lineNumber": 73
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.key",
+          "lineNumber": 73
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.value",
+          "lineNumber": 73
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8))\n            .add(\"next-retry-at\", now.plus(retryDelay(newRetryCount)).toString().getBytes(StandardCharsets.UTF_8))\n            .add(\"original-topic\", record.topic().getBytes(StandardCharsets.UTF_8))\n            .add(\"first-failed-at\", firstFailedAt.getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 74
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8))\n            .add(\"next-retry-at\", now.plus(retryDelay(newRetryCount)).toString().getBytes(StandardCharsets.UTF_8))\n            .add(\"original-topic\", record.topic().getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 74
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8))\n            .add(\"next-retry-at\", now.plus(retryDelay(newRetryCount)).toString().getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 74
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 74
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers().add",
+          "lineNumber": 74
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers",
+          "lineNumber": 74
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "String.valueOf(newRetryCount).getBytes",
+          "lineNumber": 75
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "String.valueOf",
+          "lineNumber": 75
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.plus(retryDelay(newRetryCount)).toString().getBytes",
+          "lineNumber": 76
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.plus(retryDelay(newRetryCount)).toString",
+          "lineNumber": 76
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.plus",
+          "lineNumber": 76
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryDelay",
+          "lineNumber": 76
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.topic().getBytes",
+          "lineNumber": 77
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.topic",
+          "lineNumber": 77
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "firstFailedAt.getBytes",
+          "lineNumber": 78
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "DlqMessage.truncate(e.getMessage(), 200).getBytes",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "DlqMessage.truncate",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "e.getMessage",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "kafkaTemplate.send(retryRecord).get",
+          "lineNumber": 84
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 84
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "log.warn",
+          "lineNumber": 85
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.offset",
+          "lineNumber": 85
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 87
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "Thread.currentThread",
+          "lineNumber": 87
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "new RuntimeException",
+          "lineNumber": 88
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.offset",
+          "lineNumber": 88
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "new RuntimeException",
+          "lineNumber": 90
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.offset",
+          "lineNumber": 90
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "extractCancelRequestId",
+          "lineNumber": 104
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "DlqMessage.truncate",
+          "lineNumber": 105
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "e.getMessage",
+          "lineNumber": 105
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "cancelRestoreDlqRepository.upsertPending",
+          "lineNumber": 108
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.value",
+          "lineNumber": 108
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 109
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "e.getMessage",
+          "lineNumber": 110
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "log.error",
+          "lineNumber": 111
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.offset",
+          "lineNumber": 112
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "e.getMessage",
+          "lineNumber": 112
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "objectMapper.writeValueAsString",
+          "lineNumber": 116
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "DlqMessage.of",
+          "lineNumber": 116
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "new ProducerRecord<>",
+          "lineNumber": 117
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.key",
+          "lineNumber": 117
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "kafkaTemplate.send(dlqRecord).get",
+          "lineNumber": 118
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 118
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "log.warn",
+          "lineNumber": 121
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.offset",
+          "lineNumber": 121
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "objectMapper.readValue(record.value(), PaymentCancelledPayload.class).cancelRequestId",
+          "lineNumber": 128
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 128
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "record.value",
+          "lineNumber": 128
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "log.warn",
+          "lineNumber": 130
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "record.offset",
+          "lineNumber": 130
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "record.key",
+          "lineNumber": 131
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "headerStringValue(record, \"retry-count\").map(v -> {\n            try {\n                return Integer.parseInt(v);\n            } catch (NumberFormatException ex) {\n                log.warn(\"retry-count 헤더 파싱 실패, 0으로 처리: {}\", v);\n                return 0;\n            }\n        }).orElse",
+          "lineNumber": 136
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "headerStringValue(record, \"retry-count\").map",
+          "lineNumber": 136
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "headerStringValue",
+          "lineNumber": 136
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "Integer.parseInt",
+          "lineNumber": 138
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "log.warn",
+          "lineNumber": 140
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "record.headers().lastHeader",
+          "lineNumber": 147
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "record.headers",
+          "lineNumber": 147
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "Optional.empty",
+          "lineNumber": 148
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "Optional.of",
+          "lineNumber": 149
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "new String",
+          "lineNumber": 149
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "header.value",
+          "lineNumber": 149
+        },
+        {
+          "caller": "retryDelay",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 154
+        },
+        {
+          "caller": "retryDelay",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 155
+        },
+        {
+          "caller": "retryDelay",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 156
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "upsertPending",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "cancelRequestId",
+            "leg",
+            "payload",
+            "retryCount",
+            "lastError"
+          ]
+        },
+        {
+          "name": "findRedrivable",
+          "startLine": 21,
+          "endLine": 26,
+          "params": [
+            "updatedBefore",
+            "limit"
+          ]
+        },
+        {
+          "name": "markResolved",
+          "startLine": 28,
+          "endLine": 31,
+          "params": [
+            "cancelRequestId"
+          ]
+        },
+        {
+          "name": "bumpAttempt",
+          "startLine": 33,
+          "endLine": 36,
+          "params": [
+            "cancelRequestId",
+            "lastError"
+          ]
+        },
+        {
+          "name": "markDead",
+          "startLine": 38,
+          "endLine": 41,
+          "params": [
+            "cancelRequestId",
+            "lastError"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "startLine": 8,
+          "endLine": 42,
+          "methods": [
+            "CancelRestoreDlqRepositoryImpl",
+            "upsertPending",
+            "findRedrivable",
+            "markResolved",
+            "bumpAttempt",
+            "markDead"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "upsertPending",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "findRedrivable",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "markResolved",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "bumpAttempt",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "markDead",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "upsertPending",
+          "callee": "jpa.upsertPending",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable(updatedBefore, limit).stream()\n            .map(r -> new Redrivable(r.getCancelRequestId(), r.getPayload(), r.getAttemptCount())).toList",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable(updatedBefore, limit).stream().map",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable(updatedBefore, limit).stream",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "new Redrivable",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "r.getCancelRequestId",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "r.getPayload",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "r.getAttemptCount",
+          "lineNumber": 24
+        },
+        {
+          "caller": "markResolved",
+          "callee": "jpa.markResolved",
+          "lineNumber": 30
+        },
+        {
+          "caller": "bumpAttempt",
+          "callee": "jpa.bumpAttempt",
+          "lineNumber": 35
+        },
+        {
+          "caller": "markDead",
+          "callee": "jpa.markDead",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "OrderItemJpaEntity",
+          "startLine": 39,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 41,
+          "endLine": 51,
+          "params": [
+            "item"
+          ]
+        },
+        {
+          "name": "updateStatus",
+          "startLine": 53,
+          "endLine": 56,
+          "params": [
+            "status"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 58,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 66,
+          "endLine": 66,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderItemJpaEntity",
+          "startLine": 9,
+          "endLine": 67,
+          "methods": [
+            "OrderItemJpaEntity",
+            "from",
+            "updateStatus",
+            "toDomain",
+            "getId"
+          ],
+          "properties": [
+            "id",
+            "orderId",
+            "productId",
+            "itemName",
+            "price",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "updateStatus",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "OrderItemJpaEntity",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new OrderItemJpaEntity",
+          "lineNumber": 42
+        },
+        {
+          "caller": "from",
+          "callee": "item.getOrderId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "item.getProductId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "from",
+          "callee": "item.getItemName",
+          "lineNumber": 45
+        },
+        {
+          "caller": "from",
+          "callee": "item.getPrice",
+          "lineNumber": 46
+        },
+        {
+          "caller": "from",
+          "callee": "item.getStatus",
+          "lineNumber": 47
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 48
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 49
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "Instant.now",
+          "lineNumber": 55
+        },
+        {
+          "caller": "toDomain",
+          "callee": "OrderItem.of",
+          "lineNumber": 59
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "insertAll",
+          "startLine": 16,
+          "endLine": 24,
+          "params": [
+            "items"
+          ]
+        },
+        {
+          "name": "findAllByIdIn",
+          "startLine": 26,
+          "endLine": 31,
+          "params": [
+            "ids"
+          ]
+        },
+        {
+          "name": "findAllByOrderId",
+          "startLine": 33,
+          "endLine": 38,
+          "params": [
+            "orderId"
+          ]
+        },
+        {
+          "name": "saveAll",
+          "startLine": 40,
+          "endLine": 50,
+          "params": [
+            "items"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderItemRepositoryImpl",
+          "startLine": 11,
+          "endLine": 51,
+          "methods": [
+            "insertAll",
+            "findAllByIdIn",
+            "findAllByOrderId",
+            "saveAll"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "insertAll",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "findAllByIdIn",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "findAllByOrderId",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "saveAll",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "OrderItemRepositoryImpl",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insertAll",
+          "callee": "items.stream()\n            .map(OrderItemJpaEntity::from).toList",
+          "lineNumber": 18
+        },
+        {
+          "caller": "insertAll",
+          "callee": "items.stream().map",
+          "lineNumber": 18
+        },
+        {
+          "caller": "insertAll",
+          "callee": "items.stream",
+          "lineNumber": 18
+        },
+        {
+          "caller": "insertAll",
+          "callee": "jpa.saveAll(entities).stream()\n            .map(OrderItemJpaEntity::toDomain).toList",
+          "lineNumber": 21
+        },
+        {
+          "caller": "insertAll",
+          "callee": "jpa.saveAll(entities).stream().map",
+          "lineNumber": 21
+        },
+        {
+          "caller": "insertAll",
+          "callee": "jpa.saveAll(entities).stream",
+          "lineNumber": 21
+        },
+        {
+          "caller": "insertAll",
+          "callee": "jpa.saveAll",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findAllByIdIn",
+          "callee": "jpa.findAllById(ids).stream()\n            .map(OrderItemJpaEntity::toDomain).toList",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByIdIn",
+          "callee": "jpa.findAllById(ids).stream().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByIdIn",
+          "callee": "jpa.findAllById(ids).stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByIdIn",
+          "callee": "jpa.findAllById",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByOrderId",
+          "callee": "jpa.findAllByOrderId(orderId).stream()\n            .map(OrderItemJpaEntity::toDomain).toList",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findAllByOrderId",
+          "callee": "jpa.findAllByOrderId(orderId).stream().map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findAllByOrderId",
+          "callee": "jpa.findAllByOrderId(orderId).stream",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findAllByOrderId",
+          "callee": "jpa.findAllByOrderId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "items.stream().collect",
+          "lineNumber": 42
+        },
+        {
+          "caller": "saveAll",
+          "callee": "items.stream",
+          "lineNumber": 42
+        },
+        {
+          "caller": "saveAll",
+          "callee": "Collectors.toMap",
+          "lineNumber": 43
+        },
+        {
+          "caller": "saveAll",
+          "callee": "jpa.findAllById",
+          "lineNumber": 44
+        },
+        {
+          "caller": "saveAll",
+          "callee": "statusMap.keySet",
+          "lineNumber": 44
+        },
+        {
+          "caller": "saveAll",
+          "callee": "entities.size",
+          "lineNumber": 45
+        },
+        {
+          "caller": "saveAll",
+          "callee": "statusMap.size",
+          "lineNumber": 45
+        },
+        {
+          "caller": "saveAll",
+          "callee": "new IllegalStateException",
+          "lineNumber": 46
+        },
+        {
+          "caller": "saveAll",
+          "callee": "entities.forEach",
+          "lineNumber": 48
+        },
+        {
+          "caller": "saveAll",
+          "callee": "e.updateStatus",
+          "lineNumber": 48
+        },
+        {
+          "caller": "saveAll",
+          "callee": "statusMap.get",
+          "lineNumber": 48
+        },
+        {
+          "caller": "saveAll",
+          "callee": "e.getId",
+          "lineNumber": 48
+        },
+        {
+          "caller": "saveAll",
+          "callee": "jpa.saveAll",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "OrderJpaEntity",
+          "startLine": 29,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 31,
+          "endLine": 38,
+          "params": [
+            "order"
+          ]
+        },
+        {
+          "name": "updateStatus",
+          "startLine": 40,
+          "endLine": 43,
+          "params": [
+            "status"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 45,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 49,
+          "endLine": 49,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderJpaEntity",
+          "startLine": 8,
+          "endLine": 50,
+          "methods": [
+            "OrderJpaEntity",
+            "from",
+            "updateStatus",
+            "toDomain",
+            "getId"
+          ],
+          "properties": [
+            "id",
+            "userId",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "updateStatus",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "OrderJpaEntity",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new OrderJpaEntity",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "order.getUserId",
+          "lineNumber": 33
+        },
+        {
+          "caller": "from",
+          "callee": "order.getStatus",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 36
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "Instant.now",
+          "lineNumber": 42
+        },
+        {
+          "caller": "toDomain",
+          "callee": "Order.of",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "insert",
+          "startLine": 13,
+          "endLine": 16,
+          "params": [
+            "order"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 18,
+          "endLine": 21,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "findByIdForUpdate",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 28,
+          "endLine": 34,
+          "params": [
+            "order"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderRepositoryImpl",
+          "startLine": 8,
+          "endLine": 35,
+          "methods": [
+            "insert",
+            "findById",
+            "findByIdForUpdate",
+            "save"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "insert",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "findByIdForUpdate",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "OrderRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insert",
+          "callee": "jpa.save(OrderJpaEntity.from(order)).toDomain",
+          "lineNumber": 15
+        },
+        {
+          "caller": "insert",
+          "callee": "jpa.save",
+          "lineNumber": 15
+        },
+        {
+          "caller": "insert",
+          "callee": "OrderJpaEntity.from",
+          "lineNumber": 15
+        },
+        {
+          "caller": "findById",
+          "callee": "jpa.findById(id).map",
+          "lineNumber": 20
+        },
+        {
+          "caller": "findById",
+          "callee": "jpa.findById",
+          "lineNumber": 20
+        },
+        {
+          "caller": "findByIdForUpdate",
+          "callee": "jpa.findByIdForUpdate(id).map",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findByIdForUpdate",
+          "callee": "jpa.findByIdForUpdate",
+          "lineNumber": 25
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.findById(order.getId()).orElseThrow",
+          "lineNumber": 30
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.findById",
+          "lineNumber": 30
+        },
+        {
+          "caller": "save",
+          "callee": "order.getId",
+          "lineNumber": 30
+        },
+        {
+          "caller": "save",
+          "callee": "new IllegalStateException",
+          "lineNumber": 31
+        },
+        {
+          "caller": "save",
+          "callee": "order.getId",
+          "lineNumber": 32
+        },
+        {
+          "caller": "save",
+          "callee": "entity.updateStatus",
+          "lineNumber": 33
+        },
+        {
+          "caller": "save",
+          "callee": "order.getStatus",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "existsByCancelRequestId",
+          "startLine": 11,
+          "endLine": 14,
+          "params": [
+            "cancelRequestId"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessedCancelEventRepositoryImpl",
+          "startLine": 6,
+          "endLine": 20,
+          "methods": [
+            "existsByCancelRequestId",
+            "save"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "existsByCancelRequestId",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessedCancelEventRepositoryImpl",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "existsByCancelRequestId",
+          "callee": "jpa.existsByCancelRequestId",
+          "lineNumber": 13
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 18
+        },
+        {
+          "caller": "save",
+          "callee": "ProcessedCancelEventJpaEntity.of",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 98,
+      "nonEmptyLines": 89,
+      "functions": [
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "startLine": 44,
+          "endLine": 52,
+          "params": [
+            "redissonClient",
+            "dlqRepository",
+            "redriveService",
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "run",
+          "startLine": 54,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "pollOnce",
+          "startLine": 79,
+          "endLine": 97,
+          "params": [
+            "redrivableBefore"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "startLine": 29,
+          "endLine": 98,
+          "methods": [
+            "CancelRestoreRedriveScheduler",
+            "run",
+            "pollOnce"
+          ],
+          "properties": [
+            "BATCH_LIMIT",
+            "POLL_BACKOFF_SECONDS",
+            "redissonClient",
+            "dlqRepository",
+            "redriveService",
+            "objectMapper",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "run",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "pollOnce",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 56
+        },
+        {
+          "caller": "run",
+          "callee": "lock.tryLock",
+          "lineNumber": 58
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 59
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 63
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 64
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread",
+          "lineNumber": 64
+        },
+        {
+          "caller": "run",
+          "callee": "pollOnce",
+          "lineNumber": 68
+        },
+        {
+          "caller": "run",
+          "callee": "Instant.now().minusSeconds",
+          "lineNumber": 68
+        },
+        {
+          "caller": "run",
+          "callee": "Instant.now",
+          "lineNumber": 68
+        },
+        {
+          "caller": "run",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 70
+        },
+        {
+          "caller": "run",
+          "callee": "lock.unlock",
+          "lineNumber": 71
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "dlqRepository.findRedrivable",
+          "lineNumber": 80
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 84
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.payload",
+          "lineNumber": 84
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems().stream()\n                    .map(PaymentCancelledPayload.CancelledItem::orderItemId).toList",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems().stream().map",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems().stream",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "new Command",
+          "lineNumber": 89
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 89
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "redriveService.redriveOne",
+          "lineNumber": 90
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.cancelRequestId",
+          "lineNumber": 90
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.attemptCount",
+          "lineNumber": 90
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "log.error",
+          "lineNumber": 93
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.cancelRequestId",
+          "lineNumber": 94
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/controller/GlobalExceptionHandler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "handleBusinessException",
+          "startLine": 18,
+          "endLine": 24,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleValidationException",
+          "startLine": 26,
+          "endLine": 35,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleUnexpectedException",
+          "startLine": 37,
+          "endLine": 43,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "errorBody",
+          "startLine": 45,
+          "endLine": 47,
+          "params": [
+            "code",
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionHandler",
+          "startLine": 14,
+          "endLine": 48,
+          "methods": [
+            "handleBusinessException",
+            "handleValidationException",
+            "handleUnexpectedException",
+            "errorBody"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleBusinessException",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "handleValidationException",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "handleUnexpectedException",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionHandler",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleBusinessException",
+          "callee": "log.warn",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getMessage",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "ResponseEntity\n            .status(e.getErrorCode().getHttpStatus()).body",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode().getHttpStatus",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "errorBody",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getMessage",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage())\n            .findFirst().orElse",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage()).findFirst",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "err.getDefaultMessage",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "ResponseEntity\n            .status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "errorBody",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "log.error",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "ResponseEntity\n            .status(HttpStatus.INTERNAL_SERVER_ERROR).body",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "errorBody",
+          "lineNumber": 42
+        },
+        {
+          "caller": "errorBody",
+          "callee": "Map.of",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/controller/InternalCancelRestoreController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "inspect",
+          "startLine": 19,
+          "endLine": 27,
+          "params": [
+            "cancelRequestId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InternalCancelRestoreController",
+          "startLine": 13,
+          "endLine": 28,
+          "methods": [
+            "inspect"
+          ],
+          "properties": [
+            "useCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "inspect",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "InternalCancelRestoreController",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspect",
+          "callee": "useCase.inspect",
+          "lineNumber": 24
+        },
+        {
+          "caller": "inspect",
+          "callee": "new InspectCancelRestoreUseCase.Command",
+          "lineNumber": 24
+        },
+        {
+          "caller": "inspect",
+          "callee": "request.orderItemIds",
+          "lineNumber": 25
+        },
+        {
+          "caller": "inspect",
+          "callee": "InspectCancelRestoreResponse.from",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/controller/OrderController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "create",
+          "startLine": 29,
+          "endLine": 46,
+          "params": [
+            "userId",
+            "request"
+          ]
+        },
+        {
+          "name": "verify",
+          "startLine": 52,
+          "endLine": 59,
+          "params": [
+            "userId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderController",
+          "startLine": 21,
+          "endLine": 60,
+          "methods": [
+            "create",
+            "verify"
+          ],
+          "properties": [
+            "createOrderUseCase",
+            "verifyOrderItemsUseCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "verify",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "OrderController",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new CreateOrderCommand",
+          "lineNumber": 34
+        },
+        {
+          "caller": "create",
+          "callee": "request.items().stream()\n                .map(item -> new CreateOrderCommand.Item(\n                    item.productId(), item.itemName(), item.price())).toList",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create",
+          "callee": "request.items().stream().map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create",
+          "callee": "request.items().stream",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create",
+          "callee": "request.items",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create",
+          "callee": "new CreateOrderCommand.Item",
+          "lineNumber": 37
+        },
+        {
+          "caller": "create",
+          "callee": "item.productId",
+          "lineNumber": 38
+        },
+        {
+          "caller": "create",
+          "callee": "item.itemName",
+          "lineNumber": 38
+        },
+        {
+          "caller": "create",
+          "callee": "item.price",
+          "lineNumber": 38
+        },
+        {
+          "caller": "create",
+          "callee": "createOrderUseCase.create",
+          "lineNumber": 42
+        },
+        {
+          "caller": "create",
+          "callee": "ResponseEntity\n            .created(URI.create(\"/v1/orders/\" + result.order().getId())).body",
+          "lineNumber": 43
+        },
+        {
+          "caller": "create",
+          "callee": "ResponseEntity.created",
+          "lineNumber": 43
+        },
+        {
+          "caller": "create",
+          "callee": "URI.create",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "result.order().getId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "result.order",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "CreateOrderResponse.from",
+          "lineNumber": 45
+        },
+        {
+          "caller": "verify",
+          "callee": "verifyOrderItemsUseCase.verify",
+          "lineNumber": 57
+        },
+        {
+          "caller": "verify",
+          "callee": "request.orderItemIds",
+          "lineNumber": 57
+        },
+        {
+          "caller": "verify",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 58
+        },
+        {
+          "caller": "verify",
+          "callee": "VerifyOrderItemsResponse.from",
+          "lineNumber": 58
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "CreateOrderRequest",
+          "startLine": 11,
+          "endLine": 19,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateOrderRequest",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 15,
+          "endLine": 24,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CreateOrderResponse",
+          "startLine": 8,
+          "endLine": 25,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "CreateOrderResponse",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "result.items().stream()\n            .map(item -> new ItemResponse(item.getId(), item.getItemName())).toList",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "result.items().stream().map",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "result.items().stream",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "result.items",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "new ItemResponse",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "item.getId",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "item.getItemName",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "new CreateOrderResponse",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "result.order().getId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "result.order",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "result.order().getStatus().name",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "result.order().getStatus",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "result.order",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "InspectCancelRestoreRequest",
+          "startLine": 8,
+          "endLine": 11,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InspectCancelRestoreRequest",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 11,
+          "endLine": 15,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InspectCancelRestoreResponse",
+          "startLine": 7,
+          "endLine": 22,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "InspectCancelRestoreResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new InspectCancelRestoreResponse",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "result.status().name",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "result.status",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence().stream().map(EvidenceResponse::from).toList",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence().stream().map",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence().stream",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "new EvidenceResponse",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.targetId",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.currentStatus",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "VerifyOrderItemsRequest",
+          "startLine": 7,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "VerifyOrderItemsRequest",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 6,
+          "endLine": 8,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "VerifyOrderItemsResponse",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "VerifyOrderItemsResponse",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new VerifyOrderItemsResponse",
+          "lineNumber": 7
+        },
+        {
+          "caller": "from",
+          "callee": "result.orderId",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

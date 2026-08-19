@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-13-k3s-scaleout-phase-b.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "k3s 스케일아웃 Phase B — 멀티인스턴스 정합성 Implementation Plan",
+  "summary": "Task-by-task implementation plan to harden merchant-limit outbox poller lock to Redisson RLock and add graceful shutdown across services.",
+  "scope": ["k3s scale-out", "merchant-limit-service", "OutboxPublisherScheduler", "Redisson RLock", "distributed lock", "graceful shutdown"],
+  "cross_refs": ["docs/superpowers/specs/2026-07-13-k3s-scaleout-design.md", "CLAUDE.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Path is **/plans/**; title says 'Implementation Plan' with Goal/Tasks/Steps checkbox structure — an execution plan, not a decision (ADR), requirement set (PRD), or contract (SPEC). It contains interfaces/file-structure but these describe HOW to execute the referenced spec, not a standalone technical contract → DOC. Actual SPEC lives at the cross_ref'd design doc."
+}

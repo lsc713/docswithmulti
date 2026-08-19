@@ -1,0 +1,2119 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 22,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 22,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 22,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/domain/entity/Payout.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "Payout",
+          "startLine": 27,
+          "endLine": 42,
+          "params": [
+            "id",
+            "settlementId",
+            "merchantId",
+            "amount",
+            "status",
+            "transferRef",
+            "attemptCount",
+            "lastError",
+            "requestedAt",
+            "paidAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 44,
+          "endLine": 49,
+          "params": [
+            "id",
+            "settlementId",
+            "merchantId",
+            "amount",
+            "status",
+            "transferRef",
+            "attemptCount",
+            "lastError",
+            "requestedAt",
+            "paidAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Payout",
+          "startLine": 12,
+          "endLine": 50,
+          "methods": [
+            "Payout",
+            "reconstruct"
+          ],
+          "properties": [
+            "id",
+            "settlementId",
+            "merchantId",
+            "amount",
+            "status",
+            "transferRef",
+            "attemptCount",
+            "lastError",
+            "requestedAt",
+            "paidAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "reconstruct",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "Payout",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "reconstruct",
+          "callee": "new Payout",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/domain/service/ReserveCalculator.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "ReserveCalculator",
+          "startLine": 17,
+          "endLine": 17,
+          "params": []
+        },
+        {
+          "name": "compute",
+          "startLine": 19,
+          "endLine": 27,
+          "params": [
+            "net",
+            "config",
+            "currentHeld"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ReserveCalculator",
+          "startLine": 15,
+          "endLine": 28,
+          "methods": [
+            "ReserveCalculator",
+            "compute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "compute",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "ReserveCalculator",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "compute",
+          "callee": "config.isEmpty",
+          "lineNumber": 20
+        },
+        {
+          "caller": "compute",
+          "callee": "config.get().getReserveRate().signum",
+          "lineNumber": 20
+        },
+        {
+          "caller": "compute",
+          "callee": "config.get().getReserveRate",
+          "lineNumber": 20
+        },
+        {
+          "caller": "compute",
+          "callee": "config.get",
+          "lineNumber": 20
+        },
+        {
+          "caller": "compute",
+          "callee": "config.get",
+          "lineNumber": 23
+        },
+        {
+          "caller": "compute",
+          "callee": "net.multiply(c.getReserveRate()).setScale",
+          "lineNumber": 24
+        },
+        {
+          "caller": "compute",
+          "callee": "net.multiply",
+          "lineNumber": 24
+        },
+        {
+          "caller": "compute",
+          "callee": "c.getReserveRate",
+          "lineNumber": 24
+        },
+        {
+          "caller": "compute",
+          "callee": "c.getReserveCap().subtract(currentHeld).max",
+          "lineNumber": 25
+        },
+        {
+          "caller": "compute",
+          "callee": "c.getReserveCap().subtract",
+          "lineNumber": 25
+        },
+        {
+          "caller": "compute",
+          "callee": "c.getReserveCap",
+          "lineNumber": 25
+        },
+        {
+          "caller": "compute",
+          "callee": "desired.min",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/http/BankTransferHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "BankTransferHttpClient",
+          "startLine": 24,
+          "endLine": 26,
+          "params": [
+            "bankUrl"
+          ]
+        },
+        {
+          "name": "submit",
+          "startLine": 28,
+          "endLine": 33,
+          "params": [
+            "transferRef",
+            "account",
+            "amount"
+          ]
+        },
+        {
+          "name": "getStatus",
+          "startLine": 35,
+          "endLine": 39,
+          "params": [
+            "transferRef"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BankTransferHttpClient",
+          "startLine": 17,
+          "endLine": 40,
+          "methods": [
+            "BankTransferHttpClient",
+            "submit",
+            "getStatus"
+          ],
+          "properties": [
+            "bankUrl"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BankTransferHttpClient",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "submit",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "BankTransferHttpClient",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "submit",
+          "callee": "log.info",
+          "lineNumber": 30
+        },
+        {
+          "caller": "submit",
+          "callee": "new TransferAck",
+          "lineNumber": 32
+        },
+        {
+          "caller": "getStatus",
+          "callee": "log.info",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/http/MockBankTransferClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "submit",
+          "startLine": 20,
+          "endLine": 24,
+          "params": [
+            "transferRef",
+            "account",
+            "amount"
+          ]
+        },
+        {
+          "name": "getStatus",
+          "startLine": 26,
+          "endLine": 30,
+          "params": [
+            "transferRef"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MockBankTransferClient",
+          "startLine": 15,
+          "endLine": 31,
+          "methods": [
+            "submit",
+            "getStatus"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "submit",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "MockBankTransferClient",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "submit",
+          "callee": "log.info",
+          "lineNumber": 22
+        },
+        {
+          "caller": "submit",
+          "callee": "new TransferAck",
+          "lineNumber": 23
+        },
+        {
+          "caller": "getStatus",
+          "callee": "log.info",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/MerchantPayoutAccountJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "MerchantPayoutAccountJpaEntity",
+          "startLine": 42,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "toDomain",
+          "startLine": 44,
+          "endLine": 47,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantPayoutAccountJpaEntity",
+          "startLine": 16,
+          "endLine": 48,
+          "methods": [
+            "MerchantPayoutAccountJpaEntity",
+            "toDomain"
+          ],
+          "properties": [
+            "merchantId",
+            "bankCode",
+            "accountNumber",
+            "holderName",
+            "active",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "toDomain",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantPayoutAccountJpaEntity",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toDomain",
+          "callee": "MerchantPayoutAccount.reconstruct",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/MerchantPayoutAccountRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "MerchantPayoutAccountRepositoryImpl",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "findActive",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "merchantId"
+          ]
+        },
+        {
+          "name": "upsert",
+          "startLine": 21,
+          "endLine": 24,
+          "params": [
+            "merchantId",
+            "bankCode",
+            "accountNumber",
+            "holderName"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantPayoutAccountRepositoryImpl",
+          "startLine": 8,
+          "endLine": 25,
+          "methods": [
+            "MerchantPayoutAccountRepositoryImpl",
+            "findActive",
+            "upsert"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantPayoutAccountRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "findActive",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "upsert",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantPayoutAccountRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findActive",
+          "callee": "jpa.findByMerchantIdAndActiveTrue(merchantId).map",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findActive",
+          "callee": "jpa.findByMerchantIdAndActiveTrue",
+          "lineNumber": 18
+        },
+        {
+          "caller": "upsert",
+          "callee": "jpa.upsert",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/MerchantReserveConfigJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "MerchantReserveConfigJpaEntity",
+          "startLine": 44,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "toDomain",
+          "startLine": 46,
+          "endLine": 48,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantReserveConfigJpaEntity",
+          "startLine": 18,
+          "endLine": 49,
+          "methods": [
+            "MerchantReserveConfigJpaEntity",
+            "toDomain"
+          ],
+          "properties": [
+            "merchantId",
+            "reserveRate",
+            "reserveCap",
+            "holdDays",
+            "active",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "toDomain",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantReserveConfigJpaEntity",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toDomain",
+          "callee": "MerchantReserveConfig.reconstruct",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/MerchantReserveConfigRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "MerchantReserveConfigRepositoryImpl",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "findConfig",
+          "startLine": 17,
+          "endLine": 21,
+          "params": [
+            "merchantId"
+          ]
+        },
+        {
+          "name": "upsert",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "merchantId",
+            "reserveRate",
+            "reserveCap",
+            "holdDays"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantReserveConfigRepositoryImpl",
+          "startLine": 9,
+          "endLine": 27,
+          "methods": [
+            "MerchantReserveConfigRepositoryImpl",
+            "findConfig",
+            "upsert"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantReserveConfigRepositoryImpl",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "findConfig",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "upsert",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantReserveConfigRepositoryImpl",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findConfig",
+          "callee": "jpa.findByMerchantIdAndActiveTrue(merchantId).map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "findConfig",
+          "callee": "jpa.findByMerchantIdAndActiveTrue",
+          "lineNumber": 19
+        },
+        {
+          "caller": "upsert",
+          "callee": "jpa.upsert",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/PayoutJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 84,
+      "nonEmptyLines": 66,
+      "functions": [
+        {
+          "name": "PayoutJpaEntity",
+          "startLine": 60,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "newProcessing",
+          "startLine": 63,
+          "endLine": 78,
+          "params": [
+            "settlementId",
+            "merchantId",
+            "amount",
+            "transferRef",
+            "now"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 80,
+          "endLine": 83,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PayoutJpaEntity",
+          "startLine": 19,
+          "endLine": 84,
+          "methods": [
+            "PayoutJpaEntity",
+            "newProcessing",
+            "toDomain"
+          ],
+          "properties": [
+            "id",
+            "settlementId",
+            "merchantId",
+            "amount",
+            "status",
+            "transferRef",
+            "attemptCount",
+            "lastError",
+            "requestedAt",
+            "paidAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "toDomain",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "PayoutJpaEntity",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "newProcessing",
+          "callee": "new PayoutJpaEntity",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toDomain",
+          "callee": "Payout.reconstruct",
+          "lineNumber": 81
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/PayoutRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "PayoutRepositoryImpl",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "insertProcessing",
+          "startLine": 19,
+          "endLine": 24,
+          "params": [
+            "settlementId",
+            "merchantId",
+            "amount",
+            "transferRef"
+          ]
+        },
+        {
+          "name": "findBySettlementId",
+          "startLine": 26,
+          "endLine": 29,
+          "params": [
+            "settlementId"
+          ]
+        },
+        {
+          "name": "findByTransferRef",
+          "startLine": 31,
+          "endLine": 34,
+          "params": [
+            "transferRef"
+          ]
+        },
+        {
+          "name": "findStuckProcessing",
+          "startLine": 36,
+          "endLine": 40,
+          "params": [
+            "cutoff"
+          ]
+        },
+        {
+          "name": "findRetryableFailed",
+          "startLine": 42,
+          "endLine": 46,
+          "params": [
+            "cutoff"
+          ]
+        },
+        {
+          "name": "applyResult",
+          "startLine": 48,
+          "endLine": 51,
+          "params": [
+            "transferRef",
+            "result",
+            "err"
+          ]
+        },
+        {
+          "name": "claimForRetry",
+          "startLine": 53,
+          "endLine": 56,
+          "params": [
+            "transferRef",
+            "max"
+          ]
+        },
+        {
+          "name": "markDeadIfExhausted",
+          "startLine": 58,
+          "endLine": 61,
+          "params": [
+            "transferRef",
+            "max",
+            "err"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PayoutRepositoryImpl",
+          "startLine": 11,
+          "endLine": 62,
+          "methods": [
+            "PayoutRepositoryImpl",
+            "insertProcessing",
+            "findBySettlementId",
+            "findByTransferRef",
+            "findStuckProcessing",
+            "findRetryableFailed",
+            "applyResult",
+            "claimForRetry",
+            "markDeadIfExhausted"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PayoutRepositoryImpl",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "insertProcessing",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "findBySettlementId",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "findByTransferRef",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "findStuckProcessing",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "findRetryableFailed",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "applyResult",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "claimForRetry",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "markDeadIfExhausted",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "PayoutRepositoryImpl",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insertProcessing",
+          "callee": "jpa.save",
+          "lineNumber": 21
+        },
+        {
+          "caller": "insertProcessing",
+          "callee": "PayoutJpaEntity.newProcessing",
+          "lineNumber": 22
+        },
+        {
+          "caller": "insertProcessing",
+          "callee": "Instant.now",
+          "lineNumber": 22
+        },
+        {
+          "caller": "insertProcessing",
+          "callee": "saved.toDomain",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findBySettlementId",
+          "callee": "jpa.findBySettlementId(settlementId).map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findBySettlementId",
+          "callee": "jpa.findBySettlementId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findByTransferRef",
+          "callee": "jpa.findByTransferRef(transferRef).map",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findByTransferRef",
+          "callee": "jpa.findByTransferRef",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findStuckProcessing",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore(\"PROCESSING\", cutoff)\n            .stream().map(PayoutJpaEntity::toDomain).toList",
+          "lineNumber": 38
+        },
+        {
+          "caller": "findStuckProcessing",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore(\"PROCESSING\", cutoff)\n            .stream().map",
+          "lineNumber": 38
+        },
+        {
+          "caller": "findStuckProcessing",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore(\"PROCESSING\", cutoff).stream",
+          "lineNumber": 38
+        },
+        {
+          "caller": "findStuckProcessing",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore",
+          "lineNumber": 38
+        },
+        {
+          "caller": "findRetryableFailed",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore(\"FAILED\", cutoff)\n            .stream().map(PayoutJpaEntity::toDomain).toList",
+          "lineNumber": 44
+        },
+        {
+          "caller": "findRetryableFailed",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore(\"FAILED\", cutoff)\n            .stream().map",
+          "lineNumber": 44
+        },
+        {
+          "caller": "findRetryableFailed",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore(\"FAILED\", cutoff).stream",
+          "lineNumber": 44
+        },
+        {
+          "caller": "findRetryableFailed",
+          "callee": "jpa.findByStatusAndUpdatedAtBefore",
+          "lineNumber": 44
+        },
+        {
+          "caller": "applyResult",
+          "callee": "jpa.applyResult",
+          "lineNumber": 50
+        },
+        {
+          "caller": "claimForRetry",
+          "callee": "jpa.claimForRetry",
+          "lineNumber": 55
+        },
+        {
+          "caller": "markDeadIfExhausted",
+          "callee": "jpa.markDeadIfExhausted",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 10,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/PayoutPollScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "PayoutPollScheduler",
+          "startLine": 30,
+          "endLine": 34,
+          "params": [
+            "redissonClient",
+            "payoutResultService"
+          ]
+        },
+        {
+          "name": "run",
+          "startLine": 36,
+          "endLine": 57,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PayoutPollScheduler",
+          "startLine": 20,
+          "endLine": 58,
+          "methods": [
+            "PayoutPollScheduler",
+            "run"
+          ],
+          "properties": [
+            "redissonClient",
+            "payoutResultService",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PayoutPollScheduler",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "run",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "PayoutPollScheduler",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 38
+        },
+        {
+          "caller": "run",
+          "callee": "lock.tryLock",
+          "lineNumber": 40
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 41
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 45
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 46
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread",
+          "lineNumber": 46
+        },
+        {
+          "caller": "run",
+          "callee": "payoutResultService.pollStuckProcessing",
+          "lineNumber": 50
+        },
+        {
+          "caller": "run",
+          "callee": "payoutResultService.retryFailed",
+          "lineNumber": 51
+        },
+        {
+          "caller": "run",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 53
+        },
+        {
+          "caller": "run",
+          "callee": "lock.unlock",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/GlobalExceptionHandler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "handlePayoutAlreadyExists",
+          "startLine": 23,
+          "endLine": 30,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleBusiness",
+          "startLine": 32,
+          "endLine": 38,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleIllegalArg",
+          "startLine": 40,
+          "endLine": 44,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleUnexpected",
+          "startLine": 46,
+          "endLine": 51,
+          "params": [
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionHandler",
+          "startLine": 15,
+          "endLine": 52,
+          "methods": [
+            "handlePayoutAlreadyExists",
+            "handleBusiness",
+            "handleIllegalArg",
+            "handleUnexpected"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "handlePayoutAlreadyExists",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "handleBusiness",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "handleIllegalArg",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "handleUnexpected",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionHandler",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "e.getExisting",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "log.warn",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "existing.getSettlementId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "existing.getId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "ResponseEntity.status(409).body",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "new PayoutResponse",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "existing.getId",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "existing.getStatus",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handlePayoutAlreadyExists",
+          "callee": "existing.getAmount",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "log.warn",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity\n            .status(e.getErrorCode().getHttpStatus()).body",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getHttpStatus",
+          "lineNumber": 36
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 36
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "Map.of",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "ResponseEntity.status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "Map.of",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "String.valueOf",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "e.getMessage",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "log.error",
+          "lineNumber": 48
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "Map.of",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/controller/PayoutAccountController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "upsert",
+          "startLine": 28,
+          "endLine": 35,
+          "params": [
+            "merchantId",
+            "request"
+          ]
+        },
+        {
+          "name": "get",
+          "startLine": 38,
+          "endLine": 43,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PayoutAccountController",
+          "startLine": 21,
+          "endLine": 44,
+          "methods": [
+            "upsert",
+            "get"
+          ],
+          "properties": [
+            "service"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "upsert",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "get",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "PayoutAccountController",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "upsert",
+          "callee": "service.upsertAccount",
+          "lineNumber": 33
+        },
+        {
+          "caller": "upsert",
+          "callee": "request.bankCode",
+          "lineNumber": 33
+        },
+        {
+          "caller": "upsert",
+          "callee": "request.accountNumber",
+          "lineNumber": 33
+        },
+        {
+          "caller": "upsert",
+          "callee": "request.holderName",
+          "lineNumber": 33
+        },
+        {
+          "caller": "upsert",
+          "callee": "ResponseEntity.ok().build",
+          "lineNumber": 34
+        },
+        {
+          "caller": "upsert",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 34
+        },
+        {
+          "caller": "get",
+          "callee": "service.getAccount",
+          "lineNumber": 40
+        },
+        {
+          "caller": "get",
+          "callee": "new PayoutAccountResponse",
+          "lineNumber": 41
+        },
+        {
+          "caller": "get",
+          "callee": "a.getMerchantId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "get",
+          "callee": "a.getBankCode",
+          "lineNumber": 42
+        },
+        {
+          "caller": "get",
+          "callee": "a.getAccountNumber",
+          "lineNumber": 42
+        },
+        {
+          "caller": "get",
+          "callee": "a.getHolderName",
+          "lineNumber": 42
+        },
+        {
+          "caller": "get",
+          "callee": "a.isActive",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/controller/PayoutCallbackController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "PayoutCallbackController",
+          "startLine": 34,
+          "endLine": 38,
+          "params": [
+            "resultService",
+            "secret"
+          ]
+        },
+        {
+          "name": "callback",
+          "startLine": 40,
+          "endLine": 52,
+          "params": [
+            "signature",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PayoutCallbackController",
+          "startLine": 27,
+          "endLine": 53,
+          "methods": [
+            "PayoutCallbackController",
+            "callback"
+          ],
+          "properties": [
+            "resultService",
+            "secretBytes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PayoutCallbackController",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "callback",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "PayoutCallbackController",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PayoutCallbackController",
+          "callee": "secret.getBytes",
+          "lineNumber": 37
+        },
+        {
+          "caller": "callback",
+          "callee": "signature.getBytes",
+          "lineNumber": 45
+        },
+        {
+          "caller": "callback",
+          "callee": "MessageDigest.isEqual",
+          "lineNumber": 46
+        },
+        {
+          "caller": "callback",
+          "callee": "log.warn",
+          "lineNumber": 47
+        },
+        {
+          "caller": "callback",
+          "callee": "request.transferRef",
+          "lineNumber": 47
+        },
+        {
+          "caller": "callback",
+          "callee": "new PayoutSignatureException",
+          "lineNumber": 48
+        },
+        {
+          "caller": "callback",
+          "callee": "resultService.applyResult",
+          "lineNumber": 50
+        },
+        {
+          "caller": "callback",
+          "callee": "request.transferRef",
+          "lineNumber": 50
+        },
+        {
+          "caller": "callback",
+          "callee": "request.result",
+          "lineNumber": 50
+        },
+        {
+          "caller": "callback",
+          "callee": "ResponseEntity.ok().build",
+          "lineNumber": 51
+        },
+        {
+          "caller": "callback",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/controller/PayoutController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "approve",
+          "startLine": 24,
+          "endLine": 28,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "payout",
+          "startLine": 31,
+          "endLine": 35,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PayoutController",
+          "startLine": 17,
+          "endLine": 36,
+          "methods": [
+            "approve",
+            "payout"
+          ],
+          "properties": [
+            "service"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "approve",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "payout",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "PayoutController",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "approve",
+          "callee": "service.approve",
+          "lineNumber": 26
+        },
+        {
+          "caller": "approve",
+          "callee": "new PayoutResponse",
+          "lineNumber": 27
+        },
+        {
+          "caller": "approve",
+          "callee": "p.getId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "approve",
+          "callee": "p.getStatus",
+          "lineNumber": 27
+        },
+        {
+          "caller": "approve",
+          "callee": "p.getAmount",
+          "lineNumber": 27
+        },
+        {
+          "caller": "payout",
+          "callee": "service.getPayout",
+          "lineNumber": 33
+        },
+        {
+          "caller": "payout",
+          "callee": "new PayoutResponse",
+          "lineNumber": 34
+        },
+        {
+          "caller": "payout",
+          "callee": "p.getId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "payout",
+          "callee": "p.getStatus",
+          "lineNumber": 34
+        },
+        {
+          "caller": "payout",
+          "callee": "p.getAmount",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveConfigController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "setConfig",
+          "startLine": 27,
+          "endLine": 35,
+          "params": [
+            "merchantId",
+            "request"
+          ]
+        },
+        {
+          "name": "get",
+          "startLine": 38,
+          "endLine": 43,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ReserveConfigController",
+          "startLine": 20,
+          "endLine": 44,
+          "methods": [
+            "setConfig",
+            "get"
+          ],
+          "properties": [
+            "service"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "setConfig",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "get",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "ReserveConfigController",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setConfig",
+          "callee": "service.setConfig",
+          "lineNumber": 32
+        },
+        {
+          "caller": "setConfig",
+          "callee": "request.reserveRate",
+          "lineNumber": 32
+        },
+        {
+          "caller": "setConfig",
+          "callee": "request.reserveCap",
+          "lineNumber": 32
+        },
+        {
+          "caller": "setConfig",
+          "callee": "request.holdDays",
+          "lineNumber": 32
+        },
+        {
+          "caller": "setConfig",
+          "callee": "new ReserveConfigResponse",
+          "lineNumber": 33
+        },
+        {
+          "caller": "setConfig",
+          "callee": "request.reserveRate",
+          "lineNumber": 34
+        },
+        {
+          "caller": "setConfig",
+          "callee": "request.reserveCap",
+          "lineNumber": 34
+        },
+        {
+          "caller": "setConfig",
+          "callee": "request.holdDays",
+          "lineNumber": 34
+        },
+        {
+          "caller": "get",
+          "callee": "service.getConfig",
+          "lineNumber": 40
+        },
+        {
+          "caller": "get",
+          "callee": "new ReserveConfigResponse",
+          "lineNumber": 41
+        },
+        {
+          "caller": "get",
+          "callee": "c.getMerchantId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "get",
+          "callee": "c.getReserveRate",
+          "lineNumber": 42
+        },
+        {
+          "caller": "get",
+          "callee": "c.getReserveCap",
+          "lineNumber": 42
+        },
+        {
+          "caller": "get",
+          "callee": "c.getHoldDays",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/dto/PayoutAccountRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "PayoutAccountRequest",
+          "startLine": 4,
+          "endLine": 4,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PayoutAccountRequest",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/dto/PayoutAccountResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "PayoutAccountResponse",
+          "startLine": 4,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PayoutAccountResponse",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/dto/PayoutCallbackRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "PayoutCallbackRequest",
+          "startLine": 4,
+          "endLine": 4,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PayoutCallbackRequest",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/dto/PayoutResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "PayoutResponse",
+          "startLine": 6,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PayoutResponse",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveConfigRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "ReserveConfigRequest",
+          "startLine": 6,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReserveConfigRequest",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveConfigResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "ReserveConfigResponse",
+          "startLine": 6,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReserveConfigResponse",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

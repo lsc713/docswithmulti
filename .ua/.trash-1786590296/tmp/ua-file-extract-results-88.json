@@ -1,0 +1,1505 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 17,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 17,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 17
+    }
+  },
+  "results": [
+    {
+      "path": "docs/superpowers/specs/2026-08-01-cancel-restore-consistency-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 82,
+      "nonEmptyLines": 61,
+      "sections": [
+        {
+          "heading": "취소 복원 일관성 — 레그 하드닝 설계 (갈래 B / B2)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목표 / 배경",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "2. 코드가 드러낸 갭 (as-built, 파일:라인 근거)",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "3. 설계 (order·product 각 레그에 동형 적용 — 조기 공용 추상화 안 함)",
+          "level": 2,
+          "line": 36
+        },
+        {
+          "heading": "수정 1 — 증발 버그 (갭①)",
+          "level": 3,
+          "line": 38
+        },
+        {
+          "heading": "수정 2 — durable DLQ + 알림 (갭②·④)",
+          "level": 3,
+          "line": 44
+        },
+        {
+          "heading": "수정 3 — 자동 재구동 스케줄러 (갭③)",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "4. 데이터 모델",
+          "level": 2,
+          "line": 57
+        },
+        {
+          "heading": "5. 불변식 / 가드",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "6. 보장 / 비보장 (정직한 천장)",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "7. 테스트 전략 (Testcontainers Kafka + MySQL)",
+          "level": 2,
+          "line": 70
+        },
+        {
+          "heading": "8. 열린 질문 (계획 단계에서 확정)",
+          "level": 2,
+          "line": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-01-product-catalog-frontend-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 186,
+      "nonEmptyLines": 146,
+      "sections": [
+        {
+          "heading": "상품 카탈로그 프론트엔드 + 다중 이미지(S3 presigned) 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "배경 / 문제",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "비목표 (이번 스코프 밖)",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "핵심 결정 (확정)",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "아키텍처",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "영역 1 — 신규 인프라 (MinIO)",
+          "level": 3,
+          "line": 47
+        },
+        {
+          "heading": "영역 2 — product-service 백엔드",
+          "level": 3,
+          "line": 65
+        },
+        {
+          "heading": "영역 3 — api-gateway",
+          "level": 3,
+          "line": 117
+        },
+        {
+          "heading": "영역 4 — frontend",
+          "level": 3,
+          "line": 126
+        },
+        {
+          "heading": "데이터 플로우",
+          "level": 2,
+          "line": 149
+        },
+        {
+          "heading": "에러 처리",
+          "level": 2,
+          "line": 161
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 2,
+          "line": 169
+        },
+        {
+          "heading": "마이그레이션/롤아웃",
+          "level": 2,
+          "line": 175
+        },
+        {
+          "heading": "오픈 이슈 / 후속",
+          "level": 2,
+          "line": 182
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-03-admin-console-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 121,
+      "nonEmptyLines": 97,
+      "sections": [
+        {
+          "heading": "어드민 콘솔 설계 (2026-08-03)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 범위 / 논-골",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "2. 백엔드 변경 (딱 1개, TDD)",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "3. 프론트 구조 (Vite 멀티 엔트리 + react-router)",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "4. 화면 상세",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "로그인 (`/admin/login`)",
+          "level": 3,
+          "line": 68
+        },
+        {
+          "heading": "대시보드 (`/admin`)",
+          "level": 3,
+          "line": 73
+        },
+        {
+          "heading": "상품관리 목록 (`/admin/products`)",
+          "level": 3,
+          "line": 80
+        },
+        {
+          "heading": "상품 상세 (`/admin/products/:id`)",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "상품 생성 (`/admin/products/new`)",
+          "level": 3,
+          "line": 92
+        },
+        {
+          "heading": "회원관리 (`/admin/users`)",
+          "level": 3,
+          "line": 97
+        },
+        {
+          "heading": "5. 인증 / 역할 가드",
+          "level": 2,
+          "line": 102
+        },
+        {
+          "heading": "6. 테스트",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "7. 트레이드오프 메모",
+          "level": 2,
+          "line": 118
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-03-checkout-buynow-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 108,
+      "nonEmptyLines": 83,
+      "sections": [
+        {
+          "heading": "체크아웃 P1 — 바로구매 종단간 설계 (2026-08-03)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "실증으로 확정된 사실 (2026-08-03, 로컬 스택)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "범위 / 논-골",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "백엔드 변경 (딱 1개)",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "프론트엔드 설계 (스토어프론트)",
+          "level": 2,
+          "line": 38
+        },
+        {
+          "heading": "인증 / 게이트웨이",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "데이터 흐름 요약",
+          "level": 2,
+          "line": 80
+        },
+        {
+          "heading": "테스트",
+          "level": 2,
+          "line": 93
+        },
+        {
+          "heading": "트레이드오프 / 메모",
+          "level": 2,
+          "line": 103
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-03-product-attribute-variant-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 154,
+      "nonEmptyLines": 125,
+      "sections": [
+        {
+          "heading": "속성/변형 정규화 — 설계 (product-service)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목표 / 배경",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 스코프",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "3. 데이터 모델 (Flyway V8, product 최신 V7 다음)",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "4. 도메인 규칙",
+          "level": 2,
+          "line": 88
+        },
+        {
+          "heading": "5. API 계약",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "6. 하위호환",
+          "level": 2,
+          "line": 124
+        },
+        {
+          "heading": "7. 아키텍처 / 레이어 (기존 헥사고날 답습)",
+          "level": 2,
+          "line": 128
+        },
+        {
+          "heading": "8. 불변식 / 가드",
+          "level": 2,
+          "line": 135
+        },
+        {
+          "heading": "9. 테스트 전략 (Testcontainers MySQL)",
+          "level": 2,
+          "line": 141
+        },
+        {
+          "heading": "10. 열린 질문 (계획 단계에서 확정)",
+          "level": 2,
+          "line": 149
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-03-settlement-aggregation-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 191,
+      "nonEmptyLines": 155,
+      "sections": [
+        {
+          "heading": "정산 집계 코어 — 설계 (settlement-service v1.0)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목표 / 배경",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 스코프",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "3. 데이터 모델 (settlement_db, Flyway V1)",
+          "level": 2,
+          "line": 39
+        },
+        {
+          "heading": "4. 도메인 규칙",
+          "level": 2,
+          "line": 99
+        },
+        {
+          "heading": "정산주 귀속",
+          "level": 3,
+          "line": 101
+        },
+        {
+          "heading": "멱등키(`event_id`)",
+          "level": 3,
+          "line": 105
+        },
+        {
+          "heading": "집계",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "수수료·세금·net (FINALIZE 시점 확정)",
+          "level": 3,
+          "line": 114
+        },
+        {
+          "heading": "상태 전이",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "5. API 계약",
+          "level": 2,
+          "line": 126
+        },
+        {
+          "heading": "settlement-service",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "payment-service (신설)",
+          "level": 3,
+          "line": 133
+        },
+        {
+          "heading": "6. 이벤트 흐름 (settlement 수집)",
+          "level": 2,
+          "line": 142
+        },
+        {
+          "heading": "7. payment-service 변경 상세 (CANCEL-01 준수)",
+          "level": 2,
+          "line": 161
+        },
+        {
+          "heading": "8. 불변식 / 가드",
+          "level": 2,
+          "line": 167
+        },
+        {
+          "heading": "9. 테스트 전략 (Testcontainers MySQL + Kafka)",
+          "level": 2,
+          "line": 175
+        },
+        {
+          "heading": "10. 열린 질문 (계획 단계 확정)",
+          "level": 2,
+          "line": 185
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 18
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-04-cancel-approval-backend-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 142,
+      "nonEmptyLines": 106,
+      "sections": [
+        {
+          "heading": "취소 승인 워크플로우 P1 — 백엔드 승인 코어 설계 (2026-08-04)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "배경 / 문제",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "핵심 원칙 — 승인은 실행 앞단의 새 레이어 (취소 코어 불변)",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "확정된 정책 (brainstorming)",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "범위 / 논-골",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "데이터 모델 (payment_db, Flyway V20)",
+          "level": 2,
+          "line": 51
+        },
+        {
+          "heading": "레이어 (기존 hex 패턴)",
+          "level": 2,
+          "line": 78
+        },
+        {
+          "heading": "인가 (기존 매트릭스 재사용, USER 승인 배제)",
+          "level": 3,
+          "line": 91
+        },
+        {
+          "heading": "API (payment-service, 게이트웨이 신뢰헤더 X-User-Id/Role/Merchant-Id)",
+          "level": 2,
+          "line": 96
+        },
+        {
+          "heading": "게이트웨이",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "불변 / 취소 코어",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "테스트",
+          "level": 2,
+          "line": 118
+        },
+        {
+          "heading": "단계 로드맵 (이 문서 = P1)",
+          "level": 2,
+          "line": 131
+        },
+        {
+          "heading": "트레이드오프 / 메모",
+          "level": 2,
+          "line": 137
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-04-checkout-cart-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 124,
+      "nonEmptyLines": 94,
+      "sections": [
+        {
+          "heading": "체크아웃 P2 — 서버 장바구니 설계 (2026-08-04)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "결정 사항 (brainstorming)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "범위 / 논-골",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "백엔드 (order-service) — cart 도메인 추가",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "게이트웨이",
+          "level": 2,
+          "line": 65
+        },
+        {
+          "heading": "프론트엔드 (스토어프론트)",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "데이터 흐름",
+          "level": 2,
+          "line": 96
+        },
+        {
+          "heading": "테스트",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "트레이드오프 / 메모",
+          "level": 2,
+          "line": 119
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-04-checkout-history-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 98,
+      "nonEmptyLines": 73,
+      "sections": [
+        {
+          "heading": "체크아웃 P3 — 주문내역 + 구매자 자가취소 설계 (2026-08-04)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "결정 사항 (brainstorming)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "안전 경계 (매우 중요)",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "범위 / 논-골",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "백엔드 (payment-service)",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "1. 조회 API (신규, X-User-Id 소유 스코프)",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "2. 자가취소 인가 확장 (인가 pre-check만, TX 코어 불변)",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "3. 문서 정정",
+          "level": 3,
+          "line": 54
+        },
+        {
+          "heading": "프론트엔드 (스토어프론트)",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "데이터 흐름",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "테스트",
+          "level": 2,
+          "line": 82
+        },
+        {
+          "heading": "트레이드오프 / 메모",
+          "level": 2,
+          "line": 93
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-04-settlement-payout-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 143,
+      "nonEmptyLines": 115,
+      "sections": [
+        {
+          "heading": "정산 지급 실행(payout) — 설계 (settlement-service v2 슬라이스)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목표 / 배경",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 스코프",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "3. 데이터 모델 (Flyway V2, settlement_db 최신 V1 다음)",
+          "level": 2,
+          "line": 32
+        },
+        {
+          "heading": "4. 도메인 규칙 / 상태머신",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "승인 (관리자)",
+          "level": 3,
+          "line": 73
+        },
+        {
+          "heading": "확인 (웹훅 1차 + 폴 backstop, 순서무관 수렴)",
+          "level": 3,
+          "line": 80
+        },
+        {
+          "heading": "실패 재시도",
+          "level": 3,
+          "line": 91
+        },
+        {
+          "heading": "5. API 계약",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "6. 외부 목 (BankTransferPort)",
+          "level": 2,
+          "line": 103
+        },
+        {
+          "heading": "7. 아키텍처 / 레이어 (기존 헥사고날 답습)",
+          "level": 2,
+          "line": 110
+        },
+        {
+          "heading": "8. 불변식 / 가드",
+          "level": 2,
+          "line": 120
+        },
+        {
+          "heading": "9. 테스트 전략 (Testcontainers MySQL + Redis)",
+          "level": 2,
+          "line": 127
+        },
+        {
+          "heading": "10. 열린 질문 (계획 단계 확정)",
+          "level": 2,
+          "line": 137
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-05-cancel-approval-console-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 109,
+      "nonEmptyLines": 81,
+      "sections": [
+        {
+          "heading": "취소 승인 워크플로우 P2 — 어드민/판매자 승인 큐 UI 설계 (2026-08-05)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "결정 사항 (brainstorming)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "범위 / 논-골",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "백엔드 델타 (payment-service, P1 위에)",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "프론트엔드 (어드민 콘솔, `frontend/src/admin/`)",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "인증 / 게이트웨이 / role 흐름",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "데이터 흐름",
+          "level": 2,
+          "line": 79
+        },
+        {
+          "heading": "배포 게이트 (P1과 동일, 변화 없음)",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "테스트",
+          "level": 2,
+          "line": 94
+        },
+        {
+          "heading": "트레이드오프 / 메모",
+          "level": 2,
+          "line": 104
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-05-settlement-payout-reserve-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 144,
+      "nonEmptyLines": 114,
+      "sections": [
+        {
+          "heading": "정산 유보금(payout reserve / 롤링 리저브) — 설계 (settlement-service v3 슬라이스)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목표 / 배경",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 스코프",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "3. 데이터 모델 (Flyway V3, settlement_db 최신 V2 다음)",
+          "level": 2,
+          "line": 32
+        },
+        {
+          "heading": "4. 도메인 규칙",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "유보 산정 (승인 시, cap 반영)",
+          "level": 3,
+          "line": 74
+        },
+        {
+          "heading": "승인 순서 (approve non-@Transactional 불변)",
+          "level": 3,
+          "line": 86
+        },
+        {
+          "heading": "릴리스 상태머신 (Phase 2)",
+          "level": 3,
+          "line": 94
+        },
+        {
+          "heading": "5. API 계약",
+          "level": 2,
+          "line": 101
+        },
+        {
+          "heading": "6. 외부 목 (BankTransferPort 재사용)",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "7. 아키텍처 / 레이어",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "8. 불변식 / 가드",
+          "level": 2,
+          "line": 121
+        },
+        {
+          "heading": "9. 테스트 전략 (Testcontainers MySQL + mock Redisson)",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "10. 열린 질문 (계획 단계 확정)",
+          "level": 2,
+          "line": 138
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-06-cancel-approval-storefront-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 108,
+      "nonEmptyLines": 79,
+      "sections": [
+        {
+          "heading": "취소 승인 워크플로우 P3 — 스토어프론트 요청 전환 설계 (2026-08-06)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "배경 / 정책 전환",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "범위 / 논-골",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "백엔드 (payment-service)",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "1. USER 직접취소 인가 제거 — `CancelAuthorizer`",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "2. 내역 응답에 `cancelRequestStatus` 추가",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "스토어프론트",
+          "level": 2,
+          "line": 55
+        },
+        {
+          "heading": "인증 / 게이트웨이",
+          "level": 2,
+          "line": 70
+        },
+        {
+          "heading": "데이터 흐름",
+          "level": 2,
+          "line": 76
+        },
+        {
+          "heading": "배포 게이트 (P1과 동일)",
+          "level": 2,
+          "line": 86
+        },
+        {
+          "heading": "테스트",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "트레이드오프 / 메모",
+          "level": 2,
+          "line": 103
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-cancel-outbox-redrive-reliability-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 335,
+      "nonEmptyLines": 240,
+      "sections": [
+        {
+          "heading": "Cancel Outbox Redrive Reliability 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "승인된 정책",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "범위",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "포함",
+          "level": 3,
+          "line": 22
+        },
+        {
+          "heading": "제외",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "상태 전이",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "원자 저장 연산",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "안전 오류 코드",
+          "level": 2,
+          "line": 99
+        },
+        {
+          "heading": "발행 worker 실패 처리",
+          "level": 2,
+          "line": 115
+        },
+        {
+          "heading": "수렴과 deadline 처리",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "전용 executor와 scheduling",
+          "level": 2,
+          "line": 148
+        },
+        {
+          "heading": "downstream timeout과 CircuitBreaker",
+          "level": 2,
+          "line": 175
+        },
+        {
+          "heading": "구조화 로그",
+          "level": 2,
+          "line": 191
+        },
+        {
+          "heading": "메트릭",
+          "level": 2,
+          "line": 222
+        },
+        {
+          "heading": "재요청과 감사 이력",
+          "level": 2,
+          "line": 237
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 2,
+          "line": 247
+        },
+        {
+          "heading": "Repository MySQL integration",
+          "level": 3,
+          "line": 251
+        },
+        {
+          "heading": "Worker unit",
+          "level": 3,
+          "line": 260
+        },
+        {
+          "heading": "Deadline and recovery",
+          "level": 3,
+          "line": 267
+        },
+        {
+          "heading": "Executor",
+          "level": 3,
+          "line": 274
+        },
+        {
+          "heading": "Multi-instance and crash-window integration",
+          "level": 3,
+          "line": 282
+        },
+        {
+          "heading": "Logs and metrics",
+          "level": 3,
+          "line": 293
+        },
+        {
+          "heading": "운영 runbook",
+          "level": 2,
+          "line": 301
+        },
+        {
+          "heading": "FAILED/PUBLISH",
+          "level": 3,
+          "line": 305
+        },
+        {
+          "heading": "FAILED/CONVERGENCE",
+          "level": 3,
+          "line": 311
+        },
+        {
+          "heading": "기타 terminal",
+          "level": 3,
+          "line": 318
+        },
+        {
+          "heading": "완료 조건",
+          "level": 2,
+          "line": 325
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 28
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-cancel-outbox-redrive-request-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 163,
+      "nonEmptyLines": 118,
+      "sections": [
+        {
+          "heading": "Cancel Outbox Redrive 작업 생성·조회 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "범위",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "포함",
+          "level": 3,
+          "line": 9
+        },
+        {
+          "heading": "제외",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "확정 규칙",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "접근 방식",
+          "level": 2,
+          "line": 40
+        },
+        {
+          "heading": "데이터 모델",
+          "level": 2,
+          "line": 52
+        },
+        {
+          "heading": "컴포넌트 경계",
+          "level": 2,
+          "line": 75
+        },
+        {
+          "heading": "도메인",
+          "level": 3,
+          "line": 77
+        },
+        {
+          "heading": "애플리케이션",
+          "level": 3,
+          "line": 88
+        },
+        {
+          "heading": "인프라",
+          "level": 3,
+          "line": 94
+        },
+        {
+          "heading": "프레젠테이션",
+          "level": 3,
+          "line": 98
+        },
+        {
+          "heading": "오류 처리",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "요청 흐름",
+          "level": 2,
+          "line": 123
+        },
+        {
+          "heading": "작업 생성",
+          "level": 3,
+          "line": 125
+        },
+        {
+          "heading": "작업 조회",
+          "level": 3,
+          "line": 135
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 2,
+          "line": 142
+        },
+        {
+          "heading": "완료 조건",
+          "level": 2,
+          "line": 156
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 19
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-11-cancel-outbox-redrive-worker-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 229,
+      "nonEmptyLines": 168,
+      "sections": [
+        {
+          "heading": "Cancel Outbox Redrive Worker 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "범위",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "포함",
+          "level": 3,
+          "line": 11
+        },
+        {
+          "heading": "제외",
+          "level": 3,
+          "line": 26
+        },
+        {
+          "heading": "선택한 접근",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "상태와 저장 표식",
+          "level": 2,
+          "line": 47
+        },
+        {
+          "heading": "컴포넌트",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "Repository 확장",
+          "level": 3,
+          "line": 62
+        },
+        {
+          "heading": "Worker application service",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "Replay port와 Kafka adapter",
+          "level": 3,
+          "line": 98
+        },
+        {
+          "heading": "Dispatcher",
+          "level": 3,
+          "line": 116
+        },
+        {
+          "heading": "Convergence poller",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "JSON 감사 계약",
+          "level": 2,
+          "line": 140
+        },
+        {
+          "heading": "상태 snapshot",
+          "level": 3,
+          "line": 142
+        },
+        {
+          "heading": "terminal 저장",
+          "level": 3,
+          "line": 157
+        },
+        {
+          "heading": "실패 경계",
+          "level": 2,
+          "line": 165
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 2,
+          "line": 177
+        },
+        {
+          "heading": "운영 CLI",
+          "level": 2,
+          "line": 211
+        },
+        {
+          "heading": "완료 조건",
+          "level": 2,
+          "line": 221
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 20
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-08-12-product-detail-load-test-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 153,
+      "nonEmptyLines": 108,
+      "sections": [
+        {
+          "heading": "Product Detail Load Test Design",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Goal",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "Measurement Boundary",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Representative Dataset",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Load Distributions",
+          "level": 2,
+          "line": 37
+        },
+        {
+          "heading": "Local Flow",
+          "level": 2,
+          "line": 59
+        },
+        {
+          "heading": "AWS Topology",
+          "level": 2,
+          "line": 68
+        },
+        {
+          "heading": "Observability",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "Validation and Failure Handling",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "Test Strategy",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "Run Sequence",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "Explicit Non-goals",
+          "level": 2,
+          "line": 143
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "language": "java",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "language": "java",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "language": "java",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "language": "java",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "language": "java",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "language": "java",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "language": "java",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "language": "java",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegStatus.java",
+      "language": "java",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxInspectionService.java",
+      "language": "java",
+      "sizeLines": 127,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveAuditJson.java",
+      "language": "java",
+      "sizeLines": 106,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveConvergenceWorker.java",
+      "language": "java",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveDeadlineWorker.java",
+      "language": "java",
+      "sizeLines": 97,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveService.java",
+      "language": "java",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveStalePublishWorker.java",
+      "language": "java",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveTelemetry.java",
+      "language": "java",
+      "sizeLines": 106,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveWorker.java",
+      "language": "java",
+      "sizeLines": 163,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java": [],
+    "payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java": [],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java": [
+      "payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java": [],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java": [
+      "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java": [
+      "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java": [],
+    "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java": [],
+    "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java": [],
+    "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java": [],
+    "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegStatus.java": [],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxInspectionService.java": [
+      "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegStatus.java",
+      "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveAuditJson.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveConvergenceWorker.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveDeadlineWorker.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveService.java": [
+      "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveStalePublishWorker.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveTelemetry.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelOutboxRedriveWorker.java": [
+      "payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java"
+    ]
+  }
+}

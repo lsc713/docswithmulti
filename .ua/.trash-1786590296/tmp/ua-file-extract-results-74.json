@@ -1,0 +1,449 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 6
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/product-stock/phases/02-payment-product/02-01-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 287,
+      "nonEmptyLines": 254,
+      "sections": [
+        {
+          "heading": "레퍼런스 — 그대로 미러링(재발명 금지)",
+          "level": 1,
+          "line": 67
+        },
+        {
+          "heading": "reserve 클라이언트는 RiskManagementHttpClient의 RestTemplate+Resilience4j CircuitBreaker+Port/Adapter 템플릿 복제",
+          "level": 1,
+          "line": 68
+        },
+        {
+          "heading": "생성 경로 현재 코드(재구조화 대상)",
+          "level": 1,
+          "line": 75
+        },
+        {
+          "heading": "product 계약(호출 대상, 불변)",
+          "level": 1,
+          "line": 85
+        },
+        {
+          "heading": "테스트 관행: HTTP 스텁 = MockRestServiceServer(Spring 내장, WireMock 미도입), 통합 = Testcontainers",
+          "level": 1,
+          "line": 88
+        },
+        {
+          "heading": "인프라 확정: external.product-service.url → product-service 8084(CLAUDE.md 모듈표).",
+          "level": 1,
+          "line": 94
+        },
+        {
+          "heading": "WireMock은 미도입 — VALIDATION seed의 \"WireMock\"은 MockRestServiceServer(내장)로 대체(신규 의존성 금지, ponytail).",
+          "level": 1,
+          "line": 95
+        },
+        {
+          "heading": "공유 RestTemplate 단일 빈(HttpClientConfig) — ProductStockHttpClient도 이 빈 주입, 통합테스트는",
+          "level": 1,
+          "line": 96
+        },
+        {
+          "heading": "MockRestServiceServer.createServer(restTemplate)로 reserve 응답 스텁.",
+          "level": 1,
+          "line": 97
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 256
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 263
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/02-payment-product/02-01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 211,
+      "nonEmptyLines": 180,
+      "sections": [
+        {
+          "heading": "Dependency graph",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "Tech tracking",
+          "level": 1,
+          "line": 18
+        },
+        {
+          "heading": "Metrics",
+          "level": 1,
+          "line": 109
+        },
+        {
+          "heading": "Phase 02 Plan 01: 결제 생성 경로 product 재고 예약 배선 Summary",
+          "level": 1,
+          "line": 115
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 126
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 133
+        },
+        {
+          "heading": "Files Created/Modified",
+          "level": 2,
+          "line": 141
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 153
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 158
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 160
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 190
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 194
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 197
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 200
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 204
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/02-payment-product/02-02-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 202,
+      "nonEmptyLines": 175,
+      "sections": [
+        {
+          "heading": "레퍼런스 — compensation-retry(risk 보상 재시도)를 그대로 미러링(D-P2-6)",
+          "level": 1,
+          "line": 59
+        },
+        {
+          "heading": "재시도 repo/entity 패턴은 기존 CompensationRetry* 영속 어댑터 미러",
+          "level": 1,
+          "line": 63
+        },
+        {
+          "heading": "이 plan이 확장하는 대상(02-01 산출): reserve/release 포트 + 오케스트레이터",
+          "level": 1,
+          "line": 65
+        },
+        {
+          "heading": "scheduler.lock.* 키는 application.yml에 이미 compensation-retry 등 존재 — stock-release-retry 신규 키 추가.",
+          "level": 1,
+          "line": 70
+        },
+        {
+          "heading": "CompensationRetryRepository 인터페이스(findDueForRetry/markDone/markRetryLater/exhaust)를 재시도 계약 템플릿으로 복제.",
+          "level": 1,
+          "line": 71
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 172
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 179
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/02-payment-product/02-02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 176,
+      "nonEmptyLines": 147,
+      "sections": [
+        {
+          "heading": "Dependency graph",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "Tech tracking",
+          "level": 1,
+          "line": 17
+        },
+        {
+          "heading": "Metrics",
+          "level": 1,
+          "line": 92
+        },
+        {
+          "heading": "Phase 02 Plan 02: 예약 성공 후 persist 실패 보상(release/재시도) Summary",
+          "level": 1,
+          "line": 98
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 102
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 116
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 124
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 131
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 156
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 159
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 162
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 165
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 169
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/02-payment-product/02-VALIDATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 54,
+      "nonEmptyLines": 39,
+      "sections": [
+        {
+          "heading": "Phase 2 — Validation Strategy",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "Test Infrastructure",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "Sampling Rate",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Per-Task Verification Map",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "Wave 0 Requirements",
+          "level": 2,
+          "line": 39
+        },
+        {
+          "heading": "Manual-Only Verifications",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "Validation Sign-Off",
+          "level": 2,
+          "line": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/02-payment-product/02-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 94,
+      "nonEmptyLines": 70,
+      "sections": [
+        {
+          "heading": "Phase 2: 결제 예약 통합 (payment↔product) Verification Report",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "Goal Achievement",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "Observable Truths",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "Required Artifacts",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "Key Link Verification",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "Behavioral Spot-Checks",
+          "level": 3,
+          "line": 54
+        },
+        {
+          "heading": "Core-Unchanged Gate (최우선)",
+          "level": 3,
+          "line": 64
+        },
+        {
+          "heading": "Requirements Coverage",
+          "level": 3,
+          "line": 71
+        },
+        {
+          "heading": "Anti-Patterns Found",
+          "level": 3,
+          "line": 79
+        },
+        {
+          "heading": "Human Verification Required",
+          "level": 3,
+          "line": 83
+        },
+        {
+          "heading": "Gaps Summary",
+          "level": 3,
+          "line": 87
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    }
+  ]
+}

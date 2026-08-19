@@ -1,0 +1,143 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "user-service/Dockerfile",
+      "language": "dockerfile",
+      "fileCategory": "infra",
+      "totalLines": 32,
+      "nonEmptyLines": 24,
+      "services": [
+        {
+          "name": "builder",
+          "image": "gradle:8-jdk21",
+          "ports": [],
+          "startLine": 2,
+          "endLine": 24
+        },
+        {
+          "name": "eclipse-temurin",
+          "image": "eclipse-temurin:21-jre-alpine",
+          "ports": [
+            8085
+          ],
+          "startLine": 25,
+          "endLine": 33
+        }
+      ],
+      "steps": [
+        {
+          "name": "FROM gradle:8-jdk21 AS builder",
+          "startLine": 2,
+          "endLine": 2
+        },
+        {
+          "name": "WORKDIR /app",
+          "startLine": 3,
+          "endLine": 3
+        },
+        {
+          "name": "COPY build.gradle settings.gradle ./",
+          "startLine": 6,
+          "endLine": 6
+        },
+        {
+          "name": "COPY gradle gradle/",
+          "startLine": 7,
+          "endLine": 7
+        },
+        {
+          "name": "COPY payment-service/build.gradle          payment-service/",
+          "startLine": 10,
+          "endLine": 10
+        },
+        {
+          "name": "COPY order-service/build.gradle            order-service/",
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "COPY merchant-limit-service/build.gradle   merchant-limit-service",
+          "startLine": 12,
+          "endLine": 12
+        },
+        {
+          "name": "COPY risk-management-service/build.gradle  risk-management-servic",
+          "startLine": 13,
+          "endLine": 13
+        },
+        {
+          "name": "COPY product-service/build.gradle          product-service/",
+          "startLine": 14,
+          "endLine": 14
+        },
+        {
+          "name": "COPY user-service/build.gradle             user-service/",
+          "startLine": 15,
+          "endLine": 15
+        },
+        {
+          "name": "RUN gradle :user-service:dependencies --no-daemon -q",
+          "startLine": 18,
+          "endLine": 18
+        },
+        {
+          "name": "COPY user-service/src user-service/src",
+          "startLine": 21,
+          "endLine": 21
+        },
+        {
+          "name": "RUN gradle :user-service:bootJar --no-daemon -x test",
+          "startLine": 22,
+          "endLine": 22
+        },
+        {
+          "name": "FROM eclipse-temurin:21-jre-alpine",
+          "startLine": 25,
+          "endLine": 25
+        },
+        {
+          "name": "WORKDIR /app",
+          "startLine": 26,
+          "endLine": 26
+        },
+        {
+          "name": "COPY --from=builder /app/user-service/build/libs/*.jar app.jar",
+          "startLine": 28,
+          "endLine": 28
+        },
+        {
+          "name": "EXPOSE 8085",
+          "startLine": 30,
+          "endLine": 30
+        },
+        {
+          "name": "ENTRYPOINT [\"java\", \"-jar\", \"app.jar\"]",
+          "startLine": 32,
+          "endLine": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "serviceCount": 2,
+        "stepCount": 18
+      }
+    }
+  ]
+}

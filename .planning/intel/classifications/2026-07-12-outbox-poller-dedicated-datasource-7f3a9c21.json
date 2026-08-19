@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-12-outbox-poller-dedicated-datasource.md",
+  "type": "SPEC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "폴러 전용 DataSource Implementation Plan",
+  "summary": "Implementation plan isolating the OUTBOX poller drain path onto a dedicated small HikariDataSource + JdbcTemplate to eliminate shared-pool livelock, keeping insertPending on the main pool.",
+  "scope": ["payment-service", "OUTBOX poller", "cancelOutboxDataSource", "NamedParameterJdbcTemplate", "CancelEventOutboxRepositoryImpl", "HikariCP connection pool"],
+  "cross_refs": ["docs/load-test/publish-pattern-benchmark.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": "No frontmatter and no ADR/PRD/DOC type marker. It is an implementation plan (task-by-task, TDD steps) but carries binding technical contracts: 'Interfaces' (produces/consumes), 'Global Constraints' invariants, and code-level data-access routing contracts the system must honor. Competes SPEC vs DOC; resolved to SPEC by precedence (SPEC > DOC) on the strength of the interface/constraint contracts. References a separate design spec via section markers (§3.1/§4.1/§9) — path not explicitly given, so not added to cross_refs. Source code file paths are not docs and were excluded from cross_refs."
+}

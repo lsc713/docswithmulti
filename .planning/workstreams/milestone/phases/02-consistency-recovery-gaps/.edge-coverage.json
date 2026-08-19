@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "requirement_id": "RESIL-01",
+      "category": "unclassified",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "unclassified — review manually"
+    },
+    {
+      "requirement_id": "RESIL-02",
+      "category": "idempotency",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens if this runs twice on the same input?"
+    },
+    {
+      "requirement_id": "RESIL-02",
+      "category": "concurrency",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "If interrupted or run in parallel, what is guaranteed?"
+    },
+    {
+      "requirement_id": "RESIL-03",
+      "category": "idempotency",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "What happens if this runs twice on the same input?"
+    },
+    {
+      "requirement_id": "RESIL-03",
+      "category": "concurrency",
+      "status": "unresolved",
+      "verification": null,
+      "resolution": null,
+      "reason": null,
+      "probe": "If interrupted or run in parallel, what is guaranteed?"
+    }
+  ],
+  "coverage": {
+    "applicable": 5,
+    "resolved": 0,
+    "unresolved": 5,
+    "byVerification": {
+      "explicit": 0,
+      "backstop": 0
+    }
+  }
+}

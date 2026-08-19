@@ -1,0 +1,694 @@
+{
+  "nodes": [
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "type": "file",
+      "name": "RedisConfig.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "summary": "위험 관리 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java:stringRedisTemplate",
+      "type": "function",
+      "name": "stringRedisTemplate",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "lineRange": [
+        11,
+        14
+      ],
+      "summary": "위험 관리 흐름에서 stringRedisTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java:RedisConfig",
+      "type": "class",
+      "name": "RedisConfig",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "lineRange": [
+        8,
+        15
+      ],
+      "summary": "위험 관리 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "type": "file",
+      "name": "ResilienceConfig.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "summary": "위험 관리 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java:merchantLimitRestClient",
+      "type": "function",
+      "name": "merchantLimitRestClient",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        11,
+        15
+      ],
+      "summary": "위험 관리 흐름에서 merchantLimitRestClient 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java:ResilienceConfig",
+      "type": "class",
+      "name": "ResilienceConfig",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "lineRange": [
+        8,
+        16
+      ],
+      "summary": "위험 관리 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java",
+      "type": "file",
+      "name": "MerchantLimitResponse.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java",
+      "summary": "위험 관리 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java:MerchantLimitResponse",
+      "type": "class",
+      "name": "MerchantLimitResponse",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java",
+      "lineRange": [
+        5,
+        5
+      ],
+      "summary": "위험 관리 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java",
+      "type": "file",
+      "name": "MerchantLimitUpdatedPayload.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java",
+      "summary": "위험 관리 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java:MerchantLimitUpdatedPayload",
+      "type": "class",
+      "name": "MerchantLimitUpdatedPayload",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java",
+      "lineRange": [
+        3,
+        3
+      ],
+      "summary": "위험 관리 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java",
+      "type": "file",
+      "name": "CancelUsageCompensationJpaRepository.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java",
+      "summary": "위험 관리 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java:CancelUsageCompensationJpaRepository",
+      "type": "class",
+      "name": "CancelUsageCompensationJpaRepository",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java",
+      "lineRange": [
+        5,
+        9
+      ],
+      "summary": "위험 관리 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java",
+      "type": "file",
+      "name": "CancelUsageHistoryJpaRepository.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java",
+      "summary": "위험 관리 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java:CancelUsageHistoryJpaRepository",
+      "type": "class",
+      "name": "CancelUsageHistoryJpaRepository",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "위험 관리 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java",
+      "type": "file",
+      "name": "MerchantCancelUsageJpaRepository.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java",
+      "summary": "위험 관리 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java:MerchantCancelUsageJpaRepository",
+      "type": "class",
+      "name": "MerchantCancelUsageJpaRepository",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java",
+      "lineRange": [
+        13,
+        58
+      ],
+      "summary": "위험 관리 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:risk-management-service/src/main/resources/application.yml",
+      "type": "config",
+      "name": "application.yml",
+      "filePath": "risk-management-service/src/main/resources/application.yml",
+      "summary": "위험 관리 Spring Boot service의 port, datasource, Kafka 및 운영 설정을 구성한다.",
+      "tags": [
+        "configuration",
+        "위험-관리",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:session-manager-plugin.pkg",
+      "type": "file",
+      "name": "session-manager-plugin.pkg",
+      "filePath": "session-manager-plugin.pkg",
+      "summary": "프로젝트 구현 기능을 지원하는 pkg source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "pkg",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:settlement-service/build.gradle",
+      "type": "config",
+      "name": "build.gradle",
+      "filePath": "settlement-service/build.gradle",
+      "summary": "정산 module의 Gradle plugin, dependency와 test/build 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "정산",
+        "gradle",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "type": "file",
+      "name": "HttpClientConfig.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "summary": "정산 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "function",
+      "name": "restTemplate",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "정산 흐름에서 restTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "class",
+      "name": "HttpClientConfig",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "lineRange": [
+        11,
+        18
+      ],
+      "summary": "정산 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "type": "file",
+      "name": "KafkaConsumerConfig.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "summary": "정산 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "function",
+      "name": "KafkaConsumerConfig",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "정산 흐름에서 KafkaConsumerConfig 작업을 수행한다.",
+      "tags": [
+        "function",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "function",
+      "name": "consumerFactory",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        44,
+        60
+      ],
+      "summary": "정산 흐름에서 consumerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "function",
+      "name": "kafkaListenerContainerFactory",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        67,
+        75
+      ],
+      "summary": "정산 흐름에서 kafkaListenerContainerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "class",
+      "name": "KafkaConsumerConfig",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        28,
+        76
+      ],
+      "summary": "정산 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java",
+      "type": "file",
+      "name": "PaymentCancelledPayload.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java",
+      "summary": "정산 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "class",
+      "name": "PaymentCancelledPayload",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java",
+      "lineRange": [
+        13,
+        27
+      ],
+      "summary": "정산 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java:stringRedisTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java:stringRedisTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java:RedisConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java:RedisConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java:merchantLimitRestClient",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java:merchantLimitRestClient",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java:ResilienceConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java:ResilienceConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java:MerchantLimitResponse",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java:MerchantLimitResponse",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java:MerchantLimitUpdatedPayload",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java:MerchantLimitUpdatedPayload",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java:CancelUsageCompensationJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java:CancelUsageCompensationJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java:CancelUsageHistoryJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java:CancelUsageHistoryJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java:MerchantCancelUsageJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java:MerchantCancelUsageJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    }
+  ]
+}

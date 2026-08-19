@@ -1,0 +1,2792 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 26,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 26,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 26,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "MerchantSettlementConfigRepository",
+          "startLine": 10,
+          "endLine": 15,
+          "methods": [
+            "findRate",
+            "upsert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantSettlementConfigRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "OperationAlertPort",
+          "startLine": 7,
+          "endLine": 9,
+          "methods": [
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OperationAlertPort",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 29,
+      "classes": [
+        {
+          "name": "PaymentSettlementPort",
+          "startLine": 13,
+          "endLine": 34,
+          "methods": [
+            "fetch"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentSettlementPort",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "ProcessedSettlementEventRepository",
+          "startLine": 3,
+          "endLine": 9,
+          "methods": [
+            "existsByEventId",
+            "save"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessedSettlementEventRepository",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "ReserveRepository",
+          "startLine": 13,
+          "endLine": 22,
+          "methods": [
+            "currentHeld",
+            "insertHeld",
+            "findBySettlementId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReserveRepository",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "SettlementLineRepository",
+          "startLine": 10,
+          "endLine": 20,
+          "methods": [
+            "insert",
+            "findBySettlementId",
+            "sumLinesByType"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SettlementLineRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 28,
+      "classes": [
+        {
+          "name": "SettlementRepository",
+          "startLine": 10,
+          "endLine": 40,
+          "methods": [
+            "ensureRow",
+            "findId",
+            "findStatus",
+            "addCancelAmount",
+            "addGrossAmount",
+            "findByMerchant",
+            "findById",
+            "findFinalizable",
+            "finalizeOpen"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SettlementRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 69,
+      "functions": [
+        {
+          "name": "CancelLedgerService",
+          "startLine": 31,
+          "endLine": 41,
+          "params": [
+            "settlementRepo",
+            "lineRepo",
+            "processedRepo",
+            "operationAlertPort",
+            "transactionTemplate"
+          ]
+        },
+        {
+          "name": "record",
+          "startLine": 43,
+          "endLine": 73,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "isFinalized",
+          "startLine": 75,
+          "endLine": 79,
+          "params": [
+            "merchantId",
+            "periodStart"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelLedgerService",
+          "startLine": 22,
+          "endLine": 80,
+          "methods": [
+            "CancelLedgerService",
+            "record",
+            "isFinalized"
+          ],
+          "properties": [
+            "settlementRepo",
+            "lineRepo",
+            "processedRepo",
+            "operationAlertPort",
+            "transactionTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelLedgerService",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "record",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "CancelLedgerService",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "record",
+          "callee": "transactionTemplate.execute",
+          "lineNumber": 45
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 46
+        },
+        {
+          "caller": "record",
+          "callee": "processedRepo.existsByEventId",
+          "lineNumber": 47
+        },
+        {
+          "caller": "record",
+          "callee": "SettlementWeek.mondayOf",
+          "lineNumber": 50
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.occurredAt",
+          "lineNumber": 50
+        },
+        {
+          "caller": "record",
+          "callee": "SettlementWeek.sundayOf",
+          "lineNumber": 51
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.occurredAt",
+          "lineNumber": 51
+        },
+        {
+          "caller": "record",
+          "callee": "settlementRepo.ensureRow",
+          "lineNumber": 53
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 53
+        },
+        {
+          "caller": "record",
+          "callee": "settlementRepo.findId",
+          "lineNumber": 54
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 54
+        },
+        {
+          "caller": "record",
+          "callee": "isFinalized",
+          "lineNumber": 59
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 59
+        },
+        {
+          "caller": "record",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 60
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 60
+        },
+        {
+          "caller": "record",
+          "callee": "lineRepo.insert",
+          "lineNumber": 66
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.paymentKey",
+          "lineNumber": 66
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.cancelAmount",
+          "lineNumber": 67
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.occurredAt",
+          "lineNumber": 67
+        },
+        {
+          "caller": "record",
+          "callee": "settlementRepo.addCancelAmount",
+          "lineNumber": 68
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.cancelAmount",
+          "lineNumber": 68
+        },
+        {
+          "caller": "record",
+          "callee": "processedRepo.save",
+          "lineNumber": 70
+        },
+        {
+          "caller": "isFinalized",
+          "callee": "settlementRepo.findStatus(merchantId, periodStart)\n            .filter(\"FINALIZED\"::equals).isPresent",
+          "lineNumber": 76
+        },
+        {
+          "caller": "isFinalized",
+          "callee": "settlementRepo.findStatus(merchantId, periodStart).filter",
+          "lineNumber": 76
+        },
+        {
+          "caller": "isFinalized",
+          "callee": "settlementRepo.findStatus",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "getReserve",
+          "startLine": 19,
+          "endLine": 23,
+          "params": [
+            "settlementId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ReserveQueryService",
+          "startLine": 13,
+          "endLine": 24,
+          "methods": [
+            "getReserve"
+          ],
+          "properties": [
+            "reserveRepo"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getReserve",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "ReserveQueryService",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getReserve",
+          "callee": "reserveRepo.findBySettlementId(settlementId).orElseThrow",
+          "lineNumber": 21
+        },
+        {
+          "caller": "getReserve",
+          "callee": "reserveRepo.findBySettlementId",
+          "lineNumber": 21
+        },
+        {
+          "caller": "getReserve",
+          "callee": "new ReserveNotFoundException",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 78,
+      "nonEmptyLines": 67,
+      "functions": [
+        {
+          "name": "SaleLedgerService",
+          "startLine": 29,
+          "endLine": 39,
+          "params": [
+            "settlementRepo",
+            "lineRepo",
+            "processedRepo",
+            "operationAlertPort",
+            "transactionTemplate"
+          ]
+        },
+        {
+          "name": "record",
+          "startLine": 41,
+          "endLine": 71,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "isFinalized",
+          "startLine": 73,
+          "endLine": 77,
+          "params": [
+            "merchantId",
+            "periodStart"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SaleLedgerService",
+          "startLine": 20,
+          "endLine": 78,
+          "methods": [
+            "SaleLedgerService",
+            "record",
+            "isFinalized"
+          ],
+          "properties": [
+            "settlementRepo",
+            "lineRepo",
+            "processedRepo",
+            "operationAlertPort",
+            "transactionTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SaleLedgerService",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "record",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "SaleLedgerService",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "record",
+          "callee": "transactionTemplate.execute",
+          "lineNumber": 43
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.paymentKey",
+          "lineNumber": 44
+        },
+        {
+          "caller": "record",
+          "callee": "processedRepo.existsByEventId",
+          "lineNumber": 45
+        },
+        {
+          "caller": "record",
+          "callee": "SettlementWeek.mondayOf",
+          "lineNumber": 48
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.occurredAt",
+          "lineNumber": 48
+        },
+        {
+          "caller": "record",
+          "callee": "SettlementWeek.sundayOf",
+          "lineNumber": 49
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.occurredAt",
+          "lineNumber": 49
+        },
+        {
+          "caller": "record",
+          "callee": "settlementRepo.ensureRow",
+          "lineNumber": 51
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 51
+        },
+        {
+          "caller": "record",
+          "callee": "settlementRepo.findId",
+          "lineNumber": 52
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 52
+        },
+        {
+          "caller": "record",
+          "callee": "isFinalized",
+          "lineNumber": 57
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 57
+        },
+        {
+          "caller": "record",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 58
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 58
+        },
+        {
+          "caller": "record",
+          "callee": "lineRepo.insert",
+          "lineNumber": 64
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.paymentKey",
+          "lineNumber": 64
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.grossAmount",
+          "lineNumber": 65
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.occurredAt",
+          "lineNumber": 65
+        },
+        {
+          "caller": "record",
+          "callee": "settlementRepo.addGrossAmount",
+          "lineNumber": 66
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.merchantId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "record",
+          "callee": "cmd.grossAmount",
+          "lineNumber": 66
+        },
+        {
+          "caller": "record",
+          "callee": "processedRepo.save",
+          "lineNumber": 68
+        },
+        {
+          "caller": "isFinalized",
+          "callee": "settlementRepo.findStatus(merchantId, periodStart)\n            .filter(\"FINALIZED\"::equals).isPresent",
+          "lineNumber": 74
+        },
+        {
+          "caller": "isFinalized",
+          "callee": "settlementRepo.findStatus(merchantId, periodStart).filter",
+          "lineNumber": 74
+        },
+        {
+          "caller": "isFinalized",
+          "callee": "settlementRepo.findStatus",
+          "lineNumber": 74
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "getRate",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "merchantId"
+          ]
+        },
+        {
+          "name": "setRate",
+          "startLine": 28,
+          "endLine": 40,
+          "params": [
+            "merchantId",
+            "feeRate"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SettlementConfigService",
+          "startLine": 15,
+          "endLine": 41,
+          "methods": [
+            "getRate",
+            "setRate"
+          ],
+          "properties": [
+            "ONE",
+            "repo"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getRate",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "setRate",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "SettlementConfigService",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getRate",
+          "callee": "repo.findRate",
+          "lineNumber": 25
+        },
+        {
+          "caller": "setRate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 31
+        },
+        {
+          "caller": "setRate",
+          "callee": "feeRate.signum",
+          "lineNumber": 33
+        },
+        {
+          "caller": "setRate",
+          "callee": "feeRate.compareTo",
+          "lineNumber": 33
+        },
+        {
+          "caller": "setRate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "setRate",
+          "callee": "feeRate.scale",
+          "lineNumber": 36
+        },
+        {
+          "caller": "setRate",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 37
+        },
+        {
+          "caller": "setRate",
+          "callee": "repo.upsert",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "SettlementQueryService",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "settlementRepo",
+            "lineRepo"
+          ]
+        },
+        {
+          "name": "list",
+          "startLine": 29,
+          "endLine": 38,
+          "params": [
+            "merchantId",
+            "status"
+          ]
+        },
+        {
+          "name": "detail",
+          "startLine": 40,
+          "endLine": 45,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SettlementQueryService",
+          "startLine": 15,
+          "endLine": 48,
+          "methods": [
+            "SettlementQueryService",
+            "list",
+            "detail"
+          ],
+          "properties": [
+            "VALID_STATUSES",
+            "settlementRepo",
+            "lineRepo"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SettlementQueryService",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "list",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "detail",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "SettlementQueryService",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "list",
+          "callee": "status.isBlank",
+          "lineNumber": 31
+        },
+        {
+          "caller": "list",
+          "callee": "status.trim().toUpperCase",
+          "lineNumber": 32
+        },
+        {
+          "caller": "list",
+          "callee": "status.trim",
+          "lineNumber": 32
+        },
+        {
+          "caller": "list",
+          "callee": "VALID_STATUSES.contains",
+          "lineNumber": 33
+        },
+        {
+          "caller": "list",
+          "callee": "new InvalidStatusException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "list",
+          "callee": "settlementRepo.findByMerchant",
+          "lineNumber": 37
+        },
+        {
+          "caller": "detail",
+          "callee": "settlementRepo.findById(id).orElseThrow",
+          "lineNumber": 41
+        },
+        {
+          "caller": "detail",
+          "callee": "settlementRepo.findById",
+          "lineNumber": 41
+        },
+        {
+          "caller": "detail",
+          "callee": "new SettlementNotFoundException",
+          "lineNumber": 42
+        },
+        {
+          "caller": "detail",
+          "callee": "lineRepo.findBySettlementId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "detail",
+          "callee": "new SettlementWithLines",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 137,
+      "nonEmptyLines": 122,
+      "functions": [
+        {
+          "name": "SettlementReconcileService",
+          "startLine": 48,
+          "endLine": 62,
+          "params": [
+            "settlementRepo",
+            "lineRepo",
+            "paymentSettlementPort",
+            "saleLedger",
+            "cancelLedger",
+            "configService",
+            "alertPort"
+          ]
+        },
+        {
+          "name": "runOnce",
+          "startLine": 65,
+          "endLine": 76,
+          "params": [
+            "cutoff"
+          ]
+        },
+        {
+          "name": "reconcileAndFinalize",
+          "startLine": 78,
+          "endLine": 127,
+          "params": [
+            "h"
+          ]
+        },
+        {
+          "name": "backfill",
+          "startLine": 130,
+          "endLine": 136,
+          "params": [
+            "record"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SettlementReconcileService",
+          "startLine": 33,
+          "endLine": 137,
+          "methods": [
+            "SettlementReconcileService",
+            "runOnce",
+            "reconcileAndFinalize",
+            "backfill"
+          ],
+          "properties": [
+            "KST",
+            "ZERO",
+            "settlementRepo",
+            "lineRepo",
+            "paymentSettlementPort",
+            "saleLedger",
+            "cancelLedger",
+            "configService",
+            "alertPort"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SettlementReconcileService",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "runOnce",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "reconcileAndFinalize",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "SettlementReconcileService",
+          "line": 33,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "runOnce",
+          "callee": "settlementRepo.findFinalizable",
+          "lineNumber": 66
+        },
+        {
+          "caller": "runOnce",
+          "callee": "log.info",
+          "lineNumber": 67
+        },
+        {
+          "caller": "runOnce",
+          "callee": "targets.size",
+          "lineNumber": 67
+        },
+        {
+          "caller": "runOnce",
+          "callee": "reconcileAndFinalize",
+          "lineNumber": 70
+        },
+        {
+          "caller": "runOnce",
+          "callee": "log.error",
+          "lineNumber": 73
+        },
+        {
+          "caller": "runOnce",
+          "callee": "h.getId",
+          "lineNumber": 73
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getPeriodStart().atStartOfDay(KST).toInstant",
+          "lineNumber": 79
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getPeriodStart().atStartOfDay",
+          "lineNumber": 79
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getPeriodStart",
+          "lineNumber": 79
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getPeriodEnd().plusDays(1).atStartOfDay(KST).toInstant",
+          "lineNumber": 80
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getPeriodEnd().plusDays(1).atStartOfDay",
+          "lineNumber": 80
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getPeriodEnd().plusDays",
+          "lineNumber": 80
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getPeriodEnd",
+          "lineNumber": 80
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "paymentSettlementPort.fetch",
+          "lineNumber": 83
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getMerchantId",
+          "lineNumber": 83
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.createdAt().isBefore",
+          "lineNumber": 87
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.createdAt",
+          "lineNumber": 87
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.createdAt().isBefore",
+          "lineNumber": 87
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.createdAt",
+          "lineNumber": 87
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "backfill",
+          "lineNumber": 88
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "saleLedger.record",
+          "lineNumber": 88
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "new RecordSaleUseCase.Command",
+          "lineNumber": 88
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.paymentKey",
+          "lineNumber": 89
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getMerchantId",
+          "lineNumber": 89
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.totalAmount",
+          "lineNumber": 89
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.createdAt",
+          "lineNumber": 89
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.cancels",
+          "lineNumber": 91
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "backfill",
+          "lineNumber": 92
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "cancelLedger.record",
+          "lineNumber": 92
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "new RecordCancellationUseCase.Command",
+          "lineNumber": 92
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "c.cancelRequestId",
+          "lineNumber": 93
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "p.paymentKey",
+          "lineNumber": 93
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getMerchantId",
+          "lineNumber": 93
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "c.cancelAmount",
+          "lineNumber": 93
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "c.completedAt",
+          "lineNumber": 93
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "lineRepo.sumLinesByType",
+          "lineNumber": 98
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getId",
+          "lineNumber": 98
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "sums.getOrDefault",
+          "lineNumber": 99
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "sums.getOrDefault",
+          "lineNumber": 100
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "settlementRepo.findById(h.getId()).orElse",
+          "lineNumber": 101
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "settlementRepo.findById",
+          "lineNumber": 101
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getId",
+          "lineNumber": 101
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "gross.compareTo",
+          "lineNumber": 102
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "fresh.getGrossAmount",
+          "lineNumber": 102
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "cancel.compareTo",
+          "lineNumber": 102
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "fresh.getCancelAmount",
+          "lineNumber": 102
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "alertPort.alert",
+          "lineNumber": 103
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getId",
+          "lineNumber": 103
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "fresh.getGrossAmount",
+          "lineNumber": 104
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "fresh.getCancelAmount",
+          "lineNumber": 105
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "configService.getRate",
+          "lineNumber": 110
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getMerchantId",
+          "lineNumber": 110
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "rate.isEmpty",
+          "lineNumber": 111
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "alertPort.alert",
+          "lineNumber": 112
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getMerchantId",
+          "lineNumber": 112
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getId",
+          "lineNumber": 112
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "SettlementFeeCalculator.compute",
+          "lineNumber": 117
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "rate.get",
+          "lineNumber": 117
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "settlementRepo.finalizeOpen",
+          "lineNumber": 120
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getId",
+          "lineNumber": 120
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "r.fee",
+          "lineNumber": 120
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "r.vat",
+          "lineNumber": 120
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "r.net",
+          "lineNumber": 120
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "alertPort.alert",
+          "lineNumber": 122
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getId",
+          "lineNumber": 122
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "log.info",
+          "lineNumber": 124
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "h.getId",
+          "lineNumber": 125
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "r.fee",
+          "lineNumber": 125
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "r.vat",
+          "lineNumber": 125
+        },
+        {
+          "caller": "reconcileAndFinalize",
+          "callee": "r.net",
+          "lineNumber": 125
+        },
+        {
+          "caller": "backfill",
+          "callee": "record.run",
+          "lineNumber": 132
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/usecase/RecordCancellationUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "RecordCancellationUseCase",
+          "startLine": 10,
+          "endLine": 21,
+          "methods": [
+            "record"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RecordCancellationUseCase",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/application/usecase/RecordSaleUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "RecordSaleUseCase",
+          "startLine": 10,
+          "endLine": 20,
+          "methods": [
+            "record"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RecordSaleUseCase",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/domain/entity/Reserve.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "Reserve",
+          "startLine": 29,
+          "endLine": 45,
+          "params": [
+            "id",
+            "settlementId",
+            "merchantId",
+            "amount",
+            "status",
+            "holdUntil",
+            "transferRef",
+            "attemptCount",
+            "lastError",
+            "heldAt",
+            "releasedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 47,
+          "endLine": 53,
+          "params": [
+            "id",
+            "settlementId",
+            "merchantId",
+            "amount",
+            "status",
+            "holdUntil",
+            "transferRef",
+            "attemptCount",
+            "lastError",
+            "heldAt",
+            "releasedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Reserve",
+          "startLine": 13,
+          "endLine": 54,
+          "methods": [
+            "Reserve",
+            "reconstruct"
+          ],
+          "properties": [
+            "id",
+            "settlementId",
+            "merchantId",
+            "amount",
+            "status",
+            "holdUntil",
+            "transferRef",
+            "attemptCount",
+            "lastError",
+            "heldAt",
+            "releasedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "reconstruct",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "Reserve",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "reconstruct",
+          "callee": "new Reserve",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/domain/entity/Settlement.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "Settlement",
+          "startLine": 29,
+          "endLine": 46,
+          "params": [
+            "id",
+            "merchantId",
+            "periodStart",
+            "periodEnd",
+            "grossAmount",
+            "cancelAmount",
+            "feeAmount",
+            "vatAmount",
+            "netAmount",
+            "status",
+            "finalizedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "id",
+            "merchantId",
+            "periodStart",
+            "periodEnd",
+            "grossAmount",
+            "cancelAmount",
+            "feeAmount",
+            "vatAmount",
+            "netAmount",
+            "status",
+            "finalizedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "Settlement",
+          "startLine": 13,
+          "endLine": 55,
+          "methods": [
+            "Settlement",
+            "reconstruct"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "periodStart",
+            "periodEnd",
+            "grossAmount",
+            "cancelAmount",
+            "feeAmount",
+            "vatAmount",
+            "netAmount",
+            "status",
+            "finalizedAt",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "reconstruct",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "Settlement",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "reconstruct",
+          "callee": "new Settlement",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/domain/entity/SettlementLine.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "SettlementLine",
+          "startLine": 20,
+          "endLine": 30,
+          "params": [
+            "id",
+            "settlementId",
+            "type",
+            "paymentKey",
+            "amount",
+            "eventId",
+            "occurredAt",
+            "createdAt"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 32,
+          "endLine": 35,
+          "params": [
+            "id",
+            "settlementId",
+            "type",
+            "paymentKey",
+            "amount",
+            "eventId",
+            "occurredAt",
+            "createdAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SettlementLine",
+          "startLine": 9,
+          "endLine": 36,
+          "methods": [
+            "SettlementLine",
+            "reconstruct"
+          ],
+          "properties": [
+            "id",
+            "settlementId",
+            "type",
+            "paymentKey",
+            "amount",
+            "eventId",
+            "occurredAt",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "reconstruct",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "SettlementLine",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "reconstruct",
+          "callee": "new SettlementLine",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/domain/service/SettlementFeeCalculator.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "SettlementFeeCalculator",
+          "startLine": 23,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "compute",
+          "startLine": 27,
+          "endLine": 33,
+          "params": [
+            "gross",
+            "cancel",
+            "feeRate"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SettlementFeeCalculator",
+          "startLine": 18,
+          "endLine": 34,
+          "methods": [
+            "SettlementFeeCalculator",
+            "compute"
+          ],
+          "properties": [
+            "VAT_RATE",
+            "SCALE"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "compute",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "SettlementFeeCalculator",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "compute",
+          "callee": "gross.multiply(feeRate).setScale",
+          "lineNumber": 28
+        },
+        {
+          "caller": "compute",
+          "callee": "gross.multiply",
+          "lineNumber": 28
+        },
+        {
+          "caller": "compute",
+          "callee": "fee.multiply(VAT_RATE).setScale",
+          "lineNumber": 29
+        },
+        {
+          "caller": "compute",
+          "callee": "fee.multiply",
+          "lineNumber": 29
+        },
+        {
+          "caller": "compute",
+          "callee": "gross.subtract(cancel).subtract(fee).subtract(vat).setScale",
+          "lineNumber": 30
+        },
+        {
+          "caller": "compute",
+          "callee": "gross.subtract(cancel).subtract(fee).subtract",
+          "lineNumber": 30
+        },
+        {
+          "caller": "compute",
+          "callee": "gross.subtract(cancel).subtract",
+          "lineNumber": 30
+        },
+        {
+          "caller": "compute",
+          "callee": "gross.subtract",
+          "lineNumber": 30
+        },
+        {
+          "caller": "compute",
+          "callee": "new Result",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/domain/service/SettlementWeek.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "SettlementWeek",
+          "startLine": 20,
+          "endLine": 20,
+          "params": []
+        },
+        {
+          "name": "mondayOf",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "occurredAt"
+          ]
+        },
+        {
+          "name": "sundayOf",
+          "startLine": 29,
+          "endLine": 31,
+          "params": [
+            "occurredAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SettlementWeek",
+          "startLine": 16,
+          "endLine": 32,
+          "methods": [
+            "SettlementWeek",
+            "mondayOf",
+            "sundayOf"
+          ],
+          "properties": [
+            "KST"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "mondayOf",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "sundayOf",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "SettlementWeek",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "mondayOf",
+          "callee": "occurredAt.atZone(KST).toLocalDate",
+          "lineNumber": 24
+        },
+        {
+          "caller": "mondayOf",
+          "callee": "occurredAt.atZone",
+          "lineNumber": 24
+        },
+        {
+          "caller": "mondayOf",
+          "callee": "kstDate.with",
+          "lineNumber": 25
+        },
+        {
+          "caller": "mondayOf",
+          "callee": "TemporalAdjusters.previousOrSame",
+          "lineNumber": 25
+        },
+        {
+          "caller": "sundayOf",
+          "callee": "mondayOf(occurredAt).plusDays",
+          "lineNumber": 30
+        },
+        {
+          "caller": "sundayOf",
+          "callee": "mondayOf",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "alert",
+          "startLine": 12,
+          "endLine": 15,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LogOperationAlertAdapter",
+          "startLine": 8,
+          "endLine": 16,
+          "methods": [
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "alert",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "LogOperationAlertAdapter",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "alert",
+          "callee": "log.error",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 88,
+      "nonEmptyLines": 77,
+      "functions": [
+        {
+          "name": "transactionManager",
+          "startLine": 40,
+          "endLine": 43,
+          "params": [
+            "emf"
+          ]
+        },
+        {
+          "name": "settlementRepository",
+          "startLine": 45,
+          "endLine": 48,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "settlementLineRepository",
+          "startLine": 50,
+          "endLine": 53,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "processedSettlementEventRepository",
+          "startLine": 55,
+          "endLine": 59,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "merchantSettlementConfigRepository",
+          "startLine": 61,
+          "endLine": 65,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "payoutRepository",
+          "startLine": 67,
+          "endLine": 70,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "merchantPayoutAccountRepository",
+          "startLine": 72,
+          "endLine": 76,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "merchantReserveConfigRepository",
+          "startLine": 78,
+          "endLine": 82,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "reserveRepository",
+          "startLine": 84,
+          "endLine": 87,
+          "params": [
+            "jpa"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PersistenceConfig",
+          "startLine": 35,
+          "endLine": 88,
+          "methods": [
+            "transactionManager",
+            "settlementRepository",
+            "settlementLineRepository",
+            "processedSettlementEventRepository",
+            "merchantSettlementConfigRepository",
+            "payoutRepository",
+            "merchantPayoutAccountRepository",
+            "merchantReserveConfigRepository",
+            "reserveRepository"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "transactionManager",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "settlementRepository",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "settlementLineRepository",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "processedSettlementEventRepository",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "merchantSettlementConfigRepository",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "payoutRepository",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "merchantPayoutAccountRepository",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "merchantReserveConfigRepository",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "reserveRepository",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "PersistenceConfig",
+          "line": 35,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "transactionManager",
+          "callee": "new JpaTransactionManager",
+          "lineNumber": 42
+        },
+        {
+          "caller": "settlementRepository",
+          "callee": "new SettlementRepositoryImpl",
+          "lineNumber": 47
+        },
+        {
+          "caller": "settlementLineRepository",
+          "callee": "new SettlementLineRepositoryImpl",
+          "lineNumber": 52
+        },
+        {
+          "caller": "processedSettlementEventRepository",
+          "callee": "new ProcessedSettlementEventRepositoryImpl",
+          "lineNumber": 58
+        },
+        {
+          "caller": "merchantSettlementConfigRepository",
+          "callee": "new MerchantSettlementConfigRepositoryImpl",
+          "lineNumber": 64
+        },
+        {
+          "caller": "payoutRepository",
+          "callee": "new PayoutRepositoryImpl",
+          "lineNumber": 69
+        },
+        {
+          "caller": "merchantPayoutAccountRepository",
+          "callee": "new MerchantPayoutAccountRepositoryImpl",
+          "lineNumber": 75
+        },
+        {
+          "caller": "merchantReserveConfigRepository",
+          "callee": "new MerchantReserveConfigRepositoryImpl",
+          "lineNumber": 81
+        },
+        {
+          "caller": "reserveRepository",
+          "callee": "new ReserveRepositoryImpl",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 24,
+        "exportCount": 10,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/http/PaymentSettlementHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "PaymentSettlementHttpClient",
+          "startLine": 35,
+          "endLine": 41,
+          "params": [
+            "restTemplate",
+            "baseUrl"
+          ]
+        },
+        {
+          "name": "fetch",
+          "startLine": 55,
+          "endLine": 66,
+          "params": [
+            "merchantId",
+            "from",
+            "to"
+          ]
+        },
+        {
+          "name": "toView",
+          "startLine": 68,
+          "endLine": 78,
+          "params": [
+            "r"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentSettlementHttpClient",
+          "startLine": 25,
+          "endLine": 79,
+          "methods": [
+            "PaymentSettlementHttpClient",
+            "fetch",
+            "toView"
+          ],
+          "properties": [
+            "LIST_TYPE",
+            "restTemplate",
+            "baseUrl"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentSettlementHttpClient",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "fetch",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentSettlementHttpClient",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "fetch",
+          "callee": "restTemplate.exchange(\n            url, HttpMethod.GET, null, LIST_TYPE,\n            merchantId, from.toString(), to.toString()).getBody",
+          "lineNumber": 58
+        },
+        {
+          "caller": "fetch",
+          "callee": "restTemplate.exchange",
+          "lineNumber": 58
+        },
+        {
+          "caller": "fetch",
+          "callee": "from.toString",
+          "lineNumber": 60
+        },
+        {
+          "caller": "fetch",
+          "callee": "to.toString",
+          "lineNumber": 60
+        },
+        {
+          "caller": "fetch",
+          "callee": "new IllegalStateException",
+          "lineNumber": 62
+        },
+        {
+          "caller": "fetch",
+          "callee": "body.stream().map(PaymentSettlementHttpClient::toView).toList",
+          "lineNumber": 65
+        },
+        {
+          "caller": "fetch",
+          "callee": "body.stream().map",
+          "lineNumber": 65
+        },
+        {
+          "caller": "fetch",
+          "callee": "body.stream",
+          "lineNumber": 65
+        },
+        {
+          "caller": "toView",
+          "callee": "r.cancels",
+          "lineNumber": 70
+        },
+        {
+          "caller": "toView",
+          "callee": "List.of",
+          "lineNumber": 70
+        },
+        {
+          "caller": "toView",
+          "callee": "r.cancels",
+          "lineNumber": 70
+        },
+        {
+          "caller": "toView",
+          "callee": "cancels.stream()\n            .map(c -> new CancelView(\n                String.valueOf(c.cancelRequestId()), c.cancelAmount(), Instant.parse(c.completedAt()))).toList",
+          "lineNumber": 71
+        },
+        {
+          "caller": "toView",
+          "callee": "cancels.stream().map",
+          "lineNumber": 71
+        },
+        {
+          "caller": "toView",
+          "callee": "cancels.stream",
+          "lineNumber": 71
+        },
+        {
+          "caller": "toView",
+          "callee": "new CancelView",
+          "lineNumber": 72
+        },
+        {
+          "caller": "toView",
+          "callee": "String.valueOf",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toView",
+          "callee": "c.cancelRequestId",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toView",
+          "callee": "c.cancelAmount",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toView",
+          "callee": "Instant.parse",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toView",
+          "callee": "c.completedAt",
+          "lineNumber": 73
+        },
+        {
+          "caller": "toView",
+          "callee": "new PaymentView",
+          "lineNumber": 75
+        },
+        {
+          "caller": "toView",
+          "callee": "r.paymentKey",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toView",
+          "callee": "r.merchantId",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toView",
+          "callee": "r.totalAmount",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toView",
+          "callee": "r.status",
+          "lineNumber": 76
+        },
+        {
+          "caller": "toView",
+          "callee": "Instant.parse",
+          "lineNumber": 77
+        },
+        {
+          "caller": "toView",
+          "callee": "r.createdAt",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledSettlementConsumer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "consume",
+          "startLine": 31,
+          "endLine": 62,
+          "params": [
+            "record",
+            "ack"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentCancelledSettlementConsumer",
+          "startLine": 23,
+          "endLine": 63,
+          "methods": [
+            "consume"
+          ],
+          "properties": [
+            "useCase",
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consume",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentCancelledSettlementConsumer",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consume",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream()\n                .map(PaymentCancelledPayload.CancelledItem::itemAmount).reduce",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream().map",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "useCase.record",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consume",
+          "callee": "new Command",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.paymentKey",
+          "lineNumber": 47
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.merchantId",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "Instant.parse",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledAt",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 53
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 54
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 56
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 56
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 57
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 59
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 59
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCompletedSettlementConsumer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "consume",
+          "startLine": 31,
+          "endLine": 57,
+          "params": [
+            "record",
+            "ack"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentCompletedSettlementConsumer",
+          "startLine": 23,
+          "endLine": 58,
+          "methods": [
+            "consume"
+          ],
+          "properties": [
+            "useCase",
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consume",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentCompletedSettlementConsumer",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consume",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "useCase.record",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "new Command",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.paymentKey",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.merchantId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.totalAmount",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "Instant.parse",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.completedAt",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 47
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.paymentKey",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.totalAmount",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 54
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/MerchantPayoutAccountJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "MerchantPayoutAccountJpaRepository",
+          "startLine": 10,
+          "endLine": 30,
+          "methods": [
+            "findByMerchantIdAndActiveTrue",
+            "upsert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantPayoutAccountJpaRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,2774 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 19,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 19,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 19,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "CancelOutboxInspectionUseCase",
+          "startLine": 7,
+          "endLine": 19,
+          "methods": [
+            "inspect"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxInspectionUseCase",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveQuery",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [
+            "get"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveQuery",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveUseCase",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [
+            "request"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 127,
+      "nonEmptyLines": 114,
+      "functions": [
+        {
+          "name": "CancelOutboxRedrive",
+          "startLine": 20,
+          "endLine": 20,
+          "params": []
+        },
+        {
+          "name": "requested",
+          "startLine": 22,
+          "endLine": 31,
+          "params": [
+            "sourceOutboxId",
+            "requestedBy",
+            "reason",
+            "requestedAt"
+          ]
+        },
+        {
+          "name": "reconstitute",
+          "startLine": 33,
+          "endLine": 54,
+          "params": [
+            "id",
+            "sourceOutboxId",
+            "status",
+            "failureStage",
+            "requestedBy",
+            "reason",
+            "requestedAt",
+            "startedAt",
+            "completedAt",
+            "result",
+            "lastError",
+            "beforeState",
+            "afterState"
+          ]
+        },
+        {
+          "name": "start",
+          "startLine": 56,
+          "endLine": 61,
+          "params": [
+            "startedAt"
+          ]
+        },
+        {
+          "name": "resolve",
+          "startLine": 63,
+          "endLine": 70,
+          "params": [
+            "result",
+            "afterState",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "resolveAlreadyApplied",
+          "startLine": 72,
+          "endLine": 79,
+          "params": [
+            "result",
+            "afterState",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "reject",
+          "startLine": 81,
+          "endLine": 89,
+          "params": [
+            "lastError",
+            "beforeState",
+            "afterState",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "fail",
+          "startLine": 91,
+          "endLine": 102,
+          "params": [
+            "failureStage",
+            "lastError",
+            "beforeState",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "requireRedriving",
+          "startLine": 104,
+          "endLine": 106,
+          "params": []
+        },
+        {
+          "name": "requireStatus",
+          "startLine": 108,
+          "endLine": 112,
+          "params": [
+            "expected"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 114,
+          "endLine": 114,
+          "params": []
+        },
+        {
+          "name": "getSourceOutboxId",
+          "startLine": 115,
+          "endLine": 115,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 116,
+          "endLine": 116,
+          "params": []
+        },
+        {
+          "name": "getFailureStage",
+          "startLine": 117,
+          "endLine": 117,
+          "params": []
+        },
+        {
+          "name": "getRequestedBy",
+          "startLine": 118,
+          "endLine": 118,
+          "params": []
+        },
+        {
+          "name": "getReason",
+          "startLine": 119,
+          "endLine": 119,
+          "params": []
+        },
+        {
+          "name": "getRequestedAt",
+          "startLine": 120,
+          "endLine": 120,
+          "params": []
+        },
+        {
+          "name": "getStartedAt",
+          "startLine": 121,
+          "endLine": 121,
+          "params": []
+        },
+        {
+          "name": "getCompletedAt",
+          "startLine": 122,
+          "endLine": 122,
+          "params": []
+        },
+        {
+          "name": "getResult",
+          "startLine": 123,
+          "endLine": 123,
+          "params": []
+        },
+        {
+          "name": "getLastError",
+          "startLine": 124,
+          "endLine": 124,
+          "params": []
+        },
+        {
+          "name": "getBeforeState",
+          "startLine": 125,
+          "endLine": 125,
+          "params": []
+        },
+        {
+          "name": "getAfterState",
+          "startLine": 126,
+          "endLine": 126,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedrive",
+          "startLine": 5,
+          "endLine": 127,
+          "methods": [
+            "CancelOutboxRedrive",
+            "requested",
+            "reconstitute",
+            "start",
+            "resolve",
+            "resolveAlreadyApplied",
+            "reject",
+            "fail",
+            "requireRedriving",
+            "requireStatus",
+            "getId",
+            "getSourceOutboxId",
+            "getStatus",
+            "getFailureStage",
+            "getRequestedBy",
+            "getReason",
+            "getRequestedAt",
+            "getStartedAt",
+            "getCompletedAt",
+            "getResult",
+            "getLastError",
+            "getBeforeState",
+            "getAfterState"
+          ],
+          "properties": [
+            "id",
+            "sourceOutboxId",
+            "status",
+            "failureStage",
+            "requestedBy",
+            "reason",
+            "requestedAt",
+            "startedAt",
+            "completedAt",
+            "result",
+            "lastError",
+            "beforeState",
+            "afterState"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "requested",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "reconstitute",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "start",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "resolve",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "resolveAlreadyApplied",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "reject",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "fail",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 114,
+          "isDefault": false
+        },
+        {
+          "name": "getSourceOutboxId",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 116,
+          "isDefault": false
+        },
+        {
+          "name": "getFailureStage",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestedBy",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "getReason",
+          "line": 119,
+          "isDefault": false
+        },
+        {
+          "name": "getRequestedAt",
+          "line": 120,
+          "isDefault": false
+        },
+        {
+          "name": "getStartedAt",
+          "line": 121,
+          "isDefault": false
+        },
+        {
+          "name": "getCompletedAt",
+          "line": 122,
+          "isDefault": false
+        },
+        {
+          "name": "getResult",
+          "line": 123,
+          "isDefault": false
+        },
+        {
+          "name": "getLastError",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "getBeforeState",
+          "line": 125,
+          "isDefault": false
+        },
+        {
+          "name": "getAfterState",
+          "line": 126,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedrive",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "requested",
+          "callee": "new CancelOutboxRedrive",
+          "lineNumber": 24
+        },
+        {
+          "caller": "reconstitute",
+          "callee": "new CancelOutboxRedrive",
+          "lineNumber": 39
+        },
+        {
+          "caller": "start",
+          "callee": "requireStatus",
+          "lineNumber": 57
+        },
+        {
+          "caller": "resolve",
+          "callee": "requireRedriving",
+          "lineNumber": 64
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "requireRedriving",
+          "lineNumber": 73
+        },
+        {
+          "caller": "reject",
+          "callee": "requireRedriving",
+          "lineNumber": 82
+        },
+        {
+          "caller": "fail",
+          "callee": "requireRedriving",
+          "lineNumber": 93
+        },
+        {
+          "caller": "fail",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 95
+        },
+        {
+          "caller": "requireRedriving",
+          "callee": "requireStatus",
+          "lineNumber": 105
+        },
+        {
+          "caller": "requireStatus",
+          "callee": "new IllegalStateException",
+          "lineNumber": 110
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 21,
+        "functionCount": 23,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveFailureCode",
+          "startLine": 3,
+          "endLine": 15,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveFailureCode",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveFailureStage",
+          "startLine": 3,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveFailureStage",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "isActive",
+          "startLine": 6,
+          "endLine": 8,
+          "params": []
+        },
+        {
+          "name": "isResolved",
+          "startLine": 10,
+          "endLine": 12,
+          "params": []
+        },
+        {
+          "name": "isTerminal",
+          "startLine": 14,
+          "endLine": 16,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveStatus",
+          "startLine": 3,
+          "endLine": 17,
+          "methods": [
+            "isActive",
+            "isResolved",
+            "isTerminal"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "isActive",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "isResolved",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "isTerminal",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedriveStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "isTerminal",
+          "callee": "isActive",
+          "lineNumber": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 85,
+      "nonEmptyLines": 74,
+      "functions": [
+        {
+          "name": "OrderCancelStatusHttpClient",
+          "startLine": 24,
+          "endLine": 32,
+          "params": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker"
+          ]
+        },
+        {
+          "name": "inspect",
+          "startLine": 34,
+          "endLine": 48,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "inspectDownstream",
+          "startLine": 50,
+          "endLine": 70,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "unknown",
+          "startLine": 72,
+          "endLine": 74,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderCancelStatusHttpClient",
+          "startLine": 16,
+          "endLine": 85,
+          "methods": [
+            "OrderCancelStatusHttpClient",
+            "inspect",
+            "inspectDownstream",
+            "unknown"
+          ],
+          "properties": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderCancelStatusHttpClient",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "inspect",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "OrderCancelStatusHttpClient",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspect",
+          "callee": "circuitBreaker.executeSupplier",
+          "lineNumber": 37
+        },
+        {
+          "caller": "inspect",
+          "callee": "inspectDownstream",
+          "lineNumber": 37
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn()\n                .addKeyValue(\"event\", \"cancel_restore_inspection_unavailable\")\n                .addKeyValue(\"leg\", \"order\")\n                .addKeyValue(\"exceptionClass\", t.getClass().getSimpleName()).log",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn()\n                .addKeyValue(\"event\", \"cancel_restore_inspection_unavailable\")\n                .addKeyValue(\"leg\", \"order\").addKeyValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn()\n                .addKeyValue(\"event\", \"cancel_restore_inspection_unavailable\").addKeyValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn().addKeyValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "t.getClass().getSimpleName",
+          "lineNumber": 44
+        },
+        {
+          "caller": "inspect",
+          "callee": "t.getClass",
+          "lineNumber": 44
+        },
+        {
+          "caller": "inspect",
+          "callee": "unknown",
+          "lineNumber": 46
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "restTemplate.postForEntity",
+          "lineNumber": 52
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new InspectRequest",
+          "lineNumber": 54
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.orderItemIds",
+          "lineNumber": 54
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 57
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getStatusCode",
+          "lineNumber": 57
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getBody",
+          "lineNumber": 57
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new IllegalStateException",
+          "lineNumber": 58
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getStatusCode",
+          "lineNumber": 59
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getBody",
+          "lineNumber": 61
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence",
+          "lineNumber": 62
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "List.of",
+          "lineNumber": 63
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence().stream()\n                .map(item -> new CancelRestoreLegSnapshot.Evidence(\n                    item.targetId(), item.currentStatus(), null, null)).toList",
+          "lineNumber": 64
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence().stream().map",
+          "lineNumber": 64
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence().stream",
+          "lineNumber": 64
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence",
+          "lineNumber": 64
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new CancelRestoreLegSnapshot.Evidence",
+          "lineNumber": 65
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.targetId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.currentStatus",
+          "lineNumber": 66
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new CancelRestoreLegSnapshot",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "CancelRestoreLegStatus.valueOf",
+          "lineNumber": 69
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.status",
+          "lineNumber": 69
+        },
+        {
+          "caller": "unknown",
+          "callee": "new CancelRestoreLegSnapshot",
+          "lineNumber": 73
+        },
+        {
+          "caller": "unknown",
+          "callee": "List.of",
+          "lineNumber": 73
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 83,
+      "functions": [
+        {
+          "name": "StockRestoreStatusHttpClient",
+          "startLine": 24,
+          "endLine": 32,
+          "params": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker"
+          ]
+        },
+        {
+          "name": "inspect",
+          "startLine": 34,
+          "endLine": 48,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "inspectDownstream",
+          "startLine": 50,
+          "endLine": 73,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "unknown",
+          "startLine": 75,
+          "endLine": 77,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockRestoreStatusHttpClient",
+          "startLine": 16,
+          "endLine": 95,
+          "methods": [
+            "StockRestoreStatusHttpClient",
+            "inspect",
+            "inspectDownstream",
+            "unknown"
+          ],
+          "properties": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "StockRestoreStatusHttpClient",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "inspect",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "StockRestoreStatusHttpClient",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspect",
+          "callee": "circuitBreaker.executeSupplier",
+          "lineNumber": 37
+        },
+        {
+          "caller": "inspect",
+          "callee": "inspectDownstream",
+          "lineNumber": 37
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn()\n                .addKeyValue(\"event\", \"cancel_restore_inspection_unavailable\")\n                .addKeyValue(\"leg\", \"stock\")\n                .addKeyValue(\"exceptionClass\", t.getClass().getSimpleName()).log",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn()\n                .addKeyValue(\"event\", \"cancel_restore_inspection_unavailable\")\n                .addKeyValue(\"leg\", \"stock\").addKeyValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn()\n                .addKeyValue(\"event\", \"cancel_restore_inspection_unavailable\").addKeyValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn().addKeyValue",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "log.atWarn",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "t.getClass().getSimpleName",
+          "lineNumber": 44
+        },
+        {
+          "caller": "inspect",
+          "callee": "t.getClass",
+          "lineNumber": 44
+        },
+        {
+          "caller": "inspect",
+          "callee": "unknown",
+          "lineNumber": 46
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new InspectRequest",
+          "lineNumber": 52
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.paymentKey",
+          "lineNumber": 53
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.items().stream()\n                .map(item -> new ItemRequest(item.skuId(), item.quantity())).toList",
+          "lineNumber": 54
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.items().stream().map",
+          "lineNumber": 54
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.items().stream",
+          "lineNumber": 54
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.items",
+          "lineNumber": 54
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new ItemRequest",
+          "lineNumber": 55
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.skuId",
+          "lineNumber": 55
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.quantity",
+          "lineNumber": 55
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "restTemplate.postForEntity",
+          "lineNumber": 57
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 58
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 59
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getStatusCode",
+          "lineNumber": 59
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getBody",
+          "lineNumber": 59
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new IllegalStateException",
+          "lineNumber": 60
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getStatusCode",
+          "lineNumber": 61
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "response.getBody",
+          "lineNumber": 63
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence",
+          "lineNumber": 64
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "List.of",
+          "lineNumber": 65
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence().stream()\n                .map(item -> new CancelRestoreLegSnapshot.Evidence(\n                    item.skuId(), item.currentStatus(), item.actualQuantity(),\n                    item.expectedQuantity())).toList",
+          "lineNumber": 66
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence().stream().map",
+          "lineNumber": 66
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence().stream",
+          "lineNumber": 66
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.evidence",
+          "lineNumber": 66
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new CancelRestoreLegSnapshot.Evidence",
+          "lineNumber": 67
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.skuId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.currentStatus",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.actualQuantity",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "item.expectedQuantity",
+          "lineNumber": 69
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "new CancelRestoreLegSnapshot",
+          "lineNumber": 71
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "CancelRestoreLegStatus.valueOf",
+          "lineNumber": 72
+        },
+        {
+          "caller": "inspectDownstream",
+          "callee": "body.status",
+          "lineNumber": 72
+        },
+        {
+          "caller": "unknown",
+          "callee": "new CancelRestoreLegSnapshot",
+          "lineNumber": 76
+        },
+        {
+          "caller": "unknown",
+          "callee": "List.of",
+          "lineNumber": 76
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 98,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "JacksonCancelEventPayloadParser",
+          "startLine": 21,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "JacksonCancelEventPayloadParser",
+          "startLine": 25,
+          "endLine": 27,
+          "params": [
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "parse",
+          "startLine": 29,
+          "endLine": 64,
+          "params": [
+            "payload"
+          ]
+        },
+        {
+          "name": "positiveLong",
+          "startLine": 66,
+          "endLine": 75,
+          "params": [
+            "node",
+            "field"
+          ]
+        },
+        {
+          "name": "positiveInt",
+          "startLine": 77,
+          "endLine": 86,
+          "params": [
+            "node",
+            "field"
+          ]
+        },
+        {
+          "name": "requiredText",
+          "startLine": 88,
+          "endLine": 93,
+          "params": [
+            "node",
+            "field"
+          ]
+        },
+        {
+          "name": "invalid",
+          "startLine": 95,
+          "endLine": 97,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JacksonCancelEventPayloadParser",
+          "startLine": 16,
+          "endLine": 98,
+          "methods": [
+            "JacksonCancelEventPayloadParser",
+            "JacksonCancelEventPayloadParser",
+            "parse",
+            "positiveLong",
+            "positiveInt",
+            "requiredText",
+            "invalid"
+          ],
+          "properties": [
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "JacksonCancelEventPayloadParser",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "parse",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "JacksonCancelEventPayloadParser",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "JacksonCancelEventPayloadParser",
+          "callee": "new ObjectMapper",
+          "lineNumber": 22
+        },
+        {
+          "caller": "parse",
+          "callee": "objectMapper.readTree",
+          "lineNumber": 33
+        },
+        {
+          "caller": "parse",
+          "callee": "new InvalidCancelEventPayloadException",
+          "lineNumber": 35
+        },
+        {
+          "caller": "parse",
+          "callee": "root.isObject",
+          "lineNumber": 38
+        },
+        {
+          "caller": "parse",
+          "callee": "invalid",
+          "lineNumber": 39
+        },
+        {
+          "caller": "parse",
+          "callee": "positiveLong",
+          "lineNumber": 41
+        },
+        {
+          "caller": "parse",
+          "callee": "root.get",
+          "lineNumber": 41
+        },
+        {
+          "caller": "parse",
+          "callee": "requiredText",
+          "lineNumber": 42
+        },
+        {
+          "caller": "parse",
+          "callee": "root.get",
+          "lineNumber": 42
+        },
+        {
+          "caller": "parse",
+          "callee": "root.get",
+          "lineNumber": 43
+        },
+        {
+          "caller": "parse",
+          "callee": "cancelledItems.isArray",
+          "lineNumber": 44
+        },
+        {
+          "caller": "parse",
+          "callee": "cancelledItems.isEmpty",
+          "lineNumber": 44
+        },
+        {
+          "caller": "parse",
+          "callee": "invalid",
+          "lineNumber": 45
+        },
+        {
+          "caller": "parse",
+          "callee": "new HashSet<>",
+          "lineNumber": 48
+        },
+        {
+          "caller": "parse",
+          "callee": "new HashSet<>",
+          "lineNumber": 49
+        },
+        {
+          "caller": "parse",
+          "callee": "new ArrayList<>",
+          "lineNumber": 50
+        },
+        {
+          "caller": "parse",
+          "callee": "item.isObject",
+          "lineNumber": 52
+        },
+        {
+          "caller": "parse",
+          "callee": "invalid",
+          "lineNumber": 53
+        },
+        {
+          "caller": "parse",
+          "callee": "positiveLong",
+          "lineNumber": 55
+        },
+        {
+          "caller": "parse",
+          "callee": "item.get",
+          "lineNumber": 55
+        },
+        {
+          "caller": "parse",
+          "callee": "positiveLong",
+          "lineNumber": 56
+        },
+        {
+          "caller": "parse",
+          "callee": "item.get",
+          "lineNumber": 56
+        },
+        {
+          "caller": "parse",
+          "callee": "positiveInt",
+          "lineNumber": 57
+        },
+        {
+          "caller": "parse",
+          "callee": "item.get",
+          "lineNumber": 57
+        },
+        {
+          "caller": "parse",
+          "callee": "orderItemIds.add",
+          "lineNumber": 58
+        },
+        {
+          "caller": "parse",
+          "callee": "skuIds.add",
+          "lineNumber": 58
+        },
+        {
+          "caller": "parse",
+          "callee": "invalid",
+          "lineNumber": 59
+        },
+        {
+          "caller": "parse",
+          "callee": "items.add",
+          "lineNumber": 61
+        },
+        {
+          "caller": "parse",
+          "callee": "new CancelEventPayload.Item",
+          "lineNumber": 61
+        },
+        {
+          "caller": "parse",
+          "callee": "new CancelEventPayload",
+          "lineNumber": 63
+        },
+        {
+          "caller": "positiveLong",
+          "callee": "node.isIntegralNumber",
+          "lineNumber": 67
+        },
+        {
+          "caller": "positiveLong",
+          "callee": "node.canConvertToLong",
+          "lineNumber": 67
+        },
+        {
+          "caller": "positiveLong",
+          "callee": "invalid",
+          "lineNumber": 68
+        },
+        {
+          "caller": "positiveLong",
+          "callee": "node.longValue",
+          "lineNumber": 70
+        },
+        {
+          "caller": "positiveLong",
+          "callee": "invalid",
+          "lineNumber": 72
+        },
+        {
+          "caller": "positiveInt",
+          "callee": "node.isIntegralNumber",
+          "lineNumber": 78
+        },
+        {
+          "caller": "positiveInt",
+          "callee": "node.canConvertToInt",
+          "lineNumber": 78
+        },
+        {
+          "caller": "positiveInt",
+          "callee": "invalid",
+          "lineNumber": 79
+        },
+        {
+          "caller": "positiveInt",
+          "callee": "node.intValue",
+          "lineNumber": 81
+        },
+        {
+          "caller": "positiveInt",
+          "callee": "invalid",
+          "lineNumber": 83
+        },
+        {
+          "caller": "requiredText",
+          "callee": "node.isTextual",
+          "lineNumber": 89
+        },
+        {
+          "caller": "requiredText",
+          "callee": "node.textValue().isBlank",
+          "lineNumber": 89
+        },
+        {
+          "caller": "requiredText",
+          "callee": "node.textValue",
+          "lineNumber": 89
+        },
+        {
+          "caller": "requiredText",
+          "callee": "invalid",
+          "lineNumber": 90
+        },
+        {
+          "caller": "requiredText",
+          "callee": "node.textValue",
+          "lineNumber": 92
+        },
+        {
+          "caller": "invalid",
+          "callee": "new InvalidCancelEventPayloadException",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/KafkaCancelEventReplayAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "KafkaCancelEventReplayAdapter",
+          "startLine": 22,
+          "endLine": 33,
+          "params": [
+            "kafkaTemplate",
+            "topic",
+            "publishTimeoutMs"
+          ]
+        },
+        {
+          "name": "replay",
+          "startLine": 35,
+          "endLine": 51,
+          "params": [
+            "cancelRequestId",
+            "payload"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaCancelEventReplayAdapter",
+          "startLine": 14,
+          "endLine": 52,
+          "methods": [
+            "KafkaCancelEventReplayAdapter",
+            "replay"
+          ],
+          "properties": [
+            "kafkaTemplate",
+            "topic",
+            "publishTimeoutMs"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "KafkaCancelEventReplayAdapter",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "replay",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaCancelEventReplayAdapter",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "KafkaCancelEventReplayAdapter",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 28
+        },
+        {
+          "caller": "replay",
+          "callee": "kafkaTemplate\n                .send(topic, String.valueOf(cancelRequestId), payload).get",
+          "lineNumber": 38
+        },
+        {
+          "caller": "replay",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 38
+        },
+        {
+          "caller": "replay",
+          "callee": "String.valueOf",
+          "lineNumber": 39
+        },
+        {
+          "caller": "replay",
+          "callee": "sendResult.getRecordMetadata",
+          "lineNumber": 41
+        },
+        {
+          "caller": "replay",
+          "callee": "new ReplayResult",
+          "lineNumber": 42
+        },
+        {
+          "caller": "replay",
+          "callee": "metadata.topic",
+          "lineNumber": 42
+        },
+        {
+          "caller": "replay",
+          "callee": "metadata.partition",
+          "lineNumber": 42
+        },
+        {
+          "caller": "replay",
+          "callee": "metadata.offset",
+          "lineNumber": 42
+        },
+        {
+          "caller": "replay",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 44
+        },
+        {
+          "caller": "replay",
+          "callee": "Thread.currentThread",
+          "lineNumber": 44
+        },
+        {
+          "caller": "replay",
+          "callee": "new CancelEventReplayException",
+          "lineNumber": 45
+        },
+        {
+          "caller": "replay",
+          "callee": "new CancelEventReplayException",
+          "lineNumber": 47
+        },
+        {
+          "caller": "replay",
+          "callee": "new CancelEventReplayException",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelOutboxRedriveConvergencePoller.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 68,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "CancelOutboxRedriveConvergencePoller",
+          "startLine": 26,
+          "endLine": 46,
+          "params": [
+            "repository",
+            "worker",
+            "executor",
+            "clock",
+            "observationSeconds",
+            "batchSize"
+          ]
+        },
+        {
+          "name": "poll",
+          "startLine": 48,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "check",
+          "startLine": 58,
+          "endLine": 67,
+          "params": [
+            "redrive"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveConvergencePoller",
+          "startLine": 14,
+          "endLine": 68,
+          "methods": [
+            "CancelOutboxRedriveConvergencePoller",
+            "poll",
+            "check"
+          ],
+          "properties": [
+            "repository",
+            "worker",
+            "executor",
+            "clock",
+            "observationSeconds",
+            "batchSize"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveConvergencePoller",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "poll",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedriveConvergencePoller",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CancelOutboxRedriveConvergencePoller",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 35
+        },
+        {
+          "caller": "CancelOutboxRedriveConvergencePoller",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 38
+        },
+        {
+          "caller": "poll",
+          "callee": "clock.instant().minusSeconds",
+          "lineNumber": 52
+        },
+        {
+          "caller": "poll",
+          "callee": "clock.instant",
+          "lineNumber": 52
+        },
+        {
+          "caller": "poll",
+          "callee": "repository.findConverging",
+          "lineNumber": 53
+        },
+        {
+          "caller": "poll",
+          "callee": "executor.tryExecute",
+          "lineNumber": 54
+        },
+        {
+          "caller": "poll",
+          "callee": "check",
+          "lineNumber": 54
+        },
+        {
+          "caller": "check",
+          "callee": "worker.check",
+          "lineNumber": 60
+        },
+        {
+          "caller": "check",
+          "callee": "log.warn",
+          "lineNumber": 62
+        },
+        {
+          "caller": "check",
+          "callee": "redrive.getId",
+          "lineNumber": 64
+        },
+        {
+          "caller": "check",
+          "callee": "exception.getClass().getSimpleName",
+          "lineNumber": 65
+        },
+        {
+          "caller": "check",
+          "callee": "exception.getClass",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelOutboxRedriveDispatcher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "CancelOutboxRedriveDispatcher",
+          "startLine": 21,
+          "endLine": 34,
+          "params": [
+            "repository",
+            "worker",
+            "executor",
+            "batchSize"
+          ]
+        },
+        {
+          "name": "dispatch",
+          "startLine": 36,
+          "endLine": 43,
+          "params": []
+        },
+        {
+          "name": "start",
+          "startLine": 45,
+          "endLine": 54,
+          "params": [
+            "redriveId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveDispatcher",
+          "startLine": 11,
+          "endLine": 55,
+          "methods": [
+            "CancelOutboxRedriveDispatcher",
+            "dispatch",
+            "start"
+          ],
+          "properties": [
+            "repository",
+            "worker",
+            "executor",
+            "batchSize"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveDispatcher",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "dispatch",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedriveDispatcher",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CancelOutboxRedriveDispatcher",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 28
+        },
+        {
+          "caller": "dispatch",
+          "callee": "repository.findRequestedIds",
+          "lineNumber": 40
+        },
+        {
+          "caller": "dispatch",
+          "callee": "executor.tryExecute",
+          "lineNumber": 41
+        },
+        {
+          "caller": "dispatch",
+          "callee": "start",
+          "lineNumber": 41
+        },
+        {
+          "caller": "start",
+          "callee": "worker.start",
+          "lineNumber": 47
+        },
+        {
+          "caller": "start",
+          "callee": "log.warn",
+          "lineNumber": 49
+        },
+        {
+          "caller": "start",
+          "callee": "exception.getClass().getSimpleName",
+          "lineNumber": 52
+        },
+        {
+          "caller": "start",
+          "callee": "exception.getClass",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelOutboxRedriveRecoveryPoller.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 86,
+      "nonEmptyLines": 78,
+      "functions": [
+        {
+          "name": "CancelOutboxRedriveRecoveryPoller",
+          "startLine": 28,
+          "endLine": 50,
+          "params": [
+            "repository",
+            "stalePublishWorker",
+            "deadlineWorker",
+            "executor",
+            "clock",
+            "observationSeconds",
+            "batchSize"
+          ]
+        },
+        {
+          "name": "poll",
+          "startLine": 52,
+          "endLine": 63,
+          "params": []
+        },
+        {
+          "name": "expireStalePublish",
+          "startLine": 65,
+          "endLine": 74,
+          "params": [
+            "redrive"
+          ]
+        },
+        {
+          "name": "checkDeadline",
+          "startLine": 76,
+          "endLine": 85,
+          "params": [
+            "redrive"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveRecoveryPoller",
+          "startLine": 15,
+          "endLine": 86,
+          "methods": [
+            "CancelOutboxRedriveRecoveryPoller",
+            "poll",
+            "expireStalePublish",
+            "checkDeadline"
+          ],
+          "properties": [
+            "repository",
+            "stalePublishWorker",
+            "deadlineWorker",
+            "executor",
+            "clock",
+            "observationSeconds",
+            "batchSize"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveRecoveryPoller",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "poll",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedriveRecoveryPoller",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CancelOutboxRedriveRecoveryPoller",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 38
+        },
+        {
+          "caller": "CancelOutboxRedriveRecoveryPoller",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 41
+        },
+        {
+          "caller": "poll",
+          "callee": "clock.instant().minusSeconds",
+          "lineNumber": 56
+        },
+        {
+          "caller": "poll",
+          "callee": "clock.instant",
+          "lineNumber": 56
+        },
+        {
+          "caller": "poll",
+          "callee": "repository.findExpiredUnpublished",
+          "lineNumber": 57
+        },
+        {
+          "caller": "poll",
+          "callee": "executor.tryExecute",
+          "lineNumber": 58
+        },
+        {
+          "caller": "poll",
+          "callee": "expireStalePublish",
+          "lineNumber": 58
+        },
+        {
+          "caller": "poll",
+          "callee": "repository.findExpiredPublished",
+          "lineNumber": 60
+        },
+        {
+          "caller": "poll",
+          "callee": "executor.tryExecute",
+          "lineNumber": 61
+        },
+        {
+          "caller": "poll",
+          "callee": "checkDeadline",
+          "lineNumber": 61
+        },
+        {
+          "caller": "expireStalePublish",
+          "callee": "stalePublishWorker.expire",
+          "lineNumber": 67
+        },
+        {
+          "caller": "expireStalePublish",
+          "callee": "log.warn",
+          "lineNumber": 69
+        },
+        {
+          "caller": "expireStalePublish",
+          "callee": "redrive.getId",
+          "lineNumber": 71
+        },
+        {
+          "caller": "expireStalePublish",
+          "callee": "exception.getClass().getSimpleName",
+          "lineNumber": 72
+        },
+        {
+          "caller": "expireStalePublish",
+          "callee": "exception.getClass",
+          "lineNumber": 72
+        },
+        {
+          "caller": "checkDeadline",
+          "callee": "deadlineWorker.check",
+          "lineNumber": 78
+        },
+        {
+          "caller": "checkDeadline",
+          "callee": "log.warn",
+          "lineNumber": 80
+        },
+        {
+          "caller": "checkDeadline",
+          "callee": "redrive.getId",
+          "lineNumber": 82
+        },
+        {
+          "caller": "checkDeadline",
+          "callee": "exception.getClass().getSimpleName",
+          "lineNumber": 83
+        },
+        {
+          "caller": "checkDeadline",
+          "callee": "exception.getClass",
+          "lineNumber": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelOutboxRedriveTaskExecutor.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "CancelOutboxRedriveTaskExecutor",
+          "startLine": 15,
+          "endLine": 21,
+          "params": [
+            "executor",
+            "telemetry"
+          ]
+        },
+        {
+          "name": "tryExecute",
+          "startLine": 23,
+          "endLine": 31,
+          "params": [
+            "task"
+          ]
+        },
+        {
+          "name": "activeCount",
+          "startLine": 33,
+          "endLine": 35,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveTaskExecutor",
+          "startLine": 9,
+          "endLine": 36,
+          "methods": [
+            "CancelOutboxRedriveTaskExecutor",
+            "tryExecute",
+            "activeCount"
+          ],
+          "properties": [
+            "executor",
+            "telemetry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveTaskExecutor",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "tryExecute",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "activeCount",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedriveTaskExecutor",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "tryExecute",
+          "callee": "executor.execute",
+          "lineNumber": 25
+        },
+        {
+          "caller": "tryExecute",
+          "callee": "telemetry.executorRejected",
+          "lineNumber": 28
+        },
+        {
+          "caller": "activeCount",
+          "callee": "executor.getActiveCount",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/InternalCancelOutboxController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "inspect",
+          "startLine": 32,
+          "endLine": 40,
+          "params": [
+            "outboxId",
+            "role",
+            "operatorId"
+          ]
+        },
+        {
+          "name": "requestRedrive",
+          "startLine": 42,
+          "endLine": 52,
+          "params": [
+            "outboxId",
+            "role",
+            "operatorId",
+            "request"
+          ]
+        },
+        {
+          "name": "getRedrive",
+          "startLine": 54,
+          "endLine": 62,
+          "params": [
+            "redriveId",
+            "role",
+            "operatorId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InternalCancelOutboxController",
+          "startLine": 21,
+          "endLine": 63,
+          "methods": [
+            "inspect",
+            "requestRedrive",
+            "getRedrive"
+          ],
+          "properties": [
+            "useCase",
+            "redriveUseCase",
+            "redriveQuery",
+            "operatorAccess",
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "inspect",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "requestRedrive",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "getRedrive",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "InternalCancelOutboxController",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspect",
+          "callee": "operatorAccess.requireAdmin",
+          "lineNumber": 38
+        },
+        {
+          "caller": "inspect",
+          "callee": "CancelOutboxInspectionResponse.from",
+          "lineNumber": 39
+        },
+        {
+          "caller": "inspect",
+          "callee": "useCase.inspect",
+          "lineNumber": 39
+        },
+        {
+          "caller": "requestRedrive",
+          "callee": "operatorAccess.requireAdmin",
+          "lineNumber": 49
+        },
+        {
+          "caller": "requestRedrive",
+          "callee": "ResponseEntity.accepted().body",
+          "lineNumber": 50
+        },
+        {
+          "caller": "requestRedrive",
+          "callee": "ResponseEntity.accepted",
+          "lineNumber": 50
+        },
+        {
+          "caller": "requestRedrive",
+          "callee": "CancelOutboxRedriveResponse.from",
+          "lineNumber": 50
+        },
+        {
+          "caller": "requestRedrive",
+          "callee": "redriveUseCase.request",
+          "lineNumber": 51
+        },
+        {
+          "caller": "requestRedrive",
+          "callee": "request.reason",
+          "lineNumber": 51
+        },
+        {
+          "caller": "getRedrive",
+          "callee": "operatorAccess.requireAdmin",
+          "lineNumber": 60
+        },
+        {
+          "caller": "getRedrive",
+          "callee": "CancelOutboxRedriveResponse.from",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getRedrive",
+          "callee": "redriveQuery.get",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelOutboxInspectionResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 16,
+          "endLine": 26,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxInspectionResponse",
+          "startLine": 8,
+          "endLine": 57,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxInspectionResponse",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CancelOutboxInspectionResponse",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "result.outboxId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "result.cancelRequestId",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "result.decision().name",
+          "lineNumber": 22
+        },
+        {
+          "caller": "from",
+          "callee": "result.decision",
+          "lineNumber": 22
+        },
+        {
+          "caller": "from",
+          "callee": "result.reasonCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "from",
+          "callee": "result.reasonCode().name",
+          "lineNumber": 23
+        },
+        {
+          "caller": "from",
+          "callee": "result.reasonCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "from",
+          "callee": "LegResponse.from",
+          "lineNumber": 24
+        },
+        {
+          "caller": "from",
+          "callee": "result.order",
+          "lineNumber": 24
+        },
+        {
+          "caller": "from",
+          "callee": "LegResponse.from",
+          "lineNumber": 25
+        },
+        {
+          "caller": "from",
+          "callee": "result.stock",
+          "lineNumber": 25
+        },
+        {
+          "caller": "from",
+          "callee": "new LegResponse",
+          "lineNumber": 33
+        },
+        {
+          "caller": "from",
+          "callee": "snapshot.status().name",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "snapshot.status",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "snapshot.evidence().stream().map(EvidenceResponse::from).toList",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "snapshot.evidence().stream().map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "snapshot.evidence().stream",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "snapshot.evidence",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "new EvidenceResponse",
+          "lineNumber": 50
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.targetId",
+          "lineNumber": 51
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.currentStatus",
+          "lineNumber": 52
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.actualQuantity",
+          "lineNumber": 53
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.expectedQuantity",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelOutboxRedriveRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveRequest",
+          "startLine": 3,
+          "endLine": 4,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveRequest",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelOutboxRedriveResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 65,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 26,
+          "endLine": 44,
+          "params": [
+            "redrive",
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "parse",
+          "startLine": 46,
+          "endLine": 60,
+          "params": [
+            "value",
+            "field",
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "asText",
+          "startLine": 62,
+          "endLine": 64,
+          "params": [
+            "instant"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveResponse",
+          "startLine": 10,
+          "endLine": 65,
+          "methods": [
+            "from",
+            "parse",
+            "asText"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedriveResponse",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CancelOutboxRedriveResponse",
+          "lineNumber": 30
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getId",
+          "lineNumber": 31
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getSourceOutboxId",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getStatus().name",
+          "lineNumber": 33
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getStatus",
+          "lineNumber": 33
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getFailureStage",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getFailureStage().name",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getFailureStage",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getRequestedBy",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getReason",
+          "lineNumber": 36
+        },
+        {
+          "caller": "from",
+          "callee": "asText",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getRequestedAt",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "asText",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getStartedAt",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "asText",
+          "lineNumber": 39
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getCompletedAt",
+          "lineNumber": 39
+        },
+        {
+          "caller": "from",
+          "callee": "parse",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getResult",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getLastError",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "parse",
+          "lineNumber": 42
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getBeforeState",
+          "lineNumber": 42
+        },
+        {
+          "caller": "from",
+          "callee": "parse",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "redrive.getAfterState",
+          "lineNumber": 43
+        },
+        {
+          "caller": "parse",
+          "callee": "objectMapper.readTree",
+          "lineNumber": 52
+        },
+        {
+          "caller": "parse",
+          "callee": "new IllegalStateException",
+          "lineNumber": 54
+        },
+        {
+          "caller": "parse",
+          "callee": "node.isObject",
+          "lineNumber": 56
+        },
+        {
+          "caller": "parse",
+          "callee": "new IllegalStateException",
+          "lineNumber": 57
+        },
+        {
+          "caller": "asText",
+          "callee": "instant.toString",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    }
+  ]
+}

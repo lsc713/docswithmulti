@@ -1,0 +1,1068 @@
+{
+  "nodes": [
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "type": "file",
+      "name": "NonRetryableException.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "summary": "order-service에서 Non Retryable Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java:NonRetryableException",
+      "type": "class",
+      "name": "NonRetryableException",
+      "filePath": "order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "lineRange": [
+        7,
+        7
+      ],
+      "summary": "NonRetryableException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "type": "file",
+      "name": "OrderItemNotFoundException.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "summary": "order-service에서 Order Item Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java:OrderItemNotFoundException",
+      "type": "class",
+      "name": "OrderItemNotFoundException",
+      "filePath": "order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "lineRange": [
+        5,
+        10
+      ],
+      "summary": "OrderItemNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java:OrderItemNotFoundException",
+      "type": "function",
+      "name": "OrderItemNotFoundException",
+      "filePath": "order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "OrderItemNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "file",
+      "name": "CancelRestoreDlqRepository.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "summary": "order-service의 Cancel Restore Dlq Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java:CancelRestoreDlqRepository",
+      "type": "class",
+      "name": "CancelRestoreDlqRepository",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "lineRange": [
+        12,
+        34
+      ],
+      "summary": "CancelRestoreDlqRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "type": "file",
+      "name": "OperationAlertPort.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "summary": "order-service의 Operation Alert Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "order-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "class",
+      "name": "OperationAlertPort",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "OperationAlertPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "type": "file",
+      "name": "OrderItemRepository.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "summary": "order-service의 Order Item Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java:OrderItemRepository",
+      "type": "class",
+      "name": "OrderItemRepository",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "lineRange": [
+        6,
+        11
+      ],
+      "summary": "OrderItemRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "type": "file",
+      "name": "OrderRepository.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "summary": "order-service의 Order Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java:OrderRepository",
+      "type": "class",
+      "name": "OrderRepository",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "lineRange": [
+        6,
+        11
+      ],
+      "summary": "OrderRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "file",
+      "name": "ProcessedCancelEventRepository.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "summary": "order-service의 Processed Cancel Event Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java:ProcessedCancelEventRepository",
+      "type": "class",
+      "name": "ProcessedCancelEventRepository",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "lineRange": [
+        3,
+        6
+      ],
+      "summary": "ProcessedCancelEventRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java",
+      "type": "file",
+      "name": "CancelRestoreLegStatus.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java",
+      "summary": "order-service의 Cancel Restore Leg Status 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "order-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java:CancelRestoreLegStatus",
+      "type": "class",
+      "name": "CancelRestoreLegStatus",
+      "filePath": "order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java",
+      "lineRange": [
+        3,
+        8
+      ],
+      "summary": "CancelRestoreLegStatus가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "type": "file",
+      "name": "CancelRestoreRedriveService.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "summary": "order-service의 Cancel Restore Redrive Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "class",
+      "name": "CancelRestoreRedriveService",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "lineRange": [
+        18,
+        66
+      ],
+      "summary": "CancelRestoreRedriveService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "function",
+      "name": "CancelRestoreRedriveService",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "lineRange": [
+        32,
+        38
+      ],
+      "summary": "CancelRestoreRedriveService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:redriveOne",
+      "type": "function",
+      "name": "redriveOne",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "lineRange": [
+        40,
+        60
+      ],
+      "summary": "redriveOne 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java",
+      "type": "file",
+      "name": "CreateOrderCommand.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java",
+      "summary": "order-service의 Create Order Command application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java:CreateOrderCommand",
+      "type": "class",
+      "name": "CreateOrderCommand",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java",
+      "lineRange": [
+        6,
+        15
+      ],
+      "summary": "CreateOrderCommand가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "type": "file",
+      "name": "CreateOrderService.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "summary": "order-service의 Create Order Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java:CreateOrderService",
+      "type": "class",
+      "name": "CreateOrderService",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "lineRange": [
+        14,
+        33
+      ],
+      "summary": "CreateOrderService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "lineRange": [
+        21,
+        32
+      ],
+      "summary": "create 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "type": "file",
+      "name": "InspectCancelRestoreService.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "summary": "order-service의 Inspect Cancel Restore Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "class",
+      "name": "InspectCancelRestoreService",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "lineRange": [
+        16,
+        92
+      ],
+      "summary": "InspectCancelRestoreService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "function",
+      "name": "InspectCancelRestoreService",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "lineRange": [
+        22,
+        30
+      ],
+      "summary": "InspectCancelRestoreService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:inspect",
+      "type": "function",
+      "name": "inspect",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "lineRange": [
+        32,
+        87
+      ],
+      "summary": "inspect 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "type": "file",
+      "name": "ProcessCancelledItemsService.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "summary": "order-service의 Process Cancelled Items Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:ProcessCancelledItemsService",
+      "type": "class",
+      "name": "ProcessCancelledItemsService",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "lineRange": [
+        15,
+        62
+      ],
+      "summary": "ProcessCancelledItemsService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:execute",
+      "type": "function",
+      "name": "execute",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "lineRange": [
+        23,
+        34
+      ],
+      "summary": "execute 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:validateAndCancelItems",
+      "type": "function",
+      "name": "validateAndCancelItems",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "lineRange": [
+        36,
+        48
+      ],
+      "summary": "validateAndCancelItems 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:syncOrderStatus",
+      "type": "function",
+      "name": "syncOrderStatus",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "lineRange": [
+        50,
+        61
+      ],
+      "summary": "syncOrderStatus 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java:NonRetryableException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java:NonRetryableException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java:OrderItemNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java:OrderItemNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java:OrderItemNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java:OrderItemNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java:CancelRestoreDlqRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java:CancelRestoreDlqRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java:OrderItemRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java:OrderItemRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java:OrderRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java:OrderRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/Order.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java:ProcessedCancelEventRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java:ProcessedCancelEventRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java:CancelRestoreLegStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java:CancelRestoreLegStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:redriveOne",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java:redriveOne",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java:CreateOrderCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java:CreateOrderCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java:CreateOrderService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java:CreateOrderService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/CreateOrderUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/Order.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:inspect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java:inspect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/InspectCancelRestoreUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:ProcessCancelledItemsService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:ProcessCancelledItemsService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:execute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:validateAndCancelItems",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java:syncOrderStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/Order.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

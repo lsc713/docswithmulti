@@ -1,0 +1,1335 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 22,
+  "filesSkipped": [
+    "session-manager-plugin.pkg",
+    "settlement-service/build.gradle",
+    "user-service/build.gradle"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 22,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 20,
+      "failed": 0,
+      "skipped": 2
+    }
+  },
+  "results": [
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/RedisConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "stringRedisTemplate",
+          "startLine": 11,
+          "endLine": 14,
+          "params": [
+            "factory"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RedisConfig",
+          "startLine": 8,
+          "endLine": 15,
+          "methods": [
+            "stringRedisTemplate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "stringRedisTemplate",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "RedisConfig",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "stringRedisTemplate",
+          "callee": "new StringRedisTemplate",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/ResilienceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "merchantLimitRestClient",
+          "startLine": 11,
+          "endLine": 15,
+          "params": [
+            "baseUrl"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ResilienceConfig",
+          "startLine": 8,
+          "endLine": 16,
+          "methods": [
+            "merchantLimitRestClient"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "merchantLimitRestClient",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "ResilienceConfig",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "merchantLimitRestClient",
+          "callee": "RestClient.builder().baseUrl(baseUrl).build",
+          "lineNumber": 14
+        },
+        {
+          "caller": "merchantLimitRestClient",
+          "callee": "RestClient.builder().baseUrl",
+          "lineNumber": 14
+        },
+        {
+          "caller": "merchantLimitRestClient",
+          "callee": "RestClient.builder",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "MerchantLimitResponse",
+          "startLine": 5,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantLimitResponse",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedPayload.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "classes": [
+        {
+          "name": "MerchantLimitUpdatedPayload",
+          "startLine": 3,
+          "endLine": 3,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantLimitUpdatedPayload",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "CancelUsageCompensationJpaRepository",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "existsByCancelRequestId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelUsageCompensationJpaRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "CancelUsageHistoryJpaRepository",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [
+            "findByCancelRequestId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelUsageHistoryJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 50,
+      "classes": [
+        {
+          "name": "MerchantCancelUsageJpaRepository",
+          "startLine": 13,
+          "endLine": 58,
+          "methods": [
+            "findByMerchantIdAndKstDate",
+            "findByMerchantIdAndKstDateForUpdate",
+            "ensureRow",
+            "tryDeduct",
+            "tryRestore"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelUsageJpaRepository",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 92,
+      "nonEmptyLines": 80,
+      "sections": [
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "external",
+          "level": 1,
+          "line": 45
+        },
+        {
+          "heading": "kafka",
+          "level": 1,
+          "line": 49
+        },
+        {
+          "heading": "risk",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "resilience4j",
+          "level": 1,
+          "line": 63
+        },
+        {
+          "heading": "logging",
+          "level": 1,
+          "line": 75
+        },
+        {
+          "heading": "management",
+          "level": 1,
+          "line": 81
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/SettlementApplication.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 11,
+          "endLine": 13,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SettlementApplication",
+          "startLine": 8,
+          "endLine": 14,
+          "methods": [
+            "main"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "SettlementApplication",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "SpringApplication.run",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/HttpClientConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "restTemplate",
+          "startLine": 14,
+          "endLine": 17,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "HttpClientConfig",
+          "startLine": 11,
+          "endLine": 18,
+          "methods": [
+            "restTemplate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "restTemplate",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "HttpClientConfig",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "restTemplate",
+          "callee": "new RestTemplate",
+          "lineNumber": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/config/KafkaConsumerConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 76,
+      "nonEmptyLines": 66,
+      "functions": [
+        {
+          "name": "KafkaConsumerConfig",
+          "startLine": 40,
+          "endLine": 42,
+          "params": [
+            "meterRegistry"
+          ]
+        },
+        {
+          "name": "consumerFactory",
+          "startLine": 44,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "redeliverForeverErrorHandler",
+          "startLine": 63,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "startLine": 67,
+          "endLine": 75,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaConsumerConfig",
+          "startLine": 28,
+          "endLine": 76,
+          "methods": [
+            "KafkaConsumerConfig",
+            "consumerFactory",
+            "redeliverForeverErrorHandler",
+            "kafkaListenerContainerFactory"
+          ],
+          "properties": [
+            "bootstrapServers",
+            "groupId",
+            "meterRegistry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "KafkaConsumerConfig",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "consumerFactory",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaConsumerConfig",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consumerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 47
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 54
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 56
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "new DefaultKafkaConsumerFactory<>",
+          "lineNumber": 57
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "factory.addListener",
+          "lineNumber": 58
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "new MicrometerConsumerListener<>",
+          "lineNumber": 58
+        },
+        {
+          "caller": "redeliverForeverErrorHandler",
+          "callee": "new DefaultErrorHandler",
+          "lineNumber": 64
+        },
+        {
+          "caller": "redeliverForeverErrorHandler",
+          "callee": "new FixedBackOff",
+          "lineNumber": 64
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "new ConcurrentKafkaListenerContainerFactory<>",
+          "lineNumber": 70
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.setConsumerFactory",
+          "lineNumber": 71
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "consumerFactory",
+          "lineNumber": 71
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties().setAckMode",
+          "lineNumber": 72
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties",
+          "lineNumber": 72
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.setCommonErrorHandler",
+          "lineNumber": 73
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "redeliverForeverErrorHandler",
+          "lineNumber": 73
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledPayload.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "PaymentCancelledPayload",
+          "startLine": 13,
+          "endLine": 27,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentCancelledPayload",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCompletedPayload.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "PaymentCompletedPayload",
+          "startLine": 10,
+          "endLine": 21,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentCompletedPayload",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/MerchantSettlementConfigJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "MerchantSettlementConfigJpaEntity",
+          "startLine": 36,
+          "endLine": 36,
+          "params": []
+        },
+        {
+          "name": "getFeeRate",
+          "startLine": 38,
+          "endLine": 38,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantSettlementConfigJpaEntity",
+          "startLine": 16,
+          "endLine": 39,
+          "methods": [
+            "MerchantSettlementConfigJpaEntity",
+            "getFeeRate"
+          ],
+          "properties": [
+            "merchantId",
+            "feeRate",
+            "active",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getFeeRate",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantSettlementConfigJpaEntity",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/ProcessedSettlementEventJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "ProcessedSettlementEventJpaEntity",
+          "startLine": 21,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "ProcessedSettlementEventJpaEntity",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "eventId",
+            "processedAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessedSettlementEventJpaEntity",
+          "startLine": 10,
+          "endLine": 27,
+          "methods": [
+            "ProcessedSettlementEventJpaEntity",
+            "ProcessedSettlementEventJpaEntity"
+          ],
+          "properties": [
+            "eventId",
+            "processedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessedSettlementEventJpaEntity",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessedSettlementEventJpaEntity",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "settlement-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 79,
+      "nonEmptyLines": 66,
+      "sections": [
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "kafka",
+          "level": 1,
+          "line": 39
+        },
+        {
+          "heading": "external",
+          "level": 1,
+          "line": 44
+        },
+        {
+          "heading": "scheduler",
+          "level": 1,
+          "line": 48
+        },
+        {
+          "heading": "settlement",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "payout",
+          "level": 1,
+          "line": 57
+        },
+        {
+          "heading": "logging",
+          "level": 1,
+          "line": 68
+        },
+        {
+          "heading": "management",
+          "level": 1,
+          "line": 72
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/UserServiceApplication.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserServiceApplication",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "main"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "UserServiceApplication",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "SpringApplication.run",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "RefreshTokenJpaRepository",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [
+            "findByToken",
+            "deleteByUserId",
+            "deleteByToken"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RefreshTokenJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "UserJpaRepository",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [
+            "findByEmail",
+            "existsByEmail"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/security/JwtAuthenticationFilter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "JwtAuthenticationFilter",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "jwtTokenProvider"
+          ]
+        },
+        {
+          "name": "doFilterInternal",
+          "startLine": 23,
+          "endLine": 39,
+          "params": [
+            "request",
+            "response",
+            "filterChain"
+          ]
+        },
+        {
+          "name": "resolveToken",
+          "startLine": 41,
+          "endLine": 52,
+          "params": [
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JwtAuthenticationFilter",
+          "startLine": 16,
+          "endLine": 53,
+          "methods": [
+            "JwtAuthenticationFilter",
+            "doFilterInternal",
+            "resolveToken"
+          ],
+          "properties": [
+            "jwtTokenProvider"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "JwtAuthenticationFilter",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "JwtAuthenticationFilter",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "doFilterInternal",
+          "callee": "resolveToken",
+          "lineNumber": 26
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "jwtTokenProvider.validateToken",
+          "lineNumber": 27
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "jwtTokenProvider.getUserId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "jwtTokenProvider.getRole",
+          "lineNumber": 29
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "jwtTokenProvider.getMerchantId",
+          "lineNumber": 30
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "List.of",
+          "lineNumber": 32
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "new SimpleGrantedAuthority",
+          "lineNumber": 32
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "new UsernamePasswordAuthenticationToken",
+          "lineNumber": 33
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "authentication.setDetails",
+          "lineNumber": 34
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "Map.of",
+          "lineNumber": 34
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "SecurityContextHolder.getContext().setAuthentication",
+          "lineNumber": 36
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "SecurityContextHolder.getContext",
+          "lineNumber": 36
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "filterChain.doFilter",
+          "lineNumber": 38
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "request.getHeader",
+          "lineNumber": 42
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "bearer.startsWith",
+          "lineNumber": 43
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "bearer.substring",
+          "lineNumber": 44
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "request.getCookies",
+          "lineNumber": 46
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "request.getCookies",
+          "lineNumber": 47
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "\"access_token\".equals",
+          "lineNumber": 48
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "c.getName",
+          "lineNumber": 48
+        },
+        {
+          "caller": "resolveToken",
+          "callee": "c.getValue",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/security/SecurityConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "SecurityConfig",
+          "startLine": 16,
+          "endLine": 18,
+          "params": [
+            "jwtTokenProvider"
+          ]
+        },
+        {
+          "name": "filterChain",
+          "startLine": 20,
+          "endLine": 33,
+          "params": [
+            "http"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SecurityConfig",
+          "startLine": 11,
+          "endLine": 34,
+          "methods": [
+            "SecurityConfig",
+            "filterChain"
+          ],
+          "properties": [
+            "jwtTokenProvider"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SecurityConfig",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "filterChain",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "SecurityConfig",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "filterChain",
+          "callee": "http\n            .csrf(csrf -> csrf.disable())\n            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))\n            .authorizeHttpRequests(auth -> auth\n                .requestMatchers(\"/v1/auth/signup\", \"/v1/auth/login\", \"/v1/auth/refresh\").permitAll()\n                .requestMatchers(\"/v1/admin/**\").hasRole(\"ADMIN\")\n                .anyRequest().authenticated()\n            ).addFilterBefore",
+          "lineNumber": 22
+        },
+        {
+          "caller": "filterChain",
+          "callee": "http\n            .csrf(csrf -> csrf.disable())\n            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests",
+          "lineNumber": 22
+        },
+        {
+          "caller": "filterChain",
+          "callee": "http\n            .csrf(csrf -> csrf.disable()).sessionManagement",
+          "lineNumber": 22
+        },
+        {
+          "caller": "filterChain",
+          "callee": "http.csrf",
+          "lineNumber": 22
+        },
+        {
+          "caller": "filterChain",
+          "callee": "csrf.disable",
+          "lineNumber": 23
+        },
+        {
+          "caller": "filterChain",
+          "callee": "sm.sessionCreationPolicy",
+          "lineNumber": 24
+        },
+        {
+          "caller": "filterChain",
+          "callee": "auth\n                .requestMatchers(\"/v1/auth/signup\", \"/v1/auth/login\", \"/v1/auth/refresh\").permitAll()\n                .requestMatchers(\"/v1/admin/**\").hasRole(\"ADMIN\")\n                .anyRequest().authenticated",
+          "lineNumber": 25
+        },
+        {
+          "caller": "filterChain",
+          "callee": "auth\n                .requestMatchers(\"/v1/auth/signup\", \"/v1/auth/login\", \"/v1/auth/refresh\").permitAll()\n                .requestMatchers(\"/v1/admin/**\").hasRole(\"ADMIN\").anyRequest",
+          "lineNumber": 25
+        },
+        {
+          "caller": "filterChain",
+          "callee": "auth\n                .requestMatchers(\"/v1/auth/signup\", \"/v1/auth/login\", \"/v1/auth/refresh\").permitAll()\n                .requestMatchers(\"/v1/admin/**\").hasRole",
+          "lineNumber": 25
+        },
+        {
+          "caller": "filterChain",
+          "callee": "auth\n                .requestMatchers(\"/v1/auth/signup\", \"/v1/auth/login\", \"/v1/auth/refresh\").permitAll().requestMatchers",
+          "lineNumber": 25
+        },
+        {
+          "caller": "filterChain",
+          "callee": "auth\n                .requestMatchers(\"/v1/auth/signup\", \"/v1/auth/login\", \"/v1/auth/refresh\").permitAll",
+          "lineNumber": 25
+        },
+        {
+          "caller": "filterChain",
+          "callee": "auth.requestMatchers",
+          "lineNumber": 25
+        },
+        {
+          "caller": "filterChain",
+          "callee": "new JwtAuthenticationFilter",
+          "lineNumber": 30
+        },
+        {
+          "caller": "filterChain",
+          "callee": "http.build",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/LoginRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "LoginRequest",
+          "startLine": 6,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LoginRequest",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

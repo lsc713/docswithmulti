@@ -1,0 +1,1107 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-07-10T02:25:53.802+09:00  INFO 90313 --- [order-service] [           main] c.example.order.OrderServiceApplication  : Starting OrderServiceApplication using Java 22 with PID 90313 (/Users/juho/Documents/docswithmulti/order-service/build/libs/order-service.jar started by juho in /Users/juho/Documents/docswithmulti)
+2026-07-10T02:25:53.806+09:00  INFO 90313 --- [order-service] [           main] c.example.order.OrderServiceApplication  : No active profile set, falling back to 1 default profile: "default"
+2026-07-10T02:25:54.543+09:00  INFO 90313 --- [order-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-10T02:25:54.574+09:00  INFO 90313 --- [order-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 24 ms. Found 3 JPA repository interfaces.
+2026-07-10T02:25:55.347+09:00  INFO 90313 --- [order-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-07-10T02:25:55.359+09:00  INFO 90313 --- [order-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-10T02:25:55.360+09:00  INFO 90313 --- [order-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-07-10T02:25:55.391+09:00  INFO 90313 --- [order-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1547 ms
+2026-07-10T02:25:55.805+09:00  INFO 90313 --- [order-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-10T02:25:55.818+09:00  INFO 90313 --- [order-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-10T02:25:55.998+09:00  INFO 90313 --- [order-service] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:mysql://localhost:3307/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true (MySQL 8.0)
+2026-07-10T02:25:56.365+09:00  INFO 90313 --- [order-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table `order_db`.`flyway_schema_history` does not exist yet
+2026-07-10T02:25:56.369+09:00  INFO 90313 --- [order-service] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.023s)
+2026-07-10T02:25:56.403+09:00  INFO 90313 --- [order-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table `order_db`.`flyway_schema_history` ...
+2026-07-10T02:25:56.498+09:00  INFO 90313 --- [order-service] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema `order_db`: << Empty Schema >>
+2026-07-10T02:25:56.516+09:00  INFO 90313 --- [order-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `order_db` to version "1 - create order core"
+2026-07-10T02:25:56.625+09:00  INFO 90313 --- [order-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `order_db` to version "3 - add order item details"
+2026-07-10T02:25:56.717+09:00  INFO 90313 --- [order-service] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema `order_db`, now at version v3 (execution time 00:00.140s)
+2026-07-10T02:25:56.801+09:00  INFO 90313 --- [order-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-10T02:25:56.865+09:00  INFO 90313 --- [order-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-07-10T02:25:57.308+09:00  INFO 90313 --- [order-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-10T02:25:57.372+09:00  INFO 90313 --- [order-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3307/order_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.46
+	Default catalog/schema: order_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-10T02:25:57.955+09:00  INFO 90313 --- [order-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-10T02:25:57.989+09:00  INFO 90313 --- [order-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:25:58.044+09:00  INFO 90313 --- [order-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-10T02:25:58.827+09:00  INFO 90313 --- [order-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoints beneath base path '/actuator'
+2026-07-10T02:25:58.905+09:00  INFO 90313 --- [order-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-07-10T02:25:58.936+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.config.AbstractConfig   : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092, localhost:9093, localhost:9094]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-order-service-1
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = order-service
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_committed
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 100
+	metadata.max.age.ms = 300000
+	metadata.recovery.rebootstrap.trigger.ms = 300000
+	metadata.recovery.strategy = rebootstrap
+	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.assertion.algorithm = RS256
+	sasl.oauthbearer.assertion.claim.aud = null
+	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+	sasl.oauthbearer.assertion.claim.iss = null
+	sasl.oauthbearer.assertion.claim.jti.include = false
+	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+	sasl.oauthbearer.assertion.claim.sub = null
+	sasl.oauthbearer.assertion.file = null
+	sasl.oauthbearer.assertion.private.key.file = null
+	sasl.oauthbearer.assertion.private.key.passphrase = null
+	sasl.oauthbearer.assertion.template.file = null
+	sasl.oauthbearer.client.credentials.client.id = null
+	sasl.oauthbearer.client.credentials.client.secret = null
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+	sasl.oauthbearer.scope = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	share.acknowledgement.mode = implicit
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2026-07-10T02:25:58.962+09:00  INFO 90313 --- [order-service] [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-07-10T02:25:59.043+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 4.1.2
+2026-07-10T02:25:59.043+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: c82fd9b934b4c1e6
+2026-07-10T02:25:59.043+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1783617959042
+2026-07-10T02:25:59.044+09:00  INFO 90313 --- [order-service] [           main] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-order-service-1, groupId=order-service] Subscribed to topic(s): payment.cancelled
+2026-07-10T02:25:59.048+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.config.AbstractConfig   : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092, localhost:9093, localhost:9094]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-order-service-retry-2
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = order-service-retry
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 50
+	metadata.max.age.ms = 300000
+	metadata.recovery.rebootstrap.trigger.ms = 300000
+	metadata.recovery.strategy = rebootstrap
+	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.assertion.algorithm = RS256
+	sasl.oauthbearer.assertion.claim.aud = null
+	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+	sasl.oauthbearer.assertion.claim.iss = null
+	sasl.oauthbearer.assertion.claim.jti.include = false
+	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+	sasl.oauthbearer.assertion.claim.sub = null
+	sasl.oauthbearer.assertion.file = null
+	sasl.oauthbearer.assertion.private.key.file = null
+	sasl.oauthbearer.assertion.private.key.passphrase = null
+	sasl.oauthbearer.assertion.template.file = null
+	sasl.oauthbearer.client.credentials.client.id = null
+	sasl.oauthbearer.client.credentials.client.secret = null
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+	sasl.oauthbearer.scope = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	share.acknowledgement.mode = implicit
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+
+2026-07-10T02:25:59.048+09:00  INFO 90313 --- [order-service] [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-07-10T02:25:59.051+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 4.1.2
+2026-07-10T02:25:59.051+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: c82fd9b934b4c1e6
+2026-07-10T02:25:59.051+09:00  INFO 90313 --- [order-service] [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1783617959051
+2026-07-10T02:25:59.052+09:00  INFO 90313 --- [order-service] [           main] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Subscribed to topic(s): payment.cancelled.retry
+2026-07-10T02:25:59.056+09:00  INFO 90313 --- [order-service] [           main] c.example.order.OrderServiceApplication  : Started OrderServiceApplication in 5.762 seconds (process running for 6.349)
+2026-07-10T02:25:59.307+09:00  WARN 90313 --- [order-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] The metadata response from the cluster reported a recoverable issue with correlation id 3 : {payment.cancelled.retry=LEADER_NOT_AVAILABLE}
+2026-07-10T02:25:59.307+09:00  WARN 90313 --- [order-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-order-service-1, groupId=order-service] The metadata response from the cluster reported a recoverable issue with correlation id 3 : {payment.cancelled=LEADER_NOT_AVAILABLE}
+2026-07-10T02:25:59.310+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-order-service-1, groupId=order-service] Cluster ID: tfpzmv-PSdiQL4SkfIN2Qw
+2026-07-10T02:25:59.310+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Cluster ID: tfpzmv-PSdiQL4SkfIN2Qw
+2026-07-10T02:25:59.494+09:00  WARN 90313 --- [order-service] [ntainer#1-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] The metadata response from the cluster reported a recoverable issue with correlation id 9 : {payment.cancelled.retry=LEADER_NOT_AVAILABLE}
+2026-07-10T02:25:59.530+09:00  WARN 90313 --- [order-service] [ntainer#0-0-C-1] org.apache.kafka.clients.NetworkClient   : [Consumer clientId=consumer-order-service-1, groupId=order-service] The metadata response from the cluster reported a recoverable issue with correlation id 9 : {payment.cancelled=LEADER_NOT_AVAILABLE}
+2026-07-10T02:26:00.143+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Discovered group coordinator localhost:9093 (id: 2147483645 rack: null isFenced: false)
+2026-07-10T02:26:00.145+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] (Re-)joining group
+2026-07-10T02:26:00.172+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Discovered group coordinator localhost:9094 (id: 2147483644 rack: null isFenced: false)
+2026-07-10T02:26:00.173+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Request joining group due to: need to re-join with the given member-id: consumer-order-service-retry-2-4124c2ba-0f55-4999-82db-2c35934b99d4
+2026-07-10T02:26:00.174+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] (Re-)joining group
+2026-07-10T02:26:00.174+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] (Re-)joining group
+2026-07-10T02:26:00.198+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Request joining group due to: need to re-join with the given member-id: consumer-order-service-1-bc1bf3b0-4762-4753-9939-b50f87d067ae
+2026-07-10T02:26:00.198+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] (Re-)joining group
+2026-07-10T02:26:03.197+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Successfully joined group with generation Generation{generationId=1, memberId='consumer-order-service-retry-2-4124c2ba-0f55-4999-82db-2c35934b99d4', protocol='range'}
+2026-07-10T02:26:03.213+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Finished assignment for group at generation 1: {consumer-order-service-retry-2-4124c2ba-0f55-4999-82db-2c35934b99d4=Assignment(partitions=[payment.cancelled.retry-0])}
+2026-07-10T02:26:03.218+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Successfully joined group with generation Generation{generationId=1, memberId='consumer-order-service-1-bc1bf3b0-4762-4753-9939-b50f87d067ae', protocol='range'}
+2026-07-10T02:26:03.218+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Finished assignment for group at generation 1: {consumer-order-service-1-bc1bf3b0-4762-4753-9939-b50f87d067ae=Assignment(partitions=[payment.cancelled-0])}
+2026-07-10T02:26:03.278+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Successfully synced group in generation Generation{generationId=1, memberId='consumer-order-service-retry-2-4124c2ba-0f55-4999-82db-2c35934b99d4', protocol='range'}
+2026-07-10T02:26:03.278+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Successfully synced group in generation Generation{generationId=1, memberId='consumer-order-service-1-bc1bf3b0-4762-4753-9939-b50f87d067ae', protocol='range'}
+2026-07-10T02:26:03.278+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Notifying assignor about the new Assignment(partitions=[payment.cancelled.retry-0])
+2026-07-10T02:26:03.278+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Notifying assignor about the new Assignment(partitions=[payment.cancelled-0])
+2026-07-10T02:26:03.279+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-order-service-1, groupId=order-service] Adding newly assigned partitions: [payment.cancelled-0]
+2026-07-10T02:26:03.279+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Adding newly assigned partitions: [payment.cancelled.retry-0]
+2026-07-10T02:26:03.294+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Found no committed offset for partition payment.cancelled-0
+2026-07-10T02:26:03.296+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Found no committed offset for partition payment.cancelled.retry-0
+2026-07-10T02:26:03.313+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-order-service-1, groupId=order-service] Resetting offset for partition payment.cancelled-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9094 (id: 3 rack: null isFenced: false)], epoch=0}}.
+2026-07-10T02:26:03.313+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : order-service: partitions assigned: [payment.cancelled-0]
+2026-07-10T02:26:03.317+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Resetting offset for partition payment.cancelled.retry-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null isFenced: false)], epoch=0}}.
+2026-07-10T02:26:03.317+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : order-service-retry: partitions assigned: [payment.cancelled.retry-0]
+2026-07-10T02:27:53.647+09:00  INFO 90313 --- [order-service] [nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-10T02:27:53.648+09:00  INFO 90313 --- [order-service] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-10T02:27:53.650+09:00  INFO 90313 --- [order-service] [nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-07-10T02:29:45.258+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=0
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000001]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.268+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.kafka.common.config.AbstractConfig   : ProducerConfig values: 
+	acks = -1
+	batch.size = 16384
+	bootstrap.servers = [localhost:9092, localhost:9093, localhost:9094]
+	buffer.memory = 33554432
+	client.dns.lookup = use_all_dns_ips
+	client.id = order-service-producer-1
+	compression.gzip.level = -1
+	compression.lz4.level = 9
+	compression.type = none
+	compression.zstd.level = 3
+	connections.max.idle.ms = 540000
+	delivery.timeout.ms = 120000
+	enable.idempotence = true
+	enable.metrics.push = true
+	interceptor.classes = []
+	key.serializer = class org.apache.kafka.common.serialization.StringSerializer
+	linger.ms = 5
+	max.block.ms = 60000
+	max.in.flight.requests.per.connection = 5
+	max.request.size = 1048576
+	metadata.max.age.ms = 300000
+	metadata.max.idle.ms = 300000
+	metadata.recovery.rebootstrap.trigger.ms = 300000
+	metadata.recovery.strategy = rebootstrap
+	metric.reporters = [org.apache.kafka.common.metrics.JmxReporter]
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partitioner.adaptive.partitioning.enable = true
+	partitioner.availability.timeout.ms = 0
+	partitioner.class = null
+	partitioner.ignore.keys = false
+	receive.buffer.bytes = 32768
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retries = 2147483647
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.assertion.algorithm = RS256
+	sasl.oauthbearer.assertion.claim.aud = null
+	sasl.oauthbearer.assertion.claim.exp.seconds = 300
+	sasl.oauthbearer.assertion.claim.iss = null
+	sasl.oauthbearer.assertion.claim.jti.include = false
+	sasl.oauthbearer.assertion.claim.nbf.seconds = 60
+	sasl.oauthbearer.assertion.claim.sub = null
+	sasl.oauthbearer.assertion.file = null
+	sasl.oauthbearer.assertion.private.key.file = null
+	sasl.oauthbearer.assertion.private.key.passphrase = null
+	sasl.oauthbearer.assertion.template.file = null
+	sasl.oauthbearer.client.credentials.client.id = null
+	sasl.oauthbearer.client.credentials.client.secret = null
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.header.urlencode = false
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.jwt.retriever.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtRetriever
+	sasl.oauthbearer.jwt.validator.class = class org.apache.kafka.common.security.oauthbearer.DefaultJwtValidator
+	sasl.oauthbearer.scope = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	transaction.timeout.ms = 60000
+	transaction.two.phase.commit.enable = false
+	transactional.id = null
+	value.serializer = class org.apache.kafka.common.serialization.StringSerializer
+
+2026-07-10T02:29:45.268+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-07-10T02:29:45.276+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=order-service-producer-1] Instantiated an idempotent producer.
+2026-07-10T02:29:45.286+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 4.1.2
+2026-07-10T02:29:45.286+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: c82fd9b934b4c1e6
+2026-07-10T02:29:45.286+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1783618185286
+2026-07-10T02:29:45.398+09:00  WARN 90313 --- [order-service] [vice-producer-1] org.apache.kafka.clients.NetworkClient   : [Producer clientId=order-service-producer-1] The metadata response from the cluster reported a recoverable issue with correlation id 4 : {payment.cancelled.DLQ=LEADER_NOT_AVAILABLE}
+2026-07-10T02:29:45.398+09:00  INFO 90313 --- [order-service] [vice-producer-1] org.apache.kafka.clients.Metadata        : [Producer clientId=order-service-producer-1] Cluster ID: tfpzmv-PSdiQL4SkfIN2Qw
+2026-07-10T02:29:45.399+09:00  INFO 90313 --- [order-service] [vice-producer-1] o.a.k.c.p.internals.TransactionManager   : [Producer clientId=order-service-producer-1] ProducerId set to 1000 with epoch 0
+2026-07-10T02:29:45.522+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=0, error=OrderItem not found: orderItemIds=[100000001]
+2026-07-10T02:29:45.542+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=1
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000002]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.543+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=1, error=OrderItem not found: orderItemIds=[100000002]
+2026-07-10T02:29:45.555+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=2
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000003]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.556+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=2, error=OrderItem not found: orderItemIds=[100000003]
+2026-07-10T02:29:45.565+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=3
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000004]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.566+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=3, error=OrderItem not found: orderItemIds=[100000004]
+2026-07-10T02:29:45.576+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=4
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000005]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.576+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=4, error=OrderItem not found: orderItemIds=[100000005]
+2026-07-10T02:29:45.589+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=5
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000006]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.589+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=5, error=OrderItem not found: orderItemIds=[100000006]
+2026-07-10T02:29:45.600+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=6
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000007]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.601+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=6, error=OrderItem not found: orderItemIds=[100000007]
+2026-07-10T02:29:45.620+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=7
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000008]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.621+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=7, error=OrderItem not found: orderItemIds=[100000008]
+2026-07-10T02:29:45.689+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=8
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000009]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.690+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=8, error=OrderItem not found: orderItemIds=[100000009]
+2026-07-10T02:29:45.762+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=9
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000010]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.762+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=9, error=OrderItem not found: orderItemIds=[100000010]
+2026-07-10T02:29:45.827+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=10
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000011]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.828+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=10, error=OrderItem not found: orderItemIds=[100000011]
+2026-07-10T02:29:45.885+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=11
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000012]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.886+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=11, error=OrderItem not found: orderItemIds=[100000012]
+2026-07-10T02:29:45.944+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=12
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000013]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.945+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=12, error=OrderItem not found: orderItemIds=[100000013]
+2026-07-10T02:29:45.993+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=13
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000014]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:45.994+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=13, error=OrderItem not found: orderItemIds=[100000014]
+2026-07-10T02:29:46.047+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=14
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000015]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:46.047+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=14, error=OrderItem not found: orderItemIds=[100000015]
+2026-07-10T02:29:46.101+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=15
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000016]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:46.102+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=15, error=OrderItem not found: orderItemIds=[100000016]
+2026-07-10T02:29:46.150+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=16
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000017]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:46.150+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=16, error=OrderItem not found: orderItemIds=[100000017]
+2026-07-10T02:29:46.194+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=17
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000018]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:46.195+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=17, error=OrderItem not found: orderItemIds=[100000018]
+2026-07-10T02:29:46.241+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=18
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000019]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:46.241+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=18, error=OrderItem not found: orderItemIds=[100000019]
+2026-07-10T02:29:46.286+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.m.PaymentCancelledConsumer       : payment.cancelled 처리 실패. offset=19
+
+com.example.order.application.exception.OrderItemNotFoundException: OrderItem not found: orderItemIds=[100000020]
+	at com.example.order.application.service.ProcessCancelledItemsService.validateAndCancelItems(ProcessCancelledItemsService.java:39) ~[!/:na]
+	at com.example.order.application.service.ProcessCancelledItemsService.lambda$execute$0(ProcessCancelledItemsService.java:29) ~[!/:na]
+	at org.springframework.transaction.support.TransactionTemplate.execute(TransactionTemplate.java:137) ~[spring-tx-7.0.6.jar!/:7.0.6]
+	at com.example.order.application.service.ProcessCancelledItemsService.execute(ProcessCancelledItemsService.java:25) ~[!/:na]
+	at com.example.order.infrastructure.messaging.PaymentCancelledConsumer.consume(PaymentCancelledConsumer.java:35) ~[!/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:168) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.KotlinAwareInvocableHandlerMethod.doInvoke(KotlinAwareInvocableHandlerMethod.java:48) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.messaging.handler.invocation.InvocableHandlerMethod.invoke(InvocableHandlerMethod.java:119) ~[spring-messaging-7.0.6.jar!/:7.0.6]
+	at org.springframework.kafka.listener.adapter.HandlerAdapter.invoke(HandlerAdapter.java:80) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invokeHandler(MessagingMessageListenerAdapter.java:488) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.MessagingMessageListenerAdapter.invoke(MessagingMessageListenerAdapter.java:425) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:92) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.adapter.RecordMessagingMessageListenerAdapter.onMessage(RecordMessagingMessageListenerAdapter.java:52) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeOnMessage(KafkaMessageListenerContainer.java:2948) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeOnMessage(KafkaMessageListenerContainer.java:2927) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeRecordListener(KafkaMessageListenerContainer.java:2837) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.doInvokeWithRecords(KafkaMessageListenerContainer.java:2679) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeRecordListener(KafkaMessageListenerContainer.java:2573) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeListener(KafkaMessageListenerContainer.java:2204) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.invokeIfHaveRecords(KafkaMessageListenerContainer.java:1559) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.pollAndInvoke(KafkaMessageListenerContainer.java:1499) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at org.springframework.kafka.listener.KafkaMessageListenerContainer$ListenerConsumer.run(KafkaMessageListenerContainer.java:1368) ~[spring-kafka-4.0.4.jar!/:4.0.4]
+	at java.base/java.util.concurrent.CompletableFuture$AsyncRun.run(CompletableFuture.java:1804) ~[na:na]
+	at java.base/java.lang.Thread.run(Thread.java:1570) ~[na:na]
+
+2026-07-10T02:29:46.287+09:00 ERROR 90313 --- [order-service] [ntainer#0-0-C-1] c.e.o.i.messaging.RetryRouter            : DLQ 발행. retryCount=0, offset=19, error=OrderItem not found: orderItemIds=[100000020]
+2026-07-10T02:32:53.427+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-order-service-1, groupId=order-service] Revoke previously assigned partitions [payment.cancelled-0]
+2026-07-10T02:32:53.427+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Revoke previously assigned partitions [payment.cancelled.retry-0]
+2026-07-10T02:32:53.428+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : order-service: partitions revoked: [payment.cancelled-0]
+2026-07-10T02:32:53.428+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : order-service-retry: partitions revoked: [payment.cancelled.retry-0]
+2026-07-10T02:32:53.428+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Member consumer-order-service-1-bc1bf3b0-4762-4753-9939-b50f87d067ae sending LeaveGroup request to coordinator localhost:9094 (id: 2147483644 rack: null isFenced: false) due to the consumer unsubscribed from all topics
+2026-07-10T02:32:53.428+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Member consumer-order-service-retry-2-4124c2ba-0f55-4999-82db-2c35934b99d4 sending LeaveGroup request to coordinator localhost:9093 (id: 2147483645 rack: null isFenced: false) due to the consumer unsubscribed from all topics
+2026-07-10T02:32:53.429+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.429+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Request joining group due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.429+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-order-service-1, groupId=order-service] Unsubscribed all topics or patterns and assigned partitions
+2026-07-10T02:32:53.429+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.429+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Request joining group due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.429+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.i.ClassicKafkaConsumer         : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Unsubscribed all topics or patterns and assigned partitions
+2026-07-10T02:32:53.431+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.431+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.431+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-1, groupId=order-service] Request joining group due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.431+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-order-service-retry-2, groupId=order-service-retry] Request joining group due to: consumer pro-actively leaving the group
+2026-07-10T02:32:53.478+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-07-10T02:32:53.478+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-07-10T02:32:53.478+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-07-10T02:32:53.478+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-07-10T02:32:53.491+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-order-service-retry-2 unregistered
+2026-07-10T02:32:53.491+09:00  INFO 90313 --- [order-service] [ntainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : order-service-retry: Consumer stopped
+2026-07-10T02:32:53.527+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-07-10T02:32:53.527+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-07-10T02:32:53.527+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-07-10T02:32:53.527+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-07-10T02:32:53.529+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-order-service-1 unregistered
+2026-07-10T02:32:53.529+09:00  INFO 90313 --- [order-service] [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : order-service: Consumer stopped
+2026-07-10T02:32:53.530+09:00  INFO 90313 --- [order-service] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-10T02:32:55.540+09:00  INFO 90313 --- [order-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-07-10T02:32:55.542+09:00  INFO 90313 --- [order-service] [ionShutdownHook] o.a.k.clients.producer.KafkaProducer     : [Producer clientId=order-service-producer-1] Closing the Kafka producer with timeoutMillis = 30000 ms.
+2026-07-10T02:32:55.545+09:00  INFO 90313 --- [order-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-07-10T02:32:55.545+09:00  INFO 90313 --- [order-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-07-10T02:32:55.545+09:00  INFO 90313 --- [order-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-07-10T02:32:55.545+09:00  INFO 90313 --- [order-service] [ionShutdownHook] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-07-10T02:32:55.546+09:00  INFO 90313 --- [order-service] [ionShutdownHook] o.a.kafka.common.utils.AppInfoParser     : App info kafka.producer for order-service-producer-1 unregistered
+2026-07-10T02:32:55.551+09:00  INFO 90313 --- [order-service] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:32:55.554+09:00  INFO 90313 --- [order-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-10T02:32:55.558+09:00  INFO 90313 --- [order-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

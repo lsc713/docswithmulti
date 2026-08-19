@@ -1,0 +1,68 @@
+{
+  "nodes": [
+    {
+      "id": "service:infra/load-test/deploy/Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "infra/load-test/deploy/Dockerfile",
+      "summary": "shared를 Java 21 runtime image로 빌드하는 multi-stage Docker 구성이다.",
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "deployment",
+        "shared"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/load-test/deploy/Dockerfile:--platform=$BUILDPLATFORM",
+      "type": "service",
+      "name": "--platform=$BUILDPLATFORM",
+      "filePath": "infra/load-test/deploy/Dockerfile",
+      "lineRange": [
+        9,
+        15
+      ],
+      "summary": "--platform=$BUILDPLATFORM 기반 --platform=$BUILDPLATFORM container stage를 정의한다.",
+      "tags": [
+        "containerization",
+        "docker-stage",
+        "infrastructure"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/load-test/deploy/Dockerfile:eclipse-temurin",
+      "type": "service",
+      "name": "eclipse-temurin",
+      "filePath": "infra/load-test/deploy/Dockerfile",
+      "lineRange": [
+        16,
+        25
+      ],
+      "summary": "eclipse-temurin:21-jre 기반 eclipse-temurin container stage를 정의한다.",
+      "tags": [
+        "containerization",
+        "docker-stage",
+        "infrastructure"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "service:infra/load-test/deploy/Dockerfile",
+      "target": "service:infra/load-test/deploy/Dockerfile:--platform=$BUILDPLATFORM",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "service:infra/load-test/deploy/Dockerfile",
+      "target": "service:infra/load-test/deploy/Dockerfile:eclipse-temurin",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ]
+}

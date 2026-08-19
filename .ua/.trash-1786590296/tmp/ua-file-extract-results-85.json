@@ -1,0 +1,1398 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 20,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 20,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 20
+    }
+  },
+  "results": [
+    {
+      "path": "docs/superpowers/plans/2026-04-23-merchant-limit-service.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 2513,
+      "nonEmptyLines": 1977,
+      "sections": [
+        {
+          "heading": "merchant-limit-service Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "파일 구조",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Task 1: 프로젝트 기반 설정",
+          "level": 3,
+          "line": 107
+        },
+        {
+          "heading": "Task 2: 공통 예외 + Merchant 도메인 엔티티",
+          "level": 3,
+          "line": 281
+        },
+        {
+          "heading": "Task 3: MerchantCancelLimit 도메인 엔티티",
+          "level": 3,
+          "line": 511
+        },
+        {
+          "heading": "Task 4: MerchantLimitDomainService + fixture",
+          "level": 3,
+          "line": 709
+        },
+        {
+          "heading": "Task 5: Application 인터페이스 + GetCancelLimitService",
+          "level": 3,
+          "line": 889
+        },
+        {
+          "heading": "Task 6: UpdateCancelLimitService",
+          "level": 3,
+          "line": 1124
+        },
+        {
+          "heading": "Task 7: JPA 인프라 — Merchant + MerchantCancelLimit",
+          "level": 3,
+          "line": 1346
+        },
+        {
+          "heading": "Task 8: JPA 인프라 — LimitHistory + LimitEventOutbox",
+          "level": 3,
+          "line": 1709
+        },
+        {
+          "heading": "Task 9: Kafka Producer + Outbox 스케줄러",
+          "level": 3,
+          "line": 1975
+        },
+        {
+          "heading": "Task 10: Internal API + Admin API + GlobalExceptionHandler",
+          "level": 3,
+          "line": 2164
+        },
+        {
+          "heading": "Task 11: PR 생성",
+          "level": 3,
+          "line": 2498
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-23-payment-cancel-service.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 3082,
+      "nonEmptyLines": 2393,
+      "sections": [
+        {
+          "heading": "payment-service CancelPaymentService 구현 계획",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "파일 구조",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Task 1: V8 DDL — 스키마 정렬",
+          "level": 2,
+          "line": 70
+        },
+        {
+          "heading": "Task 2: PaymentItem 도메인 — 전액 취소로 단순화",
+          "level": 2,
+          "line": 133
+        },
+        {
+          "heading": "Task 3: CancelRequest 도메인 — request_hash 멱등성",
+          "level": 2,
+          "line": 387
+        },
+        {
+          "heading": "Task 4: CancelDomainService — paymentItemId 기반 전액 취소",
+          "level": 2,
+          "line": 616
+        },
+        {
+          "heading": "Task 5: Application 포트 & 커맨드 인터페이스 정의",
+          "level": 2,
+          "line": 867
+        },
+        {
+          "heading": "Task 6: CancelPaymentService — TX1 (PENDING INSERT + request_hash)",
+          "level": 2,
+          "line": 1128
+        },
+        {
+          "heading": "Task 7: Infrastructure — JPA 엔티티 & Repository 구현체",
+          "level": 2,
+          "line": 1553
+        },
+        {
+          "heading": "Task 8: Infrastructure — HTTP 클라이언트 (Risk, PG) + build.gradle 의존성",
+          "level": 2,
+          "line": 2332
+        },
+        {
+          "heading": "Task 9: Presentation — Controller, DTO, GlobalExceptionHandler",
+          "level": 2,
+          "line": 2703
+        },
+        {
+          "heading": "Task 10: V8 DDL 검증 + Testcontainers 통합 테스트",
+          "level": 2,
+          "line": 2967
+        },
+        {
+          "heading": "검증 명령어 요약",
+          "level": 2,
+          "line": 3068
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-23-risk-management-service.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 2540,
+      "nonEmptyLines": 2023,
+      "sections": [
+        {
+          "heading": "risk-management-service Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "파일 구조 (전체 생성 목록)",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Task 1: 프로젝트 셋업",
+          "level": 3,
+          "line": 106
+        },
+        {
+          "heading": "Task 2: Common + Domain 레이어",
+          "level": 3,
+          "line": 277
+        },
+        {
+          "heading": "Task 3: Application 인터페이스 + UseCase 인터페이스",
+          "level": 3,
+          "line": 655
+        },
+        {
+          "heading": "Task 4: Application Services (단위 테스트)",
+          "level": 3,
+          "line": 811
+        },
+        {
+          "heading": "Task 5: Infrastructure 영속성 레이어 (Testcontainers)",
+          "level": 3,
+          "line": 1330
+        },
+        {
+          "heading": "Task 6: Redis 캐시",
+          "level": 3,
+          "line": 1794
+        },
+        {
+          "heading": "Task 7: HTTP 클라이언트 + Resilience4j CircuitBreaker",
+          "level": 3,
+          "line": 1877
+        },
+        {
+          "heading": "Task 8: Kafka Consumer",
+          "level": 3,
+          "line": 1999
+        },
+        {
+          "heading": "Task 9: Presentation 레이어",
+          "level": 3,
+          "line": 2141
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 2523
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-24-order-service.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1580,
+      "nonEmptyLines": 1242,
+      "sections": [
+        {
+          "heading": "order-service Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "File Map",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Task 1: Project Scaffolding",
+          "level": 2,
+          "line": 69
+        },
+        {
+          "heading": "Task 2: Domain Entities",
+          "level": 2,
+          "line": 179
+        },
+        {
+          "heading": "Task 3: Application Layer — Interfaces, UseCase, Exception",
+          "level": 2,
+          "line": 354
+        },
+        {
+          "heading": "Task 4: ProcessCancelledItemsService (TDD)",
+          "level": 2,
+          "line": 443
+        },
+        {
+          "heading": "Task 5: JPA Persistence Layer",
+          "level": 2,
+          "line": 649
+        },
+        {
+          "heading": "Task 6: RetryRouter + DlqMessage (TDD)",
+          "level": 2,
+          "line": 1000
+        },
+        {
+          "heading": "Task 7: Kafka Configs",
+          "level": 2,
+          "line": 1283
+        },
+        {
+          "heading": "Task 8: Consumers",
+          "level": 2,
+          "line": 1432
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-27-payment-scheduler.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 852,
+      "nonEmptyLines": 666,
+      "sections": [
+        {
+          "heading": "Payment Service 스케줄러 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "파일 목록",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Task 1: 의존성 및 설정 추가",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "Task 2: CancelEventOutboxRepository 확장",
+          "level": 2,
+          "line": 117
+        },
+        {
+          "heading": "Task 3: KafkaOutboxPublisher 구현",
+          "level": 2,
+          "line": 291
+        },
+        {
+          "heading": "Task 4: OutboxPublisherService — TDD",
+          "level": 2,
+          "line": 357
+        },
+        {
+          "heading": "Task 5: SchedulerConfig + 스케줄러 4개",
+          "level": 2,
+          "line": 527
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 834
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-28-scheduler-enhancement.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1662,
+      "nonEmptyLines": 1314,
+      "sections": [
+        {
+          "heading": "Scheduler Enhancement Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "File Map",
+          "level": 2,
+          "line": 15
+        },
+        {
+          "heading": "Task 1: V9 마이그레이션 SQL",
+          "level": 3,
+          "line": 46
+        },
+        {
+          "heading": "Task 2: CancelRequest 도메인 엔티티 수정",
+          "level": 3,
+          "line": 83
+        },
+        {
+          "heading": "Task 3: 인터페이스 및 DTO 변경",
+          "level": 3,
+          "line": 276
+        },
+        {
+          "heading": "Task 4: LongListConverter + CancelRequestJpaEntity 수정",
+          "level": 3,
+          "line": 443
+        },
+        {
+          "heading": "Task 5: CancelRequestJpaRepository + CancelRequestRepositoryImpl 갱신",
+          "level": 3,
+          "line": 628
+        },
+        {
+          "heading": "Task 6: PaymentRepositoryImpl findById + LogOperationAlertAdapter",
+          "level": 3,
+          "line": 775
+        },
+        {
+          "heading": "Task 7: CancelPaymentService 수정 + 기존 테스트 컴파일 오류 해소",
+          "level": 3,
+          "line": 849
+        },
+        {
+          "heading": "Task 8: PendingRecoveryService (TDD)",
+          "level": 3,
+          "line": 932
+        },
+        {
+          "heading": "Task 9: ProcessingRecoveryService (TDD)",
+          "level": 3,
+          "line": 1169
+        },
+        {
+          "heading": "Task 10: 스케줄러 스텁 채우기 + 최종 검증",
+          "level": 3,
+          "line": 1540
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-28-simplified-messaging.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1435,
+      "nonEmptyLines": 1115,
+      "sections": [
+        {
+          "heading": "Simplified Messaging Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "파일 맵",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "삭제 (payment-service)",
+          "level": 3,
+          "line": 18
+        },
+        {
+          "heading": "추가 (payment-service)",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "수정 (payment-service)",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "수정 (risk-management-service)",
+          "level": 3,
+          "line": 55
+        },
+        {
+          "heading": "Task 1: Flyway V10 마이그레이션 작성",
+          "level": 2,
+          "line": 64
+        },
+        {
+          "heading": "Task 2: CancelCompletedEvent 정의",
+          "level": 2,
+          "line": 106
+        },
+        {
+          "heading": "Task 3: FailedKafkaEventRepository 인터페이스 + JPA 구현체",
+          "level": 2,
+          "line": 150
+        },
+        {
+          "heading": "Task 4: CancelEventPublisher (AFTER_COMMIT 리스너) — TDD",
+          "level": 2,
+          "line": 363
+        },
+        {
+          "heading": "Task 5: FailedKafkaPublisherService — TDD",
+          "level": 2,
+          "line": 558
+        },
+        {
+          "heading": "Task 6: FailedKafkaPublisherScheduler — TDD",
+          "level": 2,
+          "line": 735
+        },
+        {
+          "heading": "Task 7: CancelTxWriter 수정 + 기존 Outbox 삭제",
+          "level": 2,
+          "line": 867
+        },
+        {
+          "heading": "Task 8: risk-management-service — 페이로드 단순화 + Consumer 수정",
+          "level": 2,
+          "line": 1162
+        },
+        {
+          "heading": "Task 9: 최종 검증",
+          "level": 2,
+          "line": 1402
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-04-30-tx3-inline-kafka.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 387,
+      "nonEmptyLines": 306,
+      "sections": [
+        {
+          "heading": "TX3 Inline Kafka 발행 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "파일 맵",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "수정",
+          "level": 3,
+          "line": 15
+        },
+        {
+          "heading": "삭제 (소스)",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "삭제 (테스트)",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "추가",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "Task 1: V11 마이그레이션 작성",
+          "level": 2,
+          "line": 49
+        },
+        {
+          "heading": "Task 2: CancelTxWriter 수정 — KafkaTemplate 직접 호출",
+          "level": 2,
+          "line": 64
+        },
+        {
+          "heading": "Task 3: 불필요 파일 삭제",
+          "level": 2,
+          "line": 329
+        },
+        {
+          "heading": "Task 4: application.yml + 문서 업데이트",
+          "level": 2,
+          "line": 362
+        },
+        {
+          "heading": "Task 5: 커밋 + PR",
+          "level": 2,
+          "line": 372
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-10-loadtest-whitebox-observability.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 836,
+      "nonEmptyLines": 629,
+      "sections": [
+        {
+          "heading": "Load-test White-box Observability Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Task 1: `common-observability` 모듈 + 쿼리 카운트 리더",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "Task 2: 요청당 쿼리 수 필터 (Micrometer 발행)",
+          "level": 3,
+          "line": 175
+        },
+        {
+          "heading": "Task 3: 자동설정 + opt-in 게이팅",
+          "level": 3,
+          "line": 322
+        },
+        {
+          "heading": "Task 4: 4개 서비스에 모듈 배선",
+          "level": 3,
+          "line": 465
+        },
+        {
+          "heading": "Task 5: OTel Java agent — 이미지 + compose 활성화",
+          "level": 3,
+          "line": 532
+        },
+        {
+          "heading": "Task 6: Grafana Tempo (obs 스택)",
+          "level": 3,
+          "line": 642
+        },
+        {
+          "heading": "Task 7: 대시보드 패널 + 문서 + 런타임 스모크 체크리스트",
+          "level": 3,
+          "line": 742
+        },
+        {
+          "heading": "런타임 스모크 체크리스트 (다음 AWS 실측 시 — 이 계획의 성공 기준)",
+          "level": 2,
+          "line": 820
+        },
+        {
+          "heading": "Self-Review 결과",
+          "level": 2,
+          "line": 832
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-11-cancel-history-batch.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 568,
+      "nonEmptyLines": 440,
+      "sections": [
+        {
+          "heading": "취소 이력 배치 (커밋 6→4) Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "File Structure",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Task 1: 값객체 + 배치 레포지토리 (recordAll)",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "Task 2: CancelHistoryRecorder (ThreadLocal 버퍼 + flush)",
+          "level": 2,
+          "line": 253
+        },
+        {
+          "heading": "Task 3: CancelPaymentService 배선 (recordHistory→recorder.add, flush)",
+          "level": 2,
+          "line": 413
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 563
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-11-kafka-publish-pattern-benchmark.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 891,
+      "nonEmptyLines": 696,
+      "sections": [
+        {
+          "heading": "Kafka 발행 패턴 실측 비교 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Task 1: cancel_event_outbox 영속 계층",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "Task 2: CancelEventPublisher 포트 추출 + Inline 구현 (행위 불변 리팩터)",
+          "level": 3,
+          "line": 252
+        },
+        {
+          "heading": "Task 3: Outbox·InlineAsync 퍼블리셔 + 모드 선택 config + env 노출",
+          "level": 3,
+          "line": 386
+        },
+        {
+          "heading": "Task 4: CancelEventOutboxPublisher 스케줄러",
+          "level": 3,
+          "line": 540
+        },
+        {
+          "heading": "Task 5: OUTBOX 모드 processing-recovery 정합성 통합테스트",
+          "level": 3,
+          "line": 660
+        },
+        {
+          "heading": "Task 6: 발행→소비 e2e 지연 계측 (order-service)",
+          "level": 3,
+          "line": 715
+        },
+        {
+          "heading": "Task 7: publish-pattern-comparison.json 대시보드",
+          "level": 3,
+          "line": 814
+        },
+        {
+          "heading": "Task 8: 측정 런북 문서",
+          "level": 3,
+          "line": 845
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 877
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-11-saturation-diagnosis-kit.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 576,
+      "nonEmptyLines": 473,
+      "sections": [
+        {
+          "heading": "포화 진단 키트 (185 rps 벽 규명) Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "File Structure",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Task 1: payment→risk 홉 지연 계측 (RestTemplateBuilder)",
+          "level": 2,
+          "line": 36
+        },
+        {
+          "heading": "Task 2: Tomcat 스레드 지표 opt-in (compose env)",
+          "level": 2,
+          "line": 185
+        },
+        {
+          "heading": "Task 3: 포화 진단 대시보드 (신규 JSON)",
+          "level": 2,
+          "line": 240
+        },
+        {
+          "heading": "Task 4: 런 절차 + USE 판정 트리 문서",
+          "level": 2,
+          "line": 490
+        },
+        {
+          "heading": "실측 스모크 추가 항목 (다음 AWS 런 참고, 이번 구현 범위 밖)",
+          "level": 2,
+          "line": 562
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 571
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-11-system-views-dashboard.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 364,
+      "nonEmptyLines": 325,
+      "sections": [
+        {
+          "heading": "3-뷰 시스템 대시보드 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "File Structure",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "Task 1: 3-뷰 대시보드 JSON",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "Task 2: Inbound 행 실행 노트",
+          "level": 2,
+          "line": 319
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 360
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-12-outbox-poller-dedicated-datasource.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 367,
+      "nonEmptyLines": 289,
+      "sections": [
+        {
+          "heading": "폴러 전용 DataSource Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Task 1: DataSource 배선 — 명시적 @Primary 메인 + OUTBOX 전용 풀/JdbcTemplate",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "Task 2: repo 라우팅 — find+mark를 전용 JdbcTemplate로, repo 빈 OUTBOX 게이팅",
+          "level": 3,
+          "line": 195
+        },
+        {
+          "heading": "검증 (코드 아님, AWS 재측정 — 스펙 §9)",
+          "level": 2,
+          "line": 349
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 355
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-13-k3s-scaleout-phase-a.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 688,
+      "nonEmptyLines": 572,
+      "sections": [
+        {
+          "heading": "k3s 스케일아웃 Phase A — 클러스터 골격 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "스코프 노트",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "File Structure",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "Task 1: 자립 terraform 루트 + k3s 부트스트랩 (apply 없이 validate/plan)",
+          "level": 3,
+          "line": 49
+        },
+        {
+          "heading": "Task 2: apply → k3s 클러스터 형성 검증 [과금 시작]",
+          "level": 3,
+          "line": 220
+        },
+        {
+          "heading": "Task 3: Strimzi operator + Kafka 3-broker (★ arm64 게이트)",
+          "level": 3,
+          "line": 263
+        },
+        {
+          "heading": "Task 4: Redis + ConfigMap + Secret",
+          "level": 3,
+          "line": 394
+        },
+        {
+          "heading": "Task 5: 앱 Deployment×4 + Service + Ingress",
+          "level": 3,
+          "line": 487
+        },
+        {
+          "heading": "Task 6: e2e 스모크 — Traefik 경유 취소 1건 + Kafka→order 소비",
+          "level": 3,
+          "line": 617
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 667
+        },
+        {
+          "heading": "Execution Handoff",
+          "level": 2,
+          "line": 686
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-13-k3s-scaleout-phase-b.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 391,
+      "nonEmptyLines": 300,
+      "sections": [
+        {
+          "heading": "k3s 스케일아웃 Phase B — 멀티인스턴스 정합성 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "스코프 노트",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "File Structure",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "Task 1: merchant-limit 아웃박스 폴러 락 하드닝 (Redisson RLock, TDD)",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "Task 2: 앱 graceful shutdown 설정",
+          "level": 3,
+          "line": 304
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 372
+        },
+        {
+          "heading": "Execution Handoff",
+          "level": 2,
+          "line": 389
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-13-k3s-scaleout-phase-c.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 255,
+      "nonEmptyLines": 179,
+      "sections": [
+        {
+          "heading": "k3s 스케일아웃 Phase C — 검증 실험 Implementation Plan (measure-first 런북)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "스코프 노트",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "File Structure",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Task 1: 리그 기동 + 배포 + k6 부트스트랩 + seed [과금 시작]",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "Task 2: 실험 ① 스케줄러 락 안전성",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "Task 3: 실험 ② 파드 간 멱등",
+          "level": 3,
+          "line": 111
+        },
+        {
+          "heading": "Task 4: 실험 ③ N-replica 천장 불변 + Traefik 오프셋",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "Task 5: 실험 ④ 가용성(HA) — 노드 장애",
+          "level": 3,
+          "line": 170
+        },
+        {
+          "heading": "Task 6: 실험 ⑤ 무중단 롤링배포",
+          "level": 3,
+          "line": 194
+        },
+        {
+          "heading": "Task 7: 결과 문서화 + destroy",
+          "level": 3,
+          "line": 214
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 241
+        },
+        {
+          "heading": "Execution Handoff",
+          "level": 2,
+          "line": 253
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-13-oncall-skills-target-abstraction.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 511,
+      "nonEmptyLines": 389,
+      "sections": [
+        {
+          "heading": "oncall 스킬 타깃 추상화 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Task 1: petclinic 자기기술 파일 + differential-table 이동",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "Task 2: docswithmulti 자기기술 파일 + differential-table 시드 + 메모리 시드",
+          "level": 3,
+          "line": 100
+        },
+        {
+          "heading": "Task 3: oncall-triage SKILL.md 정본 수정",
+          "level": 3,
+          "line": 218
+        },
+        {
+          "heading": "Task 4: oncall-pr SKILL.md 정본 수정",
+          "level": 3,
+          "line": 302
+        },
+        {
+          "heading": "Task 5: oncall-log SKILL.md 정본 수정 + memory-config 삭제",
+          "level": 3,
+          "line": 355
+        },
+        {
+          "heading": "Task 6: 정본 → docswithmulti 복사본 동기화",
+          "level": 3,
+          "line": 409
+        },
+        {
+          "heading": "Task 7: 전체 구조 검증 (dry-run)",
+          "level": 3,
+          "line": 449
+        },
+        {
+          "heading": "Self-Review (작성자 체크)",
+          "level": 2,
+          "line": 504
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-13-scale-series.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 182,
+      "nonEmptyLines": 125,
+      "sections": [
+        {
+          "heading": "Scale 블로그 시리즈 집필 실행 계획",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "File Structure",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "Task 1: 앵커노트 확장 — 쿠버네티스 정리.md",
+          "level": 3,
+          "line": 55
+        },
+        {
+          "heading": "Task 2: 00.수직 다음, 수평으로 (서문)",
+          "level": 3,
+          "line": 70
+        },
+        {
+          "heading": "Task 3: 01.자립 리그를 k3s로 깔다 (인프라)",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "Task 4: 02.파드가 늘면 뭐가 깨지나 (멀티파드 정합성)",
+          "level": 3,
+          "line": 93
+        },
+        {
+          "heading": "Task 5: 03.노드가 죽어도 (HA)",
+          "level": 3,
+          "line": 104
+        },
+        {
+          "heading": "Task 6: 04.배포가 조용히 터진다 (무중단 롤링)",
+          "level": 3,
+          "line": 114
+        },
+        {
+          "heading": "Task 7: 05.replica가 천장을 올린 줄 알았다 (반전 헤드라인)",
+          "level": 3,
+          "line": 124
+        },
+        {
+          "heading": "Task 8: 06.4단 진단 끝에 payment_db (근본원인)",
+          "level": 3,
+          "line": 135
+        },
+        {
+          "heading": "Task 9: 07.운영 함정 (k8s/AWS 운영 현실)",
+          "level": 3,
+          "line": 146
+        },
+        {
+          "heading": "Task 10: 08.매니페스트 행단위 해부 (마무리·레퍼런스)",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "Task 11: 인덱스 등재 + Load 브릿지",
+          "level": 3,
+          "line": 167
+        },
+        {
+          "heading": "Self-Review",
+          "level": 2,
+          "line": 177
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": "docs/superpowers/plans/2026-07-29-cancel-idempotency-key.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 181,
+      "nonEmptyLines": 123,
+      "sections": [
+        {
+          "heading": "Cancel Idempotency-Key 멱등성 재구성 Implementation Plan",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Task 1: V15 마이그레이션 + dedup_key generated column + 엔티티/도메인 필드",
+          "level": 3,
+          "line": 26
+        },
+        {
+          "heading": "Task 2: 리포지토리 findByPaymentIdAndDedupKey",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "Task 3: Command + Controller 헤더 배선",
+          "level": 3,
+          "line": 84
+        },
+        {
+          "heading": "Task 4: CancelPaymentService dedup 로직 + 409 재사용 검증",
+          "level": 3,
+          "line": 104
+        },
+        {
+          "heading": "Task 5: ProcessingRecovery 재조회 dedup_key 전환",
+          "level": 3,
+          "line": 141
+        },
+        {
+          "heading": "Task 6: 문서 정정 (error-catalog / api-spec / domain-rules / db-schema / CLAUDE.md)",
+          "level": 3,
+          "line": 160
+        },
+        {
+          "heading": "검증 (전체 완료 후)",
+          "level": 2,
+          "line": 176
+        },
+        {
+          "heading": "Out of Scope",
+          "level": 2,
+          "line": 180
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    }
+  ]
+}

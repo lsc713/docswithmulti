@@ -1,0 +1,166 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/payout/REQUIREMENTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 65,
+      "nonEmptyLines": 51,
+      "sections": [
+        {
+          "heading": "Requirements — v1.0 정산 지급 실행 payout (settlement-service)",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "v1.0 Requirements",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "정산계좌 (ACCT)",
+          "level": 3,
+          "line": 16
+        },
+        {
+          "heading": "지급 승인·제출 (PAY)",
+          "level": 3,
+          "line": 20
+        },
+        {
+          "heading": "이체 결과 확인 (CONFIRM)",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "실패 재시도 (RETRY)",
+          "level": 3,
+          "line": 30
+        },
+        {
+          "heading": "외부 목 (MOCK)",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "불변 (INV)",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "v2 / Out of Scope (payout v3 → 각 별도)",
+          "level": 2,
+          "line": 39
+        },
+        {
+          "heading": "Traceability",
+          "level": 2,
+          "line": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout/ROADMAP.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 59,
+      "nonEmptyLines": 48,
+      "sections": [
+        {
+          "heading": "Roadmap — v1.0 정산 지급 실행 payout (settlement-service)",
+          "level": 1,
+          "line": 9
+        },
+        {
+          "heading": "Phases",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "Phase Details",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Phase 1: 계좌 + 승인·제출 + 확인→PAID (tracer)",
+          "level": 3,
+          "line": 25
+        },
+        {
+          "heading": "Phase 2: 이중지급 방지 + 실패 재시도 + 엣지 하드닝",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "Progress",
+          "level": 2,
+          "line": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout/STATE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 23,
+      "nonEmptyLines": 16,
+      "sections": [
+        {
+          "heading": "Project State",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "Current Position",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "Progress",
+          "level": 2,
+          "line": 15
+        },
+        {
+          "heading": "Session Continuity",
+          "level": 2,
+          "line": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    }
+  ]
+}

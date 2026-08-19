@@ -1,0 +1,32 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "language": "java",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "language": "java",
+      "sizeLines": 189,
+      "fileCategory": "code"
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "language": "java",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java": [],
+    "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java": [
+      "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java"
+    ],
+    "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java": [
+      "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java"
+    ]
+  }
+}

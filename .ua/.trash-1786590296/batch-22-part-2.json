@@ -1,0 +1,1246 @@
+{
+  "nodes": [
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "type": "file",
+      "name": "MerchantCancelUsageJpaEntity.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "summary": "risk-management-service에서 Merchant Cancel Usage Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:MerchantCancelUsageJpaEntity",
+      "type": "class",
+      "name": "MerchantCancelUsageJpaEntity",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "lineRange": [
+        10,
+        57
+      ],
+      "summary": "MerchantCancelUsageJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:MerchantCancelUsageJpaEntity",
+      "type": "function",
+      "name": "MerchantCancelUsageJpaEntity",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "lineRange": [
+        38,
+        38
+      ],
+      "summary": "MerchantCancelUsageJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "lineRange": [
+        40,
+        50
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "lineRange": [
+        52,
+        54
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "lineRange": [
+        56,
+        56
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "type": "file",
+      "name": "MerchantCancelUsageRepositoryImpl.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "summary": "risk-management-service의 Merchant Cancel Usage Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:MerchantCancelUsageRepositoryImpl",
+      "type": "class",
+      "name": "MerchantCancelUsageRepositoryImpl",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "lineRange": [
+        10,
+        46
+      ],
+      "summary": "MerchantCancelUsageRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "lineRange": [
+        15,
+        18
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:findByMerchantIdAndKstDate",
+      "type": "function",
+      "name": "findByMerchantIdAndKstDate",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "lineRange": [
+        20,
+        24
+      ],
+      "summary": "findByMerchantIdAndKstDate 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:findByMerchantIdAndKstDateForUpdate",
+      "type": "function",
+      "name": "findByMerchantIdAndKstDateForUpdate",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "lineRange": [
+        26,
+        30
+      ],
+      "summary": "findByMerchantIdAndKstDateForUpdate 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:ensureRow",
+      "type": "function",
+      "name": "ensureRow",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "lineRange": [
+        32,
+        35
+      ],
+      "summary": "ensureRow 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:tryDeduct",
+      "type": "function",
+      "name": "tryDeduct",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "lineRange": [
+        37,
+        40
+      ],
+      "summary": "tryDeduct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:tryRestore",
+      "type": "function",
+      "name": "tryRestore",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "lineRange": [
+        42,
+        45
+      ],
+      "summary": "tryRestore 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "type": "file",
+      "name": "GlobalExceptionHandler.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "summary": "risk-management-service의 Global Exception Handler 관련 domain/application 동작을 구현하며 5개의 주요 구조를 포함한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "presentation",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "class",
+      "name": "GlobalExceptionHandler",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        15,
+        58
+      ],
+      "summary": "GlobalExceptionHandler가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleLimitExceeded",
+      "type": "function",
+      "name": "handleLimitExceeded",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        20,
+        33
+      ],
+      "summary": "handleLimitExceeded 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "function",
+      "name": "handleBusiness",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        35,
+        41
+      ],
+      "summary": "handleBusiness 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleValidation",
+      "type": "function",
+      "name": "handleValidation",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        43,
+        50
+      ],
+      "summary": "handleValidation 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleUnexpected",
+      "type": "function",
+      "name": "handleUnexpected",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        52,
+        57
+      ],
+      "summary": "handleUnexpected 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "type": "file",
+      "name": "InternalCancelLimitController.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "summary": "risk-management-service의 Internal Cancel Limit Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "risk-management-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:InternalCancelLimitController",
+      "type": "class",
+      "name": "InternalCancelLimitController",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "lineRange": [
+        12,
+        40
+      ],
+      "summary": "InternalCancelLimitController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "risk-management-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:validateAndReserve",
+      "type": "function",
+      "name": "validateAndReserve",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "lineRange": [
+        21,
+        26
+      ],
+      "summary": "validateAndReserve 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "risk-management-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:compensate",
+      "type": "function",
+      "name": "compensate",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "lineRange": [
+        28,
+        33
+      ],
+      "summary": "compensate 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "risk-management-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:check",
+      "type": "function",
+      "name": "check",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "lineRange": [
+        35,
+        39
+      ],
+      "summary": "check 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "risk-management-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "type": "file",
+      "name": "CheckChargeResponse.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "summary": "risk-management-service의 Check Charge Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java:CheckChargeResponse",
+      "type": "class",
+      "name": "CheckChargeResponse",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "lineRange": [
+        7,
+        14
+      ],
+      "summary": "CheckChargeResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "lineRange": [
+        10,
+        13
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "type": "file",
+      "name": "CompensateRequest.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "summary": "risk-management-service의 Compensate Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java:CompensateRequest",
+      "type": "class",
+      "name": "CompensateRequest",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "lineRange": [
+        10,
+        18
+      ],
+      "summary": "CompensateRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java:toCommand",
+      "type": "function",
+      "name": "toCommand",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "toCommand 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "type": "file",
+      "name": "CompensateResponse.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "summary": "risk-management-service의 Compensate Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java:CompensateResponse",
+      "type": "class",
+      "name": "CompensateResponse",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "lineRange": [
+        5,
+        9
+      ],
+      "summary": "CompensateResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "lineRange": [
+        6,
+        8
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "type": "file",
+      "name": "ValidateAndReserveRequest.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "summary": "risk-management-service의 Validate And Reserve Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java:ValidateAndReserveRequest",
+      "type": "class",
+      "name": "ValidateAndReserveRequest",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "lineRange": [
+        12,
+        23
+      ],
+      "summary": "ValidateAndReserveRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java:toCommand",
+      "type": "function",
+      "name": "toCommand",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "lineRange": [
+        19,
+        22
+      ],
+      "summary": "toCommand 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "type": "file",
+      "name": "ValidateAndReserveResponse.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "summary": "risk-management-service의 Validate And Reserve Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java:ValidateAndReserveResponse",
+      "type": "class",
+      "name": "ValidateAndReserveResponse",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "lineRange": [
+        7,
+        17
+      ],
+      "summary": "ValidateAndReserveResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "lineRange": [
+        13,
+        16
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:MerchantCancelUsageJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:MerchantCancelUsageJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:MerchantCancelUsageJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:MerchantCancelUsageJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/MerchantCancelUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:MerchantCancelUsageRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:MerchantCancelUsageRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:findByMerchantIdAndKstDate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:findByMerchantIdAndKstDate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:findByMerchantIdAndKstDateForUpdate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:findByMerchantIdAndKstDateForUpdate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:ensureRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:ensureRow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:tryDeduct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:tryDeduct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:tryRestore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java:tryRestore",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantCancelUsageRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/MerchantCancelUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleLimitExceeded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleLimitExceeded",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleValidation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleValidation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleUnexpected",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java:handleUnexpected",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:InternalCancelLimitController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:InternalCancelLimitController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:validateAndReserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:validateAndReserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:compensate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:compensate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:check",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java:check",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CheckChargeUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CompensateUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/ValidateAndReserveUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java:CheckChargeResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java:CheckChargeResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CheckChargeUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java:CompensateRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java:CompensateRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java:toCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java:toCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CompensateUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java:CompensateResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java:CompensateResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CompensateUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java:ValidateAndReserveRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java:ValidateAndReserveRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java:toCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java:toCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/ValidateAndReserveUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java:ValidateAndReserveResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java:ValidateAndReserveResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/ValidateAndReserveUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

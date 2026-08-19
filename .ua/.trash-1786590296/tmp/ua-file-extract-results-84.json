@@ -1,0 +1,718 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [
+    "docs/load-test/topology.html"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 8
+    }
+  },
+  "results": [
+    {
+      "path": "docs/load-test/aws-run-plan-2026-07.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 185,
+      "nonEmptyLines": 138,
+      "sections": [
+        {
+          "heading": "AWS 실측 런 계획 — 2026-07 (관측 스모크 + 소비/정합성 + realistic-mix + 3-config 갱신)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "0. 스코프 — 무엇을 재고, 무엇을 안 재는가",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "토글이 상충 → 2페이즈로 분리",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "1. Prep — 공통 기동 (measurement-journey §7 준수)",
+          "level": 2,
+          "line": 32
+        },
+        {
+          "heading": "2. Phase O — white-box 관측 런타임 스모크 (OTel/QC ON)",
+          "level": 2,
+          "line": 49
+        },
+        {
+          "heading": "3. Phase M — 처리량 + 소비/정합성 (OTel/QC OFF, 공정 rps)",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "3a. ⑦ realistic-mix — 시드 스모크 먼저 (커밋 전 필수 게이트)",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "3b. ④ 3-config 220 baseline 갱신 (A/B/C)",
+          "level": 3,
+          "line": 106
+        },
+        {
+          "heading": "3c. ⑤ Kafka 소비/정합성 (위 런들에 피기백 — 별도 부하 불필요)",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "4. 판정표",
+          "level": 2,
+          "line": 134
+        },
+        {
+          "heading": "5. Teardown",
+          "level": 2,
+          "line": 145
+        },
+        {
+          "heading": "6. 결과 (2026-07-12 실행)",
+          "level": 2,
+          "line": 153
+        },
+        {
+          "heading": "Phase O — 관측 스모크 ✅ (3/3, \"실측으로 증명\" 스레드 닫힘)",
+          "level": 3,
+          "line": 155
+        },
+        {
+          "heading": "④ 3-config 220 baseline 갱신",
+          "level": 3,
+          "line": 160
+        },
+        {
+          "heading": "⑤ Kafka 소비/정합성 (config-B 깨끗한 측정)",
+          "level": 3,
+          "line": 169
+        },
+        {
+          "heading": "⑦ realistic-mix",
+          "level": 3,
+          "line": 176
+        },
+        {
+          "heading": "방법론 메모",
+          "level": 3,
+          "line": 181
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 17
+      }
+    },
+    {
+      "path": "docs/load-test/capacity-planning.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 185,
+      "nonEmptyLines": 129,
+      "sections": [
+        {
+          "heading": "취소 경로 용량 계획 (Capacity Planning)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "0. 왜 이 노트인가 — 공급은 쟀고 수요는 안 정했다",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "1. 공급 — 실측된 용량",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "1a. SLO 봉투 — open-model 도착률 실측 (2026-07-13)",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "2. SLO 정의",
+          "level": 2,
+          "line": 83
+        },
+        {
+          "heading": "3. 수요 (a) — 세일-버스트 웨이브 (부드러운 peak가 아님)",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "4. 수요 (b) — 핫 가맹점 집중 (단일 행 경합)",
+          "level": 2,
+          "line": 123
+        },
+        {
+          "heading": "5. 공급 vs 수요 — 판정",
+          "level": 2,
+          "line": 134
+        },
+        {
+          "heading": "6. 결정 & 트리거 — 무엇을 언제",
+          "level": 2,
+          "line": 146
+        },
+        {
+          "heading": "(a) aggregate 웨이브 → 수직 스케일업 (그다음 수평/큐)",
+          "level": 3,
+          "line": 150
+        },
+        {
+          "heading": "(b) 핫 가맹점 → 설계 변경 (스케일업 무효)",
+          "level": 3,
+          "line": 161
+        },
+        {
+          "heading": "7. 후속 실측 (선택, 목표가 임계에 닿을 때만)",
+          "level": 2,
+          "line": 171
+        },
+        {
+          "heading": "8. 한 줄 결론",
+          "level": 2,
+          "line": 183
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/load-test/k3s-scaleout-results.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 110,
+      "nonEmptyLines": 74,
+      "sections": [
+        {
+          "heading": "k3s 수평 스케일아웃 — 검증 실험 5종 결과 (2026-07-13)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "판정표",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "① 스케줄러 락 안전성 — PASS",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "② 파드 간 멱등 — PASS(핵심) + 정직한 발견",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "③ N-replica 천장 — 격리 재측정으로 원인 규명 (헤드라인 정정)",
+          "level": 2,
+          "line": 36
+        },
+        {
+          "heading": "④ 가용성(HA) — PASS",
+          "level": 2,
+          "line": 77
+        },
+        {
+          "heading": "⑤ 무중단 롤링배포 — PASS (preStop, A/B 인과 증명)",
+          "level": 2,
+          "line": 86
+        },
+        {
+          "heading": "종합",
+          "level": 2,
+          "line": 103
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "docs/load-test/measurement-journey.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 297,
+      "nonEmptyLines": 226,
+      "sections": [
+        {
+          "heading": "결제 취소 시스템 부하 실측 여정 (Load Test Journey)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "0. 실측 원칙",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "1. 관측 지표 (계층별)",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "2. 네트워크 / AZ 결정 (서버간 통신 실측)",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "3. VU 램프업 스테이지 (2축)",
+          "level": 2,
+          "line": 52
+        },
+        {
+          "heading": "축 A — 처리량 (분산된 payment)",
+          "level": 3,
+          "line": 56
+        },
+        {
+          "heading": "축 B — 경합 (동일 payment / 동일 merchant)",
+          "level": 3,
+          "line": 68
+        },
+        {
+          "heading": "4. 더 측정할 것 (발산 → 우선순위)",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "필수 (P0)",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "중요 (P1)",
+          "level": 3,
+          "line": 91
+        },
+        {
+          "heading": "관찰 (P2)",
+          "level": 3,
+          "line": 98
+        },
+        {
+          "heading": "5. 판단 기준 (Pass / Knee / Breaking point)",
+          "level": 2,
+          "line": 106
+        },
+        {
+          "heading": "6. 결과 기록 템플릿",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "7. 실행 절차 (Runbook)",
+          "level": 2,
+          "line": 137
+        },
+        {
+          "heading": "8. 실행 로그",
+          "level": 2,
+          "line": 164
+        },
+        {
+          "heading": "[스테이지] S0-smoke (2026-07-10, 로컬 docker-compose)",
+          "level": 3,
+          "line": 168
+        },
+        {
+          "heading": "[스테이지] S0-smoke (2026-07-10, **AWS** 분리 인프라)",
+          "level": 3,
+          "line": 177
+        },
+        {
+          "heading": "[스테이지] S1-baseline (2026-07-10, **AWS** 분리 인프라)",
+          "level": 3,
+          "line": 184
+        },
+        {
+          "heading": "[스테이지] hot-merchant 축 B 경합 스윕 (2026-07-10, **AWS**)",
+          "level": 3,
+          "line": 194
+        },
+        {
+          "heading": "[스테이지] AFTER — 원자 조건부 UPDATE 적용 (2026-07-10, **AWS**, PR #43)",
+          "level": 3,
+          "line": 210
+        },
+        {
+          "heading": "[실험] daily_limit 해석 층 3-config + netem (2026-07-10, **AWS**, PR #45)",
+          "level": 3,
+          "line": 233
+        },
+        {
+          "heading": "9. 인스턴스 사이징 (패밀리 규칙 + 역할별 근거)",
+          "level": 2,
+          "line": 252
+        },
+        {
+          "heading": "Graviton 패밀리 규칙 (전부 ARM, t4g만 Graviton2)",
+          "level": 3,
+          "line": 258
+        },
+        {
+          "heading": "역할별 배치 (`infra/load-test/instances.tf`)",
+          "level": 3,
+          "line": 269
+        },
+        {
+          "heading": "10. white-box 관측 (트레이스 + 요청당 쿼리 수)",
+          "level": 2,
+          "line": 292
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 25
+      }
+    },
+    {
+      "path": "docs/load-test/outbox-poller-livelock.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 116,
+      "nonEmptyLines": 81,
+      "sections": [
+        {
+          "heading": "실전 버그 — OUTBOX 폴러 라이브락 (커넥션 풀 굶음)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "0. 한 줄 요약",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "1. 증상 (관측)",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "2. 근본 원인 — 공유 커넥션 풀 경합",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "3. 왜 라이브락인가",
+          "level": 2,
+          "line": 39
+        },
+        {
+          "heading": "4. 영향",
+          "level": 2,
+          "line": 68
+        },
+        {
+          "heading": "5. 왜 폴러 내부 최적화로 안 풀리나 → 수정 방향",
+          "level": 2,
+          "line": 75
+        },
+        {
+          "heading": "6. 해결 — 폴러 전용 DataSource (PR #59, 재측정 확정)",
+          "level": 2,
+          "line": 89
+        },
+        {
+          "heading": "7. CDC(Debezium)는 검토했으나 보류 — 근거 있는 YAGNI",
+          "level": 2,
+          "line": 102
+        },
+        {
+          "heading": "8. 관련",
+          "level": 2,
+          "line": 111
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "docs/load-test/product-detail.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 206,
+      "nonEmptyLines": 150,
+      "sections": [
+        {
+          "heading": "Product detail load test runbook",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Local smoke",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "AWS run",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "Preflight",
+          "level": 3,
+          "line": 34
+        },
+        {
+          "heading": "Provision and deploy",
+          "level": 3,
+          "line": 66
+        },
+        {
+          "heading": "Wait for product-service and Flyway",
+          "level": 3,
+          "line": 103
+        },
+        {
+          "heading": "Seed through the SSM tunnel",
+          "level": 3,
+          "line": 130
+        },
+        {
+          "heading": "Warm up and smoke",
+          "level": 3,
+          "line": 146
+        },
+        {
+          "heading": "Record identical comparisons",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "Destroy the rig",
+          "level": 3,
+          "line": 198
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "docs/load-test/publish-pattern-benchmark.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 375,
+      "nonEmptyLines": 274,
+      "sections": [
+        {
+          "heading": "Kafka 발행 패턴 실측 런북 (Publish-Pattern Benchmark)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "0. 배경 및 실험 설계",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "모드 요약",
+          "level": 3,
+          "line": 14
+        },
+        {
+          "heading": "1. 공정 비교 토글",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "2. 런타임 지표명 사전 확인 체크리스트",
+          "level": 2,
+          "line": 44
+        },
+        {
+          "heading": "3. 인프라 기동 및 배포",
+          "level": 2,
+          "line": 73
+        },
+        {
+          "heading": "3-1. 이미지 준비 (코드가 바뀐 경우만)",
+          "level": 3,
+          "line": 77
+        },
+        {
+          "heading": "3-2. 인프라 기동",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "3-3. 모드별 배포 절차",
+          "level": 3,
+          "line": 93
+        },
+        {
+          "heading": "3-4. 관측 열기",
+          "level": 3,
+          "line": 122
+        },
+        {
+          "heading": "4. P1 — 처리량/점유 실측 (3모드 런)",
+          "level": 2,
+          "line": 131
+        },
+        {
+          "heading": "목적",
+          "level": 3,
+          "line": 133
+        },
+        {
+          "heading": "가설",
+          "level": 3,
+          "line": 137
+        },
+        {
+          "heading": "실행",
+          "level": 3,
+          "line": 143
+        },
+        {
+          "heading": "캡처 항목 (모드당)",
+          "level": 3,
+          "line": 155
+        },
+        {
+          "heading": "결과 기록 템플릿",
+          "level": 3,
+          "line": 170
+        },
+        {
+          "heading": "5. P2 — 지연 / 장애 / 버스트",
+          "level": 2,
+          "line": 189
+        },
+        {
+          "heading": "5-1. e2e 발행→소비 지연",
+          "level": 3,
+          "line": 191
+        },
+        {
+          "heading": "5-2. 장애 주입 — Kafka 브로커 docker stop",
+          "level": 3,
+          "line": 217
+        },
+        {
+          "heading": "5-3. 버스트 — Produce Rate 시간축",
+          "level": 3,
+          "line": 267
+        },
+        {
+          "heading": "6. 대시보드 육안 체크리스트",
+          "level": 2,
+          "line": 283
+        },
+        {
+          "heading": "7. 판정표 (결과 기록 템플릿)",
+          "level": 2,
+          "line": 299
+        },
+        {
+          "heading": "8. 실행 체크리스트 (런 전/중/후)",
+          "level": 2,
+          "line": 342
+        },
+        {
+          "heading": "9. 주의사항 및 한계",
+          "level": 2,
+          "line": 369
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 24
+      }
+    },
+    {
+      "path": "docs/load-test/saturation-diagnosis.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 50,
+      "nonEmptyLines": 35,
+      "sections": [
+        {
+          "heading": "포화 진단 (185 rps 벽 규명) — 런 절차 + USE 판정 트리",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "사전 조건",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "런 절차",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "USE 판정 트리",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "3-뷰 대시보드 (Inbound·App·Infra)",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "교차 확인 (Tempo)",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "한계",
+          "level": 2,
+          "line": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    }
+  ]
+}

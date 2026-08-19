@@ -1,0 +1,1539 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "type": "file",
+      "name": "PaymentItemJpaEntity.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "summary": "payment-service에서 Payment Item Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:PaymentItemJpaEntity",
+      "type": "class",
+      "name": "PaymentItemJpaEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        15,
+        98
+      ],
+      "summary": "PaymentItemJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:PaymentItemJpaEntity",
+      "type": "function",
+      "name": "PaymentItemJpaEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        63,
+        63
+      ],
+      "summary": "PaymentItemJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        65,
+        80
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        82,
+        87
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        89,
+        89
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setId",
+      "type": "function",
+      "name": "setId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        90,
+        90
+      ],
+      "summary": "setId 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getPaymentId",
+      "type": "function",
+      "name": "getPaymentId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        91,
+        91
+      ],
+      "summary": "getPaymentId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getOrderItemId",
+      "type": "function",
+      "name": "getOrderItemId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        92,
+        92
+      ],
+      "summary": "getOrderItemId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getSkuId",
+      "type": "function",
+      "name": "getSkuId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        93,
+        93
+      ],
+      "summary": "getSkuId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getQuantity",
+      "type": "function",
+      "name": "getQuantity",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        94,
+        94
+      ],
+      "summary": "getQuantity 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        95,
+        95
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setStatus",
+      "type": "function",
+      "name": "setStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        96,
+        96
+      ],
+      "summary": "setStatus 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setUpdatedAt",
+      "type": "function",
+      "name": "setUpdatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "lineRange": [
+        97,
+        97
+      ],
+      "summary": "setUpdatedAt 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "type": "file",
+      "name": "PaymentJpaEntity.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "summary": "payment-service에서 Payment Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:PaymentJpaEntity",
+      "type": "class",
+      "name": "PaymentJpaEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        16,
+        194
+      ],
+      "summary": "PaymentJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:PaymentJpaEntity",
+      "type": "function",
+      "name": "PaymentJpaEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        68,
+        94
+      ],
+      "summary": "PaymentJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        100,
+        115
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        120,
+        135
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        139,
+        141
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getPaymentKey",
+      "type": "function",
+      "name": "getPaymentKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        143,
+        145
+      ],
+      "summary": "getPaymentKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getMerchantId",
+      "type": "function",
+      "name": "getMerchantId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        147,
+        149
+      ],
+      "summary": "getMerchantId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getUserId",
+      "type": "function",
+      "name": "getUserId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        151,
+        153
+      ],
+      "summary": "getUserId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getOrderId",
+      "type": "function",
+      "name": "getOrderId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        155,
+        157
+      ],
+      "summary": "getOrderId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getPgType",
+      "type": "function",
+      "name": "getPgType",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        159,
+        161
+      ],
+      "summary": "getPgType 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getTotalAmount",
+      "type": "function",
+      "name": "getTotalAmount",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        163,
+        165
+      ],
+      "summary": "getTotalAmount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCurrency",
+      "type": "function",
+      "name": "getCurrency",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        167,
+        169
+      ],
+      "summary": "getCurrency 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCancelPeriodDays",
+      "type": "function",
+      "name": "getCancelPeriodDays",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        171,
+        173
+      ],
+      "summary": "getCancelPeriodDays 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        175,
+        177
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:setStatus",
+      "type": "function",
+      "name": "setStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        179,
+        181
+      ],
+      "summary": "setStatus 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        183,
+        185
+      ],
+      "summary": "getCreatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getUpdatedAt",
+      "type": "function",
+      "name": "getUpdatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        187,
+        189
+      ],
+      "summary": "getUpdatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:setUpdatedAt",
+      "type": "function",
+      "name": "setUpdatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "lineRange": [
+        191,
+        193
+      ],
+      "summary": "setUpdatedAt 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java",
+      "type": "file",
+      "name": "PaymentSettlementJpaRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java",
+      "summary": "payment-service의 Payment Settlement Jpa Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java:PaymentSettlementJpaRepository",
+      "type": "class",
+      "name": "PaymentSettlementJpaRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java",
+      "lineRange": [
+        16,
+        61
+      ],
+      "summary": "PaymentSettlementJpaRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "type": "file",
+      "name": "LongListConverter.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "summary": "payment-service에서 Long List Converter domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:LongListConverter",
+      "type": "class",
+      "name": "LongListConverter",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "lineRange": [
+        14,
+        42
+      ],
+      "summary": "LongListConverter가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:convertToDatabaseColumn",
+      "type": "function",
+      "name": "convertToDatabaseColumn",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "lineRange": [
+        19,
+        29
+      ],
+      "summary": "convertToDatabaseColumn 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:convertToEntityAttribute",
+      "type": "function",
+      "name": "convertToEntityAttribute",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "lineRange": [
+        31,
+        41
+      ],
+      "summary": "convertToEntityAttribute 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "type": "file",
+      "name": "PendingRecoveryScheduler.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "summary": "payment-service에서 Pending Recovery Scheduler 백그라운드 작업을 주기적으로 실행하고 처리 상태를 관리한다.",
+      "tags": [
+        "payment-service",
+        "scheduler",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java:PendingRecoveryScheduler",
+      "type": "class",
+      "name": "PendingRecoveryScheduler",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "lineRange": [
+        14,
+        46
+      ],
+      "summary": "PendingRecoveryScheduler가 담당하는 scheduler 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java:run",
+      "type": "function",
+      "name": "run",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "lineRange": [
+        25,
+        45
+      ],
+      "summary": "run 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "type": "file",
+      "name": "PaymentSettlementController.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "summary": "payment-service의 Payment Settlement Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "payment-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:PaymentSettlementController",
+      "type": "class",
+      "name": "PaymentSettlementController",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "lineRange": [
+        27,
+        75
+      ],
+      "summary": "PaymentSettlementController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "payment-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:settlement",
+      "type": "function",
+      "name": "settlement",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "lineRange": [
+        36,
+        57
+      ],
+      "summary": "settlement 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:handleBadRequest",
+      "type": "function",
+      "name": "handleBadRequest",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "lineRange": [
+        71,
+        74
+      ],
+      "summary": "handleBadRequest 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "type": "file",
+      "name": "PaymentSettlementResponse.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "summary": "payment-service의 Payment Settlement Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java:PaymentSettlementResponse",
+      "type": "class",
+      "name": "PaymentSettlementResponse",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "lineRange": [
+        15,
+        37
+      ],
+      "summary": "PaymentSettlementResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "lineRange": [
+        25,
+        36
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:PaymentItemJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:PaymentItemJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:PaymentItemJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:PaymentItemJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getPaymentId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getPaymentId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getOrderItemId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getOrderItemId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getSkuId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getSkuId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getQuantity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getQuantity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java:setUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:PaymentJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:PaymentJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:PaymentJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:PaymentJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getPaymentKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getPaymentKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getMerchantId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getMerchantId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getOrderId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getOrderId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getPgType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getPgType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getTotalAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getTotalAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCurrency",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCurrency",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCancelPeriodDays",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCancelPeriodDays",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:setStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:setStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:getUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:setUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java:setUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java:PaymentSettlementJpaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java:PaymentSettlementJpaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:LongListConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:LongListConverter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:convertToDatabaseColumn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:convertToDatabaseColumn",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:convertToEntityAttribute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java:convertToEntityAttribute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java:PendingRecoveryScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java:PendingRecoveryScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java:run",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java:run",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:PaymentSettlementController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:PaymentSettlementController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:settlement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:settlement",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:handleBadRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java:handleBadRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java:PaymentSettlementResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java:PaymentSettlementResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

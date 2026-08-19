@@ -1,0 +1,182 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "language": "java",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "language": "java",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "language": "java",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "language": "java",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java",
+      "language": "java",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java",
+      "language": "java",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "merchant-limit-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "sizeLines": 68,
+      "fileCategory": "config"
+    },
+    {
+      "path": "order-service/build.gradle",
+      "language": "gradle",
+      "sizeLines": 22,
+      "fileCategory": "config"
+    },
+    {
+      "path": "order-service/order.http",
+      "language": "http",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/OrderServiceApplication.java",
+      "language": "java",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "language": "java",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "language": "java",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "language": "java",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "language": "java",
+      "sizeLines": 76,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaRepository.java",
+      "language": "java",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaRepository.java",
+      "language": "java",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderJpaRepository.java",
+      "language": "java",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "language": "java",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "language": "java",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "sizeLines": 58,
+      "fileCategory": "config"
+    },
+    {
+      "path": "payment-service/build.gradle",
+      "language": "gradle",
+      "sizeLines": 59,
+      "fileCategory": "config"
+    },
+    {
+      "path": "payment-service/payment.http",
+      "language": "http",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/PaymentServiceApplication.java",
+      "language": "java",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/dto/CheckChargeResponseDto.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java": [],
+    "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java": [],
+    "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java": [],
+    "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java": [],
+    "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java": [],
+    "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java": [],
+    "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java": [],
+    "merchant-limit-service/src/main/resources/application.yml": [],
+    "order-service/build.gradle": [],
+    "order-service/order.http": [],
+    "order-service/src/main/java/com/example/order/OrderServiceApplication.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaRepository.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaRepository.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaRepository.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderJpaRepository.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventJpaEntity.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventJpaRepository.java": [],
+    "order-service/src/main/resources/application.yml": [],
+    "payment-service/build.gradle": [],
+    "payment-service/payment.http": [],
+    "payment-service/src/main/java/com/example/payment/PaymentServiceApplication.java": [],
+    "payment-service/src/main/java/com/example/payment/application/dto/CheckChargeResponseDto.java": []
+  }
+}

@@ -28,6 +28,17 @@ test('가드: 비로그인 상태로 /admin 접근 시 로그인으로 리다이
   await expect(page.locator('h1')).toHaveText('어드민 로그인')
 })
 
+test('스토어에서 ADMIN 로그인 시 취소 요청 콘솔로 이동', async ({ page }) => {
+  await page.goto(BASE)
+  await page.getByRole('navigation', { name: '주요 메뉴' }).getByRole('button', { name: '로그인' }).click()
+  await page.locator('.modal').getByPlaceholder('email').fill(ADMIN.email)
+  await page.locator('.modal').getByPlaceholder('password').fill(ADMIN.password)
+  await page.locator('.modal').getByRole('button', { name: '로그인' }).click()
+
+  await expect(page).toHaveURL(/\/admin\/cancel-requests$/)
+  await expect(page.getByRole('heading', { name: '취소 요청' })).toBeVisible()
+})
+
 test('저니: 로그인 → 대시보드 → 상품 생성 → 상세/이미지 → 회원 역할변경', async ({ page }) => {
   await loginAdmin(page)
   await expect(page.locator('.admin-card')).toHaveCount(4)

@@ -1,0 +1,105 @@
+{
+  "nodes": [
+    {
+      "id": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:V1__create_merchant_limit_core",
+      "type": "table",
+      "name": "V1__create_merchant_limit_core.sql",
+      "filePath": "merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql",
+      "summary": "merchant-limit-service database에서 merchant, merchant_cancel_limit, merchant_cancel_limit_history, limit_event_outbox schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "merchant-limit-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:merchant",
+      "type": "table",
+      "name": "merchant",
+      "filePath": "merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql",
+      "summary": "merchant table은 id, merchant_key, name, status, cancel_period_days, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "merchant-limit-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:merchant_cancel_limit",
+      "type": "table",
+      "name": "merchant_cancel_limit",
+      "filePath": "merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql",
+      "summary": "merchant_cancel_limit table은 id, merchant_id, daily_limit, updated_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "merchant-limit-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:merchant_cancel_limit_history",
+      "type": "table",
+      "name": "merchant_cancel_limit_history",
+      "filePath": "merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql",
+      "summary": "merchant_cancel_limit_history table은 id, merchant_id, old_limit, new_limit, reason, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "merchant-limit-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:limit_event_outbox",
+      "type": "table",
+      "name": "limit_event_outbox",
+      "filePath": "merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql",
+      "summary": "limit_event_outbox table은 id, merchant_id, payload, status, created_at, published_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "merchant-limit-service"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:V1__create_merchant_limit_core",
+      "target": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:merchant",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:V1__create_merchant_limit_core",
+      "target": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:merchant_cancel_limit",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:V1__create_merchant_limit_core",
+      "target": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:merchant_cancel_limit_history",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:V1__create_merchant_limit_core",
+      "target": "table:merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql:limit_event_outbox",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

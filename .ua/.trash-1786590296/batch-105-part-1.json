@@ -1,0 +1,1283 @@
+{
+  "nodes": [
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "type": "file",
+      "name": "MerchantLimitApplication.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "summary": "가맹점 한도 Spring Boot service를 시작하는 application entry point다.",
+      "tags": [
+        "source-code",
+        "entry-point",
+        "spring-boot",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "lineRange": [
+        10,
+        12
+      ],
+      "summary": "가맹점 한도 흐름에서 main 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java:MerchantLimitApplication",
+      "type": "class",
+      "name": "MerchantLimitApplication",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "lineRange": [
+        7,
+        13
+      ],
+      "summary": "가맹점 한도 service의 Spring Boot 실행을 시작한다.",
+      "tags": [
+        "class",
+        "entry-point",
+        "spring-boot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "type": "file",
+      "name": "KafkaProducerConfig.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "summary": "가맹점 한도 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "function",
+      "name": "kafkaTemplate",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        20,
+        30
+      ],
+      "summary": "가맹점 한도 흐름에서 kafkaTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "class",
+      "name": "KafkaProducerConfig",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        14,
+        31
+      ],
+      "summary": "가맹점 한도 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "type": "file",
+      "name": "LimitEventKafkaProducer.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "summary": "가맹점 한도 기능을 구현하며 LimitEventKafkaProducer, publish 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "가맹점-한도",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "lineRange": [
+        24,
+        32
+      ],
+      "summary": "가맹점 한도 흐름에서 publish 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java:LimitEventKafkaProducer",
+      "type": "class",
+      "name": "LimitEventKafkaProducer",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "lineRange": [
+        9,
+        33
+      ],
+      "summary": "가맹점 한도의 LimitEventKafkaProducer 책임과 관련 동작을 캡슐화한다.",
+      "tags": [
+        "class",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "type": "file",
+      "name": "LimitEventOutboxJpaEntity.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "summary": "가맹점 한도 기능을 구현하며 LimitEventOutboxJpaEntity, LimitEventOutboxJpaEntity, pending 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "가맹점-한도",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:LimitEventOutboxJpaEntity",
+      "type": "function",
+      "name": "LimitEventOutboxJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        31,
+        31
+      ],
+      "summary": "가맹점 한도 흐름에서 LimitEventOutboxJpaEntity 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:pending",
+      "type": "function",
+      "name": "pending",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        33,
+        40
+      ],
+      "summary": "가맹점 한도 흐름에서 pending 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:markPublished",
+      "type": "function",
+      "name": "markPublished",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        42,
+        45
+      ],
+      "summary": "가맹점 한도 흐름에서 markPublished 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        47,
+        47
+      ],
+      "summary": "가맹점 한도 흐름에서 getId 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getMerchantId",
+      "type": "function",
+      "name": "getMerchantId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        48,
+        48
+      ],
+      "summary": "가맹점 한도 흐름에서 getMerchantId 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getPayload",
+      "type": "function",
+      "name": "getPayload",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        49,
+        49
+      ],
+      "summary": "가맹점 한도 흐름에서 getPayload 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        50,
+        50
+      ],
+      "summary": "가맹점 한도 흐름에서 getStatus 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:LimitEventOutboxJpaEntity",
+      "type": "class",
+      "name": "LimitEventOutboxJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "lineRange": [
+        6,
+        51
+      ],
+      "summary": "가맹점 한도 상태를 database record로 매핑하는 JPA entity다.",
+      "tags": [
+        "class",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java",
+      "type": "file",
+      "name": "CreateMerchantRequest.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java",
+      "summary": "가맹점 한도 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java:CreateMerchantRequest",
+      "type": "class",
+      "name": "CreateMerchantRequest",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java",
+      "lineRange": [
+        5,
+        9
+      ],
+      "summary": "가맹점 한도 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java",
+      "type": "file",
+      "name": "PatchMerchantStatusRequest.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java",
+      "summary": "가맹점 한도 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java:PatchMerchantStatusRequest",
+      "type": "class",
+      "name": "PatchMerchantStatusRequest",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "가맹점 한도 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java",
+      "type": "file",
+      "name": "UpdateLimitRequest.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java",
+      "summary": "가맹점 한도 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java:UpdateLimitRequest",
+      "type": "class",
+      "name": "UpdateLimitRequest",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java",
+      "lineRange": [
+        7,
+        10
+      ],
+      "summary": "가맹점 한도 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:merchant-limit-service/src/main/resources/application.yml",
+      "type": "config",
+      "name": "application.yml",
+      "filePath": "merchant-limit-service/src/main/resources/application.yml",
+      "summary": "가맹점 한도 Spring Boot service의 port, datasource, Kafka 및 운영 설정을 구성한다.",
+      "tags": [
+        "configuration",
+        "가맹점-한도",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:order-service/build.gradle",
+      "type": "config",
+      "name": "build.gradle",
+      "filePath": "order-service/build.gradle",
+      "summary": "주문 module의 Gradle plugin, dependency와 test/build 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "주문",
+        "gradle",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/order.http",
+      "type": "file",
+      "name": "order.http",
+      "filePath": "order-service/order.http",
+      "summary": "주문 기능을 지원하는 http source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "api-handler",
+        "http",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "type": "file",
+      "name": "KafkaConsumerConfig.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "summary": "주문 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "function",
+      "name": "KafkaConsumerConfig",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        36,
+        38
+      ],
+      "summary": "주문 흐름에서 KafkaConsumerConfig 작업을 수행한다.",
+      "tags": [
+        "function",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "function",
+      "name": "consumerFactory",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        40,
+        55
+      ],
+      "summary": "주문 흐름에서 consumerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "function",
+      "name": "kafkaListenerContainerFactory",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        65,
+        73
+      ],
+      "summary": "주문 흐름에서 kafkaListenerContainerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:retryConsumerFactory",
+      "type": "function",
+      "name": "retryConsumerFactory",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        75,
+        92
+      ],
+      "summary": "주문 흐름에서 retryConsumerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:retryKafkaListenerContainerFactory",
+      "type": "function",
+      "name": "retryKafkaListenerContainerFactory",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        94,
+        102
+      ],
+      "summary": "주문 흐름에서 retryKafkaListenerContainerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "class",
+      "name": "KafkaConsumerConfig",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        21,
+        103
+      ],
+      "summary": "주문 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "type": "file",
+      "name": "DlqMessage.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "summary": "주문 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "lineRange": [
+        23,
+        39
+      ],
+      "summary": "주문 흐름에서 of 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java:DlqMessage",
+      "type": "class",
+      "name": "DlqMessage",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "lineRange": [
+        10,
+        51
+      ],
+      "summary": "주문 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "type": "file",
+      "name": "CancelRestoreDlqJpaEntity.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "summary": "주문 기능을 구현하며 CancelRestoreDlqJpaEntity, CancelRestoreDlqJpaEntity, getId 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "주문",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "function",
+      "name": "CancelRestoreDlqJpaEntity",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        52,
+        52
+      ],
+      "summary": "주문 흐름에서 CancelRestoreDlqJpaEntity 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        54,
+        54
+      ],
+      "summary": "주문 흐름에서 getId 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getCancelRequestId",
+      "type": "function",
+      "name": "getCancelRequestId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        55,
+        55
+      ],
+      "summary": "주문 흐름에서 getCancelRequestId 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLeg",
+      "type": "function",
+      "name": "getLeg",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        56,
+        56
+      ],
+      "summary": "주문 흐름에서 getLeg 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getPayload",
+      "type": "function",
+      "name": "getPayload",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        57,
+        57
+      ],
+      "summary": "주문 흐름에서 getPayload 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getRetryCount",
+      "type": "function",
+      "name": "getRetryCount",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        58,
+        58
+      ],
+      "summary": "주문 흐름에서 getRetryCount 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getAttemptCount",
+      "type": "function",
+      "name": "getAttemptCount",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        59,
+        59
+      ],
+      "summary": "주문 흐름에서 getAttemptCount 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        60,
+        60
+      ],
+      "summary": "주문 흐름에서 getStatus 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLastError",
+      "type": "function",
+      "name": "getLastError",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        61,
+        61
+      ],
+      "summary": "주문 흐름에서 getLastError 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "class",
+      "name": "CancelRestoreDlqJpaEntity",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        10,
+        62
+      ],
+      "summary": "주문 상태를 database record로 매핑하는 JPA entity다.",
+      "tags": [
+        "class",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java:main",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java:main",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java:MerchantLimitApplication",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java:MerchantLimitApplication",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java:publish",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java:publish",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java:LimitEventKafkaProducer",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java:LimitEventKafkaProducer",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:LimitEventOutboxJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:LimitEventOutboxJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:pending",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:pending",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:markPublished",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:markPublished",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getId",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getId",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getMerchantId",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getMerchantId",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getPayload",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getPayload",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getStatus",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:getStatus",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:LimitEventOutboxJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java:LimitEventOutboxJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java:CreateMerchantRequest",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java:CreateMerchantRequest",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java:PatchMerchantStatusRequest",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java:PatchMerchantStatusRequest",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java:UpdateLimitRequest",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java:UpdateLimitRequest",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:retryConsumerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:retryConsumerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:retryKafkaListenerContainerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:retryKafkaListenerContainerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java:of",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java:of",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java:DlqMessage",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java:DlqMessage",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getId",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getId",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getCancelRequestId",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getCancelRequestId",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLeg",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLeg",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getPayload",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getPayload",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getRetryCount",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getRetryCount",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getAttemptCount",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getAttemptCount",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getStatus",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getStatus",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLastError",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLastError",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    }
+  ]
+}

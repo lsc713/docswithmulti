@@ -1,0 +1,231 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/milestone/REQUIREMENTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 119,
+      "nonEmptyLines": 80,
+      "sections": [
+        {
+          "heading": "REQUIREMENTS — Milestone 1 (현재 인프라 검증 & 개선)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "VALID — 검증 & 실측 (Validation)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "VALID-01: 재현 가능한 처리량/지연 실측 절차",
+          "level": 3,
+          "line": 9
+        },
+        {
+          "heading": "VALID-02: USE-method 포화 진단 관측 키트",
+          "level": 3,
+          "line": 18
+        },
+        {
+          "heading": "OPS — 운영성 & 온콜 (Operability)",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "OPS-01: 3-view 시스템 대시보드 + white-box 관측",
+          "level": 3,
+          "line": 29
+        },
+        {
+          "heading": "OPS-02: oncall 스킬 프로젝트 자립화",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "RESIL — 정합성 & 복구 갭 (스케일아웃에서 드러남)",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "RESIL-01: ProcessingRecovery 복구 경로 완결",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "RESIL-02: 멀티파드 동시 취소 멱등 응답",
+          "level": 3,
+          "line": 57
+        },
+        {
+          "heading": "RESIL-03: ProcessingRecovery 동시성 가드",
+          "level": 3,
+          "line": 65
+        },
+        {
+          "heading": "DEPLOY — 무중단 운영 (Scale-out Operability)",
+          "level": 2,
+          "line": 73
+        },
+        {
+          "heading": "DEPLOY-01: 무중단 롤링배포 매니페스트 고정",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "PERF — 용량 개선 (Capacity Improvement)",
+          "level": 2,
+          "line": 83
+        },
+        {
+          "heading": "PERF-01: payment_db 병목 완화 레버 실측·적용",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "Traceability",
+          "level": 2,
+          "line": 96
+        },
+        {
+          "heading": "Deferred (Milestone 1 범위 밖)",
+          "level": 2,
+          "line": 112
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 17
+      }
+    },
+    {
+      "path": ".planning/workstreams/milestone/ROADMAP.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 119,
+      "nonEmptyLines": 86,
+      "sections": [
+        {
+          "heading": "ROADMAP — 패션 이커머스 결제 취소 시스템",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Phases",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "Phase Details",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "Phase 1: 실측 재현 & 병목 관측 기반 확립",
+          "level": 3,
+          "line": 21
+        },
+        {
+          "heading": "Phase 2: 정합성 & 복구 갭 마감",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "Phase 3: 무중단 운영 하드닝",
+          "level": 3,
+          "line": 66
+        },
+        {
+          "heading": "Phase 4: 용량 개선 레버 실측·적용",
+          "level": 3,
+          "line": 84
+        },
+        {
+          "heading": "Progress",
+          "level": 2,
+          "line": 104
+        },
+        {
+          "heading": "향후 마일스톤 (high-level sketch only)",
+          "level": 2,
+          "line": 113
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": ".planning/workstreams/milestone/STATE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 87,
+      "nonEmptyLines": 66,
+      "sections": [
+        {
+          "heading": "STATE — 패션 이커머스 결제 취소 시스템",
+          "level": 1,
+          "line": 17
+        },
+        {
+          "heading": "Project Reference",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "Current Position",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "Performance Metrics",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "Accumulated Context",
+          "level": 2,
+          "line": 51
+        },
+        {
+          "heading": "Session Continuity",
+          "level": 2,
+          "line": 73
+        },
+        {
+          "heading": "Decisions",
+          "level": 2,
+          "line": 83
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    }
+  ]
+}

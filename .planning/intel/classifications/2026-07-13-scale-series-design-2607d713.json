@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/specs/2026-07-13-scale-series-design.md",
+  "type": "PRD",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "Scale 블로그 시리즈 설계 (k3s 수평 스케일아웃)",
+  "summary": "Design plan for a 9-part 'Scale' blog series on horizontally scaling the payment-cancel MSA on k3s, defining structure, scope, and success criteria.",
+  "scope": ["Scale blog series", "k3s scale-out", "payment-cancel MSA", "multi-pod consistency", "HA and rolling deploy", "payment_db bottleneck"],
+  "cross_refs": ["docs/load-test/k3s-scaleout-results.md", "docs/architecture/k3s-scaleout.html", "docs/architecture/k3s-topology.html", "docs/architecture/k3s-topology-benchmark.html", "docs/architecture/k3s-flow.html", "infra/k3s-scaleout/instances.tf", "infra/k8s/", "infra/k8s/apps/payment.yaml"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Lives in specs/ folder (SPEC path signal) but content has no technical-spec hallmarks (no APIs/schemas/SLOs). Dominant signals are explicit 목표(Goals)/범위 밖(Out of Scope)/성공 기준(Success criteria) → PRD-style requirements for a content deliverable. Domain is editorial (blog series), not the payment software itself. Not an ADR: '상태: 설계 확정' is not an Accepted/Proposed status field and there is no single decision+consequences structure. Could alternatively be DOC (design/planning prose)."
+}

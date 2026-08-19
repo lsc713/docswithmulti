@@ -1,0 +1,3570 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 27,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 27,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 27,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/CancelAmountExceededException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "CancelAmountExceededException",
+          "startLine": 21,
+          "endLine": 36,
+          "params": [
+            "paymentItemId",
+            "requestedAmount",
+            "availableAmount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelAmountExceededException",
+          "startLine": 14,
+          "endLine": 38,
+          "methods": [
+            "CancelAmountExceededException"
+          ],
+          "properties": [
+            "paymentItemId",
+            "requestedAmount",
+            "availableAmount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelAmountExceededException",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "CancelAmountExceededException",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CancelAmountExceededException",
+          "callee": "String.format",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/CancelNotAllowedException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "CancelNotAllowedException",
+          "startLine": 18,
+          "endLine": 24,
+          "params": [
+            "currentStatus"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelNotAllowedException",
+          "startLine": 13,
+          "endLine": 26,
+          "methods": [
+            "CancelNotAllowedException"
+          ],
+          "properties": [
+            "currentStatus"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelNotAllowedException",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "CancelNotAllowedException",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CancelNotAllowedException",
+          "callee": "String.format",
+          "lineNumber": 21
+        },
+        {
+          "caller": "CancelNotAllowedException",
+          "callee": "currentStatus.name",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/CancelPeriodExceededException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "CancelPeriodExceededException",
+          "startLine": 20,
+          "endLine": 30,
+          "params": [
+            "createdAt",
+            "cancelPeriodDays"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelPeriodExceededException",
+          "startLine": 14,
+          "endLine": 32,
+          "methods": [
+            "CancelPeriodExceededException"
+          ],
+          "properties": [
+            "createdAt",
+            "cancelPeriodDays"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelPeriodExceededException",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "CancelPeriodExceededException",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CancelPeriodExceededException",
+          "callee": "String.format",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelAmountException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 19,
+      "functions": [
+        {
+          "name": "InvalidCancelAmountException",
+          "startLine": 17,
+          "endLine": 23,
+          "params": [
+            "cancelAmount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidCancelAmountException",
+          "startLine": 12,
+          "endLine": 25,
+          "methods": [
+            "InvalidCancelAmountException"
+          ],
+          "properties": [
+            "cancelAmount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidCancelAmountException",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidCancelAmountException",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InvalidCancelAmountException",
+          "callee": "String.format",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelStateTransitionException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "InvalidCancelStateTransitionException",
+          "startLine": 19,
+          "endLine": 32,
+          "params": [
+            "currentStatus",
+            "requestedStatus"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidCancelStateTransitionException",
+          "startLine": 13,
+          "endLine": 34,
+          "methods": [
+            "InvalidCancelStateTransitionException"
+          ],
+          "properties": [
+            "currentStatus",
+            "requestedStatus"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidCancelStateTransitionException",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidCancelStateTransitionException",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InvalidCancelStateTransitionException",
+          "callee": "String.format",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentItemStatusException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "InvalidPaymentItemStatusException",
+          "startLine": 20,
+          "endLine": 31,
+          "params": [
+            "paymentItemId",
+            "currentStatus"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidPaymentItemStatusException",
+          "startLine": 14,
+          "endLine": 33,
+          "methods": [
+            "InvalidPaymentItemStatusException"
+          ],
+          "properties": [
+            "paymentItemId",
+            "currentStatus"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidPaymentItemStatusException",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidPaymentItemStatusException",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InvalidPaymentItemStatusException",
+          "callee": "String.format",
+          "lineNumber": 23
+        },
+        {
+          "caller": "InvalidPaymentItemStatusException",
+          "callee": "currentStatus.name",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentStatusException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "InvalidPaymentStatusException",
+          "startLine": 18,
+          "endLine": 24,
+          "params": [
+            "currentStatus"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidPaymentStatusException",
+          "startLine": 13,
+          "endLine": 26,
+          "methods": [
+            "InvalidPaymentStatusException"
+          ],
+          "properties": [
+            "currentStatus"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidPaymentStatusException",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidPaymentStatusException",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InvalidPaymentStatusException",
+          "callee": "String.format",
+          "lineNumber": 21
+        },
+        {
+          "caller": "InvalidPaymentStatusException",
+          "callee": "currentStatus.name",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/PaymentItemNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "PaymentItemNotFoundException",
+          "startLine": 18,
+          "endLine": 27,
+          "params": [
+            "orderItemId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentItemNotFoundException",
+          "startLine": 13,
+          "endLine": 29,
+          "methods": [
+            "PaymentItemNotFoundException"
+          ],
+          "properties": [
+            "orderItemId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentItemNotFoundException",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentItemNotFoundException",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PaymentItemNotFoundException",
+          "callee": "String.format",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/policy/CancelAmountPolicy.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "CancelAmountPolicy",
+          "startLine": 14,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "validateCancelAmount",
+          "startLine": 22,
+          "endLine": 26,
+          "params": [
+            "cancelAmount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelAmountPolicy",
+          "startLine": 12,
+          "endLine": 27,
+          "methods": [
+            "CancelAmountPolicy",
+            "validateCancelAmount"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "validateCancelAmount",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "CancelAmountPolicy",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "validateCancelAmount",
+          "callee": "cancelAmount.compareTo",
+          "lineNumber": 23
+        },
+        {
+          "caller": "validateCancelAmount",
+          "callee": "new InvalidCancelAmountException",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyRejectedException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "OrderVerifyRejectedException",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "errorCode",
+            "message"
+          ]
+        },
+        {
+          "name": "OrderVerifyRejectedException",
+          "startLine": 17,
+          "endLine": 19,
+          "params": [
+            "errorCode",
+            "message",
+            "cause"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderVerifyRejectedException",
+          "startLine": 11,
+          "endLine": 20,
+          "methods": [
+            "OrderVerifyRejectedException",
+            "OrderVerifyRejectedException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderVerifyRejectedException",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "OrderVerifyRejectedException",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "OrderVerifyRejectedException",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyUnavailableException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "OrderVerifyUnavailableException",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "OrderVerifyUnavailableException",
+          "startLine": 17,
+          "endLine": 19,
+          "params": [
+            "message",
+            "cause"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderVerifyUnavailableException",
+          "startLine": 11,
+          "endLine": 20,
+          "methods": [
+            "OrderVerifyUnavailableException",
+            "OrderVerifyUnavailableException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderVerifyUnavailableException",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "OrderVerifyUnavailableException",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "OrderVerifyUnavailableException",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/PgServiceException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "PgServiceException",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "PgServiceException",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "message",
+            "cause"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PgServiceException",
+          "startLine": 6,
+          "endLine": 15,
+          "methods": [
+            "PgServiceException",
+            "PgServiceException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PgServiceException",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "PgServiceException",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "PgServiceException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/ProductServiceException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "ProductServiceException",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "ProductServiceException",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "message",
+            "cause"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductServiceException",
+          "startLine": 7,
+          "endLine": 16,
+          "methods": [
+            "ProductServiceException",
+            "ProductServiceException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductServiceException",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "ProductServiceException",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "ProductServiceException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/RiskServiceException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "RiskServiceException",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "RiskServiceException",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "message",
+            "cause"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RiskServiceException",
+          "startLine": 6,
+          "endLine": 15,
+          "methods": [
+            "RiskServiceException",
+            "RiskServiceException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RiskServiceException",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "RiskServiceException",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "RiskServiceException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/StockInsufficientException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "StockInsufficientException",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "message"
+          ]
+        },
+        {
+          "name": "StockInsufficientException",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "message",
+            "cause"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockInsufficientException",
+          "startLine": 7,
+          "endLine": 16,
+          "methods": [
+            "StockInsufficientException",
+            "StockInsufficientException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "StockInsufficientException",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "StockInsufficientException",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "StockInsufficientException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/MockPgCancelClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 27,
+      "functions": [
+        {
+          "name": "cancel",
+          "startLine": 17,
+          "endLine": 23,
+          "params": [
+            "paymentKey",
+            "cancelAmount",
+            "cancelReason"
+          ]
+        },
+        {
+          "name": "getStatus",
+          "startLine": 25,
+          "endLine": 31,
+          "params": [
+            "paymentKey",
+            "cancelAmount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MockPgCancelClient",
+          "startLine": 12,
+          "endLine": 32,
+          "methods": [
+            "cancel",
+            "getStatus"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "cancel",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "MockPgCancelClient",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "cancel",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 19
+        },
+        {
+          "caller": "cancel",
+          "callee": "log.info",
+          "lineNumber": 20
+        },
+        {
+          "caller": "cancel",
+          "callee": "PgCancelResult.approved",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getStatus",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 27
+        },
+        {
+          "caller": "getStatus",
+          "callee": "log.info",
+          "lineNumber": 28
+        },
+        {
+          "caller": "getStatus",
+          "callee": "PgCancelResult.approved",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderVerifyHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 92,
+      "nonEmptyLines": 84,
+      "functions": [
+        {
+          "name": "OrderVerifyHttpClient",
+          "startLine": 33,
+          "endLine": 41,
+          "params": [
+            "restTemplate",
+            "baseUrl",
+            "orderServiceCircuitBreaker"
+          ]
+        },
+        {
+          "name": "verify",
+          "startLine": 43,
+          "endLine": 88,
+          "params": [
+            "userId",
+            "orderItemIds"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderVerifyHttpClient",
+          "startLine": 25,
+          "endLine": 92,
+          "methods": [
+            "OrderVerifyHttpClient",
+            "verify"
+          ],
+          "properties": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderVerifyHttpClient",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "verify",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "OrderVerifyHttpClient",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "verify",
+          "callee": "circuitBreaker.executeCheckedSupplier",
+          "lineNumber": 46
+        },
+        {
+          "caller": "verify",
+          "callee": "new HttpHeaders",
+          "lineNumber": 48
+        },
+        {
+          "caller": "verify",
+          "callee": "headers.set",
+          "lineNumber": 49
+        },
+        {
+          "caller": "verify",
+          "callee": "String.valueOf",
+          "lineNumber": 49
+        },
+        {
+          "caller": "verify",
+          "callee": "new HttpEntity<>",
+          "lineNumber": 51
+        },
+        {
+          "caller": "verify",
+          "callee": "Map.of",
+          "lineNumber": 51
+        },
+        {
+          "caller": "verify",
+          "callee": "restTemplate.postForEntity",
+          "lineNumber": 54
+        },
+        {
+          "caller": "verify",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 57
+        },
+        {
+          "caller": "verify",
+          "callee": "response.getStatusCode",
+          "lineNumber": 57
+        },
+        {
+          "caller": "verify",
+          "callee": "response.getBody",
+          "lineNumber": 57
+        },
+        {
+          "caller": "verify",
+          "callee": "new OrderVerifyUnavailableException",
+          "lineNumber": 58
+        },
+        {
+          "caller": "verify",
+          "callee": "response.getStatusCode",
+          "lineNumber": 58
+        },
+        {
+          "caller": "verify",
+          "callee": "response.getBody().orderId",
+          "lineNumber": 60
+        },
+        {
+          "caller": "verify",
+          "callee": "response.getBody",
+          "lineNumber": 60
+        },
+        {
+          "caller": "verify",
+          "callee": "e.getStatusCode().value",
+          "lineNumber": 66
+        },
+        {
+          "caller": "verify",
+          "callee": "e.getStatusCode",
+          "lineNumber": 66
+        },
+        {
+          "caller": "verify",
+          "callee": "new OrderVerifyRejectedException",
+          "lineNumber": 68
+        },
+        {
+          "caller": "verify",
+          "callee": "e.getStatusCode",
+          "lineNumber": 69
+        },
+        {
+          "caller": "verify",
+          "callee": "new OrderVerifyRejectedException",
+          "lineNumber": 72
+        },
+        {
+          "caller": "verify",
+          "callee": "e.getStatusCode",
+          "lineNumber": 73
+        },
+        {
+          "caller": "verify",
+          "callee": "new OrderVerifyRejectedException",
+          "lineNumber": 76
+        },
+        {
+          "caller": "verify",
+          "callee": "e.getStatusCode",
+          "lineNumber": 77
+        },
+        {
+          "caller": "verify",
+          "callee": "new OrderVerifyUnavailableException",
+          "lineNumber": 79
+        },
+        {
+          "caller": "verify",
+          "callee": "e.getStatusCode",
+          "lineNumber": 79
+        },
+        {
+          "caller": "verify",
+          "callee": "log.error",
+          "lineNumber": 85
+        },
+        {
+          "caller": "verify",
+          "callee": "new OrderVerifyUnavailableException",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/PgCancelHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 166,
+      "nonEmptyLines": 148,
+      "functions": [
+        {
+          "name": "PgCancelHttpClient",
+          "startLine": 32,
+          "endLine": 42,
+          "params": [
+            "restTemplate",
+            "baseUrl",
+            "pgCancelCircuitBreaker",
+            "pgCancelReadCircuitBreaker"
+          ]
+        },
+        {
+          "name": "cancel",
+          "startLine": 44,
+          "endLine": 69,
+          "params": [
+            "paymentKey",
+            "cancelAmount",
+            "cancelReason"
+          ]
+        },
+        {
+          "name": "getStatus",
+          "startLine": 71,
+          "endLine": 91,
+          "params": [
+            "paymentKey",
+            "cancelAmount"
+          ]
+        },
+        {
+          "name": "mapCancelResponse",
+          "startLine": 98,
+          "endLine": 113,
+          "params": [
+            "response",
+            "cancelAmount"
+          ]
+        },
+        {
+          "name": "mapStatus",
+          "startLine": 119,
+          "endLine": 159,
+          "params": [
+            "response",
+            "cancelAmount"
+          ]
+        },
+        {
+          "name": "findMatchingCancel",
+          "startLine": 161,
+          "endLine": 165,
+          "params": [
+            "cancels",
+            "cancelAmount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PgCancelHttpClient",
+          "startLine": 20,
+          "endLine": 166,
+          "methods": [
+            "PgCancelHttpClient",
+            "cancel",
+            "getStatus",
+            "mapCancelResponse",
+            "mapStatus",
+            "findMatchingCancel"
+          ],
+          "properties": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker",
+            "readCircuitBreaker"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PgCancelHttpClient",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "cancel",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "PgCancelHttpClient",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "cancel",
+          "callee": "circuitBreaker.executeCheckedSupplier",
+          "lineNumber": 47
+        },
+        {
+          "caller": "cancel",
+          "callee": "Map.of",
+          "lineNumber": 49
+        },
+        {
+          "caller": "cancel",
+          "callee": "restTemplate.postForEntity",
+          "lineNumber": 54
+        },
+        {
+          "caller": "cancel",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 55
+        },
+        {
+          "caller": "cancel",
+          "callee": "response.getStatusCode",
+          "lineNumber": 55
+        },
+        {
+          "caller": "cancel",
+          "callee": "response.getBody",
+          "lineNumber": 55
+        },
+        {
+          "caller": "cancel",
+          "callee": "new PgServiceException",
+          "lineNumber": 56
+        },
+        {
+          "caller": "cancel",
+          "callee": "response.getStatusCode",
+          "lineNumber": 56
+        },
+        {
+          "caller": "cancel",
+          "callee": "mapCancelResponse",
+          "lineNumber": 58
+        },
+        {
+          "caller": "cancel",
+          "callee": "response.getBody",
+          "lineNumber": 58
+        },
+        {
+          "caller": "cancel",
+          "callee": "log.error",
+          "lineNumber": 66
+        },
+        {
+          "caller": "cancel",
+          "callee": "new PgServiceException",
+          "lineNumber": 67
+        },
+        {
+          "caller": "getStatus",
+          "callee": "readCircuitBreaker.executeCheckedSupplier",
+          "lineNumber": 74
+        },
+        {
+          "caller": "getStatus",
+          "callee": "restTemplate.getForEntity",
+          "lineNumber": 77
+        },
+        {
+          "caller": "getStatus",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getStatus",
+          "callee": "response.getStatusCode",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getStatus",
+          "callee": "response.getBody",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getStatus",
+          "callee": "new PgServiceException",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getStatus",
+          "callee": "response.getStatusCode",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getStatus",
+          "callee": "mapStatus",
+          "lineNumber": 81
+        },
+        {
+          "caller": "getStatus",
+          "callee": "response.getBody",
+          "lineNumber": 81
+        },
+        {
+          "caller": "getStatus",
+          "callee": "log.error",
+          "lineNumber": 88
+        },
+        {
+          "caller": "getStatus",
+          "callee": "new PgServiceException",
+          "lineNumber": 89
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "response.cancels",
+          "lineNumber": 99
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "response.cancels",
+          "lineNumber": 99
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "List.of",
+          "lineNumber": 99
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "findMatchingCancel(cancels, cancelAmount).orElseGet",
+          "lineNumber": 100
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "findMatchingCancel",
+          "lineNumber": 100
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "cancels.isEmpty",
+          "lineNumber": 101
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "cancels.get",
+          "lineNumber": 101
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "cancels.size",
+          "lineNumber": 101
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "matched.transactionKey",
+          "lineNumber": 102
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "\"DONE\".equals",
+          "lineNumber": 103
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "matched.cancelStatus",
+          "lineNumber": 103
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "response.status",
+          "lineNumber": 105
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "\"CANCELED\".equals",
+          "lineNumber": 106
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "\"PARTIAL_CANCELED\".equals",
+          "lineNumber": 106
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "PgCancelResult.approved",
+          "lineNumber": 107
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "\"WAITING_FOR_DEPOSIT\".equals",
+          "lineNumber": 109
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "\"IN_PROGRESS\".equals",
+          "lineNumber": 109
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "PgCancelResult.pending",
+          "lineNumber": 110
+        },
+        {
+          "caller": "mapCancelResponse",
+          "callee": "new PgServiceException",
+          "lineNumber": 112
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "response.cancels",
+          "lineNumber": 120
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "response.cancels",
+          "lineNumber": 120
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "List.of",
+          "lineNumber": 120
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "response.status",
+          "lineNumber": 121
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancels.stream()\n            .filter(c -> \"DONE\".equals(c.cancelStatus()) && cancelAmount.compareTo(c.cancelAmount()) == 0).findFirst",
+          "lineNumber": 124
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancels.stream().filter",
+          "lineNumber": 124
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancels.stream",
+          "lineNumber": 124
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"DONE\".equals",
+          "lineNumber": 125
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "c.cancelStatus",
+          "lineNumber": 125
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancelAmount.compareTo",
+          "lineNumber": 125
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "c.cancelAmount",
+          "lineNumber": 125
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "matchedDone.isPresent",
+          "lineNumber": 127
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "PgCancelResult.approved",
+          "lineNumber": 128
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "matchedDone.get().transactionKey",
+          "lineNumber": 128
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "matchedDone.get",
+          "lineNumber": 128
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"CANCELED\".equals",
+          "lineNumber": 132
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancels.isEmpty",
+          "lineNumber": 133
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancels.get(cancels.size() - 1).transactionKey",
+          "lineNumber": 133
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancels.get",
+          "lineNumber": 133
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "cancels.size",
+          "lineNumber": 133
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "PgCancelResult.approved",
+          "lineNumber": 134
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"DONE\".equals",
+          "lineNumber": 138
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "PgCancelResult.retryableFailed",
+          "lineNumber": 139
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"IN_PROGRESS\".equals",
+          "lineNumber": 143
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"WAITING_FOR_DEPOSIT\".equals",
+          "lineNumber": 143
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "PgCancelResult.pending",
+          "lineNumber": 144
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"ABORTED\".equals",
+          "lineNumber": 148
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"EXPIRED\".equals",
+          "lineNumber": 148
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "PgCancelResult.failed",
+          "lineNumber": 149
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "\"PARTIAL_CANCELED\".equals",
+          "lineNumber": 153
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "PgCancelResult.retryableFailed",
+          "lineNumber": 154
+        },
+        {
+          "caller": "mapStatus",
+          "callee": "new PgServiceException",
+          "lineNumber": 158
+        },
+        {
+          "caller": "findMatchingCancel",
+          "callee": "cancels.stream()\n            .filter(c -> cancelAmount.compareTo(c.cancelAmount()) == 0).reduce",
+          "lineNumber": 162
+        },
+        {
+          "caller": "findMatchingCancel",
+          "callee": "cancels.stream().filter",
+          "lineNumber": 162
+        },
+        {
+          "caller": "findMatchingCancel",
+          "callee": "cancels.stream",
+          "lineNumber": 162
+        },
+        {
+          "caller": "findMatchingCancel",
+          "callee": "cancelAmount.compareTo",
+          "lineNumber": 163
+        },
+        {
+          "caller": "findMatchingCancel",
+          "callee": "c.cancelAmount",
+          "lineNumber": 163
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 4,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/ProductStockHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 85,
+      "nonEmptyLines": 77,
+      "functions": [
+        {
+          "name": "ProductStockHttpClient",
+          "startLine": 30,
+          "endLine": 38,
+          "params": [
+            "restTemplate",
+            "baseUrl",
+            "productServiceCircuitBreaker"
+          ]
+        },
+        {
+          "name": "reserve",
+          "startLine": 40,
+          "endLine": 43,
+          "params": [
+            "paymentKey",
+            "items"
+          ]
+        },
+        {
+          "name": "release",
+          "startLine": 45,
+          "endLine": 48,
+          "params": [
+            "paymentKey",
+            "items"
+          ]
+        },
+        {
+          "name": "post",
+          "startLine": 50,
+          "endLine": 84,
+          "params": [
+            "path",
+            "paymentKey",
+            "items"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductStockHttpClient",
+          "startLine": 22,
+          "endLine": 85,
+          "methods": [
+            "ProductStockHttpClient",
+            "reserve",
+            "release",
+            "post"
+          ],
+          "properties": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductStockHttpClient",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "reserve",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "release",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "ProductStockHttpClient",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "reserve",
+          "callee": "post",
+          "lineNumber": 42
+        },
+        {
+          "caller": "release",
+          "callee": "post",
+          "lineNumber": 47
+        },
+        {
+          "caller": "post",
+          "callee": "circuitBreaker.executeCheckedSupplier",
+          "lineNumber": 52
+        },
+        {
+          "caller": "post",
+          "callee": "Map.of",
+          "lineNumber": 54
+        },
+        {
+          "caller": "post",
+          "callee": "items.stream()\n                        .map(i -> Map.of(\"skuId\", i.skuId(), \"qty\", i.qty())).toList",
+          "lineNumber": 56
+        },
+        {
+          "caller": "post",
+          "callee": "items.stream().map",
+          "lineNumber": 56
+        },
+        {
+          "caller": "post",
+          "callee": "items.stream",
+          "lineNumber": 56
+        },
+        {
+          "caller": "post",
+          "callee": "Map.of",
+          "lineNumber": 57
+        },
+        {
+          "caller": "post",
+          "callee": "i.skuId",
+          "lineNumber": 57
+        },
+        {
+          "caller": "post",
+          "callee": "i.qty",
+          "lineNumber": 57
+        },
+        {
+          "caller": "post",
+          "callee": "restTemplate.postForEntity",
+          "lineNumber": 60
+        },
+        {
+          "caller": "post",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 63
+        },
+        {
+          "caller": "post",
+          "callee": "response.getStatusCode",
+          "lineNumber": 63
+        },
+        {
+          "caller": "post",
+          "callee": "new ProductServiceException",
+          "lineNumber": 64
+        },
+        {
+          "caller": "post",
+          "callee": "response.getStatusCode",
+          "lineNumber": 64
+        },
+        {
+          "caller": "post",
+          "callee": "e.getStatusCode().value",
+          "lineNumber": 72
+        },
+        {
+          "caller": "post",
+          "callee": "e.getStatusCode",
+          "lineNumber": 72
+        },
+        {
+          "caller": "post",
+          "callee": "new StockInsufficientException",
+          "lineNumber": 73
+        },
+        {
+          "caller": "post",
+          "callee": "e.getStatusCode",
+          "lineNumber": 73
+        },
+        {
+          "caller": "post",
+          "callee": "new ProductServiceException",
+          "lineNumber": 75
+        },
+        {
+          "caller": "post",
+          "callee": "e.getStatusCode",
+          "lineNumber": 75
+        },
+        {
+          "caller": "post",
+          "callee": "log.error",
+          "lineNumber": 81
+        },
+        {
+          "caller": "post",
+          "callee": "new ProductServiceException",
+          "lineNumber": 82
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossCancel.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "TossCancel",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "TossCancel",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossPaymentResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "TossPaymentResponse",
+          "startLine": 13,
+          "endLine": 19,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "TossPaymentResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelOutboxRedriveRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 332,
+      "nonEmptyLines": 307,
+      "functions": [
+        {
+          "name": "CancelOutboxRedriveRepositoryImpl",
+          "startLine": 41,
+          "endLine": 43,
+          "params": [
+            "jdbc"
+          ]
+        },
+        {
+          "name": "createRequested",
+          "startLine": 45,
+          "endLine": 102,
+          "params": [
+            "sourceOutboxId",
+            "requestedBy",
+            "reason",
+            "requestedAt"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 104,
+          "endLine": 113,
+          "params": [
+            "redriveId"
+          ]
+        },
+        {
+          "name": "findRequestedIds",
+          "startLine": 115,
+          "endLine": 126,
+          "params": [
+            "limit"
+          ]
+        },
+        {
+          "name": "tryStart",
+          "startLine": 128,
+          "endLine": 140,
+          "params": [
+            "redriveId",
+            "startedAt"
+          ]
+        },
+        {
+          "name": "recordPublished",
+          "startLine": 142,
+          "endLine": 155,
+          "params": [
+            "redriveId",
+            "beforeState",
+            "result"
+          ]
+        },
+        {
+          "name": "failPublish",
+          "startLine": 157,
+          "endLine": 174,
+          "params": [
+            "redriveId",
+            "lastError",
+            "beforeState",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "failConvergence",
+          "startLine": 176,
+          "endLine": 193,
+          "params": [
+            "redriveId",
+            "lastError",
+            "afterState",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "findConverging",
+          "startLine": 195,
+          "endLine": 210,
+          "params": [
+            "startedAfter",
+            "limit"
+          ]
+        },
+        {
+          "name": "findExpiredUnpublished",
+          "startLine": 212,
+          "endLine": 227,
+          "params": [
+            "cutoff",
+            "limit"
+          ]
+        },
+        {
+          "name": "findExpiredPublished",
+          "startLine": 229,
+          "endLine": 244,
+          "params": [
+            "cutoff",
+            "limit"
+          ]
+        },
+        {
+          "name": "resolveAlreadyApplied",
+          "startLine": 246,
+          "endLine": 267,
+          "params": [
+            "redriveId",
+            "beforeState",
+            "afterState",
+            "result",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "reject",
+          "startLine": 269,
+          "endLine": 290,
+          "params": [
+            "redriveId",
+            "beforeState",
+            "afterState",
+            "lastError",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "resolve",
+          "startLine": 292,
+          "endLine": 307,
+          "params": [
+            "redriveId",
+            "afterState",
+            "completedAt"
+          ]
+        },
+        {
+          "name": "requirePositiveLimit",
+          "startLine": 309,
+          "endLine": 313,
+          "params": [
+            "limit"
+          ]
+        },
+        {
+          "name": "isActiveRedriveUniqueConstraint",
+          "startLine": 315,
+          "endLine": 323,
+          "params": [
+            "exception"
+          ]
+        },
+        {
+          "name": "instantOrNull",
+          "startLine": 325,
+          "endLine": 327,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "enumOrNull",
+          "startLine": 329,
+          "endLine": 331,
+          "params": [
+            "value",
+            "type"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelOutboxRedriveRepositoryImpl",
+          "startLine": 21,
+          "endLine": 332,
+          "methods": [
+            "CancelOutboxRedriveRepositoryImpl",
+            "createRequested",
+            "findById",
+            "findRequestedIds",
+            "tryStart",
+            "recordPublished",
+            "failPublish",
+            "failConvergence",
+            "findConverging",
+            "findExpiredUnpublished",
+            "findExpiredPublished",
+            "resolveAlreadyApplied",
+            "reject",
+            "resolve",
+            "requirePositiveLimit",
+            "isActiveRedriveUniqueConstraint",
+            "instantOrNull",
+            "enumOrNull"
+          ],
+          "properties": [
+            "ROW_MAPPER",
+            "jdbc"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelOutboxRedriveRepositoryImpl",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "createRequested",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 104,
+          "isDefault": false
+        },
+        {
+          "name": "findRequestedIds",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "tryStart",
+          "line": 128,
+          "isDefault": false
+        },
+        {
+          "name": "recordPublished",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "failPublish",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "failConvergence",
+          "line": 176,
+          "isDefault": false
+        },
+        {
+          "name": "findConverging",
+          "line": 195,
+          "isDefault": false
+        },
+        {
+          "name": "findExpiredUnpublished",
+          "line": 212,
+          "isDefault": false
+        },
+        {
+          "name": "findExpiredPublished",
+          "line": 229,
+          "isDefault": false
+        },
+        {
+          "name": "resolveAlreadyApplied",
+          "line": 246,
+          "isDefault": false
+        },
+        {
+          "name": "reject",
+          "line": 269,
+          "isDefault": false
+        },
+        {
+          "name": "resolve",
+          "line": 292,
+          "isDefault": false
+        },
+        {
+          "name": "CancelOutboxRedriveRepositoryImpl",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createRequested",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 49
+        },
+        {
+          "caller": "createRequested",
+          "callee": "jdbc.query",
+          "lineNumber": 50
+        },
+        {
+          "caller": "createRequested",
+          "callee": "rs.getString",
+          "lineNumber": 55
+        },
+        {
+          "caller": "createRequested",
+          "callee": "sourceStatuses.isEmpty",
+          "lineNumber": 56
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new CancelOutboxNotFoundException",
+          "lineNumber": 57
+        },
+        {
+          "caller": "createRequested",
+          "callee": "\"DEAD\".equals",
+          "lineNumber": 59
+        },
+        {
+          "caller": "createRequested",
+          "callee": "sourceStatuses.getFirst",
+          "lineNumber": 59
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new CancelOutboxNotDeadException",
+          "lineNumber": 60
+        },
+        {
+          "caller": "createRequested",
+          "callee": "jdbc.query",
+          "lineNumber": 63
+        },
+        {
+          "caller": "createRequested",
+          "callee": "CancelOutboxRedriveStatus.valueOf",
+          "lineNumber": 69
+        },
+        {
+          "caller": "createRequested",
+          "callee": "rs.getString",
+          "lineNumber": 69
+        },
+        {
+          "caller": "createRequested",
+          "callee": "history.stream().anyMatch",
+          "lineNumber": 70
+        },
+        {
+          "caller": "createRequested",
+          "callee": "history.stream",
+          "lineNumber": 70
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new ActiveRedriveExistsException",
+          "lineNumber": 71
+        },
+        {
+          "caller": "createRequested",
+          "callee": "history.stream().anyMatch",
+          "lineNumber": 73
+        },
+        {
+          "caller": "createRequested",
+          "callee": "history.stream",
+          "lineNumber": 73
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new RedriveAlreadyResolvedException",
+          "lineNumber": 74
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new GeneratedKeyHolder",
+          "lineNumber": 77
+        },
+        {
+          "caller": "createRequested",
+          "callee": "jdbc.update",
+          "lineNumber": 79
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new MapSqlParameterSource()\n                    .addValue(\"sourceOutboxId\", sourceOutboxId)\n                    .addValue(\"requestedBy\", requestedBy)\n                    .addValue(\"reason\", reason).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new MapSqlParameterSource()\n                    .addValue(\"sourceOutboxId\", sourceOutboxId)\n                    .addValue(\"requestedBy\", requestedBy).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new MapSqlParameterSource()\n                    .addValue(\"sourceOutboxId\", sourceOutboxId).addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 83
+        },
+        {
+          "caller": "createRequested",
+          "callee": "Timestamp.from",
+          "lineNumber": 87
+        },
+        {
+          "caller": "createRequested",
+          "callee": "isActiveRedriveUniqueConstraint",
+          "lineNumber": 90
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new ActiveRedriveExistsException",
+          "lineNumber": 91
+        },
+        {
+          "caller": "createRequested",
+          "callee": "keyHolder.getKey",
+          "lineNumber": 96
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new IllegalStateException",
+          "lineNumber": 98
+        },
+        {
+          "caller": "createRequested",
+          "callee": "findById(generatedId.longValue()).orElseThrow",
+          "lineNumber": 100
+        },
+        {
+          "caller": "createRequested",
+          "callee": "findById",
+          "lineNumber": 100
+        },
+        {
+          "caller": "createRequested",
+          "callee": "generatedId.longValue",
+          "lineNumber": 100
+        },
+        {
+          "caller": "createRequested",
+          "callee": "new IllegalStateException",
+          "lineNumber": 101
+        },
+        {
+          "caller": "findById",
+          "callee": "jdbc.query",
+          "lineNumber": 106
+        },
+        {
+          "caller": "findById",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 111
+        },
+        {
+          "caller": "findById",
+          "callee": "rows.stream().findFirst",
+          "lineNumber": 112
+        },
+        {
+          "caller": "findById",
+          "callee": "rows.stream",
+          "lineNumber": 112
+        },
+        {
+          "caller": "findRequestedIds",
+          "callee": "requirePositiveLimit",
+          "lineNumber": 117
+        },
+        {
+          "caller": "findRequestedIds",
+          "callee": "jdbc.query",
+          "lineNumber": 118
+        },
+        {
+          "caller": "findRequestedIds",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 124
+        },
+        {
+          "caller": "findRequestedIds",
+          "callee": "rs.getLong",
+          "lineNumber": 125
+        },
+        {
+          "caller": "tryStart",
+          "callee": "jdbc.update",
+          "lineNumber": 130
+        },
+        {
+          "caller": "tryStart",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId).addValue",
+          "lineNumber": 137
+        },
+        {
+          "caller": "tryStart",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 137
+        },
+        {
+          "caller": "tryStart",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 137
+        },
+        {
+          "caller": "tryStart",
+          "callee": "Timestamp.from",
+          "lineNumber": 139
+        },
+        {
+          "caller": "recordPublished",
+          "callee": "jdbc.update",
+          "lineNumber": 144
+        },
+        {
+          "caller": "recordPublished",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"beforeState\", beforeState).addValue",
+          "lineNumber": 151
+        },
+        {
+          "caller": "recordPublished",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId).addValue",
+          "lineNumber": 151
+        },
+        {
+          "caller": "recordPublished",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 151
+        },
+        {
+          "caller": "recordPublished",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 151
+        },
+        {
+          "caller": "failPublish",
+          "callee": "jdbc.update",
+          "lineNumber": 159
+        },
+        {
+          "caller": "failPublish",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"lastError\", lastError)\n            .addValue(\"beforeState\", beforeState).addValue",
+          "lineNumber": 169
+        },
+        {
+          "caller": "failPublish",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"lastError\", lastError).addValue",
+          "lineNumber": 169
+        },
+        {
+          "caller": "failPublish",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId).addValue",
+          "lineNumber": 169
+        },
+        {
+          "caller": "failPublish",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 169
+        },
+        {
+          "caller": "failPublish",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 169
+        },
+        {
+          "caller": "failPublish",
+          "callee": "Timestamp.from",
+          "lineNumber": 173
+        },
+        {
+          "caller": "failConvergence",
+          "callee": "jdbc.update",
+          "lineNumber": 178
+        },
+        {
+          "caller": "failConvergence",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"lastError\", lastError)\n            .addValue(\"afterState\", afterState).addValue",
+          "lineNumber": 188
+        },
+        {
+          "caller": "failConvergence",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"lastError\", lastError).addValue",
+          "lineNumber": 188
+        },
+        {
+          "caller": "failConvergence",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId).addValue",
+          "lineNumber": 188
+        },
+        {
+          "caller": "failConvergence",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 188
+        },
+        {
+          "caller": "failConvergence",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 188
+        },
+        {
+          "caller": "failConvergence",
+          "callee": "Timestamp.from",
+          "lineNumber": 192
+        },
+        {
+          "caller": "findConverging",
+          "callee": "requirePositiveLimit",
+          "lineNumber": 197
+        },
+        {
+          "caller": "findConverging",
+          "callee": "jdbc.query",
+          "lineNumber": 198
+        },
+        {
+          "caller": "findConverging",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"startedAfter\", Timestamp.from(startedAfter)).addValue",
+          "lineNumber": 207
+        },
+        {
+          "caller": "findConverging",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 207
+        },
+        {
+          "caller": "findConverging",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 207
+        },
+        {
+          "caller": "findConverging",
+          "callee": "Timestamp.from",
+          "lineNumber": 208
+        },
+        {
+          "caller": "findExpiredUnpublished",
+          "callee": "requirePositiveLimit",
+          "lineNumber": 214
+        },
+        {
+          "caller": "findExpiredUnpublished",
+          "callee": "jdbc.query",
+          "lineNumber": 215
+        },
+        {
+          "caller": "findExpiredUnpublished",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"cutoff\", Timestamp.from(cutoff)).addValue",
+          "lineNumber": 224
+        },
+        {
+          "caller": "findExpiredUnpublished",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 224
+        },
+        {
+          "caller": "findExpiredUnpublished",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 224
+        },
+        {
+          "caller": "findExpiredUnpublished",
+          "callee": "Timestamp.from",
+          "lineNumber": 225
+        },
+        {
+          "caller": "findExpiredPublished",
+          "callee": "requirePositiveLimit",
+          "lineNumber": 231
+        },
+        {
+          "caller": "findExpiredPublished",
+          "callee": "jdbc.query",
+          "lineNumber": 232
+        },
+        {
+          "caller": "findExpiredPublished",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"cutoff\", Timestamp.from(cutoff)).addValue",
+          "lineNumber": 241
+        },
+        {
+          "caller": "findExpiredPublished",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 241
+        },
+        {
+          "caller": "findExpiredPublished",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 241
+        },
+        {
+          "caller": "findExpiredPublished",
+          "callee": "Timestamp.from",
+          "lineNumber": 242
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "jdbc.update",
+          "lineNumber": 250
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"beforeState\", beforeState)\n            .addValue(\"afterState\", afterState)\n            .addValue(\"result\", result).addValue",
+          "lineNumber": 261
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"beforeState\", beforeState)\n            .addValue(\"afterState\", afterState).addValue",
+          "lineNumber": 261
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"beforeState\", beforeState).addValue",
+          "lineNumber": 261
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId).addValue",
+          "lineNumber": 261
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 261
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 261
+        },
+        {
+          "caller": "resolveAlreadyApplied",
+          "callee": "Timestamp.from",
+          "lineNumber": 266
+        },
+        {
+          "caller": "reject",
+          "callee": "jdbc.update",
+          "lineNumber": 273
+        },
+        {
+          "caller": "reject",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"beforeState\", beforeState)\n            .addValue(\"afterState\", afterState)\n            .addValue(\"lastError\", lastError).addValue",
+          "lineNumber": 284
+        },
+        {
+          "caller": "reject",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"beforeState\", beforeState)\n            .addValue(\"afterState\", afterState).addValue",
+          "lineNumber": 284
+        },
+        {
+          "caller": "reject",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"beforeState\", beforeState).addValue",
+          "lineNumber": 284
+        },
+        {
+          "caller": "reject",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId).addValue",
+          "lineNumber": 284
+        },
+        {
+          "caller": "reject",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 284
+        },
+        {
+          "caller": "reject",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 284
+        },
+        {
+          "caller": "reject",
+          "callee": "Timestamp.from",
+          "lineNumber": 289
+        },
+        {
+          "caller": "resolve",
+          "callee": "jdbc.update",
+          "lineNumber": 294
+        },
+        {
+          "caller": "resolve",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId)\n            .addValue(\"afterState\", afterState).addValue",
+          "lineNumber": 303
+        },
+        {
+          "caller": "resolve",
+          "callee": "new MapSqlParameterSource()\n            .addValue(\"redriveId\", redriveId).addValue",
+          "lineNumber": 303
+        },
+        {
+          "caller": "resolve",
+          "callee": "new MapSqlParameterSource().addValue",
+          "lineNumber": 303
+        },
+        {
+          "caller": "resolve",
+          "callee": "new MapSqlParameterSource",
+          "lineNumber": 303
+        },
+        {
+          "caller": "resolve",
+          "callee": "Timestamp.from",
+          "lineNumber": 306
+        },
+        {
+          "caller": "requirePositiveLimit",
+          "callee": "new IllegalArgumentException",
+          "lineNumber": 311
+        },
+        {
+          "caller": "isActiveRedriveUniqueConstraint",
+          "callee": "current.getCause",
+          "lineNumber": 316
+        },
+        {
+          "caller": "isActiveRedriveUniqueConstraint",
+          "callee": "current.getMessage",
+          "lineNumber": 317
+        },
+        {
+          "caller": "isActiveRedriveUniqueConstraint",
+          "callee": "message.contains",
+          "lineNumber": 318
+        },
+        {
+          "caller": "instantOrNull",
+          "callee": "value.toInstant",
+          "lineNumber": 326
+        },
+        {
+          "caller": "enumOrNull",
+          "callee": "Enum.valueOf",
+          "lineNumber": 330
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 15,
+        "functionCount": 18,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "StockReleaseRetryRepositoryImpl",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "enqueue",
+          "startLine": 19,
+          "endLine": 30,
+          "params": [
+            "paymentKey",
+            "itemsJson"
+          ]
+        },
+        {
+          "name": "findDueForRetry",
+          "startLine": 32,
+          "endLine": 38,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "markDone",
+          "startLine": 40,
+          "endLine": 46,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "markRetryLater",
+          "startLine": 48,
+          "endLine": 54,
+          "params": [
+            "id",
+            "newAttemptCount",
+            "nextRetryAt",
+            "lastError"
+          ]
+        },
+        {
+          "name": "exhaust",
+          "startLine": 56,
+          "endLine": 62,
+          "params": [
+            "id",
+            "finalAttemptCount",
+            "lastError"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockReleaseRetryRepositoryImpl",
+          "startLine": 10,
+          "endLine": 63,
+          "methods": [
+            "StockReleaseRetryRepositoryImpl",
+            "enqueue",
+            "findDueForRetry",
+            "markDone",
+            "markRetryLater",
+            "exhaust"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "StockReleaseRetryRepositoryImpl",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "enqueue",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "findDueForRetry",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "markDone",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "markRetryLater",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "exhaust",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "StockReleaseRetryRepositoryImpl",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "enqueue",
+          "callee": "jpaRepository.existsByPaymentKey",
+          "lineNumber": 22
+        },
+        {
+          "caller": "enqueue",
+          "callee": "jpaRepository.save",
+          "lineNumber": 26
+        },
+        {
+          "caller": "enqueue",
+          "callee": "StockReleaseRetryJpaEntity.pending",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry(now).stream()\n            .map(e -> new PendingRelease(\n                e.getId(), e.getPaymentKey(), e.getItemsJson(), e.getAttemptCount())).toList",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry(now).stream().map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry(now).stream",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "new PendingRelease",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getId",
+          "lineNumber": 36
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getPaymentKey",
+          "lineNumber": 36
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getItemsJson",
+          "lineNumber": 36
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getAttemptCount",
+          "lineNumber": 36
+        },
+        {
+          "caller": "markDone",
+          "callee": "jpaRepository.findById(id).ifPresent",
+          "lineNumber": 42
+        },
+        {
+          "caller": "markDone",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 42
+        },
+        {
+          "caller": "markDone",
+          "callee": "e.markDone",
+          "lineNumber": 43
+        },
+        {
+          "caller": "markDone",
+          "callee": "jpaRepository.save",
+          "lineNumber": 44
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "jpaRepository.findById(id).ifPresent",
+          "lineNumber": 50
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 50
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "e.markFailed",
+          "lineNumber": 51
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "jpaRepository.save",
+          "lineNumber": 52
+        },
+        {
+          "caller": "exhaust",
+          "callee": "jpaRepository.findById(id).ifPresent",
+          "lineNumber": 58
+        },
+        {
+          "caller": "exhaust",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 58
+        },
+        {
+          "caller": "exhaust",
+          "callee": "e.exhaust",
+          "lineNumber": 59
+        },
+        {
+          "caller": "exhaust",
+          "callee": "jpaRepository.save",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/ProcessingRecoveryScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "run",
+          "startLine": 25,
+          "endLine": 45,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessingRecoveryScheduler",
+          "startLine": 14,
+          "endLine": 46,
+          "methods": [
+            "run"
+          ],
+          "properties": [
+            "redissonClient",
+            "processingRecoveryService",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "run",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessingRecoveryScheduler",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 27
+        },
+        {
+          "caller": "run",
+          "callee": "lock.tryLock",
+          "lineNumber": 29
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 30
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 34
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 35
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread",
+          "lineNumber": 35
+        },
+        {
+          "caller": "run",
+          "callee": "processingRecoveryService.recoverAll",
+          "lineNumber": 39
+        },
+        {
+          "caller": "run",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 41
+        },
+        {
+          "caller": "run",
+          "callee": "lock.unlock",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/StockReleaseRetryScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 45,
+      "functions": [
+        {
+          "name": "run",
+          "startLine": 30,
+          "endLine": 50,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockReleaseRetryScheduler",
+          "startLine": 19,
+          "endLine": 51,
+          "methods": [
+            "run"
+          ],
+          "properties": [
+            "redissonClient",
+            "stockReleaseRetryService",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "run",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "StockReleaseRetryScheduler",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 32
+        },
+        {
+          "caller": "run",
+          "callee": "lock.tryLock",
+          "lineNumber": 34
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 35
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 39
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 40
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread",
+          "lineNumber": 40
+        },
+        {
+          "caller": "run",
+          "callee": "stockReleaseRetryService.retryAll",
+          "lineNumber": 44
+        },
+        {
+          "caller": "run",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 46
+        },
+        {
+          "caller": "run",
+          "callee": "lock.unlock",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/GlobalExceptionHandler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "handleBusinessException",
+          "startLine": 18,
+          "endLine": 24,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleValidationException",
+          "startLine": 26,
+          "endLine": 35,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleUnreadableMessage",
+          "startLine": 37,
+          "endLine": 42,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleUnexpectedException",
+          "startLine": 44,
+          "endLine": 50,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "errorBody",
+          "startLine": 52,
+          "endLine": 54,
+          "params": [
+            "code",
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionHandler",
+          "startLine": 14,
+          "endLine": 55,
+          "methods": [
+            "handleBusinessException",
+            "handleValidationException",
+            "handleUnreadableMessage",
+            "handleUnexpectedException",
+            "errorBody"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleBusinessException",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "handleValidationException",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "handleUnreadableMessage",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "handleUnexpectedException",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionHandler",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleBusinessException",
+          "callee": "log.warn",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getMessage",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "ResponseEntity\n            .status(e.getErrorCode().getHttpStatus()).body",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode().getHttpStatus",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "errorBody",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getErrorCode",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleBusinessException",
+          "callee": "e.getMessage",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage())\n            .findFirst().orElse",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage()).findFirst",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors().stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult().getAllErrors",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "e.getBindingResult",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "err.getDefaultMessage",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "ResponseEntity\n            .status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleValidationException",
+          "callee": "errorBody",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleUnreadableMessage",
+          "callee": "ResponseEntity\n            .status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleUnreadableMessage",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleUnreadableMessage",
+          "callee": "errorBody",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "log.error",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "ResponseEntity\n            .status(HttpStatus.INTERNAL_SERVER_ERROR).body",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 47
+        },
+        {
+          "caller": "handleUnexpectedException",
+          "callee": "errorBody",
+          "lineNumber": 49
+        },
+        {
+          "caller": "errorBody",
+          "callee": "Map.of",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/exception/InvalidIdempotencyKeyException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "InvalidIdempotencyKeyException",
+          "startLine": 13,
+          "endLine": 15,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidIdempotencyKeyException",
+          "startLine": 11,
+          "endLine": 16,
+          "methods": [
+            "InvalidIdempotencyKeyException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidIdempotencyKeyException",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidIdempotencyKeyException",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

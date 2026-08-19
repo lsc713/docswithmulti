@@ -1,0 +1,115 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "k6/compensation-test.js",
+      "language": "javascript",
+      "sizeLines": 76,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/config.js",
+      "language": "javascript",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/helpers/data-factory.js",
+      "language": "javascript",
+      "sizeLines": 146,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/helpers/product-distribution.js",
+      "language": "javascript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/hot-merchant.js",
+      "language": "javascript",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/idempotency-test.js",
+      "language": "javascript",
+      "sizeLines": 115,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/load-test.js",
+      "language": "javascript",
+      "sizeLines": 87,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/product-detail.js",
+      "language": "javascript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/product-distribution-test.js",
+      "language": "javascript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/realistic-mix.js",
+      "language": "javascript",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/slo-arrival.js",
+      "language": "javascript",
+      "sizeLines": 150,
+      "fileCategory": "code"
+    },
+    {
+      "path": "k6/stages.js",
+      "language": "javascript",
+      "sizeLines": 104,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "k6/compensation-test.js": [
+      "k6/config.js",
+      "k6/helpers/data-factory.js"
+    ],
+    "k6/config.js": [],
+    "k6/helpers/data-factory.js": [
+      "k6/config.js"
+    ],
+    "k6/helpers/product-distribution.js": [],
+    "k6/hot-merchant.js": [
+      "k6/config.js"
+    ],
+    "k6/idempotency-test.js": [
+      "k6/config.js",
+      "k6/helpers/data-factory.js"
+    ],
+    "k6/load-test.js": [
+      "k6/config.js",
+      "k6/helpers/data-factory.js"
+    ],
+    "k6/product-detail.js": [
+      "k6/config.js",
+      "k6/helpers/product-distribution.js"
+    ],
+    "k6/product-distribution-test.js": [
+      "k6/helpers/product-distribution.js"
+    ],
+    "k6/realistic-mix.js": [
+      "k6/config.js"
+    ],
+    "k6/slo-arrival.js": [
+      "k6/config.js"
+    ],
+    "k6/stages.js": [
+      "k6/config.js"
+    ]
+  }
+}

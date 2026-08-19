@@ -37,3 +37,13 @@ test('allows the explicit local Vite API override in generated HTML CSP', async 
     else process.env.VITE_API_BASE_URL = previous
   }
 })
+
+test('allows the Toss payment SDK in generated HTML CSP', async () => {
+  const result = await build({ logLevel: 'silent', build: { write: false } })
+  const outputs = (Array.isArray(result) ? result : [result]).flatMap(output => output.output)
+  const html = outputs.filter(output => output.fileName === 'index.html').map(output => String(output.source))
+  assert.equal(html.length, 1)
+  assert.equal(html[0].includes("script-src 'self' https://js.tosspayments.com"), true)
+  assert.equal(html[0].includes("connect-src 'self' http://localhost:8000 http://localhost:9000 https://*.tosspayments.com"), true)
+  assert.equal(html[0].includes("frame-src https://*.tosspayments.com"), true)
+})

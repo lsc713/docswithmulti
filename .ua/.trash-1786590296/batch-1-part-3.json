@@ -1,0 +1,1352 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "type": "file",
+      "name": "CancelRestoreDlqRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "summary": "product-service의 Cancel Restore Dlq Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "class",
+      "name": "CancelRestoreDlqRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        8,
+        42
+      ],
+      "summary": "CancelRestoreDlqRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "function",
+      "name": "CancelRestoreDlqRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        12,
+        14
+      ],
+      "summary": "CancelRestoreDlqRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:upsertPending",
+      "type": "function",
+      "name": "upsertPending",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "upsertPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:findRedrivable",
+      "type": "function",
+      "name": "findRedrivable",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        21,
+        26
+      ],
+      "summary": "findRedrivable 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markResolved",
+      "type": "function",
+      "name": "markResolved",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        28,
+        31
+      ],
+      "summary": "markResolved 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:bumpAttempt",
+      "type": "function",
+      "name": "bumpAttempt",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        33,
+        36
+      ],
+      "summary": "bumpAttempt 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markDead",
+      "type": "function",
+      "name": "markDead",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        38,
+        41
+      ],
+      "summary": "markDead 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "type": "file",
+      "name": "ProcessedCancelEventRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "summary": "product-service의 Processed Cancel Event Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:ProcessedCancelEventRepositoryImpl",
+      "type": "class",
+      "name": "ProcessedCancelEventRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "lineRange": [
+        5,
+        22
+      ],
+      "summary": "ProcessedCancelEventRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:ProcessedCancelEventRepositoryImpl",
+      "type": "function",
+      "name": "ProcessedCancelEventRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "lineRange": [
+        9,
+        11
+      ],
+      "summary": "ProcessedCancelEventRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:existsByCancelRequestId",
+      "type": "function",
+      "name": "existsByCancelRequestId",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "lineRange": [
+        13,
+        16
+      ],
+      "summary": "existsByCancelRequestId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "lineRange": [
+        18,
+        21
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "type": "file",
+      "name": "StockReservationJpaEntity.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "summary": "product-service에서 Stock Reservation Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:StockReservationJpaEntity",
+      "type": "class",
+      "name": "StockReservationJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "lineRange": [
+        10,
+        55
+      ],
+      "summary": "StockReservationJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:StockReservationJpaEntity",
+      "type": "function",
+      "name": "StockReservationJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "lineRange": [
+        37,
+        37
+      ],
+      "summary": "StockReservationJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "lineRange": [
+        39,
+        49
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "lineRange": [
+        51,
+        54
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "type": "file",
+      "name": "StockReservationRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "summary": "product-service의 Stock Reservation Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:StockReservationRepositoryImpl",
+      "type": "class",
+      "name": "StockReservationRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "lineRange": [
+        12,
+        45
+      ],
+      "summary": "StockReservationRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:StockReservationRepositoryImpl",
+      "type": "function",
+      "name": "StockReservationRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "lineRange": [
+        16,
+        18
+      ],
+      "summary": "StockReservationRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "lineRange": [
+        20,
+        23
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:findByPaymentKeyAndSkuId",
+      "type": "function",
+      "name": "findByPaymentKeyAndSkuId",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "lineRange": [
+        25,
+        28
+      ],
+      "summary": "findByPaymentKeyAndSkuId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:findStaleReserved",
+      "type": "function",
+      "name": "findStaleReserved",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "lineRange": [
+        30,
+        34
+      ],
+      "summary": "findStaleReserved 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:upsertReserved",
+      "type": "function",
+      "name": "upsertReserved",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "lineRange": [
+        36,
+        39
+      ],
+      "summary": "upsertReserved 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:releaseIfReserved",
+      "type": "function",
+      "name": "releaseIfReserved",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "lineRange": [
+        41,
+        44
+      ],
+      "summary": "releaseIfReserved 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "type": "file",
+      "name": "CancelRestoreRedriveScheduler.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "summary": "product-service에서 Cancel Restore Redrive Scheduler 백그라운드 작업을 주기적으로 실행하고 처리 상태를 관리한다.",
+      "tags": [
+        "product-service",
+        "scheduler",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:CancelRestoreRedriveScheduler",
+      "type": "class",
+      "name": "CancelRestoreRedriveScheduler",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "lineRange": [
+        29,
+        99
+      ],
+      "summary": "CancelRestoreRedriveScheduler가 담당하는 scheduler 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:CancelRestoreRedriveScheduler",
+      "type": "function",
+      "name": "CancelRestoreRedriveScheduler",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "lineRange": [
+        44,
+        52
+      ],
+      "summary": "CancelRestoreRedriveScheduler 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:run",
+      "type": "function",
+      "name": "run",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "lineRange": [
+        54,
+        74
+      ],
+      "summary": "run 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:pollOnce",
+      "type": "function",
+      "name": "pollOnce",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "lineRange": [
+        80,
+        98
+      ],
+      "summary": "pollOnce 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "type": "file",
+      "name": "OrphanReservationRecoveryScheduler.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "summary": "product-service에서 Orphan Reservation Recovery Scheduler 백그라운드 작업을 주기적으로 실행하고 처리 상태를 관리한다.",
+      "tags": [
+        "product-service",
+        "scheduler",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java:OrphanReservationRecoveryScheduler",
+      "type": "class",
+      "name": "OrphanReservationRecoveryScheduler",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "lineRange": [
+        18,
+        50
+      ],
+      "summary": "OrphanReservationRecoveryScheduler가 담당하는 scheduler 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java:run",
+      "type": "function",
+      "name": "run",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "lineRange": [
+        29,
+        49
+      ],
+      "summary": "run 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "type": "file",
+      "name": "InternalCancelRestoreController.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "summary": "product-service의 Internal Cancel Restore Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:InternalCancelRestoreController",
+      "type": "class",
+      "name": "InternalCancelRestoreController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "lineRange": [
+        12,
+        33
+      ],
+      "summary": "InternalCancelRestoreController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:InternalCancelRestoreController",
+      "type": "function",
+      "name": "InternalCancelRestoreController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "lineRange": [
+        17,
+        19
+      ],
+      "summary": "InternalCancelRestoreController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:inspect",
+      "type": "function",
+      "name": "inspect",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "lineRange": [
+        21,
+        32
+      ],
+      "summary": "inspect 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "type": "file",
+      "name": "InspectCancelRestoreRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "summary": "product-service의 Inspect Cancel Restore Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java:InspectCancelRestoreRequest",
+      "type": "class",
+      "name": "InspectCancelRestoreRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "lineRange": [
+        10,
+        18
+      ],
+      "summary": "InspectCancelRestoreRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "type": "file",
+      "name": "InspectCancelRestoreResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "summary": "product-service의 Inspect Cancel Restore Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java:InspectCancelRestoreResponse",
+      "type": "class",
+      "name": "InspectCancelRestoreResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "lineRange": [
+        7,
+        29
+      ],
+      "summary": "InspectCancelRestoreResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "lineRange": [
+        11,
+        15
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:upsertPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:upsertPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:findRedrivable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:findRedrivable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markResolved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markResolved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:bumpAttempt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:bumpAttempt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markDead",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markDead",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:ProcessedCancelEventRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:ProcessedCancelEventRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:ProcessedCancelEventRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:ProcessedCancelEventRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:existsByCancelRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:existsByCancelRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:StockReservationJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:StockReservationJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:StockReservationJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:StockReservationJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:StockReservationRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:StockReservationRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:StockReservationRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:StockReservationRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:findByPaymentKeyAndSkuId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:findByPaymentKeyAndSkuId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:findStaleReserved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:findStaleReserved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:upsertReserved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:upsertReserved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:releaseIfReserved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java:releaseIfReserved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:CancelRestoreRedriveScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:CancelRestoreRedriveScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:CancelRestoreRedriveScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:CancelRestoreRedriveScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:run",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:run",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:pollOnce",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java:pollOnce",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "target": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java:OrphanReservationRecoveryScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java:OrphanReservationRecoveryScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java:run",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java:run",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:InternalCancelRestoreController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:InternalCancelRestoreController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:InternalCancelRestoreController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:InternalCancelRestoreController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:inspect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java:inspect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java:InspectCancelRestoreRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java:InspectCancelRestoreRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java:InspectCancelRestoreResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java:InspectCancelRestoreResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

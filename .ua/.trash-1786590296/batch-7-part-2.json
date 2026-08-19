@@ -1,0 +1,982 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "type": "file",
+      "name": "GlobalExceptionHandler.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "summary": "product-service의 Global Exception Handler 관련 domain/application 동작을 구현하며 3개의 주요 구조를 포함한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "class",
+      "name": "GlobalExceptionHandler",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        12,
+        39
+      ],
+      "summary": "GlobalExceptionHandler가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "function",
+      "name": "handleBusiness",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        15,
+        23
+      ],
+      "summary": "handleBusiness 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:handleValidation",
+      "type": "function",
+      "name": "handleValidation",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        26,
+        38
+      ],
+      "summary": "handleValidation 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java",
+      "type": "file",
+      "name": "CreateAttributeValueRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java",
+      "summary": "product-service의 Create Attribute Value Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java:CreateAttributeValueRequest",
+      "type": "class",
+      "name": "CreateAttributeValueRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java",
+      "lineRange": [
+        6,
+        6
+      ],
+      "summary": "CreateAttributeValueRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java",
+      "type": "file",
+      "name": "CreateCategoryRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java",
+      "summary": "product-service의 Create Category Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java:CreateCategoryRequest",
+      "type": "class",
+      "name": "CreateCategoryRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java",
+      "lineRange": [
+        6,
+        9
+      ],
+      "summary": "CreateCategoryRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java",
+      "type": "file",
+      "name": "PresignRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java",
+      "summary": "product-service의 Presign Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java:PresignRequest",
+      "type": "class",
+      "name": "PresignRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java",
+      "lineRange": [
+        3,
+        3
+      ],
+      "summary": "PresignRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java",
+      "type": "file",
+      "name": "PresignResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java",
+      "summary": "product-service의 Presign Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java:PresignResponse",
+      "type": "class",
+      "name": "PresignResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java",
+      "lineRange": [
+        3,
+        3
+      ],
+      "summary": "PresignResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "type": "file",
+      "name": "ProductDetailResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "summary": "product-service의 Product Detail Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java:ProductDetailResponse",
+      "type": "class",
+      "name": "ProductDetailResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "lineRange": [
+        13,
+        45
+      ],
+      "summary": "ProductDetailResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "lineRange": [
+        27,
+        44
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "type": "file",
+      "name": "ProductListResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "summary": "product-service의 Product List Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java:ProductListResponse",
+      "type": "class",
+      "name": "ProductListResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "lineRange": [
+        10,
+        23
+      ],
+      "summary": "ProductListResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "lineRange": [
+        15,
+        22
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java",
+      "type": "file",
+      "name": "ReleaseRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java",
+      "summary": "product-service의 Release Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java:ReleaseRequest",
+      "type": "class",
+      "name": "ReleaseRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java",
+      "lineRange": [
+        12,
+        20
+      ],
+      "summary": "ReleaseRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "type": "file",
+      "name": "ReleaseResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "summary": "product-service의 Release Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java:ReleaseResponse",
+      "type": "class",
+      "name": "ReleaseResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "lineRange": [
+        3,
+        7
+      ],
+      "summary": "ReleaseResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java:ok",
+      "type": "function",
+      "name": "ok",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "lineRange": [
+        4,
+        6
+      ],
+      "summary": "ok 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java",
+      "type": "file",
+      "name": "ReorderRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java",
+      "summary": "product-service의 Reorder Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java:ReorderRequest",
+      "type": "class",
+      "name": "ReorderRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java",
+      "lineRange": [
+        5,
+        5
+      ],
+      "summary": "ReorderRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java",
+      "type": "file",
+      "name": "ReserveRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java",
+      "summary": "product-service의 Reserve Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java:ReserveRequest",
+      "type": "class",
+      "name": "ReserveRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java",
+      "lineRange": [
+        12,
+        20
+      ],
+      "summary": "ReserveRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "type": "file",
+      "name": "ReserveResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "summary": "product-service의 Reserve Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java:ReserveResponse",
+      "type": "class",
+      "name": "ReserveResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "lineRange": [
+        3,
+        7
+      ],
+      "summary": "ReserveResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java:ok",
+      "type": "function",
+      "name": "ok",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "lineRange": [
+        4,
+        6
+      ],
+      "summary": "ok 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "type": "file",
+      "name": "SeedRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "summary": "product-service의 Seed Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:SeedRequest",
+      "type": "class",
+      "name": "SeedRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "lineRange": [
+        15,
+        44
+      ],
+      "summary": "SeedRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:attributesOrEmpty",
+      "type": "function",
+      "name": "attributesOrEmpty",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "lineRange": [
+        36,
+        38
+      ],
+      "summary": "attributesOrEmpty 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:descriptiveValueIdsOrEmpty",
+      "type": "function",
+      "name": "descriptiveValueIdsOrEmpty",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "lineRange": [
+        41,
+        43
+      ],
+      "summary": "descriptiveValueIdsOrEmpty 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "type": "file",
+      "name": "SeedResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "summary": "product-service의 Seed Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java:SeedResponse",
+      "type": "class",
+      "name": "SeedResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "lineRange": [
+        7,
+        17
+      ],
+      "summary": "SeedResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "lineRange": [
+        11,
+        16
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:handleValidation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java:handleValidation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java:CreateAttributeValueRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java:CreateAttributeValueRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java:CreateCategoryRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java:CreateCategoryRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java:PresignRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java:PresignRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java:PresignResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java:PresignResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java:ProductDetailResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java:ProductDetailResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java:ProductListResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java:ProductListResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductQueryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java:ReleaseRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java:ReleaseRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java:ReleaseResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java:ReleaseResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java:ok",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java:ok",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java:ReorderRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java:ReorderRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java:ReserveRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java:ReserveRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java:ReserveResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java:ReserveResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java:ok",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java:ok",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:SeedRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:SeedRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:attributesOrEmpty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:attributesOrEmpty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:descriptiveValueIdsOrEmpty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java:descriptiveValueIdsOrEmpty",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java:SeedResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java:SeedResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

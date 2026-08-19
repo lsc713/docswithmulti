@@ -1,0 +1,424 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 6,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 6,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 6
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/product-stock/phases/01-product-service/01-01-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 262,
+      "nonEmptyLines": 237,
+      "sections": [
+        {
+          "heading": "autonomous: false — 스키마 태스크가 one-way라 checkpoint:decision 선행(비자율)",
+          "level": 1,
+          "line": 33
+        },
+        {
+          "heading": "레퍼런스 (그대로 미러링 — 재발명 금지)",
+          "level": 1,
+          "line": 72
+        },
+        {
+          "heading": "user-service = Boot 4.0.5 헥사고날 신규 모듈의 최신 템플릿",
+          "level": 1,
+          "line": 73
+        },
+        {
+          "heading": "risk-management = 원자 조건부 UPDATE 예약/보상 패턴(재고 차감에 그대로 응용)",
+          "level": 1,
+          "line": 86
+        },
+        {
+          "heading": "인프라 확정: product_db는 docker-compose에 이미 존재(host 3310, user/pass product/product),",
+          "level": 1,
+          "line": 88
+        },
+        {
+          "heading": "settings.gradle는 이미 product-service를 include. 앱 포트 8084(CLAUDE.md 모듈표 = product-service:8084, 현재 미바인딩).",
+          "level": 1,
+          "line": 89
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 229
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 236
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/01-product-service/01-01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 165,
+      "nonEmptyLines": 136,
+      "sections": [
+        {
+          "heading": "Dependency graph",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "Tech tracking",
+          "level": 1,
+          "line": 17
+        },
+        {
+          "heading": "Metrics",
+          "level": 1,
+          "line": 74
+        },
+        {
+          "heading": "Phase 01 Plan 01: product-service 스캐폴드 + 재고 예약 수직 슬라이스 Summary",
+          "level": 1,
+          "line": 80
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 84
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 97
+        },
+        {
+          "heading": "Files Created/Modified",
+          "level": 2,
+          "line": 106
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 124
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 126
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 140
+        },
+        {
+          "heading": "Known Stubs / 이월 (Plan 02)",
+          "level": 2,
+          "line": 143
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 149
+        },
+        {
+          "heading": "Self-Check",
+          "level": 2,
+          "line": 154
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 161
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/01-product-service/01-02-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 187,
+      "nonEmptyLines": 170,
+      "sections": [
+        {
+          "heading": "Plan 01이 만든 슬라이스 위에서 확장 — StockService/StockController/ProductStockJpaRepository 재사용.",
+          "level": 1,
+          "line": 54
+        },
+        {
+          "heading": "원자 복원 UPDATE 미러 대상(risk tryRestore)",
+          "level": 1,
+          "line": 56
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 157
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 164
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/01-product-service/01-02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 172,
+      "nonEmptyLines": 144,
+      "sections": [
+        {
+          "heading": "Dependency graph",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "Tech tracking",
+          "level": 1,
+          "line": 19
+        },
+        {
+          "heading": "Metrics",
+          "level": 1,
+          "line": 96
+        },
+        {
+          "heading": "Phase 01 Plan 02: reserve 멱등 + release 원자 + 동시 오버셀 회귀 Summary",
+          "level": 1,
+          "line": 102
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 106
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "Task Commits",
+          "level": 2,
+          "line": 120
+        },
+        {
+          "heading": "Files Created/Modified",
+          "level": 2,
+          "line": 130
+        },
+        {
+          "heading": "Decisions Made",
+          "level": 2,
+          "line": 140
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 145
+        },
+        {
+          "heading": "Issues Encountered",
+          "level": 2,
+          "line": 151
+        },
+        {
+          "heading": "User Setup Required",
+          "level": 2,
+          "line": 154
+        },
+        {
+          "heading": "Next Phase Readiness",
+          "level": 2,
+          "line": 157
+        },
+        {
+          "heading": "Self-Check",
+          "level": 2,
+          "line": 162
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 168
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/01-product-service/01-VALIDATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 54,
+      "nonEmptyLines": 39,
+      "sections": [
+        {
+          "heading": "Phase 1 — Validation Strategy",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "Test Infrastructure",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "Sampling Rate",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Per-Task Verification Map",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "Wave 0 Requirements",
+          "level": 2,
+          "line": 39
+        },
+        {
+          "heading": "Manual-Only Verifications",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "Validation Sign-Off",
+          "level": 2,
+          "line": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-stock/phases/01-product-service/01-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 112,
+      "nonEmptyLines": 84,
+      "sections": [
+        {
+          "heading": "Phase 1: 재고 기반 (product-service 구축) Verification Report",
+          "level": 1,
+          "line": 13
+        },
+        {
+          "heading": "Goal Achievement",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "Observable Truths",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "Required Artifacts",
+          "level": 3,
+          "line": 38
+        },
+        {
+          "heading": "Key Link Verification",
+          "level": 3,
+          "line": 51
+        },
+        {
+          "heading": "Behavioral Spot-Checks",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "Boot 테스트 현실성",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "Requirements Coverage",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "Anti-Patterns Found",
+          "level": 3,
+          "line": 90
+        },
+        {
+          "heading": "Info-level 관찰 (비차단)",
+          "level": 3,
+          "line": 97
+        },
+        {
+          "heading": "Human Verification Required",
+          "level": 3,
+          "line": 101
+        },
+        {
+          "heading": "Gaps Summary",
+          "level": 3,
+          "line": 105
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    }
+  ]
+}

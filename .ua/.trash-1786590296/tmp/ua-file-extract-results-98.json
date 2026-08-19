@@ -1,0 +1,96 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": "infra/load-test/observability/grafana/provisioning/alerting/contactpoints.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 34,
+      "nonEmptyLines": 33,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 12
+        },
+        {
+          "heading": "contactPoints",
+          "level": 1,
+          "line": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/observability/grafana/provisioning/alerting/policies.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 13,
+      "nonEmptyLines": 12,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "policies",
+          "level": 1,
+          "line": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/observability/grafana/provisioning/alerting/rules.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 166,
+      "nonEmptyLines": 161,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "groups",
+          "level": 1,
+          "line": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    }
+  ]
+}

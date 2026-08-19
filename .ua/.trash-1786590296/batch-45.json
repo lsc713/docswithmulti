@@ -1,0 +1,63 @@
+{
+  "nodes": [
+    {
+      "id": "table:user-service/src/main/resources/db/migration/V1__create_user_core.sql:V1__create_user_core",
+      "type": "table",
+      "name": "V1__create_user_core.sql",
+      "filePath": "user-service/src/main/resources/db/migration/V1__create_user_core.sql",
+      "summary": "user-service database에서 users, refresh_tokens schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "user-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:user-service/src/main/resources/db/migration/V1__create_user_core.sql:users",
+      "type": "table",
+      "name": "users",
+      "filePath": "user-service/src/main/resources/db/migration/V1__create_user_core.sql",
+      "summary": "users table은 id, email, password, name, phone, role 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "user-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:user-service/src/main/resources/db/migration/V1__create_user_core.sql:refresh_tokens",
+      "type": "table",
+      "name": "refresh_tokens",
+      "filePath": "user-service/src/main/resources/db/migration/V1__create_user_core.sql",
+      "summary": "refresh_tokens table은 id, user_id, token, expires_at, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "user-service"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:user-service/src/main/resources/db/migration/V1__create_user_core.sql:V1__create_user_core",
+      "target": "table:user-service/src/main/resources/db/migration/V1__create_user_core.sql:users",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:user-service/src/main/resources/db/migration/V1__create_user_core.sql:V1__create_user_core",
+      "target": "table:user-service/src/main/resources/db/migration/V1__create_user_core.sql:refresh_tokens",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

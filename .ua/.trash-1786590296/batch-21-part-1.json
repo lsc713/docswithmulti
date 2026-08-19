@@ -1,0 +1,1668 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "type": "file",
+      "name": "CancelOutboxInspectionUseCase.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "summary": "payment-service에서 Cancel Outbox Inspection Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java:CancelOutboxInspectionUseCase",
+      "type": "class",
+      "name": "CancelOutboxInspectionUseCase",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "lineRange": [
+        7,
+        19
+      ],
+      "summary": "CancelOutboxInspectionUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveQuery.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "summary": "payment-service에서 Cancel Outbox Redrive Query 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java:CancelOutboxRedriveQuery",
+      "type": "class",
+      "name": "CancelOutboxRedriveQuery",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "CancelOutboxRedriveQuery가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveUseCase.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "summary": "payment-service에서 Cancel Outbox Redrive Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java:CancelOutboxRedriveUseCase",
+      "type": "class",
+      "name": "CancelOutboxRedriveUseCase",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "CancelOutboxRedriveUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "type": "file",
+      "name": "CancelOutboxRedrive.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "summary": "payment-service의 Cancel Outbox Redrive domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:CancelOutboxRedrive",
+      "type": "class",
+      "name": "CancelOutboxRedrive",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        5,
+        127
+      ],
+      "summary": "CancelOutboxRedrive domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:CancelOutboxRedrive",
+      "type": "function",
+      "name": "CancelOutboxRedrive",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        20,
+        20
+      ],
+      "summary": "CancelOutboxRedrive 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:requested",
+      "type": "function",
+      "name": "requested",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        22,
+        31
+      ],
+      "summary": "requested 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:reconstitute",
+      "type": "function",
+      "name": "reconstitute",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        33,
+        54
+      ],
+      "summary": "reconstitute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:start",
+      "type": "function",
+      "name": "start",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        56,
+        61
+      ],
+      "summary": "start 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:resolve",
+      "type": "function",
+      "name": "resolve",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        63,
+        70
+      ],
+      "summary": "resolve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:resolveAlreadyApplied",
+      "type": "function",
+      "name": "resolveAlreadyApplied",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        72,
+        79
+      ],
+      "summary": "resolveAlreadyApplied 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:reject",
+      "type": "function",
+      "name": "reject",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        81,
+        89
+      ],
+      "summary": "reject 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:fail",
+      "type": "function",
+      "name": "fail",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        91,
+        102
+      ],
+      "summary": "fail 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        114,
+        114
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getSourceOutboxId",
+      "type": "function",
+      "name": "getSourceOutboxId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        115,
+        115
+      ],
+      "summary": "getSourceOutboxId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        116,
+        116
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getFailureStage",
+      "type": "function",
+      "name": "getFailureStage",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        117,
+        117
+      ],
+      "summary": "getFailureStage 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getRequestedBy",
+      "type": "function",
+      "name": "getRequestedBy",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        118,
+        118
+      ],
+      "summary": "getRequestedBy 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getReason",
+      "type": "function",
+      "name": "getReason",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        119,
+        119
+      ],
+      "summary": "getReason 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getRequestedAt",
+      "type": "function",
+      "name": "getRequestedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        120,
+        120
+      ],
+      "summary": "getRequestedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getStartedAt",
+      "type": "function",
+      "name": "getStartedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        121,
+        121
+      ],
+      "summary": "getStartedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getCompletedAt",
+      "type": "function",
+      "name": "getCompletedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        122,
+        122
+      ],
+      "summary": "getCompletedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getResult",
+      "type": "function",
+      "name": "getResult",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        123,
+        123
+      ],
+      "summary": "getResult 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getLastError",
+      "type": "function",
+      "name": "getLastError",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        124,
+        124
+      ],
+      "summary": "getLastError 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getBeforeState",
+      "type": "function",
+      "name": "getBeforeState",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        125,
+        125
+      ],
+      "summary": "getBeforeState 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getAfterState",
+      "type": "function",
+      "name": "getAfterState",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "lineRange": [
+        126,
+        126
+      ],
+      "summary": "getAfterState 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveFailureCode.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "summary": "payment-service의 Cancel Outbox Redrive Failure Code domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java:CancelOutboxRedriveFailureCode",
+      "type": "class",
+      "name": "CancelOutboxRedriveFailureCode",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "lineRange": [
+        3,
+        15
+      ],
+      "summary": "CancelOutboxRedriveFailureCode domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveFailureStage.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "summary": "payment-service의 Cancel Outbox Redrive Failure Stage domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java:CancelOutboxRedriveFailureStage",
+      "type": "class",
+      "name": "CancelOutboxRedriveFailureStage",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "lineRange": [
+        3,
+        5
+      ],
+      "summary": "CancelOutboxRedriveFailureStage domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveStatus.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "summary": "payment-service의 Cancel Outbox Redrive Status domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:CancelOutboxRedriveStatus",
+      "type": "class",
+      "name": "CancelOutboxRedriveStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "lineRange": [
+        3,
+        17
+      ],
+      "summary": "CancelOutboxRedriveStatus domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isActive",
+      "type": "function",
+      "name": "isActive",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "lineRange": [
+        6,
+        8
+      ],
+      "summary": "isActive 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isResolved",
+      "type": "function",
+      "name": "isResolved",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "lineRange": [
+        10,
+        12
+      ],
+      "summary": "isResolved 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isTerminal",
+      "type": "function",
+      "name": "isTerminal",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "lineRange": [
+        14,
+        16
+      ],
+      "summary": "isTerminal 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "type": "file",
+      "name": "OrderCancelStatusHttpClient.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "summary": "payment-service의 Order Cancel Status Http Client 관련 domain/application 동작을 구현하며 5개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:OrderCancelStatusHttpClient",
+      "type": "class",
+      "name": "OrderCancelStatusHttpClient",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "lineRange": [
+        16,
+        85
+      ],
+      "summary": "OrderCancelStatusHttpClient가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:OrderCancelStatusHttpClient",
+      "type": "function",
+      "name": "OrderCancelStatusHttpClient",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "lineRange": [
+        24,
+        32
+      ],
+      "summary": "OrderCancelStatusHttpClient 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:inspect",
+      "type": "function",
+      "name": "inspect",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "lineRange": [
+        34,
+        48
+      ],
+      "summary": "inspect 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:inspectDownstream",
+      "type": "function",
+      "name": "inspectDownstream",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "lineRange": [
+        50,
+        70
+      ],
+      "summary": "inspectDownstream 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "type": "file",
+      "name": "StockRestoreStatusHttpClient.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "summary": "payment-service의 Stock Restore Status Http Client 관련 domain/application 동작을 구현하며 5개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:StockRestoreStatusHttpClient",
+      "type": "class",
+      "name": "StockRestoreStatusHttpClient",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "lineRange": [
+        16,
+        95
+      ],
+      "summary": "StockRestoreStatusHttpClient가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:StockRestoreStatusHttpClient",
+      "type": "function",
+      "name": "StockRestoreStatusHttpClient",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "lineRange": [
+        24,
+        32
+      ],
+      "summary": "StockRestoreStatusHttpClient 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:inspect",
+      "type": "function",
+      "name": "inspect",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "lineRange": [
+        34,
+        48
+      ],
+      "summary": "inspect 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:inspectDownstream",
+      "type": "function",
+      "name": "inspectDownstream",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "lineRange": [
+        50,
+        73
+      ],
+      "summary": "inspectDownstream 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "type": "file",
+      "name": "JacksonCancelEventPayloadParser.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "summary": "payment-service의 Jackson Cancel Event Payload Parser event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:JacksonCancelEventPayloadParser",
+      "type": "class",
+      "name": "JacksonCancelEventPayloadParser",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "lineRange": [
+        16,
+        98
+      ],
+      "summary": "JacksonCancelEventPayloadParser가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:JacksonCancelEventPayloadParser",
+      "type": "function",
+      "name": "JacksonCancelEventPayloadParser",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "lineRange": [
+        21,
+        23
+      ],
+      "summary": "JacksonCancelEventPayloadParser 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:parse",
+      "type": "function",
+      "name": "parse",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "lineRange": [
+        29,
+        64
+      ],
+      "summary": "parse 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:positiveLong",
+      "type": "function",
+      "name": "positiveLong",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "lineRange": [
+        66,
+        75
+      ],
+      "summary": "positiveLong 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:positiveInt",
+      "type": "function",
+      "name": "positiveInt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "lineRange": [
+        77,
+        86
+      ],
+      "summary": "positiveInt 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java:CancelOutboxInspectionUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java:CancelOutboxInspectionUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxInspectionUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java:CancelOutboxRedriveQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java:CancelOutboxRedriveQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveQuery.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java:CancelOutboxRedriveUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java:CancelOutboxRedriveUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelOutboxRedriveUseCase.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:CancelOutboxRedrive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:CancelOutboxRedrive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:CancelOutboxRedrive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:CancelOutboxRedrive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:requested",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:requested",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:reconstitute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:reconstitute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:start",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:start",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:resolve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:resolve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:resolveAlreadyApplied",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:resolveAlreadyApplied",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:reject",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:reject",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:fail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:fail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getSourceOutboxId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getSourceOutboxId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getFailureStage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getFailureStage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getRequestedBy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getRequestedBy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getReason",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getRequestedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getRequestedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getStartedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getStartedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getCompletedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getCompletedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getLastError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getLastError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getBeforeState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getBeforeState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getAfterState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java:getAfterState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java:CancelOutboxRedriveFailureCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureCode.java:CancelOutboxRedriveFailureCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java:CancelOutboxRedriveFailureStage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java:CancelOutboxRedriveFailureStage",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:CancelOutboxRedriveStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:CancelOutboxRedriveStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isActive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isResolved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isResolved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isTerminal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java:isTerminal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:OrderCancelStatusHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:OrderCancelStatusHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:OrderCancelStatusHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:OrderCancelStatusHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:inspect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:inspect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java:inspectDownstream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/OrderCancelStatusHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:StockRestoreStatusHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:StockRestoreStatusHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:StockRestoreStatusHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:StockRestoreStatusHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:inspect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:inspect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java:inspectDownstream",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/StockRestoreStatusHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:JacksonCancelEventPayloadParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:JacksonCancelEventPayloadParser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:JacksonCancelEventPayloadParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:JacksonCancelEventPayloadParser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:parse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:positiveLong",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java:positiveInt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/JacksonCancelEventPayloadParser.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

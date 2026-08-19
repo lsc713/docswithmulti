@@ -1,0 +1,2364 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 18,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 18,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 18,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "UserRole",
+          "startLine": 3,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserRole",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "functions": [
+        {
+          "name": "isActive",
+          "startLine": 6,
+          "endLine": 8,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserStatus",
+          "startLine": 3,
+          "endLine": 9,
+          "methods": [
+            "isActive"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "isActive",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "UserStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "transactionManager",
+          "startLine": 20,
+          "endLine": 23,
+          "params": [
+            "emf"
+          ]
+        },
+        {
+          "name": "userRepository",
+          "startLine": 24,
+          "endLine": 25,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "refreshTokenRepository",
+          "startLine": 26,
+          "endLine": 27,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "passwordEncoder",
+          "startLine": 28,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "jwtTokenProvider",
+          "startLine": 30,
+          "endLine": 36,
+          "params": [
+            "secret",
+            "accessTokenExpiry",
+            "refreshTokenExpiry"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PersistenceConfig",
+          "startLine": 16,
+          "endLine": 37,
+          "methods": [
+            "transactionManager",
+            "userRepository",
+            "refreshTokenRepository",
+            "passwordEncoder",
+            "jwtTokenProvider"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "transactionManager",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "userRepository",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "refreshTokenRepository",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "passwordEncoder",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "jwtTokenProvider",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "PersistenceConfig",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "transactionManager",
+          "callee": "new JpaTransactionManager",
+          "lineNumber": 22
+        },
+        {
+          "caller": "userRepository",
+          "callee": "new UserRepositoryImpl",
+          "lineNumber": 25
+        },
+        {
+          "caller": "refreshTokenRepository",
+          "callee": "new RefreshTokenRepositoryImpl",
+          "lineNumber": 27
+        },
+        {
+          "caller": "passwordEncoder",
+          "callee": "new BcryptPasswordEncoderAdapter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "jwtTokenProvider",
+          "callee": "new JwtTokenProvider",
+          "lineNumber": 35
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "authCookieFactory",
+          "startLine": 11,
+          "endLine": 17,
+          "params": [
+            "jwtTokenProvider",
+            "secure",
+            "domain"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WebConfig",
+          "startLine": 9,
+          "endLine": 18,
+          "methods": [
+            "authCookieFactory"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "WebConfig",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "authCookieFactory",
+          "callee": "new AuthCookieFactory",
+          "lineNumber": 16
+        },
+        {
+          "caller": "authCookieFactory",
+          "callee": "jwtTokenProvider.getRefreshTokenExpiry",
+          "lineNumber": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "RefreshTokenJpaEntity",
+          "startLine": 29,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 31,
+          "endLine": 39,
+          "params": [
+            "refreshToken"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 41,
+          "endLine": 47,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "RefreshTokenJpaEntity",
+          "startLine": 9,
+          "endLine": 48,
+          "methods": [
+            "RefreshTokenJpaEntity",
+            "from",
+            "toDomain"
+          ],
+          "properties": [
+            "id",
+            "userId",
+            "token",
+            "expiresAt",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "RefreshTokenJpaEntity",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new RefreshTokenJpaEntity",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "refreshToken.getId",
+          "lineNumber": 33
+        },
+        {
+          "caller": "from",
+          "callee": "refreshToken.getUserId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "refreshToken.getToken",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 36
+        },
+        {
+          "caller": "from",
+          "callee": "refreshToken.getExpiresAt",
+          "lineNumber": 36
+        },
+        {
+          "caller": "from",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "refreshToken.getCreatedAt",
+          "lineNumber": 37
+        },
+        {
+          "caller": "toDomain",
+          "callee": "RefreshToken.reconstruct",
+          "lineNumber": 42
+        },
+        {
+          "caller": "toDomain",
+          "callee": "expiresAt.toInstant",
+          "lineNumber": 44
+        },
+        {
+          "caller": "toDomain",
+          "callee": "createdAt.toInstant",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "RefreshTokenRepositoryImpl",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "findByToken",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "token"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 21,
+          "endLine": 24,
+          "params": [
+            "refreshToken"
+          ]
+        },
+        {
+          "name": "deleteByUserId",
+          "startLine": 26,
+          "endLine": 29,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "deleteByToken",
+          "startLine": 31,
+          "endLine": 34,
+          "params": [
+            "token"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RefreshTokenRepositoryImpl",
+          "startLine": 8,
+          "endLine": 35,
+          "methods": [
+            "RefreshTokenRepositoryImpl",
+            "findByToken",
+            "save",
+            "deleteByUserId",
+            "deleteByToken"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RefreshTokenRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "findByToken",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "deleteByUserId",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "deleteByToken",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "RefreshTokenRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findByToken",
+          "callee": "jpa.findByToken(token).map",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findByToken",
+          "callee": "jpa.findByToken",
+          "lineNumber": 18
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save(RefreshTokenJpaEntity.from(refreshToken)).toDomain",
+          "lineNumber": 23
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 23
+        },
+        {
+          "caller": "save",
+          "callee": "RefreshTokenJpaEntity.from",
+          "lineNumber": 23
+        },
+        {
+          "caller": "deleteByUserId",
+          "callee": "jpa.deleteByUserId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "deleteByToken",
+          "callee": "jpa.deleteByToken",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 74,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "UserJpaEntity",
+          "startLine": 48,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 50,
+          "endLine": 63,
+          "params": [
+            "user"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 65,
+          "endLine": 71,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 73,
+          "endLine": 73,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserJpaEntity",
+          "startLine": 11,
+          "endLine": 74,
+          "methods": [
+            "UserJpaEntity",
+            "from",
+            "toDomain",
+            "getId"
+          ],
+          "properties": [
+            "id",
+            "email",
+            "password",
+            "name",
+            "phone",
+            "role",
+            "merchantId",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "UserJpaEntity",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new UserJpaEntity",
+          "lineNumber": 51
+        },
+        {
+          "caller": "from",
+          "callee": "user.getId",
+          "lineNumber": 52
+        },
+        {
+          "caller": "from",
+          "callee": "user.getEmail",
+          "lineNumber": 53
+        },
+        {
+          "caller": "from",
+          "callee": "user.getPassword",
+          "lineNumber": 54
+        },
+        {
+          "caller": "from",
+          "callee": "user.getName",
+          "lineNumber": 55
+        },
+        {
+          "caller": "from",
+          "callee": "user.getPhone",
+          "lineNumber": 56
+        },
+        {
+          "caller": "from",
+          "callee": "user.getRole",
+          "lineNumber": 57
+        },
+        {
+          "caller": "from",
+          "callee": "user.getMerchantId",
+          "lineNumber": 58
+        },
+        {
+          "caller": "from",
+          "callee": "user.getStatus",
+          "lineNumber": 59
+        },
+        {
+          "caller": "from",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 60
+        },
+        {
+          "caller": "from",
+          "callee": "user.getCreatedAt",
+          "lineNumber": 60
+        },
+        {
+          "caller": "from",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 61
+        },
+        {
+          "caller": "from",
+          "callee": "user.getUpdatedAt",
+          "lineNumber": 61
+        },
+        {
+          "caller": "toDomain",
+          "callee": "User.reconstruct",
+          "lineNumber": 66
+        },
+        {
+          "caller": "toDomain",
+          "callee": "createdAt.toInstant",
+          "lineNumber": 68
+        },
+        {
+          "caller": "toDomain",
+          "callee": "updatedAt.toInstant",
+          "lineNumber": 69
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "UserRepositoryImpl",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 17,
+          "endLine": 20,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "findByEmail",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "email"
+          ]
+        },
+        {
+          "name": "existsByEmail",
+          "startLine": 27,
+          "endLine": 30,
+          "params": [
+            "email"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 32,
+          "endLine": 36,
+          "params": [
+            "user"
+          ]
+        },
+        {
+          "name": "findAll",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserRepositoryImpl",
+          "startLine": 9,
+          "endLine": 42,
+          "methods": [
+            "UserRepositoryImpl",
+            "findById",
+            "findByEmail",
+            "existsByEmail",
+            "save",
+            "findAll"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserRepositoryImpl",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "findByEmail",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "existsByEmail",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "findAll",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "UserRepositoryImpl",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findById",
+          "callee": "jpa.findById(id).map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "findById",
+          "callee": "jpa.findById",
+          "lineNumber": 19
+        },
+        {
+          "caller": "findByEmail",
+          "callee": "jpa.findByEmail(email).map",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findByEmail",
+          "callee": "jpa.findByEmail",
+          "lineNumber": 24
+        },
+        {
+          "caller": "existsByEmail",
+          "callee": "jpa.existsByEmail",
+          "lineNumber": 29
+        },
+        {
+          "caller": "save",
+          "callee": "UserJpaEntity.from",
+          "lineNumber": 34
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save(entity).toDomain",
+          "lineNumber": 35
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findAll",
+          "callee": "jpa.findAll().stream().map(UserJpaEntity::toDomain).toList",
+          "lineNumber": 40
+        },
+        {
+          "caller": "findAll",
+          "callee": "jpa.findAll().stream().map",
+          "lineNumber": 40
+        },
+        {
+          "caller": "findAll",
+          "callee": "jpa.findAll().stream",
+          "lineNumber": 40
+        },
+        {
+          "caller": "findAll",
+          "callee": "jpa.findAll",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "encode",
+          "startLine": 9,
+          "endLine": 10,
+          "params": [
+            "rawPassword"
+          ]
+        },
+        {
+          "name": "matches",
+          "startLine": 12,
+          "endLine": 15,
+          "params": [
+            "rawPassword",
+            "encodedPassword"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BcryptPasswordEncoderAdapter",
+          "startLine": 6,
+          "endLine": 16,
+          "methods": [
+            "encode",
+            "matches"
+          ],
+          "properties": [
+            "encoder"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "encode",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "matches",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "BcryptPasswordEncoderAdapter",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "encode",
+          "callee": "encoder.encode",
+          "lineNumber": 10
+        },
+        {
+          "caller": "matches",
+          "callee": "encoder.matches",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 94,
+      "nonEmptyLines": 78,
+      "functions": [
+        {
+          "name": "JwtTokenProvider",
+          "startLine": 20,
+          "endLine": 24,
+          "params": [
+            "secret",
+            "accessTokenExpiry",
+            "refreshTokenExpiry"
+          ]
+        },
+        {
+          "name": "createAccessToken",
+          "startLine": 26,
+          "endLine": 42,
+          "params": [
+            "userId",
+            "role",
+            "merchantId"
+          ]
+        },
+        {
+          "name": "createRefreshToken",
+          "startLine": 44,
+          "endLine": 46,
+          "params": []
+        },
+        {
+          "name": "validateToken",
+          "startLine": 48,
+          "endLine": 58,
+          "params": [
+            "token"
+          ]
+        },
+        {
+          "name": "getUserId",
+          "startLine": 60,
+          "endLine": 62,
+          "params": [
+            "token"
+          ]
+        },
+        {
+          "name": "getRole",
+          "startLine": 64,
+          "endLine": 66,
+          "params": [
+            "token"
+          ]
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 68,
+          "endLine": 81,
+          "params": [
+            "token"
+          ]
+        },
+        {
+          "name": "getRefreshTokenExpiry",
+          "startLine": 83,
+          "endLine": 85,
+          "params": []
+        },
+        {
+          "name": "getClaims",
+          "startLine": 87,
+          "endLine": 93,
+          "params": [
+            "token"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JwtTokenProvider",
+          "startLine": 14,
+          "endLine": 94,
+          "methods": [
+            "JwtTokenProvider",
+            "createAccessToken",
+            "createRefreshToken",
+            "validateToken",
+            "getUserId",
+            "getRole",
+            "getMerchantId",
+            "getRefreshTokenExpiry",
+            "getClaims"
+          ],
+          "properties": [
+            "secretKey",
+            "accessTokenExpiry",
+            "refreshTokenExpiry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "JwtTokenProvider",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "createAccessToken",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "createRefreshToken",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "validateToken",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "getUserId",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "getRole",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "getRefreshTokenExpiry",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "JwtTokenProvider",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "JwtTokenProvider",
+          "callee": "Keys.hmacShaKeyFor",
+          "lineNumber": 21
+        },
+        {
+          "caller": "JwtTokenProvider",
+          "callee": "secret.getBytes",
+          "lineNumber": 21
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "new Date",
+          "lineNumber": 27
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "new Date",
+          "lineNumber": 28
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "now.getTime",
+          "lineNumber": 28
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "Jwts.builder()\n                .subject(String.valueOf(userId))\n                .claim(\"role\", role.name())\n                .issuedAt(now)\n                .expiration(expiry).signWith",
+          "lineNumber": 30
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "Jwts.builder()\n                .subject(String.valueOf(userId))\n                .claim(\"role\", role.name())\n                .issuedAt(now).expiration",
+          "lineNumber": 30
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "Jwts.builder()\n                .subject(String.valueOf(userId))\n                .claim(\"role\", role.name()).issuedAt",
+          "lineNumber": 30
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "Jwts.builder()\n                .subject(String.valueOf(userId)).claim",
+          "lineNumber": 30
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "Jwts.builder().subject",
+          "lineNumber": 30
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "Jwts.builder",
+          "lineNumber": 30
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "String.valueOf",
+          "lineNumber": 31
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "role.name",
+          "lineNumber": 32
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "builder.claim",
+          "lineNumber": 38
+        },
+        {
+          "caller": "createAccessToken",
+          "callee": "builder.compact",
+          "lineNumber": 41
+        },
+        {
+          "caller": "createRefreshToken",
+          "callee": "UUID.randomUUID().toString",
+          "lineNumber": 45
+        },
+        {
+          "caller": "createRefreshToken",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 45
+        },
+        {
+          "caller": "validateToken",
+          "callee": "Jwts.parser()\n                    .verifyWith(secretKey)\n                    .build().parseSignedClaims",
+          "lineNumber": 50
+        },
+        {
+          "caller": "validateToken",
+          "callee": "Jwts.parser()\n                    .verifyWith(secretKey).build",
+          "lineNumber": 50
+        },
+        {
+          "caller": "validateToken",
+          "callee": "Jwts.parser().verifyWith",
+          "lineNumber": 50
+        },
+        {
+          "caller": "validateToken",
+          "callee": "Jwts.parser",
+          "lineNumber": 50
+        },
+        {
+          "caller": "getUserId",
+          "callee": "Long.parseLong",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getUserId",
+          "callee": "getClaims(token).getSubject",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getUserId",
+          "callee": "getClaims",
+          "lineNumber": 61
+        },
+        {
+          "caller": "getRole",
+          "callee": "getClaims(token).get",
+          "lineNumber": 65
+        },
+        {
+          "caller": "getRole",
+          "callee": "getClaims",
+          "lineNumber": 65
+        },
+        {
+          "caller": "getMerchantId",
+          "callee": "getClaims",
+          "lineNumber": 69
+        },
+        {
+          "caller": "getMerchantId",
+          "callee": "claims.get",
+          "lineNumber": 70
+        },
+        {
+          "caller": "getMerchantId",
+          "callee": "i.longValue",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getMerchantId",
+          "callee": "((Number) merchantId).longValue",
+          "lineNumber": 80
+        },
+        {
+          "caller": "getClaims",
+          "callee": "Jwts.parser()\n                .verifyWith(secretKey)\n                .build()\n                .parseSignedClaims(token).getPayload",
+          "lineNumber": 88
+        },
+        {
+          "caller": "getClaims",
+          "callee": "Jwts.parser()\n                .verifyWith(secretKey)\n                .build().parseSignedClaims",
+          "lineNumber": 88
+        },
+        {
+          "caller": "getClaims",
+          "callee": "Jwts.parser()\n                .verifyWith(secretKey).build",
+          "lineNumber": 88
+        },
+        {
+          "caller": "getClaims",
+          "callee": "Jwts.parser().verifyWith",
+          "lineNumber": 88
+        },
+        {
+          "caller": "getClaims",
+          "callee": "Jwts.parser",
+          "lineNumber": 88
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "handleBusiness",
+          "startLine": 13,
+          "endLine": 21,
+          "params": [
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionHandler",
+          "startLine": 10,
+          "endLine": 22,
+          "methods": [
+            "handleBusiness"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleBusiness",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionHandler",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity\n                .status(e.getErrorCode().getHttpStatus()).body",
+          "lineNumber": 15
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 15
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getHttpStatus",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "Map.of",
+          "lineNumber": 17
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 18
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 18
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "AdminController",
+          "startLine": 26,
+          "endLine": 29,
+          "params": [
+            "adminUseCase",
+            "userQuery"
+          ]
+        },
+        {
+          "name": "list",
+          "startLine": 31,
+          "endLine": 36,
+          "params": [
+            "page",
+            "size"
+          ]
+        },
+        {
+          "name": "changeRole",
+          "startLine": 38,
+          "endLine": 42,
+          "params": [
+            "userId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AdminController",
+          "startLine": 20,
+          "endLine": 43,
+          "methods": [
+            "AdminController",
+            "list",
+            "changeRole"
+          ],
+          "properties": [
+            "adminUseCase",
+            "userQuery"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminController",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "list",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "changeRole",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "AdminController",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "list",
+          "callee": "userQuery.listUsers",
+          "lineNumber": 35
+        },
+        {
+          "caller": "changeRole",
+          "callee": "adminUseCase.changeRole",
+          "lineNumber": 40
+        },
+        {
+          "caller": "changeRole",
+          "callee": "request.role",
+          "lineNumber": 40
+        },
+        {
+          "caller": "changeRole",
+          "callee": "Map.of",
+          "lineNumber": 41
+        },
+        {
+          "caller": "changeRole",
+          "callee": "result.userId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "changeRole",
+          "callee": "result.role().name",
+          "lineNumber": 41
+        },
+        {
+          "caller": "changeRole",
+          "callee": "result.role",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "AuthController",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "authUseCase",
+            "cookies"
+          ]
+        },
+        {
+          "name": "signup",
+          "startLine": 27,
+          "endLine": 34,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "login",
+          "startLine": 36,
+          "endLine": 40,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "refresh",
+          "startLine": 42,
+          "endLine": 48,
+          "params": [
+            "refreshToken"
+          ]
+        },
+        {
+          "name": "logout",
+          "startLine": 50,
+          "endLine": 57,
+          "params": [
+            "authentication"
+          ]
+        },
+        {
+          "name": "issue",
+          "startLine": 59,
+          "endLine": 65,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AuthController",
+          "startLine": 16,
+          "endLine": 66,
+          "methods": [
+            "AuthController",
+            "signup",
+            "login",
+            "refresh",
+            "logout",
+            "issue"
+          ],
+          "properties": [
+            "authUseCase",
+            "cookies"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthController",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "signup",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "login",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "refresh",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "logout",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "AuthController",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "signup",
+          "callee": "authUseCase.signup",
+          "lineNumber": 30
+        },
+        {
+          "caller": "signup",
+          "callee": "new SignupCommand",
+          "lineNumber": 30
+        },
+        {
+          "caller": "signup",
+          "callee": "request.email",
+          "lineNumber": 31
+        },
+        {
+          "caller": "signup",
+          "callee": "request.password",
+          "lineNumber": 31
+        },
+        {
+          "caller": "signup",
+          "callee": "request.name",
+          "lineNumber": 31
+        },
+        {
+          "caller": "signup",
+          "callee": "request.phone",
+          "lineNumber": 32
+        },
+        {
+          "caller": "signup",
+          "callee": "issue",
+          "lineNumber": 33
+        },
+        {
+          "caller": "login",
+          "callee": "authUseCase.login",
+          "lineNumber": 38
+        },
+        {
+          "caller": "login",
+          "callee": "new LoginCommand",
+          "lineNumber": 38
+        },
+        {
+          "caller": "login",
+          "callee": "request.email",
+          "lineNumber": 38
+        },
+        {
+          "caller": "login",
+          "callee": "request.password",
+          "lineNumber": 38
+        },
+        {
+          "caller": "login",
+          "callee": "issue",
+          "lineNumber": 39
+        },
+        {
+          "caller": "refresh",
+          "callee": "authUseCase.refresh",
+          "lineNumber": 44
+        },
+        {
+          "caller": "refresh",
+          "callee": "new HttpHeaders",
+          "lineNumber": 45
+        },
+        {
+          "caller": "refresh",
+          "callee": "headers.add",
+          "lineNumber": 46
+        },
+        {
+          "caller": "refresh",
+          "callee": "cookies.access(accessToken).toString",
+          "lineNumber": 46
+        },
+        {
+          "caller": "refresh",
+          "callee": "cookies.access",
+          "lineNumber": 46
+        },
+        {
+          "caller": "refresh",
+          "callee": "ResponseEntity.ok().headers(headers).body",
+          "lineNumber": 47
+        },
+        {
+          "caller": "refresh",
+          "callee": "ResponseEntity.ok().headers",
+          "lineNumber": 47
+        },
+        {
+          "caller": "refresh",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 47
+        },
+        {
+          "caller": "refresh",
+          "callee": "Map.of",
+          "lineNumber": 47
+        },
+        {
+          "caller": "logout",
+          "callee": "Long.parseLong",
+          "lineNumber": 52
+        },
+        {
+          "caller": "logout",
+          "callee": "String.valueOf",
+          "lineNumber": 52
+        },
+        {
+          "caller": "logout",
+          "callee": "authentication.getPrincipal",
+          "lineNumber": 52
+        },
+        {
+          "caller": "logout",
+          "callee": "authUseCase.logout",
+          "lineNumber": 53
+        },
+        {
+          "caller": "logout",
+          "callee": "new HttpHeaders",
+          "lineNumber": 54
+        },
+        {
+          "caller": "logout",
+          "callee": "cookies.expireAll().forEach",
+          "lineNumber": 55
+        },
+        {
+          "caller": "logout",
+          "callee": "cookies.expireAll",
+          "lineNumber": 55
+        },
+        {
+          "caller": "logout",
+          "callee": "headers.add",
+          "lineNumber": 55
+        },
+        {
+          "caller": "logout",
+          "callee": "c.toString",
+          "lineNumber": 55
+        },
+        {
+          "caller": "logout",
+          "callee": "ResponseEntity.ok().headers(headers).build",
+          "lineNumber": 56
+        },
+        {
+          "caller": "logout",
+          "callee": "ResponseEntity.ok().headers",
+          "lineNumber": 56
+        },
+        {
+          "caller": "logout",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 56
+        },
+        {
+          "caller": "issue",
+          "callee": "new HttpHeaders",
+          "lineNumber": 60
+        },
+        {
+          "caller": "issue",
+          "callee": "headers.add",
+          "lineNumber": 61
+        },
+        {
+          "caller": "issue",
+          "callee": "cookies.access(result.accessToken()).toString",
+          "lineNumber": 61
+        },
+        {
+          "caller": "issue",
+          "callee": "cookies.access",
+          "lineNumber": 61
+        },
+        {
+          "caller": "issue",
+          "callee": "result.accessToken",
+          "lineNumber": 61
+        },
+        {
+          "caller": "issue",
+          "callee": "headers.add",
+          "lineNumber": 62
+        },
+        {
+          "caller": "issue",
+          "callee": "cookies.refresh(result.refreshToken()).toString",
+          "lineNumber": 62
+        },
+        {
+          "caller": "issue",
+          "callee": "cookies.refresh",
+          "lineNumber": 62
+        },
+        {
+          "caller": "issue",
+          "callee": "result.refreshToken",
+          "lineNumber": 62
+        },
+        {
+          "caller": "issue",
+          "callee": "headers.add",
+          "lineNumber": 63
+        },
+        {
+          "caller": "issue",
+          "callee": "cookies.csrf(cookies.newCsrfValue()).toString",
+          "lineNumber": 63
+        },
+        {
+          "caller": "issue",
+          "callee": "cookies.csrf",
+          "lineNumber": 63
+        },
+        {
+          "caller": "issue",
+          "callee": "cookies.newCsrfValue",
+          "lineNumber": 63
+        },
+        {
+          "caller": "issue",
+          "callee": "ResponseEntity.ok().headers(headers).body",
+          "lineNumber": 64
+        },
+        {
+          "caller": "issue",
+          "callee": "ResponseEntity.ok().headers",
+          "lineNumber": 64
+        },
+        {
+          "caller": "issue",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 64
+        },
+        {
+          "caller": "issue",
+          "callee": "Map.of",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "MeController",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "userQuery"
+          ]
+        },
+        {
+          "name": "me",
+          "startLine": 19,
+          "endLine": 23,
+          "params": [
+            "authentication"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MeController",
+          "startLine": 10,
+          "endLine": 24,
+          "methods": [
+            "MeController",
+            "me"
+          ],
+          "properties": [
+            "userQuery"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MeController",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "me",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "MeController",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "me",
+          "callee": "Long.parseLong",
+          "lineNumber": 21
+        },
+        {
+          "caller": "me",
+          "callee": "String.valueOf",
+          "lineNumber": 21
+        },
+        {
+          "caller": "me",
+          "callee": "authentication.getPrincipal",
+          "lineNumber": 21
+        },
+        {
+          "caller": "me",
+          "callee": "userQuery.getProfile",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "ChangeRoleRequest",
+          "startLine": 6,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChangeRoleRequest",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "MeResponse",
+          "startLine": 3,
+          "endLine": 4,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MeResponse",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "UserListResponse",
+          "startLine": 5,
+          "endLine": 19,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserListResponse",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "AuthCookieFactory",
+          "startLine": 21,
+          "endLine": 25,
+          "params": [
+            "secure",
+            "domain",
+            "refreshExpiryMs"
+          ]
+        },
+        {
+          "name": "access",
+          "startLine": 27,
+          "endLine": 29,
+          "params": [
+            "jwt"
+          ]
+        },
+        {
+          "name": "refresh",
+          "startLine": 31,
+          "endLine": 34,
+          "params": [
+            "token"
+          ]
+        },
+        {
+          "name": "csrf",
+          "startLine": 36,
+          "endLine": 38,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "newCsrfValue",
+          "startLine": 40,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "expireAll",
+          "startLine": 44,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "base",
+          "startLine": 51,
+          "endLine": 55,
+          "params": [
+            "name",
+            "value",
+            "path"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AuthCookieFactory",
+          "startLine": 10,
+          "endLine": 56,
+          "methods": [
+            "AuthCookieFactory",
+            "access",
+            "refresh",
+            "csrf",
+            "newCsrfValue",
+            "expireAll",
+            "base"
+          ],
+          "properties": [
+            "ACCESS",
+            "REFRESH",
+            "CSRF",
+            "REFRESH_PATH",
+            "secure",
+            "domain",
+            "refreshMaxAgeSec"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ACCESS",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "REFRESH",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "CSRF",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "AuthCookieFactory",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "access",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "refresh",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "csrf",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "newCsrfValue",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "expireAll",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "AuthCookieFactory",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "access",
+          "callee": "base(ACCESS, jwt, \"/\").httpOnly(true).sameSite(\"Lax\").build",
+          "lineNumber": 28
+        },
+        {
+          "caller": "access",
+          "callee": "base(ACCESS, jwt, \"/\").httpOnly(true).sameSite",
+          "lineNumber": 28
+        },
+        {
+          "caller": "access",
+          "callee": "base(ACCESS, jwt, \"/\").httpOnly",
+          "lineNumber": 28
+        },
+        {
+          "caller": "access",
+          "callee": "base",
+          "lineNumber": 28
+        },
+        {
+          "caller": "refresh",
+          "callee": "base(REFRESH, token, REFRESH_PATH).httpOnly(true).sameSite(\"Strict\")\n                .maxAge(Duration.ofSeconds(refreshMaxAgeSec)).build",
+          "lineNumber": 32
+        },
+        {
+          "caller": "refresh",
+          "callee": "base(REFRESH, token, REFRESH_PATH).httpOnly(true).sameSite(\"Strict\").maxAge",
+          "lineNumber": 32
+        },
+        {
+          "caller": "refresh",
+          "callee": "base(REFRESH, token, REFRESH_PATH).httpOnly(true).sameSite",
+          "lineNumber": 32
+        },
+        {
+          "caller": "refresh",
+          "callee": "base(REFRESH, token, REFRESH_PATH).httpOnly",
+          "lineNumber": 32
+        },
+        {
+          "caller": "refresh",
+          "callee": "base",
+          "lineNumber": 32
+        },
+        {
+          "caller": "refresh",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 33
+        },
+        {
+          "caller": "csrf",
+          "callee": "base(CSRF, value, \"/\").httpOnly(false).sameSite(\"Lax\").build",
+          "lineNumber": 37
+        },
+        {
+          "caller": "csrf",
+          "callee": "base(CSRF, value, \"/\").httpOnly(false).sameSite",
+          "lineNumber": 37
+        },
+        {
+          "caller": "csrf",
+          "callee": "base(CSRF, value, \"/\").httpOnly",
+          "lineNumber": 37
+        },
+        {
+          "caller": "csrf",
+          "callee": "base",
+          "lineNumber": 37
+        },
+        {
+          "caller": "newCsrfValue",
+          "callee": "UUID.randomUUID().toString",
+          "lineNumber": 41
+        },
+        {
+          "caller": "newCsrfValue",
+          "callee": "UUID.randomUUID",
+          "lineNumber": 41
+        },
+        {
+          "caller": "expireAll",
+          "callee": "List.of",
+          "lineNumber": 45
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(ACCESS, \"\", \"/\").httpOnly(true).maxAge(0).build",
+          "lineNumber": 46
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(ACCESS, \"\", \"/\").httpOnly(true).maxAge",
+          "lineNumber": 46
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(ACCESS, \"\", \"/\").httpOnly",
+          "lineNumber": 46
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base",
+          "lineNumber": 46
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(REFRESH, \"\", REFRESH_PATH).httpOnly(true).maxAge(0).build",
+          "lineNumber": 47
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(REFRESH, \"\", REFRESH_PATH).httpOnly(true).maxAge",
+          "lineNumber": 47
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(REFRESH, \"\", REFRESH_PATH).httpOnly",
+          "lineNumber": 47
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base",
+          "lineNumber": 47
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(CSRF, \"\", \"/\").httpOnly(false).maxAge(0).build",
+          "lineNumber": 48
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(CSRF, \"\", \"/\").httpOnly(false).maxAge",
+          "lineNumber": 48
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base(CSRF, \"\", \"/\").httpOnly",
+          "lineNumber": 48
+        },
+        {
+          "caller": "expireAll",
+          "callee": "base",
+          "lineNumber": 48
+        },
+        {
+          "caller": "base",
+          "callee": "ResponseCookie.from(name, value).path(path).secure",
+          "lineNumber": 52
+        },
+        {
+          "caller": "base",
+          "callee": "ResponseCookie.from(name, value).path",
+          "lineNumber": 52
+        },
+        {
+          "caller": "base",
+          "callee": "ResponseCookie.from",
+          "lineNumber": 52
+        },
+        {
+          "caller": "base",
+          "callee": "domain.isBlank",
+          "lineNumber": 53
+        },
+        {
+          "caller": "base",
+          "callee": "b.domain",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    }
+  ]
+}

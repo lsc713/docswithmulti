@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/kafka-design.md",
+  "type": "SPEC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "Kafka design",
+  "summary": "Kafka topic, event schema, producer/consumer, header, and DLQ design contracts for the payment-cancellation system, with rationale.",
+  "scope": ["Kafka", "payment.cancelled topic", "merchant.limit.updated topic", "event schemas", "producer config", "consumer config", "offset commit", "DLQ", "partitions", "Kafka UI"],
+  "cross_refs": ["./load-test/outbox-poller-livelock.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Mixed doc: heavy Kafka concept/rationale prose (DOC-like) around load-bearing contracts — topic table (partitions/RF/retention/keys), payment.cancelled + merchant.limit.updated event schemas with field tables, Kafka header schema, producer/consumer config values, DLQ message format. Contract content dominates for extraction purposes, so SPEC > DOC per precedence rule. Medium confidence due to the substantial explanatory prose."
+}

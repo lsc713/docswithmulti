@@ -1,0 +1,813 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "type": "file",
+      "name": "RiskReserveResult.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "summary": "payment-service의 Risk Reserve Result API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java:RiskReserveResult",
+      "type": "class",
+      "name": "RiskReserveResult",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "lineRange": [
+        5,
+        10
+      ],
+      "summary": "RiskReserveResult 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "type": "file",
+      "name": "CompensationRetryRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "summary": "payment-service의 Compensation Retry Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java:CompensationRetryRepository",
+      "type": "class",
+      "name": "CompensationRetryRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "lineRange": [
+        7,
+        29
+      ],
+      "summary": "CompensationRetryRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "type": "file",
+      "name": "RiskManagementPort.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "summary": "payment-service의 Risk Management Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java:RiskManagementPort",
+      "type": "class",
+      "name": "RiskManagementPort",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "lineRange": [
+        7,
+        19
+      ],
+      "summary": "RiskManagementPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "type": "file",
+      "name": "CompensationRetryService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "summary": "payment-service의 Compensation Retry Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:CompensationRetryService",
+      "type": "class",
+      "name": "CompensationRetryService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "lineRange": [
+        21,
+        64
+      ],
+      "summary": "CompensationRetryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:retryAll",
+      "type": "function",
+      "name": "retryAll",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "lineRange": [
+        31,
+        39
+      ],
+      "summary": "retryAll 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:retryOne",
+      "type": "function",
+      "name": "retryOne",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "lineRange": [
+        41,
+        63
+      ],
+      "summary": "retryOne 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "type": "file",
+      "name": "RiskManagementHttpClient.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "summary": "payment-service의 Risk Management Http Client 관련 domain/application 동작을 구현하며 5개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:RiskManagementHttpClient",
+      "type": "class",
+      "name": "RiskManagementHttpClient",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "lineRange": [
+        17,
+        123
+      ],
+      "summary": "RiskManagementHttpClient가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:RiskManagementHttpClient",
+      "type": "function",
+      "name": "RiskManagementHttpClient",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "lineRange": [
+        28,
+        38
+      ],
+      "summary": "RiskManagementHttpClient 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:validateAndReserve",
+      "type": "function",
+      "name": "validateAndReserve",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "lineRange": [
+        40,
+        69
+      ],
+      "summary": "validateAndReserve 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:compensate",
+      "type": "function",
+      "name": "compensate",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "lineRange": [
+        71,
+        99
+      ],
+      "summary": "compensate 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:isCharged",
+      "type": "function",
+      "name": "isCharged",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "lineRange": [
+        101,
+        122
+      ],
+      "summary": "isCharged 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "type": "file",
+      "name": "CompensationRetryRepositoryImpl.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "summary": "payment-service의 Compensation Retry Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:CompensationRetryRepositoryImpl",
+      "type": "class",
+      "name": "CompensationRetryRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "lineRange": [
+        10,
+        58
+      ],
+      "summary": "CompensationRetryRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:CompensationRetryRepositoryImpl",
+      "type": "function",
+      "name": "CompensationRetryRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "CompensationRetryRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "lineRange": [
+        19,
+        24
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:findDueForRetry",
+      "type": "function",
+      "name": "findDueForRetry",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "lineRange": [
+        26,
+        33
+      ],
+      "summary": "findDueForRetry 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:markDone",
+      "type": "function",
+      "name": "markDone",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "lineRange": [
+        35,
+        41
+      ],
+      "summary": "markDone 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:markRetryLater",
+      "type": "function",
+      "name": "markRetryLater",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "lineRange": [
+        43,
+        49
+      ],
+      "summary": "markRetryLater 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:exhaust",
+      "type": "function",
+      "name": "exhaust",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "lineRange": [
+        51,
+        57
+      ],
+      "summary": "exhaust 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "type": "file",
+      "name": "CompensationRetryScheduler.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "summary": "payment-service에서 Compensation Retry Scheduler 백그라운드 작업을 주기적으로 실행하고 처리 상태를 관리한다.",
+      "tags": [
+        "payment-service",
+        "scheduler",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java:CompensationRetryScheduler",
+      "type": "class",
+      "name": "CompensationRetryScheduler",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "lineRange": [
+        18,
+        50
+      ],
+      "summary": "CompensationRetryScheduler가 담당하는 scheduler 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java:run",
+      "type": "function",
+      "name": "run",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "lineRange": [
+        29,
+        49
+      ],
+      "summary": "run 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java:RiskReserveResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java:RiskReserveResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java:CompensationRetryRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java:CompensationRetryRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java:RiskManagementPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java:RiskManagementPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:CompensationRetryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:CompensationRetryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:retryAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:retryAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java:retryOne",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:RiskManagementHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:RiskManagementHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:RiskManagementHttpClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:RiskManagementHttpClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:validateAndReserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:validateAndReserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:compensate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:compensate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:isCharged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java:isCharged",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/infrastructure/exception/RiskServiceException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:CompensationRetryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:CompensationRetryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:CompensationRetryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:CompensationRetryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:findDueForRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:findDueForRetry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:markDone",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:markDone",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:markRetryLater",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:markRetryLater",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:exhaust",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java:exhaust",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java:CompensationRetryScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java:CompensationRetryScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java:run",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java:run",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

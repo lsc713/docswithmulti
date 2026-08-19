@@ -1,0 +1,1497 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 13,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 13,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 13,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "CancelEventOutboxRepository",
+          "startLine": 5,
+          "endLine": 22,
+          "methods": [
+            "insertPending",
+            "findPendingBatch",
+            "markPublished",
+            "bumpRetry",
+            "markDead",
+            "purgePublished"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelEventOutboxRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "CancelEventPublisher",
+          "startLine": 4,
+          "endLine": 6,
+          "methods": [
+            "publish"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelEventPublisher",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "OperationAlertPort",
+          "startLine": 10,
+          "endLine": 13,
+          "methods": [
+            "alertPgPendingTimeout",
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OperationAlertPort",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "PaymentEventOutboxRepository",
+          "startLine": 9,
+          "endLine": 23,
+          "methods": [
+            "insertPending",
+            "findPendingBatch",
+            "markPublished",
+            "bumpRetry",
+            "markDead"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentEventOutboxRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "alertPgPendingTimeout",
+          "startLine": 12,
+          "endLine": 16,
+          "params": [
+            "cancelRequestId",
+            "paymentKey",
+            "pgPendingSince"
+          ]
+        },
+        {
+          "name": "alert",
+          "startLine": 18,
+          "endLine": 21,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LogOperationAlertAdapter",
+          "startLine": 8,
+          "endLine": 22,
+          "methods": [
+            "alertPgPendingTimeout",
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "alertPgPendingTimeout",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "alert",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "LogOperationAlertAdapter",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "alertPgPendingTimeout",
+          "callee": "log.error",
+          "lineNumber": 14
+        },
+        {
+          "caller": "alert",
+          "callee": "log.error",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "functions": [
+        {
+          "name": "paymentEventOutboxRepository",
+          "startLine": 17,
+          "endLine": 21,
+          "params": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentEventOutboxConfig",
+          "startLine": 14,
+          "endLine": 22,
+          "methods": [
+            "paymentEventOutboxRepository"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "paymentEventOutboxRepository",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentEventOutboxConfig",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "paymentEventOutboxRepository",
+          "callee": "new PaymentEventOutboxRepositoryImpl",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "InlineAsyncCancelEventPublisher",
+          "startLine": 20,
+          "endLine": 25,
+          "params": [
+            "kafkaTemplate",
+            "topic"
+          ]
+        },
+        {
+          "name": "warn",
+          "startLine": 27,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "publish",
+          "startLine": 32,
+          "endLine": 35,
+          "params": [
+            "cancelRequestId",
+            "payload"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InlineAsyncCancelEventPublisher",
+          "startLine": 12,
+          "endLine": 36,
+          "methods": [
+            "InlineAsyncCancelEventPublisher",
+            "warn",
+            "publish"
+          ],
+          "properties": [
+            "kafkaTemplate",
+            "topic"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InlineAsyncCancelEventPublisher",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "publish",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "InlineAsyncCancelEventPublisher",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "warn",
+          "callee": "log.warn",
+          "lineNumber": 29
+        },
+        {
+          "caller": "publish",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 34
+        },
+        {
+          "caller": "publish",
+          "callee": "String.valueOf",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "InlineCancelEventPublisher",
+          "startLine": 20,
+          "endLine": 25,
+          "params": [
+            "kafkaTemplate",
+            "topic"
+          ]
+        },
+        {
+          "name": "publish",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "cancelRequestId",
+            "payload"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InlineCancelEventPublisher",
+          "startLine": 12,
+          "endLine": 37,
+          "methods": [
+            "InlineCancelEventPublisher",
+            "publish"
+          ],
+          "properties": [
+            "kafkaTemplate",
+            "topic"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InlineCancelEventPublisher",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "publish",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "InlineCancelEventPublisher",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "publish",
+          "callee": "kafkaTemplate.send(topic, String.valueOf(cancelRequestId), payload).get",
+          "lineNumber": 30
+        },
+        {
+          "caller": "publish",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 30
+        },
+        {
+          "caller": "publish",
+          "callee": "String.valueOf",
+          "lineNumber": 30
+        },
+        {
+          "caller": "publish",
+          "callee": "log.debug",
+          "lineNumber": 31
+        },
+        {
+          "caller": "publish",
+          "callee": "log.error",
+          "lineNumber": 33
+        },
+        {
+          "caller": "publish",
+          "callee": "new RuntimeException",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "publish",
+          "startLine": 26,
+          "endLine": 40,
+          "params": [
+            "cancelRequestId",
+            "payload"
+          ]
+        },
+        {
+          "name": "wake",
+          "startLine": 42,
+          "endLine": 49,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OutboxCancelEventPublisher",
+          "startLine": 15,
+          "endLine": 50,
+          "methods": [
+            "publish",
+            "wake"
+          ],
+          "properties": [
+            "WAKE_TOPIC",
+            "outboxRepository",
+            "redissonClient"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WAKE_TOPIC",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "publish",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "OutboxCancelEventPublisher",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.insertPending",
+          "lineNumber": 28
+        },
+        {
+          "caller": "publish",
+          "callee": "TransactionSynchronizationManager.isSynchronizationActive",
+          "lineNumber": 29
+        },
+        {
+          "caller": "publish",
+          "callee": "TransactionSynchronizationManager.registerSynchronization",
+          "lineNumber": 30
+        },
+        {
+          "caller": "publish",
+          "callee": "new TransactionSynchronization",
+          "lineNumber": 31
+        },
+        {
+          "caller": "afterCommit",
+          "callee": "wake",
+          "lineNumber": 34
+        },
+        {
+          "caller": "publish",
+          "callee": "wake",
+          "lineNumber": 38
+        },
+        {
+          "caller": "wake",
+          "callee": "redissonClient.getTopic(WAKE_TOPIC).publish",
+          "lineNumber": 44
+        },
+        {
+          "caller": "wake",
+          "callee": "redissonClient.getTopic",
+          "lineNumber": 44
+        },
+        {
+          "caller": "wake",
+          "callee": "log.debug",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 48,
+      "classes": [
+        {
+          "name": "PaymentEventOutboxJpaRepository",
+          "startLine": 15,
+          "endLine": 56,
+          "methods": [
+            "insertPendingIdempotent",
+            "findPendingBatch",
+            "markPublishedBatch",
+            "bumpRetry",
+            "markDead"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentEventOutboxJpaRepository",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "PaymentEventOutboxRepositoryImpl",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "insertPending",
+          "startLine": 19,
+          "endLine": 23,
+          "params": [
+            "paymentKey",
+            "payload"
+          ]
+        },
+        {
+          "name": "findPendingBatch",
+          "startLine": 25,
+          "endLine": 30,
+          "params": [
+            "limit"
+          ]
+        },
+        {
+          "name": "markPublished",
+          "startLine": 32,
+          "endLine": 38,
+          "params": [
+            "outboxIds"
+          ]
+        },
+        {
+          "name": "bumpRetry",
+          "startLine": 40,
+          "endLine": 43,
+          "params": [
+            "id",
+            "lastError"
+          ]
+        },
+        {
+          "name": "markDead",
+          "startLine": 45,
+          "endLine": 48,
+          "params": [
+            "id",
+            "lastError"
+          ]
+        },
+        {
+          "name": "truncate",
+          "startLine": 50,
+          "endLine": 52,
+          "params": [
+            "error"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentEventOutboxRepositoryImpl",
+          "startLine": 11,
+          "endLine": 53,
+          "methods": [
+            "PaymentEventOutboxRepositoryImpl",
+            "insertPending",
+            "findPendingBatch",
+            "markPublished",
+            "bumpRetry",
+            "markDead",
+            "truncate"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentEventOutboxRepositoryImpl",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "insertPending",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "findPendingBatch",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "markPublished",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "bumpRetry",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "markDead",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentEventOutboxRepositoryImpl",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insertPending",
+          "callee": "jpaRepository.insertPendingIdempotent",
+          "lineNumber": 22
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository.findPendingBatch(limit).stream()\n            .map(e -> new PendingOutbox(e.getId(), e.getPaymentKey(), e.getPayload(), e.getRetryCount())).toList",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository.findPendingBatch(limit).stream().map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository.findPendingBatch(limit).stream",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository.findPendingBatch",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "new PendingOutbox",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "e.getId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "e.getPaymentKey",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "e.getPayload",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "e.getRetryCount",
+          "lineNumber": 28
+        },
+        {
+          "caller": "markPublished",
+          "callee": "outboxIds.isEmpty",
+          "lineNumber": 34
+        },
+        {
+          "caller": "markPublished",
+          "callee": "jpaRepository.markPublishedBatch",
+          "lineNumber": 37
+        },
+        {
+          "caller": "bumpRetry",
+          "callee": "jpaRepository.bumpRetry",
+          "lineNumber": 42
+        },
+        {
+          "caller": "bumpRetry",
+          "callee": "truncate",
+          "lineNumber": 42
+        },
+        {
+          "caller": "markDead",
+          "callee": "jpaRepository.markDead",
+          "lineNumber": 47
+        },
+        {
+          "caller": "markDead",
+          "callee": "truncate",
+          "lineNumber": 47
+        },
+        {
+          "caller": "truncate",
+          "callee": "error.substring",
+          "lineNumber": 51
+        },
+        {
+          "caller": "truncate",
+          "callee": "Math.min",
+          "lineNumber": 51
+        },
+        {
+          "caller": "truncate",
+          "callee": "error.length",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 166,
+      "nonEmptyLines": 146,
+      "functions": [
+        {
+          "name": "CancelEventOutboxPublisher",
+          "startLine": 55,
+          "endLine": 64,
+          "params": [
+            "outboxRepository",
+            "kafkaTemplate",
+            "redissonClient",
+            "operationAlertPort"
+          ]
+        },
+        {
+          "name": "subscribeWake",
+          "startLine": 67,
+          "endLine": 71,
+          "params": []
+        },
+        {
+          "name": "triggerPoll",
+          "startLine": 74,
+          "endLine": 83,
+          "params": []
+        },
+        {
+          "name": "publish",
+          "startLine": 85,
+          "endLine": 138,
+          "params": []
+        },
+        {
+          "name": "purge",
+          "startLine": 141,
+          "endLine": 162,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelEventOutboxPublisher",
+          "startLine": 24,
+          "endLine": 166,
+          "methods": [
+            "CancelEventOutboxPublisher",
+            "subscribeWake",
+            "triggerPoll",
+            "publish",
+            "purge"
+          ],
+          "properties": [
+            "outboxRepository",
+            "kafkaTemplate",
+            "redissonClient",
+            "operationAlertPort",
+            "topic",
+            "lockKey",
+            "batchSize",
+            "maxRetries",
+            "retentionDays",
+            "purgeLockKey",
+            "pollScheduled"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelEventOutboxPublisher",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "publish",
+          "line": 85,
+          "isDefault": false
+        },
+        {
+          "name": "purge",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "CancelEventOutboxPublisher",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "subscribeWake",
+          "callee": "redissonClient.getTopic(OutboxCancelEventPublisher.WAKE_TOPIC).addListener",
+          "lineNumber": 69
+        },
+        {
+          "caller": "subscribeWake",
+          "callee": "redissonClient.getTopic",
+          "lineNumber": 69
+        },
+        {
+          "caller": "subscribeWake",
+          "callee": "triggerPoll",
+          "lineNumber": 70
+        },
+        {
+          "caller": "triggerPoll",
+          "callee": "pollScheduled.compareAndSet",
+          "lineNumber": 75
+        },
+        {
+          "caller": "triggerPoll",
+          "callee": "publish",
+          "lineNumber": 79
+        },
+        {
+          "caller": "triggerPoll",
+          "callee": "pollScheduled.set",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publish",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 87
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.tryLock",
+          "lineNumber": 89
+        },
+        {
+          "caller": "publish",
+          "callee": "log.debug",
+          "lineNumber": 90
+        },
+        {
+          "caller": "publish",
+          "callee": "log.debug",
+          "lineNumber": 94
+        },
+        {
+          "caller": "publish",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 95
+        },
+        {
+          "caller": "publish",
+          "callee": "Thread.currentThread",
+          "lineNumber": 95
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.findPendingBatch",
+          "lineNumber": 99
+        },
+        {
+          "caller": "publish",
+          "callee": "new ArrayList<>",
+          "lineNumber": 103
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.size",
+          "lineNumber": 103
+        },
+        {
+          "caller": "publish",
+          "callee": "inFlight.add",
+          "lineNumber": 105
+        },
+        {
+          "caller": "publish",
+          "callee": "new InFlight",
+          "lineNumber": 105
+        },
+        {
+          "caller": "publish",
+          "callee": "o.id",
+          "lineNumber": 105
+        },
+        {
+          "caller": "publish",
+          "callee": "o.retryCount",
+          "lineNumber": 105
+        },
+        {
+          "caller": "publish",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 106
+        },
+        {
+          "caller": "publish",
+          "callee": "String.valueOf",
+          "lineNumber": 106
+        },
+        {
+          "caller": "publish",
+          "callee": "o.cancelRequestId",
+          "lineNumber": 106
+        },
+        {
+          "caller": "publish",
+          "callee": "o.payload",
+          "lineNumber": 106
+        },
+        {
+          "caller": "publish",
+          "callee": "new ArrayList<>",
+          "lineNumber": 110
+        },
+        {
+          "caller": "publish",
+          "callee": "s.future().get",
+          "lineNumber": 113
+        },
+        {
+          "caller": "publish",
+          "callee": "s.future",
+          "lineNumber": 113
+        },
+        {
+          "caller": "publish",
+          "callee": "published.add",
+          "lineNumber": 114
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 114
+        },
+        {
+          "caller": "publish",
+          "callee": "e.getMessage",
+          "lineNumber": 116
+        },
+        {
+          "caller": "publish",
+          "callee": "s.retryCount",
+          "lineNumber": 117
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.markDead",
+          "lineNumber": 118
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 118
+        },
+        {
+          "caller": "publish",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 119
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 120
+        },
+        {
+          "caller": "publish",
+          "callee": "log.error",
+          "lineNumber": 121
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 121
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.bumpRetry",
+          "lineNumber": 123
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 123
+        },
+        {
+          "caller": "publish",
+          "callee": "log.warn",
+          "lineNumber": 124
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 124
+        },
+        {
+          "caller": "publish",
+          "callee": "s.retryCount",
+          "lineNumber": 124
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.markPublished",
+          "lineNumber": 129
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.isEmpty",
+          "lineNumber": 130
+        },
+        {
+          "caller": "publish",
+          "callee": "log.info",
+          "lineNumber": 131
+        },
+        {
+          "caller": "publish",
+          "callee": "published.size",
+          "lineNumber": 131
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.size",
+          "lineNumber": 131
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 134
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.unlock",
+          "lineNumber": 135
+        },
+        {
+          "caller": "purge",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 143
+        },
+        {
+          "caller": "purge",
+          "callee": "lock.tryLock",
+          "lineNumber": 145
+        },
+        {
+          "caller": "purge",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 149
+        },
+        {
+          "caller": "purge",
+          "callee": "Thread.currentThread",
+          "lineNumber": 149
+        },
+        {
+          "caller": "purge",
+          "callee": "outboxRepository.purgePublished",
+          "lineNumber": 153
+        },
+        {
+          "caller": "purge",
+          "callee": "log.info",
+          "lineNumber": 155
+        },
+        {
+          "caller": "purge",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 158
+        },
+        {
+          "caller": "purge",
+          "callee": "lock.unlock",
+          "lineNumber": 159
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 103,
+      "functions": [
+        {
+          "name": "PaymentCompletedOutboxPublisher",
+          "startLine": 49,
+          "endLine": 58,
+          "params": [
+            "outboxRepository",
+            "kafkaTemplate",
+            "redissonClient",
+            "operationAlertPort"
+          ]
+        },
+        {
+          "name": "publish",
+          "startLine": 60,
+          "endLine": 114,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentCompletedOutboxPublisher",
+          "startLine": 28,
+          "endLine": 117,
+          "methods": [
+            "PaymentCompletedOutboxPublisher",
+            "publish"
+          ],
+          "properties": [
+            "outboxRepository",
+            "kafkaTemplate",
+            "redissonClient",
+            "operationAlertPort",
+            "topic",
+            "lockKey",
+            "batchSize",
+            "maxRetries"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentCompletedOutboxPublisher",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "publish",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentCompletedOutboxPublisher",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "publish",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 62
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.tryLock",
+          "lineNumber": 64
+        },
+        {
+          "caller": "publish",
+          "callee": "log.debug",
+          "lineNumber": 65
+        },
+        {
+          "caller": "publish",
+          "callee": "log.debug",
+          "lineNumber": 69
+        },
+        {
+          "caller": "publish",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 70
+        },
+        {
+          "caller": "publish",
+          "callee": "Thread.currentThread",
+          "lineNumber": 70
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.findPendingBatch",
+          "lineNumber": 75
+        },
+        {
+          "caller": "publish",
+          "callee": "new ArrayList<>",
+          "lineNumber": 78
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.size",
+          "lineNumber": 78
+        },
+        {
+          "caller": "publish",
+          "callee": "inFlight.add",
+          "lineNumber": 80
+        },
+        {
+          "caller": "publish",
+          "callee": "new InFlight",
+          "lineNumber": 80
+        },
+        {
+          "caller": "publish",
+          "callee": "o.id",
+          "lineNumber": 80
+        },
+        {
+          "caller": "publish",
+          "callee": "o.retryCount",
+          "lineNumber": 80
+        },
+        {
+          "caller": "publish",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publish",
+          "callee": "o.paymentKey",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publish",
+          "callee": "o.payload",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publish",
+          "callee": "new ArrayList<>",
+          "lineNumber": 85
+        },
+        {
+          "caller": "publish",
+          "callee": "s.future().get",
+          "lineNumber": 88
+        },
+        {
+          "caller": "publish",
+          "callee": "s.future",
+          "lineNumber": 88
+        },
+        {
+          "caller": "publish",
+          "callee": "published.add",
+          "lineNumber": 89
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 89
+        },
+        {
+          "caller": "publish",
+          "callee": "e.getMessage",
+          "lineNumber": 91
+        },
+        {
+          "caller": "publish",
+          "callee": "s.retryCount",
+          "lineNumber": 92
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.markDead",
+          "lineNumber": 93
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 93
+        },
+        {
+          "caller": "publish",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 94
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 95
+        },
+        {
+          "caller": "publish",
+          "callee": "log.error",
+          "lineNumber": 96
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 96
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.bumpRetry",
+          "lineNumber": 98
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 98
+        },
+        {
+          "caller": "publish",
+          "callee": "log.warn",
+          "lineNumber": 99
+        },
+        {
+          "caller": "publish",
+          "callee": "s.id",
+          "lineNumber": 100
+        },
+        {
+          "caller": "publish",
+          "callee": "s.retryCount",
+          "lineNumber": 100
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.markPublished",
+          "lineNumber": 105
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.isEmpty",
+          "lineNumber": 106
+        },
+        {
+          "caller": "publish",
+          "callee": "log.info",
+          "lineNumber": 107
+        },
+        {
+          "caller": "publish",
+          "callee": "published.size",
+          "lineNumber": 107
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.size",
+          "lineNumber": 107
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 110
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.unlock",
+          "lineNumber": 111
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    }
+  ]
+}

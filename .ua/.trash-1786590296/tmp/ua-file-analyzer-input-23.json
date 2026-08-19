@@ -1,0 +1,188 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "user-service/src/main/java/com/example/user/application/interfaces/PasswordEncoder.java",
+      "language": "java",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/interfaces/RefreshTokenRepository.java",
+      "language": "java",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java",
+      "language": "java",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/service/AdminService.java",
+      "language": "java",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/service/AuthService.java",
+      "language": "java",
+      "sizeLines": 103,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/service/UserQueryService.java",
+      "language": "java",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/usecase/AdminUseCase.java",
+      "language": "java",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/usecase/AuthUseCase.java",
+      "language": "java",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java",
+      "language": "java",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/application/DuplicateEmailException.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/application/InvalidTokenException.java",
+      "language": "java",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/application/UserNotFoundException.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/domain/InvalidCredentialsException.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/domain/SuspendedAccountException.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java",
+      "language": "java",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "language": "java",
+      "sizeLines": 114,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "user-service/src/main/java/com/example/user/application/interfaces/PasswordEncoder.java": [],
+    "user-service/src/main/java/com/example/user/application/interfaces/RefreshTokenRepository.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java"
+    ],
+    "user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/User.java"
+    ],
+    "user-service/src/main/java/com/example/user/application/service/AdminService.java": [
+      "user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java",
+      "user-service/src/main/java/com/example/user/application/usecase/AdminUseCase.java",
+      "user-service/src/main/java/com/example/user/common/exception/application/UserNotFoundException.java",
+      "user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java"
+    ],
+    "user-service/src/main/java/com/example/user/application/service/AuthService.java": [
+      "user-service/src/main/java/com/example/user/application/interfaces/PasswordEncoder.java",
+      "user-service/src/main/java/com/example/user/application/interfaces/RefreshTokenRepository.java",
+      "user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java",
+      "user-service/src/main/java/com/example/user/application/usecase/AuthUseCase.java",
+      "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java",
+      "user-service/src/main/java/com/example/user/common/exception/application/DuplicateEmailException.java",
+      "user-service/src/main/java/com/example/user/common/exception/application/InvalidTokenException.java",
+      "user-service/src/main/java/com/example/user/common/exception/application/UserNotFoundException.java",
+      "user-service/src/main/java/com/example/user/common/exception/domain/InvalidCredentialsException.java",
+      "user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java",
+      "user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java"
+    ],
+    "user-service/src/main/java/com/example/user/application/service/UserQueryService.java": [
+      "user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java",
+      "user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java",
+      "user-service/src/main/java/com/example/user/common/exception/application/UserNotFoundException.java",
+      "user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java"
+    ],
+    "user-service/src/main/java/com/example/user/application/usecase/AdminUseCase.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java"
+    ],
+    "user-service/src/main/java/com/example/user/application/usecase/AuthUseCase.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java"
+    ],
+    "user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java": [
+      "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java"
+    ],
+    "user-service/src/main/java/com/example/user/common/exception/BusinessException.java": [],
+    "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java": [],
+    "user-service/src/main/java/com/example/user/common/exception/application/DuplicateEmailException.java": [
+      "user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java"
+    ],
+    "user-service/src/main/java/com/example/user/common/exception/application/InvalidTokenException.java": [
+      "user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java"
+    ],
+    "user-service/src/main/java/com/example/user/common/exception/application/UserNotFoundException.java": [
+      "user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java"
+    ],
+    "user-service/src/main/java/com/example/user/common/exception/domain/InvalidCredentialsException.java": [
+      "user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java"
+    ],
+    "user-service/src/main/java/com/example/user/common/exception/domain/SuspendedAccountException.java": [
+      "user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java"
+    ],
+    "user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java": [],
+    "user-service/src/main/java/com/example/user/domain/entity/User.java": [
+      "user-service/src/main/java/com/example/user/common/exception/domain/SuspendedAccountException.java"
+    ]
+  }
+}

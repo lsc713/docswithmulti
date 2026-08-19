@@ -1,0 +1,270 @@
+{
+  "nodes": [
+    {
+      "id": "document:infra/load-test/deploy/README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "infra/load-test/deploy/README.md",
+      "summary": "role별 배포 + 사설 IP 배선은(는) 부하 테스트의 사용 안내로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "부하-테스트",
+        "markdown",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:infra/load-test/deploy/cold-db.compose.yml",
+      "type": "config",
+      "name": "cold-db.compose.yml",
+      "filePath": "infra/load-test/deploy/cold-db.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/deploy/cold-svc.compose.yml",
+      "type": "config",
+      "name": "cold-svc.compose.yml",
+      "filePath": "infra/load-test/deploy/cold-svc.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/deploy/infra.compose.yml",
+      "type": "config",
+      "name": "infra.compose.yml",
+      "filePath": "infra/load-test/deploy/infra.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:infra/load-test/deploy/mysql-payment.compose.yml",
+      "type": "config",
+      "name": "mysql-payment.compose.yml",
+      "filePath": "infra/load-test/deploy/mysql-payment.compose.yml",
+      "summary": "결제에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "결제",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/deploy/mysql-product.compose.yml",
+      "type": "config",
+      "name": "mysql-product.compose.yml",
+      "filePath": "infra/load-test/deploy/mysql-product.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/deploy/mysql-risk.compose.yml",
+      "type": "config",
+      "name": "mysql-risk.compose.yml",
+      "filePath": "infra/load-test/deploy/mysql-risk.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/deploy/payment.compose.yml",
+      "type": "config",
+      "name": "payment.compose.yml",
+      "filePath": "infra/load-test/deploy/payment.compose.yml",
+      "summary": "결제에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "결제",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:infra/load-test/deploy/port-forward.sh",
+      "type": "file",
+      "name": "port-forward.sh",
+      "filePath": "infra/load-test/deploy/port-forward.sh",
+      "summary": "부하 테스트 작업을 반복 실행하기 위한 command-line 자동화 script다.",
+      "tags": [
+        "test",
+        "부하-테스트",
+        "shell",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/deploy/product.compose.yml",
+      "type": "config",
+      "name": "product.compose.yml",
+      "filePath": "infra/load-test/deploy/product.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/deploy/risk.compose.yml",
+      "type": "config",
+      "name": "risk.compose.yml",
+      "filePath": "infra/load-test/deploy/risk.compose.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:infra/load-test/deploy/ssm-deploy.sh",
+      "type": "file",
+      "name": "ssm-deploy.sh",
+      "filePath": "infra/load-test/deploy/ssm-deploy.sh",
+      "summary": "부하 테스트 작업을 반복 실행하기 위한 command-line 자동화 script다.",
+      "tags": [
+        "test",
+        "부하-테스트",
+        "shell",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:infra/load-test/deploy/ssm-deploy.sh:compose_for",
+      "type": "function",
+      "name": "compose_for",
+      "filePath": "infra/load-test/deploy/ssm-deploy.sh",
+      "lineRange": [
+        40,
+        53
+      ],
+      "summary": "부하 테스트 흐름에서 compose_for 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:infra/load-test/deploy/ssm-deploy.sh:wait_for_ssm",
+      "type": "function",
+      "name": "wait_for_ssm",
+      "filePath": "infra/load-test/deploy/ssm-deploy.sh",
+      "lineRange": [
+        71,
+        88
+      ],
+      "summary": "부하 테스트 흐름에서 wait_for_ssm 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:infra/load-test/deploy/ssm-deploy.sh:ssm_run",
+      "type": "function",
+      "name": "ssm_run",
+      "filePath": "infra/load-test/deploy/ssm-deploy.sh",
+      "lineRange": [
+        91,
+        126
+      ],
+      "summary": "부하 테스트 흐름에서 ssm_run 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:infra/load-test/deploy/ssm-deploy.sh:clone_header",
+      "type": "function",
+      "name": "clone_header",
+      "filePath": "infra/load-test/deploy/ssm-deploy.sh",
+      "lineRange": [
+        129,
+        151
+      ],
+      "summary": "부하 테스트 흐름에서 clone_header 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:infra/load-test/deploy/ssm-deploy.sh",
+      "target": "function:infra/load-test/deploy/ssm-deploy.sh:compose_for",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:infra/load-test/deploy/ssm-deploy.sh",
+      "target": "function:infra/load-test/deploy/ssm-deploy.sh:wait_for_ssm",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:infra/load-test/deploy/ssm-deploy.sh",
+      "target": "function:infra/load-test/deploy/ssm-deploy.sh:ssm_run",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:infra/load-test/deploy/ssm-deploy.sh",
+      "target": "function:infra/load-test/deploy/ssm-deploy.sh:clone_header",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    }
+  ]
+}

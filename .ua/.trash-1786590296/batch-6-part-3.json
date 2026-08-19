@@ -1,0 +1,1397 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "type": "file",
+      "name": "ProductImageRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "summary": "product-service의 Product Image Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:ProductImageRepositoryImpl",
+      "type": "class",
+      "name": "ProductImageRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        10,
+        59
+      ],
+      "summary": "ProductImageRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:ProductImageRepositoryImpl",
+      "type": "function",
+      "name": "ProductImageRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        14,
+        16
+      ],
+      "summary": "ProductImageRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        18,
+        21
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:findByProductId",
+      "type": "function",
+      "name": "findByProductId",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        23,
+        28
+      ],
+      "summary": "findByProductId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:nextSortOrder",
+      "type": "function",
+      "name": "nextSortOrder",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        30,
+        34
+      ],
+      "summary": "nextSortOrder 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:findByIdAndProductId",
+      "type": "function",
+      "name": "findByIdAndProductId",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        36,
+        39
+      ],
+      "summary": "findByIdAndProductId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:deleteByIdAndProductId",
+      "type": "function",
+      "name": "deleteByIdAndProductId",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        41,
+        45
+      ],
+      "summary": "deleteByIdAndProductId 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:updateOrder",
+      "type": "function",
+      "name": "updateOrder",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "lineRange": [
+        47,
+        58
+      ],
+      "summary": "updateOrder 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "type": "file",
+      "name": "ProductJpaEntity.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "summary": "product-service에서 Product Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:ProductJpaEntity",
+      "type": "class",
+      "name": "ProductJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "lineRange": [
+        9,
+        46
+      ],
+      "summary": "ProductJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:ProductJpaEntity",
+      "type": "function",
+      "name": "ProductJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "lineRange": [
+        30,
+        30
+      ],
+      "summary": "ProductJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "lineRange": [
+        32,
+        40
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "lineRange": [
+        42,
+        45
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "type": "file",
+      "name": "ProductQueryRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "summary": "product-service의 Product Query Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:ProductQueryRepositoryImpl",
+      "type": "class",
+      "name": "ProductQueryRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "lineRange": [
+        12,
+        51
+      ],
+      "summary": "ProductQueryRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:ProductQueryRepositoryImpl",
+      "type": "function",
+      "name": "ProductQueryRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "lineRange": [
+        18,
+        24
+      ],
+      "summary": "ProductQueryRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findProductById",
+      "type": "function",
+      "name": "findProductById",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "lineRange": [
+        26,
+        29
+      ],
+      "summary": "findProductById 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findSkuStock",
+      "type": "function",
+      "name": "findSkuStock",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "lineRange": [
+        31,
+        36
+      ],
+      "summary": "findSkuStock 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:descendantCategoryIds",
+      "type": "function",
+      "name": "descendantCategoryIds",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "lineRange": [
+        38,
+        41
+      ],
+      "summary": "descendantCategoryIds 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findCardsByCategoryIds",
+      "type": "function",
+      "name": "findCardsByCategoryIds",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "lineRange": [
+        43,
+        50
+      ],
+      "summary": "findCardsByCategoryIds 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "type": "file",
+      "name": "ProductRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "summary": "product-service의 Product Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:ProductRepositoryImpl",
+      "type": "class",
+      "name": "ProductRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "lineRange": [
+        6,
+        18
+      ],
+      "summary": "ProductRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:ProductRepositoryImpl",
+      "type": "function",
+      "name": "ProductRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "lineRange": [
+        10,
+        12
+      ],
+      "summary": "ProductRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "type": "file",
+      "name": "ProductSkuJpaEntity.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "summary": "product-service에서 Product Sku Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:ProductSkuJpaEntity",
+      "type": "class",
+      "name": "ProductSkuJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "lineRange": [
+        9,
+        53
+      ],
+      "summary": "ProductSkuJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:ProductSkuJpaEntity",
+      "type": "function",
+      "name": "ProductSkuJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "lineRange": [
+        35,
+        35
+      ],
+      "summary": "ProductSkuJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "lineRange": [
+        37,
+        47
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "lineRange": [
+        49,
+        52
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "type": "file",
+      "name": "ProductSkuRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "summary": "product-service의 Product Sku Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:ProductSkuRepositoryImpl",
+      "type": "class",
+      "name": "ProductSkuRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "lineRange": [
+        6,
+        18
+      ],
+      "summary": "ProductSkuRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:ProductSkuRepositoryImpl",
+      "type": "function",
+      "name": "ProductSkuRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "lineRange": [
+        10,
+        12
+      ],
+      "summary": "ProductSkuRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "type": "file",
+      "name": "ProductStockJpaEntity.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "summary": "product-service에서 Product Stock Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:ProductStockJpaEntity",
+      "type": "class",
+      "name": "ProductStockJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "lineRange": [
+        9,
+        32
+      ],
+      "summary": "ProductStockJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:ProductStockJpaEntity",
+      "type": "function",
+      "name": "ProductStockJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "lineRange": [
+        23,
+        23
+      ],
+      "summary": "ProductStockJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "lineRange": [
+        25,
+        31
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "type": "file",
+      "name": "ProductStockRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "summary": "product-service의 Product Stock Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:ProductStockRepositoryImpl",
+      "type": "class",
+      "name": "ProductStockRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "lineRange": [
+        6,
+        28
+      ],
+      "summary": "ProductStockRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:ProductStockRepositoryImpl",
+      "type": "function",
+      "name": "ProductStockRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "lineRange": [
+        10,
+        12
+      ],
+      "summary": "ProductStockRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:tryReserve",
+      "type": "function",
+      "name": "tryReserve",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "lineRange": [
+        19,
+        22
+      ],
+      "summary": "tryReserve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:restore",
+      "type": "function",
+      "name": "restore",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "lineRange": [
+        24,
+        27
+      ],
+      "summary": "restore 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:ProductImageRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:ProductImageRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:ProductImageRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:ProductImageRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:findByProductId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:findByProductId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:nextSortOrder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:nextSortOrder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:findByIdAndProductId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:findByIdAndProductId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:deleteByIdAndProductId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:deleteByIdAndProductId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:updateOrder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java:updateOrder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductImageRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductImageRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ProductImage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:ProductJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:ProductJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:ProductJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:ProductJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductJpaEntity.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/Product.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:ProductQueryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:ProductQueryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:ProductQueryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:ProductQueryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findProductById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findProductById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findSkuStock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findSkuStock",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:descendantCategoryIds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:descendantCategoryIds",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findCardsByCategoryIds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java:findCardsByCategoryIds",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductQueryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductQueryRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/Product.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:ProductRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:ProductRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:ProductRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:ProductRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/Product.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:ProductSkuJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:ProductSkuJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:ProductSkuJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:ProductSkuJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuJpaEntity.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ProductSku.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:ProductSkuRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:ProductSkuRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:ProductSkuRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:ProductSkuRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductSkuRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductSkuRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ProductSku.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:ProductStockJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:ProductStockJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:ProductStockJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:ProductStockJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockJpaEntity.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ProductStock.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:ProductStockRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:ProductStockRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:ProductStockRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:ProductStockRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:tryReserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:tryReserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:restore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java:restore",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductStockRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductStockRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ProductStock.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

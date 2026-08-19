@@ -1,0 +1,98 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "language": "java",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "language": "java",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "language": "java",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "language": "java",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "language": "java",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "language": "java",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java",
+      "language": "java",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java": [
+      "order-service/src/main/java/com/example/order/domain/entity/CartItem.java"
+    ],
+    "order-service/src/main/java/com/example/order/application/service/CartService.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "order-service/src/main/java/com/example/order/domain/exception/CartItemNotFoundException.java"
+    ],
+    "order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java": [
+      "order-service/src/main/java/com/example/order/domain/entity/CartItem.java"
+    ],
+    "order-service/src/main/java/com/example/order/domain/entity/CartItem.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java": [
+      "order-service/src/main/java/com/example/order/domain/entity/CartItem.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "order-service/src/main/java/com/example/order/domain/entity/CartItem.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/controller/CartController.java": [
+      "order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java": [],
+    "order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java": [
+      "order-service/src/main/java/com/example/order/domain/entity/CartItem.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java": []
+  }
+}

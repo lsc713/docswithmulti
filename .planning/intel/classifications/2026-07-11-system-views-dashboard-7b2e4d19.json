@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-11-system-views-dashboard.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "3-뷰 시스템 대시보드 Implementation Plan",
+  "summary": "Task-by-task implementation plan to add a new Grafana dashboard with Inbound/App/Infra views reusing existing scraped signals.",
+  "scope": ["Grafana dashboard", "Prometheus PromQL", "k6 remote-write", "load-test observability", "system-views.json"],
+  "cross_refs": ["docs/load-test/saturation-diagnosis.md", "infra/load-test/observability/grafana/dashboards/system-views.json"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Implementation/work plan (path under plans/): Goal + Architecture + Tech Stack + File Structure + task checkboxes. Contains technical detail (metric names, JSON schema) but describes how to do a piece of work, not a durable system contract → DOC over SPEC. No ADR/PRD/SPEC frontmatter or decision/requirement signals."
+}

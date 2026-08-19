@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-13-oncall-skills-target-abstraction.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "oncall 스킬 타깃 추상화 Implementation Plan",
+  "summary": "Task-by-task implementation plan to remove petclinic hardcoding from oncall skills via a self-describing per-project oncall-target.yml descriptor.",
+  "scope": ["oncall-triage", "oncall-pr", "oncall-log", "oncall-target.yml", "differential-table", "project-local memory"],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": null,
+  "notes": "Implementation plan (Goal/Architecture/Tech Stack/Global Constraints/Tasks with Files-Interfaces-Steps-checkboxes). No PLAN type in taxonomy. Not ADR (no Status:Accepted / Context-Decision-Consequences), not PRD (no user stories/acceptance criteria). Contains SPEC-like content (oncall-target.yml key schema, per-task Interfaces/Produces) but dominant structure is a work/design plan -> DOC. Ambiguity DOC vs SPEC resolved to DOC; synthesizer may reclassify as SPEC if schema contracts are load-bearing."
+}

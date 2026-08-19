@@ -1,0 +1,268 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [
+    ".dockerignore",
+    "build.gradle",
+    "gradlew.bat",
+    "settings.gradle"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 5
+    }
+  },
+  "results": [
+    {
+      "path": ".env",
+      "language": "config",
+      "fileCategory": "config",
+      "totalLines": 4,
+      "nonEmptyLines": 4,
+      "definitions": [
+        {
+          "name": "SLACK_BOT_TOKEN",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "name": "ONCALL_SLACK_CHANNEL",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 2,
+          "endLine": 2
+        },
+        {
+          "name": "ANTHROPIC_API_KEY",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 3,
+          "endLine": 3
+        },
+        {
+          "name": "GITHUB_TOKEN",
+          "kind": "variable",
+          "fields": [],
+          "startLine": 4,
+          "endLine": 4
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 4
+      }
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 127,
+      "nonEmptyLines": 97,
+      "sections": [
+        {
+          "heading": "CLAUDE.md",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "모듈 구성",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "필수 참조 문서 (코드보다 문서가 먼저)",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "확장 기능 (v2.0 인증 경계 · v3.0 재고 — 둘 다 main 반영됨)",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "핵심 불변식 (상세 → sysdesign/cancel-design.md)",
+          "level": 2,
+          "line": 54
+        },
+        {
+          "heading": "절대 하지 말 것",
+          "level": 2,
+          "line": 87
+        },
+        {
+          "heading": "실행 명령어",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "작업 규칙",
+          "level": 2,
+          "line": 123
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "docker-compose.yml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 272,
+      "nonEmptyLines": 255,
+      "sections": [
+        {
+          "heading": "version",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "volumes",
+          "level": 1,
+          "line": 264
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": "test-compensation.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 326,
+      "nonEmptyLines": 279,
+      "functions": [
+        {
+          "name": "log",
+          "startLine": 30,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "warn",
+          "startLine": 31,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "error",
+          "startLine": 32,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "section",
+          "startLine": 33,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "query_payment_db",
+          "startLine": 36,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "kill_port",
+          "startLine": 60,
+          "endLine": 68,
+          "params": []
+        },
+        {
+          "name": "start_service",
+          "startLine": 77,
+          "endLine": 83,
+          "params": []
+        },
+        {
+          "name": "wait_for_server",
+          "startLine": 90,
+          "endLine": 104,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 8,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "test-e2e.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 196,
+      "nonEmptyLines": 171,
+      "functions": [
+        {
+          "name": "log",
+          "startLine": 20,
+          "endLine": 20,
+          "params": []
+        },
+        {
+          "name": "warn",
+          "startLine": 21,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "error",
+          "startLine": 22,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "kill_port",
+          "startLine": 41,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "start_service",
+          "startLine": 59,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "wait_for_server",
+          "startLine": 73,
+          "endLine": 90,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 6,
+        "classCount": 0
+      }
+    }
+  ]
+}

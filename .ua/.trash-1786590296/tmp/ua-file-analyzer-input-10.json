@@ -1,0 +1,267 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "language": "java",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "language": "java",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "language": "java",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "language": "java",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "sizeLines": 81,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "language": "java",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "language": "java",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "language": "java",
+      "sizeLines": 159,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "language": "java",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderJpaEntity.java",
+      "language": "java",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "language": "java",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/controller/GlobalExceptionHandler.java",
+      "language": "java",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/controller/InternalCancelRestoreController.java",
+      "language": "java",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/controller/OrderController.java",
+      "language": "java",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderRequest.java",
+      "language": "java",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderResponse.java",
+      "language": "java",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreRequest.java",
+      "language": "java",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreResponse.java",
+      "language": "java",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsRequest.java",
+      "language": "java",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsResponse.java",
+      "language": "java",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java": [
+      "order-service/src/main/java/com/example/order/common/exception/BusinessException.java",
+      "order-service/src/main/java/com/example/order/common/exception/ErrorCode.java"
+    ],
+    "order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java": [
+      "order-service/src/main/java/com/example/order/common/exception/BusinessException.java",
+      "order-service/src/main/java/com/example/order/common/exception/ErrorCode.java"
+    ],
+    "order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java": [
+      "order-service/src/main/java/com/example/order/domain/entity/Order.java",
+      "order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "order-service/src/main/java/com/example/order/domain/exception/OrderItemsMultipleOrdersException.java",
+      "order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "order-service/src/main/java/com/example/order/application/usecase/InspectCancelRestoreUseCase.java",
+      "order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java": [
+      "order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java": [],
+    "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java": [
+      "order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java": [
+      "order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java": [
+      "order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "order-service/src/main/java/com/example/order/domain/entity/OrderItemStatus.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "order-service/src/main/java/com/example/order/domain/entity/OrderItemStatus.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderJpaEntity.java": [
+      "order-service/src/main/java/com/example/order/domain/entity/Order.java",
+      "order-service/src/main/java/com/example/order/domain/entity/OrderStatus.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderRepositoryImpl.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "order-service/src/main/java/com/example/order/domain/entity/Order.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java"
+    ],
+    "order-service/src/main/java/com/example/order/infrastructure/scheduler/CancelRestoreRedriveScheduler.java": [
+      "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/controller/GlobalExceptionHandler.java": [
+      "order-service/src/main/java/com/example/order/common/exception/BusinessException.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/controller/InternalCancelRestoreController.java": [
+      "order-service/src/main/java/com/example/order/application/usecase/InspectCancelRestoreUseCase.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreRequest.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreResponse.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/controller/OrderController.java": [
+      "order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java",
+      "order-service/src/main/java/com/example/order/application/usecase/CreateOrderUseCase.java",
+      "order-service/src/main/java/com/example/order/application/usecase/VerifyOrderItemsUseCase.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderRequest.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderResponse.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsRequest.java",
+      "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsResponse.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderRequest.java": [],
+    "order-service/src/main/java/com/example/order/presentation/dto/CreateOrderResponse.java": [
+      "order-service/src/main/java/com/example/order/application/usecase/CreateOrderUseCase.java",
+      "order-service/src/main/java/com/example/order/domain/entity/OrderItem.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreRequest.java": [],
+    "order-service/src/main/java/com/example/order/presentation/dto/InspectCancelRestoreResponse.java": [
+      "order-service/src/main/java/com/example/order/application/usecase/InspectCancelRestoreUseCase.java"
+    ],
+    "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsRequest.java": [],
+    "order-service/src/main/java/com/example/order/presentation/dto/VerifyOrderItemsResponse.java": [
+      "order-service/src/main/java/com/example/order/application/usecase/VerifyOrderItemsUseCase.java"
+    ]
+  }
+}

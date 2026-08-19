@@ -1,0 +1,1213 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 19,
+  "filesSkipped": [
+    ".gitattributes",
+    ".planning/workstreams/order-link/phases/.gitkeep",
+    ".ua/.understandignore",
+    "api-gateway/build.gradle",
+    "common-observability/build.gradle",
+    "common-observability/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 19,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 6,
+      "failed": 0,
+      "skipped": 13
+    }
+  },
+  "results": [
+    {
+      "path": ".claude/mcp.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 15,
+      "nonEmptyLines": 15,
+      "sections": [
+        {
+          "heading": "mcpServers",
+          "level": 1,
+          "line": 2
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": ".github/pull_request_template.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 150,
+      "nonEmptyLines": 100,
+      "sections": [
+        {
+          "heading": "요약 (Summary)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "변경 유형 (Type of change)",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "상세 설명 (Details)",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "비즈니스 규칙 (Business Rules)",
+          "level": 3,
+          "line": 22
+        },
+        {
+          "heading": "API 변경 (API Changes - 해당하면)",
+          "level": 3,
+          "line": 28
+        },
+        {
+          "heading": "DB 변경 (Database Changes - 해당하면)",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "Kafka 변경 (Kafka Changes - 해당하면)",
+          "level": 3,
+          "line": 41
+        },
+        {
+          "heading": "모듈 간 통신 (Inter-module Communication - 해당하면)",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "테스트 방법 (How Has This Been Tested?)",
+          "level": 2,
+          "line": 56
+        },
+        {
+          "heading": "테스트 작성 (Testing)",
+          "level": 3,
+          "line": 58
+        },
+        {
+          "heading": "재현 방법 (Reproduction Steps)",
+          "level": 3,
+          "line": 66
+        },
+        {
+          "heading": "테스트 설정 (Test Configuration)",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "아키텍처 검증 (Architecture Compliance)",
+          "level": 2,
+          "line": 86
+        },
+        {
+          "heading": "레이어 분리 (Layer Boundaries)",
+          "level": 3,
+          "line": 88
+        },
+        {
+          "heading": "의존성 규칙 (Dependency Rules)",
+          "level": 3,
+          "line": 95
+        },
+        {
+          "heading": "메서드 품질 (Method Quality)",
+          "level": 3,
+          "line": 101
+        },
+        {
+          "heading": "멱등성 검증 (Idempotency)",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "최종 체크리스트 (Checklist)",
+          "level": 2,
+          "line": 118
+        },
+        {
+          "heading": "코드 품질",
+          "level": 3,
+          "line": 120
+        },
+        {
+          "heading": "테스트",
+          "level": 3,
+          "line": 127
+        },
+        {
+          "heading": "문서",
+          "level": 3,
+          "line": 133
+        },
+        {
+          "heading": "TDD 준수",
+          "level": 3,
+          "line": 140
+        },
+        {
+          "heading": "추가 사항 (Additional Notes)",
+          "level": 2,
+          "line": 148
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 23
+      }
+    },
+    {
+      "path": ".planning/onboarding/SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "sections": [
+        {
+          "heading": "Onboarding Summary",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Project State",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Codebase Context",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "Docs Context",
+          "level": 2,
+          "line": 15
+        },
+        {
+          "heading": "Recommended Next Step",
+          "level": 2,
+          "line": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": ".planning/workstreams/cancel-restore/phases/01-product-leg-hardening/01-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 269,
+      "nonEmptyLines": 227,
+      "sections": [
+        {
+          "heading": "수정 대상 (product 레그)",
+          "level": 1,
+          "line": 76
+        },
+        {
+          "heading": "미러 대상 패턴 (payment — 수정 금지, 참조만)",
+          "level": 1,
+          "line": 87
+        },
+        {
+          "heading": "미러 대상 패턴 (product 기존)",
+          "level": 1,
+          "line": 92
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 234
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 241
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/milestones/v1.0-REQUIREMENTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 51,
+      "nonEmptyLines": 39,
+      "sections": [
+        {
+          "heading": "Requirements Archive — order-link v1.0 (모두 완료)",
+          "level": 1,
+          "line": 9
+        },
+        {
+          "heading": "v1.0 Requirements — 완료",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "주문 검증 API (OVER)",
+          "level": 3,
+          "line": 16
+        },
+        {
+          "heading": "신뢰 신원 전환 (TRUST)",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "게이트웨이 · 경계 (GW)",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "결제–주문 검증 링크 (PLINK)",
+          "level": 3,
+          "line": 27
+        },
+        {
+          "heading": "취소 코어 불변 (CANCEL)",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "Traceability (final)",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "Future (다음 마일스톤)",
+          "level": 2,
+          "line": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/milestones/v1.0-ROADMAP.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 37,
+      "nonEmptyLines": 27,
+      "sections": [
+        {
+          "heading": "Milestone Archive — order-link v1.0: 주문(order) → 결제 검증 링크",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "요약",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "주요 성과 (accomplishments)",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Phases",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "Phase 1: 주문 검증 API + 주문 생성 신뢰헤더 + 게이트웨이 경계 — ✅ verified",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "Phase 2: 결제–주문 검증 링크 — ✅ verified",
+          "level": 3,
+          "line": 27
+        },
+        {
+          "heading": "Decisions / Tech Debt",
+          "level": 2,
+          "line": 31
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-catalog/phases/01-category-taxonomy/01-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 240,
+      "nonEmptyLines": 200,
+      "sections": [
+        {
+          "heading": "Existing hexagonal patterns to mirror EXACTLY (copy structure, not just style):",
+          "level": 1,
+          "line": 74
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 204
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 211
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-catalog/phases/01-category-taxonomy/01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 116,
+      "nonEmptyLines": 94,
+      "sections": [
+        {
+          "heading": "Phase 1 Plan 01: Category Taxonomy Summary",
+          "level": 1,
+          "line": 51
+        },
+        {
+          "heading": "Tasks",
+          "level": 2,
+          "line": 55
+        },
+        {
+          "heading": "INV-01 Gate Output",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "Requirements",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 79
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "TDD Gate Compliance",
+          "level": 2,
+          "line": 100
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 105
+        },
+        {
+          "heading": "Threat Flags",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 113
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-catalog/phases/02-product-link-browse/02-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 274,
+      "nonEmptyLines": 242,
+      "sections": [
+        {
+          "heading": "Phase 1 category stack is the freshest exemplar — same module, same hexagonal shape:",
+          "level": 1,
+          "line": 70
+        },
+        {
+          "heading": "Existing product/stock code to extend or read-only-join:",
+          "level": 1,
+          "line": 78
+        },
+        {
+          "heading": "Boot 4.0.5 test harness (no TestRestTemplate / @AutoConfigureMockMvc):",
+          "level": 1,
+          "line": 88
+        },
+        {
+          "heading": "use MockMvcBuilders.webAppContextSetup(ctx) exactly as CategoryTaxonomyIntegrationTest does.",
+          "level": 1,
+          "line": 89
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 236
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 243
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": ".planning/workstreams/product-catalog/phases/02-product-link-browse/02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 129,
+      "nonEmptyLines": 103,
+      "sections": [
+        {
+          "heading": "Phase 2 Plan 02: Product ↔ Category Link + Browse Summary",
+          "level": 1,
+          "line": 67
+        },
+        {
+          "heading": "Performance",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "Accomplishments",
+          "level": 2,
+          "line": 78
+        },
+        {
+          "heading": "Tasks",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "INV-01 Gate Output",
+          "level": 2,
+          "line": 93
+        },
+        {
+          "heading": "Requirements",
+          "level": 2,
+          "line": 103
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 111
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 113
+        },
+        {
+          "heading": "Plan glob note (not a code deviation)",
+          "level": 3,
+          "line": 122
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 125
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 129
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": ".ua/config.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "sections": [
+        {
+          "heading": "outputLanguage",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": ".ua/intermediate/scan-result.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 10284,
+      "nonEmptyLines": 10284,
+      "sections": [
+        {
+          "heading": "name",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "description",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "languages",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "frameworks",
+          "level": 1,
+          "line": 28
+        },
+        {
+          "heading": "files",
+          "level": 1,
+          "line": 38
+        },
+        {
+          "heading": "totalFiles",
+          "level": 1,
+          "line": 7462
+        },
+        {
+          "heading": "filteredByIgnore",
+          "level": 1,
+          "line": 7463
+        },
+        {
+          "heading": "estimatedComplexity",
+          "level": 1,
+          "line": 7464
+        },
+        {
+          "heading": "importMap",
+          "level": 1,
+          "line": 7465
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ApiGatewayApplication",
+          "startLine": 6,
+          "endLine": 12,
+          "methods": [
+            "main"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "ApiGatewayApplication",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "SpringApplication.run",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/config/CorsConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "corsConfigurationSource",
+          "startLine": 17,
+          "endLine": 28,
+          "params": [
+            "allowedOrigins"
+          ]
+        },
+        {
+          "name": "corsFilter",
+          "startLine": 30,
+          "endLine": 33,
+          "params": [
+            "allowedOrigins"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CorsConfig",
+          "startLine": 14,
+          "endLine": 37,
+          "methods": [
+            "corsConfigurationSource",
+            "corsFilter"
+          ],
+          "properties": [
+            "ORDER"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "corsConfigurationSource",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "ORDER",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "CorsConfig",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "new CorsConfiguration",
+          "lineNumber": 18
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "cfg.setAllowedOrigins",
+          "lineNumber": 19
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "cfg.setAllowCredentials",
+          "lineNumber": 20
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "cfg.setAllowedMethods",
+          "lineNumber": 22
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "List.of",
+          "lineNumber": 22
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "cfg.setAllowedHeaders",
+          "lineNumber": 23
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "List.of",
+          "lineNumber": 23
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "cfg.setMaxAge",
+          "lineNumber": 24
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "new UrlBasedCorsConfigurationSource",
+          "lineNumber": 25
+        },
+        {
+          "caller": "corsConfigurationSource",
+          "callee": "src.registerCorsConfiguration",
+          "lineNumber": 26
+        },
+        {
+          "caller": "corsFilter",
+          "callee": "new CorsFilter",
+          "lineNumber": 32
+        },
+        {
+          "caller": "corsFilter",
+          "callee": "corsConfigurationSource",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "api-gateway/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 45,
+      "nonEmptyLines": 39,
+      "sections": [
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 16
+        },
+        {
+          "heading": "jwt",
+          "level": 1,
+          "line": 19
+        },
+        {
+          "heading": "gateway",
+          "level": 1,
+          "line": 24
+        },
+        {
+          "heading": "logging",
+          "level": 1,
+          "line": 33
+        },
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 38
+        },
+        {
+          "heading": "jwt",
+          "level": 1,
+          "line": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "common-observability/src/main/java/com/example/common/observability/querycount/DataSourceProxyQueryCountReader.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "readAndReset",
+          "startLine": 10,
+          "endLine": 15,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DataSourceProxyQueryCountReader",
+          "startLine": 8,
+          "endLine": 16,
+          "methods": [
+            "readAndReset"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "readAndReset",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "DataSourceProxyQueryCountReader",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "readAndReset",
+          "callee": "QueryCountHolder.getGrandTotal().getTotal",
+          "lineNumber": 12
+        },
+        {
+          "caller": "readAndReset",
+          "callee": "QueryCountHolder.getGrandTotal",
+          "lineNumber": 12
+        },
+        {
+          "caller": "readAndReset",
+          "callee": "QueryCountHolder.clear",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountAutoConfiguration.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "queryCountReader",
+          "startLine": 22,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "queryCountFilter",
+          "startLine": 27,
+          "endLine": 30,
+          "params": [
+            "reader",
+            "registry"
+          ]
+        },
+        {
+          "name": "queryCountDataSourceProxyPostProcessor",
+          "startLine": 33,
+          "endLine": 47,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "QueryCountAutoConfiguration",
+          "startLine": 18,
+          "endLine": 48,
+          "methods": [
+            "queryCountReader",
+            "queryCountFilter",
+            "queryCountDataSourceProxyPostProcessor"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "queryCountReader",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "queryCountFilter",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "queryCountDataSourceProxyPostProcessor",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "QueryCountAutoConfiguration",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "queryCountReader",
+          "callee": "new DataSourceProxyQueryCountReader",
+          "lineNumber": 24
+        },
+        {
+          "caller": "queryCountFilter",
+          "callee": "new QueryCountFilter",
+          "lineNumber": 29
+        },
+        {
+          "caller": "queryCountDataSourceProxyPostProcessor",
+          "callee": "new BeanPostProcessor",
+          "lineNumber": 35
+        },
+        {
+          "caller": "postProcessAfterInitialization",
+          "callee": "ProxyDataSourceBuilder.create(ds)\n                            .name(\"main\")\n                            .listener(new DataSourceQueryCountListener()).build",
+          "lineNumber": 39
+        },
+        {
+          "caller": "postProcessAfterInitialization",
+          "callee": "ProxyDataSourceBuilder.create(ds)\n                            .name(\"main\").listener",
+          "lineNumber": 39
+        },
+        {
+          "caller": "postProcessAfterInitialization",
+          "callee": "ProxyDataSourceBuilder.create(ds).name",
+          "lineNumber": 39
+        },
+        {
+          "caller": "postProcessAfterInitialization",
+          "callee": "ProxyDataSourceBuilder.create",
+          "lineNumber": 39
+        },
+        {
+          "caller": "postProcessAfterInitialization",
+          "callee": "new DataSourceQueryCountListener",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountFilter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "QueryCountFilter",
+          "startLine": 23,
+          "endLine": 26,
+          "params": [
+            "reader",
+            "registry"
+          ]
+        },
+        {
+          "name": "doFilterInternal",
+          "startLine": 28,
+          "endLine": 45,
+          "params": [
+            "request",
+            "response",
+            "chain"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "QueryCountFilter",
+          "startLine": 18,
+          "endLine": 46,
+          "methods": [
+            "QueryCountFilter",
+            "doFilterInternal"
+          ],
+          "properties": [
+            "reader",
+            "registry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "QueryCountFilter",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "QueryCountFilter",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "doFilterInternal",
+          "callee": "reader.readAndReset",
+          "lineNumber": 31
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "chain.doFilter",
+          "lineNumber": 33
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "reader.readAndReset",
+          "lineNumber": 35
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "request.getAttribute",
+          "lineNumber": 36
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "DistributionSummary.builder(\"db.queries.per_request\")\n                        .tag(\"uri\", pattern.toString())\n                        .publishPercentileHistogram()\n                        .register(registry).record",
+          "lineNumber": 38
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "DistributionSummary.builder(\"db.queries.per_request\")\n                        .tag(\"uri\", pattern.toString())\n                        .publishPercentileHistogram().register",
+          "lineNumber": 38
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "DistributionSummary.builder(\"db.queries.per_request\")\n                        .tag(\"uri\", pattern.toString()).publishPercentileHistogram",
+          "lineNumber": 38
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "DistributionSummary.builder(\"db.queries.per_request\").tag",
+          "lineNumber": 38
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "DistributionSummary.builder",
+          "lineNumber": 38
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "pattern.toString",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "common-observability/src/main/java/com/example/common/observability/querycount/QueryCountReader.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "QueryCountReader",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [
+            "readAndReset"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "QueryCountReader",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

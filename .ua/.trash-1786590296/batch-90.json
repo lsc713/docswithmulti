@@ -1,0 +1,570 @@
+{
+  "nodes": [
+    {
+      "id": "resource:infra/k3s-scaleout/instances.tf",
+      "type": "resource",
+      "name": "instances.tf",
+      "filePath": "infra/k3s-scaleout/instances.tf",
+      "summary": "k3s 배포 환경에 필요한 AWS resource와 연결 설정을 Terraform으로 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "k3s-배포",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/instances.tf:aws_instance.node",
+      "type": "resource",
+      "name": "aws_instance.node",
+      "filePath": "infra/k3s-scaleout/instances.tf",
+      "lineRange": [
+        61,
+        96
+      ],
+      "summary": "aws_instance aws_instance.node의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/instances.tf:data.aws_ssm_parameter.al2023_arm",
+      "type": "resource",
+      "name": "data.aws_ssm_parameter.al2023_arm",
+      "filePath": "infra/k3s-scaleout/instances.tf",
+      "lineRange": [
+        6,
+        8
+      ],
+      "summary": "data.aws_ssm_parameter data.aws_ssm_parameter.al2023_arm의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf",
+      "type": "resource",
+      "name": "network.tf",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "summary": "k3s 배포 환경에 필요한 AWS resource와 연결 설정을 Terraform으로 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "k3s-배포",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_vpc.main",
+      "type": "resource",
+      "name": "aws_vpc.main",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        8,
+        14
+      ],
+      "summary": "aws_vpc aws_vpc.main의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_internet_gateway.igw",
+      "type": "resource",
+      "name": "aws_internet_gateway.igw",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "aws_internet_gateway aws_internet_gateway.igw의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_subnet.public",
+      "type": "resource",
+      "name": "aws_subnet.public",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        21,
+        26
+      ],
+      "summary": "aws_subnet aws_subnet.public의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_subnet.private",
+      "type": "resource",
+      "name": "aws_subnet.private",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        28,
+        34
+      ],
+      "summary": "aws_subnet aws_subnet.private의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_eip.nat",
+      "type": "resource",
+      "name": "aws_eip.nat",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        39,
+        42
+      ],
+      "summary": "aws_eip aws_eip.nat의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_nat_gateway.nat",
+      "type": "resource",
+      "name": "aws_nat_gateway.nat",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        44,
+        49
+      ],
+      "summary": "aws_nat_gateway aws_nat_gateway.nat의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_route_table.public",
+      "type": "resource",
+      "name": "aws_route_table.public",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        51,
+        60
+      ],
+      "summary": "aws_route_table aws_route_table.public의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_route_table.private",
+      "type": "resource",
+      "name": "aws_route_table.private",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        62,
+        71
+      ],
+      "summary": "aws_route_table aws_route_table.private의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_route_table_association.public",
+      "type": "resource",
+      "name": "aws_route_table_association.public",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        73,
+        76
+      ],
+      "summary": "aws_route_table_association aws_route_table_association.public의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/network.tf:aws_route_table_association.private",
+      "type": "resource",
+      "name": "aws_route_table_association.private",
+      "filePath": "infra/k3s-scaleout/network.tf",
+      "lineRange": [
+        78,
+        81
+      ],
+      "summary": "aws_route_table_association aws_route_table_association.private의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/outputs.tf",
+      "type": "resource",
+      "name": "outputs.tf",
+      "filePath": "infra/k3s-scaleout/outputs.tf",
+      "summary": "k3s 배포 환경에 필요한 AWS resource와 연결 설정을 Terraform으로 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "k3s-배포",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf",
+      "type": "resource",
+      "name": "security.tf",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "summary": "k3s 배포 환경에 필요한 AWS resource와 연결 설정을 Terraform으로 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "k3s-배포",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:aws_security_group.internal",
+      "type": "resource",
+      "name": "aws_security_group.internal",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        6,
+        12
+      ],
+      "summary": "aws_security_group aws_security_group.internal의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:aws_vpc_security_group_ingress_rule.self_all",
+      "type": "resource",
+      "name": "aws_vpc_security_group_ingress_rule.self_all",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        15,
+        20
+      ],
+      "summary": "aws_vpc_security_group_ingress_rule aws_vpc_security_group_ingress_rule.self_all의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:aws_vpc_security_group_egress_rule.all_out",
+      "type": "resource",
+      "name": "aws_vpc_security_group_egress_rule.all_out",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        23,
+        28
+      ],
+      "summary": "aws_vpc_security_group_egress_rule aws_vpc_security_group_egress_rule.all_out의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:aws_iam_role.ssm",
+      "type": "resource",
+      "name": "aws_iam_role.ssm",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        41,
+        44
+      ],
+      "summary": "aws_iam_role aws_iam_role.ssm의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:aws_iam_role_policy_attachment.ssm_core",
+      "type": "resource",
+      "name": "aws_iam_role_policy_attachment.ssm_core",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        46,
+        49
+      ],
+      "summary": "aws_iam_role_policy_attachment aws_iam_role_policy_attachment.ssm_core의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:aws_iam_role_policy.cw_logs",
+      "type": "resource",
+      "name": "aws_iam_role_policy.cw_logs",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        53,
+        70
+      ],
+      "summary": "aws_iam_role_policy aws_iam_role_policy.cw_logs의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:aws_iam_instance_profile.ssm",
+      "type": "resource",
+      "name": "aws_iam_instance_profile.ssm",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        72,
+        75
+      ],
+      "summary": "aws_iam_instance_profile aws_iam_instance_profile.ssm의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/security.tf:data.aws_iam_policy_document.ec2_assume",
+      "type": "resource",
+      "name": "data.aws_iam_policy_document.ec2_assume",
+      "filePath": "infra/k3s-scaleout/security.tf",
+      "lineRange": [
+        31,
+        39
+      ],
+      "summary": "data.aws_iam_policy_document data.aws_iam_policy_document.ec2_assume의 infrastructure 구성을 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "resource"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/variables.tf",
+      "type": "resource",
+      "name": "variables.tf",
+      "filePath": "infra/k3s-scaleout/variables.tf",
+      "summary": "k3s 배포 환경에 필요한 AWS resource와 연결 설정을 Terraform으로 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "k3s-배포",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "resource:infra/k3s-scaleout/versions.tf",
+      "type": "resource",
+      "name": "versions.tf",
+      "filePath": "infra/k3s-scaleout/versions.tf",
+      "summary": "k3s 배포 환경에 필요한 AWS resource와 연결 설정을 Terraform으로 선언한다.",
+      "tags": [
+        "infrastructure",
+        "terraform",
+        "k3s-배포",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "resource:infra/k3s-scaleout/instances.tf",
+      "target": "resource:infra/k3s-scaleout/instances.tf:aws_instance.node",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/instances.tf",
+      "target": "resource:infra/k3s-scaleout/instances.tf:data.aws_ssm_parameter.al2023_arm",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_vpc.main",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_internet_gateway.igw",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_subnet.public",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_subnet.private",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_eip.nat",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_nat_gateway.nat",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_route_table.public",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_route_table.private",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_route_table_association.public",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/network.tf",
+      "target": "resource:infra/k3s-scaleout/network.tf:aws_route_table_association.private",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:aws_security_group.internal",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:aws_vpc_security_group_ingress_rule.self_all",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:aws_vpc_security_group_egress_rule.all_out",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:aws_iam_role.ssm",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:aws_iam_role_policy_attachment.ssm_core",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:aws_iam_role_policy.cw_logs",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:aws_iam_instance_profile.ssm",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "resource:infra/k3s-scaleout/security.tf",
+      "target": "resource:infra/k3s-scaleout/security.tf:data.aws_iam_policy_document.ec2_assume",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    }
+  ]
+}

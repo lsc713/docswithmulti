@@ -1,0 +1,2456 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 22,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 22,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 22,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 62,
+      "functions": [
+        {
+          "name": "publish",
+          "startLine": 35,
+          "endLine": 70,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OutboxPublisherScheduler",
+          "startLine": 20,
+          "endLine": 71,
+          "methods": [
+            "publish"
+          ],
+          "properties": [
+            "outboxRepository",
+            "kafkaProducer",
+            "redissonClient",
+            "batchSize",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "publish",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "OutboxPublisherScheduler",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "publish",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 37
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.tryLock",
+          "lineNumber": 40
+        },
+        {
+          "caller": "publish",
+          "callee": "log.debug",
+          "lineNumber": 41
+        },
+        {
+          "caller": "publish",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 45
+        },
+        {
+          "caller": "publish",
+          "callee": "Thread.currentThread",
+          "lineNumber": 45
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.findPendingBatch",
+          "lineNumber": 50
+        },
+        {
+          "caller": "publish",
+          "callee": "kafkaProducer.publish",
+          "lineNumber": 54
+        },
+        {
+          "caller": "publish",
+          "callee": "outbox.merchantId",
+          "lineNumber": 54
+        },
+        {
+          "caller": "publish",
+          "callee": "outbox.payload",
+          "lineNumber": 54
+        },
+        {
+          "caller": "publish",
+          "callee": "outboxRepository.markPublished",
+          "lineNumber": 55
+        },
+        {
+          "caller": "publish",
+          "callee": "outbox.id",
+          "lineNumber": 55
+        },
+        {
+          "caller": "publish",
+          "callee": "log.error",
+          "lineNumber": 57
+        },
+        {
+          "caller": "publish",
+          "callee": "outbox.id",
+          "lineNumber": 57
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.isEmpty",
+          "lineNumber": 61
+        },
+        {
+          "caller": "publish",
+          "callee": "log.info",
+          "lineNumber": 62
+        },
+        {
+          "caller": "publish",
+          "callee": "pending.size",
+          "lineNumber": 62
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 66
+        },
+        {
+          "caller": "publish",
+          "callee": "lock.unlock",
+          "lineNumber": 67
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "LimitEventOutboxJpaRepository",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [
+            "findByStatusOrderByCreatedAtAsc"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LimitEventOutboxJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "LimitEventOutboxRepositoryImpl",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "insertPending",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "merchantId",
+            "payload"
+          ]
+        },
+        {
+          "name": "findPendingBatch",
+          "startLine": 21,
+          "endLine": 28,
+          "params": [
+            "limit"
+          ]
+        },
+        {
+          "name": "markPublished",
+          "startLine": 30,
+          "endLine": 36,
+          "params": [
+            "outboxId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LimitEventOutboxRepositoryImpl",
+          "startLine": 8,
+          "endLine": 37,
+          "methods": [
+            "LimitEventOutboxRepositoryImpl",
+            "insertPending",
+            "findPendingBatch",
+            "markPublished"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LimitEventOutboxRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "insertPending",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "findPendingBatch",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "markPublished",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "LimitEventOutboxRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "insertPending",
+          "callee": "jpaRepository.save",
+          "lineNumber": 18
+        },
+        {
+          "caller": "insertPending",
+          "callee": "LimitEventOutboxJpaEntity.pending",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository\n            .findByStatusOrderByCreatedAtAsc(\"PENDING\", PageRequest.of(0, limit))\n            .stream()\n            .map(e -> new PendingOutbox(e.getId(), e.getMerchantId(), e.getPayload())).toList",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository\n            .findByStatusOrderByCreatedAtAsc(\"PENDING\", PageRequest.of(0, limit))\n            .stream().map",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository\n            .findByStatusOrderByCreatedAtAsc(\"PENDING\", PageRequest.of(0, limit)).stream",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "jpaRepository.findByStatusOrderByCreatedAtAsc",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "PageRequest.of",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "new PendingOutbox",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "e.getId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "e.getMerchantId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findPendingBatch",
+          "callee": "e.getPayload",
+          "lineNumber": 26
+        },
+        {
+          "caller": "markPublished",
+          "callee": "jpaRepository.findById(outboxId).ifPresent",
+          "lineNumber": 32
+        },
+        {
+          "caller": "markPublished",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 32
+        },
+        {
+          "caller": "markPublished",
+          "callee": "e.markPublished",
+          "lineNumber": 33
+        },
+        {
+          "caller": "markPublished",
+          "callee": "jpaRepository.save",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "LimitHistoryJpaEntity",
+          "startLine": 31,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 33,
+          "endLine": 41,
+          "params": [
+            "h"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 43,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 47,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 48,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "getOldLimit",
+          "startLine": 49,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "getNewLimit",
+          "startLine": 50,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "getReason",
+          "startLine": 51,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "getCreatedAt",
+          "startLine": 52,
+          "endLine": 52,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "LimitHistoryJpaEntity",
+          "startLine": 8,
+          "endLine": 53,
+          "methods": [
+            "LimitHistoryJpaEntity",
+            "from",
+            "toDomain",
+            "getId",
+            "getMerchantId",
+            "getOldLimit",
+            "getNewLimit",
+            "getReason",
+            "getCreatedAt"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "oldLimit",
+            "newLimit",
+            "reason",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "getOldLimit",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "getNewLimit",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "getReason",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "getCreatedAt",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "LimitHistoryJpaEntity",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new LimitHistoryJpaEntity",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "h.getMerchantId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "h.getOldLimit",
+          "lineNumber": 36
+        },
+        {
+          "caller": "from",
+          "callee": "h.getNewLimit",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "h.getReason",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "h.getCreatedAt",
+          "lineNumber": 39
+        },
+        {
+          "caller": "toDomain",
+          "callee": "LimitHistory.record",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "LimitHistoryJpaRepository",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [
+            "findByMerchantIdOrderByCreatedAtDesc"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LimitHistoryJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "LimitHistoryRepositoryImpl",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "history"
+          ]
+        },
+        {
+          "name": "findByMerchantId",
+          "startLine": 21,
+          "endLine": 26,
+          "params": [
+            "merchantId",
+            "pageable"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LimitHistoryRepositoryImpl",
+          "startLine": 8,
+          "endLine": 27,
+          "methods": [
+            "LimitHistoryRepositoryImpl",
+            "save",
+            "findByMerchantId"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LimitHistoryRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "findByMerchantId",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "LimitHistoryRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save",
+          "lineNumber": 18
+        },
+        {
+          "caller": "save",
+          "callee": "LimitHistoryJpaEntity.from",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findByMerchantId",
+          "callee": "jpaRepository\n            .findByMerchantIdOrderByCreatedAtDesc(merchantId, pageable).map",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findByMerchantId",
+          "callee": "jpaRepository.findByMerchantIdOrderByCreatedAtDesc",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "MerchantCancelLimitJpaEntity",
+          "startLine": 27,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 29,
+          "endLine": 36,
+          "params": [
+            "limit"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 38,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 42,
+          "endLine": 42,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelLimitJpaEntity",
+          "startLine": 8,
+          "endLine": 43,
+          "methods": [
+            "MerchantCancelLimitJpaEntity",
+            "from",
+            "toDomain",
+            "getId"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "dailyLimit",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelLimitJpaEntity",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new MerchantCancelLimitJpaEntity",
+          "lineNumber": 30
+        },
+        {
+          "caller": "from",
+          "callee": "limit.getId",
+          "lineNumber": 31
+        },
+        {
+          "caller": "from",
+          "callee": "limit.getMerchantId",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "limit.getDailyLimit",
+          "lineNumber": 33
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 34
+        },
+        {
+          "caller": "toDomain",
+          "callee": "MerchantCancelLimit.reconstruct",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "MerchantCancelLimitJpaRepository",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [
+            "findByMerchantId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelLimitJpaRepository",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 19,
+      "functions": [
+        {
+          "name": "MerchantCancelLimitRepositoryImpl",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "limit"
+          ]
+        },
+        {
+          "name": "findByMerchantId",
+          "startLine": 21,
+          "endLine": 25,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelLimitRepositoryImpl",
+          "startLine": 8,
+          "endLine": 26,
+          "methods": [
+            "MerchantCancelLimitRepositoryImpl",
+            "save",
+            "findByMerchantId"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelLimitRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "findByMerchantId",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelLimitRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save(MerchantCancelLimitJpaEntity.from(limit)).toDomain",
+          "lineNumber": 18
+        },
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save",
+          "lineNumber": 18
+        },
+        {
+          "caller": "save",
+          "callee": "MerchantCancelLimitJpaEntity.from",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findByMerchantId",
+          "callee": "jpaRepository.findByMerchantId(merchantId).map",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findByMerchantId",
+          "callee": "jpaRepository.findByMerchantId",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "MerchantJpaEntity",
+          "startLine": 34,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 36,
+          "endLine": 48,
+          "params": [
+            "m"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 50,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 55,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "getMerchantKey",
+          "startLine": 56,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "setStatus",
+          "startLine": 57,
+          "endLine": 57,
+          "params": [
+            "status"
+          ]
+        },
+        {
+          "name": "setUpdatedAt",
+          "startLine": 58,
+          "endLine": 58,
+          "params": [
+            "updatedAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantJpaEntity",
+          "startLine": 8,
+          "endLine": 59,
+          "methods": [
+            "MerchantJpaEntity",
+            "from",
+            "toDomain",
+            "getId",
+            "getMerchantKey",
+            "setStatus",
+            "setUpdatedAt"
+          ],
+          "properties": [
+            "id",
+            "merchantKey",
+            "name",
+            "status",
+            "cancelPeriodDays",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantKey",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "setStatus",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "setUpdatedAt",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantJpaEntity",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new MerchantJpaEntity",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "m.getId",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "m.getMerchantKey",
+          "lineNumber": 39
+        },
+        {
+          "caller": "from",
+          "callee": "m.getName",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "m.getStatus().name",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "m.getStatus",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "m.getCancelPeriodDays",
+          "lineNumber": 42
+        },
+        {
+          "caller": "from",
+          "callee": "m.getId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 44
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 46
+        },
+        {
+          "caller": "toDomain",
+          "callee": "Merchant.reconstruct",
+          "lineNumber": 51
+        },
+        {
+          "caller": "toDomain",
+          "callee": "MerchantStatus.valueOf",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "MerchantJpaRepository",
+          "startLine": 8,
+          "endLine": 12,
+          "methods": [
+            "findByMerchantKey",
+            "existsByMerchantKey",
+            "findByStatus"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantJpaRepository",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "MerchantRepositoryImpl",
+          "startLine": 14,
+          "endLine": 16,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 18,
+          "endLine": 22,
+          "params": [
+            "merchant"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 24,
+          "endLine": 27,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "findByMerchantKey",
+          "startLine": 29,
+          "endLine": 32,
+          "params": [
+            "merchantKey"
+          ]
+        },
+        {
+          "name": "existsByMerchantKey",
+          "startLine": 34,
+          "endLine": 37,
+          "params": [
+            "merchantKey"
+          ]
+        },
+        {
+          "name": "findAll",
+          "startLine": 39,
+          "endLine": 42,
+          "params": [
+            "pageable"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantRepositoryImpl",
+          "startLine": 10,
+          "endLine": 43,
+          "methods": [
+            "MerchantRepositoryImpl",
+            "save",
+            "findById",
+            "findByMerchantKey",
+            "existsByMerchantKey",
+            "findAll"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantRepositoryImpl",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "findByMerchantKey",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "existsByMerchantKey",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "findAll",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantRepositoryImpl",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "MerchantJpaEntity.from",
+          "lineNumber": 20
+        },
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save(entity).toDomain",
+          "lineNumber": 21
+        },
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findById",
+          "callee": "jpaRepository.findById(id).map",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findById",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findByMerchantKey",
+          "callee": "jpaRepository.findByMerchantKey(merchantKey).map",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findByMerchantKey",
+          "callee": "jpaRepository.findByMerchantKey",
+          "lineNumber": 31
+        },
+        {
+          "caller": "existsByMerchantKey",
+          "callee": "jpaRepository.existsByMerchantKey",
+          "lineNumber": 36
+        },
+        {
+          "caller": "findAll",
+          "callee": "jpaRepository.findAll(pageable).map",
+          "lineNumber": 41
+        },
+        {
+          "caller": "findAll",
+          "callee": "jpaRepository.findAll",
+          "lineNumber": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/GlobalExceptionHandler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "handleBusiness",
+          "startLine": 17,
+          "endLine": 23,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleValidation",
+          "startLine": 25,
+          "endLine": 32,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleIllegalArg",
+          "startLine": 34,
+          "endLine": 38,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleUnexpected",
+          "startLine": 40,
+          "endLine": 45,
+          "params": [
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionHandler",
+          "startLine": 13,
+          "endLine": 46,
+          "methods": [
+            "handleBusiness",
+            "handleValidation",
+            "handleIllegalArg",
+            "handleUnexpected"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleBusiness",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "handleValidation",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "handleIllegalArg",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "handleUnexpected",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionHandler",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleBusiness",
+          "callee": "log.warn",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity\n            .status(e.getErrorCode().getHttpStatus()).body",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getHttpStatus",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "Map.of",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage())\n            .findFirst().orElse",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage()).findFirst",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream().map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "err.getDefaultMessage",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ResponseEntity.status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "Map.of",
+          "lineNumber": 31
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "ResponseEntity.status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 36
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 36
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "Map.of",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleIllegalArg",
+          "callee": "e.getMessage",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "log.error",
+          "lineNumber": 42
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 43
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "Map.of",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/controller/AdminMerchantController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 85,
+      "functions": [
+        {
+          "name": "createMerchant",
+          "startLine": 29,
+          "endLine": 42,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "updateStatus",
+          "startLine": 44,
+          "endLine": 59,
+          "params": [
+            "merchantId",
+            "request"
+          ]
+        },
+        {
+          "name": "updateLimit",
+          "startLine": 61,
+          "endLine": 69,
+          "params": [
+            "merchantId",
+            "request"
+          ]
+        },
+        {
+          "name": "getLimitHistory",
+          "startLine": 71,
+          "endLine": 80,
+          "params": [
+            "merchantId",
+            "page",
+            "size"
+          ]
+        },
+        {
+          "name": "listMerchants",
+          "startLine": 82,
+          "endLine": 89,
+          "params": [
+            "page",
+            "size"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AdminMerchantController",
+          "startLine": 20,
+          "endLine": 96,
+          "methods": [
+            "createMerchant",
+            "updateStatus",
+            "updateLimit",
+            "getLimitHistory",
+            "listMerchants"
+          ],
+          "properties": [
+            "merchantRepository",
+            "updateCancelLimitUseCase",
+            "limitHistoryRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "createMerchant",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "updateStatus",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "updateLimit",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "getLimitHistory",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "listMerchants",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "AdminMerchantController",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createMerchant",
+          "callee": "merchantRepository.existsByMerchantKey",
+          "lineNumber": 33
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "request.merchantKey",
+          "lineNumber": 33
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "new MerchantKeyDuplicatedException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "request.merchantKey",
+          "lineNumber": 34
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "merchantRepository.save",
+          "lineNumber": 36
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "Merchant.create",
+          "lineNumber": 37
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "request.merchantKey",
+          "lineNumber": 37
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "request.name",
+          "lineNumber": 37
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "request.cancelPeriodDays",
+          "lineNumber": 37
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "ResponseEntity\n            .created(URI.create(\"/admin/merchants/\" + merchant.getId())).body",
+          "lineNumber": 39
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "ResponseEntity.created",
+          "lineNumber": 39
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "URI.create",
+          "lineNumber": 40
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "merchant.getId",
+          "lineNumber": 40
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "MerchantResponse.from",
+          "lineNumber": 41
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "merchantRepository.findById(merchantId).orElseThrow",
+          "lineNumber": 49
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "merchantRepository.findById",
+          "lineNumber": 49
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "new MerchantNotFoundException",
+          "lineNumber": 50
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "MerchantStatus.valueOf",
+          "lineNumber": 52
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "request.status",
+          "lineNumber": 52
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "merchant.activate",
+          "lineNumber": 54
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "merchant.deactivate",
+          "lineNumber": 55
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "merchant.suspend",
+          "lineNumber": 56
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 58
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "MerchantResponse.from",
+          "lineNumber": 58
+        },
+        {
+          "caller": "updateStatus",
+          "callee": "merchantRepository.save",
+          "lineNumber": 58
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "updateCancelLimitUseCase.execute",
+          "lineNumber": 67
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "request.dailyLimit",
+          "lineNumber": 67
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "request.reason",
+          "lineNumber": 67
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 68
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "new CancelLimitResponse",
+          "lineNumber": 68
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "result.merchantId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "result.dailyLimit",
+          "lineNumber": 68
+        },
+        {
+          "caller": "getLimitHistory",
+          "callee": "limitHistoryRepository.findByMerchantId",
+          "lineNumber": 77
+        },
+        {
+          "caller": "getLimitHistory",
+          "callee": "PageRequest.of",
+          "lineNumber": 78
+        },
+        {
+          "caller": "getLimitHistory",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 79
+        },
+        {
+          "caller": "getLimitHistory",
+          "callee": "LimitHistoryPageResponse.from",
+          "lineNumber": 79
+        },
+        {
+          "caller": "listMerchants",
+          "callee": "merchantRepository.findAll",
+          "lineNumber": 87
+        },
+        {
+          "caller": "listMerchants",
+          "callee": "PageRequest.of",
+          "lineNumber": 87
+        },
+        {
+          "caller": "listMerchants",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 88
+        },
+        {
+          "caller": "listMerchants",
+          "callee": "MerchantPageResponse.from",
+          "lineNumber": 88
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/controller/InternalMerchantController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "getCancelLimit",
+          "startLine": 16,
+          "endLine": 24,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InternalMerchantController",
+          "startLine": 9,
+          "endLine": 25,
+          "methods": [
+            "getCancelLimit"
+          ],
+          "properties": [
+            "getCancelLimitUseCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getCancelLimit",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "InternalMerchantController",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getCancelLimit",
+          "callee": "getCancelLimitUseCase.execute",
+          "lineNumber": 20
+        },
+        {
+          "caller": "getCancelLimit",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 21
+        },
+        {
+          "caller": "getCancelLimit",
+          "callee": "new CancelLimitResponse",
+          "lineNumber": 21
+        },
+        {
+          "caller": "getCancelLimit",
+          "callee": "result.merchantId",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getCancelLimit",
+          "callee": "result.dailyLimit",
+          "lineNumber": 22
+        },
+        {
+          "caller": "getCancelLimit",
+          "callee": "result.merchantStatus",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/controller/MerchantController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "create",
+          "startLine": 25,
+          "endLine": 39,
+          "params": [
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantController",
+          "startLine": 18,
+          "endLine": 40,
+          "methods": [
+            "create"
+          ],
+          "properties": [
+            "createMerchantUseCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantController",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new CreateMerchantCommand",
+          "lineNumber": 29
+        },
+        {
+          "caller": "create",
+          "callee": "request.merchantKey",
+          "lineNumber": 30
+        },
+        {
+          "caller": "create",
+          "callee": "request.name",
+          "lineNumber": 31
+        },
+        {
+          "caller": "create",
+          "callee": "request.cancelPeriodDays",
+          "lineNumber": 32
+        },
+        {
+          "caller": "create",
+          "callee": "request.dailyLimit",
+          "lineNumber": 33
+        },
+        {
+          "caller": "create",
+          "callee": "createMerchantUseCase.create",
+          "lineNumber": 35
+        },
+        {
+          "caller": "create",
+          "callee": "ResponseEntity\n            .created(URI.create(\"/v1/merchants/\" + merchant.getId())).body",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create",
+          "callee": "ResponseEntity.created",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create",
+          "callee": "URI.create",
+          "lineNumber": 37
+        },
+        {
+          "caller": "create",
+          "callee": "merchant.getId",
+          "lineNumber": 37
+        },
+        {
+          "caller": "create",
+          "callee": "CreateMerchantV1Response.from",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CancelLimitResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "CancelLimitResponse",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelLimitResponse",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantV1Request.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "CreateMerchantV1Request",
+          "startLine": 7,
+          "endLine": 12,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateMerchantV1Request",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantV1Response.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 10,
+          "endLine": 16,
+          "params": [
+            "merchant"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CreateMerchantV1Response",
+          "startLine": 5,
+          "endLine": 17,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "CreateMerchantV1Response",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CreateMerchantV1Response",
+          "lineNumber": 11
+        },
+        {
+          "caller": "from",
+          "callee": "merchant.getId",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "merchant.getMerchantKey",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "merchant.getName",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/LimitHistoryPageResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 19,
+          "endLine": 24,
+          "params": [
+            "page"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LimitHistoryPageResponse",
+          "startLine": 10,
+          "endLine": 25,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "LimitHistoryPageResponse",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new Item",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "h.getOldLimit",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "h.getNewLimit",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "h.getReason",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "h.getCreatedAt",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "new LimitHistoryPageResponse",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream().map(Item::from).toList",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream().map",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "page.getTotalElements",
+          "lineNumber": 22
+        },
+        {
+          "caller": "from",
+          "callee": "page.getNumber",
+          "lineNumber": 22
+        },
+        {
+          "caller": "from",
+          "callee": "page.getSize",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/MerchantPageResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 10,
+          "endLine": 15,
+          "params": [
+            "page"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantPageResponse",
+          "startLine": 7,
+          "endLine": 16,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantPageResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new MerchantPageResponse",
+          "lineNumber": 11
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream().map(MerchantResponse::from).toList",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream().map",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "page.getTotalElements",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "page.getNumber",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "page.getSize",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/MerchantResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 9,
+          "endLine": 14,
+          "params": [
+            "m"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantResponse",
+          "startLine": 5,
+          "endLine": 15,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantResponse",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new MerchantResponse",
+          "lineNumber": 10
+        },
+        {
+          "caller": "from",
+          "callee": "m.getId",
+          "lineNumber": 11
+        },
+        {
+          "caller": "from",
+          "callee": "m.getMerchantKey",
+          "lineNumber": 11
+        },
+        {
+          "caller": "from",
+          "callee": "m.getName",
+          "lineNumber": 11
+        },
+        {
+          "caller": "from",
+          "callee": "m.getStatus().name",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "m.getStatus",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "m.getCancelPeriodDays",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

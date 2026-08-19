@@ -1,0 +1,3457 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "type": "file",
+      "name": "CancelNotAuthorizedException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "summary": "payment-service에서 Cancel Not Authorized Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java:CancelNotAuthorizedException",
+      "type": "class",
+      "name": "CancelNotAuthorizedException",
+      "filePath": "payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "lineRange": [
+        12,
+        16
+      ],
+      "summary": "CancelNotAuthorizedException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java:CancelNotAuthorizedException",
+      "type": "function",
+      "name": "CancelNotAuthorizedException",
+      "filePath": "payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "lineRange": [
+        13,
+        15
+      ],
+      "summary": "CancelNotAuthorizedException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "type": "file",
+      "name": "CancelApproval.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "summary": "payment-service의 Cancel Approval domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:CancelApproval",
+      "type": "class",
+      "name": "CancelApproval",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        5,
+        77
+      ],
+      "summary": "CancelApproval domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:CancelApproval",
+      "type": "function",
+      "name": "CancelApproval",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        19,
+        19
+      ],
+      "summary": "CancelApproval 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:request",
+      "type": "function",
+      "name": "request",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        21,
+        29
+      ],
+      "summary": "request 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:reconstitute",
+      "type": "function",
+      "name": "reconstitute",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        32,
+        41
+      ],
+      "summary": "reconstitute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:approve",
+      "type": "function",
+      "name": "approve",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        43,
+        49
+      ],
+      "summary": "approve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:reject",
+      "type": "function",
+      "name": "reject",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        51,
+        57
+      ],
+      "summary": "reject 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        65,
+        65
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getPaymentId",
+      "type": "function",
+      "name": "getPaymentId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        66,
+        66
+      ],
+      "summary": "getPaymentId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getPaymentKey",
+      "type": "function",
+      "name": "getPaymentKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        67,
+        67
+      ],
+      "summary": "getPaymentKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getRequesterUserId",
+      "type": "function",
+      "name": "getRequesterUserId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        68,
+        68
+      ],
+      "summary": "getRequesterUserId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getReason",
+      "type": "function",
+      "name": "getReason",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        69,
+        69
+      ],
+      "summary": "getReason 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        70,
+        70
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecidedByUserId",
+      "type": "function",
+      "name": "getDecidedByUserId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        71,
+        71
+      ],
+      "summary": "getDecidedByUserId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecidedRole",
+      "type": "function",
+      "name": "getDecidedRole",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        72,
+        72
+      ],
+      "summary": "getDecidedRole 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecisionReason",
+      "type": "function",
+      "name": "getDecisionReason",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        73,
+        73
+      ],
+      "summary": "getDecisionReason 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getCancelRequestId",
+      "type": "function",
+      "name": "getCancelRequestId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        74,
+        74
+      ],
+      "summary": "getCancelRequestId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        75,
+        75
+      ],
+      "summary": "getCreatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getUpdatedAt",
+      "type": "function",
+      "name": "getUpdatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "lineRange": [
+        76,
+        76
+      ],
+      "summary": "getUpdatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "type": "file",
+      "name": "CancelApprovalStatus.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "summary": "payment-service의 Cancel Approval Status domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java:CancelApprovalStatus",
+      "type": "class",
+      "name": "CancelApprovalStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "lineRange": [
+        3,
+        7
+      ],
+      "summary": "CancelApprovalStatus domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java:isTerminal",
+      "type": "function",
+      "name": "isTerminal",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "lineRange": [
+        6,
+        6
+      ],
+      "summary": "isTerminal 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "type": "file",
+      "name": "CancelRequest.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "summary": "payment-service의 Cancel Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "domain",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:CancelRequest",
+      "type": "class",
+      "name": "CancelRequest",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        21,
+        156
+      ],
+      "summary": "CancelRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:CancelRequest",
+      "type": "function",
+      "name": "CancelRequest",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        40,
+        56
+      ],
+      "summary": "CancelRequest 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        58,
+        62
+      ],
+      "summary": "create 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:reconstruct",
+      "type": "function",
+      "name": "reconstruct",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        65,
+        83
+      ],
+      "summary": "reconstruct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toProcessing",
+      "type": "function",
+      "name": "toProcessing",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        86,
+        91
+      ],
+      "summary": "toProcessing 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toCompleted",
+      "type": "function",
+      "name": "toCompleted",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        94,
+        100
+      ],
+      "summary": "toCompleted 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toFailed",
+      "type": "function",
+      "name": "toFailed",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        103,
+        108
+      ],
+      "summary": "toFailed 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:raiseToPending",
+      "type": "function",
+      "name": "raiseToPending",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        111,
+        117
+      ],
+      "summary": "raiseToPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:markPgPending",
+      "type": "function",
+      "name": "markPgPending",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        120,
+        124
+      ],
+      "summary": "markPgPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:incrementPgRetryCount",
+      "type": "function",
+      "name": "incrementPgRetryCount",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        127,
+        129
+      ],
+      "summary": "incrementPgRetryCount 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:assignPgTransactionKey",
+      "type": "function",
+      "name": "assignPgTransactionKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        132,
+        134
+      ],
+      "summary": "assignPgTransactionKey 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        142,
+        142
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPaymentId",
+      "type": "function",
+      "name": "getPaymentId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        143,
+        143
+      ],
+      "summary": "getPaymentId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getRequestHash",
+      "type": "function",
+      "name": "getRequestHash",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        144,
+        144
+      ],
+      "summary": "getRequestHash 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getIdempotencyKey",
+      "type": "function",
+      "name": "getIdempotencyKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        145,
+        145
+      ],
+      "summary": "getIdempotencyKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelAmount",
+      "type": "function",
+      "name": "getCancelAmount",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        146,
+        146
+      ],
+      "summary": "getCancelAmount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelReason",
+      "type": "function",
+      "name": "getCancelReason",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        147,
+        147
+      ],
+      "summary": "getCancelReason 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelItemIds",
+      "type": "function",
+      "name": "getCancelItemIds",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        148,
+        148
+      ],
+      "summary": "getCancelItemIds 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        149,
+        149
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgRetryCount",
+      "type": "function",
+      "name": "getPgRetryCount",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        150,
+        150
+      ],
+      "summary": "getPgRetryCount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCompletedAt",
+      "type": "function",
+      "name": "getCompletedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        151,
+        151
+      ],
+      "summary": "getCompletedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgPendingSince",
+      "type": "function",
+      "name": "getPgPendingSince",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        152,
+        152
+      ],
+      "summary": "getPgPendingSince 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        153,
+        153
+      ],
+      "summary": "getCreatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getUpdatedAt",
+      "type": "function",
+      "name": "getUpdatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        154,
+        154
+      ],
+      "summary": "getUpdatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgTransactionKey",
+      "type": "function",
+      "name": "getPgTransactionKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "lineRange": [
+        155,
+        155
+      ],
+      "summary": "getPgTransactionKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "file",
+      "name": "Payment.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "summary": "payment-service의 Payment domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:Payment",
+      "type": "class",
+      "name": "Payment",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        16,
+        354
+      ],
+      "summary": "Payment domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:Payment",
+      "type": "function",
+      "name": "Payment",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        33,
+        59
+      ],
+      "summary": "Payment 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        124,
+        149
+      ],
+      "summary": "of 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:ofPending",
+      "type": "function",
+      "name": "ofPending",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        154,
+        178
+      ],
+      "summary": "ofPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:reconstruct",
+      "type": "function",
+      "name": "reconstruct",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        206,
+        234
+      ],
+      "summary": "reconstruct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:canBeCancelled",
+      "type": "function",
+      "name": "canBeCancelled",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        239,
+        241
+      ],
+      "summary": "canBeCancelled 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:validateCancellable",
+      "type": "function",
+      "name": "validateCancellable",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        248,
+        252
+      ],
+      "summary": "validateCancellable 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:validateCancelPeriod",
+      "type": "function",
+      "name": "validateCancelPeriod",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        261,
+        268
+      ],
+      "summary": "validateCancelPeriod 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:updateStatus",
+      "type": "function",
+      "name": "updateStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        273,
+        276
+      ],
+      "summary": "updateStatus 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:calculateRemainingCancelAmount",
+      "type": "function",
+      "name": "calculateRemainingCancelAmount",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        282,
+        284
+      ],
+      "summary": "calculateRemainingCancelAmount 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        288,
+        290
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getPaymentKey",
+      "type": "function",
+      "name": "getPaymentKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        292,
+        294
+      ],
+      "summary": "getPaymentKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getMerchantId",
+      "type": "function",
+      "name": "getMerchantId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        296,
+        298
+      ],
+      "summary": "getMerchantId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getUserId",
+      "type": "function",
+      "name": "getUserId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        300,
+        302
+      ],
+      "summary": "getUserId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getPgType",
+      "type": "function",
+      "name": "getPgType",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        304,
+        306
+      ],
+      "summary": "getPgType 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getTotalAmount",
+      "type": "function",
+      "name": "getTotalAmount",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        308,
+        310
+      ],
+      "summary": "getTotalAmount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCurrency",
+      "type": "function",
+      "name": "getCurrency",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        312,
+        314
+      ],
+      "summary": "getCurrency 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCancelPeriodDays",
+      "type": "function",
+      "name": "getCancelPeriodDays",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        316,
+        318
+      ],
+      "summary": "getCancelPeriodDays 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getOrderId",
+      "type": "function",
+      "name": "getOrderId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        320,
+        322
+      ],
+      "summary": "getOrderId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        324,
+        326
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        328,
+        330
+      ],
+      "summary": "getCreatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getUpdatedAt",
+      "type": "function",
+      "name": "getUpdatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        332,
+        334
+      ],
+      "summary": "getUpdatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        342,
+        348
+      ],
+      "summary": "equals 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "lineRange": [
+        350,
+        353
+      ],
+      "summary": "hashCode 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "type": "file",
+      "name": "PaymentItem.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "summary": "payment-service의 Payment Item domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:PaymentItem",
+      "type": "class",
+      "name": "PaymentItem",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        7,
+        113
+      ],
+      "summary": "PaymentItem domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:PaymentItem",
+      "type": "function",
+      "name": "PaymentItem",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        20,
+        37
+      ],
+      "summary": "PaymentItem 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        49,
+        57
+      ],
+      "summary": "of 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:reconstruct",
+      "type": "function",
+      "name": "reconstruct",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        71,
+        80
+      ],
+      "summary": "reconstruct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:cancel",
+      "type": "function",
+      "name": "cancel",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        83,
+        88
+      ],
+      "summary": "cancel 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:isCancellable",
+      "type": "function",
+      "name": "isCancellable",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        90,
+        90
+      ],
+      "summary": "isCancellable 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        92,
+        92
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getPaymentId",
+      "type": "function",
+      "name": "getPaymentId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        93,
+        93
+      ],
+      "summary": "getPaymentId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getOrderItemId",
+      "type": "function",
+      "name": "getOrderItemId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        94,
+        94
+      ],
+      "summary": "getOrderItemId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getProductId",
+      "type": "function",
+      "name": "getProductId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        95,
+        95
+      ],
+      "summary": "getProductId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getProductAutoId",
+      "type": "function",
+      "name": "getProductAutoId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        96,
+        96
+      ],
+      "summary": "getProductAutoId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getItemName",
+      "type": "function",
+      "name": "getItemName",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        97,
+        97
+      ],
+      "summary": "getItemName 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getItemAmount",
+      "type": "function",
+      "name": "getItemAmount",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        98,
+        98
+      ],
+      "summary": "getItemAmount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getSkuId",
+      "type": "function",
+      "name": "getSkuId",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        99,
+        99
+      ],
+      "summary": "getSkuId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getQuantity",
+      "type": "function",
+      "name": "getQuantity",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        100,
+        100
+      ],
+      "summary": "getQuantity 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        101,
+        101
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:equals",
+      "type": "function",
+      "name": "equals",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        103,
+        109
+      ],
+      "summary": "equals 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:hashCode",
+      "type": "function",
+      "name": "hashCode",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "lineRange": [
+        111,
+        112
+      ],
+      "summary": "hashCode 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "type": "file",
+      "name": "CancelPeriodPolicy.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "summary": "payment-service의 Cancel Period Policy domain 판단 규칙을 한곳에 모아 재사용한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:CancelPeriodPolicy",
+      "type": "class",
+      "name": "CancelPeriodPolicy",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "lineRange": [
+        16,
+        44
+      ],
+      "summary": "CancelPeriodPolicy가 담당하는 policy 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:CancelPeriodPolicy",
+      "type": "function",
+      "name": "CancelPeriodPolicy",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "lineRange": [
+        20,
+        22
+      ],
+      "summary": "CancelPeriodPolicy 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:validateCancelPeriod",
+      "type": "function",
+      "name": "validateCancelPeriod",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "lineRange": [
+        32,
+        43
+      ],
+      "summary": "validateCancelPeriod 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "type": "file",
+      "name": "PaymentItemStatusPolicy.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "summary": "payment-service의 Payment Item Status Policy domain 판단 규칙을 한곳에 모아 재사용한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:PaymentItemStatusPolicy",
+      "type": "class",
+      "name": "PaymentItemStatusPolicy",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "lineRange": [
+        13,
+        35
+      ],
+      "summary": "PaymentItemStatusPolicy가 담당하는 policy 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:PaymentItemStatusPolicy",
+      "type": "function",
+      "name": "PaymentItemStatusPolicy",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "lineRange": [
+        15,
+        16
+      ],
+      "summary": "PaymentItemStatusPolicy 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:validateCancellableStatus",
+      "type": "function",
+      "name": "validateCancellableStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "lineRange": [
+        27,
+        34
+      ],
+      "summary": "validateCancellableStatus 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "type": "file",
+      "name": "PaymentStatusPolicy.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "summary": "payment-service의 Payment Status Policy domain 판단 규칙을 한곳에 모아 재사용한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:PaymentStatusPolicy",
+      "type": "class",
+      "name": "PaymentStatusPolicy",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "lineRange": [
+        11,
+        30
+      ],
+      "summary": "PaymentStatusPolicy가 담당하는 policy 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:PaymentStatusPolicy",
+      "type": "function",
+      "name": "PaymentStatusPolicy",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "lineRange": [
+        13,
+        14
+      ],
+      "summary": "PaymentStatusPolicy 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:validateCancellableStatus",
+      "type": "function",
+      "name": "validateCancellableStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "lineRange": [
+        25,
+        29
+      ],
+      "summary": "validateCancellableStatus 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "policy",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java:CancelNotAuthorizedException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java:CancelNotAuthorizedException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java:CancelNotAuthorizedException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java:CancelNotAuthorizedException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:CancelApproval",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:CancelApproval",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:CancelApproval",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:CancelApproval",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:request",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:request",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:reconstitute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:reconstitute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:approve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:approve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:reject",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:reject",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getPaymentId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getPaymentId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getPaymentKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getPaymentKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getRequesterUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getRequesterUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getReason",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecidedByUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecidedByUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecidedRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecidedRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecisionReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getDecisionReason",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getCancelRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getCancelRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java:getUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java:CancelApprovalStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java:CancelApprovalStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java:isTerminal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java:isTerminal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:CancelRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:CancelRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:CancelRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:CancelRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:reconstruct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:reconstruct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toProcessing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toProcessing",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toCompleted",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toCompleted",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toFailed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:toFailed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:raiseToPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:raiseToPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:markPgPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:markPgPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:incrementPgRetryCount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:incrementPgRetryCount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:assignPgTransactionKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:assignPgTransactionKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPaymentId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPaymentId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getRequestHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getRequestHash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getIdempotencyKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getIdempotencyKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelReason",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelItemIds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCancelItemIds",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgRetryCount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgRetryCount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCompletedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCompletedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgPendingSince",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgPendingSince",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgTransactionKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java:getPgTransactionKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelAmountException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelStateTransitionException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:Payment",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:Payment",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:Payment",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:Payment",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:ofPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:ofPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:reconstruct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:reconstruct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:canBeCancelled",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:canBeCancelled",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:validateCancellable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:validateCancellable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:validateCancelPeriod",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:validateCancelPeriod",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:updateStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:updateStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:calculateRemainingCancelAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:calculateRemainingCancelAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getPaymentKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getPaymentKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getMerchantId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getMerchantId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getPgType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getPgType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getTotalAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getTotalAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCurrency",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCurrency",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCancelPeriodDays",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCancelPeriodDays",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getOrderId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getOrderId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:getUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/CancelNotAllowedException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/CancelPeriodExceededException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:PaymentItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:PaymentItem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:PaymentItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:PaymentItem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:reconstruct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:reconstruct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:cancel",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:isCancellable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:isCancellable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getPaymentId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getPaymentId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getOrderItemId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getOrderItemId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getProductId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getProductId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getProductAutoId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getProductAutoId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getItemName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getItemName",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getItemAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getItemAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getSkuId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getSkuId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getQuantity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getQuantity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:equals",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:equals",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:hashCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java:hashCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentItemStatusException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:CancelPeriodPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:CancelPeriodPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:CancelPeriodPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:CancelPeriodPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:validateCancelPeriod",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java:validateCancelPeriod",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/CancelPeriodPolicy.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/CancelPeriodExceededException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:PaymentItemStatusPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:PaymentItemStatusPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:PaymentItemStatusPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:PaymentItemStatusPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:validateCancellableStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java:validateCancellableStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentItemStatusPolicy.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentItemStatusException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:PaymentStatusPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:PaymentStatusPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:PaymentStatusPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:PaymentStatusPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:validateCancellableStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java:validateCancellableStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/policy/PaymentStatusPolicy.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentStatusException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

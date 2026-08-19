@@ -14,10 +14,12 @@ import lombok.RequiredArgsConstructor;
 public enum ErrorCode {
 
     // 403 - 인가 오류
+    FORBIDDEN("FORBIDDEN", 403, "권한이 없습니다."),
     ORDER_OWNERSHIP_MISMATCH("ORDER_OWNERSHIP_MISMATCH", 403, "해당 주문에 대한 권한이 없습니다."),
 
     // 404 - 리소스 없음
     ORDER_ITEM_NOT_FOUND("ORDER_ITEM_NOT_FOUND", 404, "주문 항목을 찾을 수 없습니다."),
+    ORDER_NOT_FOUND("ORDER_NOT_FOUND", 404, "주문을 찾을 수 없습니다."),
     CART_ITEM_NOT_FOUND("CART_ITEM_NOT_FOUND", 404, "장바구니 항목을 찾을 수 없습니다."),
 
     // 409 - 비즈니스 규칙 위반 (복수 order 걸침)

@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-04-24-order-service.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "order-service Implementation Plan",
+  "summary": "Task-by-task implementation plan for the order-service payment.cancelled Kafka consumer: OrderItem/Order sync, idempotency, 3x retry, and DLQ.",
+  "scope": ["order-service", "payment.cancelled Kafka consumer", "OrderItem/Order status sync", "idempotency", "retry/DLQ routing", "JPA persistence"],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": null,
+  "notes": "Procedural implementation plan (Task/Step/checkbox, TDD, code blocks) → DOC. Carries SPEC-like content (DDL schema, Kafka topic/retry/DLQ contracts, PaymentCancelledPayload data model). SPEC vs DOC ambiguity resolved toward DOC because the dominant structure is a build tutorial, not a standalone contract reference. No frontmatter, no status field, no user stories/acceptance criteria."
+}

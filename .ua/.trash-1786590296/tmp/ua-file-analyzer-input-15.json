@@ -1,0 +1,218 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "language": "java",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "language": "java",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "language": "java",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "language": "java",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "language": "java",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "language": "java",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "language": "java",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "language": "java",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "language": "java",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "language": "java",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 110,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "language": "java",
+      "sizeLines": 142,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java",
+      "language": "java",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java",
+      "language": "java",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "language": "java",
+      "sizeLines": 194,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java",
+      "language": "java",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "language": "java",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java",
+      "language": "java",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java",
+      "language": "java",
+      "sizeLines": 75,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java",
+      "language": "java",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java": [
+      "payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java": [],
+    "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java": [],
+    "payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java": [],
+    "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java": [],
+    "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java": [],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaEntity.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java": [
+      "payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java": [],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java": [],
+    "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PendingRecoveryScheduler.java": [
+      "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentSettlementController.java": [
+      "payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSettlementResponse.java": []
+  }
+}

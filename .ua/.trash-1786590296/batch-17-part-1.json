@@ -1,0 +1,1616 @@
+{
+  "nodes": [
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "type": "file",
+      "name": "OutboxPublisherScheduler.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "summary": "merchant-limit-service에서 Outbox Publisher Scheduler 백그라운드 작업을 주기적으로 실행하고 처리 상태를 관리한다.",
+      "tags": [
+        "merchant-limit-service",
+        "scheduler",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java:OutboxPublisherScheduler",
+      "type": "class",
+      "name": "OutboxPublisherScheduler",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "lineRange": [
+        20,
+        71
+      ],
+      "summary": "OutboxPublisherScheduler가 담당하는 scheduler 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "lineRange": [
+        35,
+        70
+      ],
+      "summary": "publish 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "merchant-limit-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java",
+      "type": "file",
+      "name": "LimitEventOutboxJpaRepository.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java",
+      "summary": "merchant-limit-service의 Limit Event Outbox Jpa Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java:LimitEventOutboxJpaRepository",
+      "type": "class",
+      "name": "LimitEventOutboxJpaRepository",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "LimitEventOutboxJpaRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "type": "file",
+      "name": "LimitEventOutboxRepositoryImpl.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "summary": "merchant-limit-service의 Limit Event Outbox Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:LimitEventOutboxRepositoryImpl",
+      "type": "class",
+      "name": "LimitEventOutboxRepositoryImpl",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        8,
+        37
+      ],
+      "summary": "LimitEventOutboxRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:LimitEventOutboxRepositoryImpl",
+      "type": "function",
+      "name": "LimitEventOutboxRepositoryImpl",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        12,
+        14
+      ],
+      "summary": "LimitEventOutboxRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:insertPending",
+      "type": "function",
+      "name": "insertPending",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "insertPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "function",
+      "name": "findPendingBatch",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        21,
+        28
+      ],
+      "summary": "findPendingBatch 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:markPublished",
+      "type": "function",
+      "name": "markPublished",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        30,
+        36
+      ],
+      "summary": "markPublished 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "type": "file",
+      "name": "LimitHistoryJpaEntity.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "summary": "merchant-limit-service에서 Limit History Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:LimitHistoryJpaEntity",
+      "type": "class",
+      "name": "LimitHistoryJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        8,
+        53
+      ],
+      "summary": "LimitHistoryJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:LimitHistoryJpaEntity",
+      "type": "function",
+      "name": "LimitHistoryJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        31,
+        31
+      ],
+      "summary": "LimitHistoryJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        33,
+        41
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        43,
+        45
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        47,
+        47
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getMerchantId",
+      "type": "function",
+      "name": "getMerchantId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        48,
+        48
+      ],
+      "summary": "getMerchantId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getOldLimit",
+      "type": "function",
+      "name": "getOldLimit",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        49,
+        49
+      ],
+      "summary": "getOldLimit 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getNewLimit",
+      "type": "function",
+      "name": "getNewLimit",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        50,
+        50
+      ],
+      "summary": "getNewLimit 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getReason",
+      "type": "function",
+      "name": "getReason",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        51,
+        51
+      ],
+      "summary": "getReason 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "lineRange": [
+        52,
+        52
+      ],
+      "summary": "getCreatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java",
+      "type": "file",
+      "name": "LimitHistoryJpaRepository.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java",
+      "summary": "merchant-limit-service의 Limit History Jpa Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java:LimitHistoryJpaRepository",
+      "type": "class",
+      "name": "LimitHistoryJpaRepository",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "LimitHistoryJpaRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "type": "file",
+      "name": "LimitHistoryRepositoryImpl.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "summary": "merchant-limit-service의 Limit History Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:LimitHistoryRepositoryImpl",
+      "type": "class",
+      "name": "LimitHistoryRepositoryImpl",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "lineRange": [
+        8,
+        27
+      ],
+      "summary": "LimitHistoryRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:LimitHistoryRepositoryImpl",
+      "type": "function",
+      "name": "LimitHistoryRepositoryImpl",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "lineRange": [
+        12,
+        14
+      ],
+      "summary": "LimitHistoryRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:findByMerchantId",
+      "type": "function",
+      "name": "findByMerchantId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "lineRange": [
+        21,
+        26
+      ],
+      "summary": "findByMerchantId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "type": "file",
+      "name": "MerchantCancelLimitJpaEntity.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "summary": "merchant-limit-service에서 Merchant Cancel Limit Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:MerchantCancelLimitJpaEntity",
+      "type": "class",
+      "name": "MerchantCancelLimitJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "lineRange": [
+        8,
+        43
+      ],
+      "summary": "MerchantCancelLimitJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:MerchantCancelLimitJpaEntity",
+      "type": "function",
+      "name": "MerchantCancelLimitJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "lineRange": [
+        27,
+        27
+      ],
+      "summary": "MerchantCancelLimitJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "lineRange": [
+        29,
+        36
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "lineRange": [
+        38,
+        40
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "lineRange": [
+        42,
+        42
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java",
+      "type": "file",
+      "name": "MerchantCancelLimitJpaRepository.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java",
+      "summary": "merchant-limit-service의 Merchant Cancel Limit Jpa Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java:MerchantCancelLimitJpaRepository",
+      "type": "class",
+      "name": "MerchantCancelLimitJpaRepository",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java",
+      "lineRange": [
+        6,
+        9
+      ],
+      "summary": "MerchantCancelLimitJpaRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "type": "file",
+      "name": "MerchantCancelLimitRepositoryImpl.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "summary": "merchant-limit-service의 Merchant Cancel Limit Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:MerchantCancelLimitRepositoryImpl",
+      "type": "class",
+      "name": "MerchantCancelLimitRepositoryImpl",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "lineRange": [
+        8,
+        26
+      ],
+      "summary": "MerchantCancelLimitRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:MerchantCancelLimitRepositoryImpl",
+      "type": "function",
+      "name": "MerchantCancelLimitRepositoryImpl",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "lineRange": [
+        12,
+        14
+      ],
+      "summary": "MerchantCancelLimitRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:findByMerchantId",
+      "type": "function",
+      "name": "findByMerchantId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "lineRange": [
+        21,
+        25
+      ],
+      "summary": "findByMerchantId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "type": "file",
+      "name": "MerchantJpaEntity.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "summary": "merchant-limit-service에서 Merchant Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:MerchantJpaEntity",
+      "type": "class",
+      "name": "MerchantJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        8,
+        59
+      ],
+      "summary": "MerchantJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:MerchantJpaEntity",
+      "type": "function",
+      "name": "MerchantJpaEntity",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        34,
+        34
+      ],
+      "summary": "MerchantJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        36,
+        48
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        50,
+        53
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        55,
+        55
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:getMerchantKey",
+      "type": "function",
+      "name": "getMerchantKey",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        56,
+        56
+      ],
+      "summary": "getMerchantKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:setStatus",
+      "type": "function",
+      "name": "setStatus",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        57,
+        57
+      ],
+      "summary": "setStatus 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:setUpdatedAt",
+      "type": "function",
+      "name": "setUpdatedAt",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "lineRange": [
+        58,
+        58
+      ],
+      "summary": "setUpdatedAt 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "merchant-limit-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java",
+      "type": "file",
+      "name": "MerchantJpaRepository.java",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java",
+      "summary": "merchant-limit-service의 Merchant Jpa Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java:MerchantJpaRepository",
+      "type": "class",
+      "name": "MerchantJpaRepository",
+      "filePath": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java",
+      "lineRange": [
+        8,
+        12
+      ],
+      "summary": "MerchantJpaRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "merchant-limit-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java:OutboxPublisherScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java:OutboxPublisherScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java:publish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java:publish",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/OutboxPublisherScheduler.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/LimitEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java:LimitEventOutboxJpaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaRepository.java:LimitEventOutboxJpaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:LimitEventOutboxRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:LimitEventOutboxRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:LimitEventOutboxRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:LimitEventOutboxRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:insertPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:insertPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:markPublished",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java:markPublished",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxRepositoryImpl.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/LimitEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:LimitHistoryJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:LimitHistoryJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:LimitHistoryJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:LimitHistoryJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getMerchantId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getMerchantId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getOldLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getOldLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getNewLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getNewLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getReason",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaEntity.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/LimitHistory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java:LimitHistoryJpaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryJpaRepository.java:LimitHistoryJpaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:LimitHistoryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:LimitHistoryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:LimitHistoryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:LimitHistoryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:findByMerchantId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java:findByMerchantId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/LimitHistoryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitHistoryRepositoryImpl.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/LimitHistory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:MerchantCancelLimitJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:MerchantCancelLimitJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:MerchantCancelLimitJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:MerchantCancelLimitJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaEntity.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/MerchantCancelLimit.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java:MerchantCancelLimitJpaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitJpaRepository.java:MerchantCancelLimitJpaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:MerchantCancelLimitRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:MerchantCancelLimitRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:MerchantCancelLimitRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:MerchantCancelLimitRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:findByMerchantId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java:findByMerchantId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/MerchantCancelLimitRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantCancelLimitRepositoryImpl.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/MerchantCancelLimit.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:MerchantJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:MerchantJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:MerchantJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:MerchantJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:getMerchantKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:getMerchantKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:setStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:setStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:setUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "function:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java:setUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/Merchant.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaEntity.java",
+      "target": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/MerchantStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java:MerchantJpaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java",
+      "target": "class:merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/MerchantJpaRepository.java:MerchantJpaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

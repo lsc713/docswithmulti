@@ -1,0 +1,555 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 7,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 7,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 7
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/codebase/ARCHITECTURE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 409,
+      "nonEmptyLines": 324,
+      "sections": [
+        {
+          "heading": "Architecture",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "System Overview",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "Component Responsibilities",
+          "level": 2,
+          "line": 65
+        },
+        {
+          "heading": "Pattern Overview",
+          "level": 2,
+          "line": 76
+        },
+        {
+          "heading": "Layers",
+          "level": 2,
+          "line": 88
+        },
+        {
+          "heading": "Data Flow",
+          "level": 2,
+          "line": 125
+        },
+        {
+          "heading": "Primary Request Path: Payment Cancellation",
+          "level": 3,
+          "line": 127
+        },
+        {
+          "heading": "Secondary Flows",
+          "level": 3,
+          "line": 193
+        },
+        {
+          "heading": "Key Abstractions",
+          "level": 2,
+          "line": 224
+        },
+        {
+          "heading": "Entry Points",
+          "level": 2,
+          "line": 268
+        },
+        {
+          "heading": "Architectural Constraints",
+          "level": 2,
+          "line": 304
+        },
+        {
+          "heading": "Anti-Patterns",
+          "level": 2,
+          "line": 317
+        },
+        {
+          "heading": "Anti-Pattern: Calling merchant-limit directly after Redis miss without DB snapshot",
+          "level": 3,
+          "line": 319
+        },
+        {
+          "heading": "Anti-Pattern: Including history INSERT in the same TX as entity updates",
+          "level": 3,
+          "line": 331
+        },
+        {
+          "heading": "Anti-Pattern: Directly comparing Payment.status == COMPLETED in callers",
+          "level": 3,
+          "line": 339
+        },
+        {
+          "heading": "Anti-Pattern: Storing fresh data in `cancel_event_outbox` from application layer parameters instead of re-querying in TX3",
+          "level": 3,
+          "line": 347
+        },
+        {
+          "heading": "Error Handling",
+          "level": 2,
+          "line": 355
+        },
+        {
+          "heading": "Cross-Cutting Concerns",
+          "level": 2,
+          "line": 395
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 18
+      }
+    },
+    {
+      "path": ".planning/codebase/CONCERNS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 370,
+      "nonEmptyLines": 257,
+      "sections": [
+        {
+          "heading": "Codebase Concerns",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Unimplemented Critical Features",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Missing ProcessingRecoveryService Implementations",
+          "level": 3,
+          "line": 7
+        },
+        {
+          "heading": "Product Service — Unimplemented Module",
+          "level": 2,
+          "line": 32
+        },
+        {
+          "heading": "Known Architectural Issues",
+          "level": 2,
+          "line": 59
+        },
+        {
+          "heading": "Daily Limit Resolution — HTTP-Outside-TX Risk Pattern",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "Timezone Handling — Performance Micro-Optimization",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "Transaction Safety Concerns",
+          "level": 2,
+          "line": 103
+        },
+        {
+          "heading": "Compensation Path Exception Handling",
+          "level": 3,
+          "line": 105
+        },
+        {
+          "heading": "Distributed System Resilience",
+          "level": 2,
+          "line": 137
+        },
+        {
+          "heading": "Processing Recovery — Incomplete Error Scenarios",
+          "level": 3,
+          "line": 139
+        },
+        {
+          "heading": "Outbox Poller Configuration Complexity",
+          "level": 2,
+          "line": 172
+        },
+        {
+          "heading": "Test Coverage Gaps",
+          "level": 2,
+          "line": 200
+        },
+        {
+          "heading": "Recovery Schedulers — Limited Failure Scenario Testing",
+          "level": 3,
+          "line": 202
+        },
+        {
+          "heading": "Cache Invalidation Risks",
+          "level": 2,
+          "line": 228
+        },
+        {
+          "heading": "Redis Daily Limit Cache — TTL and Consistency",
+          "level": 3,
+          "line": 230
+        },
+        {
+          "heading": "Security Considerations",
+          "level": 2,
+          "line": 253
+        },
+        {
+          "heading": "Error Messages Leak Payment Details",
+          "level": 3,
+          "line": 255
+        },
+        {
+          "heading": "Performance Bottlenecks",
+          "level": 2,
+          "line": 277
+        },
+        {
+          "heading": "Hot Merchant Cancellations — Lock Contention",
+          "level": 3,
+          "line": 279
+        },
+        {
+          "heading": "Dependencies at Risk",
+          "level": 2,
+          "line": 305
+        },
+        {
+          "heading": "Spring Boot 4.0.5 — Recent Major Version",
+          "level": 3,
+          "line": 307
+        },
+        {
+          "heading": "Missing Critical Features",
+          "level": 2,
+          "line": 329
+        },
+        {
+          "heading": "Idempotency for Kafka Consumer Recovery",
+          "level": 3,
+          "line": 331
+        },
+        {
+          "heading": "Documentation Gaps",
+          "level": 2,
+          "line": 350
+        },
+        {
+          "heading": "Architecture Documentation Out of Sync",
+          "level": 3,
+          "line": 352
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 26
+      }
+    },
+    {
+      "path": ".planning/codebase/CONVENTIONS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 368,
+      "nonEmptyLines": 304,
+      "sections": [
+        {
+          "heading": "Coding Conventions",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Naming Patterns",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Code Style",
+          "level": 2,
+          "line": 42
+        },
+        {
+          "heading": "Error Handling",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "Logging",
+          "level": 2,
+          "line": 130
+        },
+        {
+          "heading": "Comments",
+          "level": 2,
+          "line": 163
+        },
+        {
+          "heading": "Function Design",
+          "level": 2,
+          "line": 203
+        },
+        {
+          "heading": "Module Design",
+          "level": 2,
+          "line": 236
+        },
+        {
+          "heading": "Architecture Layers (Intra-Module)",
+          "level": 2,
+          "line": 337
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": ".planning/codebase/INTEGRATIONS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 188,
+      "nonEmptyLines": 155,
+      "sections": [
+        {
+          "heading": "External Integrations",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "APIs & External Services",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Data Storage",
+          "level": 2,
+          "line": 41
+        },
+        {
+          "heading": "Authentication & Identity",
+          "level": 2,
+          "line": 70
+        },
+        {
+          "heading": "Monitoring & Observability",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "CI/CD & Deployment",
+          "level": 2,
+          "line": 115
+        },
+        {
+          "heading": "Environment Configuration",
+          "level": 2,
+          "line": 133
+        },
+        {
+          "heading": "Webhooks & Callbacks",
+          "level": 2,
+          "line": 165
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".planning/codebase/STACK.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 131,
+      "nonEmptyLines": 100,
+      "sections": [
+        {
+          "heading": "Technology Stack",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Languages",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Runtime",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "Frameworks",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "Key Dependencies",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "Configuration",
+          "level": 2,
+          "line": 77
+        },
+        {
+          "heading": "Platform Requirements",
+          "level": 2,
+          "line": 109
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/codebase/STRUCTURE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 327,
+      "nonEmptyLines": 292,
+      "sections": [
+        {
+          "heading": "Codebase Structure",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Directory Layout",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Directory Purposes",
+          "level": 2,
+          "line": 187
+        },
+        {
+          "heading": "Key File Locations",
+          "level": 2,
+          "line": 206
+        },
+        {
+          "heading": "Naming Conventions",
+          "level": 2,
+          "line": 236
+        },
+        {
+          "heading": "Where to Add New Code",
+          "level": 2,
+          "line": 263
+        },
+        {
+          "heading": "Special Directories",
+          "level": 2,
+          "line": 299
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/codebase/TESTING.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 523,
+      "nonEmptyLines": 433,
+      "sections": [
+        {
+          "heading": "Testing Patterns",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Test Framework",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Test File Organization",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "Test Structure",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "Mocking",
+          "level": 2,
+          "line": 225
+        },
+        {
+          "heading": "Fixtures and Factories",
+          "level": 2,
+          "line": 298
+        },
+        {
+          "heading": "Coverage",
+          "level": 2,
+          "line": 370
+        },
+        {
+          "heading": "Test Types",
+          "level": 2,
+          "line": 402
+        },
+        {
+          "heading": "Common Patterns",
+          "level": 2,
+          "line": 426
+        },
+        {
+          "heading": "Test Resources Configuration",
+          "level": 2,
+          "line": 494
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    }
+  ]
+}

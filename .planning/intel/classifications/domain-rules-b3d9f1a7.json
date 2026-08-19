@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/domain-rules.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "Domain rules",
+  "summary": "Single source of business rules for payment cancellation: cancel eligibility, amount validation, merchant limits, state transitions, idempotency, and compensation policy.",
+  "scope": ["payment cancellation", "Payment/PaymentItem state", "merchant cancel limit", "CancelRequest state transitions", "Order state", "idempotency (request_hash)", "compensation / EXHAUSTED policy"],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": null,
+  "notes": "Business-rules reference catalog (prose + tables). No ADR status/Decision, no PRD user stories/acceptance criteria, no SPEC API/schema contracts. Classified DOC as residual, but content is load-bearing business constraints the system must honor (PRD/SPEC-adjacent) — synthesizer may treat rules as requirements/constraints. Hence medium, not high. No markdown doc links found; system/module names are references, not cross_refs."
+}

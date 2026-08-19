@@ -1,0 +1,200 @@
+{
+  "nodes": [
+    {
+      "id": "service:.dockerignore",
+      "type": "service",
+      "name": ".dockerignore",
+      "filePath": ".dockerignore",
+      "summary": "Docker build context에서 VCS metadata, build output, local cache와 불필요한 파일을 제외합니다.",
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "build-context"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.env",
+      "type": "config",
+      "name": ".env",
+      "filePath": ".env",
+      "summary": "Slack on-call 자동화와 외부 API 연동에 필요한 runtime 환경 변수 이름을 정의합니다.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "프로젝트-설정"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:CLAUDE.md",
+      "type": "document",
+      "name": "CLAUDE.md",
+      "filePath": "CLAUDE.md",
+      "summary": "multi-service commerce 프로젝트의 모듈 구성, 필수 설계 문서, 핵심 불변식과 작업 규칙을 안내합니다.",
+      "tags": [
+        "문서화",
+        "planning",
+        "프로젝트"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:build.gradle",
+      "type": "config",
+      "name": "build.gradle",
+      "filePath": "build.gradle",
+      "summary": "Java 21 multi-module Spring Boot 서비스에 공통 적용할 plugin, repository, dependency 및 test 설정을 정의합니다.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "프로젝트-설정"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:docker-compose.yml",
+      "type": "service",
+      "name": "docker-compose.yml",
+      "filePath": "docker-compose.yml",
+      "summary": "Kafka, MySQL, Redis, MinIO와 commerce microservice를 로컬에서 함께 실행하도록 container, network, volume을 구성합니다.",
+      "tags": [
+        "orchestration",
+        "infrastructure",
+        "containerization",
+        "로컬-환경"
+      ],
+      "complexity": "complex",
+      "languageNotes": "YAML service 정의와 healthcheck 의존성으로 local microservice topology를 구성합니다."
+    },
+    {
+      "id": "file:gradlew.bat",
+      "type": "file",
+      "name": "gradlew.bat",
+      "filePath": "gradlew.bat",
+      "summary": "Windows에서 Gradle Wrapper를 실행하고 JVM 및 classpath 인자를 조립하는 generated launcher script입니다.",
+      "tags": [
+        "test",
+        "script",
+        "automation",
+        "검증"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:gradlew.bat:findJavaFromJavaHome",
+      "type": "function",
+      "name": "findJavaFromJavaHome",
+      "filePath": "gradlew.bat",
+      "lineRange": [
+        56,
+        69
+      ],
+      "summary": "findJavaFromJavaHome 함수는 script 실행 흐름의 한 단계를 처리합니다.",
+      "tags": [
+        "함수",
+        "automation",
+        "script"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:settings.gradle",
+      "type": "config",
+      "name": "settings.gradle",
+      "filePath": "settings.gradle",
+      "summary": "commerce 시스템을 구성하는 Spring Boot service module을 Gradle build에 포함하는 root project 설정입니다.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "프로젝트-설정"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test-compensation.sh",
+      "type": "file",
+      "name": "test-compensation.sh",
+      "filePath": "test-compensation.sh",
+      "summary": "결제 보상 흐름에 필요한 service를 기동하고 실패·복구 시나리오와 database 상태를 검증하는 shell test harness입니다.",
+      "tags": [
+        "test",
+        "script",
+        "automation",
+        "검증"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:test-compensation.sh:wait_for_server",
+      "type": "function",
+      "name": "wait_for_server",
+      "filePath": "test-compensation.sh",
+      "lineRange": [
+        90,
+        104
+      ],
+      "summary": "wait_for_server 함수는 test 환경 준비 또는 검증 단계를 수행합니다.",
+      "tags": [
+        "함수",
+        "automation",
+        "test-helper"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:test-e2e.sh",
+      "type": "file",
+      "name": "test-e2e.sh",
+      "filePath": "test-e2e.sh",
+      "summary": "commerce service 전체를 대상으로 주문·결제·취소의 end-to-end 흐름을 준비하고 검증하는 shell test harness입니다.",
+      "tags": [
+        "test",
+        "script",
+        "automation",
+        "검증"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:test-e2e.sh:wait_for_server",
+      "type": "function",
+      "name": "wait_for_server",
+      "filePath": "test-e2e.sh",
+      "lineRange": [
+        73,
+        90
+      ],
+      "summary": "wait_for_server 함수는 test 환경 준비 또는 검증 단계를 수행합니다.",
+      "tags": [
+        "함수",
+        "automation",
+        "test-helper"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:gradlew.bat",
+      "target": "function:gradlew.bat:findJavaFromJavaHome",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:test-compensation.sh",
+      "target": "function:test-compensation.sh:wait_for_server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:test-e2e.sh",
+      "target": "function:test-e2e.sh:wait_for_server",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ]
+}

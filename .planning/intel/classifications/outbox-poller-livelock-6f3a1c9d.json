@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/load-test/outbox-poller-livelock.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "실전 버그 — OUTBOX 폴러 라이브락 (커넥션 풀 굶음)",
+  "summary": "Post-mortem of an outbox-poller livelock caused by shared Hikari pool starvation, with adopted dedicated-DataSource fix and deferred CDC.",
+  "scope": ["payment-service", "CancelEventOutboxPublisher", "cancel_event_outbox", "Hikari connection pool", "Kafka outbox publishing", "CDC/Debezium"],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": null,
+  "notes": "Prose bug post-mortem / design rationale under docs/load-test → DOC. Contains an embedded fix decision (dedicated poller DataSource, PR #59) and YAGNI deferral of CDC, but no ADR format (no Status/numbering/Decision+Consequences sections) → not ADR. No user stories or API/schema contracts → not PRD/SPEC."
+}

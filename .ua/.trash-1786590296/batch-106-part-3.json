@@ -1,0 +1,326 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java",
+      "type": "file",
+      "name": "StockReleaseRetryJpaRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java",
+      "summary": "결제 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java:StockReleaseRetryJpaRepository",
+      "type": "class",
+      "name": "StockReleaseRetryJpaRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java",
+      "lineRange": [
+        10,
+        19
+      ],
+      "summary": "결제 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java",
+      "type": "file",
+      "name": "CancelItemRequest.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java",
+      "summary": "결제 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java:CancelItemRequest",
+      "type": "class",
+      "name": "CancelItemRequest",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "결제 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java",
+      "type": "file",
+      "name": "CreatePaymentItemRequest.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java",
+      "summary": "결제 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java:CreatePaymentItemRequest",
+      "type": "class",
+      "name": "CreatePaymentItemRequest",
+      "filePath": "payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java",
+      "lineRange": [
+        9,
+        16
+      ],
+      "summary": "결제 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:payment-service/src/main/resources/application.yml",
+      "type": "config",
+      "name": "application.yml",
+      "filePath": "payment-service/src/main/resources/application.yml",
+      "summary": "결제 Spring Boot service의 port, datasource, Kafka 및 운영 설정을 구성한다.",
+      "tags": [
+        "configuration",
+        "결제",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:product-service/build.gradle",
+      "type": "config",
+      "name": "build.gradle",
+      "filePath": "product-service/build.gradle",
+      "summary": "상품 module의 Gradle plugin, dependency와 test/build 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "상품",
+        "gradle",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "type": "file",
+      "name": "ProductServiceApplication.java",
+      "filePath": "product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "summary": "상품 Spring Boot service를 시작하는 application entry point다.",
+      "tags": [
+        "source-code",
+        "entry-point",
+        "spring-boot",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/ProductServiceApplication.java:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "lineRange": [
+        10,
+        12
+      ],
+      "summary": "상품 흐름에서 main 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/ProductServiceApplication.java:ProductServiceApplication",
+      "type": "class",
+      "name": "ProductServiceApplication",
+      "filePath": "product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "lineRange": [
+        7,
+        13
+      ],
+      "summary": "상품 service의 Spring Boot 실행을 시작한다.",
+      "tags": [
+        "class",
+        "entry-point",
+        "spring-boot"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "type": "file",
+      "name": "HttpClientConfig.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "summary": "상품 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "function",
+      "name": "restTemplate",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "상품 흐름에서 restTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "class",
+      "name": "HttpClientConfig",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "lineRange": [
+        11,
+        18
+      ],
+      "summary": "상품 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java:StockReleaseRetryJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryJpaRepository.java:StockReleaseRetryJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java:CancelItemRequest",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/dto/CancelItemRequest.java:CancelItemRequest",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java:CreatePaymentItemRequest",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentItemRequest.java:CreatePaymentItemRequest",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "target": "function:product-service/src/main/java/com/example/product/ProductServiceApplication.java:main",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "target": "function:product-service/src/main/java/com/example/product/ProductServiceApplication.java:main",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "target": "class:product-service/src/main/java/com/example/product/ProductServiceApplication.java:ProductServiceApplication",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/ProductServiceApplication.java",
+      "target": "class:product-service/src/main/java/com/example/product/ProductServiceApplication.java:ProductServiceApplication",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java:restTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/HttpClientConfig.java:HttpClientConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    }
+  ]
+}

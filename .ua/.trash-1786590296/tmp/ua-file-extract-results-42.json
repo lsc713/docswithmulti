@@ -1,0 +1,233 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 8
+    }
+  },
+  "results": [
+    {
+      "path": "product-service/src/main/resources/db/migration/V1__create_product_core.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 45,
+      "nonEmptyLines": 41,
+      "definitions": [
+        {
+          "name": "product",
+          "kind": "table",
+          "fields": [],
+          "startLine": 4,
+          "endLine": 9
+        },
+        {
+          "name": "product_sku",
+          "kind": "table",
+          "fields": [],
+          "startLine": 12,
+          "endLine": 17
+        },
+        {
+          "name": "product_stock",
+          "kind": "table",
+          "fields": [],
+          "startLine": 25,
+          "endLine": 30
+        },
+        {
+          "name": "stock_reservation",
+          "kind": "table",
+          "fields": [],
+          "startLine": 33,
+          "endLine": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 4
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/db/migration/V2__create_processed_cancel_event.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 11,
+      "nonEmptyLines": 10,
+      "definitions": [
+        {
+          "name": "processed_cancel_event",
+          "kind": "table",
+          "fields": [],
+          "startLine": 5,
+          "endLine": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/db/migration/V3__create_category.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 17,
+      "nonEmptyLines": 16,
+      "definitions": [
+        {
+          "name": "category",
+          "kind": "table",
+          "fields": [],
+          "startLine": 4,
+          "endLine": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/db/migration/V4__link_product_category.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 41,
+      "nonEmptyLines": 32,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/db/migration/V5__create_cancel_restore_dlq.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 23,
+      "nonEmptyLines": 22,
+      "definitions": [
+        {
+          "name": "cancel_restore_dlq",
+          "kind": "table",
+          "fields": [],
+          "startLine": 8,
+          "endLine": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/db/migration/V6__add_sku_price.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/db/migration/V7__create_product_image.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 11,
+      "nonEmptyLines": 11,
+      "definitions": [
+        {
+          "name": "product_image",
+          "kind": "table",
+          "fields": [],
+          "startLine": 1,
+          "endLine": 6
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/resources/db/migration/V8__create_attribute_variant.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 50,
+      "nonEmptyLines": 45,
+      "definitions": [
+        {
+          "name": "attribute",
+          "kind": "table",
+          "fields": [],
+          "startLine": 4,
+          "endLine": 9
+        },
+        {
+          "name": "attribute_value",
+          "kind": "table",
+          "fields": [],
+          "startLine": 11,
+          "endLine": 16
+        },
+        {
+          "name": "product_attribute",
+          "kind": "table",
+          "fields": [],
+          "startLine": 22,
+          "endLine": 27
+        },
+        {
+          "name": "sku_attribute_value",
+          "kind": "table",
+          "fields": [],
+          "startLine": 33,
+          "endLine": 38
+        },
+        {
+          "name": "product_descriptive_value",
+          "kind": "table",
+          "fields": [],
+          "startLine": 43,
+          "endLine": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 5
+      }
+    }
+  ]
+}

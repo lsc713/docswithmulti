@@ -1,0 +1,566 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 8
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/01-01-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 164,
+      "nonEmptyLines": 143,
+      "sections": [
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 136
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/01-01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 97,
+      "nonEmptyLines": 81,
+      "sections": [
+        {
+          "heading": "Phase 1 Plan 01: 유보 홀드 tracer Summary",
+          "level": 1,
+          "line": 58
+        },
+        {
+          "heading": "What was built",
+          "level": 2,
+          "line": 62
+        },
+        {
+          "heading": "Verification results",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 79
+        },
+        {
+          "heading": "Settlement-only + payout-core-unchanged confirmation",
+          "level": 2,
+          "line": 83
+        },
+        {
+          "heading": "Commits",
+          "level": 2,
+          "line": 89
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 95
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/01-02-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 140,
+      "nonEmptyLines": 122,
+      "sections": [
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 110
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 116
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/01-02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 103,
+      "nonEmptyLines": 82,
+      "sections": [
+        {
+          "heading": "Phase 01 Plan 02: Reserve API Layer (RCFG-01/02 · HOLD-04) Summary",
+          "level": 1,
+          "line": 45
+        },
+        {
+          "heading": "Tasks",
+          "level": 2,
+          "line": 49
+        },
+        {
+          "heading": "What was built",
+          "level": 2,
+          "line": 54
+        },
+        {
+          "heading": "예외 3종 (settlement application.exception, BusinessException 상속)",
+          "level": 3,
+          "line": 56
+        },
+        {
+          "heading": "ErrorCode (settlement 자체 enum)",
+          "level": 3,
+          "line": 63
+        },
+        {
+          "heading": "컨트롤러/라우트",
+          "level": 3,
+          "line": 66
+        },
+        {
+          "heading": "error-catalog.md",
+          "level": 3,
+          "line": 71
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "Verification",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "Settlement-only confirmation",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 99
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/01-03-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 104,
+      "nonEmptyLines": 87,
+      "sections": [
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 76
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 82
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/01-03-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 45,
+      "nonEmptyLines": 37,
+      "sections": [
+        {
+          "heading": "Phase 01 Plan 03: INV-01 Gate (payout-reserve / 01-hold) Summary",
+          "level": 1,
+          "line": 25
+        },
+        {
+          "heading": "What was proven",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 37
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 41
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/01-03-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 85,
+      "nonEmptyLines": 60,
+      "sections": [
+        {
+          "heading": "01-03 VERIFICATION — INV-01 Gate (payout-reserve Phase 1 / 01-hold)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Refs",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "Task 1 — INV-01 merge-base gate → `INV01_PASS`",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "(1) Confinement — settlement-only",
+          "level": 3,
+          "line": 26
+        },
+        {
+          "heading": "(2) Module denylist (belt-and-suspenders) — diff 0",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "(3) Flyway V3-only (the flip vs payout 02-03)",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "Task 2 — 4-module no-regression suite",
+          "level": 2,
+          "line": 56
+        },
+        {
+          "heading": "Conclusion",
+          "level": 2,
+          "line": 81
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".planning/workstreams/payout-reserve/phases/01-hold/RESEARCH.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 375,
+      "nonEmptyLines": 302,
+      "sections": [
+        {
+          "heading": "Phase 1: 유보 정책 + 승인 홀드 — Research",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Summary",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "User Constraints (from spec + REQUIREMENTS + CLAUDE.md)",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Locked Decisions (INV / spec §8 / CLAUDE.md)",
+          "level": 3,
+          "line": 20
+        },
+        {
+          "heading": "Claude's Discretion",
+          "level": 3,
+          "line": 29
+        },
+        {
+          "heading": "Deferred Ideas (OUT OF SCOPE — Phase 2 or v4)",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "Phase Requirements",
+          "level": 2,
+          "line": 37
+        },
+        {
+          "heading": "Architectural Responsibility Map",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "Standard Stack",
+          "level": 2,
+          "line": 61
+        },
+        {
+          "heading": "Core (reuse in place)",
+          "level": 3,
+          "line": 65
+        },
+        {
+          "heading": "Alternatives Considered",
+          "level": 3,
+          "line": 77
+        },
+        {
+          "heading": "Package Legitimacy Audit",
+          "level": 2,
+          "line": 86
+        },
+        {
+          "heading": "Architecture Patterns",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "Data flow — approve with reserve hold (HOLD-01/02/03)",
+          "level": 3,
+          "line": 92
+        },
+        {
+          "heading": "`PayoutService` new dependencies (constructor injection)",
+          "level": 3,
+          "line": 122
+        },
+        {
+          "heading": "Reserve compute (domain-service candidate)",
+          "level": 3,
+          "line": 129
+        },
+        {
+          "heading": "Anti-Patterns to Avoid",
+          "level": 3,
+          "line": 132
+        },
+        {
+          "heading": "Don't Hand-Roll",
+          "level": 2,
+          "line": 137
+        },
+        {
+          "heading": "Runtime State Inventory",
+          "level": 2,
+          "line": 147
+        },
+        {
+          "heading": "Common Pitfalls",
+          "level": 2,
+          "line": 156
+        },
+        {
+          "heading": "Pitfall 1: Wrapping `approve()` in `@Transactional` (BLOCKER-class)",
+          "level": 3,
+          "line": 158
+        },
+        {
+          "heading": "Pitfall 2: Backward-compat regression on existing payout ITs",
+          "level": 3,
+          "line": 164
+        },
+        {
+          "heading": "Pitfall 3: ddl-auto=validate mismatch (V3 vs entity)",
+          "level": 3,
+          "line": 174
+        },
+        {
+          "heading": "Pitfall 4: BigDecimal SUM returns null / wrong scale",
+          "level": 3,
+          "line": 180
+        },
+        {
+          "heading": "Pitfall 5: cloud-sync duplicate files",
+          "level": 3,
+          "line": 184
+        },
+        {
+          "heading": "Code Examples (clone targets, verbatim from worktree)",
+          "level": 2,
+          "line": 188
+        },
+        {
+          "heading": "Config upsert to clone (add reserve_rate, reserve_cap, hold_days)",
+          "level": 3,
+          "line": 190
+        },
+        {
+          "heading": "current_held SUM pattern",
+          "level": 3,
+          "line": 203
+        },
+        {
+          "heading": "Validation to clone (rate/cap/holdDays → 400)",
+          "level": 3,
+          "line": 214
+        },
+        {
+          "heading": "Not-found exception to clone (404)",
+          "level": 3,
+          "line": 226
+        },
+        {
+          "heading": "GET clone targets",
+          "level": 3,
+          "line": 242
+        },
+        {
+          "heading": "Flyway V3 (new file `V3__create_reserve.sql`)",
+          "level": 3,
+          "line": 246
+        },
+        {
+          "heading": "State of the Art",
+          "level": 2,
+          "line": 249
+        },
+        {
+          "heading": "INV-01 Gate (delta vs payout 02-03)",
+          "level": 2,
+          "line": 259
+        },
+        {
+          "heading": "Assumptions Log",
+          "level": 2,
+          "line": 272
+        },
+        {
+          "heading": "Open Questions",
+          "level": 2,
+          "line": 281
+        },
+        {
+          "heading": "Environment Availability",
+          "level": 2,
+          "line": 287
+        },
+        {
+          "heading": "Validation Architecture",
+          "level": 2,
+          "line": 298
+        },
+        {
+          "heading": "Test Framework",
+          "level": 3,
+          "line": 300
+        },
+        {
+          "heading": "Phase Requirements → Test Map",
+          "level": 3,
+          "line": 309
+        },
+        {
+          "heading": "Sampling Rate",
+          "level": 3,
+          "line": 319
+        },
+        {
+          "heading": "Wave 0 Gaps",
+          "level": 3,
+          "line": 324
+        },
+        {
+          "heading": "Security Domain",
+          "level": 2,
+          "line": 332
+        },
+        {
+          "heading": "Sources",
+          "level": 2,
+          "line": 348
+        },
+        {
+          "heading": "Primary (HIGH confidence — worktree source, file:line verified this session)",
+          "level": 3,
+          "line": 350
+        },
+        {
+          "heading": "Secondary / Tertiary",
+          "level": 3,
+          "line": 363
+        },
+        {
+          "heading": "Metadata",
+          "level": 2,
+          "line": 366
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 47
+      }
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "infra/load-test/deploy/Dockerfile",
+      "language": "dockerfile",
+      "fileCategory": "infra",
+      "totalLines": 24,
+      "nonEmptyLines": 22,
+      "services": [
+        {
+          "name": "--platform=$BUILDPLATFORM",
+          "image": "--platform=$BUILDPLATFORM",
+          "ports": [],
+          "startLine": 9,
+          "endLine": 15
+        },
+        {
+          "name": "eclipse-temurin",
+          "image": "eclipse-temurin:21-jre",
+          "ports": [],
+          "startLine": 16,
+          "endLine": 25
+        }
+      ],
+      "steps": [
+        {
+          "name": "FROM --platform=$BUILDPLATFORM eclipse-temurin:21-jdk AS build",
+          "startLine": 9,
+          "endLine": 9
+        },
+        {
+          "name": "WORKDIR /src",
+          "startLine": 10,
+          "endLine": 10
+        },
+        {
+          "name": "COPY . .",
+          "startLine": 11,
+          "endLine": 11
+        },
+        {
+          "name": "ARG MODULE",
+          "startLine": 12,
+          "endLine": 12
+        },
+        {
+          "name": "RUN ./gradlew :${MODULE}:bootJar -x test --no-daemon",
+          "startLine": 13,
+          "endLine": 13
+        },
+        {
+          "name": "FROM eclipse-temurin:21-jre",
+          "startLine": 16,
+          "endLine": 16
+        },
+        {
+          "name": "ARG MODULE",
+          "startLine": 17,
+          "endLine": 17
+        },
+        {
+          "name": "WORKDIR /app",
+          "startLine": 18,
+          "endLine": 18
+        },
+        {
+          "name": "COPY --from=build /src/${MODULE}/build/libs/*.jar /app/app.jar",
+          "startLine": 19,
+          "endLine": 19
+        },
+        {
+          "name": "ARG OTEL_AGENT_VERSION=2.11.0",
+          "startLine": 21,
+          "endLine": 21
+        },
+        {
+          "name": "ADD https://github.com/open-telemetry/opentelemetry-java-instrum",
+          "startLine": 22,
+          "endLine": 22
+        },
+        {
+          "name": "ENTRYPOINT [\"java\", \"-jar\", \"/app/app.jar\"]",
+          "startLine": 24,
+          "endLine": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "serviceCount": 2,
+        "stepCount": 12
+      }
+    }
+  ]
+}

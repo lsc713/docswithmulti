@@ -1,0 +1,3760 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 31,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 31,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 31,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "NonRetryableException",
+          "startLine": 7,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "NonRetryableException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 26,
+      "classes": [
+        {
+          "name": "CancelRestoreDlqRepository",
+          "startLine": 12,
+          "endLine": 34,
+          "methods": [
+            "upsertPending",
+            "findRedrivable",
+            "markResolved",
+            "bumpAttempt",
+            "markDead"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreDlqRepository",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "OperationAlertPort",
+          "startLine": 8,
+          "endLine": 10,
+          "methods": [
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OperationAlertPort",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "PaymentQueryPort",
+          "startLine": 10,
+          "endLine": 18,
+          "methods": [
+            "exists"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentQueryPort",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "ProcessedCancelEventRepository",
+          "startLine": 9,
+          "endLine": 12,
+          "methods": [
+            "existsByCancelRequestId",
+            "save"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessedCancelEventRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "StockReservationRepository",
+          "startLine": 9,
+          "endLine": 32,
+          "methods": [
+            "save",
+            "findByPaymentKeyAndSkuId",
+            "findStaleReserved",
+            "upsertReserved",
+            "releaseIfReserved"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "StockReservationRepository",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "CancelRestoreLegStatus",
+          "startLine": 3,
+          "endLine": 8,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreLegStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "CancelRestoreRedriveService",
+          "startLine": 32,
+          "endLine": 38,
+          "params": [
+            "processUseCase",
+            "dlqRepository",
+            "operationAlertPort"
+          ]
+        },
+        {
+          "name": "redriveOne",
+          "startLine": 40,
+          "endLine": 60,
+          "params": [
+            "cancelRequestId",
+            "attemptCount",
+            "command"
+          ]
+        },
+        {
+          "name": "truncate",
+          "startLine": 62,
+          "endLine": 65,
+          "params": [
+            "s"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreRedriveService",
+          "startLine": 18,
+          "endLine": 66,
+          "methods": [
+            "CancelRestoreRedriveService",
+            "redriveOne",
+            "truncate"
+          ],
+          "properties": [
+            "LEG",
+            "processUseCase",
+            "dlqRepository",
+            "operationAlertPort",
+            "deadThreshold"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreRedriveService",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "redriveOne",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreRedriveService",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "redriveOne",
+          "callee": "processUseCase.execute",
+          "lineNumber": 42
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "dlqRepository.markResolved",
+          "lineNumber": 43
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "log.info",
+          "lineNumber": 44
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "truncate",
+          "lineNumber": 46
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "e.getMessage",
+          "lineNumber": 46
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "dlqRepository.markDead",
+          "lineNumber": 50
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 51
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "log.error",
+          "lineNumber": 53
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "dlqRepository.bumpAttempt",
+          "lineNumber": 55
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "log.warn",
+          "lineNumber": 56
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.length",
+          "lineNumber": 64
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.substring",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 76,
+      "nonEmptyLines": 65,
+      "functions": [
+        {
+          "name": "InspectCancelRestoreService",
+          "startLine": 19,
+          "endLine": 25,
+          "params": [
+            "processedCancelEventRepository",
+            "stockReservationRepository"
+          ]
+        },
+        {
+          "name": "inspect",
+          "startLine": 27,
+          "endLine": 61,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "findDuplicate",
+          "startLine": 63,
+          "endLine": 71,
+          "params": [
+            "items"
+          ]
+        },
+        {
+          "name": "inconsistent",
+          "startLine": 73,
+          "endLine": 75,
+          "params": [
+            "evidence"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InspectCancelRestoreService",
+          "startLine": 14,
+          "endLine": 76,
+          "methods": [
+            "InspectCancelRestoreService",
+            "inspect",
+            "findDuplicate",
+            "inconsistent"
+          ],
+          "properties": [
+            "processedCancelEventRepository",
+            "stockReservationRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InspectCancelRestoreService",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "inspect",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "InspectCancelRestoreService",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspect",
+          "callee": "findDuplicate",
+          "lineNumber": 29
+        },
+        {
+          "caller": "inspect",
+          "callee": "command.items",
+          "lineNumber": 29
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 31
+        },
+        {
+          "caller": "inspect",
+          "callee": "List.of",
+          "lineNumber": 31
+        },
+        {
+          "caller": "inspect",
+          "callee": "processedCancelEventRepository.existsByCancelRequestId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "inspect",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "inspect",
+          "callee": "new ArrayList<>",
+          "lineNumber": 39
+        },
+        {
+          "caller": "inspect",
+          "callee": "command.items",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "stockReservationRepository\n                .findByPaymentKeyAndSkuId(command.paymentKey(), item.skuId()).ifPresentOrElse",
+          "lineNumber": 42
+        },
+        {
+          "caller": "inspect",
+          "callee": "stockReservationRepository.findByPaymentKeyAndSkuId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "inspect",
+          "callee": "command.paymentKey",
+          "lineNumber": 43
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.skuId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "inspect",
+          "callee": "reservation.getStatus",
+          "lineNumber": 45
+        },
+        {
+          "caller": "inspect",
+          "callee": "reservation.getQty",
+          "lineNumber": 46
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.quantity",
+          "lineNumber": 46
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.add",
+          "lineNumber": 47
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 47
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.skuId",
+          "lineNumber": 48
+        },
+        {
+          "caller": "inspect",
+          "callee": "reservation.getStatus().name",
+          "lineNumber": 48
+        },
+        {
+          "caller": "inspect",
+          "callee": "reservation.getStatus",
+          "lineNumber": 48
+        },
+        {
+          "caller": "inspect",
+          "callee": "reservation.getQty",
+          "lineNumber": 49
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.quantity",
+          "lineNumber": 49
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.add",
+          "lineNumber": 51
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 51
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.skuId",
+          "lineNumber": 52
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.quantity",
+          "lineNumber": 52
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.isEmpty",
+          "lineNumber": 55
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 56
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Result",
+          "lineNumber": 58
+        },
+        {
+          "caller": "inspect",
+          "callee": "List.of",
+          "lineNumber": 60
+        },
+        {
+          "caller": "findDuplicate",
+          "callee": "new HashSet<>",
+          "lineNumber": 64
+        },
+        {
+          "caller": "findDuplicate",
+          "callee": "seen.add",
+          "lineNumber": 66
+        },
+        {
+          "caller": "findDuplicate",
+          "callee": "item.skuId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "findDuplicate",
+          "callee": "new Evidence",
+          "lineNumber": 67
+        },
+        {
+          "caller": "findDuplicate",
+          "callee": "item.skuId",
+          "lineNumber": 67
+        },
+        {
+          "caller": "findDuplicate",
+          "callee": "item.quantity",
+          "lineNumber": 67
+        },
+        {
+          "caller": "inconsistent",
+          "callee": "new Result",
+          "lineNumber": 74
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 71,
+      "functions": [
+        {
+          "name": "OrphanReservationRecoveryService",
+          "startLine": 38,
+          "endLine": 44,
+          "params": [
+            "reservationRepository",
+            "paymentQueryPort",
+            "stockService"
+          ]
+        },
+        {
+          "name": "recoverAll",
+          "startLine": 46,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "recoverOne",
+          "startLine": 60,
+          "endLine": 79,
+          "params": [
+            "paymentKey",
+            "reservations"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrphanReservationRecoveryService",
+          "startLine": 27,
+          "endLine": 80,
+          "methods": [
+            "OrphanReservationRecoveryService",
+            "recoverAll",
+            "recoverOne"
+          ],
+          "properties": [
+            "reservationRepository",
+            "paymentQueryPort",
+            "stockService",
+            "thresholdMinutes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrphanReservationRecoveryService",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "recoverAll",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "OrphanReservationRecoveryService",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "recoverAll",
+          "callee": "Instant.now().minus",
+          "lineNumber": 47
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "Instant.now",
+          "lineNumber": 47
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "reservationRepository.findStaleReserved",
+          "lineNumber": 48
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "stale.isEmpty",
+          "lineNumber": 49
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "stale.stream().collect",
+          "lineNumber": 53
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "stale.stream",
+          "lineNumber": 53
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "Collectors.groupingBy",
+          "lineNumber": 53
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "byPaymentKey.entrySet",
+          "lineNumber": 55
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "recoverOne",
+          "lineNumber": 56
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "entry.getKey",
+          "lineNumber": 56
+        },
+        {
+          "caller": "recoverAll",
+          "callee": "entry.getValue",
+          "lineNumber": 56
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "paymentQueryPort.exists",
+          "lineNumber": 63
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "log.warn",
+          "lineNumber": 66
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "reservations.stream()\n            .map(r -> new StockService.ReserveItem(r.getSkuId(), r.getQty())).toList",
+          "lineNumber": 74
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "reservations.stream().map",
+          "lineNumber": 74
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "reservations.stream",
+          "lineNumber": 74
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "new StockService.ReserveItem",
+          "lineNumber": 75
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "r.getSkuId",
+          "lineNumber": 75
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "r.getQty",
+          "lineNumber": 75
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "stockService.release",
+          "lineNumber": 77
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "log.info",
+          "lineNumber": 78
+        },
+        {
+          "caller": "recoverOne",
+          "callee": "items.size",
+          "lineNumber": 78
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "ProcessCancelledStockService",
+          "startLine": 31,
+          "endLine": 37,
+          "params": [
+            "stockService",
+            "processedCancelEventRepository",
+            "transactionTemplate"
+          ]
+        },
+        {
+          "name": "execute",
+          "startLine": 39,
+          "endLine": 52,
+          "params": [
+            "command"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessCancelledStockService",
+          "startLine": 24,
+          "endLine": 53,
+          "methods": [
+            "ProcessCancelledStockService",
+            "execute"
+          ],
+          "properties": [
+            "stockService",
+            "processedCancelEventRepository",
+            "transactionTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessCancelledStockService",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "execute",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessCancelledStockService",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "execute",
+          "callee": "transactionTemplate.execute",
+          "lineNumber": 41
+        },
+        {
+          "caller": "execute",
+          "callee": "processedCancelEventRepository.existsByCancelRequestId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "execute",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "execute",
+          "callee": "command.items().stream()\n                .map(i -> new StockService.ReserveItem(i.skuId(), i.qty())).toList",
+          "lineNumber": 45
+        },
+        {
+          "caller": "execute",
+          "callee": "command.items().stream().map",
+          "lineNumber": 45
+        },
+        {
+          "caller": "execute",
+          "callee": "command.items().stream",
+          "lineNumber": 45
+        },
+        {
+          "caller": "execute",
+          "callee": "command.items",
+          "lineNumber": 45
+        },
+        {
+          "caller": "execute",
+          "callee": "new StockService.ReserveItem",
+          "lineNumber": 46
+        },
+        {
+          "caller": "execute",
+          "callee": "i.skuId",
+          "lineNumber": 46
+        },
+        {
+          "caller": "execute",
+          "callee": "i.qty",
+          "lineNumber": 46
+        },
+        {
+          "caller": "execute",
+          "callee": "stockService.release",
+          "lineNumber": 48
+        },
+        {
+          "caller": "execute",
+          "callee": "command.paymentKey",
+          "lineNumber": 48
+        },
+        {
+          "caller": "execute",
+          "callee": "processedCancelEventRepository.save",
+          "lineNumber": 49
+        },
+        {
+          "caller": "execute",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "InspectCancelRestoreUseCase",
+          "startLine": 7,
+          "endLine": 27,
+          "methods": [
+            "inspect"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InspectCancelRestoreUseCase",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "ProcessCancelledStockUseCase",
+          "startLine": 11,
+          "endLine": 18,
+          "methods": [
+            "execute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessCancelledStockUseCase",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "ReservationStatus",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReservationStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "StockReservation",
+          "startLine": 18,
+          "endLine": 27,
+          "params": [
+            "id",
+            "paymentKey",
+            "skuId",
+            "qty",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "reserve",
+          "startLine": 29,
+          "endLine": 32,
+          "params": [
+            "paymentKey",
+            "skuId",
+            "qty"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 34,
+          "endLine": 37,
+          "params": [
+            "id",
+            "paymentKey",
+            "skuId",
+            "qty",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockReservation",
+          "startLine": 8,
+          "endLine": 38,
+          "methods": [
+            "StockReservation",
+            "reserve",
+            "reconstruct"
+          ],
+          "properties": [
+            "id",
+            "paymentKey",
+            "skuId",
+            "qty",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "reserve",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "StockReservation",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "reserve",
+          "callee": "Instant.now",
+          "lineNumber": 30
+        },
+        {
+          "caller": "reserve",
+          "callee": "new StockReservation",
+          "lineNumber": 31
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new StockReservation",
+          "lineNumber": 36
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "alert",
+          "startLine": 12,
+          "endLine": 15,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LogOperationAlertAdapter",
+          "startLine": 8,
+          "endLine": 16,
+          "methods": [
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "alert",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "LogOperationAlertAdapter",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "alert",
+          "callee": "log.error",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 108,
+      "nonEmptyLines": 92,
+      "functions": [
+        {
+          "name": "transactionManager",
+          "startLine": 31,
+          "endLine": 34,
+          "params": [
+            "emf"
+          ]
+        },
+        {
+          "name": "transactionTemplate",
+          "startLine": 36,
+          "endLine": 39,
+          "params": [
+            "transactionManager"
+          ]
+        },
+        {
+          "name": "productRepository",
+          "startLine": 41,
+          "endLine": 44,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "categoryRepository",
+          "startLine": 46,
+          "endLine": 49,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "productSkuRepository",
+          "startLine": 51,
+          "endLine": 54,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "productStockRepository",
+          "startLine": 56,
+          "endLine": 59,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "stockReservationRepository",
+          "startLine": 61,
+          "endLine": 64,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "processedCancelEventRepository",
+          "startLine": 66,
+          "endLine": 69,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "inspectCancelRestoreUseCase",
+          "startLine": 71,
+          "endLine": 77,
+          "params": [
+            "processedCancelEventRepository",
+            "stockReservationRepository"
+          ]
+        },
+        {
+          "name": "cancelRestoreDlqRepository",
+          "startLine": 79,
+          "endLine": 82,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "productImageRepository",
+          "startLine": 84,
+          "endLine": 87,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "productQueryRepository",
+          "startLine": 89,
+          "endLine": 94,
+          "params": [
+            "productJpa",
+            "skuJpa",
+            "categoryJpa"
+          ]
+        },
+        {
+          "name": "attributeRepository",
+          "startLine": 96,
+          "endLine": 100,
+          "params": [
+            "attributeJpa",
+            "valueJpa"
+          ]
+        },
+        {
+          "name": "productVariantRepository",
+          "startLine": 102,
+          "endLine": 107,
+          "params": [
+            "productAttributeJpa",
+            "skuValueJpa",
+            "descriptiveValueJpa"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PersistenceConfig",
+          "startLine": 26,
+          "endLine": 108,
+          "methods": [
+            "transactionManager",
+            "transactionTemplate",
+            "productRepository",
+            "categoryRepository",
+            "productSkuRepository",
+            "productStockRepository",
+            "stockReservationRepository",
+            "processedCancelEventRepository",
+            "inspectCancelRestoreUseCase",
+            "cancelRestoreDlqRepository",
+            "productImageRepository",
+            "productQueryRepository",
+            "attributeRepository",
+            "productVariantRepository"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "transactionManager",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "transactionTemplate",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "productRepository",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "categoryRepository",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "productSkuRepository",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "productStockRepository",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "stockReservationRepository",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "processedCancelEventRepository",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "inspectCancelRestoreUseCase",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "cancelRestoreDlqRepository",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "productImageRepository",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "productQueryRepository",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "attributeRepository",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "productVariantRepository",
+          "line": 102,
+          "isDefault": false
+        },
+        {
+          "name": "PersistenceConfig",
+          "line": 26,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "transactionManager",
+          "callee": "new JpaTransactionManager",
+          "lineNumber": 33
+        },
+        {
+          "caller": "transactionTemplate",
+          "callee": "new TransactionTemplate",
+          "lineNumber": 38
+        },
+        {
+          "caller": "productRepository",
+          "callee": "new ProductRepositoryImpl",
+          "lineNumber": 43
+        },
+        {
+          "caller": "categoryRepository",
+          "callee": "new CategoryRepositoryImpl",
+          "lineNumber": 48
+        },
+        {
+          "caller": "productSkuRepository",
+          "callee": "new ProductSkuRepositoryImpl",
+          "lineNumber": 53
+        },
+        {
+          "caller": "productStockRepository",
+          "callee": "new ProductStockRepositoryImpl",
+          "lineNumber": 58
+        },
+        {
+          "caller": "stockReservationRepository",
+          "callee": "new StockReservationRepositoryImpl",
+          "lineNumber": 63
+        },
+        {
+          "caller": "processedCancelEventRepository",
+          "callee": "new ProcessedCancelEventRepositoryImpl",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspectCancelRestoreUseCase",
+          "callee": "new InspectCancelRestoreService",
+          "lineNumber": 75
+        },
+        {
+          "caller": "cancelRestoreDlqRepository",
+          "callee": "new CancelRestoreDlqRepositoryImpl",
+          "lineNumber": 81
+        },
+        {
+          "caller": "productImageRepository",
+          "callee": "new ProductImageRepositoryImpl",
+          "lineNumber": 86
+        },
+        {
+          "caller": "productQueryRepository",
+          "callee": "new ProductQueryRepositoryImpl",
+          "lineNumber": 93
+        },
+        {
+          "caller": "attributeRepository",
+          "callee": "new AttributeRepositoryImpl",
+          "lineNumber": 99
+        },
+        {
+          "caller": "productVariantRepository",
+          "callee": "new ProductVariantRepositoryImpl",
+          "lineNumber": 106
+        }
+      ],
+      "metrics": {
+        "importCount": 13,
+        "exportCount": 15,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "PaymentQueryHttpClient",
+          "startLine": 23,
+          "endLine": 29,
+          "params": [
+            "restTemplate",
+            "baseUrl"
+          ]
+        },
+        {
+          "name": "exists",
+          "startLine": 34,
+          "endLine": 43,
+          "params": [
+            "paymentKey"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentQueryHttpClient",
+          "startLine": 16,
+          "endLine": 44,
+          "methods": [
+            "PaymentQueryHttpClient",
+            "exists"
+          ],
+          "properties": [
+            "restTemplate",
+            "baseUrl"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentQueryHttpClient",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "exists",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentQueryHttpClient",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "exists",
+          "callee": "restTemplate.getForObject",
+          "lineNumber": 37
+        },
+        {
+          "caller": "exists",
+          "callee": "new IllegalStateException",
+          "lineNumber": 40
+        },
+        {
+          "caller": "exists",
+          "callee": "body.exists",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "PaymentCancelledPayload",
+          "startLine": 13,
+          "endLine": 27,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentCancelledPayload",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "consume",
+          "startLine": 33,
+          "endLine": 68,
+          "params": [
+            "record",
+            "ack"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentCancelledStockConsumer",
+          "startLine": 24,
+          "endLine": 69,
+          "methods": [
+            "consume"
+          ],
+          "properties": [
+            "processUseCase",
+            "retryRouter",
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consume",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentCancelledStockConsumer",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consume",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream()\n                .filter(ci -> ci.skuId() != null) // 하위호환: skuId 없는 항목은 재고 복원 대상 아님\n                .map(ci -> new Command.Item(ci.skuId(), ci.quantity())).toList",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream()\n                .filter(ci -> ci.skuId() != null).map",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream().filter",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "ci.skuId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "consume",
+          "callee": "new Command.Item",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "ci.skuId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "ci.quantity",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "processUseCase.execute",
+          "lineNumber": 47
+        },
+        {
+          "caller": "consume",
+          "callee": "new Command",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.paymentKey",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consume",
+          "callee": "items.size",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 54
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 54
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 57
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 57
+        },
+        {
+          "caller": "consume",
+          "callee": "retryRouter.route",
+          "lineNumber": 61
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 63
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 63
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 66
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "consume",
+          "startLine": 31,
+          "endLine": 65,
+          "params": [
+            "record",
+            "ack"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentCancelledStockRetryConsumer",
+          "startLine": 22,
+          "endLine": 66,
+          "methods": [
+            "consume"
+          ],
+          "properties": [
+            "processUseCase",
+            "retryRouter",
+            "objectMapper"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consume",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentCancelledStockRetryConsumer",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consume",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream()\n                .filter(ci -> ci.skuId() != null)\n                .map(ci -> new Command.Item(ci.skuId(), ci.quantity())).toList",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream()\n                .filter(ci -> ci.skuId() != null).map",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream().filter",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems().stream",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelledItems",
+          "lineNumber": 40
+        },
+        {
+          "caller": "consume",
+          "callee": "ci.skuId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "new Command.Item",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "ci.skuId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "ci.quantity",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consume",
+          "callee": "processUseCase.execute",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consume",
+          "callee": "new Command",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.paymentKey",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consume",
+          "callee": "items.size",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consume",
+          "callee": "log.info",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 53
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consume",
+          "callee": "retryRouter.route",
+          "lineNumber": 58
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 60
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 60
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 164,
+      "nonEmptyLines": 146,
+      "functions": [
+        {
+          "name": "RetryRouter",
+          "startLine": 44,
+          "endLine": 56,
+          "params": [
+            "kafkaTemplate",
+            "objectMapper",
+            "cancelRestoreDlqRepository",
+            "operationAlertPort",
+            "retryTopic",
+            "dlqTopic"
+          ]
+        },
+        {
+          "name": "route",
+          "startLine": 58,
+          "endLine": 65,
+          "params": [
+            "record",
+            "e"
+          ]
+        },
+        {
+          "name": "isDataError",
+          "startLine": 67,
+          "endLine": 69,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "publishToRetry",
+          "startLine": 71,
+          "endLine": 97,
+          "params": [
+            "record",
+            "retryCount",
+            "e"
+          ]
+        },
+        {
+          "name": "publishToDlq",
+          "startLine": 108,
+          "endLine": 128,
+          "params": [
+            "record",
+            "retryCount",
+            "e"
+          ]
+        },
+        {
+          "name": "extractCancelRequestId",
+          "startLine": 131,
+          "endLine": 138,
+          "params": [
+            "record"
+          ]
+        },
+        {
+          "name": "parseRetryCount",
+          "startLine": 140,
+          "endLine": 149,
+          "params": [
+            "record"
+          ]
+        },
+        {
+          "name": "headerStringValue",
+          "startLine": 151,
+          "endLine": 155,
+          "params": [
+            "record",
+            "key"
+          ]
+        },
+        {
+          "name": "retryDelay",
+          "startLine": 157,
+          "endLine": 163,
+          "params": [
+            "retryCount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RetryRouter",
+          "startLine": 29,
+          "endLine": 164,
+          "methods": [
+            "RetryRouter",
+            "route",
+            "isDataError",
+            "publishToRetry",
+            "publishToDlq",
+            "extractCancelRequestId",
+            "parseRetryCount",
+            "headerStringValue",
+            "retryDelay"
+          ],
+          "properties": [
+            "MAX_RETRY_COUNT",
+            "LEG",
+            "kafkaTemplate",
+            "objectMapper",
+            "cancelRestoreDlqRepository",
+            "operationAlertPort",
+            "retryTopic",
+            "dlqTopic"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RetryRouter",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "route",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "RetryRouter",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "route",
+          "callee": "parseRetryCount",
+          "lineNumber": 59
+        },
+        {
+          "caller": "route",
+          "callee": "isDataError",
+          "lineNumber": 60
+        },
+        {
+          "caller": "route",
+          "callee": "publishToDlq",
+          "lineNumber": 61
+        },
+        {
+          "caller": "route",
+          "callee": "publishToRetry",
+          "lineNumber": 63
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "Instant.now",
+          "lineNumber": 73
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.toString",
+          "lineNumber": 75
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "headerStringValue(record, \"first-failed-at\").orElse",
+          "lineNumber": 76
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "headerStringValue",
+          "lineNumber": 76
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.toString",
+          "lineNumber": 76
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "new ProducerRecord<>",
+          "lineNumber": 78
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.key",
+          "lineNumber": 78
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.value",
+          "lineNumber": 78
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8))\n            .add(\"next-retry-at\", now.plus(retryDelay(newRetryCount)).toString().getBytes(StandardCharsets.UTF_8))\n            .add(\"original-topic\", record.topic().getBytes(StandardCharsets.UTF_8))\n            .add(\"first-failed-at\", firstFailedAt.getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8))\n            .add(\"next-retry-at\", now.plus(retryDelay(newRetryCount)).toString().getBytes(StandardCharsets.UTF_8))\n            .add(\"original-topic\", record.topic().getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8))\n            .add(\"next-retry-at\", now.plus(retryDelay(newRetryCount)).toString().getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers()\n            .add(\"retry-count\", String.valueOf(newRetryCount).getBytes(StandardCharsets.UTF_8)).add",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers().add",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryRecord.headers",
+          "lineNumber": 79
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "String.valueOf(newRetryCount).getBytes",
+          "lineNumber": 80
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "String.valueOf",
+          "lineNumber": 80
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.plus(retryDelay(newRetryCount)).toString().getBytes",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.plus(retryDelay(newRetryCount)).toString",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "now.plus",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "retryDelay",
+          "lineNumber": 81
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.topic().getBytes",
+          "lineNumber": 82
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.topic",
+          "lineNumber": 82
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "firstFailedAt.getBytes",
+          "lineNumber": 83
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "DlqMessage.truncate(e.getMessage(), 200).getBytes",
+          "lineNumber": 84
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "DlqMessage.truncate",
+          "lineNumber": 84
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "e.getMessage",
+          "lineNumber": 84
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "kafkaTemplate.send(retryRecord).get",
+          "lineNumber": 89
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 89
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "log.warn",
+          "lineNumber": 90
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.offset",
+          "lineNumber": 90
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 92
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "Thread.currentThread",
+          "lineNumber": 92
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "new RuntimeException",
+          "lineNumber": 93
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.offset",
+          "lineNumber": 93
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "new RuntimeException",
+          "lineNumber": 95
+        },
+        {
+          "caller": "publishToRetry",
+          "callee": "record.offset",
+          "lineNumber": 95
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "extractCancelRequestId",
+          "lineNumber": 109
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "DlqMessage.truncate",
+          "lineNumber": 110
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "e.getMessage",
+          "lineNumber": 110
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "cancelRestoreDlqRepository.upsertPending",
+          "lineNumber": 113
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.value",
+          "lineNumber": 113
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 114
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "e.getMessage",
+          "lineNumber": 115
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "log.error",
+          "lineNumber": 116
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.offset",
+          "lineNumber": 117
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "e.getMessage",
+          "lineNumber": 117
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "objectMapper.writeValueAsString",
+          "lineNumber": 121
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "DlqMessage.of",
+          "lineNumber": 121
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "new ProducerRecord<>",
+          "lineNumber": 122
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.key",
+          "lineNumber": 122
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "kafkaTemplate.send(dlqRecord).get",
+          "lineNumber": 123
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 123
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "log.warn",
+          "lineNumber": 126
+        },
+        {
+          "caller": "publishToDlq",
+          "callee": "record.offset",
+          "lineNumber": 126
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "objectMapper.readValue(record.value(), PaymentCancelledPayload.class).cancelRequestId",
+          "lineNumber": 133
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 133
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "record.value",
+          "lineNumber": 133
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "log.warn",
+          "lineNumber": 135
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "record.offset",
+          "lineNumber": 135
+        },
+        {
+          "caller": "extractCancelRequestId",
+          "callee": "record.key",
+          "lineNumber": 136
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "headerStringValue(record, \"retry-count\").map(v -> {\n            try {\n                return Integer.parseInt(v);\n            } catch (NumberFormatException ex) {\n                log.warn(\"retry-count 헤더 파싱 실패, 0으로 처리: {}\", v);\n                return 0;\n            }\n        }).orElse",
+          "lineNumber": 141
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "headerStringValue(record, \"retry-count\").map",
+          "lineNumber": 141
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "headerStringValue",
+          "lineNumber": 141
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "Integer.parseInt",
+          "lineNumber": 143
+        },
+        {
+          "caller": "parseRetryCount",
+          "callee": "log.warn",
+          "lineNumber": 145
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "record.headers().lastHeader",
+          "lineNumber": 152
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "record.headers",
+          "lineNumber": 152
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "Optional.empty",
+          "lineNumber": 153
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "Optional.of",
+          "lineNumber": 154
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "new String",
+          "lineNumber": 154
+        },
+        {
+          "caller": "headerStringValue",
+          "callee": "header.value",
+          "lineNumber": 154
+        },
+        {
+          "caller": "retryDelay",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 159
+        },
+        {
+          "caller": "retryDelay",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 160
+        },
+        {
+          "caller": "retryDelay",
+          "callee": "Duration.ofMinutes",
+          "lineNumber": 161
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 32,
+      "functions": [
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "upsertPending",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "cancelRequestId",
+            "leg",
+            "payload",
+            "retryCount",
+            "lastError"
+          ]
+        },
+        {
+          "name": "findRedrivable",
+          "startLine": 21,
+          "endLine": 26,
+          "params": [
+            "updatedBefore",
+            "limit"
+          ]
+        },
+        {
+          "name": "markResolved",
+          "startLine": 28,
+          "endLine": 31,
+          "params": [
+            "cancelRequestId"
+          ]
+        },
+        {
+          "name": "bumpAttempt",
+          "startLine": 33,
+          "endLine": 36,
+          "params": [
+            "cancelRequestId",
+            "lastError"
+          ]
+        },
+        {
+          "name": "markDead",
+          "startLine": 38,
+          "endLine": 41,
+          "params": [
+            "cancelRequestId",
+            "lastError"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "startLine": 8,
+          "endLine": 42,
+          "methods": [
+            "CancelRestoreDlqRepositoryImpl",
+            "upsertPending",
+            "findRedrivable",
+            "markResolved",
+            "bumpAttempt",
+            "markDead"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "upsertPending",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "findRedrivable",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "markResolved",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "bumpAttempt",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "markDead",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreDlqRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "upsertPending",
+          "callee": "jpa.upsertPending",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable(updatedBefore, limit).stream()\n            .map(r -> new Redrivable(r.getCancelRequestId(), r.getPayload(), r.getAttemptCount())).toList",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable(updatedBefore, limit).stream().map",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable(updatedBefore, limit).stream",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "jpa.findRedrivable",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "new Redrivable",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "r.getCancelRequestId",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "r.getPayload",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findRedrivable",
+          "callee": "r.getAttemptCount",
+          "lineNumber": 24
+        },
+        {
+          "caller": "markResolved",
+          "callee": "jpa.markResolved",
+          "lineNumber": 30
+        },
+        {
+          "caller": "bumpAttempt",
+          "callee": "jpa.bumpAttempt",
+          "lineNumber": 35
+        },
+        {
+          "caller": "markDead",
+          "callee": "jpa.markDead",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "ProcessedCancelEventRepositoryImpl",
+          "startLine": 9,
+          "endLine": 11,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "existsByCancelRequestId",
+          "startLine": 13,
+          "endLine": 16,
+          "params": [
+            "cancelRequestId"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 18,
+          "endLine": 21,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessedCancelEventRepositoryImpl",
+          "startLine": 5,
+          "endLine": 22,
+          "methods": [
+            "ProcessedCancelEventRepositoryImpl",
+            "existsByCancelRequestId",
+            "save"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessedCancelEventRepositoryImpl",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "existsByCancelRequestId",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessedCancelEventRepositoryImpl",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "existsByCancelRequestId",
+          "callee": "jpa.existsByCancelRequestId",
+          "lineNumber": 15
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 20
+        },
+        {
+          "caller": "save",
+          "callee": "ProcessedCancelEventJpaEntity.of",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 42,
+      "functions": [
+        {
+          "name": "StockReservationJpaEntity",
+          "startLine": 37,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 39,
+          "endLine": 49,
+          "params": [
+            "r"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 51,
+          "endLine": 54,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockReservationJpaEntity",
+          "startLine": 10,
+          "endLine": 55,
+          "methods": [
+            "StockReservationJpaEntity",
+            "from",
+            "toDomain"
+          ],
+          "properties": [
+            "id",
+            "paymentKey",
+            "skuId",
+            "qty",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "StockReservationJpaEntity",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new StockReservationJpaEntity",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "r.getId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "r.getPaymentKey",
+          "lineNumber": 42
+        },
+        {
+          "caller": "from",
+          "callee": "r.getSkuId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "r.getQty",
+          "lineNumber": 44
+        },
+        {
+          "caller": "from",
+          "callee": "r.getStatus",
+          "lineNumber": 45
+        },
+        {
+          "caller": "from",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 46
+        },
+        {
+          "caller": "from",
+          "callee": "r.getCreatedAt",
+          "lineNumber": 46
+        },
+        {
+          "caller": "from",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 47
+        },
+        {
+          "caller": "from",
+          "callee": "r.getUpdatedAt",
+          "lineNumber": 47
+        },
+        {
+          "caller": "toDomain",
+          "callee": "StockReservation.reconstruct",
+          "lineNumber": 52
+        },
+        {
+          "caller": "toDomain",
+          "callee": "createdAt.toInstant",
+          "lineNumber": 53
+        },
+        {
+          "caller": "toDomain",
+          "callee": "updatedAt.toInstant",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "StockReservationRepositoryImpl",
+          "startLine": 16,
+          "endLine": 18,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 20,
+          "endLine": 23,
+          "params": [
+            "reservation"
+          ]
+        },
+        {
+          "name": "findByPaymentKeyAndSkuId",
+          "startLine": 25,
+          "endLine": 28,
+          "params": [
+            "paymentKey",
+            "skuId"
+          ]
+        },
+        {
+          "name": "findStaleReserved",
+          "startLine": 30,
+          "endLine": 34,
+          "params": [
+            "threshold"
+          ]
+        },
+        {
+          "name": "upsertReserved",
+          "startLine": 36,
+          "endLine": 39,
+          "params": [
+            "paymentKey",
+            "skuId",
+            "qty"
+          ]
+        },
+        {
+          "name": "releaseIfReserved",
+          "startLine": 41,
+          "endLine": 44,
+          "params": [
+            "paymentKey",
+            "skuId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockReservationRepositoryImpl",
+          "startLine": 12,
+          "endLine": 45,
+          "methods": [
+            "StockReservationRepositoryImpl",
+            "save",
+            "findByPaymentKeyAndSkuId",
+            "findStaleReserved",
+            "upsertReserved",
+            "releaseIfReserved"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "StockReservationRepositoryImpl",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "findByPaymentKeyAndSkuId",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "findStaleReserved",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "upsertReserved",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "releaseIfReserved",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "StockReservationRepositoryImpl",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpa.save(StockReservationJpaEntity.from(reservation)).toDomain",
+          "lineNumber": 22
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 22
+        },
+        {
+          "caller": "save",
+          "callee": "StockReservationJpaEntity.from",
+          "lineNumber": 22
+        },
+        {
+          "caller": "findByPaymentKeyAndSkuId",
+          "callee": "jpa.findByPaymentKeyAndSkuId(paymentKey, skuId).map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findByPaymentKeyAndSkuId",
+          "callee": "jpa.findByPaymentKeyAndSkuId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findStaleReserved",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 32
+        },
+        {
+          "caller": "findStaleReserved",
+          "callee": "jpa.findStaleReserved(ldt).stream().map(StockReservationJpaEntity::toDomain).toList",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findStaleReserved",
+          "callee": "jpa.findStaleReserved(ldt).stream().map",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findStaleReserved",
+          "callee": "jpa.findStaleReserved(ldt).stream",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findStaleReserved",
+          "callee": "jpa.findStaleReserved",
+          "lineNumber": 33
+        },
+        {
+          "caller": "upsertReserved",
+          "callee": "jpa.upsertReserved",
+          "lineNumber": 38
+        },
+        {
+          "caller": "releaseIfReserved",
+          "callee": "jpa.releaseIfReserved",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 99,
+      "nonEmptyLines": 90,
+      "functions": [
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "startLine": 44,
+          "endLine": 52,
+          "params": [
+            "redissonClient",
+            "dlqRepository",
+            "redriveService",
+            "objectMapper"
+          ]
+        },
+        {
+          "name": "run",
+          "startLine": 54,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "pollOnce",
+          "startLine": 80,
+          "endLine": 98,
+          "params": [
+            "redrivableBefore"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "startLine": 29,
+          "endLine": 99,
+          "methods": [
+            "CancelRestoreRedriveScheduler",
+            "run",
+            "pollOnce"
+          ],
+          "properties": [
+            "BATCH_LIMIT",
+            "POLL_BACKOFF_SECONDS",
+            "redissonClient",
+            "dlqRepository",
+            "redriveService",
+            "objectMapper",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "run",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "pollOnce",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreRedriveScheduler",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 56
+        },
+        {
+          "caller": "run",
+          "callee": "lock.tryLock",
+          "lineNumber": 58
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 59
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 63
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 64
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread",
+          "lineNumber": 64
+        },
+        {
+          "caller": "run",
+          "callee": "pollOnce",
+          "lineNumber": 68
+        },
+        {
+          "caller": "run",
+          "callee": "Instant.now().minusSeconds",
+          "lineNumber": 68
+        },
+        {
+          "caller": "run",
+          "callee": "Instant.now",
+          "lineNumber": 68
+        },
+        {
+          "caller": "run",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 70
+        },
+        {
+          "caller": "run",
+          "callee": "lock.unlock",
+          "lineNumber": 71
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "dlqRepository.findRedrivable",
+          "lineNumber": 81
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 85
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.payload",
+          "lineNumber": 85
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems().stream()\n                    .filter(ci -> ci.skuId() != null)\n                    .map(ci -> new Command.Item(ci.skuId(), ci.quantity())).toList",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems().stream()\n                    .filter(ci -> ci.skuId() != null).map",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems().stream().filter",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems().stream",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelledItems",
+          "lineNumber": 86
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "ci.skuId",
+          "lineNumber": 87
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "new Command.Item",
+          "lineNumber": 88
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "ci.skuId",
+          "lineNumber": 88
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "ci.quantity",
+          "lineNumber": 88
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "new Command",
+          "lineNumber": 90
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.cancelRequestId",
+          "lineNumber": 90
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "payload.paymentKey",
+          "lineNumber": 90
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "redriveService.redriveOne",
+          "lineNumber": 91
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.cancelRequestId",
+          "lineNumber": 91
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.attemptCount",
+          "lineNumber": 91
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "log.error",
+          "lineNumber": 94
+        },
+        {
+          "caller": "pollOnce",
+          "callee": "r.cancelRequestId",
+          "lineNumber": 95
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "run",
+          "startLine": 29,
+          "endLine": 49,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrphanReservationRecoveryScheduler",
+          "startLine": 18,
+          "endLine": 50,
+          "methods": [
+            "run"
+          ],
+          "properties": [
+            "redissonClient",
+            "orphanReservationRecoveryService",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "run",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "OrphanReservationRecoveryScheduler",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 31
+        },
+        {
+          "caller": "run",
+          "callee": "lock.tryLock",
+          "lineNumber": 33
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 34
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 38
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 39
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread",
+          "lineNumber": 39
+        },
+        {
+          "caller": "run",
+          "callee": "orphanReservationRecoveryService.recoverAll",
+          "lineNumber": 43
+        },
+        {
+          "caller": "run",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 45
+        },
+        {
+          "caller": "run",
+          "callee": "lock.unlock",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "InternalCancelRestoreController",
+          "startLine": 17,
+          "endLine": 19,
+          "params": [
+            "useCase"
+          ]
+        },
+        {
+          "name": "inspect",
+          "startLine": 21,
+          "endLine": 32,
+          "params": [
+            "cancelRequestId",
+            "request"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InternalCancelRestoreController",
+          "startLine": 12,
+          "endLine": 33,
+          "methods": [
+            "InternalCancelRestoreController",
+            "inspect"
+          ],
+          "properties": [
+            "useCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InternalCancelRestoreController",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "inspect",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "InternalCancelRestoreController",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspect",
+          "callee": "request.items().stream()\n            .map(item -> new InspectCancelRestoreUseCase.Item(item.skuId(), item.quantity())).toList",
+          "lineNumber": 26
+        },
+        {
+          "caller": "inspect",
+          "callee": "request.items().stream().map",
+          "lineNumber": 26
+        },
+        {
+          "caller": "inspect",
+          "callee": "request.items().stream",
+          "lineNumber": 26
+        },
+        {
+          "caller": "inspect",
+          "callee": "request.items",
+          "lineNumber": 26
+        },
+        {
+          "caller": "inspect",
+          "callee": "new InspectCancelRestoreUseCase.Item",
+          "lineNumber": 27
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.skuId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.quantity",
+          "lineNumber": 27
+        },
+        {
+          "caller": "inspect",
+          "callee": "useCase.inspect",
+          "lineNumber": 29
+        },
+        {
+          "caller": "inspect",
+          "callee": "new InspectCancelRestoreUseCase.Command",
+          "lineNumber": 29
+        },
+        {
+          "caller": "inspect",
+          "callee": "request.paymentKey",
+          "lineNumber": 30
+        },
+        {
+          "caller": "inspect",
+          "callee": "InspectCancelRestoreResponse.from",
+          "lineNumber": 31
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "InspectCancelRestoreRequest",
+          "startLine": 10,
+          "endLine": 18,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InspectCancelRestoreRequest",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 11,
+          "endLine": 15,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InspectCancelRestoreResponse",
+          "startLine": 7,
+          "endLine": 29,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "InspectCancelRestoreResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new InspectCancelRestoreResponse",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "result.status().name",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "result.status",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence().stream().map(EvidenceResponse::from).toList",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence().stream().map",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence().stream",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "result.evidence",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "new EvidenceResponse",
+          "lineNumber": 24
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.skuId",
+          "lineNumber": 25
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.currentStatus",
+          "lineNumber": 25
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.actualQuantity",
+          "lineNumber": 26
+        },
+        {
+          "caller": "from",
+          "callee": "evidence.expectedQuantity",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

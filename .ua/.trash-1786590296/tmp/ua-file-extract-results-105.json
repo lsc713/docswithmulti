@@ -1,0 +1,1574 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 21,
+  "filesSkipped": [
+    "order-service/build.gradle",
+    "order-service/order.http",
+    "payment-service/build.gradle",
+    "payment-service/payment.http"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 21,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 19,
+      "failed": 0,
+      "skipped": 2
+    }
+  },
+  "results": [
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/MerchantLimitApplication.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 10,
+          "endLine": 12,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantLimitApplication",
+          "startLine": 7,
+          "endLine": 13,
+          "methods": [
+            "main"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantLimitApplication",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "SpringApplication.run",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/KafkaProducerConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "kafkaTemplate",
+          "startLine": 20,
+          "endLine": 30,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaProducerConfig",
+          "startLine": 14,
+          "endLine": 31,
+          "methods": [
+            "kafkaTemplate"
+          ],
+          "properties": [
+            "bootstrapServers"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "kafkaTemplate",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaProducerConfig",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "kafkaTemplate",
+          "callee": "new HashMap<>",
+          "lineNumber": 22
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "props.put",
+          "lineNumber": 23
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "props.put",
+          "lineNumber": 24
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "props.put",
+          "lineNumber": 25
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "props.put",
+          "lineNumber": 26
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "props.put",
+          "lineNumber": 27
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "props.put",
+          "lineNumber": 28
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "new KafkaTemplate<>",
+          "lineNumber": 29
+        },
+        {
+          "caller": "kafkaTemplate",
+          "callee": "new DefaultKafkaProducerFactory<>",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/messaging/LimitEventKafkaProducer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "publish",
+          "startLine": 24,
+          "endLine": 32,
+          "params": [
+            "merchantId",
+            "payload"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LimitEventKafkaProducer",
+          "startLine": 9,
+          "endLine": 33,
+          "methods": [
+            "publish"
+          ],
+          "properties": [
+            "kafkaTemplate",
+            "topic"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "publish",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "LimitEventKafkaProducer",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "publish",
+          "callee": "kafkaTemplate.send(topic, String.valueOf(merchantId), payload).get",
+          "lineNumber": 26
+        },
+        {
+          "caller": "publish",
+          "callee": "kafkaTemplate.send",
+          "lineNumber": 26
+        },
+        {
+          "caller": "publish",
+          "callee": "String.valueOf",
+          "lineNumber": 26
+        },
+        {
+          "caller": "publish",
+          "callee": "log.debug",
+          "lineNumber": 27
+        },
+        {
+          "caller": "publish",
+          "callee": "log.error",
+          "lineNumber": 29
+        },
+        {
+          "caller": "publish",
+          "callee": "new RuntimeException",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/persistence/LimitEventOutboxJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "LimitEventOutboxJpaEntity",
+          "startLine": 31,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "pending",
+          "startLine": 33,
+          "endLine": 40,
+          "params": [
+            "merchantId",
+            "payload"
+          ]
+        },
+        {
+          "name": "markPublished",
+          "startLine": 42,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 47,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 48,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "getPayload",
+          "startLine": 49,
+          "endLine": 49,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 50,
+          "endLine": 50,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "LimitEventOutboxJpaEntity",
+          "startLine": 6,
+          "endLine": 51,
+          "methods": [
+            "LimitEventOutboxJpaEntity",
+            "pending",
+            "markPublished",
+            "getId",
+            "getMerchantId",
+            "getPayload",
+            "getStatus"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "payload",
+            "status",
+            "createdAt",
+            "publishedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "pending",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "markPublished",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "getPayload",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "LimitEventOutboxJpaEntity",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "pending",
+          "callee": "new LimitEventOutboxJpaEntity",
+          "lineNumber": 34
+        },
+        {
+          "caller": "pending",
+          "callee": "Instant.now",
+          "lineNumber": 38
+        },
+        {
+          "caller": "markPublished",
+          "callee": "Instant.now",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/CreateMerchantRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "CreateMerchantRequest",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateMerchantRequest",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/PatchMerchantStatusRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "PatchMerchantStatusRequest",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PatchMerchantStatusRequest",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/presentation/dto/UpdateLimitRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "UpdateLimitRequest",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpdateLimitRequest",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 68,
+      "nonEmptyLines": 58,
+      "sections": [
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "kafka",
+          "level": 1,
+          "line": 44
+        },
+        {
+          "heading": "outbox",
+          "level": 1,
+          "line": 48
+        },
+        {
+          "heading": "logging",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "management",
+          "level": 1,
+          "line": 58
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/OrderServiceApplication.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 10,
+          "endLine": 12,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderServiceApplication",
+          "startLine": 7,
+          "endLine": 13,
+          "methods": [
+            "main"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "OrderServiceApplication",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "SpringApplication.run",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaConsumerConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 103,
+      "nonEmptyLines": 90,
+      "functions": [
+        {
+          "name": "KafkaConsumerConfig",
+          "startLine": 36,
+          "endLine": 38,
+          "params": [
+            "meterRegistry"
+          ]
+        },
+        {
+          "name": "consumerFactory",
+          "startLine": 40,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "redeliverForeverErrorHandler",
+          "startLine": 61,
+          "endLine": 63,
+          "params": []
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "startLine": 65,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "retryConsumerFactory",
+          "startLine": 75,
+          "endLine": 92,
+          "params": []
+        },
+        {
+          "name": "retryKafkaListenerContainerFactory",
+          "startLine": 94,
+          "endLine": 102,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "KafkaConsumerConfig",
+          "startLine": 21,
+          "endLine": 103,
+          "methods": [
+            "KafkaConsumerConfig",
+            "consumerFactory",
+            "redeliverForeverErrorHandler",
+            "kafkaListenerContainerFactory",
+            "retryConsumerFactory",
+            "retryKafkaListenerContainerFactory"
+          ],
+          "properties": [
+            "bootstrapServers",
+            "groupId",
+            "retryGroupId",
+            "meterRegistry"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "KafkaConsumerConfig",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "consumerFactory",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "kafkaListenerContainerFactory",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "retryConsumerFactory",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "retryKafkaListenerContainerFactory",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "KafkaConsumerConfig",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consumerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 42
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 43
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 45
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 46
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 47
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 49
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "props.put",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "new DefaultKafkaConsumerFactory<>",
+          "lineNumber": 52
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "factory.addListener",
+          "lineNumber": 53
+        },
+        {
+          "caller": "consumerFactory",
+          "callee": "new MicrometerConsumerListener<>",
+          "lineNumber": 53
+        },
+        {
+          "caller": "redeliverForeverErrorHandler",
+          "callee": "new DefaultErrorHandler",
+          "lineNumber": 62
+        },
+        {
+          "caller": "redeliverForeverErrorHandler",
+          "callee": "new FixedBackOff",
+          "lineNumber": 62
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "new ConcurrentKafkaListenerContainerFactory<>",
+          "lineNumber": 68
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.setConsumerFactory",
+          "lineNumber": 69
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "consumerFactory",
+          "lineNumber": 69
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties().setAckMode",
+          "lineNumber": 70
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties",
+          "lineNumber": 70
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "factory.setCommonErrorHandler",
+          "lineNumber": 71
+        },
+        {
+          "caller": "kafkaListenerContainerFactory",
+          "callee": "redeliverForeverErrorHandler",
+          "lineNumber": 71
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "new HashMap<>",
+          "lineNumber": 77
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 78
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 79
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 80
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 83
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 84
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 85
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 86
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 87
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "props.put",
+          "lineNumber": 88
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "new DefaultKafkaConsumerFactory<>",
+          "lineNumber": 89
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "factory.addListener",
+          "lineNumber": 90
+        },
+        {
+          "caller": "retryConsumerFactory",
+          "callee": "new MicrometerConsumerListener<>",
+          "lineNumber": 90
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "new ConcurrentKafkaListenerContainerFactory<>",
+          "lineNumber": 97
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.setConsumerFactory",
+          "lineNumber": 98
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "retryConsumerFactory",
+          "lineNumber": 98
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties().setAckMode",
+          "lineNumber": 99
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.getContainerProperties",
+          "lineNumber": 99
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "factory.setCommonErrorHandler",
+          "lineNumber": 100
+        },
+        {
+          "caller": "retryKafkaListenerContainerFactory",
+          "callee": "redeliverForeverErrorHandler",
+          "lineNumber": 100
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/messaging/DlqMessage.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 23,
+          "endLine": 39,
+          "params": [
+            "record",
+            "retryCount",
+            "e"
+          ]
+        },
+        {
+          "name": "headerValue",
+          "startLine": 41,
+          "endLine": 45,
+          "params": [
+            "record",
+            "key"
+          ]
+        },
+        {
+          "name": "truncate",
+          "startLine": 47,
+          "endLine": 50,
+          "params": [
+            "s",
+            "max"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DlqMessage",
+          "startLine": 10,
+          "endLine": 51,
+          "methods": [
+            "of",
+            "headerValue",
+            "truncate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "DlqMessage",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "Instant.now",
+          "lineNumber": 24
+        },
+        {
+          "caller": "of",
+          "callee": "headerValue(record, \"first-failed-at\").orElse",
+          "lineNumber": 25
+        },
+        {
+          "caller": "of",
+          "callee": "headerValue",
+          "lineNumber": 25
+        },
+        {
+          "caller": "of",
+          "callee": "now.toString",
+          "lineNumber": 25
+        },
+        {
+          "caller": "of",
+          "callee": "new DlqMessage",
+          "lineNumber": 26
+        },
+        {
+          "caller": "of",
+          "callee": "record.value",
+          "lineNumber": 27
+        },
+        {
+          "caller": "of",
+          "callee": "new DlqMeta",
+          "lineNumber": 28
+        },
+        {
+          "caller": "of",
+          "callee": "record.topic",
+          "lineNumber": 29
+        },
+        {
+          "caller": "of",
+          "callee": "record.partition",
+          "lineNumber": 30
+        },
+        {
+          "caller": "of",
+          "callee": "record.offset",
+          "lineNumber": 31
+        },
+        {
+          "caller": "of",
+          "callee": "now.toString",
+          "lineNumber": 34
+        },
+        {
+          "caller": "of",
+          "callee": "truncate",
+          "lineNumber": 35
+        },
+        {
+          "caller": "of",
+          "callee": "e.getMessage",
+          "lineNumber": 35
+        },
+        {
+          "caller": "of",
+          "callee": "now.toString",
+          "lineNumber": 36
+        },
+        {
+          "caller": "headerValue",
+          "callee": "record.headers().lastHeader",
+          "lineNumber": 42
+        },
+        {
+          "caller": "headerValue",
+          "callee": "record.headers",
+          "lineNumber": 42
+        },
+        {
+          "caller": "headerValue",
+          "callee": "Optional.empty",
+          "lineNumber": 43
+        },
+        {
+          "caller": "headerValue",
+          "callee": "Optional.of",
+          "lineNumber": 44
+        },
+        {
+          "caller": "headerValue",
+          "callee": "new String",
+          "lineNumber": 44
+        },
+        {
+          "caller": "headerValue",
+          "callee": "header.value",
+          "lineNumber": 44
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.length",
+          "lineNumber": 49
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.substring",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "CancelRestoreDlqJpaEntity",
+          "startLine": 52,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 54,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "getCancelRequestId",
+          "startLine": 55,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "getLeg",
+          "startLine": 56,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "getPayload",
+          "startLine": 57,
+          "endLine": 57,
+          "params": []
+        },
+        {
+          "name": "getRetryCount",
+          "startLine": 58,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "getAttemptCount",
+          "startLine": 59,
+          "endLine": 59,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 60,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "getLastError",
+          "startLine": 61,
+          "endLine": 61,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreDlqJpaEntity",
+          "startLine": 10,
+          "endLine": 62,
+          "methods": [
+            "CancelRestoreDlqJpaEntity",
+            "getId",
+            "getCancelRequestId",
+            "getLeg",
+            "getPayload",
+            "getRetryCount",
+            "getAttemptCount",
+            "getStatus",
+            "getLastError"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "leg",
+            "payload",
+            "retryCount",
+            "attemptCount",
+            "status",
+            "firstFailedAt",
+            "lastError",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getId",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "getCancelRequestId",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "getLeg",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "getPayload",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "getRetryCount",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "getAttemptCount",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "getLastError",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreDlqJpaEntity",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 76,
+      "nonEmptyLines": 67,
+      "classes": [
+        {
+          "name": "CancelRestoreDlqJpaRepository",
+          "startLine": 16,
+          "endLine": 76,
+          "methods": [
+            "upsertPending",
+            "findRedrivable",
+            "markResolved",
+            "bumpAttempt",
+            "markDead"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreDlqJpaRepository",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "CartItemJpaRepository",
+          "startLine": 7,
+          "endLine": 12,
+          "methods": [
+            "findByUserIdOrderByIdAsc",
+            "findByUserIdAndSkuId",
+            "deleteByUserIdAndSkuId",
+            "deleteByUserId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CartItemJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "OrderItemJpaRepository",
+          "startLine": 6,
+          "endLine": 8,
+          "methods": [
+            "findAllByOrderId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderItemJpaRepository",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "OrderJpaRepository",
+          "startLine": 10,
+          "endLine": 15,
+          "methods": [
+            "findByIdForUpdate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderJpaRepository",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "ProcessedCancelEventJpaEntity",
+          "startLine": 23,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "of",
+          "startLine": 25,
+          "endLine": 30,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessedCancelEventJpaEntity",
+          "startLine": 6,
+          "endLine": 31,
+          "methods": [
+            "ProcessedCancelEventJpaEntity",
+            "of"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "processedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessedCancelEventJpaEntity",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new ProcessedCancelEventJpaEntity",
+          "lineNumber": 26
+        },
+        {
+          "caller": "of",
+          "callee": "Instant.now",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "ProcessedCancelEventJpaRepository",
+          "startLine": 5,
+          "endLine": 7,
+          "methods": [
+            "existsByCancelRequestId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessedCancelEventJpaRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 58,
+      "nonEmptyLines": 54,
+      "sections": [
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "kafka",
+          "level": 1,
+          "line": 35
+        },
+        {
+          "heading": "scheduler",
+          "level": 1,
+          "line": 41
+        },
+        {
+          "heading": "management",
+          "level": 1,
+          "line": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/PaymentServiceApplication.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "main",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "args"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentServiceApplication",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "main"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "main",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentServiceApplication",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "main",
+          "callee": "SpringApplication.run",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/dto/CheckChargeResponseDto.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "CheckChargeResponseDto",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CheckChargeResponseDto",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,1267 @@
+{
+  "nodes": [
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "type": "file",
+      "name": "CartRepository.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "summary": "order-service의 Cart Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java:CartRepository",
+      "type": "class",
+      "name": "CartRepository",
+      "filePath": "order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "lineRange": [
+        7,
+        13
+      ],
+      "summary": "CartRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "type": "file",
+      "name": "CartService.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "summary": "order-service의 Cart Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/service/CartService.java:CartService",
+      "type": "class",
+      "name": "CartService",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "lineRange": [
+        13,
+        57
+      ],
+      "summary": "CartService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:getCart",
+      "type": "function",
+      "name": "getCart",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "lineRange": [
+        19,
+        23
+      ],
+      "summary": "getCart 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:addItem",
+      "type": "function",
+      "name": "addItem",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "lineRange": [
+        25,
+        35
+      ],
+      "summary": "addItem 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:updateQuantity",
+      "type": "function",
+      "name": "updateQuantity",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "lineRange": [
+        37,
+        44
+      ],
+      "summary": "updateQuantity 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:removeItem",
+      "type": "function",
+      "name": "removeItem",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "lineRange": [
+        46,
+        50
+      ],
+      "summary": "removeItem 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:clear",
+      "type": "function",
+      "name": "clear",
+      "filePath": "order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "lineRange": [
+        52,
+        56
+      ],
+      "summary": "clear 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "type": "file",
+      "name": "CartUseCase.java",
+      "filePath": "order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "summary": "order-service에서 Cart Use Case 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "order-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java:CartUseCase",
+      "type": "class",
+      "name": "CartUseCase",
+      "filePath": "order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "lineRange": [
+        7,
+        17
+      ],
+      "summary": "CartUseCase가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "type": "file",
+      "name": "CartItem.java",
+      "filePath": "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "summary": "order-service의 Cart Item domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "order-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:CartItem",
+      "type": "class",
+      "name": "CartItem",
+      "filePath": "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "lineRange": [
+        5,
+        35
+      ],
+      "summary": "CartItem domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:CartItem",
+      "type": "function",
+      "name": "CartItem",
+      "filePath": "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "lineRange": [
+        17,
+        22
+      ],
+      "summary": "CartItem 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "lineRange": [
+        24,
+        27
+      ],
+      "summary": "create 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "order-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "lineRange": [
+        29,
+        32
+      ],
+      "summary": "of 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:changeQuantity",
+      "type": "function",
+      "name": "changeQuantity",
+      "filePath": "order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "lineRange": [
+        34,
+        34
+      ],
+      "summary": "changeQuantity 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "order-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "type": "file",
+      "name": "CartItemJpaEntity.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "summary": "order-service에서 Cart Item Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java:CartItemJpaEntity",
+      "type": "class",
+      "name": "CartItemJpaEntity",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "lineRange": [
+        7,
+        41
+      ],
+      "summary": "CartItemJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java:CartItemJpaEntity",
+      "type": "function",
+      "name": "CartItemJpaEntity",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "lineRange": [
+        23,
+        23
+      ],
+      "summary": "CartItemJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "type": "file",
+      "name": "CartRepositoryImpl.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "summary": "order-service의 Cart Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:CartRepositoryImpl",
+      "type": "class",
+      "name": "CartRepositoryImpl",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "lineRange": [
+        9,
+        41
+      ],
+      "summary": "CartRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:findByUserId",
+      "type": "function",
+      "name": "findByUserId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "findByUserId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:findByUserIdAndSkuId",
+      "type": "function",
+      "name": "findByUserIdAndSkuId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "lineRange": [
+        19,
+        22
+      ],
+      "summary": "findByUserIdAndSkuId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "lineRange": [
+        24,
+        34
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:deleteByUserIdAndSkuId",
+      "type": "function",
+      "name": "deleteByUserIdAndSkuId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "lineRange": [
+        36,
+        37
+      ],
+      "summary": "deleteByUserIdAndSkuId 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:deleteByUserId",
+      "type": "function",
+      "name": "deleteByUserId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "lineRange": [
+        39,
+        40
+      ],
+      "summary": "deleteByUserId 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "type": "file",
+      "name": "CartController.java",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "summary": "order-service의 Cart Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "order-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:CartController",
+      "type": "class",
+      "name": "CartController",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "lineRange": [
+        13,
+        51
+      ],
+      "summary": "CartController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "order-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:get",
+      "type": "function",
+      "name": "get",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "lineRange": [
+        20,
+        23
+      ],
+      "summary": "get 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:add",
+      "type": "function",
+      "name": "add",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "lineRange": [
+        25,
+        31
+      ],
+      "summary": "add 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "order-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:update",
+      "type": "function",
+      "name": "update",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "lineRange": [
+        33,
+        38
+      ],
+      "summary": "update 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "order-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:remove",
+      "type": "function",
+      "name": "remove",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "lineRange": [
+        40,
+        44
+      ],
+      "summary": "remove 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "order-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:clear",
+      "type": "function",
+      "name": "clear",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "lineRange": [
+        46,
+        50
+      ],
+      "summary": "clear 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "order-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "type": "file",
+      "name": "AddCartItemRequest.java",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "summary": "order-service의 Add Cart Item Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "order-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java:AddCartItemRequest",
+      "type": "class",
+      "name": "AddCartItemRequest",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "AddCartItemRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "order-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "type": "file",
+      "name": "CartResponse.java",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "summary": "order-service의 Cart Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "order-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java:CartResponse",
+      "type": "class",
+      "name": "CartResponse",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "lineRange": [
+        7,
+        18
+      ],
+      "summary": "CartResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "order-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "lineRange": [
+        12,
+        17
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "order-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java",
+      "type": "file",
+      "name": "UpdateQuantityRequest.java",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java",
+      "summary": "order-service의 Update Quantity Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "order-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java:UpdateQuantityRequest",
+      "type": "class",
+      "name": "UpdateQuantityRequest",
+      "filePath": "order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java",
+      "lineRange": [
+        5,
+        5
+      ],
+      "summary": "UpdateQuantityRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "order-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java:CartRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java:CartRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CartService.java:CartService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/service/CartService.java:CartService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:getCart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:getCart",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:addItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:addItem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:updateQuantity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:updateQuantity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:removeItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:removeItem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:clear",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "function:order-service/src/main/java/com/example/order/application/service/CartService.java:clear",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/service/CartService.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/exception/CartItemNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java:CartUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "target": "class:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java:CartUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:CartItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:CartItem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:CartItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:CartItem",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:of",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:of",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:changeQuantity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/entity/CartItem.java:changeQuantity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java:CartItemJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java:CartItemJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java:CartItemJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java:CartItemJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartItemJpaEntity.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:CartRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:CartRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:findByUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:findByUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:findByUserIdAndSkuId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:findByUserIdAndSkuId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:deleteByUserIdAndSkuId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:deleteByUserIdAndSkuId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:deleteByUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java:deleteByUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CartRepositoryImpl.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:CartController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:CartController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:get",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:get",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:add",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:add",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:update",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:update",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:remove",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:remove",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:clear",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/controller/CartController.java:clear",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/CartUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "file:order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "file:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/controller/CartController.java",
+      "target": "file:order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java:AddCartItemRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/dto/AddCartItemRequest.java:AddCartItemRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java:CartResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java:CartResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "target": "function:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/CartResponse.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/CartItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java:UpdateQuantityRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java",
+      "target": "class:order-service/src/main/java/com/example/order/presentation/dto/UpdateQuantityRequest.java:UpdateQuantityRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

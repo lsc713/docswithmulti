@@ -21,6 +21,8 @@ export default function AdminLayout() {
         {isAdmin && <NavLink to="/admin/products/new">상품 등록</NavLink>}
         {isAdmin && <NavLink to="/admin/categories">카테고리 관리</NavLink>}
         {isAdmin && <NavLink to="/admin/users">회원관리</NavLink>}
+        {isAdmin && <NavLink to="/admin/orders">주문관리</NavLink>}
+        {isAdmin && <NavLink to="/admin/settlements">정산관리</NavLink>}
         <button onClick={logout} className="logout-btn">로그아웃</button>
       </aside>
       <main className="admin-main"><Outlet /></main>

@@ -1,0 +1,293 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "language": "java",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "language": "java",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "language": "java",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "language": "java",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "language": "java",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "language": "java",
+      "sizeLines": 66,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "language": "java",
+      "sizeLines": 76,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "language": "java",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "language": "java",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "language": "java",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "language": "java",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "language": "java",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "sizeLines": 108,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java",
+      "language": "java",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java",
+      "language": "java",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "language": "java",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java",
+      "language": "java",
+      "sizeLines": 66,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java",
+      "language": "java",
+      "sizeLines": 164,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java",
+      "language": "java",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java",
+      "language": "java",
+      "sizeLines": 99,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java",
+      "language": "java",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java",
+      "language": "java",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java",
+      "language": "java",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java": [],
+    "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java": [],
+    "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java": [],
+    "product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java": [],
+    "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java": [],
+    "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java": [
+      "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java"
+    ],
+    "product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java": [],
+    "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java"
+    ],
+    "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java"
+    ],
+    "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java"
+    ],
+    "product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java"
+    ],
+    "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java": [
+      "product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java"
+    ],
+    "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java": [],
+    "product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java": [],
+    "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java": [],
+    "product-service/src/main/java/com/example/product/infrastructure/adapter/LogOperationAlertAdapter.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/config/PersistenceConfig.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/AttributeRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/CategoryRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/ProductImageRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/ProductQueryRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/ProductRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/ProductSkuRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/ProductStockRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/ProductVariantRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/http/PaymentQueryHttpClient.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java": [],
+    "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java": [
+      "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockRetryConsumer.java": [
+      "product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/messaging/RetryRouter.java": [
+      "product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventRepositoryImpl.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationJpaEntity.java": [
+      "product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/persistence/StockReservationRepositoryImpl.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "product-service/src/main/java/com/example/product/domain/entity/StockReservation.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/scheduler/CancelRestoreRedriveScheduler.java": [
+      "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledPayload.java"
+    ],
+    "product-service/src/main/java/com/example/product/infrastructure/scheduler/OrphanReservationRecoveryScheduler.java": [
+      "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java"
+    ],
+    "product-service/src/main/java/com/example/product/presentation/controller/InternalCancelRestoreController.java": [
+      "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java",
+      "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java"
+    ],
+    "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreRequest.java": [],
+    "product-service/src/main/java/com/example/product/presentation/dto/InspectCancelRestoreResponse.java": [
+      "product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java"
+    ]
+  }
+}

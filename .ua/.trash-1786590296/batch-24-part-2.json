@@ -1,0 +1,1338 @@
+{
+  "nodes": [
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "type": "file",
+      "name": "JwtTokenProvider.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "summary": "user-service의 Jwt Token Provider 관련 domain/application 동작을 구현하며 10개의 주요 구조를 포함한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:JwtTokenProvider",
+      "type": "class",
+      "name": "JwtTokenProvider",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        14,
+        94
+      ],
+      "summary": "JwtTokenProvider가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:JwtTokenProvider",
+      "type": "function",
+      "name": "JwtTokenProvider",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        20,
+        24
+      ],
+      "summary": "JwtTokenProvider 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:createAccessToken",
+      "type": "function",
+      "name": "createAccessToken",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        26,
+        42
+      ],
+      "summary": "createAccessToken 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:createRefreshToken",
+      "type": "function",
+      "name": "createRefreshToken",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        44,
+        46
+      ],
+      "summary": "createRefreshToken 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:validateToken",
+      "type": "function",
+      "name": "validateToken",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        48,
+        58
+      ],
+      "summary": "validateToken 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getUserId",
+      "type": "function",
+      "name": "getUserId",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        60,
+        62
+      ],
+      "summary": "getUserId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getRole",
+      "type": "function",
+      "name": "getRole",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        64,
+        66
+      ],
+      "summary": "getRole 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getMerchantId",
+      "type": "function",
+      "name": "getMerchantId",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        68,
+        81
+      ],
+      "summary": "getMerchantId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getRefreshTokenExpiry",
+      "type": "function",
+      "name": "getRefreshTokenExpiry",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "lineRange": [
+        83,
+        85
+      ],
+      "summary": "getRefreshTokenExpiry 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "type": "file",
+      "name": "GlobalExceptionHandler.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "summary": "user-service의 Global Exception Handler 관련 domain/application 동작을 구현하며 2개의 주요 구조를 포함한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "class",
+      "name": "GlobalExceptionHandler",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        10,
+        22
+      ],
+      "summary": "GlobalExceptionHandler가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "function",
+      "name": "handleBusiness",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "lineRange": [
+        13,
+        21
+      ],
+      "summary": "handleBusiness 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "type": "file",
+      "name": "AdminController.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "summary": "user-service의 Admin Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:AdminController",
+      "type": "class",
+      "name": "AdminController",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "lineRange": [
+        20,
+        43
+      ],
+      "summary": "AdminController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:AdminController",
+      "type": "function",
+      "name": "AdminController",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "lineRange": [
+        26,
+        29
+      ],
+      "summary": "AdminController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:list",
+      "type": "function",
+      "name": "list",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "lineRange": [
+        31,
+        36
+      ],
+      "summary": "list 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:changeRole",
+      "type": "function",
+      "name": "changeRole",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "lineRange": [
+        38,
+        42
+      ],
+      "summary": "changeRole 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "type": "file",
+      "name": "AuthController.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "summary": "user-service의 Auth Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:AuthController",
+      "type": "class",
+      "name": "AuthController",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "lineRange": [
+        16,
+        66
+      ],
+      "summary": "AuthController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:AuthController",
+      "type": "function",
+      "name": "AuthController",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "lineRange": [
+        22,
+        25
+      ],
+      "summary": "AuthController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:signup",
+      "type": "function",
+      "name": "signup",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "lineRange": [
+        27,
+        34
+      ],
+      "summary": "signup 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:login",
+      "type": "function",
+      "name": "login",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "lineRange": [
+        36,
+        40
+      ],
+      "summary": "login 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:refresh",
+      "type": "function",
+      "name": "refresh",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "lineRange": [
+        42,
+        48
+      ],
+      "summary": "refresh 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:logout",
+      "type": "function",
+      "name": "logout",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "lineRange": [
+        50,
+        57
+      ],
+      "summary": "logout 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "type": "file",
+      "name": "MeController.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "summary": "user-service의 Me Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:MeController",
+      "type": "class",
+      "name": "MeController",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "lineRange": [
+        10,
+        24
+      ],
+      "summary": "MeController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:MeController",
+      "type": "function",
+      "name": "MeController",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "MeController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:me",
+      "type": "function",
+      "name": "me",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "lineRange": [
+        19,
+        23
+      ],
+      "summary": "me 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "type": "file",
+      "name": "ChangeRoleRequest.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "summary": "user-service의 Change Role Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "user-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java:ChangeRoleRequest",
+      "type": "class",
+      "name": "ChangeRoleRequest",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "lineRange": [
+        6,
+        6
+      ],
+      "summary": "ChangeRoleRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "user-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "type": "file",
+      "name": "MeResponse.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "summary": "user-service의 Me Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "user-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java:MeResponse",
+      "type": "class",
+      "name": "MeResponse",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "lineRange": [
+        3,
+        4
+      ],
+      "summary": "MeResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "user-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "type": "file",
+      "name": "UserListResponse.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "summary": "user-service의 User List Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "user-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java:UserListResponse",
+      "type": "class",
+      "name": "UserListResponse",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "lineRange": [
+        5,
+        19
+      ],
+      "summary": "UserListResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "user-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "type": "file",
+      "name": "AuthCookieFactory.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "summary": "user-service의 Auth Cookie Factory 관련 domain/application 동작을 구현하며 8개의 주요 구조를 포함한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:AuthCookieFactory",
+      "type": "class",
+      "name": "AuthCookieFactory",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "lineRange": [
+        10,
+        56
+      ],
+      "summary": "AuthCookieFactory가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:AuthCookieFactory",
+      "type": "function",
+      "name": "AuthCookieFactory",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "lineRange": [
+        21,
+        25
+      ],
+      "summary": "AuthCookieFactory 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:access",
+      "type": "function",
+      "name": "access",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "lineRange": [
+        27,
+        29
+      ],
+      "summary": "access 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:refresh",
+      "type": "function",
+      "name": "refresh",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "lineRange": [
+        31,
+        34
+      ],
+      "summary": "refresh 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:csrf",
+      "type": "function",
+      "name": "csrf",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "lineRange": [
+        36,
+        38
+      ],
+      "summary": "csrf 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:newCsrfValue",
+      "type": "function",
+      "name": "newCsrfValue",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "newCsrfValue 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:expireAll",
+      "type": "function",
+      "name": "expireAll",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "lineRange": [
+        44,
+        49
+      ],
+      "summary": "expireAll 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:JwtTokenProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:JwtTokenProvider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:JwtTokenProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:JwtTokenProvider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:createAccessToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:createAccessToken",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:createRefreshToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:createRefreshToken",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:validateToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:validateToken",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getMerchantId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getMerchantId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getRefreshTokenExpiry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java:getRefreshTokenExpiry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java:GlobalExceptionHandler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java:handleBusiness",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "target": "file:user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:AdminController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:AdminController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:AdminController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:AdminController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:list",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:list",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:changeRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java:changeRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "file:user-service/src/main/java/com/example/user/application/usecase/AdminUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "file:user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "file:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "target": "file:user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:AuthController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:AuthController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:AuthController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:AuthController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:signup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:signup",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:login",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:login",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:refresh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:refresh",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:logout",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java:logout",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "file:user-service/src/main/java/com/example/user/application/usecase/AuthUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "target": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:MeController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:MeController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:MeController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:MeController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:me",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/controller/MeController.java:me",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "file:user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "target": "file:user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java:ChangeRoleRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java:ChangeRoleRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java:MeResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java:MeResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java:UserListResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java:UserListResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:AuthCookieFactory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:AuthCookieFactory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:AuthCookieFactory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:AuthCookieFactory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:access",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:access",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:refresh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:refresh",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:csrf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:csrf",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:newCsrfValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:newCsrfValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:expireAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "target": "function:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java:expireAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

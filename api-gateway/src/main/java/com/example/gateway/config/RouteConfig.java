@@ -108,10 +108,32 @@ public class RouteConfig {
             @Value("${gateway.downstream.user-uri}") String userUri) {
         RequestPredicate secured = path("/v1/auth/logout")
                 .or(path("/v1/auth/me"))
-                .or(path("/v1/admin/**"));
+                .or(path("/v1/admin/users/**"));
         return route("user-auth-secured")
                 .route(secured, http())
                 .before(uri(userUri))
+                .filter(jwt)
+                .build();
+    }
+
+    @Bean
+    RouterFunction<ServerResponse> adminOrderRoute(
+            JwtTrustHeaderFilter jwt,
+            @Value("${gateway.downstream.order-uri}") String orderUri) {
+        return route("admin-orders")
+                .route(path("/v1/admin/orders/**"), http())
+                .before(uri(orderUri))
+                .filter(jwt)
+                .build();
+    }
+
+    @Bean
+    RouterFunction<ServerResponse> adminSettlementRoute(
+            JwtTrustHeaderFilter jwt,
+            @Value("${gateway.downstream.settlement-uri}") String settlementUri) {
+        return route("admin-settlements")
+                .route(path("/v1/admin/settlements/**"), http())
+                .before(uri(settlementUri))
                 .filter(jwt)
                 .build();
     }

@@ -1,0 +1,476 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 8,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 8,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 8
+    }
+  },
+  "results": [
+    {
+      "path": "infra/k8s/apps/api-gateway.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 56,
+      "nonEmptyLines": 56,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 39
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 40
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 41
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 42
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 46
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 47
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 48
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "infra/k8s/apps/config.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 39,
+      "nonEmptyLines": 39,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "data",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 24
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 25
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 26
+        },
+        {
+          "heading": "type",
+          "level": 1,
+          "line": 27
+        },
+        {
+          "heading": "stringData",
+          "level": 1,
+          "line": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "infra/k8s/apps/jwt-secret.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 8,
+      "nonEmptyLines": 8,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "type",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "stringData",
+          "level": 1,
+          "line": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "infra/k8s/apps/merchant-limit.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 41,
+      "nonEmptyLines": 41,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 36
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 37
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 38
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "infra/k8s/apps/order.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 42,
+      "nonEmptyLines": 42,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 37
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 38
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 39
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "infra/k8s/apps/payment.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 58,
+      "nonEmptyLines": 58,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 52
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 53
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 54
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "infra/k8s/apps/risk.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 41,
+      "nonEmptyLines": 41,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 36
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 37
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 38
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "infra/k8s/apps/user-service.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 45,
+      "nonEmptyLines": 45,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 40
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 41
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 42
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    }
+  ]
+}

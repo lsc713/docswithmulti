@@ -1,0 +1,282 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/CancelAmountExceededException.java",
+      "language": "java",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/CancelNotAllowedException.java",
+      "language": "java",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/CancelPeriodExceededException.java",
+      "language": "java",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelAmountException.java",
+      "language": "java",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelStateTransitionException.java",
+      "language": "java",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentItemStatusException.java",
+      "language": "java",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentStatusException.java",
+      "language": "java",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/exception/PaymentItemNotFoundException.java",
+      "language": "java",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/policy/CancelAmountPolicy.java",
+      "language": "java",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyRejectedException.java",
+      "language": "java",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyUnavailableException.java",
+      "language": "java",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/PgServiceException.java",
+      "language": "java",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/ProductServiceException.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/RiskServiceException.java",
+      "language": "java",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/exception/StockInsufficientException.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/MockPgCancelClient.java",
+      "language": "java",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderVerifyHttpClient.java",
+      "language": "java",
+      "sizeLines": 92,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/PgCancelHttpClient.java",
+      "language": "java",
+      "sizeLines": 166,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/ProductStockHttpClient.java",
+      "language": "java",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossCancel.java",
+      "language": "java",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossPaymentResponse.java",
+      "language": "java",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelOutboxRedriveRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 332,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/ProcessingRecoveryScheduler.java",
+      "language": "java",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/StockReleaseRetryScheduler.java",
+      "language": "java",
+      "sizeLines": 51,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/GlobalExceptionHandler.java",
+      "language": "java",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/exception/InvalidIdempotencyKeyException.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "payment-service/src/main/java/com/example/payment/domain/exception/CancelAmountExceededException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/exception/CancelNotAllowedException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/exception/CancelPeriodExceededException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelAmountException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelStateTransitionException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentItemStatusException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/exception/InvalidPaymentStatusException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/exception/PaymentItemNotFoundException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/domain/policy/CancelAmountPolicy.java": [
+      "payment-service/src/main/java/com/example/payment/domain/exception/InvalidCancelAmountException.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyRejectedException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyUnavailableException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/exception/PgServiceException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/exception/ProductServiceException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/exception/RiskServiceException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/exception/StockInsufficientException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/http/MockPgCancelClient.java": [
+      "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/PgCancelPort.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/http/OrderVerifyHttpClient.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/OrderVerifyPort.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyRejectedException.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/exception/OrderVerifyUnavailableException.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/http/PgCancelHttpClient.java": [
+      "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/PgCancelPort.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/exception/PgServiceException.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossCancel.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossPaymentResponse.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/http/ProductStockHttpClient.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/ProductStockPort.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/exception/ProductServiceException.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/exception/StockInsufficientException.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossCancel.java": [],
+    "payment-service/src/main/java/com/example/payment/infrastructure/http/dto/TossPaymentResponse.java": [],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelOutboxRedriveRepositoryImpl.java": [
+      "payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "payment-service/src/main/java/com/example/payment/application/exception/RedriveAlreadyResolvedException.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveFailureStage.java",
+      "payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedriveStatus.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/StockReleaseRetryRepositoryImpl.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/StockReleaseRetryRepository.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/ProcessingRecoveryScheduler.java": [
+      "payment-service/src/main/java/com/example/payment/application/service/ProcessingRecoveryService.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/StockReleaseRetryScheduler.java": [
+      "payment-service/src/main/java/com/example/payment/application/service/StockReleaseRetryService.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/presentation/controller/GlobalExceptionHandler.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/presentation/exception/InvalidIdempotencyKeyException.java": [
+      "payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java"
+    ]
+  }
+}

@@ -1,0 +1,603 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "type": "file",
+      "name": "CancelEventReplayException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "summary": "payment-service에서 Cancel Event Replay Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:CancelEventReplayException",
+      "type": "class",
+      "name": "CancelEventReplayException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "lineRange": [
+        3,
+        17
+      ],
+      "summary": "CancelEventReplayException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:CancelEventReplayException",
+      "type": "function",
+      "name": "CancelEventReplayException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "lineRange": [
+        9,
+        12
+      ],
+      "summary": "CancelEventReplayException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:kind",
+      "type": "function",
+      "name": "kind",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "lineRange": [
+        14,
+        16
+      ],
+      "summary": "kind 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "type": "file",
+      "name": "InvalidCancelEventPayloadException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "summary": "payment-service에서 Invalid Cancel Event Payload Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java:InvalidCancelEventPayloadException",
+      "type": "class",
+      "name": "InvalidCancelEventPayloadException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "lineRange": [
+        3,
+        11
+      ],
+      "summary": "InvalidCancelEventPayloadException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java:InvalidCancelEventPayloadException",
+      "type": "function",
+      "name": "InvalidCancelEventPayloadException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "lineRange": [
+        4,
+        6
+      ],
+      "summary": "InvalidCancelEventPayloadException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "type": "file",
+      "name": "CancelEventPayloadParser.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "summary": "payment-service의 Cancel Event Payload Parser 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java:CancelEventPayloadParser",
+      "type": "class",
+      "name": "CancelEventPayloadParser",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "CancelEventPayloadParser가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "type": "file",
+      "name": "CancelEventReplayPort.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "summary": "payment-service의 Cancel Event Replay Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java:CancelEventReplayPort",
+      "type": "class",
+      "name": "CancelEventReplayPort",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "lineRange": [
+        3,
+        8
+      ],
+      "summary": "CancelEventReplayPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "summary": "payment-service의 Cancel Outbox Redrive Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java:CancelOutboxRedriveRepository",
+      "type": "class",
+      "name": "CancelOutboxRedriveRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "lineRange": [
+        8,
+        37
+      ],
+      "summary": "CancelOutboxRedriveRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "type": "file",
+      "name": "OrderCancelStatusPort.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "summary": "payment-service의 Order Cancel Status Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java:OrderCancelStatusPort",
+      "type": "class",
+      "name": "OrderCancelStatusPort",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "lineRange": [
+        7,
+        16
+      ],
+      "summary": "OrderCancelStatusPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "type": "file",
+      "name": "StockRestoreStatusPort.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "summary": "payment-service의 Stock Restore Status Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java:StockRestoreStatusPort",
+      "type": "class",
+      "name": "StockRestoreStatusPort",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "lineRange": [
+        7,
+        18
+      ],
+      "summary": "StockRestoreStatusPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "type": "file",
+      "name": "CancelEventPayload.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "summary": "payment-service의 Cancel Event Payload 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java:CancelEventPayload",
+      "type": "class",
+      "name": "CancelEventPayload",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "lineRange": [
+        5,
+        15
+      ],
+      "summary": "CancelEventPayload가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "type": "file",
+      "name": "CancelOutboxDecision.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "summary": "payment-service의 Cancel Outbox Decision event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java:CancelOutboxDecision",
+      "type": "class",
+      "name": "CancelOutboxDecision",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "lineRange": [
+        3,
+        8
+      ],
+      "summary": "CancelOutboxDecision가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "type": "file",
+      "name": "CancelOutboxReasonCode.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "summary": "payment-service의 Cancel Outbox Reason Code event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java:CancelOutboxReasonCode",
+      "type": "class",
+      "name": "CancelOutboxReasonCode",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "lineRange": [
+        3,
+        10
+      ],
+      "summary": "CancelOutboxReasonCode가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:CancelEventReplayException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:CancelEventReplayException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:CancelEventReplayException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:CancelEventReplayException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:kind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelEventReplayException.java:kind",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java:InvalidCancelEventPayloadException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java:InvalidCancelEventPayloadException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java:InvalidCancelEventPayloadException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/InvalidCancelEventPayloadException.java:InvalidCancelEventPayloadException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java:CancelEventPayloadParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java:CancelEventPayloadParser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPayloadParser.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java:CancelEventReplayPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventReplayPort.java:CancelEventReplayPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java:CancelOutboxRedriveRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java:CancelOutboxRedriveRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxRedriveRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelOutboxRedrive.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java:OrderCancelStatusPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java:OrderCancelStatusPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OrderCancelStatusPort.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java:StockRestoreStatusPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java:StockRestoreStatusPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/StockRestoreStatusPort.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/model/CancelRestoreLegSnapshot.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java:CancelEventPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/model/CancelEventPayload.java:CancelEventPayload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java:CancelOutboxDecision",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxDecision.java:CancelOutboxDecision",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java:CancelOutboxReasonCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/model/CancelOutboxReasonCode.java:CancelOutboxReasonCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

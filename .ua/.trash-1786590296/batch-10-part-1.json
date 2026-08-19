@@ -1,0 +1,2114 @@
+{
+  "nodes": [
+    {
+      "id": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "type": "file",
+      "name": "OrderOwnershipMismatchException.java",
+      "filePath": "order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "summary": "order-service에서 Order Ownership Mismatch Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java:OrderOwnershipMismatchException",
+      "type": "class",
+      "name": "OrderOwnershipMismatchException",
+      "filePath": "order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "lineRange": [
+        7,
+        12
+      ],
+      "summary": "OrderOwnershipMismatchException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java:OrderOwnershipMismatchException",
+      "type": "function",
+      "name": "OrderOwnershipMismatchException",
+      "filePath": "order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "lineRange": [
+        9,
+        11
+      ],
+      "summary": "OrderOwnershipMismatchException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "type": "file",
+      "name": "VerifyOrderItemNotFoundException.java",
+      "filePath": "order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "summary": "order-service에서 Verify Order Item Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java:VerifyOrderItemNotFoundException",
+      "type": "class",
+      "name": "VerifyOrderItemNotFoundException",
+      "filePath": "order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "lineRange": [
+        13,
+        19
+      ],
+      "summary": "VerifyOrderItemNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java:VerifyOrderItemNotFoundException",
+      "type": "function",
+      "name": "VerifyOrderItemNotFoundException",
+      "filePath": "order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "lineRange": [
+        15,
+        18
+      ],
+      "summary": "VerifyOrderItemNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "exception",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "type": "file",
+      "name": "OrderItemVerifier.java",
+      "filePath": "order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "summary": "order-service의 Order Item Verifier application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:OrderItemVerifier",
+      "type": "class",
+      "name": "OrderItemVerifier",
+      "filePath": "order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "lineRange": [
+        19,
+        41
+      ],
+      "summary": "OrderItemVerifier가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:resolveOrderId",
+      "type": "function",
+      "name": "resolveOrderId",
+      "filePath": "order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "lineRange": [
+        21,
+        34
+      ],
+      "summary": "resolveOrderId 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:checkOwnership",
+      "type": "function",
+      "name": "checkOwnership",
+      "filePath": "order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "lineRange": [
+        36,
+        40
+      ],
+      "summary": "checkOwnership 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "order-service",
+        "service",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "type": "file",
+      "name": "LogOperationAlertAdapter.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "summary": "order-service의 Log Operation Alert Adapter 관련 domain/application 동작을 구현하며 2개의 주요 구조를 포함한다.",
+      "tags": [
+        "order-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "class",
+      "name": "LogOperationAlertAdapter",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "lineRange": [
+        8,
+        16
+      ],
+      "summary": "LogOperationAlertAdapter가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "function",
+      "name": "alert",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "lineRange": [
+        12,
+        15
+      ],
+      "summary": "alert 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "type": "file",
+      "name": "KafkaProducerConfig.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "summary": "order-service의 Kafka Producer Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "class",
+      "name": "KafkaProducerConfig",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        19,
+        54
+      ],
+      "summary": "KafkaProducerConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "function",
+      "name": "producerFactory",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        25,
+        36
+      ],
+      "summary": "producerFactory 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "function",
+      "name": "kafkaTemplate",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        38,
+        41
+      ],
+      "summary": "kafkaTemplate 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:retryRouter",
+      "type": "function",
+      "name": "retryRouter",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        43,
+        53
+      ],
+      "summary": "retryRouter 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "type": "file",
+      "name": "PersistenceConfig.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "summary": "order-service의 Persistence Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "class",
+      "name": "PersistenceConfig",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        22,
+        81
+      ],
+      "summary": "PersistenceConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "function",
+      "name": "transactionManager",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        27,
+        30
+      ],
+      "summary": "transactionManager 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "function",
+      "name": "transactionTemplate",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        32,
+        35
+      ],
+      "summary": "transactionTemplate 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:orderRepository",
+      "type": "function",
+      "name": "orderRepository",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        37,
+        40
+      ],
+      "summary": "orderRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:orderItemRepository",
+      "type": "function",
+      "name": "orderItemRepository",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        42,
+        45
+      ],
+      "summary": "orderItemRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:processedCancelEventRepository",
+      "type": "function",
+      "name": "processedCancelEventRepository",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        47,
+        51
+      ],
+      "summary": "processedCancelEventRepository 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:cancelRestoreDlqRepository",
+      "type": "function",
+      "name": "cancelRestoreDlqRepository",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        53,
+        56
+      ],
+      "summary": "cancelRestoreDlqRepository 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:cartRepository",
+      "type": "function",
+      "name": "cartRepository",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        58,
+        61
+      ],
+      "summary": "cartRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:processCancelledItemsUseCase",
+      "type": "function",
+      "name": "processCancelledItemsUseCase",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        63,
+        71
+      ],
+      "summary": "processCancelledItemsUseCase 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "order-service",
+        "use-case",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:inspectCancelRestoreUseCase",
+      "type": "function",
+      "name": "inspectCancelRestoreUseCase",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        73,
+        80
+      ],
+      "summary": "inspectCancelRestoreUseCase 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "use-case",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "type": "file",
+      "name": "PaymentCancelledConsumer.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "summary": "order-service의 Payment Cancelled Consumer event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java:PaymentCancelledConsumer",
+      "type": "class",
+      "name": "PaymentCancelledConsumer",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "lineRange": [
+        18,
+        67
+      ],
+      "summary": "PaymentCancelledConsumer가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java:consume",
+      "type": "function",
+      "name": "consume",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "lineRange": [
+        28,
+        66
+      ],
+      "summary": "consume 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java",
+      "type": "file",
+      "name": "PaymentCancelledPayload.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java",
+      "summary": "order-service의 Payment Cancelled Payload event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "class",
+      "name": "PaymentCancelledPayload",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java",
+      "lineRange": [
+        6,
+        18
+      ],
+      "summary": "PaymentCancelledPayload가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "type": "file",
+      "name": "PaymentCancelledRetryConsumer.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "summary": "order-service의 Payment Cancelled Retry Consumer event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java:PaymentCancelledRetryConsumer",
+      "type": "class",
+      "name": "PaymentCancelledRetryConsumer",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "lineRange": [
+        14,
+        55
+      ],
+      "summary": "PaymentCancelledRetryConsumer가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java:consume",
+      "type": "function",
+      "name": "consume",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "lineRange": [
+        23,
+        54
+      ],
+      "summary": "consume 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "type": "file",
+      "name": "RetryRouter.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "summary": "order-service의 Retry Router event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "class",
+      "name": "RetryRouter",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        26,
+        159
+      ],
+      "summary": "RetryRouter가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "function",
+      "name": "RetryRouter",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        40,
+        51
+      ],
+      "summary": "RetryRouter 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:route",
+      "type": "function",
+      "name": "route",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        53,
+        60
+      ],
+      "summary": "route 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:publishToRetry",
+      "type": "function",
+      "name": "publishToRetry",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        66,
+        92
+      ],
+      "summary": "publishToRetry 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:publishToDlq",
+      "type": "function",
+      "name": "publishToDlq",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        103,
+        123
+      ],
+      "summary": "publishToDlq 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:parseRetryCount",
+      "type": "function",
+      "name": "parseRetryCount",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "lineRange": [
+        135,
+        144
+      ],
+      "summary": "parseRetryCount 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "order-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "type": "file",
+      "name": "CancelRestoreDlqRepositoryImpl.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "summary": "order-service의 Cancel Restore Dlq Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "class",
+      "name": "CancelRestoreDlqRepositoryImpl",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        8,
+        42
+      ],
+      "summary": "CancelRestoreDlqRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "function",
+      "name": "CancelRestoreDlqRepositoryImpl",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        12,
+        14
+      ],
+      "summary": "CancelRestoreDlqRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:upsertPending",
+      "type": "function",
+      "name": "upsertPending",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "upsertPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:findRedrivable",
+      "type": "function",
+      "name": "findRedrivable",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        21,
+        26
+      ],
+      "summary": "findRedrivable 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markResolved",
+      "type": "function",
+      "name": "markResolved",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        28,
+        31
+      ],
+      "summary": "markResolved 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:bumpAttempt",
+      "type": "function",
+      "name": "bumpAttempt",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        33,
+        36
+      ],
+      "summary": "bumpAttempt 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markDead",
+      "type": "function",
+      "name": "markDead",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "lineRange": [
+        38,
+        41
+      ],
+      "summary": "markDead 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "type": "file",
+      "name": "OrderItemJpaEntity.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "summary": "order-service에서 Order Item Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:OrderItemJpaEntity",
+      "type": "class",
+      "name": "OrderItemJpaEntity",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "lineRange": [
+        9,
+        67
+      ],
+      "summary": "OrderItemJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:OrderItemJpaEntity",
+      "type": "function",
+      "name": "OrderItemJpaEntity",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "lineRange": [
+        39,
+        39
+      ],
+      "summary": "OrderItemJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "lineRange": [
+        41,
+        51
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:updateStatus",
+      "type": "function",
+      "name": "updateStatus",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "lineRange": [
+        53,
+        56
+      ],
+      "summary": "updateStatus 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "lineRange": [
+        58,
+        64
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "lineRange": [
+        66,
+        66
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "type": "file",
+      "name": "OrderItemRepositoryImpl.java",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "summary": "order-service의 Order Item Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:OrderItemRepositoryImpl",
+      "type": "class",
+      "name": "OrderItemRepositoryImpl",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "lineRange": [
+        11,
+        51
+      ],
+      "summary": "OrderItemRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "order-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:insertAll",
+      "type": "function",
+      "name": "insertAll",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "lineRange": [
+        16,
+        24
+      ],
+      "summary": "insertAll 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:findAllByIdIn",
+      "type": "function",
+      "name": "findAllByIdIn",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "lineRange": [
+        26,
+        31
+      ],
+      "summary": "findAllByIdIn 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:findAllByOrderId",
+      "type": "function",
+      "name": "findAllByOrderId",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "lineRange": [
+        33,
+        38
+      ],
+      "summary": "findAllByOrderId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:saveAll",
+      "type": "function",
+      "name": "saveAll",
+      "filePath": "order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "lineRange": [
+        40,
+        50
+      ],
+      "summary": "saveAll 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "order-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java:OrderOwnershipMismatchException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java:OrderOwnershipMismatchException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java:OrderOwnershipMismatchException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java:OrderOwnershipMismatchException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "target": "file:order-service/src/main/java/com/example/order/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "target": "file:order-service/src/main/java/com/example/order/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java:VerifyOrderItemNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java:VerifyOrderItemNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java:VerifyOrderItemNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java:VerifyOrderItemNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "target": "file:order-service/src/main/java/com/example/order/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "target": "file:order-service/src/main/java/com/example/order/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:OrderItemVerifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "class:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:OrderItemVerifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:resolveOrderId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:resolveOrderId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:checkOwnership",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "function:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java:checkOwnership",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/Order.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/exception/OrderItemsMultipleOrdersException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/exception/OrderOwnershipMismatchException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/domain/service/OrderItemVerifier.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/exception/VerifyOrderItemNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:retryRouter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java:retryRouter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/KafkaProducerConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:orderRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:orderRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:orderItemRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:orderItemRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:processedCancelEventRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:processedCancelEventRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:cancelRestoreDlqRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:cancelRestoreDlqRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:cartRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:cartRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:processCancelledItemsUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:processCancelledItemsUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:inspectCancelRestoreUseCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java:inspectCancelRestoreUseCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CartRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/InspectCancelRestoreUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/config/PersistenceConfig.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java:PaymentCancelledConsumer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java:PaymentCancelledConsumer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java:consume",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java:consume",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledPayload.java:PaymentCancelledPayload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java:PaymentCancelledRetryConsumer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java:PaymentCancelledRetryConsumer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java:consume",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java:consume",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledRetryConsumer.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:RetryRouter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:route",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:route",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:publishToRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:publishToDlq",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java:parseRetryCount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/messaging/RetryRouter.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:CancelRestoreDlqRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:upsertPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:upsertPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:findRedrivable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:findRedrivable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markResolved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markResolved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:bumpAttempt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:bumpAttempt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markDead",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java:markDead",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/CancelRestoreDlqRepositoryImpl.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:OrderItemJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:OrderItemJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:OrderItemJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:OrderItemJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:updateStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:updateStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemJpaEntity.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItemStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:OrderItemRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "class:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:OrderItemRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:insertAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:insertAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:findAllByIdIn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:findAllByIdIn",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:findAllByOrderId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:findAllByOrderId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:saveAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "function:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java:saveAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "file:order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:order-service/src/main/java/com/example/order/infrastructure/persistence/OrderItemRepositoryImpl.java",
+      "target": "file:order-service/src/main/java/com/example/order/domain/entity/OrderItemStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

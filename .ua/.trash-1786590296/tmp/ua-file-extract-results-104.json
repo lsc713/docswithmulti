@@ -1,0 +1,692 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 12,
+  "filesSkipped": [
+    "frontend/src/App.css",
+    "frontend/src/admin/admin.css",
+    "frontend/src/index.css",
+    "gradle/wrapper/gradle-wrapper.jar",
+    "gradle/wrapper/gradle-wrapper.properties",
+    "gradlew",
+    "infra/load-test/terraform.tfvars.example",
+    "logs/merchant.out",
+    "logs/order.out",
+    "logs/payment.out",
+    "logs/risk.out",
+    "merchant-limit-service/build.gradle",
+    "merchant-limit-service/merchant.http"
+  ],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 12,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 2,
+      "failed": 0,
+      "skipped": 10
+    }
+  },
+  "results": [
+    {
+      "path": "docs/conventions/architecture.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 61,
+      "nonEmptyLines": 50,
+      "sections": [
+        {
+          "heading": "아키텍처 규약 — 레이어 구조 & 예외 계층",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "레이어 구조 (모듈 공통)",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "예외 계층 원칙",
+          "level": 2,
+          "line": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    },
+    {
+      "path": "docs/operations/cancel-outbox-redrive.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 181,
+      "nonEmptyLines": 138,
+      "sections": [
+        {
+          "heading": "Cancel outbox redrive operator guide",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "0. 로컬 자동 smoke fixture",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "1. 작업 변수 설정",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "2. 원본 outbox 점검",
+          "level": 2,
+          "line": 38
+        },
+        {
+          "heading": "3. redrive 요청",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "4. 2초 간격으로 상태 확인",
+          "level": 2,
+          "line": 88
+        },
+        {
+          "heading": "5. 종료 상태 해석과 안전한 다음 작업",
+          "level": 2,
+          "line": 139
+        },
+        {
+          "heading": "6. executor 포화와 recovery 확인",
+          "level": 2,
+          "line": 167
+        },
+        {
+          "heading": "7. ACK 저장 crash window와 중복 이벤트 전제",
+          "level": 2,
+          "line": 177
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": "docs/reviews/2026-08-10-cancel-restore-review.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 309,
+      "nonEmptyLines": 214,
+      "sections": [
+        {
+          "heading": "결제 취소 및 재고 복원 흐름 리뷰",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 요약",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 검증 환경과 범위",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "3. 정상 흐름 검증 결과",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "3.1 실행 시나리오",
+          "level": 3,
+          "line": 45
+        },
+        {
+          "heading": "3.2 확인된 상태",
+          "level": 3,
+          "line": 56
+        },
+        {
+          "heading": "4. 발견사항",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "4.1 [Critical] DEAD 취소 아웃박스가 실제 데이터 불일치를 만들고 있다",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "증거",
+          "level": 4,
+          "line": 78
+        },
+        {
+          "heading": "원인",
+          "level": 4,
+          "line": 89
+        },
+        {
+          "heading": "영향",
+          "level": 4,
+          "line": 95
+        },
+        {
+          "heading": "권고",
+          "level": 4,
+          "line": 102
+        },
+        {
+          "heading": "4.2 [High] 승인과 반려의 동시 실행을 직렬화하지 않는다",
+          "level": 3,
+          "line": 113
+        },
+        {
+          "heading": "증거",
+          "level": 4,
+          "line": 115
+        },
+        {
+          "heading": "위험",
+          "level": 4,
+          "line": 126
+        },
+        {
+          "heading": "권고",
+          "level": 4,
+          "line": 132
+        },
+        {
+          "heading": "4.3 [High] 모든 `DataIntegrityViolationException`을 중복 이벤트로 ACK한다",
+          "level": 3,
+          "line": 140
+        },
+        {
+          "heading": "증거",
+          "level": 4,
+          "line": 142
+        },
+        {
+          "heading": "위험",
+          "level": 4,
+          "line": 146
+        },
+        {
+          "heading": "권고",
+          "level": 4,
+          "line": 150
+        },
+        {
+          "heading": "4.4 [High] 취소 대상 ID 검증이 PG 호출보다 늦게 완성된다",
+          "level": 3,
+          "line": 157
+        },
+        {
+          "heading": "증거",
+          "level": 4,
+          "line": 159
+        },
+        {
+          "heading": "위험",
+          "level": 4,
+          "line": 163
+        },
+        {
+          "heading": "권고",
+          "level": 4,
+          "line": 174
+        },
+        {
+          "heading": "4.5 [Medium] 재고가 복원되지 않아도 이벤트를 처리 완료로 기록할 수 있다",
+          "level": 3,
+          "line": 180
+        },
+        {
+          "heading": "증거",
+          "level": 4,
+          "line": 182
+        },
+        {
+          "heading": "위험",
+          "level": 4,
+          "line": 186
+        },
+        {
+          "heading": "권고",
+          "level": 4,
+          "line": 192
+        },
+        {
+          "heading": "4.6 [Medium] 승인 상태와 취소 실행 상태의 의미가 분리돼 있지 않다",
+          "level": 3,
+          "line": 200
+        },
+        {
+          "heading": "4.7 [Low] 전체 취소 흐름을 고정하는 단일 자동화가 없다",
+          "level": 3,
+          "line": 211
+        },
+        {
+          "heading": "5. 우선순위 제안",
+          "level": 2,
+          "line": 234
+        },
+        {
+          "heading": "P0: 현재 데이터 수렴",
+          "level": 3,
+          "line": 236
+        },
+        {
+          "heading": "P1: 재발 방지",
+          "level": 3,
+          "line": 244
+        },
+        {
+          "heading": "P2: 탐지 및 운영성",
+          "level": 3,
+          "line": 251
+        },
+        {
+          "heading": "P3: 회귀 방지",
+          "level": 3,
+          "line": 257
+        },
+        {
+          "heading": "6. 완료 조건",
+          "level": 2,
+          "line": 264
+        },
+        {
+          "heading": "7. 테스트 실행 결과",
+          "level": 2,
+          "line": 277
+        },
+        {
+          "heading": "8. 관련 코드",
+          "level": 2,
+          "line": 293
+        },
+        {
+          "heading": "9. 변경 범위",
+          "level": 2,
+          "line": 307
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 39
+      }
+    },
+    {
+      "path": "frontend/playwright.config.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 14,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/vite.config.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 22,
+      "callGraph": [
+        {
+          "caller": "configureServer",
+          "callee": "server.middlewares.use",
+          "lineNumber": 9
+        },
+        {
+          "caller": "configureServer",
+          "callee": "req.url.startsWith",
+          "lineNumber": 10
+        },
+        {
+          "caller": "configureServer",
+          "callee": "next",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "infra/k8s/deploy.sh",
+      "language": "shell",
+      "fileCategory": "infra",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "infra/k8s/kafka/strimzi-kafka.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 96,
+      "nonEmptyLines": 96,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 11
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 29
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 30
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 31
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 37
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 54
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 55
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 56
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 60
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 65
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 66
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 67
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 71
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 76
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 77
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 78
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 82
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 87
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 88
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 89
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 93
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 24
+      }
+    },
+    {
+      "path": "infra/k8s/redis/redis.yaml",
+      "language": "yaml",
+      "fileCategory": "infra",
+      "totalLines": 23,
+      "nonEmptyLines": 23,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 18
+        },
+        {
+          "heading": "kind",
+          "level": 1,
+          "line": 19
+        },
+        {
+          "heading": "metadata",
+          "level": 1,
+          "line": 20
+        },
+        {
+          "heading": "spec",
+          "level": 1,
+          "line": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": "infra/load-test/observability/grafana/provisioning/dashboards/provider.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 12,
+      "nonEmptyLines": 11,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "providers",
+          "level": 1,
+          "line": 3
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/observability/grafana/provisioning/datasources/prometheus.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "datasources",
+          "level": 1,
+          "line": 3
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/observability/grafana/provisioning/datasources/tempo.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "sections": [
+        {
+          "heading": "apiVersion",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "datasources",
+          "level": 1,
+          "line": 3
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/observability/tempo/tempo.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 18,
+      "nonEmptyLines": 16,
+      "sections": [
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "distributor",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "storage",
+          "level": 1,
+          "line": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 3
+      }
+    }
+  ]
+}

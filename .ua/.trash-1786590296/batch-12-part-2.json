@@ -1,0 +1,1441 @@
+{
+  "nodes": [
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "type": "file",
+      "name": "SettlementLineRepositoryImpl.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "summary": "settlement-service의 Settlement Line Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:SettlementLineRepositoryImpl",
+      "type": "class",
+      "name": "SettlementLineRepositoryImpl",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "lineRange": [
+        12,
+        41
+      ],
+      "summary": "SettlementLineRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:SettlementLineRepositoryImpl",
+      "type": "function",
+      "name": "SettlementLineRepositoryImpl",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "lineRange": [
+        16,
+        18
+      ],
+      "summary": "SettlementLineRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:insert",
+      "type": "function",
+      "name": "insert",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "lineRange": [
+        20,
+        24
+      ],
+      "summary": "insert 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:findBySettlementId",
+      "type": "function",
+      "name": "findBySettlementId",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "lineRange": [
+        26,
+        31
+      ],
+      "summary": "findBySettlementId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:sumLinesByType",
+      "type": "function",
+      "name": "sumLinesByType",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "lineRange": [
+        33,
+        40
+      ],
+      "summary": "sumLinesByType 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "type": "file",
+      "name": "SettlementRepositoryImpl.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "summary": "settlement-service의 Settlement Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:SettlementRepositoryImpl",
+      "type": "class",
+      "name": "SettlementRepositoryImpl",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        11,
+        73
+      ],
+      "summary": "SettlementRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:SettlementRepositoryImpl",
+      "type": "function",
+      "name": "SettlementRepositoryImpl",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "SettlementRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:ensureRow",
+      "type": "function",
+      "name": "ensureRow",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        19,
+        22
+      ],
+      "summary": "ensureRow 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findId",
+      "type": "function",
+      "name": "findId",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        24,
+        32
+      ],
+      "summary": "findId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findStatus",
+      "type": "function",
+      "name": "findStatus",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        34,
+        37
+      ],
+      "summary": "findStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:addCancelAmount",
+      "type": "function",
+      "name": "addCancelAmount",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        39,
+        42
+      ],
+      "summary": "addCancelAmount 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:addGrossAmount",
+      "type": "function",
+      "name": "addGrossAmount",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        44,
+        47
+      ],
+      "summary": "addGrossAmount 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findByMerchant",
+      "type": "function",
+      "name": "findByMerchant",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        49,
+        55
+      ],
+      "summary": "findByMerchant 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        57,
+        60
+      ],
+      "summary": "findById 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findFinalizable",
+      "type": "function",
+      "name": "findFinalizable",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        62,
+        67
+      ],
+      "summary": "findFinalizable 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:finalizeOpen",
+      "type": "function",
+      "name": "finalizeOpen",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "lineRange": [
+        69,
+        72
+      ],
+      "summary": "finalizeOpen 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "type": "file",
+      "name": "SettlementReconcileScheduler.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "summary": "settlement-service에서 Settlement Reconcile Scheduler 백그라운드 작업을 주기적으로 실행하고 처리 상태를 관리한다.",
+      "tags": [
+        "settlement-service",
+        "scheduler",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:SettlementReconcileScheduler",
+      "type": "class",
+      "name": "SettlementReconcileScheduler",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "lineRange": [
+        21,
+        63
+      ],
+      "summary": "SettlementReconcileScheduler가 담당하는 scheduler 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:SettlementReconcileScheduler",
+      "type": "function",
+      "name": "SettlementReconcileScheduler",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "lineRange": [
+        36,
+        40
+      ],
+      "summary": "SettlementReconcileScheduler 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "scheduler",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:run",
+      "type": "function",
+      "name": "run",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "lineRange": [
+        42,
+        62
+      ],
+      "summary": "run 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "type": "file",
+      "name": "ReserveQueryController.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "summary": "settlement-service의 Reserve Query Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java:ReserveQueryController",
+      "type": "class",
+      "name": "ReserveQueryController",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "lineRange": [
+        15,
+        28
+      ],
+      "summary": "ReserveQueryController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java:reserve",
+      "type": "function",
+      "name": "reserve",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "lineRange": [
+        22,
+        27
+      ],
+      "summary": "reserve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "type": "file",
+      "name": "SettlementConfigController.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "summary": "settlement-service의 Settlement Config Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java:SettlementConfigController",
+      "type": "class",
+      "name": "SettlementConfigController",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "lineRange": [
+        18,
+        33
+      ],
+      "summary": "SettlementConfigController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java:setRate",
+      "type": "function",
+      "name": "setRate",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "lineRange": [
+        25,
+        32
+      ],
+      "summary": "setRate 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "type": "file",
+      "name": "SettlementQueryController.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "summary": "settlement-service의 Settlement Query Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:SettlementQueryController",
+      "type": "class",
+      "name": "SettlementQueryController",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "lineRange": [
+        20,
+        41
+      ],
+      "summary": "SettlementQueryController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:list",
+      "type": "function",
+      "name": "list",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "lineRange": [
+        27,
+        35
+      ],
+      "summary": "list 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:detail",
+      "type": "function",
+      "name": "detail",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "lineRange": [
+        37,
+        40
+      ],
+      "summary": "detail 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java",
+      "type": "file",
+      "name": "ReserveResponse.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java",
+      "summary": "settlement-service의 Reserve Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java:ReserveResponse",
+      "type": "class",
+      "name": "ReserveResponse",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java",
+      "lineRange": [
+        7,
+        7
+      ],
+      "summary": "ReserveResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java",
+      "type": "file",
+      "name": "SettlementConfigRequest.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java",
+      "summary": "settlement-service의 Settlement Config Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java:SettlementConfigRequest",
+      "type": "class",
+      "name": "SettlementConfigRequest",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java",
+      "lineRange": [
+        6,
+        6
+      ],
+      "summary": "SettlementConfigRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java",
+      "type": "file",
+      "name": "SettlementConfigResponse.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java",
+      "summary": "settlement-service의 Settlement Config Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java:SettlementConfigResponse",
+      "type": "class",
+      "name": "SettlementConfigResponse",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java",
+      "lineRange": [
+        5,
+        5
+      ],
+      "summary": "SettlementConfigResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "type": "file",
+      "name": "SettlementDetailResponse.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "summary": "settlement-service의 Settlement Detail Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java:SettlementDetailResponse",
+      "type": "class",
+      "name": "SettlementDetailResponse",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "lineRange": [
+        8,
+        17
+      ],
+      "summary": "SettlementDetailResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "lineRange": [
+        12,
+        16
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "type": "file",
+      "name": "SettlementLineResponse.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "summary": "settlement-service의 Settlement Line Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java:SettlementLineResponse",
+      "type": "class",
+      "name": "SettlementLineResponse",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "lineRange": [
+        9,
+        21
+      ],
+      "summary": "SettlementLineResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "lineRange": [
+        17,
+        20
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "type": "file",
+      "name": "SettlementResponse.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "summary": "settlement-service의 Settlement Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java:SettlementResponse",
+      "type": "class",
+      "name": "SettlementResponse",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "lineRange": [
+        10,
+        29
+      ],
+      "summary": "SettlementResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "lineRange": [
+        23,
+        28
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "settlement-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:SettlementLineRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:SettlementLineRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:SettlementLineRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:SettlementLineRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:insert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:insert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:findBySettlementId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:findBySettlementId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:sumLinesByType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java:sumLinesByType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementLineRepositoryImpl.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/SettlementLine.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:SettlementRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:SettlementRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:SettlementRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:SettlementRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:ensureRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:ensureRow",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:addCancelAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:addCancelAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:addGrossAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:addGrossAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findByMerchant",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findByMerchant",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findFinalizable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:findFinalizable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:finalizeOpen",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java:finalizeOpen",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/persistence/SettlementRepositoryImpl.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Settlement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:SettlementReconcileScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:SettlementReconcileScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:SettlementReconcileScheduler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:SettlementReconcileScheduler",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:run",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java:run",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/infrastructure/scheduler/SettlementReconcileScheduler.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java:ReserveQueryController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java:ReserveQueryController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java:reserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java:reserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Reserve.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/ReserveQueryController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java:SettlementConfigController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java:SettlementConfigController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java:setRate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java:setRate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementConfigController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:SettlementQueryController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:SettlementQueryController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:list",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:list",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:detail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java:detail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/controller/SettlementQueryController.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java:ReserveResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/ReserveResponse.java:ReserveResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java:SettlementConfigRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigRequest.java:SettlementConfigRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java:SettlementConfigResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementConfigResponse.java:SettlementConfigResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java:SettlementDetailResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java:SettlementDetailResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementDetailResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java:SettlementLineResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java:SettlementLineResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementLineResponse.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/SettlementLine.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java:SettlementResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java:SettlementResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/presentation/dto/SettlementResponse.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Settlement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-13-k3s-scaleout-phase-a.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "k3s 스케일아웃 Phase A — 클러스터 골격 Implementation Plan",
+  "summary": "Task-by-task implementation plan to stand up a multi-node k3s cluster with Strimzi Kafka, Redis, and 4 app services to a passing cancel e2e smoke test.",
+  "scope": ["k3s cluster", "Terraform infra/k3s-scaleout", "Strimzi Kafka 3-broker", "Redis", "payment/risk/merchant-limit/order services", "Traefik Ingress", "e2e smoke test"],
+  "cross_refs": ["docs/superpowers/specs/2026-07-13-k3s-scaleout-design.md", "infra/load-test/", "infra/k8s/", "k6/seed/seed.sh"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Procedural implementation plan (checkbox tasks, bash/terraform/yaml steps, deploy runbook). No status/decision frontmatter → not ADR. No user stories/acceptance criteria → not PRD. Embedded manifests are execution steps, not a standalone contract → the authoritative contract lives in the referenced design spec. Best fit is DOC (runbook/guide). Cross-refs the Phase A design SPEC."
+}

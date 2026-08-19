@@ -1,0 +1,202 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/auth-gateway/REQUIREMENTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 60,
+      "nonEmptyLines": 44,
+      "sections": [
+        {
+          "heading": "REQUIREMENTS — Milestone v2.0: MSA cross-cutting (인증 + API Gateway)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "v2.0 Requirements",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "AUTH — 신원 & 토큰 발급 (user-service, 신규 모듈)",
+          "level": 3,
+          "line": 10
+        },
+        {
+          "heading": "AUTHZ — 취소 인가 (payment-service, 서비스 레벨)",
+          "level": 3,
+          "line": 17
+        },
+        {
+          "heading": "GATE — API Gateway (신규 모듈, Spring Cloud Gateway)",
+          "level": 3,
+          "line": 21
+        },
+        {
+          "heading": "DEPLOY — 배포 매니페스트 (k3s, Phase 2/3에서 이관된 배포 시점 게이트)",
+          "level": 3,
+          "line": 27
+        },
+        {
+          "heading": "Future Requirements (deferred)",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "Out of Scope (explicit)",
+          "level": 2,
+          "line": 39
+        },
+        {
+          "heading": "Traceability",
+          "level": 2,
+          "line": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": ".planning/workstreams/auth-gateway/ROADMAP.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 92,
+      "nonEmptyLines": 78,
+      "sections": [
+        {
+          "heading": "ROADMAP — Milestone v2.0: MSA cross-cutting (인증 + API Gateway)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Phases",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "Phase Details",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Phase 1: user-service 인증 기반",
+          "level": 3,
+          "line": 18
+        },
+        {
+          "heading": "Phase 2: API Gateway (JWT 검증 + 라우팅)",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "Phase 3: payment 취소 인가",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "Phase 4: 배포 매니페스트 (k3s)",
+          "level": 3,
+          "line": 55
+        },
+        {
+          "heading": "Progress",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "Coverage",
+          "level": 2,
+          "line": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": ".planning/workstreams/auth-gateway/STATE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 48,
+      "nonEmptyLines": 38,
+      "sections": [
+        {
+          "heading": "Project State",
+          "level": 1,
+          "line": 21
+        },
+        {
+          "heading": "Current Position",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Progress",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "Accumulated Context",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "Session Continuity",
+          "level": 2,
+          "line": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": ".planning/workstreams/auth-gateway/config.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 5,
+      "nonEmptyLines": 5,
+      "sections": [
+        {
+          "heading": "workflow",
+          "level": 1,
+          "line": 2
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    }
+  ]
+}

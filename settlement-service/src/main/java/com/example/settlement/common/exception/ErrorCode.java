@@ -14,6 +14,8 @@ public enum ErrorCode {
     PAYOUT_ACCOUNT_INACTIVE("PAYOUT_ACCOUNT_INACTIVE", 400, "활성 지급 계좌가 없습니다."),
     // 401
     PAYOUT_SIGNATURE_INVALID("PAYOUT_SIGNATURE_INVALID", 401, "지급 콜백 서명이 유효하지 않습니다."),
+    // 403
+    FORBIDDEN("FORBIDDEN", 403, "권한이 없습니다."),
     // 409
     PAYOUT_ALREADY_EXISTS("PAYOUT_ALREADY_EXISTS", 409, "이미 지급 건이 존재합니다."),
     // 404

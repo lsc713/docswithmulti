@@ -1,0 +1,89 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 1,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 1,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "merchant-limit-service/src/main/resources/db/migration/V1__create_merchant_limit_core.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 50,
+      "nonEmptyLines": 43,
+      "definitions": [
+        {
+          "name": "merchant",
+          "kind": "table",
+          "fields": [
+            "id",
+            "merchant_key",
+            "name",
+            "status",
+            "cancel_period_days",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 1,
+          "endLine": 13
+        },
+        {
+          "name": "merchant_cancel_limit",
+          "kind": "table",
+          "fields": [
+            "id",
+            "merchant_id",
+            "daily_limit",
+            "updated_at"
+          ],
+          "startLine": 15,
+          "endLine": 24
+        },
+        {
+          "name": "merchant_cancel_limit_history",
+          "kind": "table",
+          "fields": [
+            "id",
+            "merchant_id",
+            "old_limit",
+            "new_limit",
+            "reason",
+            "created_at"
+          ],
+          "startLine": 26,
+          "endLine": 37
+        },
+        {
+          "name": "limit_event_outbox",
+          "kind": "table",
+          "fields": [
+            "id",
+            "merchant_id",
+            "payload",
+            "status",
+            "created_at",
+            "published_at"
+          ],
+          "startLine": 39,
+          "endLine": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 4
+      }
+    }
+  ]
+}

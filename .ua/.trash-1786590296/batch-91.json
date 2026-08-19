@@ -1,0 +1,125 @@
+{
+  "nodes": [
+    {
+      "id": "service:infra/k8s/apps/api-gateway.yaml",
+      "type": "service",
+      "name": "api-gateway.yaml",
+      "filePath": "infra/k8s/apps/api-gateway.yaml",
+      "summary": "프로젝트 구현 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "프로젝트-구현",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:infra/k8s/apps/config.yaml",
+      "type": "service",
+      "name": "config.yaml",
+      "filePath": "infra/k8s/apps/config.yaml",
+      "summary": "프로젝트 구현 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/apps/jwt-secret.yaml",
+      "type": "service",
+      "name": "jwt-secret.yaml",
+      "filePath": "infra/k8s/apps/jwt-secret.yaml",
+      "summary": "프로젝트 구현 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "프로젝트-구현",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/apps/merchant-limit.yaml",
+      "type": "service",
+      "name": "merchant-limit.yaml",
+      "filePath": "infra/k8s/apps/merchant-limit.yaml",
+      "summary": "가맹점 한도 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "가맹점-한도",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/apps/order.yaml",
+      "type": "service",
+      "name": "order.yaml",
+      "filePath": "infra/k8s/apps/order.yaml",
+      "summary": "주문 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "주문",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/apps/payment.yaml",
+      "type": "service",
+      "name": "payment.yaml",
+      "filePath": "infra/k8s/apps/payment.yaml",
+      "summary": "결제 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "결제",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:infra/k8s/apps/risk.yaml",
+      "type": "service",
+      "name": "risk.yaml",
+      "filePath": "infra/k8s/apps/risk.yaml",
+      "summary": "프로젝트 구현 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "프로젝트-구현",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/apps/user-service.yaml",
+      "type": "service",
+      "name": "user-service.yaml",
+      "filePath": "infra/k8s/apps/user-service.yaml",
+      "summary": "사용자 인증 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "사용자-인증",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,1368 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "type": "file",
+      "name": "CancelEventOutboxRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "summary": "payment-service의 Cancel Event Outbox Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java:CancelEventOutboxRepository",
+      "type": "class",
+      "name": "CancelEventOutboxRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "lineRange": [
+        5,
+        22
+      ],
+      "summary": "CancelEventOutboxRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "type": "file",
+      "name": "CancelEventPublisher.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "summary": "payment-service의 Cancel Event Publisher event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java:CancelEventPublisher",
+      "type": "class",
+      "name": "CancelEventPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "lineRange": [
+        4,
+        6
+      ],
+      "summary": "CancelEventPublisher가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "type": "file",
+      "name": "OperationAlertPort.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "summary": "payment-service의 Operation Alert Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "class",
+      "name": "OperationAlertPort",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "lineRange": [
+        10,
+        13
+      ],
+      "summary": "OperationAlertPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "type": "file",
+      "name": "PaymentEventOutboxRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "summary": "payment-service의 Payment Event Outbox Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java:PaymentEventOutboxRepository",
+      "type": "class",
+      "name": "PaymentEventOutboxRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "lineRange": [
+        9,
+        23
+      ],
+      "summary": "PaymentEventOutboxRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "type": "file",
+      "name": "LogOperationAlertAdapter.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "summary": "payment-service의 Log Operation Alert Adapter 관련 domain/application 동작을 구현하며 3개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "class",
+      "name": "LogOperationAlertAdapter",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "lineRange": [
+        8,
+        22
+      ],
+      "summary": "LogOperationAlertAdapter가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:alertPgPendingTimeout",
+      "type": "function",
+      "name": "alertPgPendingTimeout",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "lineRange": [
+        12,
+        16
+      ],
+      "summary": "alertPgPendingTimeout 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "function",
+      "name": "alert",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "lineRange": [
+        18,
+        21
+      ],
+      "summary": "alert 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "type": "file",
+      "name": "PaymentEventOutboxConfig.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "summary": "payment-service의 Payment Event Outbox Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "payment-service",
+        "configuration",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java:PaymentEventOutboxConfig",
+      "type": "class",
+      "name": "PaymentEventOutboxConfig",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "lineRange": [
+        14,
+        22
+      ],
+      "summary": "PaymentEventOutboxConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java:paymentEventOutboxRepository",
+      "type": "function",
+      "name": "paymentEventOutboxRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "lineRange": [
+        17,
+        21
+      ],
+      "summary": "paymentEventOutboxRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "type": "file",
+      "name": "InlineAsyncCancelEventPublisher.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "summary": "payment-service의 Inline Async Cancel Event Publisher event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:InlineAsyncCancelEventPublisher",
+      "type": "class",
+      "name": "InlineAsyncCancelEventPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "lineRange": [
+        12,
+        36
+      ],
+      "summary": "InlineAsyncCancelEventPublisher가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:InlineAsyncCancelEventPublisher",
+      "type": "function",
+      "name": "InlineAsyncCancelEventPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "lineRange": [
+        20,
+        25
+      ],
+      "summary": "InlineAsyncCancelEventPublisher 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "lineRange": [
+        32,
+        35
+      ],
+      "summary": "publish 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "type": "file",
+      "name": "InlineCancelEventPublisher.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "summary": "payment-service의 Inline Cancel Event Publisher event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:InlineCancelEventPublisher",
+      "type": "class",
+      "name": "InlineCancelEventPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "lineRange": [
+        12,
+        37
+      ],
+      "summary": "InlineCancelEventPublisher가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:InlineCancelEventPublisher",
+      "type": "function",
+      "name": "InlineCancelEventPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "lineRange": [
+        20,
+        25
+      ],
+      "summary": "InlineCancelEventPublisher 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "lineRange": [
+        27,
+        36
+      ],
+      "summary": "publish 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "type": "file",
+      "name": "OutboxCancelEventPublisher.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "summary": "payment-service의 Outbox Cancel Event Publisher event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java:OutboxCancelEventPublisher",
+      "type": "class",
+      "name": "OutboxCancelEventPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "lineRange": [
+        15,
+        50
+      ],
+      "summary": "OutboxCancelEventPublisher가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "lineRange": [
+        26,
+        40
+      ],
+      "summary": "publish 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "type": "file",
+      "name": "PaymentEventOutboxJpaRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "summary": "payment-service의 Payment Event Outbox Jpa Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java:PaymentEventOutboxJpaRepository",
+      "type": "class",
+      "name": "PaymentEventOutboxJpaRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "lineRange": [
+        15,
+        56
+      ],
+      "summary": "PaymentEventOutboxJpaRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "type": "file",
+      "name": "PaymentEventOutboxRepositoryImpl.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "summary": "payment-service의 Payment Event Outbox Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:PaymentEventOutboxRepositoryImpl",
+      "type": "class",
+      "name": "PaymentEventOutboxRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        11,
+        53
+      ],
+      "summary": "PaymentEventOutboxRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:PaymentEventOutboxRepositoryImpl",
+      "type": "function",
+      "name": "PaymentEventOutboxRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "PaymentEventOutboxRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:insertPending",
+      "type": "function",
+      "name": "insertPending",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        19,
+        23
+      ],
+      "summary": "insertPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "function",
+      "name": "findPendingBatch",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        25,
+        30
+      ],
+      "summary": "findPendingBatch 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:markPublished",
+      "type": "function",
+      "name": "markPublished",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        32,
+        38
+      ],
+      "summary": "markPublished 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:bumpRetry",
+      "type": "function",
+      "name": "bumpRetry",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        40,
+        43
+      ],
+      "summary": "bumpRetry 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:markDead",
+      "type": "function",
+      "name": "markDead",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        45,
+        48
+      ],
+      "summary": "markDead 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "type": "file",
+      "name": "CancelEventOutboxPublisher.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "summary": "payment-service의 Cancel Event Outbox Publisher event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:CancelEventOutboxPublisher",
+      "type": "class",
+      "name": "CancelEventOutboxPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "lineRange": [
+        24,
+        166
+      ],
+      "summary": "CancelEventOutboxPublisher가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:CancelEventOutboxPublisher",
+      "type": "function",
+      "name": "CancelEventOutboxPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "lineRange": [
+        55,
+        64
+      ],
+      "summary": "CancelEventOutboxPublisher 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:triggerPoll",
+      "type": "function",
+      "name": "triggerPoll",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "lineRange": [
+        74,
+        83
+      ],
+      "summary": "triggerPoll 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "lineRange": [
+        85,
+        138
+      ],
+      "summary": "publish 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:purge",
+      "type": "function",
+      "name": "purge",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "lineRange": [
+        141,
+        162
+      ],
+      "summary": "purge 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "type": "file",
+      "name": "PaymentCompletedOutboxPublisher.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "summary": "payment-service의 Payment Completed Outbox Publisher event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:PaymentCompletedOutboxPublisher",
+      "type": "class",
+      "name": "PaymentCompletedOutboxPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "lineRange": [
+        28,
+        117
+      ],
+      "summary": "PaymentCompletedOutboxPublisher가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:PaymentCompletedOutboxPublisher",
+      "type": "function",
+      "name": "PaymentCompletedOutboxPublisher",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "lineRange": [
+        49,
+        58
+      ],
+      "summary": "PaymentCompletedOutboxPublisher 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:publish",
+      "type": "function",
+      "name": "publish",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "lineRange": [
+        60,
+        114
+      ],
+      "summary": "publish 처리 결과를 event 또는 외부 메시지로 발행한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java:CancelEventOutboxRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java:CancelEventOutboxRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java:CancelEventPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java:CancelEventPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java:PaymentEventOutboxRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java:PaymentEventOutboxRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:LogOperationAlertAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:alertPgPendingTimeout",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:alertPgPendingTimeout",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java:alert",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java:PaymentEventOutboxConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java:PaymentEventOutboxConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java:paymentEventOutboxRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java:paymentEventOutboxRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:InlineAsyncCancelEventPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:InlineAsyncCancelEventPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:InlineAsyncCancelEventPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:InlineAsyncCancelEventPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:publish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java:publish",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:InlineCancelEventPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:InlineCancelEventPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:InlineCancelEventPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:InlineCancelEventPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:publish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java:publish",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java:OutboxCancelEventPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java:OutboxCancelEventPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java:publish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java:publish",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java:PaymentEventOutboxJpaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java:PaymentEventOutboxJpaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:PaymentEventOutboxRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:PaymentEventOutboxRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:PaymentEventOutboxRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:PaymentEventOutboxRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:insertPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:insertPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:markPublished",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:markPublished",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:bumpRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:bumpRetry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:markDead",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java:markDead",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:CancelEventOutboxPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:CancelEventOutboxPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:CancelEventOutboxPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:CancelEventOutboxPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:triggerPoll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:publish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:publish",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:purge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java:purge",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:PaymentCompletedOutboxPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:PaymentCompletedOutboxPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:PaymentCompletedOutboxPublisher",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:PaymentCompletedOutboxPublisher",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:publish",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java:publish",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

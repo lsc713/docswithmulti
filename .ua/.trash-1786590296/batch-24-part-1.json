@@ -1,0 +1,1378 @@
+{
+  "nodes": [
+    {
+      "id": "file:user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "type": "file",
+      "name": "UserRole.java",
+      "filePath": "user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "summary": "user-service의 User Role domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "user-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/domain/entity/UserRole.java:UserRole",
+      "type": "class",
+      "name": "UserRole",
+      "filePath": "user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "lineRange": [
+        3,
+        5
+      ],
+      "summary": "UserRole domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "type": "file",
+      "name": "UserStatus.java",
+      "filePath": "user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "summary": "user-service의 User Status domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "user-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java:UserStatus",
+      "type": "class",
+      "name": "UserStatus",
+      "filePath": "user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "lineRange": [
+        3,
+        9
+      ],
+      "summary": "UserStatus domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java:isActive",
+      "type": "function",
+      "name": "isActive",
+      "filePath": "user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "lineRange": [
+        6,
+        8
+      ],
+      "summary": "isActive 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "type": "file",
+      "name": "PersistenceConfig.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "summary": "user-service의 Persistence Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "user-service",
+        "configuration",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "class",
+      "name": "PersistenceConfig",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        16,
+        37
+      ],
+      "summary": "PersistenceConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "function",
+      "name": "transactionManager",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        20,
+        23
+      ],
+      "summary": "transactionManager 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:userRepository",
+      "type": "function",
+      "name": "userRepository",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        24,
+        25
+      ],
+      "summary": "userRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:refreshTokenRepository",
+      "type": "function",
+      "name": "refreshTokenRepository",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        26,
+        27
+      ],
+      "summary": "refreshTokenRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:passwordEncoder",
+      "type": "function",
+      "name": "passwordEncoder",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        28,
+        29
+      ],
+      "summary": "passwordEncoder 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:jwtTokenProvider",
+      "type": "function",
+      "name": "jwtTokenProvider",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        30,
+        36
+      ],
+      "summary": "jwtTokenProvider 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "type": "file",
+      "name": "WebConfig.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "summary": "user-service의 Web Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "user-service",
+        "configuration",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java:WebConfig",
+      "type": "class",
+      "name": "WebConfig",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "lineRange": [
+        9,
+        18
+      ],
+      "summary": "WebConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "type": "file",
+      "name": "RefreshTokenJpaEntity.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "summary": "user-service에서 Refresh Token Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:RefreshTokenJpaEntity",
+      "type": "class",
+      "name": "RefreshTokenJpaEntity",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "lineRange": [
+        9,
+        48
+      ],
+      "summary": "RefreshTokenJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:RefreshTokenJpaEntity",
+      "type": "function",
+      "name": "RefreshTokenJpaEntity",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "lineRange": [
+        29,
+        29
+      ],
+      "summary": "RefreshTokenJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "lineRange": [
+        31,
+        39
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "lineRange": [
+        41,
+        47
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "type": "file",
+      "name": "RefreshTokenRepositoryImpl.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "summary": "user-service의 Refresh Token Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:RefreshTokenRepositoryImpl",
+      "type": "class",
+      "name": "RefreshTokenRepositoryImpl",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "lineRange": [
+        8,
+        35
+      ],
+      "summary": "RefreshTokenRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:RefreshTokenRepositoryImpl",
+      "type": "function",
+      "name": "RefreshTokenRepositoryImpl",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "lineRange": [
+        12,
+        14
+      ],
+      "summary": "RefreshTokenRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:findByToken",
+      "type": "function",
+      "name": "findByToken",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "findByToken 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "lineRange": [
+        21,
+        24
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:deleteByUserId",
+      "type": "function",
+      "name": "deleteByUserId",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "lineRange": [
+        26,
+        29
+      ],
+      "summary": "deleteByUserId 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:deleteByToken",
+      "type": "function",
+      "name": "deleteByToken",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "lineRange": [
+        31,
+        34
+      ],
+      "summary": "deleteByToken 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "type": "file",
+      "name": "UserJpaEntity.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "summary": "user-service에서 User Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:UserJpaEntity",
+      "type": "class",
+      "name": "UserJpaEntity",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "lineRange": [
+        11,
+        74
+      ],
+      "summary": "UserJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:UserJpaEntity",
+      "type": "function",
+      "name": "UserJpaEntity",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "lineRange": [
+        48,
+        48
+      ],
+      "summary": "UserJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "lineRange": [
+        50,
+        63
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "lineRange": [
+        65,
+        71
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "lineRange": [
+        73,
+        73
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "type": "file",
+      "name": "UserRepositoryImpl.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "summary": "user-service의 User Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:UserRepositoryImpl",
+      "type": "class",
+      "name": "UserRepositoryImpl",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "lineRange": [
+        9,
+        42
+      ],
+      "summary": "UserRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:UserRepositoryImpl",
+      "type": "function",
+      "name": "UserRepositoryImpl",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "lineRange": [
+        13,
+        15
+      ],
+      "summary": "UserRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "user-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "lineRange": [
+        17,
+        20
+      ],
+      "summary": "findById 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findByEmail",
+      "type": "function",
+      "name": "findByEmail",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "lineRange": [
+        22,
+        25
+      ],
+      "summary": "findByEmail 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:existsByEmail",
+      "type": "function",
+      "name": "existsByEmail",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "lineRange": [
+        27,
+        30
+      ],
+      "summary": "existsByEmail 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "lineRange": [
+        32,
+        36
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findAll",
+      "type": "function",
+      "name": "findAll",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "lineRange": [
+        38,
+        41
+      ],
+      "summary": "findAll 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "user-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "type": "file",
+      "name": "BcryptPasswordEncoderAdapter.java",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "summary": "user-service의 Bcrypt Password Encoder Adapter 관련 domain/application 동작을 구현하며 3개의 주요 구조를 포함한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:BcryptPasswordEncoderAdapter",
+      "type": "class",
+      "name": "BcryptPasswordEncoderAdapter",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "lineRange": [
+        6,
+        16
+      ],
+      "summary": "BcryptPasswordEncoderAdapter가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:encode",
+      "type": "function",
+      "name": "encode",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "lineRange": [
+        9,
+        10
+      ],
+      "summary": "encode 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:matches",
+      "type": "function",
+      "name": "matches",
+      "filePath": "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "lineRange": [
+        12,
+        15
+      ],
+      "summary": "matches 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "user-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "target": "class:user-service/src/main/java/com/example/user/domain/entity/UserRole.java:UserRole",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "target": "class:user-service/src/main/java/com/example/user/domain/entity/UserRole.java:UserRole",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "target": "class:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java:UserStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "target": "class:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java:UserStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "target": "function:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java:isActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "target": "function:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java:isActive",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:userRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:userRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:refreshTokenRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:refreshTokenRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:passwordEncoder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:passwordEncoder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:jwtTokenProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java:jwtTokenProvider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "target": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java:WebConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java:WebConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "target": "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "target": "file:user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:RefreshTokenJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:RefreshTokenJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:RefreshTokenJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:RefreshTokenJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:RefreshTokenRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:RefreshTokenRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:RefreshTokenRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:RefreshTokenRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:findByToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:findByToken",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:deleteByUserId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:deleteByUserId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:deleteByToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java:deleteByToken",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "file:user-service/src/main/java/com/example/user/application/interfaces/RefreshTokenRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:UserJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:UserJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:UserJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:UserJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:UserRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:UserRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:UserRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:UserRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findByEmail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findByEmail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:existsByEmail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:existsByEmail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java:findAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "file:user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "target": "file:user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:BcryptPasswordEncoderAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "target": "class:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:BcryptPasswordEncoderAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:encode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:encode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:matches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "target": "function:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java:matches",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "target": "file:user-service/src/main/java/com/example/user/application/interfaces/PasswordEncoder.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

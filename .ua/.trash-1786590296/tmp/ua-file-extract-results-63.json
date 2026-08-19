@@ -1,0 +1,242 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/order-link/phases/02-link/02-CONTEXT.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 38,
+      "nonEmptyLines": 28,
+      "sections": [
+        {
+          "heading": "Phase 2 Context — 결제–주문 검증 링크",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Phase 1이 제공하는 계약 (소비 대상)",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "Locked Decisions (설계 확정 — 변경 금지)",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Canonical References (미러링 대상)",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Claude's Discretion (구현 재량)",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "Scope Fence",
+          "level": 2,
+          "line": 35
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/phases/02-link/02-PLAN.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 238,
+      "nonEmptyLines": 203,
+      "sections": [
+        {
+          "heading": "미러링 대상 (fail-closed HTTP 포트/클라이언트 + catch 계층 규율)",
+          "level": 1,
+          "line": 68
+        },
+        {
+          "heading": "결제 생성 현 흐름 + persist + 컨트롤러 + DTO + 스키마 매핑",
+          "level": 1,
+          "line": 73
+        },
+        {
+          "heading": "Trust Boundaries",
+          "level": 2,
+          "line": 200
+        },
+        {
+          "heading": "STRIDE Threat Register",
+          "level": 2,
+          "line": 207
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 4
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/phases/02-link/02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 164,
+      "nonEmptyLines": 136,
+      "sections": [
+        {
+          "heading": "Phase 2 Plan 1: Payment-side order verification link Summary",
+          "level": 1,
+          "line": 59
+        },
+        {
+          "heading": "What was built",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "Tests run + results",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 78
+        },
+        {
+          "heading": "Auto-fixed Issues",
+          "level": 3,
+          "line": 80
+        },
+        {
+          "heading": "Auth gates",
+          "level": 3,
+          "line": 105
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "CANCEL-01 Gate Result",
+          "level": 2,
+          "line": 111
+        },
+        {
+          "heading": "Migration Decision",
+          "level": 2,
+          "line": 148
+        },
+        {
+          "heading": "Requirement Coverage",
+          "level": 2,
+          "line": 152
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 162
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": ".planning/workstreams/order-link/phases/02-link/02-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 89,
+      "nonEmptyLines": 63,
+      "sections": [
+        {
+          "heading": "Phase 2: 결제–주문 검증 링크 Verification Report",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "Goal Achievement",
+          "level": 2,
+          "line": 17
+        },
+        {
+          "heading": "Observable Truths (ROADMAP Phase 2 Success Criteria)",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "Required Artifacts",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "Key Link Verification",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "Behavioral Spot-Checks (independently re-run by verifier, not trusted from SUMMARY)",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "Anti-Patterns Found",
+          "level": 3,
+          "line": 56
+        },
+        {
+          "heading": "Requirements Coverage",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "Deviation Scrutiny",
+          "level": 3,
+          "line": 72
+        },
+        {
+          "heading": "Human Verification Required",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "Gaps Summary",
+          "level": 3,
+          "line": 82
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    }
+  ]
+}

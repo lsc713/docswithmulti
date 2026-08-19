@@ -1,0 +1,1933 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 20,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 20,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 20
+    }
+  },
+  "results": [
+    {
+      "path": "docs/superpowers/specs/2026-04-23-merchant-limit-service-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 346,
+      "nonEmptyLines": 288,
+      "sections": [
+        {
+          "heading": "merchant-limit-service Implementation Design",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 패키지 구조",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "2. 도메인 모델",
+          "level": 2,
+          "line": 80
+        },
+        {
+          "heading": "Merchant",
+          "level": 3,
+          "line": 82
+        },
+        {
+          "heading": "MerchantCancelLimit",
+          "level": 3,
+          "line": 105
+        },
+        {
+          "heading": "MerchantLimitDomainService",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "3. DB / DDL (V1)",
+          "level": 2,
+          "line": 142
+        },
+        {
+          "heading": "4. API 설계",
+          "level": 2,
+          "line": 202
+        },
+        {
+          "heading": "Internal API (risk-management 호출, port 8082)",
+          "level": 3,
+          "line": 204
+        },
+        {
+          "heading": "Admin API",
+          "level": 3,
+          "line": 220
+        },
+        {
+          "heading": "에러 코드",
+          "level": 3,
+          "line": 255
+        },
+        {
+          "heading": "5. Kafka / Outbox",
+          "level": 2,
+          "line": 267
+        },
+        {
+          "heading": "이벤트 페이로드 — `merchant.limit.updated`",
+          "level": 3,
+          "line": 269
+        },
+        {
+          "heading": "Outbox 플로우",
+          "level": 3,
+          "line": 286
+        },
+        {
+          "heading": "스케줄러 Redis 분산락",
+          "level": 3,
+          "line": 301
+        },
+        {
+          "heading": "6. 테스트 전략",
+          "level": 2,
+          "line": 312
+        },
+        {
+          "heading": "7. application.yml 주요 설정",
+          "level": 2,
+          "line": 323
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 17
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-04-23-risk-management-service-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 457,
+      "nonEmptyLines": 374,
+      "sections": [
+        {
+          "heading": "risk-management-service Implementation Design",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 패키지 구조",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "2. 도메인 모델",
+          "level": 2,
+          "line": 79
+        },
+        {
+          "heading": "MerchantCancelUsage",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "CancelUsageHistory",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "CancelUsageCompensation",
+          "level": 3,
+          "line": 124
+        },
+        {
+          "heading": "CancelLimitDomainService",
+          "level": 3,
+          "line": 137
+        },
+        {
+          "heading": "3. DB / DDL (V1)",
+          "level": 2,
+          "line": 158
+        },
+        {
+          "heading": "4. API 설계 (Internal — payment-service 호출)",
+          "level": 2,
+          "line": 208
+        },
+        {
+          "heading": "POST /internal/cancel-limit/validate-and-reserve",
+          "level": 3,
+          "line": 210
+        },
+        {
+          "heading": "POST /internal/cancel-limit/compensate",
+          "level": 3,
+          "line": 242
+        },
+        {
+          "heading": "GET /internal/cancel-limit/check?cancelRequestId=cr_abc123",
+          "level": 3,
+          "line": 262
+        },
+        {
+          "heading": "에러 코드",
+          "level": 3,
+          "line": 277
+        },
+        {
+          "heading": "5. 핵심 서비스 로직",
+          "level": 2,
+          "line": 286
+        },
+        {
+          "heading": "ValidateAndReserveService",
+          "level": 3,
+          "line": 288
+        },
+        {
+          "heading": "CompensateService",
+          "level": 3,
+          "line": 313
+        },
+        {
+          "heading": "CheckChargeService",
+          "level": 3,
+          "line": 330
+        },
+        {
+          "heading": "6. 동시성 — Redis 분산락",
+          "level": 2,
+          "line": 342
+        },
+        {
+          "heading": "7. Kafka Consumer",
+          "level": 2,
+          "line": 360
+        },
+        {
+          "heading": "merchant.limit.updated",
+          "level": 3,
+          "line": 362
+        },
+        {
+          "heading": "8. Resilience4j CircuitBreaker",
+          "level": 2,
+          "line": 382
+        },
+        {
+          "heading": "9. 테스트 전략",
+          "level": 2,
+          "line": 410
+        },
+        {
+          "heading": "10. application.yml 주요 설정",
+          "level": 2,
+          "line": 421
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 23
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-04-24-order-service-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 209,
+      "nonEmptyLines": 159,
+      "sections": [
+        {
+          "heading": "order-service 설계 스펙",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 구현 범위",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 스키마 (V1__create_order_core.sql)",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "order.status enum 값",
+          "level": 3,
+          "line": 28
+        },
+        {
+          "heading": "order_item.status enum 값",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "인덱스",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "3. 레이어 구조",
+          "level": 2,
+          "line": 41
+        },
+        {
+          "heading": "domain/entity",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "application",
+          "level": 3,
+          "line": 51
+        },
+        {
+          "heading": "infrastructure/messaging",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "infrastructure/config",
+          "level": 3,
+          "line": 68
+        },
+        {
+          "heading": "4. Consumer 처리 흐름",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "정상 경로 (PaymentCancelledConsumer)",
+          "level": 3,
+          "line": 76
+        },
+        {
+          "heading": "실패 경로 (RetryRouter)",
+          "level": 3,
+          "line": 95
+        },
+        {
+          "heading": "DLQ 메시지 포맷",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "Retry Consumer (PaymentCancelledRetryConsumer)",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "5. TX 경계",
+          "level": 2,
+          "line": 137
+        },
+        {
+          "heading": "6. Kafka 설정",
+          "level": 2,
+          "line": 155
+        },
+        {
+          "heading": "Consumer (메인)",
+          "level": 3,
+          "line": 157
+        },
+        {
+          "heading": "Consumer (retry)",
+          "level": 3,
+          "line": 166
+        },
+        {
+          "heading": "Producer (retry/DLQ 발행)",
+          "level": 3,
+          "line": 174
+        },
+        {
+          "heading": "7. 단위 테스트 범위",
+          "level": 2,
+          "line": 183
+        },
+        {
+          "heading": "ProcessCancelledItemsServiceTest (application, Mockito)",
+          "level": 3,
+          "line": 185
+        },
+        {
+          "heading": "RetryRouterTest (infrastructure, 순수 Java)",
+          "level": 3,
+          "line": 191
+        },
+        {
+          "heading": "OrderTest / OrderItemTest (domain, 순수 Java)",
+          "level": 3,
+          "line": 196
+        },
+        {
+          "heading": "8. 완료 기준",
+          "level": 2,
+          "line": 203
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 26
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-04-27-payment-scheduler-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 209,
+      "nonEmptyLines": 155,
+      "sections": [
+        {
+          "heading": "Payment Service 스케줄러 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 개요",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "2. 분산락 전략",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "3. 신규 파일 목록",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "추가",
+          "level": 3,
+          "line": 47
+        },
+        {
+          "heading": "변경",
+          "level": 3,
+          "line": 59
+        },
+        {
+          "heading": "4. OutboxPublisher 상세 설계",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "OutboxPublisherService",
+          "level": 3,
+          "line": 73
+        },
+        {
+          "heading": "KafkaOutboxPublisher",
+          "level": 3,
+          "line": 86
+        },
+        {
+          "heading": "5. 나머지 3개 스케줄러 — 골격",
+          "level": 2,
+          "line": 99
+        },
+        {
+          "heading": "PendingRecoveryScheduler",
+          "level": 3,
+          "line": 103
+        },
+        {
+          "heading": "ProcessingRecoveryScheduler",
+          "level": 3,
+          "line": 113
+        },
+        {
+          "heading": "CompensationRetryScheduler",
+          "level": 3,
+          "line": 125
+        },
+        {
+          "heading": "6. 인터페이스 변경",
+          "level": 2,
+          "line": 138
+        },
+        {
+          "heading": "CancelEventOutboxRepository",
+          "level": 3,
+          "line": 140
+        },
+        {
+          "heading": "7. 의존성 추가",
+          "level": 2,
+          "line": 149
+        },
+        {
+          "heading": "8. 설정 추가 (application.yml)",
+          "level": 2,
+          "line": 159
+        },
+        {
+          "heading": "9. 테스트 범위",
+          "level": 2,
+          "line": 189
+        },
+        {
+          "heading": "10. 미구현 항목 (추후)",
+          "level": 2,
+          "line": 204
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 19
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-04-28-scheduler-enhancement-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 267,
+      "nonEmptyLines": 210,
+      "sections": [
+        {
+          "heading": "Scheduler Enhancement Design",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "pending-recovery / processing-recovery 보강",
+          "level": 2,
+          "line": 2
+        },
+        {
+          "heading": "1. 배경 및 목표",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "2. 결정 사항 요약",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "3. 스키마 변경 (V9)",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "4. 도메인 엔티티 변경: `CancelRequest`",
+          "level": 2,
+          "line": 44
+        },
+        {
+          "heading": "추가 필드",
+          "level": 3,
+          "line": 46
+        },
+        {
+          "heading": "추가 메서드",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "삭제",
+          "level": 3,
+          "line": 59
+        },
+        {
+          "heading": "팩토리 메서드 시그니처 변경",
+          "level": 3,
+          "line": 63
+        },
+        {
+          "heading": "5. 인터페이스 변경",
+          "level": 2,
+          "line": 76
+        },
+        {
+          "heading": "`CancelRequestRepository`",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "`PaymentRepository`",
+          "level": 3,
+          "line": 88
+        },
+        {
+          "heading": "`RiskManagementPort`",
+          "level": 3,
+          "line": 94
+        },
+        {
+          "heading": "`PgCancelPort`",
+          "level": 3,
+          "line": 100
+        },
+        {
+          "heading": "`PgCancelResult` 변경",
+          "level": 3,
+          "line": 106
+        },
+        {
+          "heading": "`OperationAlertPort` (신규)",
+          "level": 3,
+          "line": 120
+        },
+        {
+          "heading": "6. Application Services",
+          "level": 2,
+          "line": 133
+        },
+        {
+          "heading": "`PendingRecoveryService`",
+          "level": 3,
+          "line": 135
+        },
+        {
+          "heading": "`ProcessingRecoveryService`",
+          "level": 3,
+          "line": 151
+        },
+        {
+          "heading": "7. Infrastructure 변경",
+          "level": 2,
+          "line": 179
+        },
+        {
+          "heading": "`CancelRequestJpaEntity`",
+          "level": 3,
+          "line": 181
+        },
+        {
+          "heading": "`CancelRequestJpaRepository`",
+          "level": 3,
+          "line": 187
+        },
+        {
+          "heading": "`CancelRequestRepositoryImpl`",
+          "level": 3,
+          "line": 195
+        },
+        {
+          "heading": "`PaymentRepositoryImpl` + `PaymentJpaRepository`",
+          "level": 3,
+          "line": 199
+        },
+        {
+          "heading": "`LogOperationAlertAdapter` (신규)",
+          "level": 3,
+          "line": 202
+        },
+        {
+          "heading": "8. Scheduler 계층",
+          "level": 2,
+          "line": 216
+        },
+        {
+          "heading": "9. 영향 받는 기존 코드",
+          "level": 2,
+          "line": 234
+        },
+        {
+          "heading": "`CancelPaymentService`",
+          "level": 3,
+          "line": 236
+        },
+        {
+          "heading": "기존 테스트",
+          "level": 3,
+          "line": 239
+        },
+        {
+          "heading": "10. 파일 목록 요약",
+          "level": 2,
+          "line": 245
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 31
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-10-loadtest-whitebox-observability-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 215,
+      "nonEmptyLines": 163,
+      "sections": [
+        {
+          "heading": "Load-test White-box Observability Design",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "분산 트레이싱(APM) + 요청당 쿼리 수",
+          "level": 2,
+          "line": 2
+        },
+        {
+          "heading": "1. 배경 및 목표",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "2. 결정 사항 요약",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "범위 밖 (YAGNI)",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "3. 아키텍처",
+          "level": 2,
+          "line": 47
+        },
+        {
+          "heading": "4. 컴포넌트별 설계",
+          "level": 2,
+          "line": 76
+        },
+        {
+          "heading": "4.1 파트 A — 분산 트레이싱 (OTel agent → Tempo)",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "4.2 파트 B — 요청당 쿼리 수 (신규 `common-observability` 모듈)",
+          "level": 3,
+          "line": 138
+        },
+        {
+          "heading": "5. 공존 · 왜곡 주의",
+          "level": 2,
+          "line": 172
+        },
+        {
+          "heading": "6. 활성화 매트릭스 (opt-in 검증)",
+          "level": 2,
+          "line": 180
+        },
+        {
+          "heading": "7. 변경 파일 요약",
+          "level": 2,
+          "line": 190
+        },
+        {
+          "heading": "8. 성공 기준",
+          "level": 2,
+          "line": 210
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-11-cancel-history-batch-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 115,
+      "nonEmptyLines": 82,
+      "sections": [
+        {
+          "heading": "취소 이력 배치 — 커밋 감축 (150rps 천장 완화) 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "배경 / 문제",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "비목표 (YAGNI / 명시적 제외)",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "불변식 / 원칙 (유지 확인)",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "설계",
+          "level": 2,
+          "line": 36
+        },
+        {
+          "heading": "핵심 아이디어",
+          "level": 3,
+          "line": 38
+        },
+        {
+          "heading": "구성요소",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "데이터 흐름",
+          "level": 3,
+          "line": 66
+        },
+        {
+          "heading": "안전 / 트레이드오프",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "검증 (실측)",
+          "level": 2,
+          "line": 97
+        },
+        {
+          "heading": "파일 변경 요약",
+          "level": 2,
+          "line": 101
+        },
+        {
+          "heading": "미해결 / 후속",
+          "level": 2,
+          "line": 112
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-11-kafka-publish-pattern-benchmark-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 140,
+      "nonEmptyLines": 101,
+      "sections": [
+        {
+          "heading": "Kafka 발행 패턴 실측 비교 — 설계 (Design)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목적 (Purpose)",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "2. 범위 (Scope)",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "3. 사용자 스토리 (User Story)",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "4. 아키텍처 (Architecture)",
+          "level": 2,
+          "line": 28
+        },
+        {
+          "heading": "4.1 발행 모드 토글 (런타임, 같은 바이너리)",
+          "level": 3,
+          "line": 30
+        },
+        {
+          "heading": "4.2 신규 테이블 `V10__create_cancel_event_outbox.sql`",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "4.3 발행 스케줄러 `CancelEventOutboxPublisher`",
+          "level": 3,
+          "line": 64
+        },
+        {
+          "heading": "4.4 계측 (common-observability / payment / order)",
+          "level": 3,
+          "line": 72
+        },
+        {
+          "heading": "4.5 전용 대시보드 `publish-pattern-comparison.json`",
+          "level": 3,
+          "line": 79
+        },
+        {
+          "heading": "5. 데이터 흐름 (Data Flow)",
+          "level": 2,
+          "line": 88
+        },
+        {
+          "heading": "6. 정합성·에러 처리 (Correctness & Error Handling)",
+          "level": 2,
+          "line": 105
+        },
+        {
+          "heading": "7. 측정 계획 (Measurement Plan)",
+          "level": 2,
+          "line": 114
+        },
+        {
+          "heading": "P1 — 처리량/점유 (한 런에 3모드)",
+          "level": 3,
+          "line": 118
+        },
+        {
+          "heading": "P2 — 지연/장애/버스트",
+          "level": 3,
+          "line": 123
+        },
+        {
+          "heading": "8. 테스트 (Testing)",
+          "level": 2,
+          "line": 131
+        },
+        {
+          "heading": "9. 열린 결정 / 후속",
+          "level": 2,
+          "line": 137
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 17
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-11-saturation-diagnosis-kit-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 106,
+      "nonEmptyLines": 74,
+      "sections": [
+        {
+          "heading": "포화 진단 키트 (185 rps 벽 규명) — 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "배경 / 문제",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "불변식 / 원칙",
+          "level": 2,
+          "line": 19
+        },
+        {
+          "heading": "산출물",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "① Tomcat 스레드 지표 — compose env (코드 0)",
+          "level": 3,
+          "line": 27
+        },
+        {
+          "heading": "② payment→risk 홉 지연 — Micrometer 타이머 + Tempo",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "③ \"포화 진단\" Grafana 대시보드 — 신규 파일",
+          "level": 3,
+          "line": 57
+        },
+        {
+          "heading": "절차 문서 — `docs/load-test/saturation-diagnosis.md`",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "검증 전략",
+          "level": 2,
+          "line": 86
+        },
+        {
+          "heading": "파일 변경 요약",
+          "level": 2,
+          "line": 93
+        },
+        {
+          "heading": "미해결/후속",
+          "level": 2,
+          "line": 103
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-11-system-views-dashboard-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 95,
+      "nonEmptyLines": 65,
+      "sections": [
+        {
+          "heading": "3-뷰 시스템 대시보드 (Inbound·App·Infra) 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "배경 / 문제",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "비목표 (YAGNI)",
+          "level": 2,
+          "line": 24
+        },
+        {
+          "heading": "설계",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "산출물",
+          "level": 3,
+          "line": 32
+        },
+        {
+          "heading": "행 1 — Inbound View (k6 remote-write)",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "행 2 — App View (서버측, 상시 스크레이프)",
+          "level": 3,
+          "line": 48
+        },
+        {
+          "heading": "행 3 — Infra View (node-exporter, 상시)",
+          "level": 3,
+          "line": 57
+        },
+        {
+          "heading": "런 절차 노트",
+          "level": 3,
+          "line": 73
+        },
+        {
+          "heading": "검증 전략",
+          "level": 2,
+          "line": 77
+        },
+        {
+          "heading": "파일 변경 요약",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "미해결 / 후속",
+          "level": 2,
+          "line": 92
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-12-outbox-poller-dedicated-datasource-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 116,
+      "nonEmptyLines": 83,
+      "sections": [
+        {
+          "heading": "폴러 전용 DataSource — 설계 (Design)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목적 (Purpose)",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "2. 범위 (Scope)",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "3. 아키텍처 (Architecture)",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "3.1 경로별 풀 분리 (핵심 결정)",
+          "level": 3,
+          "line": 28
+        },
+        {
+          "heading": "3.2 왜 전용 풀이 라이브락을 없애나",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "4. 컴포넌트 (Components)",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "4.1 `CancelOutboxDataSourceConfig` (신규, OUTBOX 전용)",
+          "level": 3,
+          "line": 45
+        },
+        {
+          "heading": "4.2 `CancelEventOutboxRepositoryImpl` (수정)",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "4.3 무변경",
+          "level": 3,
+          "line": 57
+        },
+        {
+          "heading": "5. 데이터 흐름 (Data Flow)",
+          "level": 2,
+          "line": 62
+        },
+        {
+          "heading": "6. 불변식·에러 (Invariants & Error Handling)",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "7. 대안 검토 (Alternatives Considered)",
+          "level": 2,
+          "line": 82
+        },
+        {
+          "heading": "8. 테스트 (Testing)",
+          "level": 2,
+          "line": 94
+        },
+        {
+          "heading": "9. 검증 — AWS 재측정 (Verification)",
+          "level": 2,
+          "line": 101
+        },
+        {
+          "heading": "10. 열린 결정 / 후속",
+          "level": 2,
+          "line": 112
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 16
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-13-k3s-scaleout-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 128,
+      "nonEmptyLines": 94,
+      "sections": [
+        {
+          "heading": "k3s 수평 스케일아웃 실증 — 설계 스펙",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Global Constraints (스펙 전역 — 모든 태스크가 준수)",
+          "level": 2,
+          "line": 12
+        },
+        {
+          "heading": "결정 로그 (브레인스토밍 확정)",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "§1. 클러스터 토폴로지 & 사이징",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "§2. 요청 분산 & 리버스 프록시",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "§3. 워크로드 & replica (\"몇 대\")",
+          "level": 2,
+          "line": 60
+        },
+        {
+          "heading": "§4. 멀티인스턴스 정합성",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "§5. 배포 방식",
+          "level": 2,
+          "line": 86
+        },
+        {
+          "heading": "§6. 검증 실험 (measure-first · 성공기준)",
+          "level": 2,
+          "line": 96
+        },
+        {
+          "heading": "§7. 인프라·관측·테스트",
+          "level": 2,
+          "line": 106
+        },
+        {
+          "heading": "단계 구성 (writing-plans에서 태스크로 분해)",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "Out of Scope (YAGNI)",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "가정 · 리스크",
+          "level": 2,
+          "line": 123
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-13-oncall-skills-target-abstraction-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 220,
+      "nonEmptyLines": 175,
+      "sections": [
+        {
+          "heading": "oncall 스킬 타깃 추상화 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 배경 / 문제",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "요구",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "2. 범위",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "이번 범위 (In Scope)",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "범위 밖 (Out of Scope, YAGNI)",
+          "level": 3,
+          "line": 41
+        },
+        {
+          "heading": "3. 결정 사항 (인터뷰 결과)",
+          "level": 2,
+          "line": 48
+        },
+        {
+          "heading": "4. 아키텍처",
+          "level": 2,
+          "line": 58
+        },
+        {
+          "heading": "4.1 설정 — 단일 프로젝트 자기완결 (전역 없음)",
+          "level": 3,
+          "line": 60
+        },
+        {
+          "heading": "4.2 프로젝트 기술자 스키마",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "5. 동작 흐름 (호스트 프로젝트 스코프)",
+          "level": 2,
+          "line": 121
+        },
+        {
+          "heading": "6. 스킬별 변경",
+          "level": 2,
+          "line": 139
+        },
+        {
+          "heading": "안전 불변식 (변경 없음)",
+          "level": 3,
+          "line": 147
+        },
+        {
+          "heading": "7. differential-table 전략",
+          "level": 2,
+          "line": 153
+        },
+        {
+          "heading": "8. 메모리 — 프로젝트 로컬 (스키마 변경 없음)",
+          "level": 2,
+          "line": 168
+        },
+        {
+          "heading": "9. 변경 파일 요약",
+          "level": 2,
+          "line": 182
+        },
+        {
+          "heading": "10. 리스크 / 미해결",
+          "level": 2,
+          "line": 210
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 17
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-13-scale-series-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 126,
+      "nonEmptyLines": 98,
+      "sections": [
+        {
+          "heading": "Scale 블로그 시리즈 설계 (k3s 수평 스케일아웃)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "목표",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "시리즈 정체성",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "편 구조 (2막 · 9편)",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "1막 — 여러 대로 안전하게 (스케일아웃이 안 깨지나)",
+          "level": 3,
+          "line": 22
+        },
+        {
+          "heading": "2막 — 늘리면 정말 빨라지나 (클라이맥스 = 반전)",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "앵커 노트 확장 (`Notes/쿠버네티스 정리.md`)",
+          "level": 2,
+          "line": 93
+        },
+        {
+          "heading": "크로스링크 규약 (Load 패턴 복제)",
+          "level": 2,
+          "line": 101
+        },
+        {
+          "heading": "근거 자료 (새 측정 없음)",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "범위 밖 (Out of Scope)",
+          "level": 2,
+          "line": 115
+        },
+        {
+          "heading": "성공 기준",
+          "level": 2,
+          "line": 122
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-29-cancel-idempotency-key-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 112,
+      "nonEmptyLines": 88,
+      "sections": [
+        {
+          "heading": "결제 취소 멱등성 재구성 — 클라이언트 Idempotency-Key (설계)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 문제 (Problem)",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "2. 목표 / 비목표",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "3. 설계 결정",
+          "level": 2,
+          "line": 40
+        },
+        {
+          "heading": "4. 스키마 (Flyway 신규 — 현재 최고 V14 → **V15**)",
+          "level": 2,
+          "line": 48
+        },
+        {
+          "heading": "5. 아키텍처 / 데이터 흐름",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "6. 통합 지점 (기존 코드 영향)",
+          "level": 2,
+          "line": 78
+        },
+        {
+          "heading": "7. 에러 / API / 문서",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "8. 엣지 케이스",
+          "level": 2,
+          "line": 98
+        },
+        {
+          "heading": "9. 테스트 전략",
+          "level": 2,
+          "line": 104
+        },
+        {
+          "heading": "10. 미해결/후속",
+          "level": 2,
+          "line": 110
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-29-cancel-outbox-redesign-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 110,
+      "nonEmptyLines": 80,
+      "sections": [
+        {
+          "heading": "결제 취소 이벤트 발행 재기획 — Transactional Outbox 정식화 (설계)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 문제 (Problem)",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "2. 목표 / 비목표",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "3. 설계 결정",
+          "level": 2,
+          "line": 34
+        },
+        {
+          "heading": "4. 아키텍처 / 데이터 흐름",
+          "level": 2,
+          "line": 42
+        },
+        {
+          "heading": "5. 스키마 (Flyway V14)",
+          "level": 2,
+          "line": 69
+        },
+        {
+          "heading": "6. 실패 매트릭스 (정합 불변)",
+          "level": 2,
+          "line": 80
+        },
+        {
+          "heading": "7. 전제 계약 검증 (D5)",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "8. 테스트 전략",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "9. 롤아웃",
+          "level": 2,
+          "line": 102
+        },
+        {
+          "heading": "10. 미해결/후속",
+          "level": 2,
+          "line": 106
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-30-sku-stock-lifecycle-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 201,
+      "nonEmptyLines": 153,
+      "sections": [
+        {
+          "heading": "SKU 재고 수명주기 (최소 카탈로그) — Design Spec",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 배경 & 목표",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "2. 범위",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "In scope (서브프로젝트 1)",
+          "level": 3,
+          "line": 22
+        },
+        {
+          "heading": "Out of scope (후속 서브프로젝트로 백필)",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "Non-goals",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "3. 아키텍처",
+          "level": 2,
+          "line": 42
+        },
+        {
+          "heading": "4. 데이터 모델",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "product-service (신규, Flyway V1)",
+          "level": 3,
+          "line": 68
+        },
+        {
+          "heading": "payment-service (변경, Flyway V16)",
+          "level": 3,
+          "line": 102
+        },
+        {
+          "heading": "5. API 계약 (product-service)",
+          "level": 2,
+          "line": 113
+        },
+        {
+          "heading": "6. 이벤트 payload 변경 (payment.cancelled)",
+          "level": 2,
+          "line": 133
+        },
+        {
+          "heading": "7. payment 통합 (reserve hook + 보상)",
+          "level": 2,
+          "line": 145
+        },
+        {
+          "heading": "8. product 취소 consumer + 복구",
+          "level": 2,
+          "line": 155
+        },
+        {
+          "heading": "9. 불변식 & 일관성",
+          "level": 2,
+          "line": 163
+        },
+        {
+          "heading": "10. 테스트 전략",
+          "level": 2,
+          "line": 174
+        },
+        {
+          "heading": "11. 후속 서브프로젝트 (경로 Y 백필 로드맵)",
+          "level": 2,
+          "line": 183
+        },
+        {
+          "heading": "12. 열린 질문 / 가정 (계획 전 확인)",
+          "level": 2,
+          "line": 194
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 18
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-31-cookie-auth-login-frontend-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 128,
+      "nonEmptyLines": 102,
+      "sections": [
+        {
+          "heading": "쿠키 기반 인증 전환 + 로그인 데모 프론트엔드 — 설계",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목적 / 범위",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "2. OWASP Top 10 방어 매핑",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "3. 컴포넌트 책임",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "user-service",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "api-gateway",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "frontend (Vite + React)",
+          "level": 3,
+          "line": 47
+        },
+        {
+          "heading": "4. 쿠키 스펙",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "5. 인증 플로우",
+          "level": 2,
+          "line": 65
+        },
+        {
+          "heading": "6. API 계약 변경 (before → after)",
+          "level": 2,
+          "line": 89
+        },
+        {
+          "heading": "7. 파일 목록",
+          "level": 2,
+          "line": 98
+        },
+        {
+          "heading": "8. 테스트 전략",
+          "level": 2,
+          "line": 116
+        },
+        {
+          "heading": "9. 환경설정 / 배포 게이트",
+          "level": 2,
+          "line": 124
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-31-order-link-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 112,
+      "nonEmptyLines": 88,
+      "sections": [
+        {
+          "heading": "주문(order) → 결제 라이프사이클 링크 — 설계 (order-link)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목적 / 범위",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "2. 확정 결정 (브레인스토밍)",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "3. 컴포넌트 책임",
+          "level": 2,
+          "line": 32
+        },
+        {
+          "heading": "order-service",
+          "level": 3,
+          "line": 34
+        },
+        {
+          "heading": "api-gateway",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "payment-service",
+          "level": 3,
+          "line": 46
+        },
+        {
+          "heading": "취소 코어 (payment)",
+          "level": 3,
+          "line": 56
+        },
+        {
+          "heading": "4. 데이터 흐름",
+          "level": 2,
+          "line": 59
+        },
+        {
+          "heading": "5. 인증/신뢰 경계",
+          "level": 2,
+          "line": 77
+        },
+        {
+          "heading": "6. 에러 처리 (error-catalog 확장)",
+          "level": 2,
+          "line": 82
+        },
+        {
+          "heading": "7. 마이그레이션 / 배포",
+          "level": 2,
+          "line": 94
+        },
+        {
+          "heading": "8. 테스트 전략",
+          "level": 2,
+          "line": 103
+        },
+        {
+          "heading": "9. gsd 마일스톤",
+          "level": 2,
+          "line": 110
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 14
+      }
+    },
+    {
+      "path": "docs/superpowers/specs/2026-07-31-product-category-taxonomy-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 114,
+      "nonEmptyLines": 86,
+      "sections": [
+        {
+          "heading": "카테고리 택소노미 + 카테고리별 조회 — 설계 (product-service)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 목표 / 배경",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 스코프",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "3. 데이터 모델 (마이그레이션 V3)",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "4. 도메인 규칙",
+          "level": 2,
+          "line": 66
+        },
+        {
+          "heading": "5. API 계약",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "6. 조회 구현",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "7. 아키텍처 / 레이어 (기존 헥사고날 답습)",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "8. 불변식 / 가드",
+          "level": 2,
+          "line": 100
+        },
+        {
+          "heading": "9. 열린 질문 (계획 단계에서 확정)",
+          "level": 2,
+          "line": 110
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    }
+  ]
+}

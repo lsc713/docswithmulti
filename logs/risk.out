@@ -1,0 +1,65 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.5)
+
+2026-07-10T02:25:51.290+09:00  INFO 90292 --- [risk-management-service] [           main] c.e.r.RiskManagementApplication          : Starting RiskManagementApplication using Java 22 with PID 90292 (/Users/juho/Documents/docswithmulti/risk-management-service/build/libs/risk-management-service.jar started by juho in /Users/juho/Documents/docswithmulti)
+2026-07-10T02:25:51.293+09:00  INFO 90292 --- [risk-management-service] [           main] c.e.r.RiskManagementApplication          : No active profile set, falling back to 1 default profile: "default"
+2026-07-10T02:25:51.773+09:00  INFO 90292 --- [risk-management-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-10T02:25:51.773+09:00  INFO 90292 --- [risk-management-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-10T02:25:51.847+09:00  INFO 90292 --- [risk-management-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 3 JPA repository interfaces.
+2026-07-10T02:25:52.019+09:00  INFO 90292 --- [risk-management-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-07-10T02:25:52.020+09:00  INFO 90292 --- [risk-management-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-07-10T02:25:52.033+09:00  INFO 90292 --- [risk-management-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.riskmanagement.infrastructure.persistence.CancelUsageCompensationJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:52.033+09:00  INFO 90292 --- [risk-management-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.riskmanagement.infrastructure.persistence.CancelUsageHistoryJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:52.033+09:00  INFO 90292 --- [risk-management-service] [           main] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.example.riskmanagement.infrastructure.persistence.MerchantCancelUsageJpaRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-07-10T02:25:52.033+09:00  INFO 90292 --- [risk-management-service] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2026-07-10T02:25:52.611+09:00  INFO 90292 --- [risk-management-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8083 (http)
+2026-07-10T02:25:52.619+09:00  INFO 90292 --- [risk-management-service] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-07-10T02:25:52.619+09:00  INFO 90292 --- [risk-management-service] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.20]
+2026-07-10T02:25:52.641+09:00  INFO 90292 --- [risk-management-service] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1313 ms
+2026-07-10T02:25:53.311+09:00  INFO 90292 --- [risk-management-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-10T02:25:53.325+09:00  INFO 90292 --- [risk-management-service] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-10T02:25:53.476+09:00  INFO 90292 --- [risk-management-service] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:mysql://localhost:3309/risk_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true (MySQL 8.0)
+2026-07-10T02:25:53.934+09:00  INFO 90292 --- [risk-management-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table `risk_db`.`flyway_schema_history` does not exist yet
+2026-07-10T02:25:53.938+09:00  INFO 90292 --- [risk-management-service] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.022s)
+2026-07-10T02:25:53.967+09:00  INFO 90292 --- [risk-management-service] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table `risk_db`.`flyway_schema_history` ...
+2026-07-10T02:25:54.050+09:00  INFO 90292 --- [risk-management-service] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema `risk_db`: << Empty Schema >>
+2026-07-10T02:25:54.070+09:00  INFO 90292 --- [risk-management-service] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema `risk_db` to version "1 - create risk core"
+2026-07-10T02:25:54.199+09:00  INFO 90292 --- [risk-management-service] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema `risk_db`, now at version v1 (execution time 00:00.058s)
+2026-07-10T02:25:54.311+09:00  INFO 90292 --- [risk-management-service] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-07-10T02:25:54.366+09:00  INFO 90292 --- [risk-management-service] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-07-10T02:25:54.912+09:00  INFO 90292 --- [risk-management-service] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-10T02:25:55.015+09:00  INFO 90292 --- [risk-management-service] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3309/risk_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.46
+	Default catalog/schema: risk_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-07-10T02:25:55.753+09:00  INFO 90292 --- [risk-management-service] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-10T02:25:55.797+09:00  INFO 90292 --- [risk-management-service] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:25:55.960+09:00  INFO 90292 --- [risk-management-service] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-10T02:25:57.008+09:00  WARN 90292 --- [risk-management-service] [           main] i.n.r.d.DnsServerAddressStreamProviders  : Can not find io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider in the classpath, fallback to system defaults. This may result in incorrect DNS resolutions on MacOS. Check whether you have a dependency on 'io.netty:netty-resolver-dns-native-macos'
+2026-07-10T02:25:57.449+09:00  WARN 90292 --- [risk-management-service] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-10T02:25:58.179+09:00  INFO 90292 --- [risk-management-service] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoints beneath base path '/actuator'
+2026-07-10T02:25:58.228+09:00  INFO 90292 --- [risk-management-service] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8083 (http) with context path '/'
+2026-07-10T02:25:58.236+09:00  INFO 90292 --- [risk-management-service] [           main] c.e.r.RiskManagementApplication          : Started RiskManagementApplication in 7.237 seconds (process running for 7.586)
+2026-07-10T02:27:53.993+09:00  INFO 90292 --- [risk-management-service] [nio-8083-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-10T02:27:53.993+09:00  INFO 90292 --- [risk-management-service] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-07-10T02:27:53.996+09:00  INFO 90292 --- [risk-management-service] [nio-8083-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2026-07-10T02:32:53.589+09:00  INFO 90292 --- [risk-management-service] [ionShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-07-10T02:32:55.600+09:00  INFO 90292 --- [risk-management-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-07-10T02:32:55.624+09:00  INFO 90292 --- [risk-management-service] [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-07-10T02:32:55.626+09:00  INFO 90292 --- [risk-management-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-07-10T02:32:55.631+09:00  INFO 90292 --- [risk-management-service] [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

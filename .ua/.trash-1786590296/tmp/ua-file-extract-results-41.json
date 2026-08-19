@@ -1,0 +1,604 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 22,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 22,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 22
+    }
+  },
+  "results": [
+    {
+      "path": "payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "definitions": [
+        {
+          "name": "failed_kafka_event",
+          "kind": "table",
+          "fields": [
+            "id",
+            "cancel_request_id",
+            "topic",
+            "payload",
+            "status",
+            "retry_count",
+            "last_error",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 6,
+          "endLine": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V11__drop_failed_kafka_event.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 3,
+      "nonEmptyLines": 3,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 13,
+      "nonEmptyLines": 12,
+      "definitions": [
+        {
+          "name": "cancel_event_outbox",
+          "kind": "table",
+          "fields": [
+            "id",
+            "cancel_request_id",
+            "payload",
+            "status",
+            "created_at",
+            "published_at"
+          ],
+          "startLine": 1,
+          "endLine": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V13__add_pg_transaction_key_to_cancel_request.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 2,
+      "nonEmptyLines": 2,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V14__add_outbox_retry_columns.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 6,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V15__add_cancel_idempotency_key.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 9,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V16__add_sku_and_quantity_to_payment_item.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 6,
+      "nonEmptyLines": 6,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 23,
+      "nonEmptyLines": 21,
+      "definitions": [
+        {
+          "name": "stock_release_retry",
+          "kind": "table",
+          "fields": [
+            "id",
+            "payment_key",
+            "items_json",
+            "attempt_count",
+            "next_retry_at",
+            "status",
+            "last_error",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 8,
+          "endLine": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V18__add_order_id_to_payment.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 19,
+      "nonEmptyLines": 18,
+      "definitions": [
+        {
+          "name": "payment_event_outbox",
+          "kind": "table",
+          "fields": [
+            "id",
+            "payment_key",
+            "payload",
+            "status",
+            "retry_count",
+            "last_error",
+            "created_at",
+            "published_at"
+          ],
+          "startLine": 5,
+          "endLine": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V1__create_payment_core.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 61,
+      "nonEmptyLines": 53,
+      "definitions": [
+        {
+          "name": "payment",
+          "kind": "table",
+          "fields": [
+            "id",
+            "payment_key",
+            "merchant_id",
+            "user_id",
+            "pg_type",
+            "total_amount",
+            "currency",
+            "status",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 6,
+          "endLine": 23
+        },
+        {
+          "name": "payment_item",
+          "kind": "table",
+          "fields": [
+            "id",
+            "payment_id",
+            "order_item_id",
+            "product_id",
+            "product_auto_id",
+            "item_name",
+            "item_amount",
+            "cancelled_amount",
+            "status",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 27,
+          "endLine": 45
+        },
+        {
+          "name": "payment_history",
+          "kind": "table",
+          "fields": [
+            "id",
+            "payment_id",
+            "from_status",
+            "to_status",
+            "cause",
+            "caused_by_id",
+            "created_at"
+          ],
+          "startLine": 49,
+          "endLine": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 3
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 18,
+      "nonEmptyLines": 18,
+      "definitions": [
+        {
+          "name": "cancel_approval",
+          "kind": "table",
+          "fields": [],
+          "startLine": 2,
+          "endLine": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 31,
+      "nonEmptyLines": 31,
+      "definitions": [
+        {
+          "name": "cancel_outbox_redrive",
+          "kind": "table",
+          "fields": [],
+          "startLine": 1,
+          "endLine": 6
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V22__add_cancel_outbox_redrive_polling_indexes.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "definitions": [
+        {
+          "name": "idx_cancel_outbox_redrive_requested_poll",
+          "kind": "index",
+          "fields": [],
+          "startLine": 1,
+          "endLine": 1
+        },
+        {
+          "name": "idx_cancel_outbox_redrive_convergence_poll",
+          "kind": "index",
+          "fields": [],
+          "startLine": 4,
+          "endLine": 4
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 2
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V2__create_cancel.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 42,
+      "nonEmptyLines": 37,
+      "definitions": [
+        {
+          "name": "cancel_request",
+          "kind": "table",
+          "fields": [
+            "id",
+            "payment_id",
+            "idempotency_key",
+            "cancel_amount",
+            "cancel_reason",
+            "canceller_type",
+            "cancelled_by",
+            "status",
+            "processing_started_at",
+            "completed_at",
+            "failed_reason",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 6,
+          "endLine": 27
+        },
+        {
+          "name": "cancel_request_item",
+          "kind": "table",
+          "fields": [
+            "id",
+            "cancel_request_id",
+            "payment_item_id",
+            "cancel_amount",
+            "created_at"
+          ],
+          "startLine": 31,
+          "endLine": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 2
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V3__create_outbox.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 19,
+      "nonEmptyLines": 17,
+      "definitions": [
+        {
+          "name": "cancel_event_outbox",
+          "kind": "table",
+          "fields": [
+            "id",
+            "cancel_request_id",
+            "payload",
+            "status",
+            "created_at",
+            "published_at"
+          ],
+          "startLine": 6,
+          "endLine": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V4__create_idempotency.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 19,
+      "nonEmptyLines": 17,
+      "definitions": [
+        {
+          "name": "idempotency_key",
+          "kind": "table",
+          "fields": [
+            "id",
+            "idem_key",
+            "request_path",
+            "response_status",
+            "response_body",
+            "created_at",
+            "expires_at"
+          ],
+          "startLine": 6,
+          "endLine": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V5__create_compensation.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 22,
+      "nonEmptyLines": 20,
+      "definitions": [
+        {
+          "name": "compensation_retry",
+          "kind": "table",
+          "fields": [
+            "id",
+            "cancel_request_id",
+            "merchant_id",
+            "restore_amount",
+            "attempt_count",
+            "next_retry_at",
+            "status",
+            "last_error",
+            "created_at",
+            "updated_at"
+          ],
+          "startLine": 6,
+          "endLine": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V6__create_shedlock.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "definitions": [
+        {
+          "name": "shedlock",
+          "kind": "table",
+          "fields": [
+            "name",
+            "lock_until",
+            "locked_at",
+            "locked_by"
+          ],
+          "startLine": 6,
+          "endLine": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V7__add_cancel_period_days_to_payment.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 43,
+      "nonEmptyLines": 36,
+      "definitions": [
+        {
+          "name": "cancel_request_history",
+          "kind": "table",
+          "fields": [
+            "id",
+            "cancel_request_id",
+            "status",
+            "reason",
+            "created_at"
+          ],
+          "startLine": 20,
+          "endLine": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V9__add_cancel_item_ids_and_pg_retry_count.sql",
+      "language": "sql",
+      "fileCategory": "data",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "definitionCount": 0
+      }
+    }
+  ]
+}

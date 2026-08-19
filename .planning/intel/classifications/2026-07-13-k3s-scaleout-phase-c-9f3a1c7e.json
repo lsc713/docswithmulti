@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-13-k3s-scaleout-phase-c.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "k3s 스케일아웃 Phase C — 검증 실험 Implementation Plan (measure-first 런북)",
+  "summary": "Measure-first runbook proving five k3s scaleout claims (scheduler lock safety, idempotency, DB ceiling, node-failure HA, zero-downtime rolling deploy) via load-test experiments.",
+  "scope": ["k3s scaleout", "Traefik", "k6 load test", "scheduler lock", "HA failover", "rolling deploy", "payment_db ceiling"],
+  "cross_refs": ["2026-07-13-k3s-scaleout-phase-a.md", "docs/load-test/k3s-scaleout-results.md", "infra/k3s-scaleout", "infra/k8s", "k6/slo-arrival.js"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Implementation plan / experiment runbook (prose + checkbox tasks + verification commands). No user stories/acceptance criteria (not PRD), no API/schema contracts (not SPEC), no decision/consequences (not ADR). Best fit DOC (context/runbook). References a SPEC §6 as its source of the 5 experiments."
+}

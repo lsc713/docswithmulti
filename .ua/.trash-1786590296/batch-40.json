@@ -1,0 +1,168 @@
+{
+  "nodes": [
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:V1__create_order_core",
+      "type": "table",
+      "name": "V1__create_order_core.sql",
+      "filePath": "order-service/src/main/resources/db/migration/V1__create_order_core.sql",
+      "summary": "order-service database에서 orders, order_item, processed_cancel_event schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:orders",
+      "type": "table",
+      "name": "orders",
+      "filePath": "order-service/src/main/resources/db/migration/V1__create_order_core.sql",
+      "summary": "orders table은 id, status, created_at, updated_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:order_item",
+      "type": "table",
+      "name": "order_item",
+      "filePath": "order-service/src/main/resources/db/migration/V1__create_order_core.sql",
+      "summary": "order_item table은 id, order_id, status, created_at, updated_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:processed_cancel_event",
+      "type": "table",
+      "name": "processed_cancel_event",
+      "filePath": "order-service/src/main/resources/db/migration/V1__create_order_core.sql",
+      "summary": "processed_cancel_event table은 id, cancel_request_id, processed_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V3__add_order_item_details.sql:V3__add_order_item_details",
+      "type": "table",
+      "name": "V3__add_order_item_details.sql",
+      "filePath": "order-service/src/main/resources/db/migration/V3__add_order_item_details.sql",
+      "summary": "order-service database에서 add order item details schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V4__create_cancel_restore_dlq.sql:V4__create_cancel_restore_dlq",
+      "type": "table",
+      "name": "V4__create_cancel_restore_dlq.sql",
+      "filePath": "order-service/src/main/resources/db/migration/V4__create_cancel_restore_dlq.sql",
+      "summary": "order-service database에서 cancel_restore_dlq schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V4__create_cancel_restore_dlq.sql:cancel_restore_dlq",
+      "type": "table",
+      "name": "cancel_restore_dlq",
+      "filePath": "order-service/src/main/resources/db/migration/V4__create_cancel_restore_dlq.sql",
+      "summary": "cancel_restore_dlq table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V5__create_cart.sql:V5__create_cart",
+      "type": "table",
+      "name": "V5__create_cart.sql",
+      "filePath": "order-service/src/main/resources/db/migration/V5__create_cart.sql",
+      "summary": "order-service database에서 cart_item schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:order-service/src/main/resources/db/migration/V5__create_cart.sql:cart_item",
+      "type": "table",
+      "name": "cart_item",
+      "filePath": "order-service/src/main/resources/db/migration/V5__create_cart.sql",
+      "summary": "cart_item table은 id, user_id, sku_id, product_id, item_name, option_summary 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "order-service"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:V1__create_order_core",
+      "target": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:orders",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:V1__create_order_core",
+      "target": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:order_item",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:V1__create_order_core",
+      "target": "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:processed_cancel_event",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:order-service/src/main/resources/db/migration/V4__create_cancel_restore_dlq.sql:V4__create_cancel_restore_dlq",
+      "target": "table:order-service/src/main/resources/db/migration/V4__create_cancel_restore_dlq.sql:cancel_restore_dlq",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:order-service/src/main/resources/db/migration/V5__create_cart.sql:V5__create_cart",
+      "target": "table:order-service/src/main/resources/db/migration/V5__create_cart.sql:cart_item",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

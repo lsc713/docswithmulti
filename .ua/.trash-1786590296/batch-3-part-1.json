@@ -1,0 +1,1777 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "type": "file",
+      "name": "InternalOperatorAccess.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "summary": "payment-service의 Internal Operator Access 권한 조건을 검증해 허용되지 않은 작업을 차단한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java:InternalOperatorAccess",
+      "type": "class",
+      "name": "InternalOperatorAccess",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "lineRange": [
+        7,
+        18
+      ],
+      "summary": "InternalOperatorAccess가 담당하는 authorization 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java:requireAdmin",
+      "type": "function",
+      "name": "requireAdmin",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "lineRange": [
+        10,
+        17
+      ],
+      "summary": "requireAdmin 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "type": "file",
+      "name": "PgCancelResult.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "summary": "payment-service의 Pg Cancel Result API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:PgCancelResult",
+      "type": "class",
+      "name": "PgCancelResult",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        3,
+        30
+      ],
+      "summary": "PgCancelResult 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isApproved",
+      "type": "function",
+      "name": "isApproved",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        8,
+        8
+      ],
+      "summary": "isApproved 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isFailed",
+      "type": "function",
+      "name": "isFailed",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        9,
+        9
+      ],
+      "summary": "isFailed 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isPending",
+      "type": "function",
+      "name": "isPending",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        10,
+        10
+      ],
+      "summary": "isPending 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isRetryable",
+      "type": "function",
+      "name": "isRetryable",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        11,
+        11
+      ],
+      "summary": "isRetryable 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:approved",
+      "type": "function",
+      "name": "approved",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        13,
+        15
+      ],
+      "summary": "approved 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:failed",
+      "type": "function",
+      "name": "failed",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        18,
+        20
+      ],
+      "summary": "failed 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:retryableFailed",
+      "type": "function",
+      "name": "retryableFailed",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        23,
+        25
+      ],
+      "summary": "retryableFailed 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:pending",
+      "type": "function",
+      "name": "pending",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "lineRange": [
+        27,
+        29
+      ],
+      "summary": "pending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "type": "file",
+      "name": "ActiveRedriveExistsException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "summary": "payment-service에서 Active Redrive Exists Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java:ActiveRedriveExistsException",
+      "type": "class",
+      "name": "ActiveRedriveExistsException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "ActiveRedriveExistsException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java:ActiveRedriveExistsException",
+      "type": "function",
+      "name": "ActiveRedriveExistsException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "ActiveRedriveExistsException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "type": "file",
+      "name": "CancelOutboxForbiddenException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "summary": "payment-service에서 Cancel Outbox Forbidden Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java:CancelOutboxForbiddenException",
+      "type": "class",
+      "name": "CancelOutboxForbiddenException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "CancelOutboxForbiddenException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java:CancelOutboxForbiddenException",
+      "type": "function",
+      "name": "CancelOutboxForbiddenException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "CancelOutboxForbiddenException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "type": "file",
+      "name": "CancelOutboxNotDeadException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "summary": "payment-service에서 Cancel Outbox Not Dead Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java:CancelOutboxNotDeadException",
+      "type": "class",
+      "name": "CancelOutboxNotDeadException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "CancelOutboxNotDeadException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java:CancelOutboxNotDeadException",
+      "type": "function",
+      "name": "CancelOutboxNotDeadException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "CancelOutboxNotDeadException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "type": "file",
+      "name": "CancelOutboxNotFoundException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "summary": "payment-service에서 Cancel Outbox Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java:CancelOutboxNotFoundException",
+      "type": "class",
+      "name": "CancelOutboxNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "CancelOutboxNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java:CancelOutboxNotFoundException",
+      "type": "function",
+      "name": "CancelOutboxNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "CancelOutboxNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "type": "file",
+      "name": "CancelOutboxRedriveNotFoundException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "summary": "payment-service에서 Cancel Outbox Redrive Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java:CancelOutboxRedriveNotFoundException",
+      "type": "class",
+      "name": "CancelOutboxRedriveNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "CancelOutboxRedriveNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java:CancelOutboxRedriveNotFoundException",
+      "type": "function",
+      "name": "CancelOutboxRedriveNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "CancelOutboxRedriveNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "type": "file",
+      "name": "CancelRequestNotFoundException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "summary": "payment-service에서 Cancel Request Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java:CancelRequestNotFoundException",
+      "type": "class",
+      "name": "CancelRequestNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "lineRange": [
+        6,
+        12
+      ],
+      "summary": "CancelRequestNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java:CancelRequestNotFoundException",
+      "type": "function",
+      "name": "CancelRequestNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "lineRange": [
+        8,
+        11
+      ],
+      "summary": "CancelRequestNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "type": "file",
+      "name": "IdempotencyKeyConflictException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "summary": "payment-service에서 Idempotency Key Conflict Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:IdempotencyKeyConflictException",
+      "type": "class",
+      "name": "IdempotencyKeyConflictException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "lineRange": [
+        12,
+        24
+      ],
+      "summary": "IdempotencyKeyConflictException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:IdempotencyKeyConflictException",
+      "type": "function",
+      "name": "IdempotencyKeyConflictException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "lineRange": [
+        16,
+        19
+      ],
+      "summary": "IdempotencyKeyConflictException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:getIdempotencyKey",
+      "type": "function",
+      "name": "getIdempotencyKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "lineRange": [
+        21,
+        23
+      ],
+      "summary": "getIdempotencyKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "type": "file",
+      "name": "IdempotentDuplicationException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "summary": "payment-service에서 Idempotent Duplication Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:IdempotentDuplicationException",
+      "type": "class",
+      "name": "IdempotentDuplicationException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "lineRange": [
+        13,
+        31
+      ],
+      "summary": "IdempotentDuplicationException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:IdempotentDuplicationException",
+      "type": "function",
+      "name": "IdempotentDuplicationException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "lineRange": [
+        18,
+        22
+      ],
+      "summary": "IdempotentDuplicationException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:getCancelRequestId",
+      "type": "function",
+      "name": "getCancelRequestId",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "lineRange": [
+        24,
+        26
+      ],
+      "summary": "getCancelRequestId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:getOriginalStatus",
+      "type": "function",
+      "name": "getOriginalStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "lineRange": [
+        28,
+        30
+      ],
+      "summary": "getOriginalStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "type": "file",
+      "name": "InternalAuthenticationRequiredException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "summary": "payment-service에서 Internal Authentication Required Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java:InternalAuthenticationRequiredException",
+      "type": "class",
+      "name": "InternalAuthenticationRequiredException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "InternalAuthenticationRequiredException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java:InternalAuthenticationRequiredException",
+      "type": "function",
+      "name": "InternalAuthenticationRequiredException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "InternalAuthenticationRequiredException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "type": "file",
+      "name": "InvalidRedriveReasonException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "summary": "payment-service에서 Invalid Redrive Reason Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java:InvalidRedriveReasonException",
+      "type": "class",
+      "name": "InvalidRedriveReasonException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "lineRange": [
+        6,
+        10
+      ],
+      "summary": "InvalidRedriveReasonException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java:InvalidRedriveReasonException",
+      "type": "function",
+      "name": "InvalidRedriveReasonException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "InvalidRedriveReasonException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "type": "file",
+      "name": "MerchantCancelLimitExceededException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "summary": "payment-service에서 Merchant Cancel Limit Exceeded Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "class",
+      "name": "MerchantCancelLimitExceededException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "lineRange": [
+        15,
+        43
+      ],
+      "summary": "MerchantCancelLimitExceededException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "function",
+      "name": "MerchantCancelLimitExceededException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "lineRange": [
+        21,
+        30
+      ],
+      "summary": "MerchantCancelLimitExceededException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getRequestedAmount",
+      "type": "function",
+      "name": "getRequestedAmount",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "lineRange": [
+        32,
+        34
+      ],
+      "summary": "getRequestedAmount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getRemainingLimit",
+      "type": "function",
+      "name": "getRemainingLimit",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "lineRange": [
+        36,
+        38
+      ],
+      "summary": "getRemainingLimit 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getDailyLimit",
+      "type": "function",
+      "name": "getDailyLimit",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "lineRange": [
+        40,
+        42
+      ],
+      "summary": "getDailyLimit 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "type": "file",
+      "name": "MerchantCancelLimitNotFoundException.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "summary": "payment-service에서 Merchant Cancel Limit Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:MerchantCancelLimitNotFoundException",
+      "type": "class",
+      "name": "MerchantCancelLimitNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "lineRange": [
+        13,
+        25
+      ],
+      "summary": "MerchantCancelLimitNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:MerchantCancelLimitNotFoundException",
+      "type": "function",
+      "name": "MerchantCancelLimitNotFoundException",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "lineRange": [
+        17,
+        20
+      ],
+      "summary": "MerchantCancelLimitNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:getMerchantId",
+      "type": "function",
+      "name": "getMerchantId",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "getMerchantId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java:InternalOperatorAccess",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java:InternalOperatorAccess",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java:requireAdmin",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java:requireAdmin",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/InternalOperatorAccess.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:PgCancelResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:PgCancelResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isApproved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isApproved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isFailed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isFailed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isRetryable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:isRetryable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:approved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:approved",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:failed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:failed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:retryableFailed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:retryableFailed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:pending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/dto/PgCancelResult.java:pending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java:ActiveRedriveExistsException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java:ActiveRedriveExistsException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java:ActiveRedriveExistsException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java:ActiveRedriveExistsException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/ActiveRedriveExistsException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java:CancelOutboxForbiddenException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java:CancelOutboxForbiddenException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java:CancelOutboxForbiddenException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java:CancelOutboxForbiddenException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxForbiddenException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java:CancelOutboxNotDeadException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java:CancelOutboxNotDeadException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java:CancelOutboxNotDeadException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java:CancelOutboxNotDeadException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotDeadException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java:CancelOutboxNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java:CancelOutboxNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java:CancelOutboxNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java:CancelOutboxNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java:CancelOutboxRedriveNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java:CancelOutboxRedriveNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java:CancelOutboxRedriveNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java:CancelOutboxRedriveNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelOutboxRedriveNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java:CancelRequestNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java:CancelRequestNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java:CancelRequestNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java:CancelRequestNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/CancelRequestNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:IdempotencyKeyConflictException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:IdempotencyKeyConflictException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:IdempotencyKeyConflictException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:IdempotencyKeyConflictException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:getIdempotencyKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java:getIdempotencyKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotencyKeyConflictException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:IdempotentDuplicationException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:IdempotentDuplicationException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:IdempotentDuplicationException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:IdempotentDuplicationException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:getCancelRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:getCancelRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:getOriginalStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java:getOriginalStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/IdempotentDuplicationException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java:InternalAuthenticationRequiredException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java:InternalAuthenticationRequiredException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java:InternalAuthenticationRequiredException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java:InternalAuthenticationRequiredException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InternalAuthenticationRequiredException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java:InvalidRedriveReasonException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java:InvalidRedriveReasonException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java:InvalidRedriveReasonException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java:InvalidRedriveReasonException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/InvalidRedriveReasonException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getRequestedAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getRequestedAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getRemainingLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getRemainingLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getDailyLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java:getDailyLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitExceededException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:MerchantCancelLimitNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:MerchantCancelLimitNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:MerchantCancelLimitNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:MerchantCancelLimitNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:getMerchantId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java:getMerchantId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/exception/MerchantCancelLimitNotFoundException.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

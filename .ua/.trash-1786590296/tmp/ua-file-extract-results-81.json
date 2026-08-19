@@ -1,0 +1,1368 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 10,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 10,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 10
+    }
+  },
+  "results": [
+    {
+      "path": "docs/STATUS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 76,
+      "nonEmptyLines": 63,
+      "sections": [
+        {
+          "heading": "프로젝트 작업 상태",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "완료 (설계)",
+          "level": 2,
+          "line": 6
+        },
+        {
+          "heading": "구현 상태",
+          "level": 2,
+          "line": 18
+        },
+        {
+          "heading": "마일스톤 진행",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "배포 시점 남은 것 (코드는 머지, 라이브 미적용)",
+          "level": 2,
+          "line": 57
+        },
+        {
+          "heading": "후속 후보",
+          "level": 2,
+          "line": 65
+        },
+        {
+          "heading": "메시징 설계 (main 확정)",
+          "level": 2,
+          "line": 73
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "docs/agent.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 227,
+      "nonEmptyLines": 171,
+      "sections": [
+        {
+          "heading": "Agent rules",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "작업 시작 전 체크리스트",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "TDD 워크플로우",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "코드 작성 규칙",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "레이어 경계",
+          "level": 3,
+          "line": 45
+        },
+        {
+          "heading": "메서드 길이 정책",
+          "level": 3,
+          "line": 68
+        },
+        {
+          "heading": "금지 패턴",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "비즈니스 규칙 처리",
+          "level": 2,
+          "line": 94
+        },
+        {
+          "heading": "에러 처리 규칙",
+          "level": 2,
+          "line": 108
+        },
+        {
+          "heading": "테스트 작성 규칙",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "테스트 이름",
+          "level": 3,
+          "line": 131
+        },
+        {
+          "heading": "테스트 레이어별 범위",
+          "level": 3,
+          "line": 144
+        },
+        {
+          "heading": "동시성 테스트 필수 대상",
+          "level": 3,
+          "line": 168
+        },
+        {
+          "heading": "완료 기준 (Definition of Done)",
+          "level": 2,
+          "line": 187
+        },
+        {
+          "heading": "자기 검토 체크리스트",
+          "level": 2,
+          "line": 204
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": "docs/api-spec.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 375,
+      "nonEmptyLines": 297,
+      "sections": [
+        {
+          "heading": "API spec",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "공통",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "요청 헤더",
+          "level": 3,
+          "line": 11
+        },
+        {
+          "heading": "공통 에러 응답",
+          "level": 3,
+          "line": 26
+        },
+        {
+          "heading": "1. 취소 요청",
+          "level": 2,
+          "line": 38
+        },
+        {
+          "heading": "기본 정보",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "Path parameter",
+          "level": 3,
+          "line": 51
+        },
+        {
+          "heading": "Request body",
+          "level": 3,
+          "line": 57
+        },
+        {
+          "heading": "Response 200",
+          "level": 3,
+          "line": 80
+        },
+        {
+          "heading": "멱등성 처리 응답",
+          "level": 3,
+          "line": 111
+        },
+        {
+          "heading": "Response 403 (인가 실패)",
+          "level": 3,
+          "line": 125
+        },
+        {
+          "heading": "Response 409 (Idempotency-Key 재사용 충돌)",
+          "level": 3,
+          "line": 140
+        },
+        {
+          "heading": "Response 422 (한도 초과)",
+          "level": 3,
+          "line": 152
+        },
+        {
+          "heading": "Response 422 (취소 기간 초과)",
+          "level": 3,
+          "line": 166
+        },
+        {
+          "heading": "Response 422 (이미 취소된 항목)",
+          "level": 3,
+          "line": 179
+        },
+        {
+          "heading": "2. 취소 단건 조회",
+          "level": 2,
+          "line": 194
+        },
+        {
+          "heading": "기본 정보",
+          "level": 3,
+          "line": 196
+        },
+        {
+          "heading": "Path parameter",
+          "level": 3,
+          "line": 206
+        },
+        {
+          "heading": "Response 200",
+          "level": 3,
+          "line": 213
+        },
+        {
+          "heading": "Response 404",
+          "level": 3,
+          "line": 233
+        },
+        {
+          "heading": "3. 취소 목록 조회",
+          "level": 2,
+          "line": 247
+        },
+        {
+          "heading": "기본 정보",
+          "level": 3,
+          "line": 249
+        },
+        {
+          "heading": "Path parameter",
+          "level": 3,
+          "line": 259
+        },
+        {
+          "heading": "Query parameter",
+          "level": 3,
+          "line": 265
+        },
+        {
+          "heading": "Response 200",
+          "level": 3,
+          "line": 272
+        },
+        {
+          "heading": "상태값 정의",
+          "level": 2,
+          "line": 294
+        },
+        {
+          "heading": "cancel_request.status",
+          "level": 3,
+          "line": 296
+        },
+        {
+          "heading": "payment_item.status (cancelledItems)",
+          "level": 3,
+          "line": 305
+        },
+        {
+          "heading": "4. DEAD 취소 outbox 상태 검사 (내부 운영자 전용)",
+          "level": 2,
+          "line": 316
+        },
+        {
+          "heading": "Response 200",
+          "level": 3,
+          "line": 332
+        },
+        {
+          "heading": "Error responses",
+          "level": 3,
+          "line": 369
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 31
+      }
+    },
+    {
+      "path": "docs/architecture.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 374,
+      "nonEmptyLines": 285,
+      "sections": [
+        {
+          "heading": "Architecture guide",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "읽는 순서",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "왜 이 구조인가",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "멀티 모듈 구조",
+          "level": 2,
+          "line": 46
+        },
+        {
+          "heading": "확장 흐름 (v2.0 인증 경계 · v3.0 재고 수명주기)",
+          "level": 2,
+          "line": 75
+        },
+        {
+          "heading": "v2.0 인증 경계 (앞단)",
+          "level": 3,
+          "line": 79
+        },
+        {
+          "heading": "v3.0 SKU 재고 수명주기 (product 연동)",
+          "level": 3,
+          "line": 89
+        },
+        {
+          "heading": "모듈 간 통신 전략",
+          "level": 2,
+          "line": 101
+        },
+        {
+          "heading": "동기 HTTP — 즉시 응답이 필요한 검증",
+          "level": 3,
+          "line": 103
+        },
+        {
+          "heading": "비동기 Kafka — 완료 후 상태 전파",
+          "level": 3,
+          "line": 116
+        },
+        {
+          "heading": "취소 플로우",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "전체 흐름",
+          "level": 3,
+          "line": 131
+        },
+        {
+          "heading": "상태 머신",
+          "level": 3,
+          "line": 171
+        },
+        {
+          "heading": "동시성 결정",
+          "level": 2,
+          "line": 213
+        },
+        {
+          "heading": "가맹점 취소한도 — 비관적 락",
+          "level": 3,
+          "line": 215
+        },
+        {
+          "heading": "멱등성 — request_hash UK 제약",
+          "level": 3,
+          "line": 228
+        },
+        {
+          "heading": "멱등성 레이어",
+          "level": 2,
+          "line": 241
+        },
+        {
+          "heading": "장애 복구 전략",
+          "level": 2,
+          "line": 254
+        },
+        {
+          "heading": "Redis 분산락 대상 스케줄러",
+          "level": 3,
+          "line": 268
+        },
+        {
+          "heading": "Outbox Pattern",
+          "level": 2,
+          "line": 281
+        },
+        {
+          "heading": "시간 처리",
+          "level": 2,
+          "line": 299
+        },
+        {
+          "heading": "패키지 구조",
+          "level": 2,
+          "line": 315
+        },
+        {
+          "heading": "테스트 전략",
+          "level": 2,
+          "line": 346
+        },
+        {
+          "heading": "모니터링 메트릭",
+          "level": 2,
+          "line": 364
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 24
+      }
+    },
+    {
+      "path": "docs/contributeing.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 788,
+      "nonEmptyLines": 620,
+      "sections": [
+        {
+          "heading": "Contributing guide",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "아키텍처 방향",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "레이어 구조",
+          "level": 3,
+          "line": 10
+        },
+        {
+          "heading": "레이어별 역할",
+          "level": 3,
+          "line": 20
+        },
+        {
+          "heading": "네이밍 컨벤션",
+          "level": 2,
+          "line": 48
+        },
+        {
+          "heading": "클래스 네이밍",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "메서드 네이밍",
+          "level": 3,
+          "line": 69
+        },
+        {
+          "heading": "패키지 네이밍",
+          "level": 3,
+          "line": 80
+        },
+        {
+          "heading": "Effective Java 스타일",
+          "level": 2,
+          "line": 99
+        },
+        {
+          "heading": "정적 팩토리 메서드",
+          "level": 3,
+          "line": 101
+        },
+        {
+          "heading": "null 금지",
+          "level": 3,
+          "line": 115
+        },
+        {
+          "heading": "불변성",
+          "level": 3,
+          "line": 137
+        },
+        {
+          "heading": "인터페이스 반환",
+          "level": 3,
+          "line": 164
+        },
+        {
+          "heading": "가시성",
+          "level": 3,
+          "line": 176
+        },
+        {
+          "heading": "메서드 길이 정책",
+          "level": 2,
+          "line": 190
+        },
+        {
+          "heading": "Early return 예시",
+          "level": 3,
+          "line": 203
+        },
+        {
+          "heading": "선호 패턴",
+          "level": 2,
+          "line": 228
+        },
+        {
+          "heading": "Strategy — 변하는 비즈니스 규칙",
+          "level": 3,
+          "line": 230
+        },
+        {
+          "heading": "Policy Object — 검증, 규칙 캡슐화",
+          "level": 3,
+          "line": 248
+        },
+        {
+          "heading": "Factory / Static Factory — 의미 있는 객체 생성",
+          "level": 3,
+          "line": 261
+        },
+        {
+          "heading": "Adapter — 외부 연동 캡슐화",
+          "level": 3,
+          "line": 286
+        },
+        {
+          "heading": "동시성 처리 규칙",
+          "level": 2,
+          "line": 305
+        },
+        {
+          "heading": "FOR UPDATE 사용 대상",
+          "level": 3,
+          "line": 307
+        },
+        {
+          "heading": "멱등성 처리",
+          "level": 3,
+          "line": 320
+        },
+        {
+          "heading": "테스트 컨벤션",
+          "level": 2,
+          "line": 337
+        },
+        {
+          "heading": "테스트 이름",
+          "level": 3,
+          "line": 339
+        },
+        {
+          "heading": "@BeforeEach와 @Nested 활용",
+          "level": 3,
+          "line": 355
+        },
+        {
+          "heading": "테스트 픽스처 클래스",
+          "level": 3,
+          "line": 455
+        },
+        {
+          "heading": "Clock 주입 패턴",
+          "level": 3,
+          "line": 496
+        },
+        {
+          "heading": "Given / When / Then",
+          "level": 3,
+          "line": 578
+        },
+        {
+          "heading": "테스트 레이어별 어노테이션",
+          "level": 3,
+          "line": 596
+        },
+        {
+          "heading": "Lombok 사용 정책",
+          "level": 2,
+          "line": 618
+        },
+        {
+          "heading": "허용 어노테이션",
+          "level": 3,
+          "line": 620
+        },
+        {
+          "heading": "금지 어노테이션",
+          "level": 3,
+          "line": 631
+        },
+        {
+          "heading": "사용 예시",
+          "level": 3,
+          "line": 640
+        },
+        {
+          "heading": "예외 작성 규칙",
+          "level": 2,
+          "line": 675
+        },
+        {
+          "heading": "예외 위치",
+          "level": 3,
+          "line": 677
+        },
+        {
+          "heading": "예외 사용 규칙",
+          "level": 3,
+          "line": 697
+        },
+        {
+          "heading": "BusinessException 구현",
+          "level": 3,
+          "line": 707
+        },
+        {
+          "heading": "presentation 예외 처리",
+          "level": 3,
+          "line": 748
+        },
+        {
+          "heading": "커밋 메시지 컨벤션",
+          "level": 2,
+          "line": 769
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 41
+      }
+    },
+    {
+      "path": "docs/db-schema.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 83,
+      "nonEmptyLines": 61,
+      "sections": [
+        {
+          "heading": "DB schema guide",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Source of truth",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Flyway conventions",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "파일 명명 규칙",
+          "level": 3,
+          "line": 11
+        },
+        {
+          "heading": "규칙",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "Module DB ownership",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "Naming conventions",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "Datetime convention",
+          "level": 2,
+          "line": 47
+        },
+        {
+          "heading": "Index strategy",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "기본 원칙",
+          "level": 3,
+          "line": 55
+        },
+        {
+          "heading": "주요 인덱스 결정 근거",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "Soft delete 정책",
+          "level": 2,
+          "line": 72
+        },
+        {
+          "heading": "주의사항",
+          "level": 2,
+          "line": 78
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    },
+    {
+      "path": "docs/domain-rules.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 298,
+      "nonEmptyLines": 215,
+      "sections": [
+        {
+          "heading": "Domain rules",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 취소 가능 조건",
+          "level": 2,
+          "line": 9
+        },
+        {
+          "heading": "1-1. Payment 상태 조건",
+          "level": 3,
+          "line": 11
+        },
+        {
+          "heading": "1-2. PaymentItem 상태 조건",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "1-3. 취소 가능 기간",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "1-4. Order 상태 조건 (취소 가능 범위)",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "2. 취소 금액 검증",
+          "level": 2,
+          "line": 54
+        },
+        {
+          "heading": "2-1. 검증 순서",
+          "level": 3,
+          "line": 56
+        },
+        {
+          "heading": "2-2. 잔여 취소 가능액 계산",
+          "level": 3,
+          "line": 74
+        },
+        {
+          "heading": "2-3. 취소 항목 조건",
+          "level": 3,
+          "line": 87
+        },
+        {
+          "heading": "3. 가맹점 취소한도 정책",
+          "level": 2,
+          "line": 93
+        },
+        {
+          "heading": "3-1. 한도 기준",
+          "level": 3,
+          "line": 95
+        },
+        {
+          "heading": "3-2. 한도 계산 방식",
+          "level": 3,
+          "line": 104
+        },
+        {
+          "heading": "3-3. 한도 초과 처리",
+          "level": 3,
+          "line": 120
+        },
+        {
+          "heading": "3-4. 한도 필수 규칙",
+          "level": 3,
+          "line": 124
+        },
+        {
+          "heading": "3-5. 일일 한도 스냅샷",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "3-6. 가맹점 상태별 취소 허용 정책",
+          "level": 3,
+          "line": 134
+        },
+        {
+          "heading": "3-7. 한도 변경 이력",
+          "level": 3,
+          "line": 142
+        },
+        {
+          "heading": "4. 상태 전이 규칙",
+          "level": 2,
+          "line": 148
+        },
+        {
+          "heading": "4-1. Payment 상태 전이",
+          "level": 3,
+          "line": 150
+        },
+        {
+          "heading": "4-2. PaymentItem 상태 전이",
+          "level": 3,
+          "line": 167
+        },
+        {
+          "heading": "4-3. CancelRequest 상태 전이",
+          "level": 3,
+          "line": 176
+        },
+        {
+          "heading": "4-4. Order 상태 전이",
+          "level": 3,
+          "line": 195
+        },
+        {
+          "heading": "5. 멱등성 규칙",
+          "level": 2,
+          "line": 213
+        },
+        {
+          "heading": "5-1. API 레이어",
+          "level": 3,
+          "line": 215
+        },
+        {
+          "heading": "5-2. Kafka Consumer 레이어",
+          "level": 3,
+          "line": 229
+        },
+        {
+          "heading": "5-3. 보상 트랜잭션 레이어",
+          "level": 3,
+          "line": 232
+        },
+        {
+          "heading": "6. EXHAUSTED 운영 정책",
+          "level": 2,
+          "line": 237
+        },
+        {
+          "heading": "7. 금지 규칙 요약",
+          "level": 2,
+          "line": 250
+        },
+        {
+          "heading": "8. 취소 인가 (AUTHZ-01)",
+          "level": 2,
+          "line": 267
+        },
+        {
+          "heading": "8-1. 판정 매트릭스 (D-P3-2)",
+          "level": 3,
+          "line": 272
+        },
+        {
+          "heading": "8-2. 신뢰 헤더 정책 (D-P3-3, D-P3-7)",
+          "level": 3,
+          "line": 288
+        },
+        {
+          "heading": "8-3. 신뢰 경계 — NetworkPolicy 배포 게이트 (D-P3-6, 필수)",
+          "level": 3,
+          "line": 293
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 33
+      }
+    },
+    {
+      "path": "docs/error-catalog.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 308,
+      "nonEmptyLines": 239,
+      "sections": [
+        {
+          "heading": "Error catalog",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "응답 포맷",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "HTTP 상태코드 기준",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "에러 코드 목록",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "인증 오류 (401) — api-gateway",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "취소 outbox 복구 검사 오류 — payment-service 내부 API",
+          "level": 3,
+          "line": 49
+        },
+        {
+          "heading": "주문 검증 오류 (order-service) — `POST /v1/orders/items:verify` (내부 전용, OVER-01)",
+          "level": 3,
+          "line": 59
+        },
+        {
+          "heading": "결제 생성 — order 검증 거부/장애 (payment-service) — `POST /v1/payments` (PLINK-01/03)",
+          "level": 3,
+          "line": 69
+        },
+        {
+          "heading": "지급(payout) 오류 (settlement-service) — 계좌 설정·조회/승인/콜백 (ACCT-01/ACCT-02/PAY-01/PAY-03/CONFIRM-01)",
+          "level": 3,
+          "line": 83
+        },
+        {
+          "heading": "요청 형식 오류 (400)",
+          "level": 3,
+          "line": 102
+        },
+        {
+          "heading": "인가 오류 (403)",
+          "level": 3,
+          "line": 113
+        },
+        {
+          "heading": "리소스 없음 (404)",
+          "level": 3,
+          "line": 119
+        },
+        {
+          "heading": "멱등 중복 (409)",
+          "level": 3,
+          "line": 127
+        },
+        {
+          "heading": "비즈니스 규칙 위반 (422)",
+          "level": 3,
+          "line": 135
+        },
+        {
+          "heading": "서버 오류 (500)",
+          "level": 3,
+          "line": 149
+        },
+        {
+          "heading": "외부 모듈 장애 (503)",
+          "level": 3,
+          "line": 155
+        },
+        {
+          "heading": "규칙",
+          "level": 2,
+          "line": 164
+        },
+        {
+          "heading": "에러 우선순위",
+          "level": 2,
+          "line": 175
+        },
+        {
+          "heading": "ErrorCode enum",
+          "level": 2,
+          "line": 192
+        },
+        {
+          "heading": "예외 클래스 매핑",
+          "level": 2,
+          "line": 252
+        },
+        {
+          "heading": "common/exception",
+          "level": 3,
+          "line": 254
+        },
+        {
+          "heading": "domain/exception — 비즈니스 규칙 위반",
+          "level": 3,
+          "line": 274
+        },
+        {
+          "heading": "application/exception — 리소스 없음, 멱등 중복",
+          "level": 3,
+          "line": 286
+        },
+        {
+          "heading": "infrastructure/exception — 외부 연동 실패",
+          "level": 3,
+          "line": 301
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 24
+      }
+    },
+    {
+      "path": "docs/kafka-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 615,
+      "nonEmptyLines": 470,
+      "sections": [
+        {
+          "heading": "Kafka design",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 핵심 개념",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "브로커, 토픽, 파티션의 관계",
+          "level": 3,
+          "line": 10
+        },
+        {
+          "heading": "파티션이 브로커에 분산되는 방식",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "순서 보장",
+          "level": 3,
+          "line": 39
+        },
+        {
+          "heading": "Consumer Group",
+          "level": 3,
+          "line": 56
+        },
+        {
+          "heading": "Offset",
+          "level": 3,
+          "line": 74
+        },
+        {
+          "heading": "At-least-once와 멱등성",
+          "level": 3,
+          "line": 90
+        },
+        {
+          "heading": "2. 토픽 설계",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "토픽 목록",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "파티션 수 결정 근거",
+          "level": 3,
+          "line": 130
+        },
+        {
+          "heading": "Retention 설정 근거",
+          "level": 3,
+          "line": 142
+        },
+        {
+          "heading": "3. 이벤트 스키마",
+          "level": 2,
+          "line": 156
+        },
+        {
+          "heading": "직렬화 방식 결정",
+          "level": 3,
+          "line": 158
+        },
+        {
+          "heading": "payment.cancelled 이벤트",
+          "level": 3,
+          "line": 177
+        },
+        {
+          "heading": "merchant.limit.updated 이벤트",
+          "level": 3,
+          "line": 208
+        },
+        {
+          "heading": "스키마 버전 관리 원칙",
+          "level": 3,
+          "line": 238
+        },
+        {
+          "heading": "4. Kafka 헤더 설계",
+          "level": 2,
+          "line": 248
+        },
+        {
+          "heading": "5. Producer 설계",
+          "level": 2,
+          "line": 263
+        },
+        {
+          "heading": "acks 옵션 이해",
+          "level": 3,
+          "line": 265
+        },
+        {
+          "heading": "OUTBOX 정식 발행 (`cancel.publish.mode` 기본값)",
+          "level": 3,
+          "line": 287
+        },
+        {
+          "heading": "설정값",
+          "level": 3,
+          "line": 323
+        },
+        {
+          "heading": "6. Consumer 설계",
+          "level": 2,
+          "line": 353
+        },
+        {
+          "heading": "Offset 커밋 전략 — 왜 수동 커밋인가",
+          "level": 3,
+          "line": 355
+        },
+        {
+          "heading": "처리 결과별 offset 커밋 흐름",
+          "level": 3,
+          "line": 384
+        },
+        {
+          "heading": "멱등 처리",
+          "level": 3,
+          "line": 415
+        },
+        {
+          "heading": "재시도 대기 시간",
+          "level": 3,
+          "line": 427
+        },
+        {
+          "heading": "설정값",
+          "level": 3,
+          "line": 436
+        },
+        {
+          "heading": "7. DLQ 운영 절차",
+          "level": 2,
+          "line": 466
+        },
+        {
+          "heading": "TPS 규모별 DLQ 전략",
+          "level": 3,
+          "line": 468
+        },
+        {
+          "heading": "DLQ 메시지 포맷",
+          "level": 3,
+          "line": 498
+        },
+        {
+          "heading": "DLQ 수동 처리 절차",
+          "level": 3,
+          "line": 518
+        },
+        {
+          "heading": "8. Kafka UI",
+          "level": 2,
+          "line": 543
+        },
+        {
+          "heading": "제공 기능",
+          "level": 3,
+          "line": 547
+        },
+        {
+          "heading": "Docker Compose 설정",
+          "level": 3,
+          "line": 568
+        },
+        {
+          "heading": "접근 제한",
+          "level": 3,
+          "line": 585
+        },
+        {
+          "heading": "9. 모니터링 지표",
+          "level": 2,
+          "line": 595
+        },
+        {
+          "heading": "10. 장애 시나리오별 대응",
+          "level": 2,
+          "line": 606
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 38
+      }
+    },
+    {
+      "path": "docs/settlement.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 158,
+      "nonEmptyLines": 111,
+      "sections": [
+        {
+          "heading": "정산(Settlement) 설계·산식 레퍼런스",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. 개요",
+          "level": 2,
+          "line": 8
+        },
+        {
+          "heading": "2. 데이터 모델 (settlement_db, Flyway V1)",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "3. 산식 (계산 규칙) — 상세",
+          "level": 2,
+          "line": 41
+        },
+        {
+          "heading": "3.1 정산주 귀속 (KST 주 경계)",
+          "level": 3,
+          "line": 43
+        },
+        {
+          "heading": "3.2 집계 (gross / cancel)",
+          "level": 3,
+          "line": 67
+        },
+        {
+          "heading": "3.3 수수료·부가세·net",
+          "level": 3,
+          "line": 78
+        },
+        {
+          "heading": "4. 이벤트 흐름 / 멱등",
+          "level": 2,
+          "line": 110
+        },
+        {
+          "heading": "5. 불변식 / 가드",
+          "level": 2,
+          "line": 129
+        },
+        {
+          "heading": "6. 로드맵 (v1.0 정산 집계 코어)",
+          "level": 2,
+          "line": 138
+        },
+        {
+          "heading": "범위 밖 (다음 슬라이스 → 각 별도)",
+          "level": 3,
+          "line": 148
+        },
+        {
+          "heading": "7. 참고",
+          "level": 2,
+          "line": 154
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    }
+  ]
+}

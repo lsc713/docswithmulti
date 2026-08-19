@@ -43,6 +43,12 @@ function getInitialView() {
   return { name: 'home' }
 }
 
+function redirectStaff(user) {
+  if (user.role !== 'ADMIN' && user.role !== 'MERCHANT') return false
+  window.location.replace('/admin/cancel-requests')
+  return true
+}
+
 export default function App() {
   const [me, setMe] = useState(null)
   const [view, setView] = useState(getInitialView)
@@ -92,6 +98,7 @@ export default function App() {
 
   useEffect(() => {
     api.me().then(user => {
+      if (redirectStaff(user)) return
       applyIdentity(user)
       const restoredFlowState = resolveOrderRouteState(undefined, user.userId)
       const name = window.location.pathname === '/checkout'
@@ -294,6 +301,7 @@ export default function App() {
       {authOpen && (
         <AuthModal open onClose={() => setAuthOpen(false)}
                    onAuthed={(u) => {
+                     if (redirectStaff(u)) return
                      clearOrderFlowClientState()
                      applyIdentity(u)
                      setAuthOpen(false)

@@ -1,0 +1,68 @@
+{
+  "nodes": [
+    {
+      "id": "service:payment-service/Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "payment-service/Dockerfile",
+      "summary": "payment-service를 Java 21 runtime image로 빌드하는 multi-stage Docker 구성이다.",
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "deployment",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:payment-service/Dockerfile:builder",
+      "type": "service",
+      "name": "builder",
+      "filePath": "payment-service/Dockerfile",
+      "lineRange": [
+        2,
+        23
+      ],
+      "summary": "gradle:8-jdk21 기반 builder container stage를 정의한다.",
+      "tags": [
+        "containerization",
+        "docker-stage",
+        "infrastructure"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:payment-service/Dockerfile:eclipse-temurin",
+      "type": "service",
+      "name": "eclipse-temurin",
+      "filePath": "payment-service/Dockerfile",
+      "lineRange": [
+        24,
+        32
+      ],
+      "summary": "eclipse-temurin:21-jre-alpine 기반 eclipse-temurin container stage를 정의한다.",
+      "tags": [
+        "containerization",
+        "docker-stage",
+        "infrastructure"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "service:payment-service/Dockerfile",
+      "target": "service:payment-service/Dockerfile:builder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "service:payment-service/Dockerfile",
+      "target": "service:payment-service/Dockerfile:eclipse-temurin",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ]
+}

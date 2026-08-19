@@ -1,0 +1,50 @@
+{
+  "nodes": [
+    {
+      "id": "service:infra/k8s/networkpolicy/order-ingress.yaml",
+      "type": "service",
+      "name": "order-ingress.yaml",
+      "filePath": "infra/k8s/networkpolicy/order-ingress.yaml",
+      "summary": "주문 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "주문",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/networkpolicy/payment-ingress.yaml",
+      "type": "service",
+      "name": "payment-ingress.yaml",
+      "filePath": "infra/k8s/networkpolicy/payment-ingress.yaml",
+      "summary": "결제 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "결제",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/networkpolicy/product-ingress.yaml",
+      "type": "service",
+      "name": "product-ingress.yaml",
+      "filePath": "infra/k8s/networkpolicy/product-ingress.yaml",
+      "summary": "상품 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "상품",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

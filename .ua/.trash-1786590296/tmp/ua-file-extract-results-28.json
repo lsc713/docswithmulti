@@ -1,0 +1,939 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 7,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 7,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 7,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "RiskReserveResult",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RiskReserveResult",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "CompensationRetryRepository",
+          "startLine": 7,
+          "endLine": 29,
+          "methods": [
+            "save",
+            "findDueForRetry",
+            "markDone",
+            "markRetryLater",
+            "exhaust"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CompensationRetryRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "RiskManagementPort",
+          "startLine": 7,
+          "endLine": 19,
+          "methods": [
+            "validateAndReserve",
+            "compensate",
+            "isCharged"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RiskManagementPort",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "retryAll",
+          "startLine": 31,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "retryOne",
+          "startLine": 41,
+          "endLine": 63,
+          "params": [
+            "pending"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CompensationRetryService",
+          "startLine": 21,
+          "endLine": 64,
+          "methods": [
+            "retryAll",
+            "retryOne"
+          ],
+          "properties": [
+            "MAX_ATTEMPTS",
+            "compensationRetryRepository",
+            "riskManagementPort"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "retryAll",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "CompensationRetryService",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "retryAll",
+          "callee": "LocalDateTime.now",
+          "lineNumber": 32
+        },
+        {
+          "caller": "retryAll",
+          "callee": "compensationRetryRepository.findDueForRetry",
+          "lineNumber": 33
+        },
+        {
+          "caller": "retryAll",
+          "callee": "log.info",
+          "lineNumber": 34
+        },
+        {
+          "caller": "retryAll",
+          "callee": "due.size",
+          "lineNumber": 34
+        },
+        {
+          "caller": "retryAll",
+          "callee": "due.isEmpty",
+          "lineNumber": 35
+        },
+        {
+          "caller": "retryAll",
+          "callee": "due.forEach",
+          "lineNumber": 38
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.attemptCount",
+          "lineNumber": 42
+        },
+        {
+          "caller": "retryOne",
+          "callee": "log.info",
+          "lineNumber": 43
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.cancelRequestId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.merchantId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "retryOne",
+          "callee": "riskManagementPort.compensate",
+          "lineNumber": 46
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.cancelRequestId",
+          "lineNumber": 47
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.merchantId",
+          "lineNumber": 47
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.restoreAmount",
+          "lineNumber": 47
+        },
+        {
+          "caller": "retryOne",
+          "callee": "compensationRetryRepository.markDone",
+          "lineNumber": 48
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.id",
+          "lineNumber": 48
+        },
+        {
+          "caller": "retryOne",
+          "callee": "log.info",
+          "lineNumber": 49
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.cancelRequestId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "retryOne",
+          "callee": "log.warn",
+          "lineNumber": 51
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.cancelRequestId",
+          "lineNumber": 52
+        },
+        {
+          "caller": "retryOne",
+          "callee": "e.getMessage",
+          "lineNumber": 52
+        },
+        {
+          "caller": "retryOne",
+          "callee": "compensationRetryRepository.exhaust",
+          "lineNumber": 54
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.id",
+          "lineNumber": 54
+        },
+        {
+          "caller": "retryOne",
+          "callee": "e.getMessage",
+          "lineNumber": 54
+        },
+        {
+          "caller": "retryOne",
+          "callee": "log.error",
+          "lineNumber": 55
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.cancelRequestId",
+          "lineNumber": 56
+        },
+        {
+          "caller": "retryOne",
+          "callee": "LocalDateTime.now().plusSeconds",
+          "lineNumber": 58
+        },
+        {
+          "caller": "retryOne",
+          "callee": "LocalDateTime.now",
+          "lineNumber": 58
+        },
+        {
+          "caller": "retryOne",
+          "callee": "compensationRetryRepository.markRetryLater",
+          "lineNumber": 59
+        },
+        {
+          "caller": "retryOne",
+          "callee": "pending.id",
+          "lineNumber": 60
+        },
+        {
+          "caller": "retryOne",
+          "callee": "e.getMessage",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 123,
+      "nonEmptyLines": 115,
+      "functions": [
+        {
+          "name": "RiskManagementHttpClient",
+          "startLine": 28,
+          "endLine": 38,
+          "params": [
+            "restTemplate",
+            "baseUrl",
+            "riskManagementCircuitBreaker",
+            "riskManagementReadCircuitBreaker"
+          ]
+        },
+        {
+          "name": "validateAndReserve",
+          "startLine": 40,
+          "endLine": 69,
+          "params": [
+            "merchantId",
+            "cancelRequestId",
+            "cancelAmount",
+            "kstDate"
+          ]
+        },
+        {
+          "name": "compensate",
+          "startLine": 71,
+          "endLine": 99,
+          "params": [
+            "cancelRequestId",
+            "merchantId",
+            "restoreAmount"
+          ]
+        },
+        {
+          "name": "isCharged",
+          "startLine": 101,
+          "endLine": 122,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RiskManagementHttpClient",
+          "startLine": 17,
+          "endLine": 123,
+          "methods": [
+            "RiskManagementHttpClient",
+            "validateAndReserve",
+            "compensate",
+            "isCharged"
+          ],
+          "properties": [
+            "restTemplate",
+            "baseUrl",
+            "circuitBreaker",
+            "readCircuitBreaker"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RiskManagementHttpClient",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "validateAndReserve",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "compensate",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "isCharged",
+          "line": 101,
+          "isDefault": false
+        },
+        {
+          "name": "RiskManagementHttpClient",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "validateAndReserve",
+          "callee": "circuitBreaker.executeCheckedSupplier",
+          "lineNumber": 45
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "Map.of",
+          "lineNumber": 47
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "String.valueOf",
+          "lineNumber": 49
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "kstDate.toString",
+          "lineNumber": 51
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "restTemplate.postForEntity",
+          "lineNumber": 54
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 55
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "response.getStatusCode",
+          "lineNumber": 55
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "response.getBody",
+          "lineNumber": 55
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "new RiskServiceException",
+          "lineNumber": 56
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "response.getStatusCode",
+          "lineNumber": 56
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "response.getBody",
+          "lineNumber": 58
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "log.error",
+          "lineNumber": 66
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "new RiskServiceException",
+          "lineNumber": 67
+        },
+        {
+          "caller": "compensate",
+          "callee": "circuitBreaker.executeCheckedSupplier",
+          "lineNumber": 74
+        },
+        {
+          "caller": "compensate",
+          "callee": "Map.of",
+          "lineNumber": 76
+        },
+        {
+          "caller": "compensate",
+          "callee": "restTemplate.postForEntity",
+          "lineNumber": 81
+        },
+        {
+          "caller": "compensate",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 86
+        },
+        {
+          "caller": "compensate",
+          "callee": "response.getStatusCode",
+          "lineNumber": 86
+        },
+        {
+          "caller": "compensate",
+          "callee": "new RiskServiceException",
+          "lineNumber": 87
+        },
+        {
+          "caller": "compensate",
+          "callee": "response.getStatusCode",
+          "lineNumber": 87
+        },
+        {
+          "caller": "compensate",
+          "callee": "log.error",
+          "lineNumber": 96
+        },
+        {
+          "caller": "compensate",
+          "callee": "new RiskServiceException",
+          "lineNumber": 97
+        },
+        {
+          "caller": "isCharged",
+          "callee": "readCircuitBreaker.executeCheckedSupplier",
+          "lineNumber": 104
+        },
+        {
+          "caller": "isCharged",
+          "callee": "restTemplate.getForEntity",
+          "lineNumber": 107
+        },
+        {
+          "caller": "isCharged",
+          "callee": "response.getStatusCode().is2xxSuccessful",
+          "lineNumber": 109
+        },
+        {
+          "caller": "isCharged",
+          "callee": "response.getStatusCode",
+          "lineNumber": 109
+        },
+        {
+          "caller": "isCharged",
+          "callee": "response.getBody",
+          "lineNumber": 109
+        },
+        {
+          "caller": "isCharged",
+          "callee": "new RiskServiceException",
+          "lineNumber": 110
+        },
+        {
+          "caller": "isCharged",
+          "callee": "response.getStatusCode",
+          "lineNumber": 110
+        },
+        {
+          "caller": "isCharged",
+          "callee": "response.getBody().charged",
+          "lineNumber": 112
+        },
+        {
+          "caller": "isCharged",
+          "callee": "response.getBody",
+          "lineNumber": 112
+        },
+        {
+          "caller": "isCharged",
+          "callee": "log.error",
+          "lineNumber": 119
+        },
+        {
+          "caller": "isCharged",
+          "callee": "new RiskServiceException",
+          "lineNumber": 120
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 48,
+      "functions": [
+        {
+          "name": "CompensationRetryRepositoryImpl",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 19,
+          "endLine": 24,
+          "params": [
+            "cancelRequestId",
+            "merchantId",
+            "restoreAmount"
+          ]
+        },
+        {
+          "name": "findDueForRetry",
+          "startLine": 26,
+          "endLine": 33,
+          "params": [
+            "now"
+          ]
+        },
+        {
+          "name": "markDone",
+          "startLine": 35,
+          "endLine": 41,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "markRetryLater",
+          "startLine": 43,
+          "endLine": 49,
+          "params": [
+            "id",
+            "newAttemptCount",
+            "nextRetryAt",
+            "lastError"
+          ]
+        },
+        {
+          "name": "exhaust",
+          "startLine": 51,
+          "endLine": 57,
+          "params": [
+            "id",
+            "finalAttemptCount",
+            "lastError"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CompensationRetryRepositoryImpl",
+          "startLine": 10,
+          "endLine": 58,
+          "methods": [
+            "CompensationRetryRepositoryImpl",
+            "save",
+            "findDueForRetry",
+            "markDone",
+            "markRetryLater",
+            "exhaust"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CompensationRetryRepositoryImpl",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "findDueForRetry",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "markDone",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "markRetryLater",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "exhaust",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "CompensationRetryRepositoryImpl",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save",
+          "lineNumber": 21
+        },
+        {
+          "caller": "save",
+          "callee": "CompensationRetryJpaEntity.pending",
+          "lineNumber": 22
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry(now).stream()\n            .map(e -> new PendingCompensation(\n                e.getId(), e.getCancelRequestIdAsLong(),\n                e.getMerchantId(), e.getRestoreAmount(), e.getAttemptCount())).toList",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry(now).stream().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry(now).stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "jpaRepository.findDueForRetry",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "new PendingCompensation",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getId",
+          "lineNumber": 30
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getCancelRequestIdAsLong",
+          "lineNumber": 30
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getMerchantId",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getRestoreAmount",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findDueForRetry",
+          "callee": "e.getAttemptCount",
+          "lineNumber": 31
+        },
+        {
+          "caller": "markDone",
+          "callee": "jpaRepository.findById(id).ifPresent",
+          "lineNumber": 37
+        },
+        {
+          "caller": "markDone",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 37
+        },
+        {
+          "caller": "markDone",
+          "callee": "e.markDone",
+          "lineNumber": 38
+        },
+        {
+          "caller": "markDone",
+          "callee": "jpaRepository.save",
+          "lineNumber": 39
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "jpaRepository.findById(id).ifPresent",
+          "lineNumber": 45
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 45
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "e.markFailed",
+          "lineNumber": 46
+        },
+        {
+          "caller": "markRetryLater",
+          "callee": "jpaRepository.save",
+          "lineNumber": 47
+        },
+        {
+          "caller": "exhaust",
+          "callee": "jpaRepository.findById(id).ifPresent",
+          "lineNumber": 53
+        },
+        {
+          "caller": "exhaust",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 53
+        },
+        {
+          "caller": "exhaust",
+          "callee": "e.exhaust",
+          "lineNumber": 54
+        },
+        {
+          "caller": "exhaust",
+          "callee": "jpaRepository.save",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "run",
+          "startLine": 29,
+          "endLine": 49,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CompensationRetryScheduler",
+          "startLine": 18,
+          "endLine": 50,
+          "methods": [
+            "run"
+          ],
+          "properties": [
+            "redissonClient",
+            "compensationRetryService",
+            "lockKey"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "run",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "CompensationRetryScheduler",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "run",
+          "callee": "redissonClient.getLock",
+          "lineNumber": 31
+        },
+        {
+          "caller": "run",
+          "callee": "lock.tryLock",
+          "lineNumber": 33
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 34
+        },
+        {
+          "caller": "run",
+          "callee": "log.debug",
+          "lineNumber": 38
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread().interrupt",
+          "lineNumber": 39
+        },
+        {
+          "caller": "run",
+          "callee": "Thread.currentThread",
+          "lineNumber": 39
+        },
+        {
+          "caller": "run",
+          "callee": "compensationRetryService.retryAll",
+          "lineNumber": 43
+        },
+        {
+          "caller": "run",
+          "callee": "lock.isHeldByCurrentThread",
+          "lineNumber": 45
+        },
+        {
+          "caller": "run",
+          "callee": "lock.unlock",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

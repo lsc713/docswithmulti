@@ -1,0 +1,483 @@
+{
+  "nodes": [
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "type": "file",
+      "name": "JwtVerifier.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "summary": "api-gateway의 Jwt Verifier Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:JwtVerifier",
+      "type": "class",
+      "name": "JwtVerifier",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "lineRange": [
+        17,
+        29
+      ],
+      "summary": "JwtVerifier가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:JwtVerifier",
+      "type": "function",
+      "name": "JwtVerifier",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "JwtVerifier 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:parse",
+      "type": "function",
+      "name": "parse",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "lineRange": [
+        26,
+        28
+      ],
+      "summary": "parse 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "type": "file",
+      "name": "RouteConfig.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "summary": "api-gateway의 Route Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:RouteConfig",
+      "type": "class",
+      "name": "RouteConfig",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        46,
+        189
+      ],
+      "summary": "RouteConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:paymentRoute",
+      "type": "function",
+      "name": "paymentRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        50,
+        59
+      ],
+      "summary": "paymentRoute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:cancelRequestsRoute",
+      "type": "function",
+      "name": "cancelRequestsRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        67,
+        76
+      ],
+      "summary": "cancelRequestsRoute 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:userAuthPublicRoute",
+      "type": "function",
+      "name": "userAuthPublicRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        82,
+        97
+      ],
+      "summary": "userAuthPublicRoute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:userAuthSecuredRoute",
+      "type": "function",
+      "name": "userAuthSecuredRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        105,
+        117
+      ],
+      "summary": "userAuthSecuredRoute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:orderRoute",
+      "type": "function",
+      "name": "orderRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        124,
+        133
+      ],
+      "summary": "orderRoute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:cartRoute",
+      "type": "function",
+      "name": "cartRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        136,
+        145
+      ],
+      "summary": "cartRoute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:productBrowseRoute",
+      "type": "function",
+      "name": "productBrowseRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        153,
+        164
+      ],
+      "summary": "productBrowseRoute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:productAdminWriteRoute",
+      "type": "function",
+      "name": "productAdminWriteRoute",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "lineRange": [
+        174,
+        188
+      ],
+      "summary": "productAdminWriteRoute 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "type": "file",
+      "name": "JwtTrustHeaderFilter.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "summary": "api-gateway의 Jwt Trust Header Filter 관련 domain/application 동작을 구현하며 5개의 주요 구조를 포함한다.",
+      "tags": [
+        "api-gateway",
+        "domain-logic",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:JwtTrustHeaderFilter",
+      "type": "class",
+      "name": "JwtTrustHeaderFilter",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "lineRange": [
+        25,
+        96
+      ],
+      "summary": "JwtTrustHeaderFilter가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "api-gateway",
+        "domain-logic",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:JwtTrustHeaderFilter",
+      "type": "function",
+      "name": "JwtTrustHeaderFilter",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "lineRange": [
+        34,
+        36
+      ],
+      "summary": "JwtTrustHeaderFilter 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "api-gateway",
+        "domain-logic",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:filter",
+      "type": "function",
+      "name": "filter",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "lineRange": [
+        38,
+        83
+      ],
+      "summary": "filter 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "domain-logic",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:JwtVerifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:JwtVerifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:JwtVerifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:JwtVerifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java:parse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:RouteConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:RouteConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:paymentRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:cancelRequestsRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:userAuthPublicRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:userAuthSecuredRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:orderRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:cartRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:productBrowseRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java:productAdminWriteRoute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "target": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:JwtTrustHeaderFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:JwtTrustHeaderFilter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:JwtTrustHeaderFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:JwtTrustHeaderFilter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:filter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java:filter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "target": "file:api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

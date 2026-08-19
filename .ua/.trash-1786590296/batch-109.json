@@ -1,0 +1,66 @@
+{
+  "nodes": [
+    {
+      "id": "file:user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java",
+      "type": "file",
+      "name": "SignupRequest.java",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java",
+      "summary": "사용자 인증 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java:SignupRequest",
+      "type": "class",
+      "name": "SignupRequest",
+      "filePath": "user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java",
+      "lineRange": [
+        8,
+        13
+      ],
+      "summary": "사용자 인증 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:user-service/src/main/resources/application.yml",
+      "type": "config",
+      "name": "application.yml",
+      "filePath": "user-service/src/main/resources/application.yml",
+      "summary": "사용자 인증 Spring Boot service의 port, datasource, Kafka 및 운영 설정을 구성한다.",
+      "tags": [
+        "configuration",
+        "사용자-인증",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java:SignupRequest",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java",
+      "target": "class:user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java:SignupRequest",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    }
+  ]
+}

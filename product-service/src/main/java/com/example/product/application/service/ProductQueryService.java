@@ -6,13 +6,11 @@ import com.example.product.application.interfaces.ProductQueryRepository;
 import com.example.product.application.interfaces.ProductVariantRepository;
 import com.example.product.common.exception.application.CategoryNotFoundException;
 import com.example.product.common.exception.application.ProductNotFoundException;
-import com.example.product.domain.entity.Category;
 import com.example.product.domain.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -105,18 +103,10 @@ public class ProductQueryService {
         return new ProductDetail(product.getId(), product.getName(), path, skus, images, variantOptions, specs);
     }
 
-    /** leaf 에서 parent 로 올라가며 조상 수집 후 root→leaf 로 뒤집는다 (정상 트리는 3노드). */
+    /** 재귀 CTE로 root→leaf 경로를 한 번에 조회한다. */
     private List<CategoryPathNode> categoryPath(Long leafId) {
-        List<CategoryPathNode> reversed = new ArrayList<>();
-        Long cursor = leafId;
-        while (cursor != null) {
-            Category c = categoryRepository.findById(cursor).orElse(null);
-            if (c == null) break;
-            reversed.add(new CategoryPathNode(c.getLevel(), c.getId(), c.getName()));
-            cursor = c.getParentId();
-        }
-        List<CategoryPathNode> path = new ArrayList<>(reversed);
-        java.util.Collections.reverse(path);
-        return path;
+        return categoryRepository.findPathByLeafId(leafId).stream()
+                .map(c -> new CategoryPathNode(c.getLevel(), c.getId(), c.getName()))
+                .toList();
     }
 }

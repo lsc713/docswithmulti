@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/specs/2026-07-12-outbox-poller-dedicated-datasource-design.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": false,
+  "title": "폴러 전용 DataSource — 설계 (Design)",
+  "summary": "Technical design to isolate the OUTBOX poller's drain path onto a dedicated small Hikari connection pool to eliminate livelock.",
+  "scope": ["payment-service", "OUTBOX poller", "HikariDataSource", "CancelEventOutboxRepositoryImpl", "cancelOutboxJdbcTemplate", "connection pool isolation"],
+  "cross_refs": ["docs/load-test/outbox-poller-livelock.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

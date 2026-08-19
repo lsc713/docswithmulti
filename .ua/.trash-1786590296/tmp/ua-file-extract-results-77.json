@@ -1,0 +1,181 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/settlement/phases/01-core-tracer/01-01-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 106,
+      "nonEmptyLines": 86,
+      "sections": [
+        {
+          "heading": "Phase 1 Plan 01: Settlement Core Tracer Summary",
+          "level": 1,
+          "line": 50
+        },
+        {
+          "heading": "What was built",
+          "level": 2,
+          "line": 54
+        },
+        {
+          "heading": "Requirements satisfied",
+          "level": 2,
+          "line": 64
+        },
+        {
+          "heading": "Test results",
+          "level": 2,
+          "line": 71
+        },
+        {
+          "heading": "INV-01 (payment diff 0)",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 85
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 91
+        },
+        {
+          "heading": "Deferred / out-of-scope (by design, per spec §6)",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 102
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": ".planning/workstreams/settlement/phases/01-core-tracer/01-02-SUMMARY.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 77,
+      "nonEmptyLines": 63,
+      "sections": [
+        {
+          "heading": "Phase 1 Plan 02: INV-01 Gate + No-Regression Summary",
+          "level": 1,
+          "line": 33
+        },
+        {
+          "heading": "What was verified",
+          "level": 2,
+          "line": 40
+        },
+        {
+          "heading": "INV-01 verdict",
+          "level": 2,
+          "line": 49
+        },
+        {
+          "heading": "Deviations from Plan",
+          "level": 2,
+          "line": 55
+        },
+        {
+          "heading": "Known Stubs",
+          "level": 2,
+          "line": 69
+        },
+        {
+          "heading": "Self-Check: PASSED",
+          "level": 2,
+          "line": 73
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": ".planning/workstreams/settlement/phases/01-core-tracer/01-02-VERIFICATION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 102,
+      "nonEmptyLines": 75,
+      "sections": [
+        {
+          "heading": "Phase 1 Plan 02 — INV-01 Gate + No-Regression Verification",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Task 1 — INV-01 merge-base git diff gate",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "Substantive INV-01 (payment diff 0, no guarded-core module changed): **PASS**",
+          "level": 3,
+          "line": 12
+        },
+        {
+          "heading": "Changed-path scope vs BASE",
+          "level": 3,
+          "line": 24
+        },
+        {
+          "heading": "Strict-allowlist scripted gate: **1 flagged path (allowlist gap, not an INV-01 violation)**",
+          "level": 3,
+          "line": 37
+        },
+        {
+          "heading": "Cloud-sync duplicate-file cleanup (T-01-05 mitigation)",
+          "level": 3,
+          "line": 62
+        },
+        {
+          "heading": "Task 2 — Full-suite no-regression",
+          "level": 2,
+          "line": 69
+        },
+        {
+          "heading": "INV-01 verdict",
+          "level": 2,
+          "line": 97
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    }
+  ]
+}

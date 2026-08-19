@@ -1,0 +1,120 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "language": "java",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "language": "java",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "language": "java",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "language": "java",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java",
+      "language": "java",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java",
+      "language": "java",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java",
+      "language": "java",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java",
+      "language": "java",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java",
+      "language": "java",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "language": "java",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "language": "java",
+      "sizeLines": 166,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java",
+      "language": "java",
+      "sizeLines": 117,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java": [],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java": [],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java": [],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java": [],
+    "payment-service/src/main/java/com/example/payment/infrastructure/adapter/LogOperationAlertAdapter.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/config/PaymentEventOutboxConfig.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineAsyncCancelEventPublisher.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/messaging/InlineCancelEventPublisher.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxJpaRepository.java": [],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentEventOutboxRepositoryImpl.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/messaging/OutboxCancelEventPublisher.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/PaymentCompletedOutboxPublisher.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/OperationAlertPort.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentEventOutboxRepository.java"
+    ]
+  }
+}

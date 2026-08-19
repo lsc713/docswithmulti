@@ -1,0 +1,212 @@
+{
+  "nodes": [
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java",
+      "type": "file",
+      "name": "FilterConfig.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java",
+      "summary": "api-gateway의 Filter Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java:FilterConfig",
+      "type": "class",
+      "name": "FilterConfig",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java",
+      "lineRange": [
+        11,
+        25
+      ],
+      "summary": "FilterConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "type": "file",
+      "name": "GatewayPaths.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "summary": "api-gateway의 Gateway Paths Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java:GatewayPaths",
+      "type": "class",
+      "name": "GatewayPaths",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "lineRange": [
+        10,
+        16
+      ],
+      "summary": "GatewayPaths가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java:GatewayPaths",
+      "type": "function",
+      "name": "GatewayPaths",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "lineRange": [
+        11,
+        11
+      ],
+      "summary": "GatewayPaths 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "api-gateway",
+        "configuration",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "type": "file",
+      "name": "CsrfFilter.java",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "summary": "api-gateway의 Csrf Filter 관련 domain/application 동작을 구현하며 4개의 주요 구조를 포함한다.",
+      "tags": [
+        "api-gateway",
+        "domain-logic",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java:CsrfFilter",
+      "type": "class",
+      "name": "CsrfFilter",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "lineRange": [
+        16,
+        56
+      ],
+      "summary": "CsrfFilter가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "api-gateway",
+        "domain-logic",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java:doFilterInternal",
+      "type": "function",
+      "name": "doFilterInternal",
+      "filePath": "api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "lineRange": [
+        22,
+        36
+      ],
+      "summary": "doFilterInternal 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "api-gateway",
+        "domain-logic",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java:FilterConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java:FilterConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java",
+      "target": "file:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java:GatewayPaths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java:GatewayPaths",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java:GatewayPaths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java:GatewayPaths",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java:CsrfFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "target": "class:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java:CsrfFilter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "target": "function:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java:doFilterInternal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "target": "file:api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

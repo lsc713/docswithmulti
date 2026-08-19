@@ -1,0 +1,1970 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "type": "file",
+      "name": "ProductVariantRepositoryImpl.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "summary": "product-service의 Product Variant Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:ProductVariantRepositoryImpl",
+      "type": "class",
+      "name": "ProductVariantRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "lineRange": [
+        8,
+        50
+      ],
+      "summary": "ProductVariantRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:ProductVariantRepositoryImpl",
+      "type": "function",
+      "name": "ProductVariantRepositoryImpl",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "lineRange": [
+        14,
+        20
+      ],
+      "summary": "ProductVariantRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveProductAttributes",
+      "type": "function",
+      "name": "saveProductAttributes",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "lineRange": [
+        22,
+        25
+      ],
+      "summary": "saveProductAttributes 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveSkuVariantValues",
+      "type": "function",
+      "name": "saveSkuVariantValues",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "lineRange": [
+        27,
+        32
+      ],
+      "summary": "saveSkuVariantValues 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveProductDescriptiveValues",
+      "type": "function",
+      "name": "saveProductDescriptiveValues",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "lineRange": [
+        34,
+        39
+      ],
+      "summary": "saveProductDescriptiveValues 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:findVariantRows",
+      "type": "function",
+      "name": "findVariantRows",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "lineRange": [
+        41,
+        44
+      ],
+      "summary": "findVariantRows 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:findDescriptiveRows",
+      "type": "function",
+      "name": "findDescriptiveRows",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "lineRange": [
+        46,
+        49
+      ],
+      "summary": "findDescriptiveRows 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "type": "file",
+      "name": "S3ObjectStorageAdapter.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "summary": "product-service의 S3 Object Storage Adapter 관련 domain/application 동작을 구현하며 6개의 주요 구조를 포함한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:S3ObjectStorageAdapter",
+      "type": "class",
+      "name": "S3ObjectStorageAdapter",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "lineRange": [
+        12,
+        57
+      ],
+      "summary": "S3ObjectStorageAdapter가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:S3ObjectStorageAdapter",
+      "type": "function",
+      "name": "S3ObjectStorageAdapter",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "lineRange": [
+        20,
+        25
+      ],
+      "summary": "S3ObjectStorageAdapter 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:presignUpload",
+      "type": "function",
+      "name": "presignUpload",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "lineRange": [
+        27,
+        33
+      ],
+      "summary": "presignUpload 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:presignDownload",
+      "type": "function",
+      "name": "presignDownload",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "lineRange": [
+        35,
+        41
+      ],
+      "summary": "presignDownload 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:exists",
+      "type": "function",
+      "name": "exists",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "lineRange": [
+        43,
+        51
+      ],
+      "summary": "exists 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:delete",
+      "type": "function",
+      "name": "delete",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "lineRange": [
+        53,
+        56
+      ],
+      "summary": "delete 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "type": "file",
+      "name": "AttributeController.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "summary": "product-service의 Attribute Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:AttributeController",
+      "type": "class",
+      "name": "AttributeController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "lineRange": [
+        17,
+        42
+      ],
+      "summary": "AttributeController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:AttributeController",
+      "type": "function",
+      "name": "AttributeController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "lineRange": [
+        23,
+        25
+      ],
+      "summary": "AttributeController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "lineRange": [
+        27,
+        30
+      ],
+      "summary": "create 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:addValue",
+      "type": "function",
+      "name": "addValue",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "lineRange": [
+        32,
+        36
+      ],
+      "summary": "addValue 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:dictionary",
+      "type": "function",
+      "name": "dictionary",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "lineRange": [
+        38,
+        41
+      ],
+      "summary": "dictionary 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "type": "file",
+      "name": "CategoryController.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "summary": "product-service의 Category Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:CategoryController",
+      "type": "class",
+      "name": "CategoryController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "lineRange": [
+        15,
+        34
+      ],
+      "summary": "CategoryController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:CategoryController",
+      "type": "function",
+      "name": "CategoryController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "lineRange": [
+        21,
+        23
+      ],
+      "summary": "CategoryController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:create",
+      "type": "function",
+      "name": "create",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "lineRange": [
+        25,
+        28
+      ],
+      "summary": "create 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:tree",
+      "type": "function",
+      "name": "tree",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "lineRange": [
+        30,
+        33
+      ],
+      "summary": "tree 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "type": "file",
+      "name": "ProductController.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "summary": "product-service의 Product Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:ProductController",
+      "type": "class",
+      "name": "ProductController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "lineRange": [
+        18,
+        48
+      ],
+      "summary": "ProductController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:ProductController",
+      "type": "function",
+      "name": "ProductController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "lineRange": [
+        24,
+        26
+      ],
+      "summary": "ProductController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:seed",
+      "type": "function",
+      "name": "seed",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "lineRange": [
+        34,
+        47
+      ],
+      "summary": "seed 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "type": "file",
+      "name": "ProductImageController.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "summary": "product-service의 Product Image Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:ProductImageController",
+      "type": "class",
+      "name": "ProductImageController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "lineRange": [
+        22,
+        70
+      ],
+      "summary": "ProductImageController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:ProductImageController",
+      "type": "function",
+      "name": "ProductImageController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "lineRange": [
+        28,
+        30
+      ],
+      "summary": "ProductImageController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:presign",
+      "type": "function",
+      "name": "presign",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "lineRange": [
+        38,
+        45
+      ],
+      "summary": "presign 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:confirm",
+      "type": "function",
+      "name": "confirm",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "lineRange": [
+        47,
+        53
+      ],
+      "summary": "confirm 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:delete",
+      "type": "function",
+      "name": "delete",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "lineRange": [
+        55,
+        61
+      ],
+      "summary": "delete 대상 데이터를 안전하게 제거하거나 초기화한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:reorder",
+      "type": "function",
+      "name": "reorder",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "lineRange": [
+        63,
+        69
+      ],
+      "summary": "reorder 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "type": "file",
+      "name": "ProductQueryController.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "summary": "product-service의 Product Query Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:ProductQueryController",
+      "type": "class",
+      "name": "ProductQueryController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "lineRange": [
+        13,
+        35
+      ],
+      "summary": "ProductQueryController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:ProductQueryController",
+      "type": "function",
+      "name": "ProductQueryController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "lineRange": [
+        19,
+        22
+      ],
+      "summary": "ProductQueryController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:detail",
+      "type": "function",
+      "name": "detail",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "lineRange": [
+        24,
+        27
+      ],
+      "summary": "detail 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:listByCategory",
+      "type": "function",
+      "name": "listByCategory",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "lineRange": [
+        29,
+        34
+      ],
+      "summary": "listByCategory 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "type": "file",
+      "name": "StockController.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "summary": "product-service의 Stock Controller HTTP 요청을 받아 application 계층으로 연결하고 응답을 구성한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:StockController",
+      "type": "class",
+      "name": "StockController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "lineRange": [
+        15,
+        42
+      ],
+      "summary": "StockController API 요청을 검증하고 해당 유스케이스로 위임한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:StockController",
+      "type": "function",
+      "name": "StockController",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "lineRange": [
+        21,
+        23
+      ],
+      "summary": "StockController 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:reserve",
+      "type": "function",
+      "name": "reserve",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "lineRange": [
+        25,
+        32
+      ],
+      "summary": "reserve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:release",
+      "type": "function",
+      "name": "release",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "lineRange": [
+        34,
+        41
+      ],
+      "summary": "release 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "api-handler",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "type": "file",
+      "name": "AttributeDictionaryResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "summary": "product-service의 Attribute Dictionary Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java:AttributeDictionaryResponse",
+      "type": "class",
+      "name": "AttributeDictionaryResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "lineRange": [
+        8,
+        22
+      ],
+      "summary": "AttributeDictionaryResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "lineRange": [
+        14,
+        21
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java",
+      "type": "file",
+      "name": "AttributeIdResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java",
+      "summary": "product-service의 Attribute Id Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java:AttributeIdResponse",
+      "type": "class",
+      "name": "AttributeIdResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java",
+      "lineRange": [
+        4,
+        4
+      ],
+      "summary": "AttributeIdResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "type": "file",
+      "name": "CategoryResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "summary": "product-service의 Category Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java:CategoryResponse",
+      "type": "class",
+      "name": "CategoryResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "lineRange": [
+        9,
+        22
+      ],
+      "summary": "CategoryResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "lineRange": [
+        11,
+        13
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java",
+      "type": "file",
+      "name": "ConfirmImageRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java",
+      "summary": "product-service의 Confirm Image Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java:ConfirmImageRequest",
+      "type": "class",
+      "name": "ConfirmImageRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java",
+      "lineRange": [
+        3,
+        3
+      ],
+      "summary": "ConfirmImageRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java",
+      "type": "file",
+      "name": "ConfirmImageResponse.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java",
+      "summary": "product-service의 Confirm Image Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java:ConfirmImageResponse",
+      "type": "class",
+      "name": "ConfirmImageResponse",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java",
+      "lineRange": [
+        3,
+        3
+      ],
+      "summary": "ConfirmImageResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java",
+      "type": "file",
+      "name": "CreateAttributeRequest.java",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java",
+      "summary": "product-service의 Create Attribute Request API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java:CreateAttributeRequest",
+      "type": "class",
+      "name": "CreateAttributeRequest",
+      "filePath": "product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java",
+      "lineRange": [
+        6,
+        6
+      ],
+      "summary": "CreateAttributeRequest 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "product-service",
+        "dto",
+        "presentation",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:ProductVariantRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:ProductVariantRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:ProductVariantRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:ProductVariantRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveProductAttributes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveProductAttributes",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveSkuVariantValues",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveSkuVariantValues",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveProductDescriptiveValues",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:saveProductDescriptiveValues",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:findVariantRows",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:findVariantRows",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:findDescriptiveRows",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java:findDescriptiveRows",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductVariantRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ProductAttribute.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:S3ObjectStorageAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:S3ObjectStorageAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:S3ObjectStorageAdapter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:S3ObjectStorageAdapter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:presignUpload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:presignUpload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:presignDownload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:presignDownload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:exists",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:exists",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:delete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java:delete",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ObjectStoragePort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:AttributeController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:AttributeController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:AttributeController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:AttributeController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:addValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:addValue",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:dictionary",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java:dictionary",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/AttributeService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:CategoryController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:CategoryController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:CategoryController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:CategoryController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:create",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:create",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:tree",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java:tree",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/CategoryService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:ProductController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:ProductController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:ProductController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:ProductController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:seed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java:seed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/CatalogService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:ProductImageController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:ProductImageController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:ProductImageController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:ProductImageController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:presign",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:presign",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:confirm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:confirm",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:delete",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:delete",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:reorder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java:reorder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/ProductImageService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:ProductQueryController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:ProductQueryController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:ProductQueryController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:ProductQueryController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:detail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:detail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:listByCategory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java:listByCategory",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ObjectStoragePort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/ProductQueryService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:StockController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:StockController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:StockController",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:StockController",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:reserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:reserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:release",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/controller/StockController.java:release",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "target": "file:product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java:AttributeDictionaryResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java:AttributeDictionaryResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java:AttributeIdResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java:AttributeIdResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java:CategoryResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java:CategoryResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "target": "function:product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java:ConfirmImageRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java:ConfirmImageRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java:ConfirmImageResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java:ConfirmImageResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java:CreateAttributeRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java",
+      "target": "class:product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java:CreateAttributeRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

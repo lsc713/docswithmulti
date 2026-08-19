@@ -1,0 +1,161 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql",
+      "language": "sql",
+      "sizeLines": 22,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V11__drop_failed_kafka_event.sql",
+      "language": "sql",
+      "sizeLines": 3,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql",
+      "language": "sql",
+      "sizeLines": 13,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V13__add_pg_transaction_key_to_cancel_request.sql",
+      "language": "sql",
+      "sizeLines": 2,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V14__add_outbox_retry_columns.sql",
+      "language": "sql",
+      "sizeLines": 6,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V15__add_cancel_idempotency_key.sql",
+      "language": "sql",
+      "sizeLines": 9,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V16__add_sku_and_quantity_to_payment_item.sql",
+      "language": "sql",
+      "sizeLines": 6,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql",
+      "language": "sql",
+      "sizeLines": 23,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V18__add_order_id_to_payment.sql",
+      "language": "sql",
+      "sizeLines": 7,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql",
+      "language": "sql",
+      "sizeLines": 19,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V1__create_payment_core.sql",
+      "language": "sql",
+      "sizeLines": 60,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql",
+      "language": "sql",
+      "sizeLines": 18,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql",
+      "language": "sql",
+      "sizeLines": 31,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V22__add_cancel_outbox_redrive_polling_indexes.sql",
+      "language": "sql",
+      "sizeLines": 5,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V2__create_cancel.sql",
+      "language": "sql",
+      "sizeLines": 41,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V3__create_outbox.sql",
+      "language": "sql",
+      "sizeLines": 18,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V4__create_idempotency.sql",
+      "language": "sql",
+      "sizeLines": 18,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V5__create_compensation.sql",
+      "language": "sql",
+      "sizeLines": 21,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V6__create_shedlock.sql",
+      "language": "sql",
+      "sizeLines": 13,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V7__add_cancel_period_days_to_payment.sql",
+      "language": "sql",
+      "sizeLines": 8,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql",
+      "language": "sql",
+      "sizeLines": 43,
+      "fileCategory": "data"
+    },
+    {
+      "path": "payment-service/src/main/resources/db/migration/V9__add_cancel_item_ids_and_pg_retry_count.sql",
+      "language": "sql",
+      "sizeLines": 10,
+      "fileCategory": "data"
+    }
+  ],
+  "batchImportData": {
+    "payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql": [],
+    "payment-service/src/main/resources/db/migration/V11__drop_failed_kafka_event.sql": [],
+    "payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql": [],
+    "payment-service/src/main/resources/db/migration/V13__add_pg_transaction_key_to_cancel_request.sql": [],
+    "payment-service/src/main/resources/db/migration/V14__add_outbox_retry_columns.sql": [],
+    "payment-service/src/main/resources/db/migration/V15__add_cancel_idempotency_key.sql": [],
+    "payment-service/src/main/resources/db/migration/V16__add_sku_and_quantity_to_payment_item.sql": [],
+    "payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql": [],
+    "payment-service/src/main/resources/db/migration/V18__add_order_id_to_payment.sql": [],
+    "payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql": [],
+    "payment-service/src/main/resources/db/migration/V1__create_payment_core.sql": [],
+    "payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql": [],
+    "payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql": [],
+    "payment-service/src/main/resources/db/migration/V22__add_cancel_outbox_redrive_polling_indexes.sql": [],
+    "payment-service/src/main/resources/db/migration/V2__create_cancel.sql": [],
+    "payment-service/src/main/resources/db/migration/V3__create_outbox.sql": [],
+    "payment-service/src/main/resources/db/migration/V4__create_idempotency.sql": [],
+    "payment-service/src/main/resources/db/migration/V5__create_compensation.sql": [],
+    "payment-service/src/main/resources/db/migration/V6__create_shedlock.sql": [],
+    "payment-service/src/main/resources/db/migration/V7__add_cancel_period_days_to_payment.sql": [],
+    "payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql": [],
+    "payment-service/src/main/resources/db/migration/V9__add_cancel_item_ids_and_pg_retry_count.sql": []
+  }
+}

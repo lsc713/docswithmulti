@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/load-test/publish-pattern-benchmark.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "Kafka 발행 패턴 실측 런북 (Publish-Pattern Benchmark)",
+  "summary": "Runbook comparing three payment.cancelled publish modes (INLINE / INLINE_ASYNC / OUTBOX) on an AWS rig for throughput, latency, and failure behavior.",
+  "scope": ["payment.cancelled", "Kafka publish modes", "INLINE", "INLINE_ASYNC", "OUTBOX", "load-test benchmark", "TX3"],
+  "cross_refs": ["./measurement-journey.md", "./saturation-diagnosis.md", "./outbox-poller-livelock.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Benchmark/experiment runbook: prose + procedural bash steps + comparison methodology. No ADR status/decision/consequences, no user stories/acceptance criteria, no API/schema contract. Describes an experiment design rather than mandating a requirement → DOC (context). Medium confidence: technical detail is high but it documents a measurement procedure, not a spec or decision."
+}

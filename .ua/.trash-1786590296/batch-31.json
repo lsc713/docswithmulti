@@ -1,0 +1,68 @@
+{
+  "nodes": [
+    {
+      "id": "service:api-gateway/Dockerfile",
+      "type": "service",
+      "name": "Dockerfile",
+      "filePath": "api-gateway/Dockerfile",
+      "summary": "api-gateway를 Java 21 runtime image로 빌드하는 multi-stage Docker 구성이다.",
+      "tags": [
+        "containerization",
+        "infrastructure",
+        "deployment",
+        "api-gateway"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:api-gateway/Dockerfile:builder",
+      "type": "service",
+      "name": "builder",
+      "filePath": "api-gateway/Dockerfile",
+      "lineRange": [
+        2,
+        27
+      ],
+      "summary": "gradle:8-jdk21 기반 builder container stage를 정의한다.",
+      "tags": [
+        "containerization",
+        "docker-stage",
+        "infrastructure"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:api-gateway/Dockerfile:eclipse-temurin",
+      "type": "service",
+      "name": "eclipse-temurin",
+      "filePath": "api-gateway/Dockerfile",
+      "lineRange": [
+        28,
+        36
+      ],
+      "summary": "eclipse-temurin:21-jre-alpine 기반 eclipse-temurin container stage를 정의한다.",
+      "tags": [
+        "containerization",
+        "docker-stage",
+        "infrastructure"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "service:api-gateway/Dockerfile",
+      "target": "service:api-gateway/Dockerfile:builder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "service:api-gateway/Dockerfile",
+      "target": "service:api-gateway/Dockerfile:eclipse-temurin",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ]
+}

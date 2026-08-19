@@ -1,0 +1,1688 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 23,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 23,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 23,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/exception/MerchantCancelLimitNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "startLine": 7,
+          "endLine": 10,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "MerchantCancelLimitNotFoundException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/LimitEventOutboxRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "LimitEventOutboxRepository",
+          "startLine": 5,
+          "endLine": 11,
+          "methods": [
+            "insertPending",
+            "findPendingBatch",
+            "markPublished"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LimitEventOutboxRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/LimitHistoryRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "LimitHistoryRepository",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [
+            "save",
+            "findByMerchantId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LimitHistoryRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/MerchantCancelLimitRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "MerchantCancelLimitRepository",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [
+            "save",
+            "findByMerchantId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelLimitRepository",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/interfaces/MerchantRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "MerchantRepository",
+          "startLine": 8,
+          "endLine": 14,
+          "methods": [
+            "save",
+            "findById",
+            "findByMerchantKey",
+            "existsByMerchantKey",
+            "findAll"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantRepository",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/service/CreateMerchantCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "CreateMerchantCommand",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateMerchantCommand",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/service/CreateMerchantService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "create",
+          "startLine": 19,
+          "endLine": 29,
+          "params": [
+            "command"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CreateMerchantService",
+          "startLine": 12,
+          "endLine": 30,
+          "methods": [
+            "create"
+          ],
+          "properties": [
+            "merchantRepository",
+            "merchantCancelLimitRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "CreateMerchantService",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "merchantRepository.save",
+          "lineNumber": 22
+        },
+        {
+          "caller": "create",
+          "callee": "Merchant.create",
+          "lineNumber": 23
+        },
+        {
+          "caller": "create",
+          "callee": "command.merchantKey",
+          "lineNumber": 23
+        },
+        {
+          "caller": "create",
+          "callee": "command.name",
+          "lineNumber": 23
+        },
+        {
+          "caller": "create",
+          "callee": "command.cancelPeriodDays",
+          "lineNumber": 23
+        },
+        {
+          "caller": "create",
+          "callee": "merchantCancelLimitRepository.save",
+          "lineNumber": 25
+        },
+        {
+          "caller": "create",
+          "callee": "MerchantCancelLimit.create",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create",
+          "callee": "merchant.getId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create",
+          "callee": "command.dailyLimit",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/service/GetCancelLimitService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "execute",
+          "startLine": 21,
+          "endLine": 31,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GetCancelLimitService",
+          "startLine": 14,
+          "endLine": 32,
+          "methods": [
+            "execute"
+          ],
+          "properties": [
+            "merchantRepository",
+            "limitRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "execute",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "GetCancelLimitService",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "execute",
+          "callee": "merchantRepository.findById(merchantId).orElseThrow",
+          "lineNumber": 24
+        },
+        {
+          "caller": "execute",
+          "callee": "merchantRepository.findById",
+          "lineNumber": 24
+        },
+        {
+          "caller": "execute",
+          "callee": "new MerchantNotFoundException",
+          "lineNumber": 25
+        },
+        {
+          "caller": "execute",
+          "callee": "limitRepository.findByMerchantId(merchantId).orElseThrow",
+          "lineNumber": 27
+        },
+        {
+          "caller": "execute",
+          "callee": "limitRepository.findByMerchantId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "execute",
+          "callee": "new MerchantCancelLimitNotFoundException",
+          "lineNumber": 28
+        },
+        {
+          "caller": "execute",
+          "callee": "new Result",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "limit.getDailyLimit",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "merchant.getStatus().name",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "merchant.getStatus",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/service/UpdateCancelLimitService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 65,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "execute",
+          "startLine": 28,
+          "endLine": 57,
+          "params": [
+            "merchantId",
+            "newLimit",
+            "reason"
+          ]
+        },
+        {
+          "name": "buildPayload",
+          "startLine": 59,
+          "endLine": 64,
+          "params": [
+            "merchantId",
+            "newLimit",
+            "kstDate"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UpdateCancelLimitService",
+          "startLine": 18,
+          "endLine": 65,
+          "methods": [
+            "execute",
+            "buildPayload"
+          ],
+          "properties": [
+            "merchantRepository",
+            "limitRepository",
+            "historyRepository",
+            "outboxRepository",
+            "domainService"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "execute",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateCancelLimitService",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "execute",
+          "callee": "merchantRepository.findById(merchantId).orElseThrow",
+          "lineNumber": 31
+        },
+        {
+          "caller": "execute",
+          "callee": "merchantRepository.findById",
+          "lineNumber": 31
+        },
+        {
+          "caller": "execute",
+          "callee": "new MerchantNotFoundException",
+          "lineNumber": 32
+        },
+        {
+          "caller": "execute",
+          "callee": "limitRepository.findByMerchantId(merchantId).orElse",
+          "lineNumber": 34
+        },
+        {
+          "caller": "execute",
+          "callee": "limitRepository.findByMerchantId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "execute",
+          "callee": "limit.getDailyLimit",
+          "lineNumber": 37
+        },
+        {
+          "caller": "execute",
+          "callee": "merchant.validateLimitChangeable",
+          "lineNumber": 41
+        },
+        {
+          "caller": "execute",
+          "callee": "MerchantCancelLimit.create",
+          "lineNumber": 42
+        },
+        {
+          "caller": "execute",
+          "callee": "domainService.updateLimit",
+          "lineNumber": 45
+        },
+        {
+          "caller": "execute",
+          "callee": "limitRepository.save",
+          "lineNumber": 48
+        },
+        {
+          "caller": "execute",
+          "callee": "historyRepository.save",
+          "lineNumber": 50
+        },
+        {
+          "caller": "execute",
+          "callee": "LimitHistory.record",
+          "lineNumber": 50
+        },
+        {
+          "caller": "execute",
+          "callee": "LocalDate.now(ZoneId.of(\"Asia/Seoul\")).toString",
+          "lineNumber": 52
+        },
+        {
+          "caller": "execute",
+          "callee": "LocalDate.now",
+          "lineNumber": 52
+        },
+        {
+          "caller": "execute",
+          "callee": "ZoneId.of",
+          "lineNumber": 52
+        },
+        {
+          "caller": "execute",
+          "callee": "buildPayload",
+          "lineNumber": 53
+        },
+        {
+          "caller": "execute",
+          "callee": "outboxRepository.insertPending",
+          "lineNumber": 54
+        },
+        {
+          "caller": "execute",
+          "callee": "new Result",
+          "lineNumber": 56
+        },
+        {
+          "caller": "execute",
+          "callee": "saved.getDailyLimit",
+          "lineNumber": 56
+        },
+        {
+          "caller": "buildPayload",
+          "callee": "String.format",
+          "lineNumber": 60
+        },
+        {
+          "caller": "buildPayload",
+          "callee": "newLimit.toPlainString",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/usecase/CreateMerchantUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "CreateMerchantUseCase",
+          "startLine": 6,
+          "endLine": 8,
+          "methods": [
+            "create"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateMerchantUseCase",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/usecase/GetCancelLimitUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "GetCancelLimitUseCase",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "execute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetCancelLimitUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/application/usecase/UpdateCancelLimitUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "UpdateCancelLimitUseCase",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "execute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UpdateCancelLimitUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/common/exception/BusinessException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "BusinessException",
+          "startLine": 9,
+          "endLine": 12,
+          "params": [
+            "errorCode"
+          ]
+        },
+        {
+          "name": "BusinessException",
+          "startLine": 14,
+          "endLine": 17,
+          "params": [
+            "errorCode",
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BusinessException",
+          "startLine": 5,
+          "endLine": 18,
+          "methods": [
+            "BusinessException",
+            "BusinessException"
+          ],
+          "properties": [
+            "errorCode"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BusinessException",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BusinessException",
+          "callee": "errorCode.getDefaultMessage",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/common/exception/ErrorCode.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "ErrorCode",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "code",
+            "httpStatus",
+            "defaultMessage"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ErrorCode",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/LimitHistory.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "LimitHistory",
+          "startLine": 15,
+          "endLine": 22,
+          "params": [
+            "merchantId",
+            "oldLimit",
+            "newLimit",
+            "reason"
+          ]
+        },
+        {
+          "name": "record",
+          "startLine": 24,
+          "endLine": 27,
+          "params": [
+            "merchantId",
+            "oldLimit",
+            "newLimit",
+            "reason"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 29,
+          "endLine": 29,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 30,
+          "endLine": 30,
+          "params": []
+        },
+        {
+          "name": "getOldLimit",
+          "startLine": 31,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "getNewLimit",
+          "startLine": 32,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "getReason",
+          "startLine": 33,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "getCreatedAt",
+          "startLine": 34,
+          "endLine": 34,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "LimitHistory",
+          "startLine": 6,
+          "endLine": 35,
+          "methods": [
+            "LimitHistory",
+            "record",
+            "getId",
+            "getMerchantId",
+            "getOldLimit",
+            "getNewLimit",
+            "getReason",
+            "getCreatedAt"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "oldLimit",
+            "newLimit",
+            "reason",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "record",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "getOldLimit",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "getNewLimit",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "getReason",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "getCreatedAt",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "LimitHistory",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LimitHistory",
+          "callee": "Instant.now",
+          "lineNumber": 21
+        },
+        {
+          "caller": "record",
+          "callee": "new LimitHistory",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/Merchant.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "Merchant",
+          "startLine": 13,
+          "endLine": 18,
+          "params": [
+            "merchantKey",
+            "name",
+            "cancelPeriodDays"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 20,
+          "endLine": 22,
+          "params": [
+            "merchantKey",
+            "name",
+            "cancelPeriodDays"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 24,
+          "endLine": 30,
+          "params": [
+            "id",
+            "merchantKey",
+            "name",
+            "status",
+            "cancelPeriodDays"
+          ]
+        },
+        {
+          "name": "activate",
+          "startLine": 32,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "deactivate",
+          "startLine": 33,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "suspend",
+          "startLine": 34,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "validateLimitChangeable",
+          "startLine": 36,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 42,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "getMerchantKey",
+          "startLine": 43,
+          "endLine": 43,
+          "params": []
+        },
+        {
+          "name": "getName",
+          "startLine": 44,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 45,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "getCancelPeriodDays",
+          "startLine": 46,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Merchant",
+          "startLine": 5,
+          "endLine": 47,
+          "methods": [
+            "Merchant",
+            "create",
+            "reconstruct",
+            "activate",
+            "deactivate",
+            "suspend",
+            "validateLimitChangeable",
+            "getId",
+            "getMerchantKey",
+            "getName",
+            "getStatus",
+            "getCancelPeriodDays"
+          ],
+          "properties": [
+            "id",
+            "merchantKey",
+            "name",
+            "status",
+            "cancelPeriodDays"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "activate",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "deactivate",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "suspend",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "validateLimitChangeable",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantKey",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "getName",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "getCancelPeriodDays",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "Merchant",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new Merchant",
+          "lineNumber": 21
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new Merchant",
+          "lineNumber": 26
+        },
+        {
+          "caller": "validateLimitChangeable",
+          "callee": "new MerchantSuspendedException",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 12,
+        "functionCount": 12,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/MerchantCancelLimit.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "MerchantCancelLimit",
+          "startLine": 13,
+          "endLine": 17,
+          "params": [
+            "merchantId",
+            "dailyLimit"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "merchantId",
+            "dailyLimit"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "id",
+            "merchantId",
+            "dailyLimit"
+          ]
+        },
+        {
+          "name": "update",
+          "startLine": 29,
+          "endLine": 32,
+          "params": [
+            "newLimit"
+          ]
+        },
+        {
+          "name": "validate",
+          "startLine": 34,
+          "endLine": 38,
+          "params": [
+            "amount"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 40,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 41,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "getDailyLimit",
+          "startLine": 42,
+          "endLine": 42,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelLimit",
+          "startLine": 7,
+          "endLine": 43,
+          "methods": [
+            "MerchantCancelLimit",
+            "create",
+            "reconstruct",
+            "update",
+            "validate",
+            "getId",
+            "getMerchantId",
+            "getDailyLimit"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "dailyLimit"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "update",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "getDailyLimit",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelLimit",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MerchantCancelLimit",
+          "callee": "validate",
+          "lineNumber": 14
+        },
+        {
+          "caller": "create",
+          "callee": "new MerchantCancelLimit",
+          "lineNumber": 20
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new MerchantCancelLimit",
+          "lineNumber": 24
+        },
+        {
+          "caller": "update",
+          "callee": "validate",
+          "lineNumber": 30
+        },
+        {
+          "caller": "validate",
+          "callee": "amount.compareTo",
+          "lineNumber": 35
+        },
+        {
+          "caller": "validate",
+          "callee": "new InvalidLimitAmountException",
+          "lineNumber": 36
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/entity/MerchantStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "MerchantStatus",
+          "startLine": 3,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/exception/InvalidLimitAmountException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 10,
+      "functions": [
+        {
+          "name": "InvalidLimitAmountException",
+          "startLine": 9,
+          "endLine": 12,
+          "params": [
+            "amount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidLimitAmountException",
+          "startLine": 8,
+          "endLine": 13,
+          "methods": [
+            "InvalidLimitAmountException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidLimitAmountException",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidLimitAmountException",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InvalidLimitAmountException",
+          "callee": "amount.toPlainString",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/exception/MerchantNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "MerchantNotFoundException",
+          "startLine": 7,
+          "endLine": 10,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantNotFoundException",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "MerchantNotFoundException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantNotFoundException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantNotFoundException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/exception/MerchantSuspendedException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "MerchantSuspendedException",
+          "startLine": 7,
+          "endLine": 10,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantSuspendedException",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "MerchantSuspendedException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantSuspendedException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantSuspendedException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/domain/service/MerchantLimitDomainService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "updateLimit",
+          "startLine": 15,
+          "endLine": 18,
+          "params": [
+            "merchant",
+            "limit",
+            "newLimit"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantLimitDomainService",
+          "startLine": 8,
+          "endLine": 19,
+          "methods": [
+            "updateLimit"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "updateLimit",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantLimitDomainService",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "updateLimit",
+          "callee": "merchant.validateLimitChangeable",
+          "lineNumber": 16
+        },
+        {
+          "caller": "updateLimit",
+          "callee": "limit.update",
+          "lineNumber": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "merchant-limit-service/src/main/java/com/example/merchantlimit/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "transactionManager",
+          "startLine": 29,
+          "endLine": 32,
+          "params": [
+            "emf"
+          ]
+        },
+        {
+          "name": "merchantRepository",
+          "startLine": 34,
+          "endLine": 37,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "merchantCancelLimitRepository",
+          "startLine": 39,
+          "endLine": 43,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "limitHistoryRepository",
+          "startLine": 45,
+          "endLine": 48,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "limitEventOutboxRepository",
+          "startLine": 50,
+          "endLine": 54,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "merchantLimitDomainService",
+          "startLine": 56,
+          "endLine": 59,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PersistenceConfig",
+          "startLine": 24,
+          "endLine": 60,
+          "methods": [
+            "transactionManager",
+            "merchantRepository",
+            "merchantCancelLimitRepository",
+            "limitHistoryRepository",
+            "limitEventOutboxRepository",
+            "merchantLimitDomainService"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "transactionManager",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "merchantRepository",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "merchantCancelLimitRepository",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "limitHistoryRepository",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "limitEventOutboxRepository",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "merchantLimitDomainService",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "PersistenceConfig",
+          "line": 24,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "transactionManager",
+          "callee": "new JpaTransactionManager",
+          "lineNumber": 31
+        },
+        {
+          "caller": "merchantRepository",
+          "callee": "new MerchantRepositoryImpl",
+          "lineNumber": 36
+        },
+        {
+          "caller": "merchantCancelLimitRepository",
+          "callee": "new MerchantCancelLimitRepositoryImpl",
+          "lineNumber": 42
+        },
+        {
+          "caller": "limitHistoryRepository",
+          "callee": "new LimitHistoryRepositoryImpl",
+          "lineNumber": 47
+        },
+        {
+          "caller": "limitEventOutboxRepository",
+          "callee": "new LimitEventOutboxRepositoryImpl",
+          "lineNumber": 53
+        },
+        {
+          "caller": "merchantLimitDomainService",
+          "callee": "new MerchantLimitDomainService",
+          "lineNumber": 58
+        }
+      ],
+      "metrics": {
+        "importCount": 13,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,945 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/config/JwtVerifier.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "JwtVerifier",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "secret"
+          ]
+        },
+        {
+          "name": "parse",
+          "startLine": 26,
+          "endLine": 28,
+          "params": [
+            "token"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JwtVerifier",
+          "startLine": 17,
+          "endLine": 29,
+          "methods": [
+            "JwtVerifier",
+            "parse"
+          ],
+          "properties": [
+            "key"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "JwtVerifier",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "parse",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "JwtVerifier",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "JwtVerifier",
+          "callee": "Keys.hmacShaKeyFor",
+          "lineNumber": 23
+        },
+        {
+          "caller": "JwtVerifier",
+          "callee": "secret.getBytes",
+          "lineNumber": 23
+        },
+        {
+          "caller": "parse",
+          "callee": "Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload",
+          "lineNumber": 27
+        },
+        {
+          "caller": "parse",
+          "callee": "Jwts.parser().verifyWith(key).build().parseSignedClaims",
+          "lineNumber": 27
+        },
+        {
+          "caller": "parse",
+          "callee": "Jwts.parser().verifyWith(key).build",
+          "lineNumber": 27
+        },
+        {
+          "caller": "parse",
+          "callee": "Jwts.parser().verifyWith",
+          "lineNumber": 27
+        },
+        {
+          "caller": "parse",
+          "callee": "Jwts.parser",
+          "lineNumber": 27
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 189,
+      "nonEmptyLines": 178,
+      "functions": [
+        {
+          "name": "paymentRoute",
+          "startLine": 50,
+          "endLine": 59,
+          "params": [
+            "jwt",
+            "paymentUri"
+          ]
+        },
+        {
+          "name": "cancelRequestsRoute",
+          "startLine": 67,
+          "endLine": 76,
+          "params": [
+            "jwt",
+            "paymentUri"
+          ]
+        },
+        {
+          "name": "userAuthPublicRoute",
+          "startLine": 82,
+          "endLine": 97,
+          "params": [
+            "userUri"
+          ]
+        },
+        {
+          "name": "userAuthSecuredRoute",
+          "startLine": 105,
+          "endLine": 117,
+          "params": [
+            "jwt",
+            "userUri"
+          ]
+        },
+        {
+          "name": "orderRoute",
+          "startLine": 124,
+          "endLine": 133,
+          "params": [
+            "jwt",
+            "orderUri"
+          ]
+        },
+        {
+          "name": "cartRoute",
+          "startLine": 136,
+          "endLine": 145,
+          "params": [
+            "jwt",
+            "orderUri"
+          ]
+        },
+        {
+          "name": "productBrowseRoute",
+          "startLine": 153,
+          "endLine": 164,
+          "params": [
+            "productUri"
+          ]
+        },
+        {
+          "name": "productAdminWriteRoute",
+          "startLine": 174,
+          "endLine": 188,
+          "params": [
+            "jwt",
+            "productUri"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RouteConfig",
+          "startLine": 46,
+          "endLine": 189,
+          "methods": [
+            "paymentRoute",
+            "cancelRequestsRoute",
+            "userAuthPublicRoute",
+            "userAuthSecuredRoute",
+            "orderRoute",
+            "cartRoute",
+            "productBrowseRoute",
+            "productAdminWriteRoute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RouteConfig",
+          "line": 46,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "paymentRoute",
+          "callee": "route(\"payment\")\n                .route(path(\"/v1/payments/**\"), http())\n                .before(uri(paymentUri))\n                .filter(jwt).build",
+          "lineNumber": 54
+        },
+        {
+          "caller": "paymentRoute",
+          "callee": "route(\"payment\")\n                .route(path(\"/v1/payments/**\"), http())\n                .before(uri(paymentUri)).filter",
+          "lineNumber": 54
+        },
+        {
+          "caller": "paymentRoute",
+          "callee": "route(\"payment\")\n                .route(path(\"/v1/payments/**\"), http()).before",
+          "lineNumber": 54
+        },
+        {
+          "caller": "paymentRoute",
+          "callee": "route(\"payment\").route",
+          "lineNumber": 54
+        },
+        {
+          "caller": "paymentRoute",
+          "callee": "route",
+          "lineNumber": 54
+        },
+        {
+          "caller": "paymentRoute",
+          "callee": "path",
+          "lineNumber": 55
+        },
+        {
+          "caller": "paymentRoute",
+          "callee": "http",
+          "lineNumber": 55
+        },
+        {
+          "caller": "paymentRoute",
+          "callee": "uri",
+          "lineNumber": 56
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "route(\"cancel-requests\")\n                .route(path(\"/v1/cancel-requests/**\"), http())\n                .before(uri(paymentUri))\n                .filter(jwt).build",
+          "lineNumber": 71
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "route(\"cancel-requests\")\n                .route(path(\"/v1/cancel-requests/**\"), http())\n                .before(uri(paymentUri)).filter",
+          "lineNumber": 71
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "route(\"cancel-requests\")\n                .route(path(\"/v1/cancel-requests/**\"), http()).before",
+          "lineNumber": 71
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "route(\"cancel-requests\").route",
+          "lineNumber": 71
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "route",
+          "lineNumber": 71
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "path",
+          "lineNumber": 72
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "http",
+          "lineNumber": 72
+        },
+        {
+          "caller": "cancelRequestsRoute",
+          "callee": "uri",
+          "lineNumber": 73
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "GatewayPaths.PUBLIC_AUTH.stream()\n                .map(RequestPredicates::path)\n                .reduce(RequestPredicate::or).orElseThrow",
+          "lineNumber": 86
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "GatewayPaths.PUBLIC_AUTH.stream()\n                .map(RequestPredicates::path).reduce",
+          "lineNumber": 86
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "GatewayPaths.PUBLIC_AUTH.stream().map",
+          "lineNumber": 86
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "GatewayPaths.PUBLIC_AUTH.stream",
+          "lineNumber": 86
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "route(\"user-auth-public\")\n                .route(publicAuth, http())\n                .before(uri(userUri))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ROLE))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_MERCHANT_ID)).build",
+          "lineNumber": 90
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "route(\"user-auth-public\")\n                .route(publicAuth, http())\n                .before(uri(userUri))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ROLE)).before",
+          "lineNumber": 90
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "route(\"user-auth-public\")\n                .route(publicAuth, http())\n                .before(uri(userUri))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID)).before",
+          "lineNumber": 90
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "route(\"user-auth-public\")\n                .route(publicAuth, http())\n                .before(uri(userUri)).before",
+          "lineNumber": 90
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "route(\"user-auth-public\")\n                .route(publicAuth, http()).before",
+          "lineNumber": 90
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "route(\"user-auth-public\").route",
+          "lineNumber": 90
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "route",
+          "lineNumber": 90
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "http",
+          "lineNumber": 91
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "uri",
+          "lineNumber": 92
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "removeRequestHeader",
+          "lineNumber": 93
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "removeRequestHeader",
+          "lineNumber": 94
+        },
+        {
+          "caller": "userAuthPublicRoute",
+          "callee": "removeRequestHeader",
+          "lineNumber": 95
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "path(\"/v1/auth/logout\")\n                .or(path(\"/v1/auth/me\")).or",
+          "lineNumber": 109
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "path(\"/v1/auth/logout\").or",
+          "lineNumber": 109
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "path",
+          "lineNumber": 109
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "path",
+          "lineNumber": 110
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "path",
+          "lineNumber": 111
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "route(\"user-auth-secured\")\n                .route(secured, http())\n                .before(uri(userUri))\n                .filter(jwt).build",
+          "lineNumber": 112
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "route(\"user-auth-secured\")\n                .route(secured, http())\n                .before(uri(userUri)).filter",
+          "lineNumber": 112
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "route(\"user-auth-secured\")\n                .route(secured, http()).before",
+          "lineNumber": 112
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "route(\"user-auth-secured\").route",
+          "lineNumber": 112
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "route",
+          "lineNumber": 112
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "http",
+          "lineNumber": 113
+        },
+        {
+          "caller": "userAuthSecuredRoute",
+          "callee": "uri",
+          "lineNumber": 114
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "route(\"order\")\n                .route(path(\"/v1/orders\"), http())\n                .before(uri(orderUri))\n                .filter(jwt).build",
+          "lineNumber": 128
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "route(\"order\")\n                .route(path(\"/v1/orders\"), http())\n                .before(uri(orderUri)).filter",
+          "lineNumber": 128
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "route(\"order\")\n                .route(path(\"/v1/orders\"), http()).before",
+          "lineNumber": 128
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "route(\"order\").route",
+          "lineNumber": 128
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "route",
+          "lineNumber": 128
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "path",
+          "lineNumber": 129
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "http",
+          "lineNumber": 129
+        },
+        {
+          "caller": "orderRoute",
+          "callee": "uri",
+          "lineNumber": 130
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "route(\"cart\")\n                .route(path(\"/v1/cart/**\"), http())\n                .before(uri(orderUri))\n                .filter(jwt).build",
+          "lineNumber": 140
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "route(\"cart\")\n                .route(path(\"/v1/cart/**\"), http())\n                .before(uri(orderUri)).filter",
+          "lineNumber": 140
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "route(\"cart\")\n                .route(path(\"/v1/cart/**\"), http()).before",
+          "lineNumber": 140
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "route(\"cart\").route",
+          "lineNumber": 140
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "route",
+          "lineNumber": 140
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "path",
+          "lineNumber": 141
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "http",
+          "lineNumber": 141
+        },
+        {
+          "caller": "cartRoute",
+          "callee": "uri",
+          "lineNumber": 142
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "GET(\"/v1/products/**\").or",
+          "lineNumber": 156
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "GET",
+          "lineNumber": 156
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "GET",
+          "lineNumber": 156
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "route(\"product-browse\")\n                .route(browse, http())\n                .before(uri(productUri))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ROLE))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_MERCHANT_ID)).build",
+          "lineNumber": 157
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "route(\"product-browse\")\n                .route(browse, http())\n                .before(uri(productUri))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ROLE)).before",
+          "lineNumber": 157
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "route(\"product-browse\")\n                .route(browse, http())\n                .before(uri(productUri))\n                .before(removeRequestHeader(JwtTrustHeaderFilter.H_USER_ID)).before",
+          "lineNumber": 157
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "route(\"product-browse\")\n                .route(browse, http())\n                .before(uri(productUri)).before",
+          "lineNumber": 157
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "route(\"product-browse\")\n                .route(browse, http()).before",
+          "lineNumber": 157
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "route(\"product-browse\").route",
+          "lineNumber": 157
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "route",
+          "lineNumber": 157
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "http",
+          "lineNumber": 158
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "uri",
+          "lineNumber": 159
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "removeRequestHeader",
+          "lineNumber": 160
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "removeRequestHeader",
+          "lineNumber": 161
+        },
+        {
+          "caller": "productBrowseRoute",
+          "callee": "removeRequestHeader",
+          "lineNumber": 162
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "POST(\"/v1/products/*/images/presign\")\n                .or(POST(\"/v1/products/*/images\"))\n                .or(DELETE(\"/v1/products/*/images/*\"))\n                .or(PUT(\"/v1/products/*/images/order\")).or",
+          "lineNumber": 178
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "POST(\"/v1/products/*/images/presign\")\n                .or(POST(\"/v1/products/*/images\"))\n                .or(DELETE(\"/v1/products/*/images/*\")).or",
+          "lineNumber": 178
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "POST(\"/v1/products/*/images/presign\")\n                .or(POST(\"/v1/products/*/images\")).or",
+          "lineNumber": 178
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "POST(\"/v1/products/*/images/presign\").or",
+          "lineNumber": 178
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "POST",
+          "lineNumber": 178
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "POST",
+          "lineNumber": 179
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "DELETE",
+          "lineNumber": 180
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "PUT",
+          "lineNumber": 181
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "POST",
+          "lineNumber": 182
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "route(\"product-admin-write\")\n                .route(write, http())\n                .before(uri(productUri))\n                .filter(jwt).build",
+          "lineNumber": 183
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "route(\"product-admin-write\")\n                .route(write, http())\n                .before(uri(productUri)).filter",
+          "lineNumber": 183
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "route(\"product-admin-write\")\n                .route(write, http()).before",
+          "lineNumber": 183
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "route(\"product-admin-write\").route",
+          "lineNumber": 183
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "route",
+          "lineNumber": 183
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "http",
+          "lineNumber": 184
+        },
+        {
+          "caller": "productAdminWriteRoute",
+          "callee": "uri",
+          "lineNumber": 185
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 83,
+      "functions": [
+        {
+          "name": "JwtTrustHeaderFilter",
+          "startLine": 34,
+          "endLine": 36,
+          "params": [
+            "verifier"
+          ]
+        },
+        {
+          "name": "filter",
+          "startLine": 38,
+          "endLine": 83,
+          "params": [
+            "request",
+            "next"
+          ]
+        },
+        {
+          "name": "tokenFromCookie",
+          "startLine": 85,
+          "endLine": 88,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "unauthorized",
+          "startLine": 90,
+          "endLine": 95,
+          "params": [
+            "code"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "JwtTrustHeaderFilter",
+          "startLine": 25,
+          "endLine": 96,
+          "methods": [
+            "JwtTrustHeaderFilter",
+            "filter",
+            "tokenFromCookie",
+            "unauthorized"
+          ],
+          "properties": [
+            "H_USER_ID",
+            "H_USER_ROLE",
+            "H_MERCHANT_ID",
+            "verifier"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "H_USER_ID",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "H_USER_ROLE",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "H_MERCHANT_ID",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "JwtTrustHeaderFilter",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "filter",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "JwtTrustHeaderFilter",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "filter",
+          "callee": "ServerRequest.from(request).headers",
+          "lineNumber": 41
+        },
+        {
+          "caller": "filter",
+          "callee": "ServerRequest.from",
+          "lineNumber": 41
+        },
+        {
+          "caller": "filter",
+          "callee": "h.remove",
+          "lineNumber": 43
+        },
+        {
+          "caller": "filter",
+          "callee": "h.remove",
+          "lineNumber": 44
+        },
+        {
+          "caller": "filter",
+          "callee": "h.remove",
+          "lineNumber": 45
+        },
+        {
+          "caller": "filter",
+          "callee": "tokenFromCookie",
+          "lineNumber": 50
+        },
+        {
+          "caller": "filter",
+          "callee": "request.headers().firstHeader",
+          "lineNumber": 52
+        },
+        {
+          "caller": "filter",
+          "callee": "request.headers",
+          "lineNumber": 52
+        },
+        {
+          "caller": "filter",
+          "callee": "auth.startsWith",
+          "lineNumber": 53
+        },
+        {
+          "caller": "filter",
+          "callee": "auth.substring",
+          "lineNumber": 54
+        },
+        {
+          "caller": "filter",
+          "callee": "unauthorized",
+          "lineNumber": 58
+        },
+        {
+          "caller": "filter",
+          "callee": "verifier.parse",
+          "lineNumber": 64
+        },
+        {
+          "caller": "filter",
+          "callee": "unauthorized",
+          "lineNumber": 66
+        },
+        {
+          "caller": "filter",
+          "callee": "unauthorized",
+          "lineNumber": 68
+        },
+        {
+          "caller": "filter",
+          "callee": "mutated.header",
+          "lineNumber": 72
+        },
+        {
+          "caller": "filter",
+          "callee": "claims.getSubject",
+          "lineNumber": 72
+        },
+        {
+          "caller": "filter",
+          "callee": "claims.get",
+          "lineNumber": 73
+        },
+        {
+          "caller": "filter",
+          "callee": "mutated.header",
+          "lineNumber": 75
+        },
+        {
+          "caller": "filter",
+          "callee": "claims.get",
+          "lineNumber": 77
+        },
+        {
+          "caller": "filter",
+          "callee": "mutated.header",
+          "lineNumber": 79
+        },
+        {
+          "caller": "filter",
+          "callee": "String.valueOf",
+          "lineNumber": 79
+        },
+        {
+          "caller": "filter",
+          "callee": "next.handle",
+          "lineNumber": 82
+        },
+        {
+          "caller": "filter",
+          "callee": "mutated.build",
+          "lineNumber": 82
+        },
+        {
+          "caller": "tokenFromCookie",
+          "callee": "request.cookies().get",
+          "lineNumber": 86
+        },
+        {
+          "caller": "tokenFromCookie",
+          "callee": "request.cookies",
+          "lineNumber": 86
+        },
+        {
+          "caller": "tokenFromCookie",
+          "callee": "cookies.isEmpty",
+          "lineNumber": 87
+        },
+        {
+          "caller": "tokenFromCookie",
+          "callee": "cookies.get(0).getValue",
+          "lineNumber": 87
+        },
+        {
+          "caller": "tokenFromCookie",
+          "callee": "cookies.get",
+          "lineNumber": 87
+        },
+        {
+          "caller": "unauthorized",
+          "callee": "ServerResponse.status(HttpStatus.UNAUTHORIZED)\n                .contentType(MediaType.APPLICATION_JSON).body",
+          "lineNumber": 92
+        },
+        {
+          "caller": "unauthorized",
+          "callee": "ServerResponse.status(HttpStatus.UNAUTHORIZED).contentType",
+          "lineNumber": 92
+        },
+        {
+          "caller": "unauthorized",
+          "callee": "ServerResponse.status",
+          "lineNumber": 92
+        },
+        {
+          "caller": "unauthorized",
+          "callee": "Map.of",
+          "lineNumber": 94
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    }
+  ]
+}

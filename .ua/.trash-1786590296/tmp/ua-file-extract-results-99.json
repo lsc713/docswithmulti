@@ -1,0 +1,153 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 5
+    }
+  },
+  "results": [
+    {
+      "path": "k6/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 53,
+      "nonEmptyLines": 42,
+      "sections": [
+        {
+          "heading": "k6 부하 스크립트",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "구성",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "순서",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "판단 기준 / 결과 기록",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "전제",
+          "level": 2,
+          "line": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 5
+      }
+    },
+    {
+      "path": "k6/product-detail-aws-static-test.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 43,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "require",
+          "startLine": 9,
+          "endLine": 9,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/run-compensation.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 122,
+      "nonEmptyLines": 109,
+      "functions": [
+        {
+          "name": "info",
+          "startLine": 26,
+          "endLine": 26,
+          "params": []
+        },
+        {
+          "name": "ok",
+          "startLine": 27,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "warn",
+          "startLine": 28,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "error",
+          "startLine": 29,
+          "endLine": 29,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/run-product-detail-aws.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 172,
+      "nonEmptyLines": 163,
+      "functions": [
+        {
+          "name": "wait_for_ssm",
+          "startLine": 34,
+          "endLine": 51,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/run-stage.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 39,
+      "nonEmptyLines": 35,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

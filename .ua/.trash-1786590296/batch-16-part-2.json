@@ -1,0 +1,1270 @@
+{
+  "nodes": [
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "type": "file",
+      "name": "BankTransferPort.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "summary": "settlement-service의 Bank Transfer Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "settlement-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java:BankTransferPort",
+      "type": "class",
+      "name": "BankTransferPort",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "lineRange": [
+        11,
+        22
+      ],
+      "summary": "BankTransferPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "type": "file",
+      "name": "MerchantPayoutAccountRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "summary": "settlement-service의 Merchant Payout Account Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java:MerchantPayoutAccountRepository",
+      "type": "class",
+      "name": "MerchantPayoutAccountRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "lineRange": [
+        7,
+        14
+      ],
+      "summary": "MerchantPayoutAccountRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "type": "file",
+      "name": "MerchantReserveConfigRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "summary": "settlement-service의 Merchant Reserve Config Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java:MerchantReserveConfigRepository",
+      "type": "class",
+      "name": "MerchantReserveConfigRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "lineRange": [
+        12,
+        17
+      ],
+      "summary": "MerchantReserveConfigRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "type": "file",
+      "name": "PayoutRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "summary": "settlement-service의 Payout Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java:PayoutRepository",
+      "type": "class",
+      "name": "PayoutRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "lineRange": [
+        10,
+        42
+      ],
+      "summary": "PayoutRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "type": "file",
+      "name": "PayoutResultService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "summary": "settlement-service의 Payout Result Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:PayoutResultService",
+      "type": "class",
+      "name": "PayoutResultService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "lineRange": [
+        23,
+        126
+      ],
+      "summary": "PayoutResultService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:PayoutResultService",
+      "type": "function",
+      "name": "PayoutResultService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "lineRange": [
+        41,
+        49
+      ],
+      "summary": "PayoutResultService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:applyResult",
+      "type": "function",
+      "name": "applyResult",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "lineRange": [
+        52,
+        58
+      ],
+      "summary": "applyResult 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:pollStuckProcessing",
+      "type": "function",
+      "name": "pollStuckProcessing",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "lineRange": [
+        64,
+        80
+      ],
+      "summary": "pollStuckProcessing 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:retryFailed",
+      "type": "function",
+      "name": "retryFailed",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "lineRange": [
+        88,
+        125
+      ],
+      "summary": "retryFailed 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "type": "file",
+      "name": "PayoutService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "summary": "settlement-service의 Payout Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:PayoutService",
+      "type": "class",
+      "name": "PayoutService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "lineRange": [
+        40,
+        150
+      ],
+      "summary": "PayoutService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:PayoutService",
+      "type": "function",
+      "name": "PayoutService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "lineRange": [
+        53,
+        65
+      ],
+      "summary": "PayoutService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:upsertAccount",
+      "type": "function",
+      "name": "upsertAccount",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "lineRange": [
+        68,
+        74
+      ],
+      "summary": "upsertAccount 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:getAccount",
+      "type": "function",
+      "name": "getAccount",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "lineRange": [
+        77,
+        80
+      ],
+      "summary": "getAccount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:getPayout",
+      "type": "function",
+      "name": "getPayout",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "lineRange": [
+        83,
+        86
+      ],
+      "summary": "getPayout 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:approve",
+      "type": "function",
+      "name": "approve",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "lineRange": [
+        89,
+        143
+      ],
+      "summary": "approve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "type": "file",
+      "name": "ReserveConfigService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "summary": "settlement-service의 Reserve Config Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:ReserveConfigService",
+      "type": "class",
+      "name": "ReserveConfigService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "lineRange": [
+        18,
+        54
+      ],
+      "summary": "ReserveConfigService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:setConfig",
+      "type": "function",
+      "name": "setConfig",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "lineRange": [
+        26,
+        47
+      ],
+      "summary": "setConfig 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:getConfig",
+      "type": "function",
+      "name": "getConfig",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "lineRange": [
+        49,
+        53
+      ],
+      "summary": "getConfig 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "type": "file",
+      "name": "BusinessException.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "summary": "settlement-service에서 Business Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "settlement-service",
+        "exception",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java:BusinessException",
+      "type": "class",
+      "name": "BusinessException",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "lineRange": [
+        5,
+        18
+      ],
+      "summary": "BusinessException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "settlement-service",
+        "exception",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java:BusinessException",
+      "type": "function",
+      "name": "BusinessException",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "lineRange": [
+        9,
+        12
+      ],
+      "summary": "BusinessException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "exception",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java",
+      "type": "file",
+      "name": "ErrorCode.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java",
+      "summary": "settlement-service에서 Error Code 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "settlement-service",
+        "exception",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java:ErrorCode",
+      "type": "class",
+      "name": "ErrorCode",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java",
+      "lineRange": [
+        6,
+        31
+      ],
+      "summary": "ErrorCode 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "settlement-service",
+        "exception",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "type": "file",
+      "name": "MerchantPayoutAccount.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "summary": "settlement-service의 Merchant Payout Account domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "settlement-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:MerchantPayoutAccount",
+      "type": "class",
+      "name": "MerchantPayoutAccount",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "lineRange": [
+        10,
+        37
+      ],
+      "summary": "MerchantPayoutAccount domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:MerchantPayoutAccount",
+      "type": "function",
+      "name": "MerchantPayoutAccount",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "lineRange": [
+        20,
+        29
+      ],
+      "summary": "MerchantPayoutAccount 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:reconstruct",
+      "type": "function",
+      "name": "reconstruct",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "lineRange": [
+        31,
+        36
+      ],
+      "summary": "reconstruct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "type": "file",
+      "name": "MerchantReserveConfig.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "summary": "settlement-service의 Merchant Reserve Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "settlement-service",
+        "configuration",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:MerchantReserveConfig",
+      "type": "class",
+      "name": "MerchantReserveConfig",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "lineRange": [
+        11,
+        29
+      ],
+      "summary": "MerchantReserveConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "configuration",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:MerchantReserveConfig",
+      "type": "function",
+      "name": "MerchantReserveConfig",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "lineRange": [
+        18,
+        23
+      ],
+      "summary": "MerchantReserveConfig 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "configuration",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:reconstruct",
+      "type": "function",
+      "name": "reconstruct",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "lineRange": [
+        25,
+        28
+      ],
+      "summary": "reconstruct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java:BankTransferPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java:BankTransferPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java:MerchantPayoutAccountRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java:MerchantPayoutAccountRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java:MerchantReserveConfigRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java:MerchantReserveConfigRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java:PayoutRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java:PayoutRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Payout.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:PayoutResultService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:PayoutResultService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:PayoutResultService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:PayoutResultService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:applyResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:applyResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:pollStuckProcessing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:pollStuckProcessing",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:retryFailed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java:retryFailed",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutResultService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Payout.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:PayoutService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:PayoutService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:PayoutService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:PayoutService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:upsertAccount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:upsertAccount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:getAccount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:getAccount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:getPayout",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:getPayout",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:approve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java:approve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/InvalidPayoutAccountException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/MerchantPayoutAccountNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/PayoutAccountInactiveException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/PayoutAlreadyExistsException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/PayoutNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/PayoutNotPayableException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/SettlementNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/BankTransferPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantPayoutAccountRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PayoutRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Payout.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Settlement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/service/ReserveCalculator.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:ReserveConfigService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:ReserveConfigService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:setConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:setConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:getConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java:getConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/InvalidReserveConfigException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/ReserveConfigNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantReserveConfigRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveConfigService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java:BusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java:BusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java:BusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/common/exception/BusinessException.java:BusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java:ErrorCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/common/exception/ErrorCode.java:ErrorCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:MerchantPayoutAccount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:MerchantPayoutAccount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:MerchantPayoutAccount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:MerchantPayoutAccount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:reconstruct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantPayoutAccount.java:reconstruct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:MerchantReserveConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:MerchantReserveConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:MerchantReserveConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:MerchantReserveConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:reconstruct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/domain/entity/MerchantReserveConfig.java:reconstruct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

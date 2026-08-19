@@ -1,0 +1,3147 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 28,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 28,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 28,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/service/CancelAuthorizer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "authorize",
+          "startLine": 14,
+          "endLine": 25,
+          "params": [
+            "role",
+            "requestUserId",
+            "targetUserId",
+            "headerMerchantId",
+            "targetMerchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelAuthorizer",
+          "startLine": 12,
+          "endLine": 26,
+          "methods": [
+            "authorize"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "authorize",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "CancelAuthorizer",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "authorize",
+          "callee": "\"ADMIN\".equals",
+          "lineNumber": 16
+        },
+        {
+          "caller": "authorize",
+          "callee": "\"MERCHANT\".equals",
+          "lineNumber": 19
+        },
+        {
+          "caller": "authorize",
+          "callee": "headerMerchantId.equals",
+          "lineNumber": 21
+        },
+        {
+          "caller": "authorize",
+          "callee": "new CancelNotAuthorizedException",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/service/CancelDomainService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 74,
+      "nonEmptyLines": 62,
+      "functions": [
+        {
+          "name": "CancelDomainService",
+          "startLine": 26,
+          "endLine": 28,
+          "params": [
+            "cancelPeriodPolicy"
+          ]
+        },
+        {
+          "name": "apply",
+          "startLine": 36,
+          "endLine": 59,
+          "params": [
+            "payment",
+            "cancelItems",
+            "allPaymentItems"
+          ]
+        },
+        {
+          "name": "recalculatePaymentStatus",
+          "startLine": 61,
+          "endLine": 73,
+          "params": [
+            "payment",
+            "allItems"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelDomainService",
+          "startLine": 22,
+          "endLine": 74,
+          "methods": [
+            "CancelDomainService",
+            "apply",
+            "recalculatePaymentStatus"
+          ],
+          "properties": [
+            "cancelPeriodPolicy"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelDomainService",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "apply",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "CancelDomainService",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "apply",
+          "callee": "PaymentStatusPolicy.validateCancellableStatus",
+          "lineNumber": 41
+        },
+        {
+          "caller": "apply",
+          "callee": "cancelPeriodPolicy.validateCancelPeriod",
+          "lineNumber": 42
+        },
+        {
+          "caller": "apply",
+          "callee": "cancelItems.stream()\n            .map(CancelItemCommand::getPaymentItemId).collect",
+          "lineNumber": 44
+        },
+        {
+          "caller": "apply",
+          "callee": "cancelItems.stream().map",
+          "lineNumber": 44
+        },
+        {
+          "caller": "apply",
+          "callee": "cancelItems.stream",
+          "lineNumber": 44
+        },
+        {
+          "caller": "apply",
+          "callee": "Collectors.toSet",
+          "lineNumber": 46
+        },
+        {
+          "caller": "apply",
+          "callee": "allPaymentItems.stream().collect",
+          "lineNumber": 48
+        },
+        {
+          "caller": "apply",
+          "callee": "allPaymentItems.stream",
+          "lineNumber": 48
+        },
+        {
+          "caller": "apply",
+          "callee": "Collectors.toMap",
+          "lineNumber": 49
+        },
+        {
+          "caller": "apply",
+          "callee": "itemMap.get",
+          "lineNumber": 52
+        },
+        {
+          "caller": "apply",
+          "callee": "new PaymentItemNotFoundException",
+          "lineNumber": 53
+        },
+        {
+          "caller": "apply",
+          "callee": "PaymentItemStatusPolicy.validateCancellableStatus",
+          "lineNumber": 54
+        },
+        {
+          "caller": "apply",
+          "callee": "item.cancel",
+          "lineNumber": 55
+        },
+        {
+          "caller": "apply",
+          "callee": "recalculatePaymentStatus",
+          "lineNumber": 58
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "allItems.stream()\n            .filter(i -> i.getStatus() == PaymentItemStatus.CANCELLED)\n            .map(PaymentItem::getItemAmount).reduce",
+          "lineNumber": 62
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "allItems.stream()\n            .filter(i -> i.getStatus() == PaymentItemStatus.CANCELLED).map",
+          "lineNumber": 62
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "allItems.stream().filter",
+          "lineNumber": 62
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "allItems.stream",
+          "lineNumber": 62
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "i.getStatus",
+          "lineNumber": 63
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "cancelledTotal.compareTo",
+          "lineNumber": 67
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "payment.getTotalAmount",
+          "lineNumber": 67
+        },
+        {
+          "caller": "recalculatePaymentStatus",
+          "callee": "payment.updateStatus",
+          "lineNumber": 71
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/domain/service/CancelItemCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "CancelItemCommand",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "paymentItemId"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 17,
+          "endLine": 19,
+          "params": [
+            "paymentItemId"
+          ]
+        },
+        {
+          "name": "getPaymentItemId",
+          "startLine": 21,
+          "endLine": 21,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelItemCommand",
+          "startLine": 9,
+          "endLine": 22,
+          "methods": [
+            "CancelItemCommand",
+            "of",
+            "getPaymentItemId"
+          ],
+          "properties": [
+            "paymentItemId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "getPaymentItemId",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "CancelItemCommand",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new CancelItemCommand",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 100,
+      "nonEmptyLines": 89,
+      "functions": [
+        {
+          "name": "transactionManager",
+          "startLine": 42,
+          "endLine": 45,
+          "params": [
+            "entityManagerFactory"
+          ]
+        },
+        {
+          "name": "paymentRepository",
+          "startLine": 50,
+          "endLine": 53,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "paymentItemRepository",
+          "startLine": 58,
+          "endLine": 61,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "cancelRequestRepository",
+          "startLine": 66,
+          "endLine": 69,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "cancelApprovalRepository",
+          "startLine": 74,
+          "endLine": 77,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "cancelOutboxRedriveRepository",
+          "startLine": 79,
+          "endLine": 84,
+          "params": [
+            "dataSource"
+          ]
+        },
+        {
+          "name": "clock",
+          "startLine": 86,
+          "endLine": 89,
+          "params": []
+        },
+        {
+          "name": "cancelPeriodPolicy",
+          "startLine": 91,
+          "endLine": 94,
+          "params": [
+            "clock"
+          ]
+        },
+        {
+          "name": "cancelDomainService",
+          "startLine": 96,
+          "endLine": 99,
+          "params": [
+            "cancelPeriodPolicy"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PersistenceConfig",
+          "startLine": 34,
+          "endLine": 100,
+          "methods": [
+            "transactionManager",
+            "paymentRepository",
+            "paymentItemRepository",
+            "cancelRequestRepository",
+            "cancelApprovalRepository",
+            "cancelOutboxRedriveRepository",
+            "clock",
+            "cancelPeriodPolicy",
+            "cancelDomainService"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "transactionManager",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "paymentRepository",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "paymentItemRepository",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "cancelRequestRepository",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "cancelApprovalRepository",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "cancelOutboxRedriveRepository",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "clock",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "cancelPeriodPolicy",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "cancelDomainService",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "PersistenceConfig",
+          "line": 34,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "transactionManager",
+          "callee": "new JpaTransactionManager",
+          "lineNumber": 44
+        },
+        {
+          "caller": "paymentRepository",
+          "callee": "new PaymentRepositoryImpl",
+          "lineNumber": 52
+        },
+        {
+          "caller": "paymentItemRepository",
+          "callee": "new PaymentItemRepositoryImpl",
+          "lineNumber": 60
+        },
+        {
+          "caller": "cancelRequestRepository",
+          "callee": "new CancelRequestRepositoryImpl",
+          "lineNumber": 68
+        },
+        {
+          "caller": "cancelApprovalRepository",
+          "callee": "new CancelApprovalRepositoryImpl",
+          "lineNumber": 76
+        },
+        {
+          "caller": "cancelOutboxRedriveRepository",
+          "callee": "new CancelOutboxRedriveRepositoryImpl",
+          "lineNumber": 83
+        },
+        {
+          "caller": "cancelOutboxRedriveRepository",
+          "callee": "new NamedParameterJdbcTemplate",
+          "lineNumber": 83
+        },
+        {
+          "caller": "clock",
+          "callee": "Clock.systemUTC",
+          "lineNumber": 88
+        },
+        {
+          "caller": "cancelPeriodPolicy",
+          "callee": "new CancelPeriodPolicy",
+          "lineNumber": 93
+        },
+        {
+          "caller": "cancelDomainService",
+          "callee": "new CancelDomainService",
+          "lineNumber": 98
+        }
+      ],
+      "metrics": {
+        "importCount": 16,
+        "exportCount": 10,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelApprovalJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 103,
+      "nonEmptyLines": 84,
+      "functions": [
+        {
+          "name": "CancelApprovalJpaEntity",
+          "startLine": 65,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "prePersist",
+          "startLine": 67,
+          "endLine": 72,
+          "params": []
+        },
+        {
+          "name": "preUpdate",
+          "startLine": 74,
+          "endLine": 77,
+          "params": []
+        },
+        {
+          "name": "fromDomain",
+          "startLine": 79,
+          "endLine": 96,
+          "params": [
+            "a"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 98,
+          "endLine": 102,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelApprovalJpaEntity",
+          "startLine": 15,
+          "endLine": 103,
+          "methods": [
+            "CancelApprovalJpaEntity",
+            "prePersist",
+            "preUpdate",
+            "fromDomain",
+            "toDomain"
+          ],
+          "properties": [
+            "id",
+            "paymentId",
+            "paymentKey",
+            "requesterUserId",
+            "reason",
+            "status",
+            "decidedByUserId",
+            "decidedRole",
+            "decisionReason",
+            "cancelRequestId",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "fromDomain",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "CancelApprovalJpaEntity",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "prePersist",
+          "callee": "Instant.now",
+          "lineNumber": 69
+        },
+        {
+          "caller": "preUpdate",
+          "callee": "Instant.now",
+          "lineNumber": 76
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "new CancelApprovalJpaEntity",
+          "lineNumber": 80
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getId",
+          "lineNumber": 81
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getId",
+          "lineNumber": 82
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getPaymentId",
+          "lineNumber": 84
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getPaymentKey",
+          "lineNumber": 85
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getRequesterUserId",
+          "lineNumber": 86
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getReason",
+          "lineNumber": 87
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getStatus().name",
+          "lineNumber": 88
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getStatus",
+          "lineNumber": 88
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getDecidedByUserId",
+          "lineNumber": 89
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getDecidedRole",
+          "lineNumber": 90
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getDecisionReason",
+          "lineNumber": 91
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getCancelRequestId",
+          "lineNumber": 92
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getCreatedAt",
+          "lineNumber": 93
+        },
+        {
+          "caller": "fromDomain",
+          "callee": "a.getUpdatedAt",
+          "lineNumber": 94
+        },
+        {
+          "caller": "toDomain",
+          "callee": "CancelApproval.reconstitute",
+          "lineNumber": 99
+        },
+        {
+          "caller": "toDomain",
+          "callee": "CancelApprovalStatus.valueOf",
+          "lineNumber": 100
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelApprovalJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "CancelApprovalJpaRepository",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [
+            "findFirstByPaymentIdAndStatus",
+            "findByStatus",
+            "findFirstByPaymentIdOrderByIdDesc"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelApprovalJpaRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelApprovalRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "CancelApprovalRepositoryImpl",
+          "startLine": 13,
+          "endLine": 15,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 17,
+          "endLine": 20,
+          "params": [
+            "a"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "findActiveRequestedByPaymentId",
+          "startLine": 27,
+          "endLine": 31,
+          "params": [
+            "paymentId"
+          ]
+        },
+        {
+          "name": "findByStatus",
+          "startLine": 33,
+          "endLine": 36,
+          "params": [
+            "status"
+          ]
+        },
+        {
+          "name": "findLatestByPaymentId",
+          "startLine": 38,
+          "endLine": 41,
+          "params": [
+            "paymentId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelApprovalRepositoryImpl",
+          "startLine": 9,
+          "endLine": 42,
+          "methods": [
+            "CancelApprovalRepositoryImpl",
+            "save",
+            "findById",
+            "findActiveRequestedByPaymentId",
+            "findByStatus",
+            "findLatestByPaymentId"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelApprovalRepositoryImpl",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "findActiveRequestedByPaymentId",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "findByStatus",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "findLatestByPaymentId",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "CancelApprovalRepositoryImpl",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpa.save(CancelApprovalJpaEntity.fromDomain(a)).toDomain",
+          "lineNumber": 19
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 19
+        },
+        {
+          "caller": "save",
+          "callee": "CancelApprovalJpaEntity.fromDomain",
+          "lineNumber": 19
+        },
+        {
+          "caller": "findById",
+          "callee": "jpa.findById(id).map",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findById",
+          "callee": "jpa.findById",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findActiveRequestedByPaymentId",
+          "callee": "jpa.findFirstByPaymentIdAndStatus(paymentId, CancelApprovalStatus.REQUESTED.name()).map",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findActiveRequestedByPaymentId",
+          "callee": "jpa.findFirstByPaymentIdAndStatus",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findActiveRequestedByPaymentId",
+          "callee": "CancelApprovalStatus.REQUESTED.name",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findByStatus",
+          "callee": "jpa.findByStatus(status.name()).stream().map(CancelApprovalJpaEntity::toDomain).toList",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findByStatus",
+          "callee": "jpa.findByStatus(status.name()).stream().map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findByStatus",
+          "callee": "jpa.findByStatus(status.name()).stream",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findByStatus",
+          "callee": "jpa.findByStatus",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findByStatus",
+          "callee": "status.name",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findLatestByPaymentId",
+          "callee": "jpa.findFirstByPaymentIdOrderByIdDesc(paymentId).map",
+          "lineNumber": 40
+        },
+        {
+          "caller": "findLatestByPaymentId",
+          "callee": "jpa.findFirstByPaymentIdOrderByIdDesc",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "CancelRequestRepositoryImpl",
+          "startLine": 19,
+          "endLine": 21,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "findByPaymentIdAndRequestHash",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "paymentId",
+            "requestHash"
+          ]
+        },
+        {
+          "name": "findByPaymentIdAndDedupKey",
+          "startLine": 29,
+          "endLine": 33,
+          "params": [
+            "paymentId",
+            "dedupKey"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 35,
+          "endLine": 39,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 41,
+          "endLine": 44,
+          "params": [
+            "cancelRequest"
+          ]
+        },
+        {
+          "name": "findPendingCreatedBefore",
+          "startLine": 46,
+          "endLine": 51,
+          "params": [
+            "before"
+          ]
+        },
+        {
+          "name": "findProcessingUpdatedBefore",
+          "startLine": 53,
+          "endLine": 58,
+          "params": [
+            "before"
+          ]
+        },
+        {
+          "name": "incrementPgRetryCount",
+          "startLine": 60,
+          "endLine": 63,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "compareAndSetFailed",
+          "startLine": 65,
+          "endLine": 68,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRequestRepositoryImpl",
+          "startLine": 15,
+          "endLine": 69,
+          "methods": [
+            "CancelRequestRepositoryImpl",
+            "findByPaymentIdAndRequestHash",
+            "findByPaymentIdAndDedupKey",
+            "findById",
+            "save",
+            "findPendingCreatedBefore",
+            "findProcessingUpdatedBefore",
+            "incrementPgRetryCount",
+            "compareAndSetFailed"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRequestRepositoryImpl",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "findByPaymentIdAndRequestHash",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "findByPaymentIdAndDedupKey",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "findPendingCreatedBefore",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "findProcessingUpdatedBefore",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "incrementPgRetryCount",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "compareAndSetFailed",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRequestRepositoryImpl",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findByPaymentIdAndRequestHash",
+          "callee": "jpaRepository.findByPaymentIdAndRequestHash(paymentId, requestHash).map",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findByPaymentIdAndRequestHash",
+          "callee": "jpaRepository.findByPaymentIdAndRequestHash",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findByPaymentIdAndDedupKey",
+          "callee": "jpaRepository.findByPaymentIdAndDedupKey(paymentId, dedupKey).map",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findByPaymentIdAndDedupKey",
+          "callee": "jpaRepository.findByPaymentIdAndDedupKey",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findById",
+          "callee": "jpaRepository.findById(id).map",
+          "lineNumber": 37
+        },
+        {
+          "caller": "findById",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 37
+        },
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save(CancelRequestJpaEntity.from(cancelRequest)).toDomain",
+          "lineNumber": 43
+        },
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save",
+          "lineNumber": 43
+        },
+        {
+          "caller": "save",
+          "callee": "CancelRequestJpaEntity.from",
+          "lineNumber": 43
+        },
+        {
+          "caller": "findPendingCreatedBefore",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 48
+        },
+        {
+          "caller": "findPendingCreatedBefore",
+          "callee": "jpaRepository.findByStatusAndCreatedAtBefore(CancelStatus.PENDING, beforeLdt)\n            .stream().map(CancelRequestJpaEntity::toDomain).toList",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findPendingCreatedBefore",
+          "callee": "jpaRepository.findByStatusAndCreatedAtBefore(CancelStatus.PENDING, beforeLdt)\n            .stream().map",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findPendingCreatedBefore",
+          "callee": "jpaRepository.findByStatusAndCreatedAtBefore(CancelStatus.PENDING, beforeLdt).stream",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findPendingCreatedBefore",
+          "callee": "jpaRepository.findByStatusAndCreatedAtBefore",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findProcessingUpdatedBefore",
+          "callee": "LocalDateTime.ofInstant",
+          "lineNumber": 55
+        },
+        {
+          "caller": "findProcessingUpdatedBefore",
+          "callee": "jpaRepository.findByStatusAndUpdatedAtBefore(CancelStatus.PROCESSING, beforeLdt)\n            .stream().map(CancelRequestJpaEntity::toDomain).toList",
+          "lineNumber": 56
+        },
+        {
+          "caller": "findProcessingUpdatedBefore",
+          "callee": "jpaRepository.findByStatusAndUpdatedAtBefore(CancelStatus.PROCESSING, beforeLdt)\n            .stream().map",
+          "lineNumber": 56
+        },
+        {
+          "caller": "findProcessingUpdatedBefore",
+          "callee": "jpaRepository.findByStatusAndUpdatedAtBefore(CancelStatus.PROCESSING, beforeLdt).stream",
+          "lineNumber": 56
+        },
+        {
+          "caller": "findProcessingUpdatedBefore",
+          "callee": "jpaRepository.findByStatusAndUpdatedAtBefore",
+          "lineNumber": 56
+        },
+        {
+          "caller": "incrementPgRetryCount",
+          "callee": "jpaRepository.incrementPgRetryCount",
+          "lineNumber": 62
+        },
+        {
+          "caller": "compareAndSetFailed",
+          "callee": "jpaRepository.compareAndSetFailed",
+          "lineNumber": 67
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 10,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "PaymentItemJpaRepository",
+          "startLine": 14,
+          "endLine": 21,
+          "methods": [
+            "findAllByPaymentIdOrderByIdAsc",
+            "findAllByPaymentIdForUpdate"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentItemJpaRepository",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentItemRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "PaymentItemRepositoryImpl",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "findAllByPaymentIdOrderByIdAsc",
+          "startLine": 19,
+          "endLine": 24,
+          "params": [
+            "paymentId"
+          ]
+        },
+        {
+          "name": "findAllByPaymentIdForUpdate",
+          "startLine": 26,
+          "endLine": 31,
+          "params": [
+            "paymentId"
+          ]
+        },
+        {
+          "name": "saveAll",
+          "startLine": 33,
+          "endLine": 41,
+          "params": [
+            "items"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentItemRepositoryImpl",
+          "startLine": 11,
+          "endLine": 42,
+          "methods": [
+            "PaymentItemRepositoryImpl",
+            "findAllByPaymentIdOrderByIdAsc",
+            "findAllByPaymentIdForUpdate",
+            "saveAll"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentItemRepositoryImpl",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "findAllByPaymentIdOrderByIdAsc",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "findAllByPaymentIdForUpdate",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "saveAll",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentItemRepositoryImpl",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAllByPaymentIdOrderByIdAsc",
+          "callee": "jpaRepository.findAllByPaymentIdOrderByIdAsc(paymentId).stream()\n            .map(PaymentItemJpaEntity::toDomain).collect",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findAllByPaymentIdOrderByIdAsc",
+          "callee": "jpaRepository.findAllByPaymentIdOrderByIdAsc(paymentId).stream().map",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findAllByPaymentIdOrderByIdAsc",
+          "callee": "jpaRepository.findAllByPaymentIdOrderByIdAsc(paymentId).stream",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findAllByPaymentIdOrderByIdAsc",
+          "callee": "jpaRepository.findAllByPaymentIdOrderByIdAsc",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findAllByPaymentIdOrderByIdAsc",
+          "callee": "Collectors.toList",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findAllByPaymentIdForUpdate",
+          "callee": "jpaRepository.findAllByPaymentIdForUpdate(paymentId).stream()\n            .map(PaymentItemJpaEntity::toDomain).collect",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByPaymentIdForUpdate",
+          "callee": "jpaRepository.findAllByPaymentIdForUpdate(paymentId).stream().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByPaymentIdForUpdate",
+          "callee": "jpaRepository.findAllByPaymentIdForUpdate(paymentId).stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByPaymentIdForUpdate",
+          "callee": "jpaRepository.findAllByPaymentIdForUpdate",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findAllByPaymentIdForUpdate",
+          "callee": "Collectors.toList",
+          "lineNumber": 30
+        },
+        {
+          "caller": "saveAll",
+          "callee": "jpaRepository.saveAll(items.stream()\n            .map(PaymentItemJpaEntity::from)\n            .collect(Collectors.toList()))\n            .stream()\n            .map(PaymentItemJpaEntity::toDomain).collect",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "jpaRepository.saveAll(items.stream()\n            .map(PaymentItemJpaEntity::from)\n            .collect(Collectors.toList()))\n            .stream().map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "jpaRepository.saveAll(items.stream()\n            .map(PaymentItemJpaEntity::from)\n            .collect(Collectors.toList())).stream",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "jpaRepository.saveAll",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "items.stream()\n            .map(PaymentItemJpaEntity::from).collect",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "items.stream().map",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "items.stream",
+          "lineNumber": 35
+        },
+        {
+          "caller": "saveAll",
+          "callee": "Collectors.toList",
+          "lineNumber": 37
+        },
+        {
+          "caller": "saveAll",
+          "callee": "Collectors.toList",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "PaymentJpaRepository",
+          "startLine": 12,
+          "endLine": 26,
+          "methods": [
+            "findByPaymentKey",
+            "existsByPaymentKey",
+            "findByUserIdOrderByIdDesc"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentJpaRepository",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "PaymentRepositoryImpl",
+          "startLine": 17,
+          "endLine": 19,
+          "params": [
+            "jpaRepository"
+          ]
+        },
+        {
+          "name": "findByPaymentKey",
+          "startLine": 21,
+          "endLine": 25,
+          "params": [
+            "paymentKey"
+          ]
+        },
+        {
+          "name": "existsByPaymentKey",
+          "startLine": 27,
+          "endLine": 30,
+          "params": [
+            "paymentKey"
+          ]
+        },
+        {
+          "name": "findById",
+          "startLine": 32,
+          "endLine": 36,
+          "params": [
+            "paymentId"
+          ]
+        },
+        {
+          "name": "save",
+          "startLine": 38,
+          "endLine": 43,
+          "params": [
+            "payment"
+          ]
+        },
+        {
+          "name": "findByUserId",
+          "startLine": 45,
+          "endLine": 49,
+          "params": [
+            "userId",
+            "page",
+            "size"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentRepositoryImpl",
+          "startLine": 13,
+          "endLine": 50,
+          "methods": [
+            "PaymentRepositoryImpl",
+            "findByPaymentKey",
+            "existsByPaymentKey",
+            "findById",
+            "save",
+            "findByUserId"
+          ],
+          "properties": [
+            "jpaRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentRepositoryImpl",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "findByPaymentKey",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "existsByPaymentKey",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "findById",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "save",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "findByUserId",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentRepositoryImpl",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findByPaymentKey",
+          "callee": "jpaRepository.findByPaymentKey(paymentKey).map",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findByPaymentKey",
+          "callee": "jpaRepository.findByPaymentKey",
+          "lineNumber": 23
+        },
+        {
+          "caller": "existsByPaymentKey",
+          "callee": "jpaRepository.existsByPaymentKey",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findById",
+          "callee": "jpaRepository.findById(paymentId).map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findById",
+          "callee": "jpaRepository.findById",
+          "lineNumber": 34
+        },
+        {
+          "caller": "save",
+          "callee": "PaymentJpaEntity.from",
+          "lineNumber": 40
+        },
+        {
+          "caller": "save",
+          "callee": "jpaRepository.save",
+          "lineNumber": 41
+        },
+        {
+          "caller": "save",
+          "callee": "saved.toDomain",
+          "lineNumber": 42
+        },
+        {
+          "caller": "findByUserId",
+          "callee": "jpaRepository.findByUserIdOrderByIdDesc(userId, PageRequest.of(page, size))\n            .stream().map(PaymentJpaEntity::toDomain).toList",
+          "lineNumber": 47
+        },
+        {
+          "caller": "findByUserId",
+          "callee": "jpaRepository.findByUserIdOrderByIdDesc(userId, PageRequest.of(page, size))\n            .stream().map",
+          "lineNumber": 47
+        },
+        {
+          "caller": "findByUserId",
+          "callee": "jpaRepository.findByUserIdOrderByIdDesc(userId, PageRequest.of(page, size)).stream",
+          "lineNumber": 47
+        },
+        {
+          "caller": "findByUserId",
+          "callee": "jpaRepository.findByUserIdOrderByIdDesc",
+          "lineNumber": 47
+        },
+        {
+          "caller": "findByUserId",
+          "callee": "PageRequest.of",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/CancelApprovalController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 68,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "request",
+          "startLine": 22,
+          "endLine": 33,
+          "params": [
+            "paymentKey",
+            "body",
+            "role",
+            "userId",
+            "merchantId"
+          ]
+        },
+        {
+          "name": "list",
+          "startLine": 35,
+          "endLine": 44,
+          "params": [
+            "status",
+            "role",
+            "userId",
+            "merchantId"
+          ]
+        },
+        {
+          "name": "approve",
+          "startLine": 46,
+          "endLine": 55,
+          "params": [
+            "id",
+            "role",
+            "userId",
+            "merchantId"
+          ]
+        },
+        {
+          "name": "reject",
+          "startLine": 57,
+          "endLine": 67,
+          "params": [
+            "id",
+            "body",
+            "role",
+            "userId",
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelApprovalController",
+          "startLine": 16,
+          "endLine": 68,
+          "methods": [
+            "request",
+            "list",
+            "approve",
+            "reject"
+          ],
+          "properties": [
+            "useCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "request",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "list",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "approve",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "reject",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "CancelApprovalController",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "request",
+          "callee": "new AuthenticatedUser",
+          "lineNumber": 30
+        },
+        {
+          "caller": "request",
+          "callee": "useCase.request",
+          "lineNumber": 31
+        },
+        {
+          "caller": "request",
+          "callee": "body.reason",
+          "lineNumber": 31
+        },
+        {
+          "caller": "request",
+          "callee": "ResponseEntity.status(HttpStatus.CREATED).body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "request",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 32
+        },
+        {
+          "caller": "request",
+          "callee": "CancelApprovalResponse.of",
+          "lineNumber": 32
+        },
+        {
+          "caller": "list",
+          "callee": "new AuthenticatedUser",
+          "lineNumber": 42
+        },
+        {
+          "caller": "list",
+          "callee": "CancelApprovalListResponse.of",
+          "lineNumber": 43
+        },
+        {
+          "caller": "list",
+          "callee": "useCase.list",
+          "lineNumber": 43
+        },
+        {
+          "caller": "approve",
+          "callee": "new AuthenticatedUser",
+          "lineNumber": 53
+        },
+        {
+          "caller": "approve",
+          "callee": "CancelApprovalResponse.of",
+          "lineNumber": 54
+        },
+        {
+          "caller": "approve",
+          "callee": "useCase.approve",
+          "lineNumber": 54
+        },
+        {
+          "caller": "reject",
+          "callee": "new AuthenticatedUser",
+          "lineNumber": 65
+        },
+        {
+          "caller": "reject",
+          "callee": "CancelApprovalResponse.of",
+          "lineNumber": 66
+        },
+        {
+          "caller": "reject",
+          "callee": "useCase.reject",
+          "lineNumber": 66
+        },
+        {
+          "caller": "reject",
+          "callee": "body.decisionReason",
+          "lineNumber": 66
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/CancelController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 61,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "cancel",
+          "startLine": 29,
+          "endLine": 60,
+          "params": [
+            "paymentKey",
+            "request",
+            "idempotencyKey",
+            "role",
+            "userId",
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelController",
+          "startLine": 19,
+          "endLine": 61,
+          "methods": [
+            "cancel"
+          ],
+          "properties": [
+            "IDEMPOTENCY_KEY_MAX_LENGTH",
+            "cancelPaymentUseCase",
+            "cancelAuthorizationUseCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "cancel",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "CancelController",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "cancel",
+          "callee": "new AuthenticatedUser",
+          "lineNumber": 39
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelAuthorizationUseCase.authorize",
+          "lineNumber": 40
+        },
+        {
+          "caller": "cancel",
+          "callee": "request.cancelItems().stream()\n            .map(item -> item.paymentItemId()).toList",
+          "lineNumber": 42
+        },
+        {
+          "caller": "cancel",
+          "callee": "request.cancelItems().stream().map",
+          "lineNumber": 42
+        },
+        {
+          "caller": "cancel",
+          "callee": "request.cancelItems().stream",
+          "lineNumber": 42
+        },
+        {
+          "caller": "cancel",
+          "callee": "request.cancelItems",
+          "lineNumber": 42
+        },
+        {
+          "caller": "cancel",
+          "callee": "item.paymentItemId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "cancel",
+          "callee": "StringUtils.hasText",
+          "lineNumber": 47
+        },
+        {
+          "caller": "cancel",
+          "callee": "idem.length",
+          "lineNumber": 48
+        },
+        {
+          "caller": "cancel",
+          "callee": "new InvalidIdempotencyKeyException",
+          "lineNumber": 49
+        },
+        {
+          "caller": "cancel",
+          "callee": "new CancelPaymentCommand",
+          "lineNumber": 52
+        },
+        {
+          "caller": "cancel",
+          "callee": "request.cancelReason",
+          "lineNumber": 53
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelPaymentUseCase.cancel",
+          "lineNumber": 55
+        },
+        {
+          "caller": "cancel",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 57
+        },
+        {
+          "caller": "cancel",
+          "callee": "CancelPaymentResponse.of",
+          "lineNumber": 58
+        },
+        {
+          "caller": "cancel",
+          "callee": "List.of",
+          "lineNumber": 58
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "create",
+          "startLine": 29,
+          "endLine": 53,
+          "params": [
+            "userId",
+            "request"
+          ]
+        },
+        {
+          "name": "exists",
+          "startLine": 59,
+          "endLine": 62,
+          "params": [
+            "paymentKey"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentController",
+          "startLine": 21,
+          "endLine": 63,
+          "methods": [
+            "create",
+            "exists"
+          ],
+          "properties": [
+            "createPaymentUseCase",
+            "paymentExistsQuery"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "exists",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentController",
+          "line": 21,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new CreatePaymentCommand",
+          "lineNumber": 34
+        },
+        {
+          "caller": "create",
+          "callee": "request.merchantId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "create",
+          "callee": "request.pgType",
+          "lineNumber": 37
+        },
+        {
+          "caller": "create",
+          "callee": "request.cancelPeriodDays",
+          "lineNumber": 38
+        },
+        {
+          "caller": "create",
+          "callee": "request.items().stream()\n                .map(item -> new CreatePaymentCommand.Item(\n                    item.orderItemId(),\n                    item.productId(),\n                    item.itemName(),\n                    item.itemAmount(),\n                    item.skuId(),\n                    item.quantity()\n                )).toList",
+          "lineNumber": 39
+        },
+        {
+          "caller": "create",
+          "callee": "request.items().stream().map",
+          "lineNumber": 39
+        },
+        {
+          "caller": "create",
+          "callee": "request.items().stream",
+          "lineNumber": 39
+        },
+        {
+          "caller": "create",
+          "callee": "request.items",
+          "lineNumber": 39
+        },
+        {
+          "caller": "create",
+          "callee": "new CreatePaymentCommand.Item",
+          "lineNumber": 40
+        },
+        {
+          "caller": "create",
+          "callee": "item.orderItemId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "create",
+          "callee": "item.productId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "create",
+          "callee": "item.itemName",
+          "lineNumber": 43
+        },
+        {
+          "caller": "create",
+          "callee": "item.itemAmount",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "item.skuId",
+          "lineNumber": 45
+        },
+        {
+          "caller": "create",
+          "callee": "item.quantity",
+          "lineNumber": 46
+        },
+        {
+          "caller": "create",
+          "callee": "createPaymentUseCase.create",
+          "lineNumber": 51
+        },
+        {
+          "caller": "create",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 52
+        },
+        {
+          "caller": "create",
+          "callee": "CreatePaymentResponse.from",
+          "lineNumber": 52
+        },
+        {
+          "caller": "exists",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 61
+        },
+        {
+          "caller": "exists",
+          "callee": "new PaymentExistsResponse",
+          "lineNumber": 61
+        },
+        {
+          "caller": "exists",
+          "callee": "paymentExistsQuery.exists",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/controller/PaymentHistoryController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "list",
+          "startLine": 24,
+          "endLine": 32,
+          "params": [
+            "userId",
+            "page",
+            "size"
+          ]
+        },
+        {
+          "name": "detail",
+          "startLine": 34,
+          "endLine": 39,
+          "params": [
+            "userId",
+            "paymentKey"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentHistoryController",
+          "startLine": 17,
+          "endLine": 40,
+          "methods": [
+            "list",
+            "detail"
+          ],
+          "properties": [
+            "paymentHistoryQuery"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "list",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "detail",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentHistoryController",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "list",
+          "callee": "Math.max",
+          "lineNumber": 29
+        },
+        {
+          "caller": "list",
+          "callee": "Math.min",
+          "lineNumber": 30
+        },
+        {
+          "caller": "list",
+          "callee": "Math.max",
+          "lineNumber": 30
+        },
+        {
+          "caller": "list",
+          "callee": "paymentHistoryQuery.list",
+          "lineNumber": 31
+        },
+        {
+          "caller": "detail",
+          "callee": "paymentHistoryQuery.detail",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelApprovalListResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "approvals"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelApprovalListResponse",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [
+            "of"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "CancelApprovalListResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new CancelApprovalListResponse",
+          "lineNumber": 9
+        },
+        {
+          "caller": "of",
+          "callee": "approvals.stream().map(CancelApprovalResponse::of).toList",
+          "lineNumber": 9
+        },
+        {
+          "caller": "of",
+          "callee": "approvals.stream().map",
+          "lineNumber": 9
+        },
+        {
+          "caller": "of",
+          "callee": "approvals.stream",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelApprovalResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 19,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 15,
+          "endLine": 20,
+          "params": [
+            "a"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelApprovalResponse",
+          "startLine": 5,
+          "endLine": 21,
+          "methods": [
+            "of"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "CancelApprovalResponse",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new CancelApprovalResponse",
+          "lineNumber": 16
+        },
+        {
+          "caller": "of",
+          "callee": "a.getId",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "a.getPaymentKey",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "a.getStatus().name",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "a.getStatus",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "a.getCancelRequestId",
+          "lineNumber": 18
+        },
+        {
+          "caller": "of",
+          "callee": "a.getReason",
+          "lineNumber": 18
+        },
+        {
+          "caller": "of",
+          "callee": "a.getDecisionReason",
+          "lineNumber": 18
+        },
+        {
+          "caller": "of",
+          "callee": "a.getRequesterUserId",
+          "lineNumber": 19
+        },
+        {
+          "caller": "of",
+          "callee": "a.getCreatedAt",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelPaymentRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "CancelPaymentRequest",
+          "startLine": 9,
+          "endLine": 12,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelPaymentRequest",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelPaymentResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "of",
+          "startLine": 17,
+          "endLine": 28,
+          "params": [
+            "cancelRequest",
+            "paymentKey",
+            "cancelledItems"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelPaymentResponse",
+          "startLine": 9,
+          "endLine": 29,
+          "methods": [
+            "of"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "CancelPaymentResponse",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new CancelPaymentResponse",
+          "lineNumber": 20
+        },
+        {
+          "caller": "of",
+          "callee": "cancelRequest.getId",
+          "lineNumber": 21
+        },
+        {
+          "caller": "of",
+          "callee": "cancelRequest.getCancelAmount",
+          "lineNumber": 23
+        },
+        {
+          "caller": "of",
+          "callee": "cancelRequest.getStatus().name",
+          "lineNumber": 24
+        },
+        {
+          "caller": "of",
+          "callee": "cancelRequest.getStatus",
+          "lineNumber": 24
+        },
+        {
+          "caller": "of",
+          "callee": "cancelRequest.getCompletedAt",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelRejectRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "CancelRejectRequest",
+          "startLine": 5,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRejectRequest",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelRequestCreateRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "CancelRequestCreateRequest",
+          "startLine": 5,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRequestCreateRequest",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CancelledItemResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "item"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelledItemResponse",
+          "startLine": 7,
+          "endLine": 15,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "CancelledItemResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CancelledItemResponse",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "item.getId",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "item.getItemAmount",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "item.getStatus().name",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "item.getStatus",
+          "lineNumber": 13
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "CreatePaymentRequest",
+          "startLine": 10,
+          "endLine": 15,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreatePaymentRequest",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/CreatePaymentResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 18,
+          "endLine": 29,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CreatePaymentResponse",
+          "startLine": 9,
+          "endLine": 30,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "CreatePaymentResponse",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "result.items().stream()\n            .map(item -> new PaymentItemResponse(item.getId(), item.getItemName(), item.getItemAmount())).toList",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "result.items().stream().map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "result.items().stream",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "result.items",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "new PaymentItemResponse",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "item.getId",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "item.getItemName",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "item.getItemAmount",
+          "lineNumber": 20
+        },
+        {
+          "caller": "from",
+          "callee": "new CreatePaymentResponse",
+          "lineNumber": 22
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment().getId",
+          "lineNumber": 23
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment",
+          "lineNumber": 23
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment().getPaymentKey",
+          "lineNumber": 24
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment",
+          "lineNumber": 24
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment().getTotalAmount",
+          "lineNumber": 25
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment",
+          "lineNumber": 25
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment().getStatus().name",
+          "lineNumber": 26
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment().getStatus",
+          "lineNumber": 26
+        },
+        {
+          "caller": "from",
+          "callee": "result.payment",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentDetailResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 13,
+          "endLine": 18,
+          "params": [
+            "p",
+            "items"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentDetailResponse",
+          "startLine": 9,
+          "endLine": 19,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentDetailResponse",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new PaymentDetailResponse",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "p.getPaymentKey",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "p.getTotalAmount",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "p.getStatus().name",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "p.getStatus",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "p.getCreatedAt().toString",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "p.getCreatedAt",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "p.getOrderId",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "p.getPgType",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "items.stream().map(i -> new PaymentSummaryResponse.Item(i.getId(), i.getItemName(), i.getItemAmount(), i.getStatus().name())).toList",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "items.stream().map",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "items.stream",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "new PaymentSummaryResponse.Item",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "i.getId",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "i.getItemName",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "i.getItemAmount",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "i.getStatus().name",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "i.getStatus",
+          "lineNumber": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentExistsResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "PaymentExistsResponse",
+          "startLine": 6,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PaymentExistsResponse",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/presentation/dto/PaymentSummaryResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 19,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 15,
+          "endLine": 21,
+          "params": [
+            "p",
+            "items",
+            "cancelRequestStatus"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PaymentSummaryResponse",
+          "startLine": 9,
+          "endLine": 22,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "PaymentSummaryResponse",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new PaymentSummaryResponse",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "p.getPaymentKey",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "p.getTotalAmount",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "p.getStatus().name",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "p.getStatus",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "p.getCreatedAt().toString",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "p.getCreatedAt",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "p.getOrderId",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "items.stream().map(i -> new Item(i.getId(), i.getItemName(), i.getItemAmount(), i.getStatus().name())).toList",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "items.stream().map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "items.stream",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "new Item",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "i.getId",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "i.getItemName",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "i.getItemAmount",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "i.getStatus().name",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "i.getStatus",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

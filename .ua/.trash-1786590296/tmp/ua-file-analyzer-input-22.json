@@ -1,0 +1,190 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "language": "java",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "language": "java",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "language": "java",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "language": "java",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "language": "java",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "language": "java",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "language": "java",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "language": "java",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "language": "java",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "language": "java",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "language": "java",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "language": "java",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "language": "java",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "language": "java",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/common/exception/BusinessException.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/common/exception/ErrorCode.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/MerchantCancelUsage.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/DailyLimitCache.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/exception/MerchantCancelLimitNotFoundException.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/exception/ServiceUnavailableException.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantLimitClient.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/DailyLimitCache.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantCancelUsageRepository.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantLimitClient.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageCompensation.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/CancelUsageCompensationRepository.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageCompensation.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageHistory.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/CancelUsageHistoryRepository.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageHistory.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/MerchantCancelUsage.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantCancelUsageRepository.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/MerchantCancelUsage.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/common/exception/BusinessException.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CheckChargeUseCase.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CompensateUseCase.java",
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/ValidateAndReserveUseCase.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CheckChargeUseCase.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CompensateUseCase.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CompensateUseCase.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/ValidateAndReserveUseCase.java"
+    ],
+    "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java": [
+      "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/ValidateAndReserveUseCase.java"
+    ]
+  }
+}

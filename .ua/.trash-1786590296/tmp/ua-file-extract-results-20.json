@@ -1,0 +1,1744 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 20,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 20,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 20,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/exception/CompensationMerchantMismatchException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "CompensationMerchantMismatchException",
+          "startLine": 12,
+          "endLine": 15,
+          "params": [
+            "requestMerchantId",
+            "historyMerchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CompensationMerchantMismatchException",
+          "startLine": 11,
+          "endLine": 16,
+          "methods": [
+            "CompensationMerchantMismatchException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CompensationMerchantMismatchException",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "CompensationMerchantMismatchException",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/exception/DataInconsistencyException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "DataInconsistencyException",
+          "startLine": 12,
+          "endLine": 14,
+          "params": [
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DataInconsistencyException",
+          "startLine": 11,
+          "endLine": 15,
+          "methods": [
+            "DataInconsistencyException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DataInconsistencyException",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "DataInconsistencyException",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/exception/MerchantCancelLimitNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "startLine": 7,
+          "endLine": 10,
+          "params": [
+            "merchantId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "MerchantCancelLimitNotFoundException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelLimitNotFoundException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/exception/ServiceUnavailableException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "ServiceUnavailableException",
+          "startLine": 8,
+          "endLine": 10,
+          "params": [
+            "errorCode"
+          ]
+        },
+        {
+          "name": "merchantLimitUnavailable",
+          "startLine": 12,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "riskServiceUnavailable",
+          "startLine": 16,
+          "endLine": 18,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ServiceUnavailableException",
+          "startLine": 6,
+          "endLine": 19,
+          "methods": [
+            "ServiceUnavailableException",
+            "merchantLimitUnavailable",
+            "riskServiceUnavailable"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ServiceUnavailableException",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "merchantLimitUnavailable",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "riskServiceUnavailable",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "ServiceUnavailableException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "merchantLimitUnavailable",
+          "callee": "new ServiceUnavailableException",
+          "lineNumber": 13
+        },
+        {
+          "caller": "riskServiceUnavailable",
+          "callee": "new ServiceUnavailableException",
+          "lineNumber": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/CancelUsageCompensationRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "CancelUsageCompensationRepository",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "save",
+            "existsByCancelRequestId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelUsageCompensationRepository",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/CancelUsageHistoryRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "CancelUsageHistoryRepository",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [
+            "save",
+            "findByCancelRequestId"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelUsageHistoryRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/DailyLimitCache.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "DailyLimitCache",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [
+            "get",
+            "set"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DailyLimitCache",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantCancelUsageRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "MerchantCancelUsageRepository",
+          "startLine": 8,
+          "endLine": 31,
+          "methods": [
+            "save",
+            "findByMerchantIdAndKstDate",
+            "findByMerchantIdAndKstDateForUpdate",
+            "ensureRow",
+            "tryDeduct",
+            "tryRestore"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelUsageRepository",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantLimitClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "MerchantLimitClient",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [
+            "fetchDailyLimit"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantLimitClient",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/service/CheckChargeService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "execute",
+          "startLine": 15,
+          "endLine": 21,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CheckChargeService",
+          "startLine": 9,
+          "endLine": 22,
+          "methods": [
+            "execute"
+          ],
+          "properties": [
+            "historyRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "execute",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "CheckChargeService",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "execute",
+          "callee": "historyRepository.findByCancelRequestId(cancelRequestId)\n            .map(h -> new Result(cancelRequestId, true, h.getMerchantId(), h.getCancelAmount())).orElseGet",
+          "lineNumber": 18
+        },
+        {
+          "caller": "execute",
+          "callee": "historyRepository.findByCancelRequestId(cancelRequestId).map",
+          "lineNumber": 18
+        },
+        {
+          "caller": "execute",
+          "callee": "historyRepository.findByCancelRequestId",
+          "lineNumber": 18
+        },
+        {
+          "caller": "execute",
+          "callee": "new Result",
+          "lineNumber": 19
+        },
+        {
+          "caller": "execute",
+          "callee": "h.getMerchantId",
+          "lineNumber": 19
+        },
+        {
+          "caller": "execute",
+          "callee": "h.getCancelAmount",
+          "lineNumber": 19
+        },
+        {
+          "caller": "execute",
+          "callee": "new Result",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/service/CompensateService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "execute",
+          "startLine": 23,
+          "endLine": 52,
+          "params": [
+            "cmd"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CompensateService",
+          "startLine": 15,
+          "endLine": 53,
+          "methods": [
+            "execute"
+          ],
+          "properties": [
+            "compensationRepository",
+            "historyRepository",
+            "usageRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "execute",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "CompensateService",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "execute",
+          "callee": "compensationRepository.existsByCancelRequestId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "execute",
+          "callee": "new Result",
+          "lineNumber": 27
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "execute",
+          "callee": "historyRepository.findByCancelRequestId",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "historyOpt.isEmpty",
+          "lineNumber": 31
+        },
+        {
+          "caller": "execute",
+          "callee": "new Result",
+          "lineNumber": 32
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 32
+        },
+        {
+          "caller": "execute",
+          "callee": "historyOpt.get",
+          "lineNumber": 34
+        },
+        {
+          "caller": "execute",
+          "callee": "history.getMerchantId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "execute",
+          "callee": "new CompensationMerchantMismatchException",
+          "lineNumber": 36
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 36
+        },
+        {
+          "caller": "execute",
+          "callee": "history.getMerchantId",
+          "lineNumber": 36
+        },
+        {
+          "caller": "execute",
+          "callee": "usageRepository.tryRestore",
+          "lineNumber": 41
+        },
+        {
+          "caller": "execute",
+          "callee": "history.getMerchantId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "execute",
+          "callee": "history.getKstDate",
+          "lineNumber": 42
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.restoreAmount",
+          "lineNumber": 42
+        },
+        {
+          "caller": "execute",
+          "callee": "new DataInconsistencyException",
+          "lineNumber": 44
+        },
+        {
+          "caller": "execute",
+          "callee": "history.getCancelRequestId",
+          "lineNumber": 45
+        },
+        {
+          "caller": "execute",
+          "callee": "compensationRepository.save",
+          "lineNumber": 48
+        },
+        {
+          "caller": "execute",
+          "callee": "CancelUsageCompensation.record",
+          "lineNumber": 48
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "execute",
+          "callee": "history.getMerchantId",
+          "lineNumber": 49
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.restoreAmount",
+          "lineNumber": 49
+        },
+        {
+          "caller": "execute",
+          "callee": "new Result",
+          "lineNumber": 51
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/service/ValidateAndReserveService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 126,
+      "nonEmptyLines": 112,
+      "functions": [
+        {
+          "name": "ValidateAndReserveService",
+          "startLine": 46,
+          "endLine": 61,
+          "params": [
+            "usageRepository",
+            "historyRepository",
+            "merchantLimitClient",
+            "dailyLimitCache",
+            "transactionTemplate",
+            "cacheEnabled",
+            "snapshotEnabled"
+          ]
+        },
+        {
+          "name": "execute",
+          "startLine": 63,
+          "endLine": 94,
+          "params": [
+            "cmd"
+          ]
+        },
+        {
+          "name": "resolveDailyLimit",
+          "startLine": 100,
+          "endLine": 113,
+          "params": [
+            "merchantId",
+            "kstDate"
+          ]
+        },
+        {
+          "name": "readUsage",
+          "startLine": 115,
+          "endLine": 119,
+          "params": [
+            "merchantId",
+            "kstDate"
+          ]
+        },
+        {
+          "name": "toResult",
+          "startLine": 121,
+          "endLine": 125,
+          "params": [
+            "usage"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ValidateAndReserveService",
+          "startLine": 30,
+          "endLine": 126,
+          "methods": [
+            "ValidateAndReserveService",
+            "execute",
+            "resolveDailyLimit",
+            "readUsage",
+            "toResult"
+          ],
+          "properties": [
+            "usageRepository",
+            "historyRepository",
+            "merchantLimitClient",
+            "dailyLimitCache",
+            "transactionTemplate",
+            "cacheEnabled",
+            "snapshotEnabled"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ValidateAndReserveService",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "execute",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "ValidateAndReserveService",
+          "line": 30,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "execute",
+          "callee": "historyRepository.findByCancelRequestId(cmd.cancelRequestId()).isPresent",
+          "lineNumber": 67
+        },
+        {
+          "caller": "execute",
+          "callee": "historyRepository.findByCancelRequestId",
+          "lineNumber": 67
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 67
+        },
+        {
+          "caller": "execute",
+          "callee": "toResult",
+          "lineNumber": 68
+        },
+        {
+          "caller": "execute",
+          "callee": "readUsage",
+          "lineNumber": 68
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 68
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.kstDate",
+          "lineNumber": 68
+        },
+        {
+          "caller": "execute",
+          "callee": "resolveDailyLimit",
+          "lineNumber": 75
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 75
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.kstDate",
+          "lineNumber": 75
+        },
+        {
+          "caller": "execute",
+          "callee": "transactionTemplate.execute",
+          "lineNumber": 78
+        },
+        {
+          "caller": "execute",
+          "callee": "usageRepository.ensureRow",
+          "lineNumber": 79
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 79
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.kstDate",
+          "lineNumber": 79
+        },
+        {
+          "caller": "execute",
+          "callee": "usageRepository.tryDeduct",
+          "lineNumber": 80
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 80
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.kstDate",
+          "lineNumber": 80
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelAmount",
+          "lineNumber": 80
+        },
+        {
+          "caller": "execute",
+          "callee": "readUsage",
+          "lineNumber": 82
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 82
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.kstDate",
+          "lineNumber": 82
+        },
+        {
+          "caller": "execute",
+          "callee": "new MerchantCancelLimitExceededException",
+          "lineNumber": 83
+        },
+        {
+          "caller": "execute",
+          "callee": "cur.getDailyLimit",
+          "lineNumber": 84
+        },
+        {
+          "caller": "execute",
+          "callee": "cur.getUsedAmount",
+          "lineNumber": 84
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelAmount",
+          "lineNumber": 84
+        },
+        {
+          "caller": "execute",
+          "callee": "historyRepository.save",
+          "lineNumber": 88
+        },
+        {
+          "caller": "execute",
+          "callee": "CancelUsageHistory.record",
+          "lineNumber": 88
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelRequestId",
+          "lineNumber": 89
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 89
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.kstDate",
+          "lineNumber": 89
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.cancelAmount",
+          "lineNumber": 89
+        },
+        {
+          "caller": "execute",
+          "callee": "toResult",
+          "lineNumber": 92
+        },
+        {
+          "caller": "execute",
+          "callee": "readUsage",
+          "lineNumber": 92
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.merchantId",
+          "lineNumber": 92
+        },
+        {
+          "caller": "execute",
+          "callee": "cmd.kstDate",
+          "lineNumber": 92
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "dailyLimitCache.get",
+          "lineNumber": 102
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "cached.isPresent",
+          "lineNumber": 103
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "cached.get",
+          "lineNumber": 103
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "usageRepository.findByMerchantIdAndKstDate",
+          "lineNumber": 107
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "snapshot.isPresent",
+          "lineNumber": 108
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "snapshot.get().getDailyLimit",
+          "lineNumber": 108
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "snapshot.get",
+          "lineNumber": 108
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "merchantLimitClient.fetchDailyLimit",
+          "lineNumber": 110
+        },
+        {
+          "caller": "resolveDailyLimit",
+          "callee": "dailyLimitCache.set",
+          "lineNumber": 111
+        },
+        {
+          "caller": "readUsage",
+          "callee": "usageRepository.findByMerchantIdAndKstDate(merchantId, kstDate).orElseThrow",
+          "lineNumber": 116
+        },
+        {
+          "caller": "readUsage",
+          "callee": "usageRepository.findByMerchantIdAndKstDate",
+          "lineNumber": 116
+        },
+        {
+          "caller": "readUsage",
+          "callee": "new DataInconsistencyException",
+          "lineNumber": 117
+        },
+        {
+          "caller": "toResult",
+          "callee": "new Result",
+          "lineNumber": 122
+        },
+        {
+          "caller": "toResult",
+          "callee": "usage.getMerchantId",
+          "lineNumber": 123
+        },
+        {
+          "caller": "toResult",
+          "callee": "usage.getDailyLimit",
+          "lineNumber": 123
+        },
+        {
+          "caller": "toResult",
+          "callee": "usage.getUsedAmount",
+          "lineNumber": 124
+        },
+        {
+          "caller": "toResult",
+          "callee": "usage.remaining",
+          "lineNumber": 124
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 3,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CheckChargeUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "CheckChargeUseCase",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "execute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CheckChargeUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/CompensateUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "CompensateUseCase",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "execute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CompensateUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/application/usecase/ValidateAndReserveUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "ValidateAndReserveUseCase",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [
+            "execute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ValidateAndReserveUseCase",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/common/exception/BusinessException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "BusinessException",
+          "startLine": 9,
+          "endLine": 12,
+          "params": [
+            "errorCode"
+          ]
+        },
+        {
+          "name": "BusinessException",
+          "startLine": 14,
+          "endLine": 17,
+          "params": [
+            "errorCode",
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BusinessException",
+          "startLine": 5,
+          "endLine": 18,
+          "methods": [
+            "BusinessException",
+            "BusinessException"
+          ],
+          "properties": [
+            "errorCode"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BusinessException",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BusinessException",
+          "callee": "errorCode.getDefaultMessage",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/common/exception/ErrorCode.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "ErrorCode",
+          "startLine": 6,
+          "endLine": 19,
+          "methods": [],
+          "properties": [
+            "code",
+            "httpStatus",
+            "defaultMessage"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ErrorCode",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageCompensation.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "CancelUsageCompensation",
+          "startLine": 12,
+          "endLine": 12,
+          "params": []
+        },
+        {
+          "name": "record",
+          "startLine": 14,
+          "endLine": 21,
+          "params": [
+            "cancelRequestId",
+            "merchantId",
+            "restoreAmount"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 23,
+          "endLine": 31,
+          "params": [
+            "id",
+            "cancelRequestId",
+            "merchantId",
+            "restoreAmount"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 33,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "getCancelRequestId",
+          "startLine": 34,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 35,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "getRestoreAmount",
+          "startLine": 36,
+          "endLine": 36,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelUsageCompensation",
+          "startLine": 5,
+          "endLine": 37,
+          "methods": [
+            "CancelUsageCompensation",
+            "record",
+            "reconstruct",
+            "getId",
+            "getCancelRequestId",
+            "getMerchantId",
+            "getRestoreAmount"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "merchantId",
+            "restoreAmount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "record",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "getCancelRequestId",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "getRestoreAmount",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "CancelUsageCompensation",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "record",
+          "callee": "new CancelUsageCompensation",
+          "lineNumber": 16
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new CancelUsageCompensation",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageHistory.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "CancelUsageHistory",
+          "startLine": 14,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "record",
+          "startLine": 16,
+          "endLine": 24,
+          "params": [
+            "cancelRequestId",
+            "merchantId",
+            "kstDate",
+            "cancelAmount"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 26,
+          "endLine": 35,
+          "params": [
+            "id",
+            "cancelRequestId",
+            "merchantId",
+            "kstDate",
+            "cancelAmount"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 37,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "getCancelRequestId",
+          "startLine": 38,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 39,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "getKstDate",
+          "startLine": 40,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "getCancelAmount",
+          "startLine": 41,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelUsageHistory",
+          "startLine": 6,
+          "endLine": 42,
+          "methods": [
+            "CancelUsageHistory",
+            "record",
+            "reconstruct",
+            "getId",
+            "getCancelRequestId",
+            "getMerchantId",
+            "getKstDate",
+            "getCancelAmount"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "merchantId",
+            "kstDate",
+            "cancelAmount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "record",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "getCancelRequestId",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "getKstDate",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "getCancelAmount",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "CancelUsageHistory",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "record",
+          "callee": "new CancelUsageHistory",
+          "lineNumber": 18
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new CancelUsageHistory",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/MerchantCancelUsage.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "MerchantCancelUsage",
+          "startLine": 14,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "create",
+          "startLine": 16,
+          "endLine": 23,
+          "params": [
+            "merchantId",
+            "kstDate",
+            "dailyLimit"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 25,
+          "endLine": 34,
+          "params": [
+            "id",
+            "merchantId",
+            "kstDate",
+            "dailyLimit",
+            "usedAmount"
+          ]
+        },
+        {
+          "name": "deduct",
+          "startLine": 36,
+          "endLine": 38,
+          "params": [
+            "amount"
+          ]
+        },
+        {
+          "name": "restore",
+          "startLine": 40,
+          "endLine": 42,
+          "params": [
+            "amount"
+          ]
+        },
+        {
+          "name": "updateDailyLimit",
+          "startLine": 44,
+          "endLine": 46,
+          "params": [
+            "newLimit"
+          ]
+        },
+        {
+          "name": "remaining",
+          "startLine": 48,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 52,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 53,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "getKstDate",
+          "startLine": 54,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "getDailyLimit",
+          "startLine": 55,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "getUsedAmount",
+          "startLine": 56,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelUsage",
+          "startLine": 6,
+          "endLine": 57,
+          "methods": [
+            "MerchantCancelUsage",
+            "create",
+            "reconstruct",
+            "deduct",
+            "restore",
+            "updateDailyLimit",
+            "remaining",
+            "getId",
+            "getMerchantId",
+            "getKstDate",
+            "getDailyLimit",
+            "getUsedAmount"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "kstDate",
+            "dailyLimit",
+            "usedAmount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "deduct",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "restore",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "updateDailyLimit",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "remaining",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "getKstDate",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "getDailyLimit",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "getUsedAmount",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelUsage",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new MerchantCancelUsage",
+          "lineNumber": 17
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new MerchantCancelUsage",
+          "lineNumber": 27
+        },
+        {
+          "caller": "deduct",
+          "callee": "this.usedAmount.add",
+          "lineNumber": 37
+        },
+        {
+          "caller": "restore",
+          "callee": "this.usedAmount.subtract(amount).max",
+          "lineNumber": 41
+        },
+        {
+          "caller": "restore",
+          "callee": "this.usedAmount.subtract",
+          "lineNumber": 41
+        },
+        {
+          "caller": "remaining",
+          "callee": "dailyLimit.subtract",
+          "lineNumber": 49
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 12,
+        "classCount": 1
+      }
+    }
+  ]
+}

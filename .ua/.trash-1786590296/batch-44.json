@@ -1,0 +1,219 @@
+{
+  "nodes": [
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:V1__create_settlement_core",
+      "type": "table",
+      "name": "V1__create_settlement_core.sql",
+      "filePath": "settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql",
+      "summary": "settlement-service database에서 merchant_settlement_config, settlement, settlement_line, processed_settlement_event schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:merchant_settlement_config",
+      "type": "table",
+      "name": "merchant_settlement_config",
+      "filePath": "settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql",
+      "summary": "merchant_settlement_config table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:settlement",
+      "type": "table",
+      "name": "settlement",
+      "filePath": "settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql",
+      "summary": "settlement table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:settlement_line",
+      "type": "table",
+      "name": "settlement_line",
+      "filePath": "settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql",
+      "summary": "settlement_line table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:processed_settlement_event",
+      "type": "table",
+      "name": "processed_settlement_event",
+      "filePath": "settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql",
+      "summary": "processed_settlement_event table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V2__create_payout.sql:V2__create_payout",
+      "type": "table",
+      "name": "V2__create_payout.sql",
+      "filePath": "settlement-service/src/main/resources/db/migration/V2__create_payout.sql",
+      "summary": "settlement-service database에서 merchant_payout_account, payout schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V2__create_payout.sql:merchant_payout_account",
+      "type": "table",
+      "name": "merchant_payout_account",
+      "filePath": "settlement-service/src/main/resources/db/migration/V2__create_payout.sql",
+      "summary": "merchant_payout_account table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V2__create_payout.sql:payout",
+      "type": "table",
+      "name": "payout",
+      "filePath": "settlement-service/src/main/resources/db/migration/V2__create_payout.sql",
+      "summary": "payout table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V3__create_reserve.sql:V3__create_reserve",
+      "type": "table",
+      "name": "V3__create_reserve.sql",
+      "filePath": "settlement-service/src/main/resources/db/migration/V3__create_reserve.sql",
+      "summary": "settlement-service database에서 merchant_reserve_config, reserve schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V3__create_reserve.sql:merchant_reserve_config",
+      "type": "table",
+      "name": "merchant_reserve_config",
+      "filePath": "settlement-service/src/main/resources/db/migration/V3__create_reserve.sql",
+      "summary": "merchant_reserve_config table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:settlement-service/src/main/resources/db/migration/V3__create_reserve.sql:reserve",
+      "type": "table",
+      "name": "reserve",
+      "filePath": "settlement-service/src/main/resources/db/migration/V3__create_reserve.sql",
+      "summary": "reserve table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "settlement-service"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:V1__create_settlement_core",
+      "target": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:merchant_settlement_config",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:V1__create_settlement_core",
+      "target": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:settlement",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:V1__create_settlement_core",
+      "target": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:settlement_line",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:V1__create_settlement_core",
+      "target": "table:settlement-service/src/main/resources/db/migration/V1__create_settlement_core.sql:processed_settlement_event",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V2__create_payout.sql:V2__create_payout",
+      "target": "table:settlement-service/src/main/resources/db/migration/V2__create_payout.sql:merchant_payout_account",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V2__create_payout.sql:V2__create_payout",
+      "target": "table:settlement-service/src/main/resources/db/migration/V2__create_payout.sql:payout",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V3__create_reserve.sql:V3__create_reserve",
+      "target": "table:settlement-service/src/main/resources/db/migration/V3__create_reserve.sql:merchant_reserve_config",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:settlement-service/src/main/resources/db/migration/V3__create_reserve.sql:V3__create_reserve",
+      "target": "table:settlement-service/src/main/resources/db/migration/V3__create_reserve.sql:reserve",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

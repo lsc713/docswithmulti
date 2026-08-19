@@ -1,0 +1,361 @@
+{
+  "nodes": [
+    {
+      "id": "document:docs/conventions/architecture.md",
+      "type": "document",
+      "name": "architecture.md",
+      "filePath": "docs/conventions/architecture.md",
+      "summary": "아키텍처 규약 — 레이어 구조 & 예외 계층은(는) 프로젝트 구현의 기술 문서로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "프로젝트-구현",
+        "markdown",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/operations/cancel-outbox-redrive.md",
+      "type": "document",
+      "name": "cancel-outbox-redrive.md",
+      "filePath": "docs/operations/cancel-outbox-redrive.md",
+      "summary": "Cancel outbox redrive operator guide은(는) 취소 outbox redrive의 기술 문서로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "취소-outbox-redrive",
+        "markdown",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/reviews/2026-08-10-cancel-restore-review.md",
+      "type": "document",
+      "name": "2026-08-10-cancel-restore-review.md",
+      "filePath": "docs/reviews/2026-08-10-cancel-restore-review.md",
+      "summary": "결제 취소 및 재고 복원 흐름 리뷰은(는) 취소 재고 복원의 검토 기록로, 관련 범위와 결정 사항을 정리한다.",
+      "tags": [
+        "문서",
+        "검증",
+        "품질",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:frontend/playwright.config.js",
+      "type": "file",
+      "name": "playwright.config.js",
+      "filePath": "frontend/playwright.config.js",
+      "summary": "frontend 기능을 지원하는 javascript source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/App.css",
+      "type": "file",
+      "name": "App.css",
+      "filePath": "frontend/src/App.css",
+      "summary": "frontend UI의 문서 구조와 style을 정의하는 markup 자산이다.",
+      "tags": [
+        "markup",
+        "styling",
+        "frontend",
+        "css",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:frontend/src/admin/admin.css",
+      "type": "file",
+      "name": "admin.css",
+      "filePath": "frontend/src/admin/admin.css",
+      "summary": "frontend UI의 문서 구조와 style을 정의하는 markup 자산이다.",
+      "tags": [
+        "markup",
+        "styling",
+        "frontend",
+        "css",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:frontend/src/index.css",
+      "type": "file",
+      "name": "index.css",
+      "filePath": "frontend/src/index.css",
+      "summary": "frontend UI의 문서 구조와 style을 정의하는 markup 자산이다.",
+      "tags": [
+        "markup",
+        "styling",
+        "frontend",
+        "css",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:frontend/vite.config.js",
+      "type": "file",
+      "name": "vite.config.js",
+      "filePath": "frontend/vite.config.js",
+      "summary": "frontend 기능을 지원하는 javascript source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:gradle/wrapper/gradle-wrapper.jar",
+      "type": "file",
+      "name": "gradle-wrapper.jar",
+      "filePath": "gradle/wrapper/gradle-wrapper.jar",
+      "summary": "프로젝트 구현 기능을 지원하는 jar source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "jar",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:gradle/wrapper/gradle-wrapper.properties",
+      "type": "config",
+      "name": "gradle-wrapper.properties",
+      "filePath": "gradle/wrapper/gradle-wrapper.properties",
+      "summary": "프로젝트 구현 module의 Gradle plugin, dependency와 test/build 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "프로젝트-구현",
+        "properties",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:gradlew",
+      "type": "file",
+      "name": "gradlew",
+      "filePath": "gradlew",
+      "summary": "프로젝트 구현 기능을 지원하는 unknown source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "unknown",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "service:infra/k8s/deploy.sh",
+      "type": "service",
+      "name": "deploy.sh",
+      "filePath": "infra/k8s/deploy.sh",
+      "summary": "프로젝트 구현 환경을 준비하거나 배포하는 infrastructure 자동화 파일이다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "프로젝트-구현",
+        "shell",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "service:infra/k8s/kafka/strimzi-kafka.yaml",
+      "type": "service",
+      "name": "strimzi-kafka.yaml",
+      "filePath": "infra/k8s/kafka/strimzi-kafka.yaml",
+      "summary": "Kafka 메시징 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "kafka-메시징",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "service:infra/k8s/redis/redis.yaml",
+      "type": "service",
+      "name": "redis.yaml",
+      "filePath": "infra/k8s/redis/redis.yaml",
+      "summary": "프로젝트 구현 workload와 운영 resource를 배포하기 위한 infrastructure manifest다.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "프로젝트-구현",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/observability/grafana/provisioning/dashboards/provider.yml",
+      "type": "config",
+      "name": "provider.yml",
+      "filePath": "infra/load-test/observability/grafana/provisioning/dashboards/provider.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/observability/grafana/provisioning/datasources/prometheus.yml",
+      "type": "config",
+      "name": "prometheus.yml",
+      "filePath": "infra/load-test/observability/grafana/provisioning/datasources/prometheus.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/observability/grafana/provisioning/datasources/tempo.yml",
+      "type": "config",
+      "name": "tempo.yml",
+      "filePath": "infra/load-test/observability/grafana/provisioning/datasources/tempo.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:infra/load-test/observability/tempo/tempo.yml",
+      "type": "config",
+      "name": "tempo.yml",
+      "filePath": "infra/load-test/observability/tempo/tempo.yml",
+      "summary": "부하 테스트에 사용되는 yaml configuration 값과 도구 동작을 정의한다.",
+      "tags": [
+        "configuration",
+        "부하-테스트",
+        "yaml",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:infra/load-test/terraform.tfvars.example",
+      "type": "file",
+      "name": "terraform.tfvars.example",
+      "filePath": "infra/load-test/terraform.tfvars.example",
+      "summary": "부하 테스트 기능을 지원하는 example source 또는 실행 자산이다.",
+      "tags": [
+        "test",
+        "부하-테스트",
+        "example",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:logs/merchant.out",
+      "type": "file",
+      "name": "merchant.out",
+      "filePath": "logs/merchant.out",
+      "summary": "프로젝트 구현 기능을 지원하는 out source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "out",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:logs/order.out",
+      "type": "file",
+      "name": "order.out",
+      "filePath": "logs/order.out",
+      "summary": "주문 기능을 지원하는 out source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "주문",
+        "out",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:logs/payment.out",
+      "type": "file",
+      "name": "payment.out",
+      "filePath": "logs/payment.out",
+      "summary": "결제 기능을 지원하는 out source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "결제",
+        "out",
+        "project-artifact"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:logs/risk.out",
+      "type": "file",
+      "name": "risk.out",
+      "filePath": "logs/risk.out",
+      "summary": "프로젝트 구현 기능을 지원하는 out source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "프로젝트-구현",
+        "out",
+        "project-artifact"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:merchant-limit-service/build.gradle",
+      "type": "config",
+      "name": "build.gradle",
+      "filePath": "merchant-limit-service/build.gradle",
+      "summary": "가맹점 한도 module의 Gradle plugin, dependency와 test/build 설정을 정의한다.",
+      "tags": [
+        "configuration",
+        "가맹점-한도",
+        "gradle",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:merchant-limit-service/merchant.http",
+      "type": "file",
+      "name": "merchant.http",
+      "filePath": "merchant-limit-service/merchant.http",
+      "summary": "가맹점 한도 기능을 지원하는 http source 또는 실행 자산이다.",
+      "tags": [
+        "source-code",
+        "api-handler",
+        "http",
+        "project-artifact"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

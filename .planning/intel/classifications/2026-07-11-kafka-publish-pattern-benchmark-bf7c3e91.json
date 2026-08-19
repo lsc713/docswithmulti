@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-11-kafka-publish-pattern-benchmark.md",
+  "type": "SPEC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "Kafka 발행 패턴 실측 비교 Implementation Plan",
+  "summary": "Implementation plan to make payment.cancelled publishing runtime-togglable across INLINE/INLINE_ASYNC/OUTBOX modes and benchmark them on AWS.",
+  "scope": ["payment.cancelled publishing", "CancelEventPublisher port", "cancel_event_outbox", "INLINE/INLINE_ASYNC/OUTBOX modes", "TX3 saveTx3", "Kafka partition key cancelRequestId"],
+  "cross_refs": ["CLAUDE.md", "V10__create_cancel_event_outbox.sql"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Implementation plan (docs/superpowers/plans/) with no ADR/PRD path or frontmatter signals. Dominant content is technical implementation contracts — DDL schema, JPA entities, port/interface definitions, data models, global constraints — matching SPEC over DOC. No Decision/Consequences (not ADR), no user stories (not PRD). Task-by-task checkbox structure is plan-shaped; classified SPEC by highest-precedence content signal."
+}

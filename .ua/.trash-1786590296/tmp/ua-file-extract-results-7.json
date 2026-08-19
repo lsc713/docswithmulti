@@ -1,0 +1,2779 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 28,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 28,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 28,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductVariantRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "ProductVariantRepositoryImpl",
+          "startLine": 14,
+          "endLine": 20,
+          "params": [
+            "productAttributeJpa",
+            "skuValueJpa",
+            "descriptiveValueJpa"
+          ]
+        },
+        {
+          "name": "saveProductAttributes",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "productId",
+            "attributes"
+          ]
+        },
+        {
+          "name": "saveSkuVariantValues",
+          "startLine": 27,
+          "endLine": 32,
+          "params": [
+            "skuId",
+            "attributeValueIds"
+          ]
+        },
+        {
+          "name": "saveProductDescriptiveValues",
+          "startLine": 34,
+          "endLine": 39,
+          "params": [
+            "productId",
+            "attributeValueIds"
+          ]
+        },
+        {
+          "name": "findVariantRows",
+          "startLine": 41,
+          "endLine": 44,
+          "params": [
+            "productId"
+          ]
+        },
+        {
+          "name": "findDescriptiveRows",
+          "startLine": 46,
+          "endLine": 49,
+          "params": [
+            "productId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductVariantRepositoryImpl",
+          "startLine": 8,
+          "endLine": 50,
+          "methods": [
+            "ProductVariantRepositoryImpl",
+            "saveProductAttributes",
+            "saveSkuVariantValues",
+            "saveProductDescriptiveValues",
+            "findVariantRows",
+            "findDescriptiveRows"
+          ],
+          "properties": [
+            "productAttributeJpa",
+            "skuValueJpa",
+            "descriptiveValueJpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductVariantRepositoryImpl",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "saveProductAttributes",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "saveSkuVariantValues",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "saveProductDescriptiveValues",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "findVariantRows",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "findDescriptiveRows",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "ProductVariantRepositoryImpl",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "saveProductAttributes",
+          "callee": "productAttributeJpa.saveAll",
+          "lineNumber": 24
+        },
+        {
+          "caller": "saveProductAttributes",
+          "callee": "attributes.stream().map(ProductAttributeJpaEntity::from).toList",
+          "lineNumber": 24
+        },
+        {
+          "caller": "saveProductAttributes",
+          "callee": "attributes.stream().map",
+          "lineNumber": 24
+        },
+        {
+          "caller": "saveProductAttributes",
+          "callee": "attributes.stream",
+          "lineNumber": 24
+        },
+        {
+          "caller": "saveSkuVariantValues",
+          "callee": "skuValueJpa.saveAll",
+          "lineNumber": 29
+        },
+        {
+          "caller": "saveSkuVariantValues",
+          "callee": "attributeValueIds.stream()\n                .map(vid -> SkuAttributeValueJpaEntity.of(skuId, vid)).toList",
+          "lineNumber": 29
+        },
+        {
+          "caller": "saveSkuVariantValues",
+          "callee": "attributeValueIds.stream().map",
+          "lineNumber": 29
+        },
+        {
+          "caller": "saveSkuVariantValues",
+          "callee": "attributeValueIds.stream",
+          "lineNumber": 29
+        },
+        {
+          "caller": "saveSkuVariantValues",
+          "callee": "SkuAttributeValueJpaEntity.of",
+          "lineNumber": 30
+        },
+        {
+          "caller": "saveProductDescriptiveValues",
+          "callee": "descriptiveValueJpa.saveAll",
+          "lineNumber": 36
+        },
+        {
+          "caller": "saveProductDescriptiveValues",
+          "callee": "attributeValueIds.stream()\n                .map(vid -> ProductDescriptiveValueJpaEntity.of(productId, vid)).toList",
+          "lineNumber": 36
+        },
+        {
+          "caller": "saveProductDescriptiveValues",
+          "callee": "attributeValueIds.stream().map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "saveProductDescriptiveValues",
+          "callee": "attributeValueIds.stream",
+          "lineNumber": 36
+        },
+        {
+          "caller": "saveProductDescriptiveValues",
+          "callee": "ProductDescriptiveValueJpaEntity.of",
+          "lineNumber": 37
+        },
+        {
+          "caller": "findVariantRows",
+          "callee": "skuValueJpa.findVariantRows",
+          "lineNumber": 43
+        },
+        {
+          "caller": "findDescriptiveRows",
+          "callee": "descriptiveValueJpa.findDescriptiveRows",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/infrastructure/storage/S3ObjectStorageAdapter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 48,
+      "functions": [
+        {
+          "name": "S3ObjectStorageAdapter",
+          "startLine": 20,
+          "endLine": 25,
+          "params": [
+            "s3",
+            "presigner",
+            "s3Config"
+          ]
+        },
+        {
+          "name": "presignUpload",
+          "startLine": 27,
+          "endLine": 33,
+          "params": [
+            "key",
+            "contentType"
+          ]
+        },
+        {
+          "name": "presignDownload",
+          "startLine": 35,
+          "endLine": 41,
+          "params": [
+            "key"
+          ]
+        },
+        {
+          "name": "exists",
+          "startLine": 43,
+          "endLine": 51,
+          "params": [
+            "key"
+          ]
+        },
+        {
+          "name": "delete",
+          "startLine": 53,
+          "endLine": 56,
+          "params": [
+            "key"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "S3ObjectStorageAdapter",
+          "startLine": 12,
+          "endLine": 57,
+          "methods": [
+            "S3ObjectStorageAdapter",
+            "presignUpload",
+            "presignDownload",
+            "exists",
+            "delete"
+          ],
+          "properties": [
+            "s3",
+            "presigner",
+            "bucket",
+            "ttl"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "S3ObjectStorageAdapter",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "presignUpload",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "presignDownload",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "exists",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "delete",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "S3ObjectStorageAdapter",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "S3ObjectStorageAdapter",
+          "callee": "s3Config.getBucket",
+          "lineNumber": 23
+        },
+        {
+          "caller": "S3ObjectStorageAdapter",
+          "callee": "Duration.ofSeconds",
+          "lineNumber": 24
+        },
+        {
+          "caller": "S3ObjectStorageAdapter",
+          "callee": "s3Config.getPresignTtlSeconds",
+          "lineNumber": 24
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "presigner.presignPutObject",
+          "lineNumber": 29
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "b\n                .signatureDuration(ttl).putObjectRequest",
+          "lineNumber": 29
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "b.signatureDuration",
+          "lineNumber": 29
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "p.bucket(bucket).key(key).contentType",
+          "lineNumber": 31
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "p.bucket(bucket).key",
+          "lineNumber": 31
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "p.bucket",
+          "lineNumber": 31
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "new PresignedUpload",
+          "lineNumber": 32
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "presigned.url().toString",
+          "lineNumber": 32
+        },
+        {
+          "caller": "presignUpload",
+          "callee": "presigned.url",
+          "lineNumber": 32
+        },
+        {
+          "caller": "presignDownload",
+          "callee": "presigner.presignGetObject",
+          "lineNumber": 37
+        },
+        {
+          "caller": "presignDownload",
+          "callee": "b\n                .signatureDuration(ttl).getObjectRequest",
+          "lineNumber": 37
+        },
+        {
+          "caller": "presignDownload",
+          "callee": "b.signatureDuration",
+          "lineNumber": 37
+        },
+        {
+          "caller": "presignDownload",
+          "callee": "g.bucket(bucket).key",
+          "lineNumber": 39
+        },
+        {
+          "caller": "presignDownload",
+          "callee": "g.bucket",
+          "lineNumber": 39
+        },
+        {
+          "caller": "presignDownload",
+          "callee": "presigned.url().toString",
+          "lineNumber": 40
+        },
+        {
+          "caller": "presignDownload",
+          "callee": "presigned.url",
+          "lineNumber": 40
+        },
+        {
+          "caller": "exists",
+          "callee": "s3.headObject",
+          "lineNumber": 46
+        },
+        {
+          "caller": "exists",
+          "callee": "b.bucket(bucket).key",
+          "lineNumber": 46
+        },
+        {
+          "caller": "exists",
+          "callee": "b.bucket",
+          "lineNumber": 46
+        },
+        {
+          "caller": "delete",
+          "callee": "s3.deleteObject",
+          "lineNumber": 55
+        },
+        {
+          "caller": "delete",
+          "callee": "b.bucket(bucket).key",
+          "lineNumber": 55
+        },
+        {
+          "caller": "delete",
+          "callee": "b.bucket",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/GlobalExceptionHandler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "handleBusiness",
+          "startLine": 15,
+          "endLine": 23,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleValidation",
+          "startLine": 26,
+          "endLine": 38,
+          "params": [
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionHandler",
+          "startLine": 12,
+          "endLine": 39,
+          "methods": [
+            "handleBusiness",
+            "handleValidation"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleBusiness",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "handleValidation",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionHandler",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity\n                .status(e.getErrorCode().getHttpStatus()).body",
+          "lineNumber": 17
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 17
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getHttpStatus",
+          "lineNumber": 18
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 18
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "Map.of",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getFieldErrors().stream()\n                .findFirst()\n                .map(fe -> fe.getField() + \": \" + fe.getDefaultMessage()).orElse",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getFieldErrors().stream()\n                .findFirst().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getFieldErrors().stream().findFirst",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getFieldErrors().stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getFieldErrors",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "fe.getField",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "fe.getDefaultMessage",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ErrorCode.INVALID_REQUEST.getDefaultMessage",
+          "lineNumber": 31
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ResponseEntity\n                .status(ErrorCode.INVALID_REQUEST.getHttpStatus()).body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ErrorCode.INVALID_REQUEST.getHttpStatus",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "Map.of",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ErrorCode.INVALID_REQUEST.getCode",
+          "lineNumber": 35
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/AttributeController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "AttributeController",
+          "startLine": 23,
+          "endLine": 25,
+          "params": [
+            "attributeService"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 27,
+          "endLine": 30,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "addValue",
+          "startLine": 32,
+          "endLine": 36,
+          "params": [
+            "id",
+            "req"
+          ]
+        },
+        {
+          "name": "dictionary",
+          "startLine": 38,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "AttributeController",
+          "startLine": 17,
+          "endLine": 42,
+          "methods": [
+            "AttributeController",
+            "create",
+            "addValue",
+            "dictionary"
+          ],
+          "properties": [
+            "attributeService"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AttributeController",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "create",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "addValue",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "dictionary",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "AttributeController",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new AttributeIdResponse",
+          "lineNumber": 29
+        },
+        {
+          "caller": "create",
+          "callee": "attributeService.createAttribute",
+          "lineNumber": 29
+        },
+        {
+          "caller": "create",
+          "callee": "req.name",
+          "lineNumber": 29
+        },
+        {
+          "caller": "addValue",
+          "callee": "new AttributeIdResponse",
+          "lineNumber": 35
+        },
+        {
+          "caller": "addValue",
+          "callee": "attributeService.addValue",
+          "lineNumber": 35
+        },
+        {
+          "caller": "addValue",
+          "callee": "req.value",
+          "lineNumber": 35
+        },
+        {
+          "caller": "dictionary",
+          "callee": "AttributeDictionaryResponse.from",
+          "lineNumber": 40
+        },
+        {
+          "caller": "dictionary",
+          "callee": "attributeService.getDictionary",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/CategoryController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 27,
+      "functions": [
+        {
+          "name": "CategoryController",
+          "startLine": 21,
+          "endLine": 23,
+          "params": [
+            "categoryService"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 25,
+          "endLine": 28,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "tree",
+          "startLine": 30,
+          "endLine": 33,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CategoryController",
+          "startLine": 15,
+          "endLine": 34,
+          "methods": [
+            "CategoryController",
+            "create",
+            "tree"
+          ],
+          "properties": [
+            "categoryService"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CategoryController",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "create",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "tree",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "CategoryController",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "CategoryResponse.from",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "categoryService.create",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "req.parentId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "req.name",
+          "lineNumber": 27
+        },
+        {
+          "caller": "tree",
+          "callee": "categoryService.getTree().stream().map(CategoryResponse.Node::from).toList",
+          "lineNumber": 32
+        },
+        {
+          "caller": "tree",
+          "callee": "categoryService.getTree().stream().map",
+          "lineNumber": 32
+        },
+        {
+          "caller": "tree",
+          "callee": "categoryService.getTree().stream",
+          "lineNumber": 32
+        },
+        {
+          "caller": "tree",
+          "callee": "categoryService.getTree",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/ProductController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "ProductController",
+          "startLine": 24,
+          "endLine": 26,
+          "params": [
+            "catalogService"
+          ]
+        },
+        {
+          "name": "requireAdmin",
+          "startLine": 28,
+          "endLine": 32,
+          "params": [
+            "role"
+          ]
+        },
+        {
+          "name": "seed",
+          "startLine": 34,
+          "endLine": 47,
+          "params": [
+            "role",
+            "req"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductController",
+          "startLine": 18,
+          "endLine": 48,
+          "methods": [
+            "ProductController",
+            "requireAdmin",
+            "seed"
+          ],
+          "properties": [
+            "catalogService"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductController",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "seed",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "ProductController",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "requireAdmin",
+          "callee": "\"ADMIN\".equals",
+          "lineNumber": 29
+        },
+        {
+          "caller": "requireAdmin",
+          "callee": "new ForbiddenException",
+          "lineNumber": 30
+        },
+        {
+          "caller": "seed",
+          "callee": "requireAdmin",
+          "lineNumber": 37
+        },
+        {
+          "caller": "seed",
+          "callee": "req.attributesOrEmpty().stream()\n                .map(a -> new ProductAttributeSeed(a.attributeId(), a.isVariant())).toList",
+          "lineNumber": 38
+        },
+        {
+          "caller": "seed",
+          "callee": "req.attributesOrEmpty().stream().map",
+          "lineNumber": 38
+        },
+        {
+          "caller": "seed",
+          "callee": "req.attributesOrEmpty().stream",
+          "lineNumber": 38
+        },
+        {
+          "caller": "seed",
+          "callee": "req.attributesOrEmpty",
+          "lineNumber": 38
+        },
+        {
+          "caller": "seed",
+          "callee": "new ProductAttributeSeed",
+          "lineNumber": 39
+        },
+        {
+          "caller": "seed",
+          "callee": "a.attributeId",
+          "lineNumber": 39
+        },
+        {
+          "caller": "seed",
+          "callee": "a.isVariant",
+          "lineNumber": 39
+        },
+        {
+          "caller": "seed",
+          "callee": "req.skus().stream()\n                .map(s -> new SkuSeed(s.skuCode(), s.optionSummary(), s.initialStock(), s.price(),\n                        s.variantValueIds() == null ? List.of() : s.variantValueIds())).toList",
+          "lineNumber": 41
+        },
+        {
+          "caller": "seed",
+          "callee": "req.skus().stream().map",
+          "lineNumber": 41
+        },
+        {
+          "caller": "seed",
+          "callee": "req.skus().stream",
+          "lineNumber": 41
+        },
+        {
+          "caller": "seed",
+          "callee": "req.skus",
+          "lineNumber": 41
+        },
+        {
+          "caller": "seed",
+          "callee": "new SkuSeed",
+          "lineNumber": 42
+        },
+        {
+          "caller": "seed",
+          "callee": "s.skuCode",
+          "lineNumber": 42
+        },
+        {
+          "caller": "seed",
+          "callee": "s.optionSummary",
+          "lineNumber": 42
+        },
+        {
+          "caller": "seed",
+          "callee": "s.initialStock",
+          "lineNumber": 42
+        },
+        {
+          "caller": "seed",
+          "callee": "s.price",
+          "lineNumber": 42
+        },
+        {
+          "caller": "seed",
+          "callee": "s.variantValueIds",
+          "lineNumber": 43
+        },
+        {
+          "caller": "seed",
+          "callee": "List.of",
+          "lineNumber": 43
+        },
+        {
+          "caller": "seed",
+          "callee": "s.variantValueIds",
+          "lineNumber": 43
+        },
+        {
+          "caller": "seed",
+          "callee": "SeedResponse.from",
+          "lineNumber": 45
+        },
+        {
+          "caller": "seed",
+          "callee": "catalogService.seed",
+          "lineNumber": 45
+        },
+        {
+          "caller": "seed",
+          "callee": "req.name",
+          "lineNumber": 45
+        },
+        {
+          "caller": "seed",
+          "callee": "req.categoryId",
+          "lineNumber": 45
+        },
+        {
+          "caller": "seed",
+          "callee": "req.descriptiveValueIdsOrEmpty",
+          "lineNumber": 46
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/ProductImageController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "ProductImageController",
+          "startLine": 28,
+          "endLine": 30,
+          "params": [
+            "service"
+          ]
+        },
+        {
+          "name": "requireAdmin",
+          "startLine": 32,
+          "endLine": 36,
+          "params": [
+            "role"
+          ]
+        },
+        {
+          "name": "presign",
+          "startLine": 38,
+          "endLine": 45,
+          "params": [
+            "id",
+            "role",
+            "req"
+          ]
+        },
+        {
+          "name": "confirm",
+          "startLine": 47,
+          "endLine": 53,
+          "params": [
+            "id",
+            "role",
+            "req"
+          ]
+        },
+        {
+          "name": "delete",
+          "startLine": 55,
+          "endLine": 61,
+          "params": [
+            "id",
+            "imageId",
+            "role"
+          ]
+        },
+        {
+          "name": "reorder",
+          "startLine": 63,
+          "endLine": 69,
+          "params": [
+            "id",
+            "role",
+            "req"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductImageController",
+          "startLine": 22,
+          "endLine": 70,
+          "methods": [
+            "ProductImageController",
+            "requireAdmin",
+            "presign",
+            "confirm",
+            "delete",
+            "reorder"
+          ],
+          "properties": [
+            "service"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductImageController",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "presign",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "confirm",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "delete",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "reorder",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "ProductImageController",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "requireAdmin",
+          "callee": "\"ADMIN\".equals",
+          "lineNumber": 33
+        },
+        {
+          "caller": "requireAdmin",
+          "callee": "new ForbiddenException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "presign",
+          "callee": "requireAdmin",
+          "lineNumber": 42
+        },
+        {
+          "caller": "presign",
+          "callee": "service.presign",
+          "lineNumber": 43
+        },
+        {
+          "caller": "presign",
+          "callee": "req.contentType",
+          "lineNumber": 43
+        },
+        {
+          "caller": "presign",
+          "callee": "new PresignResponse",
+          "lineNumber": 44
+        },
+        {
+          "caller": "presign",
+          "callee": "p.key",
+          "lineNumber": 44
+        },
+        {
+          "caller": "presign",
+          "callee": "p.uploadUrl",
+          "lineNumber": 44
+        },
+        {
+          "caller": "confirm",
+          "callee": "requireAdmin",
+          "lineNumber": 51
+        },
+        {
+          "caller": "confirm",
+          "callee": "new ConfirmImageResponse",
+          "lineNumber": 52
+        },
+        {
+          "caller": "confirm",
+          "callee": "service.confirm",
+          "lineNumber": 52
+        },
+        {
+          "caller": "confirm",
+          "callee": "req.key",
+          "lineNumber": 52
+        },
+        {
+          "caller": "confirm",
+          "callee": "req.sortOrder",
+          "lineNumber": 52
+        },
+        {
+          "caller": "delete",
+          "callee": "requireAdmin",
+          "lineNumber": 59
+        },
+        {
+          "caller": "delete",
+          "callee": "service.delete",
+          "lineNumber": 60
+        },
+        {
+          "caller": "reorder",
+          "callee": "requireAdmin",
+          "lineNumber": 67
+        },
+        {
+          "caller": "reorder",
+          "callee": "service.reorder",
+          "lineNumber": 68
+        },
+        {
+          "caller": "reorder",
+          "callee": "req.imageIds",
+          "lineNumber": 68
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/ProductQueryController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "ProductQueryController",
+          "startLine": 19,
+          "endLine": 22,
+          "params": [
+            "queryService",
+            "objectStoragePort"
+          ]
+        },
+        {
+          "name": "detail",
+          "startLine": 24,
+          "endLine": 27,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "listByCategory",
+          "startLine": 29,
+          "endLine": 34,
+          "params": [
+            "id",
+            "page",
+            "size"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductQueryController",
+          "startLine": 13,
+          "endLine": 35,
+          "methods": [
+            "ProductQueryController",
+            "detail",
+            "listByCategory"
+          ],
+          "properties": [
+            "queryService",
+            "objectStoragePort"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductQueryController",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "detail",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "listByCategory",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ProductQueryController",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "detail",
+          "callee": "ProductDetailResponse.from",
+          "lineNumber": 26
+        },
+        {
+          "caller": "detail",
+          "callee": "queryService.detail",
+          "lineNumber": 26
+        },
+        {
+          "caller": "listByCategory",
+          "callee": "ProductListResponse.from",
+          "lineNumber": 33
+        },
+        {
+          "caller": "listByCategory",
+          "callee": "queryService.listCards",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "StockController",
+          "startLine": 21,
+          "endLine": 23,
+          "params": [
+            "stockService"
+          ]
+        },
+        {
+          "name": "reserve",
+          "startLine": 25,
+          "endLine": 32,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "release",
+          "startLine": 34,
+          "endLine": 41,
+          "params": [
+            "req"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "StockController",
+          "startLine": 15,
+          "endLine": 42,
+          "methods": [
+            "StockController",
+            "reserve",
+            "release"
+          ],
+          "properties": [
+            "stockService"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "StockController",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "reserve",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "release",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "StockController",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "reserve",
+          "callee": "req.items().stream()\n                .map(i -> new ReserveItem(i.skuId(), i.qty())).toList",
+          "lineNumber": 27
+        },
+        {
+          "caller": "reserve",
+          "callee": "req.items().stream().map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "reserve",
+          "callee": "req.items().stream",
+          "lineNumber": 27
+        },
+        {
+          "caller": "reserve",
+          "callee": "req.items",
+          "lineNumber": 27
+        },
+        {
+          "caller": "reserve",
+          "callee": "new ReserveItem",
+          "lineNumber": 28
+        },
+        {
+          "caller": "reserve",
+          "callee": "i.skuId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "reserve",
+          "callee": "i.qty",
+          "lineNumber": 28
+        },
+        {
+          "caller": "reserve",
+          "callee": "stockService.reserve",
+          "lineNumber": 30
+        },
+        {
+          "caller": "reserve",
+          "callee": "req.paymentKey",
+          "lineNumber": 30
+        },
+        {
+          "caller": "reserve",
+          "callee": "ReserveResponse.ok",
+          "lineNumber": 31
+        },
+        {
+          "caller": "release",
+          "callee": "req.items().stream()\n                .map(i -> new ReserveItem(i.skuId(), i.qty())).toList",
+          "lineNumber": 36
+        },
+        {
+          "caller": "release",
+          "callee": "req.items().stream().map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "release",
+          "callee": "req.items().stream",
+          "lineNumber": 36
+        },
+        {
+          "caller": "release",
+          "callee": "req.items",
+          "lineNumber": 36
+        },
+        {
+          "caller": "release",
+          "callee": "new ReserveItem",
+          "lineNumber": 37
+        },
+        {
+          "caller": "release",
+          "callee": "i.skuId",
+          "lineNumber": 37
+        },
+        {
+          "caller": "release",
+          "callee": "i.qty",
+          "lineNumber": 37
+        },
+        {
+          "caller": "release",
+          "callee": "stockService.release",
+          "lineNumber": 39
+        },
+        {
+          "caller": "release",
+          "callee": "req.paymentKey",
+          "lineNumber": 39
+        },
+        {
+          "caller": "release",
+          "callee": "ReleaseResponse.ok",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/AttributeDictionaryResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 14,
+          "endLine": 21,
+          "params": [
+            "dict"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AttributeDictionaryResponse",
+          "startLine": 8,
+          "endLine": 22,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "AttributeDictionaryResponse",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "dict.stream()\n                .map(a -> new Attr(a.id(), a.name(), a.values().stream()\n                        .map(v -> new Val(v.id(), v.value()))\n                        .toList())).toList",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "dict.stream().map",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "dict.stream",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "new Attr",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "a.id",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "a.name",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "a.values().stream()\n                        .map(v -> new Val(v.id(), v.value())).toList",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "a.values().stream().map",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "a.values().stream",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "a.values",
+          "lineNumber": 16
+        },
+        {
+          "caller": "from",
+          "callee": "new Val",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "v.id",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "v.value",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "new AttributeDictionaryResponse",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/AttributeIdResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "AttributeIdResponse",
+          "startLine": 4,
+          "endLine": 4,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AttributeIdResponse",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/CategoryResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 11,
+          "endLine": 13,
+          "params": [
+            "r"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CategoryResponse",
+          "startLine": 9,
+          "endLine": 22,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "CategoryResponse",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CategoryResponse",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "r.id",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "r.level",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "new Node",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "t.id",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "t.name",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "t.level",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "t.children().stream().map(Node::from).toList",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "t.children().stream().map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "t.children().stream",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "t.children",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "classes": [
+        {
+          "name": "ConfirmImageRequest",
+          "startLine": 3,
+          "endLine": 3,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ConfirmImageRequest",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ConfirmImageResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "classes": [
+        {
+          "name": "ConfirmImageResponse",
+          "startLine": 3,
+          "endLine": 3,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ConfirmImageResponse",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "CreateAttributeRequest",
+          "startLine": 6,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateAttributeRequest",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/CreateAttributeValueRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "CreateAttributeValueRequest",
+          "startLine": 6,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateAttributeValueRequest",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/CreateCategoryRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "CreateCategoryRequest",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateCategoryRequest",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/PresignRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "classes": [
+        {
+          "name": "PresignRequest",
+          "startLine": 3,
+          "endLine": 3,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PresignRequest",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/PresignResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 3,
+      "nonEmptyLines": 2,
+      "classes": [
+        {
+          "name": "PresignResponse",
+          "startLine": 3,
+          "endLine": 3,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PresignResponse",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ProductDetailResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 27,
+          "endLine": 44,
+          "params": [
+            "d",
+            "presign"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductDetailResponse",
+          "startLine": 13,
+          "endLine": 45,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "ProductDetailResponse",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "d.category().stream()\n                .map(c -> new Category(c.level(), c.id(), c.name())).toList",
+          "lineNumber": 28
+        },
+        {
+          "caller": "from",
+          "callee": "d.category().stream().map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "from",
+          "callee": "d.category().stream",
+          "lineNumber": 28
+        },
+        {
+          "caller": "from",
+          "callee": "d.category",
+          "lineNumber": 28
+        },
+        {
+          "caller": "from",
+          "callee": "new Category",
+          "lineNumber": 29
+        },
+        {
+          "caller": "from",
+          "callee": "c.level",
+          "lineNumber": 29
+        },
+        {
+          "caller": "from",
+          "callee": "c.id",
+          "lineNumber": 29
+        },
+        {
+          "caller": "from",
+          "callee": "c.name",
+          "lineNumber": 29
+        },
+        {
+          "caller": "from",
+          "callee": "d.images().stream()\n                .map(ref -> new Image(ref.id(), presign.apply(ref.s3Key()))).toList",
+          "lineNumber": 31
+        },
+        {
+          "caller": "from",
+          "callee": "d.images().stream().map",
+          "lineNumber": 31
+        },
+        {
+          "caller": "from",
+          "callee": "d.images().stream",
+          "lineNumber": 31
+        },
+        {
+          "caller": "from",
+          "callee": "d.images",
+          "lineNumber": 31
+        },
+        {
+          "caller": "from",
+          "callee": "new Image",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "ref.id",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "presign.apply",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "ref.s3Key",
+          "lineNumber": 32
+        },
+        {
+          "caller": "from",
+          "callee": "d.skus().stream()\n                .map(s -> new Sku(s.skuId(), s.skuCode(), s.optionSummary(), s.availableQty(), s.price(), s.variant())).toList",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "d.skus().stream().map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "d.skus().stream",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "d.skus",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "new Sku",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "s.skuId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "s.skuCode",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "s.optionSummary",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "s.availableQty",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "s.price",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "s.variant",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "d.variantOptions().stream()\n                .map(o -> new VariantOption(o.attribute(), o.values())).toList",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "d.variantOptions().stream().map",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "d.variantOptions().stream",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "d.variantOptions",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "new VariantOption",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "o.attribute",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "o.values",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "d.specs().stream()\n                .map(o -> new VariantOption(o.attribute(), o.values())).toList",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "d.specs().stream().map",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "d.specs().stream",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "d.specs",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "new VariantOption",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "o.attribute",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "o.values",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "new ProductDetailResponse",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "d.id",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "d.name",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ProductListResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 15,
+          "endLine": 22,
+          "params": [
+            "page",
+            "presign"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProductListResponse",
+          "startLine": 10,
+          "endLine": 23,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "ProductListResponse",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream()\n                .map(c -> new Item(c.id(), c.name(), c.minPrice(),\n                        c.thumbnailKey() == null ? null : presign.apply(c.thumbnailKey()))).toList",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream().map",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent().stream",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "page.getContent",
+          "lineNumber": 17
+        },
+        {
+          "caller": "from",
+          "callee": "new Item",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "c.id",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "c.name",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "c.minPrice",
+          "lineNumber": 18
+        },
+        {
+          "caller": "from",
+          "callee": "c.thumbnailKey",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "presign.apply",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "c.thumbnailKey",
+          "lineNumber": 19
+        },
+        {
+          "caller": "from",
+          "callee": "new ProductListResponse",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "page.getNumber",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "page.getSize",
+          "lineNumber": 21
+        },
+        {
+          "caller": "from",
+          "callee": "page.getTotalElements",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ReleaseRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "ReleaseRequest",
+          "startLine": 12,
+          "endLine": 20,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReleaseRequest",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ReleaseResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "ok",
+          "startLine": 4,
+          "endLine": 6,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ReleaseResponse",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "ok"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ok",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ReleaseResponse",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ok",
+          "callee": "new ReleaseResponse",
+          "lineNumber": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ReorderRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 3,
+      "classes": [
+        {
+          "name": "ReorderRequest",
+          "startLine": 5,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReorderRequest",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ReserveRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "ReserveRequest",
+          "startLine": 12,
+          "endLine": 20,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReserveRequest",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/ReserveResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "ok",
+          "startLine": 4,
+          "endLine": 6,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ReserveResponse",
+          "startLine": 3,
+          "endLine": 7,
+          "methods": [
+            "ok"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ok",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ReserveResponse",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ok",
+          "callee": "new ReserveResponse",
+          "lineNumber": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/SeedRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "attributesOrEmpty",
+          "startLine": 36,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "descriptiveValueIdsOrEmpty",
+          "startLine": 41,
+          "endLine": 43,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SeedRequest",
+          "startLine": 15,
+          "endLine": 44,
+          "methods": [
+            "attributesOrEmpty",
+            "descriptiveValueIdsOrEmpty"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "attributesOrEmpty",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "descriptiveValueIdsOrEmpty",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "SeedRequest",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "attributesOrEmpty",
+          "callee": "List.of",
+          "lineNumber": 37
+        },
+        {
+          "caller": "descriptiveValueIdsOrEmpty",
+          "callee": "List.of",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "product-service/src/main/java/com/example/product/presentation/dto/SeedResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 11,
+          "endLine": 16,
+          "params": [
+            "r"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SeedResponse",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "SeedResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "r.skus().stream()\n                .map(s -> new Sku(s.skuId(), s.skuCode())).toList",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "r.skus().stream().map",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "r.skus().stream",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "r.skus",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "new Sku",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "s.skuId",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "s.skuCode",
+          "lineNumber": 13
+        },
+        {
+          "caller": "from",
+          "callee": "new SeedResponse",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "r.productId",
+          "lineNumber": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-07-11-saturation-diagnosis-kit.md",
+  "type": "SPEC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "포화 진단 키트 (185 rps 벽 규명) Implementation Plan",
+  "summary": "Implementation plan for a USE-method saturation diagnosis observability kit to identify the bottleneck resource at the 185 rps saturation point during AWS load tests.",
+  "scope": ["saturation diagnosis kit", "Grafana dashboard", "Tomcat thread metrics", "payment→risk hop latency", "USE method observability", "load test"],
+  "cross_refs": ["docs/load-test/saturation-diagnosis.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Implementation plan (no 'plan' type in taxonomy). Resolved to SPEC over DOC because it defines technical implementation contracts: fixed env names (SERVER_TOMCAT_MBEANREGISTRY_ENABLED), Micrometer metric names, Consumes/Produces interfaces, and hard 'do not modify' constraints the system must honor. No ADR Decision/Consequences or PRD user stories present. Medium confidence: lacks classic SPEC hallmarks (endpoint/schema tables, OpenAPI)."
+}

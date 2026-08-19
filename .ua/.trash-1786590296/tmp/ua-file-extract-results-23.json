@@ -1,0 +1,1921 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 18,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 18,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 18,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "user-service/src/main/java/com/example/user/application/interfaces/PasswordEncoder.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "PasswordEncoder",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "encode",
+            "matches"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PasswordEncoder",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/interfaces/RefreshTokenRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "RefreshTokenRepository",
+          "startLine": 7,
+          "endLine": 12,
+          "methods": [
+            "findByToken",
+            "save",
+            "deleteByUserId",
+            "deleteByToken"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RefreshTokenRepository",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "UserRepository",
+          "startLine": 8,
+          "endLine": 14,
+          "methods": [
+            "findById",
+            "findByEmail",
+            "existsByEmail",
+            "save",
+            "findAll"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserRepository",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/service/AdminService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "changeRole",
+          "startLine": 17,
+          "endLine": 25,
+          "params": [
+            "userId",
+            "newRole"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AdminService",
+          "startLine": 12,
+          "endLine": 26,
+          "methods": [
+            "changeRole"
+          ],
+          "properties": [
+            "userRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "changeRole",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "AdminService",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "changeRole",
+          "callee": "userRepository.findById(userId).orElseThrow",
+          "lineNumber": 20
+        },
+        {
+          "caller": "changeRole",
+          "callee": "userRepository.findById",
+          "lineNumber": 20
+        },
+        {
+          "caller": "changeRole",
+          "callee": "new UserNotFoundException",
+          "lineNumber": 21
+        },
+        {
+          "caller": "changeRole",
+          "callee": "user.changeRole",
+          "lineNumber": 22
+        },
+        {
+          "caller": "changeRole",
+          "callee": "userRepository.save",
+          "lineNumber": 23
+        },
+        {
+          "caller": "changeRole",
+          "callee": "new RoleChangeResult",
+          "lineNumber": 24
+        },
+        {
+          "caller": "changeRole",
+          "callee": "saved.getId",
+          "lineNumber": 24
+        },
+        {
+          "caller": "changeRole",
+          "callee": "saved.getRole",
+          "lineNumber": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/service/AuthService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 103,
+      "nonEmptyLines": 94,
+      "functions": [
+        {
+          "name": "AuthService",
+          "startLine": 35,
+          "endLine": 46,
+          "params": [
+            "userRepository",
+            "refreshTokenRepository",
+            "passwordEncoder",
+            "jwtTokenProvider",
+            "bootstrapEmails"
+          ]
+        },
+        {
+          "name": "signup",
+          "startLine": 48,
+          "endLine": 61,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "login",
+          "startLine": 63,
+          "endLine": 74,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "refresh",
+          "startLine": 76,
+          "endLine": 87,
+          "params": [
+            "refreshToken"
+          ]
+        },
+        {
+          "name": "logout",
+          "startLine": 89,
+          "endLine": 93,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "createTokens",
+          "startLine": 95,
+          "endLine": 102,
+          "params": [
+            "user"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AuthService",
+          "startLine": 25,
+          "endLine": 103,
+          "methods": [
+            "AuthService",
+            "signup",
+            "login",
+            "refresh",
+            "logout",
+            "createTokens"
+          ],
+          "properties": [
+            "userRepository",
+            "refreshTokenRepository",
+            "passwordEncoder",
+            "jwtTokenProvider",
+            "bootstrapEmails"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthService",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "signup",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "login",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "refresh",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "logout",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "AuthService",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AuthService",
+          "callee": "bootstrapEmails.stream()\n                .map(String::trim)\n                .filter(s -> !s.isEmpty()).collect",
+          "lineNumber": 42
+        },
+        {
+          "caller": "AuthService",
+          "callee": "bootstrapEmails.stream()\n                .map(String::trim).filter",
+          "lineNumber": 42
+        },
+        {
+          "caller": "AuthService",
+          "callee": "bootstrapEmails.stream().map",
+          "lineNumber": 42
+        },
+        {
+          "caller": "AuthService",
+          "callee": "bootstrapEmails.stream",
+          "lineNumber": 42
+        },
+        {
+          "caller": "AuthService",
+          "callee": "s.isEmpty",
+          "lineNumber": 44
+        },
+        {
+          "caller": "AuthService",
+          "callee": "Collectors.toUnmodifiableSet",
+          "lineNumber": 45
+        },
+        {
+          "caller": "signup",
+          "callee": "userRepository.existsByEmail",
+          "lineNumber": 51
+        },
+        {
+          "caller": "signup",
+          "callee": "command.email",
+          "lineNumber": 51
+        },
+        {
+          "caller": "signup",
+          "callee": "new DuplicateEmailException",
+          "lineNumber": 52
+        },
+        {
+          "caller": "signup",
+          "callee": "command.email",
+          "lineNumber": 52
+        },
+        {
+          "caller": "signup",
+          "callee": "passwordEncoder.encode",
+          "lineNumber": 54
+        },
+        {
+          "caller": "signup",
+          "callee": "command.password",
+          "lineNumber": 54
+        },
+        {
+          "caller": "signup",
+          "callee": "bootstrapEmails.contains",
+          "lineNumber": 56
+        },
+        {
+          "caller": "signup",
+          "callee": "command.email",
+          "lineNumber": 56
+        },
+        {
+          "caller": "signup",
+          "callee": "User.of",
+          "lineNumber": 57
+        },
+        {
+          "caller": "signup",
+          "callee": "command.email",
+          "lineNumber": 57
+        },
+        {
+          "caller": "signup",
+          "callee": "command.name",
+          "lineNumber": 57
+        },
+        {
+          "caller": "signup",
+          "callee": "command.phone",
+          "lineNumber": 58
+        },
+        {
+          "caller": "signup",
+          "callee": "command.merchantId",
+          "lineNumber": 58
+        },
+        {
+          "caller": "signup",
+          "callee": "userRepository.save",
+          "lineNumber": 59
+        },
+        {
+          "caller": "signup",
+          "callee": "createTokens",
+          "lineNumber": 60
+        },
+        {
+          "caller": "login",
+          "callee": "userRepository.findByEmail(command.email()).orElseThrow",
+          "lineNumber": 66
+        },
+        {
+          "caller": "login",
+          "callee": "userRepository.findByEmail",
+          "lineNumber": 66
+        },
+        {
+          "caller": "login",
+          "callee": "command.email",
+          "lineNumber": 66
+        },
+        {
+          "caller": "login",
+          "callee": "passwordEncoder.matches",
+          "lineNumber": 68
+        },
+        {
+          "caller": "login",
+          "callee": "command.password",
+          "lineNumber": 68
+        },
+        {
+          "caller": "login",
+          "callee": "user.getPassword",
+          "lineNumber": 68
+        },
+        {
+          "caller": "login",
+          "callee": "new InvalidCredentialsException",
+          "lineNumber": 69
+        },
+        {
+          "caller": "login",
+          "callee": "user.validateActive",
+          "lineNumber": 71
+        },
+        {
+          "caller": "login",
+          "callee": "refreshTokenRepository.deleteByUserId",
+          "lineNumber": 72
+        },
+        {
+          "caller": "login",
+          "callee": "user.getId",
+          "lineNumber": 72
+        },
+        {
+          "caller": "login",
+          "callee": "createTokens",
+          "lineNumber": 73
+        },
+        {
+          "caller": "refresh",
+          "callee": "refreshTokenRepository.findByToken(refreshToken).orElseThrow",
+          "lineNumber": 79
+        },
+        {
+          "caller": "refresh",
+          "callee": "refreshTokenRepository.findByToken",
+          "lineNumber": 79
+        },
+        {
+          "caller": "refresh",
+          "callee": "rt.isExpired",
+          "lineNumber": 81
+        },
+        {
+          "caller": "refresh",
+          "callee": "new InvalidTokenException",
+          "lineNumber": 82
+        },
+        {
+          "caller": "refresh",
+          "callee": "userRepository.findById(rt.getUserId()).orElseThrow",
+          "lineNumber": 84
+        },
+        {
+          "caller": "refresh",
+          "callee": "userRepository.findById",
+          "lineNumber": 84
+        },
+        {
+          "caller": "refresh",
+          "callee": "rt.getUserId",
+          "lineNumber": 84
+        },
+        {
+          "caller": "refresh",
+          "callee": "new UserNotFoundException",
+          "lineNumber": 85
+        },
+        {
+          "caller": "refresh",
+          "callee": "rt.getUserId",
+          "lineNumber": 85
+        },
+        {
+          "caller": "refresh",
+          "callee": "jwtTokenProvider.createAccessToken",
+          "lineNumber": 86
+        },
+        {
+          "caller": "refresh",
+          "callee": "user.getId",
+          "lineNumber": 86
+        },
+        {
+          "caller": "refresh",
+          "callee": "user.getRole",
+          "lineNumber": 86
+        },
+        {
+          "caller": "refresh",
+          "callee": "user.getMerchantId",
+          "lineNumber": 86
+        },
+        {
+          "caller": "logout",
+          "callee": "refreshTokenRepository.deleteByUserId",
+          "lineNumber": 92
+        },
+        {
+          "caller": "createTokens",
+          "callee": "jwtTokenProvider.createAccessToken",
+          "lineNumber": 96
+        },
+        {
+          "caller": "createTokens",
+          "callee": "user.getId",
+          "lineNumber": 96
+        },
+        {
+          "caller": "createTokens",
+          "callee": "user.getRole",
+          "lineNumber": 96
+        },
+        {
+          "caller": "createTokens",
+          "callee": "user.getMerchantId",
+          "lineNumber": 96
+        },
+        {
+          "caller": "createTokens",
+          "callee": "jwtTokenProvider.createRefreshToken",
+          "lineNumber": 97
+        },
+        {
+          "caller": "createTokens",
+          "callee": "Instant.now().plusMillis",
+          "lineNumber": 98
+        },
+        {
+          "caller": "createTokens",
+          "callee": "Instant.now",
+          "lineNumber": 98
+        },
+        {
+          "caller": "createTokens",
+          "callee": "jwtTokenProvider.getRefreshTokenExpiry",
+          "lineNumber": 98
+        },
+        {
+          "caller": "createTokens",
+          "callee": "RefreshToken.of",
+          "lineNumber": 99
+        },
+        {
+          "caller": "createTokens",
+          "callee": "user.getId",
+          "lineNumber": 99
+        },
+        {
+          "caller": "createTokens",
+          "callee": "refreshTokenRepository.save",
+          "lineNumber": 100
+        },
+        {
+          "caller": "createTokens",
+          "callee": "new TokenResult",
+          "lineNumber": 101
+        }
+      ],
+      "metrics": {
+        "importCount": 13,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/service/UserQueryService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "getProfile",
+          "startLine": 21,
+          "endLine": 27,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "listUsers",
+          "startLine": 29,
+          "endLine": 45,
+          "params": [
+            "page",
+            "size"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserQueryService",
+          "startLine": 16,
+          "endLine": 46,
+          "methods": [
+            "getProfile",
+            "listUsers"
+          ],
+          "properties": [
+            "userRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "getProfile",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "listUsers",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "UserQueryService",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "getProfile",
+          "callee": "userRepository.findById(userId).orElseThrow",
+          "lineNumber": 24
+        },
+        {
+          "caller": "getProfile",
+          "callee": "userRepository.findById",
+          "lineNumber": 24
+        },
+        {
+          "caller": "getProfile",
+          "callee": "new UserNotFoundException",
+          "lineNumber": 25
+        },
+        {
+          "caller": "getProfile",
+          "callee": "new MeResponse",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getProfile",
+          "callee": "user.getId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getProfile",
+          "callee": "user.getEmail",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getProfile",
+          "callee": "user.getName",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getProfile",
+          "callee": "user.getRole().name",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getProfile",
+          "callee": "user.getRole",
+          "lineNumber": 26
+        },
+        {
+          "caller": "listUsers",
+          "callee": "userRepository.findAll().stream()\n                .sorted(Comparator.comparing(User::getId)).toList",
+          "lineNumber": 34
+        },
+        {
+          "caller": "listUsers",
+          "callee": "userRepository.findAll().stream().sorted",
+          "lineNumber": 34
+        },
+        {
+          "caller": "listUsers",
+          "callee": "userRepository.findAll().stream",
+          "lineNumber": 34
+        },
+        {
+          "caller": "listUsers",
+          "callee": "userRepository.findAll",
+          "lineNumber": 34
+        },
+        {
+          "caller": "listUsers",
+          "callee": "Comparator.comparing",
+          "lineNumber": 35
+        },
+        {
+          "caller": "listUsers",
+          "callee": "Math.min",
+          "lineNumber": 37
+        },
+        {
+          "caller": "listUsers",
+          "callee": "Math.max",
+          "lineNumber": 37
+        },
+        {
+          "caller": "listUsers",
+          "callee": "Math.max",
+          "lineNumber": 37
+        },
+        {
+          "caller": "listUsers",
+          "callee": "all.size",
+          "lineNumber": 37
+        },
+        {
+          "caller": "listUsers",
+          "callee": "Math.min",
+          "lineNumber": 38
+        },
+        {
+          "caller": "listUsers",
+          "callee": "Math.max",
+          "lineNumber": 38
+        },
+        {
+          "caller": "listUsers",
+          "callee": "all.size",
+          "lineNumber": 38
+        },
+        {
+          "caller": "listUsers",
+          "callee": "all.subList(from, to).stream()\n                .map(u -> new UserListResponse.UserSummary(\n                        u.getId(), u.getEmail(), u.getName(),\n                        u.getRole().name(), u.getStatus().name(), u.getCreatedAt().toString())).toList",
+          "lineNumber": 39
+        },
+        {
+          "caller": "listUsers",
+          "callee": "all.subList(from, to).stream().map",
+          "lineNumber": 39
+        },
+        {
+          "caller": "listUsers",
+          "callee": "all.subList(from, to).stream",
+          "lineNumber": 39
+        },
+        {
+          "caller": "listUsers",
+          "callee": "all.subList",
+          "lineNumber": 39
+        },
+        {
+          "caller": "listUsers",
+          "callee": "new UserListResponse.UserSummary",
+          "lineNumber": 40
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getEmail",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getName",
+          "lineNumber": 41
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getRole().name",
+          "lineNumber": 42
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getRole",
+          "lineNumber": 42
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getStatus().name",
+          "lineNumber": 42
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getStatus",
+          "lineNumber": 42
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getCreatedAt().toString",
+          "lineNumber": 42
+        },
+        {
+          "caller": "listUsers",
+          "callee": "u.getCreatedAt",
+          "lineNumber": 42
+        },
+        {
+          "caller": "listUsers",
+          "callee": "new UserListResponse",
+          "lineNumber": 44
+        },
+        {
+          "caller": "listUsers",
+          "callee": "all.size",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/usecase/AdminUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "AdminUseCase",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "changeRole"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/usecase/AuthUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 12,
+      "classes": [
+        {
+          "name": "AuthUseCase",
+          "startLine": 5,
+          "endLine": 15,
+          "methods": [
+            "signup",
+            "login",
+            "refresh",
+            "logout"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "UserQueryUseCase",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [
+            "getProfile",
+            "listUsers"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserQueryUseCase",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/BusinessException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "BusinessException",
+          "startLine": 9,
+          "endLine": 12,
+          "params": [
+            "errorCode"
+          ]
+        },
+        {
+          "name": "BusinessException",
+          "startLine": 14,
+          "endLine": 17,
+          "params": [
+            "errorCode",
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BusinessException",
+          "startLine": 5,
+          "endLine": 18,
+          "methods": [
+            "BusinessException",
+            "BusinessException"
+          ],
+          "properties": [
+            "errorCode"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BusinessException",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BusinessException",
+          "callee": "errorCode.getDefaultMessage",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/ErrorCode.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "ErrorCode",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "code",
+            "httpStatus",
+            "defaultMessage"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ErrorCode",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/application/DuplicateEmailException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "DuplicateEmailException",
+          "startLine": 7,
+          "endLine": 9,
+          "params": [
+            "email"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DuplicateEmailException",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [
+            "DuplicateEmailException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DuplicateEmailException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "DuplicateEmailException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/application/InvalidTokenException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "InvalidTokenException",
+          "startLine": 7,
+          "endLine": 9,
+          "params": []
+        },
+        {
+          "name": "InvalidTokenException",
+          "startLine": 11,
+          "endLine": 13,
+          "params": [
+            "errorCode"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidTokenException",
+          "startLine": 6,
+          "endLine": 14,
+          "methods": [
+            "InvalidTokenException",
+            "InvalidTokenException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidTokenException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidTokenException",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidTokenException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/application/UserNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "UserNotFoundException",
+          "startLine": 7,
+          "endLine": 9,
+          "params": [
+            "userId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserNotFoundException",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [
+            "UserNotFoundException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "UserNotFoundException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "UserNotFoundException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/domain/InvalidCredentialsException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "InvalidCredentialsException",
+          "startLine": 7,
+          "endLine": 9,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InvalidCredentialsException",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [
+            "InvalidCredentialsException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InvalidCredentialsException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "InvalidCredentialsException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/common/exception/domain/SuspendedAccountException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "SuspendedAccountException",
+          "startLine": 7,
+          "endLine": 9,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SuspendedAccountException",
+          "startLine": 6,
+          "endLine": 10,
+          "methods": [
+            "SuspendedAccountException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SuspendedAccountException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "SuspendedAccountException",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "RefreshToken",
+          "startLine": 14,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "of",
+          "startLine": 16,
+          "endLine": 23,
+          "params": [
+            "userId",
+            "token",
+            "expiresAt"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 25,
+          "endLine": 33,
+          "params": [
+            "id",
+            "userId",
+            "token",
+            "expiresAt",
+            "createdAt"
+          ]
+        },
+        {
+          "name": "isExpired",
+          "startLine": 35,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 40,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "getUserId",
+          "startLine": 41,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "getToken",
+          "startLine": 42,
+          "endLine": 42,
+          "params": []
+        },
+        {
+          "name": "getExpiresAt",
+          "startLine": 43,
+          "endLine": 43,
+          "params": []
+        },
+        {
+          "name": "getCreatedAt",
+          "startLine": 44,
+          "endLine": 44,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 46,
+          "endLine": 51,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 53,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "RefreshToken",
+          "startLine": 6,
+          "endLine": 57,
+          "methods": [
+            "RefreshToken",
+            "of",
+            "reconstruct",
+            "isExpired",
+            "getId",
+            "getUserId",
+            "getToken",
+            "getExpiresAt",
+            "getCreatedAt",
+            "equals",
+            "hashCode"
+          ],
+          "properties": [
+            "id",
+            "userId",
+            "token",
+            "expiresAt",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "isExpired",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "getUserId",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "getToken",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "getExpiresAt",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "getCreatedAt",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "RefreshToken",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new RefreshToken",
+          "lineNumber": 17
+        },
+        {
+          "caller": "of",
+          "callee": "Instant.now",
+          "lineNumber": 21
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new RefreshToken",
+          "lineNumber": 26
+        },
+        {
+          "caller": "isExpired",
+          "callee": "Instant.now().isAfter",
+          "lineNumber": 36
+        },
+        {
+          "caller": "isExpired",
+          "callee": "Instant.now",
+          "lineNumber": 36
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 50
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 50
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 55
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 11,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 114,
+      "nonEmptyLines": 97,
+      "functions": [
+        {
+          "name": "User",
+          "startLine": 21,
+          "endLine": 21,
+          "params": []
+        },
+        {
+          "name": "of",
+          "startLine": 23,
+          "endLine": 35,
+          "params": [
+            "email",
+            "password",
+            "name",
+            "phone",
+            "role",
+            "merchantId"
+          ]
+        },
+        {
+          "name": "reconstruct",
+          "startLine": 37,
+          "endLine": 52,
+          "params": [
+            "id",
+            "email",
+            "password",
+            "name",
+            "phone",
+            "role",
+            "merchantId",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        },
+        {
+          "name": "validateActive",
+          "startLine": 54,
+          "endLine": 58,
+          "params": []
+        },
+        {
+          "name": "suspend",
+          "startLine": 60,
+          "endLine": 63,
+          "params": []
+        },
+        {
+          "name": "activate",
+          "startLine": 65,
+          "endLine": 68,
+          "params": []
+        },
+        {
+          "name": "withdraw",
+          "startLine": 70,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "updateProfile",
+          "startLine": 75,
+          "endLine": 79,
+          "params": [
+            "name",
+            "phone"
+          ]
+        },
+        {
+          "name": "changePassword",
+          "startLine": 81,
+          "endLine": 84,
+          "params": [
+            "newHashedPassword"
+          ]
+        },
+        {
+          "name": "changeRole",
+          "startLine": 86,
+          "endLine": 89,
+          "params": [
+            "newRole"
+          ]
+        },
+        {
+          "name": "getId",
+          "startLine": 92,
+          "endLine": 92,
+          "params": []
+        },
+        {
+          "name": "getEmail",
+          "startLine": 93,
+          "endLine": 93,
+          "params": []
+        },
+        {
+          "name": "getPassword",
+          "startLine": 94,
+          "endLine": 94,
+          "params": []
+        },
+        {
+          "name": "getName",
+          "startLine": 95,
+          "endLine": 95,
+          "params": []
+        },
+        {
+          "name": "getPhone",
+          "startLine": 96,
+          "endLine": 96,
+          "params": []
+        },
+        {
+          "name": "getRole",
+          "startLine": 97,
+          "endLine": 97,
+          "params": []
+        },
+        {
+          "name": "getMerchantId",
+          "startLine": 98,
+          "endLine": 98,
+          "params": []
+        },
+        {
+          "name": "getStatus",
+          "startLine": 99,
+          "endLine": 99,
+          "params": []
+        },
+        {
+          "name": "getCreatedAt",
+          "startLine": 100,
+          "endLine": 100,
+          "params": []
+        },
+        {
+          "name": "getUpdatedAt",
+          "startLine": 101,
+          "endLine": 101,
+          "params": []
+        },
+        {
+          "name": "equals",
+          "startLine": 103,
+          "endLine": 108,
+          "params": [
+            "o"
+          ]
+        },
+        {
+          "name": "hashCode",
+          "startLine": 110,
+          "endLine": 113,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "User",
+          "startLine": 8,
+          "endLine": 114,
+          "methods": [
+            "User",
+            "of",
+            "reconstruct",
+            "validateActive",
+            "suspend",
+            "activate",
+            "withdraw",
+            "updateProfile",
+            "changePassword",
+            "changeRole",
+            "getId",
+            "getEmail",
+            "getPassword",
+            "getName",
+            "getPhone",
+            "getRole",
+            "getMerchantId",
+            "getStatus",
+            "getCreatedAt",
+            "getUpdatedAt",
+            "equals",
+            "hashCode"
+          ],
+          "properties": [
+            "id",
+            "email",
+            "password",
+            "name",
+            "phone",
+            "role",
+            "merchantId",
+            "status",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "of",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "reconstruct",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "validateActive",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "suspend",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "activate",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "withdraw",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "updateProfile",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "changePassword",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "changeRole",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "getEmail",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "getPassword",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "getName",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "getPhone",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "getRole",
+          "line": 97,
+          "isDefault": false
+        },
+        {
+          "name": "getMerchantId",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "getStatus",
+          "line": 99,
+          "isDefault": false
+        },
+        {
+          "name": "getCreatedAt",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "getUpdatedAt",
+          "line": 101,
+          "isDefault": false
+        },
+        {
+          "name": "equals",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "hashCode",
+          "line": 110,
+          "isDefault": false
+        },
+        {
+          "name": "User",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "of",
+          "callee": "new User",
+          "lineNumber": 24
+        },
+        {
+          "caller": "of",
+          "callee": "Instant.now",
+          "lineNumber": 32
+        },
+        {
+          "caller": "of",
+          "callee": "Instant.now",
+          "lineNumber": 33
+        },
+        {
+          "caller": "reconstruct",
+          "callee": "new User",
+          "lineNumber": 40
+        },
+        {
+          "caller": "validateActive",
+          "callee": "new SuspendedAccountException",
+          "lineNumber": 56
+        },
+        {
+          "caller": "suspend",
+          "callee": "Instant.now",
+          "lineNumber": 62
+        },
+        {
+          "caller": "activate",
+          "callee": "Instant.now",
+          "lineNumber": 67
+        },
+        {
+          "caller": "withdraw",
+          "callee": "Instant.now",
+          "lineNumber": 72
+        },
+        {
+          "caller": "updateProfile",
+          "callee": "Instant.now",
+          "lineNumber": 78
+        },
+        {
+          "caller": "changePassword",
+          "callee": "Instant.now",
+          "lineNumber": 83
+        },
+        {
+          "caller": "changeRole",
+          "callee": "Instant.now",
+          "lineNumber": 88
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 107
+        },
+        {
+          "caller": "equals",
+          "callee": "Objects.equals",
+          "lineNumber": 107
+        },
+        {
+          "caller": "hashCode",
+          "callee": "Objects.hash",
+          "lineNumber": 112
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 22,
+        "functionCount": 22,
+        "classCount": 1
+      }
+    }
+  ]
+}

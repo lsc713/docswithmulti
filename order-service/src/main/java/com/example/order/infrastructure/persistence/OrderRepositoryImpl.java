@@ -3,6 +3,8 @@ package com.example.order.infrastructure.persistence;
 import com.example.order.application.interfaces.OrderRepository;
 import com.example.order.domain.entity.Order;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,6 +25,13 @@ public class OrderRepositoryImpl implements OrderRepository {
     @Override
     public Optional<Order> findByIdForUpdate(long id) {
         return jpa.findByIdForUpdate(id).map(OrderJpaEntity::toDomain);
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return jpa.findAll(Sort.by(Sort.Direction.DESC, "id")).stream()
+            .map(OrderJpaEntity::toDomain)
+            .toList();
     }
 
     @Override

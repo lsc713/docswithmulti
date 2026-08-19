@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>상품 상세 캐시 전략 – stale-while-revalidate·single-flight</title>
+    <style>
+      body { font-family: system-ui, -apple-system, sans-serif; max-width: 1100px; margin: 2rem auto; padding: 0 1rem; color: #1a1a1a; }
+      h1 { margin-bottom: 0.25rem; } .meta { color: #666; font-size: 0.85rem; margin-bottom: 1.5rem; }
+      nav { font-size: 0.9rem; margin-bottom: 2rem; } nav a { color: #2563eb; text-decoration: none; }
+      h2 { margin-top: 2.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.4rem; }
+      .legend { font-size: 0.9rem; color: #555; margin-bottom: 1rem; }
+      .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+      code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
+      .note { background: #f0fdf4; border-left: 3px solid #16a34a; padding: 0.6rem 1rem; font-size: 0.9rem; margin: 1rem 0; }
+      .warn { background: #fff7ed; border-left: 3px solid #ea580c; padding: 0.6rem 1rem; font-size: 0.9rem; margin: 1rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>상품 상세 캐시 전략</h1>
+    <p class="meta">product-detail-cache v1.0 · product-service :8084 · Redis read-through · refresh-ahead · cache-aside</p>
+    <nav>▸ <a href="./index.html">← 아키텍처 개요</a> · <a href="./product-catalog.html">상품 카탈로그</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
+
+    <p class="legend">상품 상세 조회는 캐시를 우선 사용하되, 가격과 재고의 최종 정합성은 DB 쓰기 경계가 책임진다. 인기 상품은 refresh-ahead, 나머지는 cache-aside로 운영한다.</p>
+
+    <h2>1. 조회 경로와 상태 판정</h2>
+    <div class="mermaid">
+flowchart TD
+  C["GET /v1/products/{id}"] --> S["product-service"] --> R{"Redis envelope 상태"}
+  R -->|FRESH| H["즉시 반환"]
+  R -->|STALE| O["기존 값 즉시 반환"] --> A["비동기 refresh"]
+  R -->|MISS / EXPIRED| L{"상품 키별 single-flight 락"}
+  L -->|락 획득| DB[("MySQL 상세 조립")] --> W["Redis 저장<br/>soft TTL + hard TTL + jitter"] --> H
+  L -->|락 대기/실패| F["DB fallback"] --> H
+  A --> L
+  classDef cache fill:#dbeafe,stroke:#2563eb,color:#1e3a5f;
+  classDef stale fill:#fef3c7,stroke:#d97706,color:#78350f;
+  classDef db fill:#fee2e2,stroke:#dc2626,color:#7f1d1d;
+  class R,H,W cache; class O,A stale; class DB,F db;
+    </div>
+    <div class="note"><b>상태 구분:</b> <code>fresh</code>는 TTL 안의 정상 응답, <code>stale</code>은 soft TTL 이후 hard TTL 전의 응답, <code>miss/expired</code>는 캐시가 없거나 hard TTL이 지난 상태다.</div>
+
+    <h2>2. 인기 상품과 일반 상품의 운영 정책</h2>
+    <div class="mermaid">
+flowchart LR
+  P["상품 인기 점수 / 접근 빈도"] --> Q{"상위 80%인가?"}
+  Q -->|예| RA["refresh-ahead<br/>만료 전 백그라운드 갱신"]
+  Q -->|아니오| CA["cache-aside<br/>요청 시 miss 채움"]
+  RA --> K["상품 상세 Redis 키"]
+  CA --> K
+  K --> V["soft TTL / hard TTL<br/>TTL jitter"]
+    </div>
+    <p class="legend">인기 판정은 운영 지표로 조정한다. 캐시 용량과 refresh 비용이 커지면 상위 비율을 낮추고, miss율이 높으면 대상군을 확대한다.</p>
+
+    <h2>3. 캐시 스탬피드 방지</h2>
+    <div class="mermaid">
+sequenceDiagram
+  participant U as 동시 요청
+  participant R as Redis
+  participant L as Single-flight
+  participant D as MySQL
+  U->>R: MISS / EXPIRED
+  R-->>U: 키별 락 획득 시도
+  L->>D: 선두 요청 1건만 상세 조회
+  D-->>L: 결과
+  L->>R: 값 저장 + TTL jitter
+  L-->>U: 결과 반환
+  U->>R: 후속 요청은 캐시 재조회
+    </div>
+    <div class="warn"><b>실패 시:</b> 락 획득 실패나 Redis 장애는 DB fallback으로 응답한다. 단, 예약·재고 차감의 성공 여부를 캐시 값으로 판단하지 않는다.</div>
+
+    <h2>4. 가격·재고 정합성</h2>
+    <div class="mermaid">
+flowchart TD
+  CH["상품·가격·표시 재고 변경"] --> I["상품 상세 캐시 키 무효화"]
+  I --> N["다음 조회에서 DB 재구성"]
+  RES["예약 / 재고 차감"] --> TX["MySQL 원자 UPDATE + 트랜잭션"]
+  TX --> E["변경 이벤트 또는 명시적 invalidate"] --> I
+  TX -.->|권위 데이터| DB[("MySQL")]
+  classDef authority fill:#fee2e2,stroke:#dc2626,color:#7f1d1d;
+  classDef cache fill:#dbeafe,stroke:#2563eb,color:#1e3a5f;
+  class DB,TX authority; class I,N,E cache;
+    </div>
+    <p class="legend"><code>fresh/stale</code>는 응답 신선도 상태이지 재고 예약 가능 여부가 아니다. 재고 차감은 항상 DB 조건부 UPDATE 결과를 기준으로 처리한다.</p>
+
+    <h2>5. 적용 범위와 관측 항목</h2>
+    <ul>
+      <li>키: <code>product:detail:{productId}</code>; 값: 상세 응답 envelope.</li>
+      <li>측정: cache hit/miss/stale 비율, refresh 성공률, single-flight 대기시간, DB fallback 비율, 상세 API p95.</li>
+      <li>무효화: 상품·가격·재고 변경 경로에서 같은 상품 키를 제거한다.</li>
+    </ul>
+
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true, theme: 'default', securityLevel: 'loose' });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1277 @@
+{
+  "nodes": [
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java",
+      "type": "file",
+      "name": "MerchantSettlementConfigRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java",
+      "summary": "settlement-service의 Merchant Settlement Config Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java:MerchantSettlementConfigRepository",
+      "type": "class",
+      "name": "MerchantSettlementConfigRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java",
+      "lineRange": [
+        10,
+        15
+      ],
+      "summary": "MerchantSettlementConfigRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "type": "file",
+      "name": "OperationAlertPort.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "summary": "settlement-service의 Operation Alert Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "settlement-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "class",
+      "name": "OperationAlertPort",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "OperationAlertPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java",
+      "type": "file",
+      "name": "PaymentSettlementPort.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java",
+      "summary": "settlement-service의 Payment Settlement Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "settlement-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java:PaymentSettlementPort",
+      "type": "class",
+      "name": "PaymentSettlementPort",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java",
+      "lineRange": [
+        13,
+        34
+      ],
+      "summary": "PaymentSettlementPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "type": "file",
+      "name": "ProcessedSettlementEventRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "summary": "settlement-service의 Processed Settlement Event Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java:ProcessedSettlementEventRepository",
+      "type": "class",
+      "name": "ProcessedSettlementEventRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "lineRange": [
+        3,
+        9
+      ],
+      "summary": "ProcessedSettlementEventRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "type": "file",
+      "name": "ReserveRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "summary": "settlement-service의 Reserve Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java:ReserveRepository",
+      "type": "class",
+      "name": "ReserveRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "lineRange": [
+        13,
+        22
+      ],
+      "summary": "ReserveRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "type": "file",
+      "name": "SettlementLineRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "summary": "settlement-service의 Settlement Line Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java:SettlementLineRepository",
+      "type": "class",
+      "name": "SettlementLineRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "lineRange": [
+        10,
+        20
+      ],
+      "summary": "SettlementLineRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "type": "file",
+      "name": "SettlementRepository.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "summary": "settlement-service의 Settlement Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java:SettlementRepository",
+      "type": "class",
+      "name": "SettlementRepository",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "lineRange": [
+        10,
+        40
+      ],
+      "summary": "SettlementRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "settlement-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "type": "file",
+      "name": "CancelLedgerService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "summary": "settlement-service의 Cancel Ledger Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:CancelLedgerService",
+      "type": "class",
+      "name": "CancelLedgerService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "lineRange": [
+        22,
+        80
+      ],
+      "summary": "CancelLedgerService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:CancelLedgerService",
+      "type": "function",
+      "name": "CancelLedgerService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "lineRange": [
+        31,
+        41
+      ],
+      "summary": "CancelLedgerService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:record",
+      "type": "function",
+      "name": "record",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "lineRange": [
+        43,
+        73
+      ],
+      "summary": "record 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "type": "file",
+      "name": "ReserveQueryService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "summary": "settlement-service의 Reserve Query Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java:ReserveQueryService",
+      "type": "class",
+      "name": "ReserveQueryService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "lineRange": [
+        13,
+        24
+      ],
+      "summary": "ReserveQueryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java:getReserve",
+      "type": "function",
+      "name": "getReserve",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "lineRange": [
+        19,
+        23
+      ],
+      "summary": "getReserve 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "type": "file",
+      "name": "SaleLedgerService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "summary": "settlement-service의 Sale Ledger Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:SaleLedgerService",
+      "type": "class",
+      "name": "SaleLedgerService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "lineRange": [
+        20,
+        78
+      ],
+      "summary": "SaleLedgerService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:SaleLedgerService",
+      "type": "function",
+      "name": "SaleLedgerService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "lineRange": [
+        29,
+        39
+      ],
+      "summary": "SaleLedgerService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:record",
+      "type": "function",
+      "name": "record",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "lineRange": [
+        41,
+        71
+      ],
+      "summary": "record 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "type": "file",
+      "name": "SettlementConfigService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "summary": "settlement-service의 Settlement Config Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:SettlementConfigService",
+      "type": "class",
+      "name": "SettlementConfigService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "lineRange": [
+        15,
+        41
+      ],
+      "summary": "SettlementConfigService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:getRate",
+      "type": "function",
+      "name": "getRate",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "lineRange": [
+        23,
+        26
+      ],
+      "summary": "getRate 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:setRate",
+      "type": "function",
+      "name": "setRate",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "lineRange": [
+        28,
+        40
+      ],
+      "summary": "setRate 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "type": "file",
+      "name": "SettlementQueryService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "summary": "settlement-service의 Settlement Query Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:SettlementQueryService",
+      "type": "class",
+      "name": "SettlementQueryService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "lineRange": [
+        15,
+        48
+      ],
+      "summary": "SettlementQueryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:SettlementQueryService",
+      "type": "function",
+      "name": "SettlementQueryService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "lineRange": [
+        23,
+        26
+      ],
+      "summary": "SettlementQueryService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:list",
+      "type": "function",
+      "name": "list",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "lineRange": [
+        29,
+        38
+      ],
+      "summary": "list 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:detail",
+      "type": "function",
+      "name": "detail",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "lineRange": [
+        40,
+        45
+      ],
+      "summary": "detail 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "type": "file",
+      "name": "SettlementReconcileService.java",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "summary": "settlement-service의 Settlement Reconcile Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:SettlementReconcileService",
+      "type": "class",
+      "name": "SettlementReconcileService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "lineRange": [
+        33,
+        137
+      ],
+      "summary": "SettlementReconcileService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:SettlementReconcileService",
+      "type": "function",
+      "name": "SettlementReconcileService",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "lineRange": [
+        48,
+        62
+      ],
+      "summary": "SettlementReconcileService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:runOnce",
+      "type": "function",
+      "name": "runOnce",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "lineRange": [
+        65,
+        76
+      ],
+      "summary": "runOnce 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:reconcileAndFinalize",
+      "type": "function",
+      "name": "reconcileAndFinalize",
+      "filePath": "settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "lineRange": [
+        78,
+        127
+      ],
+      "summary": "reconcileAndFinalize 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "settlement-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java:MerchantSettlementConfigRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java:MerchantSettlementConfigRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java:PaymentSettlementPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java:PaymentSettlementPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java:ProcessedSettlementEventRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java:ProcessedSettlementEventRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java:ReserveRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java:ReserveRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Reserve.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java:SettlementLineRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java:SettlementLineRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/SettlementLine.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java:SettlementRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java:SettlementRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Settlement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:CancelLedgerService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:CancelLedgerService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:CancelLedgerService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:CancelLedgerService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:record",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java:record",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/usecase/RecordCancellationUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/service/SettlementWeek.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java:ReserveQueryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java:ReserveQueryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java:getReserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java:getReserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/ReserveNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ReserveRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/ReserveQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Reserve.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:SaleLedgerService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:SaleLedgerService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:SaleLedgerService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:SaleLedgerService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:record",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java:record",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/ProcessedSettlementEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/usecase/RecordSaleUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/service/SettlementWeek.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:SettlementConfigService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:SettlementConfigService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:getRate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:getRate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:setRate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java:setRate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementConfigService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/MerchantSettlementConfigRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:SettlementQueryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:SettlementQueryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:SettlementQueryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:SettlementQueryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:list",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:list",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:detail",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java:detail",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/InvalidStatusException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/exception/SettlementNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Settlement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementQueryService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/SettlementLine.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:SettlementReconcileService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "class:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:SettlementReconcileService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:SettlementReconcileService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:SettlementReconcileService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:runOnce",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:runOnce",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:reconcileAndFinalize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "function:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java:reconcileAndFinalize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/PaymentSettlementPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementLineRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/interfaces/SettlementRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/usecase/RecordCancellationUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/application/usecase/RecordSaleUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/entity/Settlement.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "target": "file:settlement-service/src/main/java/com/example/settlement/domain/service/SettlementFeeCalculator.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

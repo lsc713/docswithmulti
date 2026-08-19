@@ -1,0 +1,321 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 3,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/config/FilterConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 23,
+      "functions": [
+        {
+          "name": "corsRegistration",
+          "startLine": 13,
+          "endLine": 18,
+          "params": [
+            "corsFilter"
+          ]
+        },
+        {
+          "name": "csrfRegistration",
+          "startLine": 19,
+          "endLine": 24,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "FilterConfig",
+          "startLine": 11,
+          "endLine": 25,
+          "methods": [
+            "corsRegistration",
+            "csrfRegistration"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "FilterConfig",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "corsRegistration",
+          "callee": "new FilterRegistrationBean<>",
+          "lineNumber": 15
+        },
+        {
+          "caller": "corsRegistration",
+          "callee": "reg.setOrder",
+          "lineNumber": 16
+        },
+        {
+          "caller": "csrfRegistration",
+          "callee": "new FilterRegistrationBean<>",
+          "lineNumber": 21
+        },
+        {
+          "caller": "csrfRegistration",
+          "callee": "new CsrfFilter",
+          "lineNumber": 21
+        },
+        {
+          "caller": "csrfRegistration",
+          "callee": "reg.setOrder",
+          "lineNumber": 22
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/config/GatewayPaths.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "GatewayPaths",
+          "startLine": 11,
+          "endLine": 11,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "GatewayPaths",
+          "startLine": 10,
+          "endLine": 16,
+          "methods": [
+            "GatewayPaths"
+          ],
+          "properties": [
+            "PUBLIC_AUTH"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PUBLIC_AUTH",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "GatewayPaths",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "api-gateway/src/main/java/com/example/gateway/filter/CsrfFilter.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "doFilterInternal",
+          "startLine": 22,
+          "endLine": 36,
+          "params": [
+            "req",
+            "res",
+            "chain"
+          ]
+        },
+        {
+          "name": "requiresCheck",
+          "startLine": 42,
+          "endLine": 49,
+          "params": [
+            "req"
+          ]
+        },
+        {
+          "name": "cookie",
+          "startLine": 51,
+          "endLine": 55,
+          "params": [
+            "req",
+            "name"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CsrfFilter",
+          "startLine": 16,
+          "endLine": 56,
+          "methods": [
+            "doFilterInternal",
+            "requiresCheck",
+            "cookie"
+          ],
+          "properties": [
+            "SAFE",
+            "PUBLIC"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CsrfFilter",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "doFilterInternal",
+          "callee": "requiresCheck",
+          "lineNumber": 25
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "cookie",
+          "lineNumber": 26
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "req.getHeader",
+          "lineNumber": 27
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "cookie.equals",
+          "lineNumber": 28
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "res.setStatus",
+          "lineNumber": 29
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "HttpStatus.FORBIDDEN.value",
+          "lineNumber": 29
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "res.setContentType",
+          "lineNumber": 30
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "res.getWriter().write",
+          "lineNumber": 31
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "res.getWriter",
+          "lineNumber": 31
+        },
+        {
+          "caller": "doFilterInternal",
+          "callee": "chain.doFilter",
+          "lineNumber": 35
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "SAFE.contains",
+          "lineNumber": 43
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "req.getMethod",
+          "lineNumber": 43
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "PUBLIC.contains",
+          "lineNumber": 43
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "req.getRequestURI",
+          "lineNumber": 43
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "req.getHeader",
+          "lineNumber": 45
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "req.getHeader(\"Authorization\").startsWith",
+          "lineNumber": 46
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "req.getHeader",
+          "lineNumber": 46
+        },
+        {
+          "caller": "requiresCheck",
+          "callee": "cookie",
+          "lineNumber": 47
+        },
+        {
+          "caller": "cookie",
+          "callee": "req.getCookies",
+          "lineNumber": 52
+        },
+        {
+          "caller": "cookie",
+          "callee": "req.getCookies",
+          "lineNumber": 53
+        },
+        {
+          "caller": "cookie",
+          "callee": "name.equals",
+          "lineNumber": 53
+        },
+        {
+          "caller": "cookie",
+          "callee": "c.getName",
+          "lineNumber": 53
+        },
+        {
+          "caller": "cookie",
+          "callee": "c.getValue",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    }
+  ]
+}

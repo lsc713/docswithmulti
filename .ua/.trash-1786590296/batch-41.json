@@ -1,0 +1,653 @@
+{
+  "nodes": [
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql:V10__replace_outbox_with_failed_kafka_event",
+      "type": "table",
+      "name": "V10__replace_outbox_with_failed_kafka_event.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql",
+      "summary": "payment-service database에서 failed_kafka_event schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql:failed_kafka_event",
+      "type": "table",
+      "name": "failed_kafka_event",
+      "filePath": "payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql",
+      "summary": "failed_kafka_event table은 id, cancel_request_id, topic, payload, status, retry_count 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V11__drop_failed_kafka_event.sql:V11__drop_failed_kafka_event",
+      "type": "table",
+      "name": "V11__drop_failed_kafka_event.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V11__drop_failed_kafka_event.sql",
+      "summary": "payment-service database에서 drop failed kafka event schema를 제거하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql:V12__create_cancel_event_outbox",
+      "type": "table",
+      "name": "V12__create_cancel_event_outbox.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql",
+      "summary": "payment-service database에서 cancel_event_outbox schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql:cancel_event_outbox",
+      "type": "table",
+      "name": "cancel_event_outbox",
+      "filePath": "payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql",
+      "summary": "cancel_event_outbox table은 id, cancel_request_id, payload, status, created_at, published_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V13__add_pg_transaction_key_to_cancel_request.sql:V13__add_pg_transaction_key_to_cancel_request",
+      "type": "table",
+      "name": "V13__add_pg_transaction_key_to_cancel_request.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V13__add_pg_transaction_key_to_cancel_request.sql",
+      "summary": "payment-service database에서 add pg transaction key to cancel request schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V14__add_outbox_retry_columns.sql:V14__add_outbox_retry_columns",
+      "type": "table",
+      "name": "V14__add_outbox_retry_columns.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V14__add_outbox_retry_columns.sql",
+      "summary": "payment-service database에서 add outbox retry columns schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V15__add_cancel_idempotency_key.sql:V15__add_cancel_idempotency_key",
+      "type": "table",
+      "name": "V15__add_cancel_idempotency_key.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V15__add_cancel_idempotency_key.sql",
+      "summary": "payment-service database에서 add cancel idempotency key schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V16__add_sku_and_quantity_to_payment_item.sql:V16__add_sku_and_quantity_to_payment_item",
+      "type": "table",
+      "name": "V16__add_sku_and_quantity_to_payment_item.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V16__add_sku_and_quantity_to_payment_item.sql",
+      "summary": "payment-service database에서 add sku and quantity to payment item schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql:V17__create_stock_release_retry",
+      "type": "table",
+      "name": "V17__create_stock_release_retry.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql",
+      "summary": "payment-service database에서 stock_release_retry schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql:stock_release_retry",
+      "type": "table",
+      "name": "stock_release_retry",
+      "filePath": "payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql",
+      "summary": "stock_release_retry table은 id, payment_key, items_json, attempt_count, next_retry_at, status 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V18__add_order_id_to_payment.sql:V18__add_order_id_to_payment",
+      "type": "table",
+      "name": "V18__add_order_id_to_payment.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V18__add_order_id_to_payment.sql",
+      "summary": "payment-service database에서 add order id to payment schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql:V19__create_payment_event_outbox",
+      "type": "table",
+      "name": "V19__create_payment_event_outbox.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql",
+      "summary": "payment-service database에서 payment_event_outbox schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql:payment_event_outbox",
+      "type": "table",
+      "name": "payment_event_outbox",
+      "filePath": "payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql",
+      "summary": "payment_event_outbox table은 id, payment_key, payload, status, retry_count, last_error 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:V1__create_payment_core",
+      "type": "table",
+      "name": "V1__create_payment_core.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V1__create_payment_core.sql",
+      "summary": "payment-service database에서 payment, payment_item, payment_history schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:payment",
+      "type": "table",
+      "name": "payment",
+      "filePath": "payment-service/src/main/resources/db/migration/V1__create_payment_core.sql",
+      "summary": "payment table은 id, payment_key, merchant_id, user_id, pg_type, total_amount 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:payment_item",
+      "type": "table",
+      "name": "payment_item",
+      "filePath": "payment-service/src/main/resources/db/migration/V1__create_payment_core.sql",
+      "summary": "payment_item table은 id, payment_id, order_item_id, product_id, product_auto_id, item_name 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:payment_history",
+      "type": "table",
+      "name": "payment_history",
+      "filePath": "payment-service/src/main/resources/db/migration/V1__create_payment_core.sql",
+      "summary": "payment_history table은 id, payment_id, from_status, to_status, cause, caused_by_id 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql:V20__create_cancel_approval",
+      "type": "table",
+      "name": "V20__create_cancel_approval.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql",
+      "summary": "payment-service database에서 cancel_approval schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql:cancel_approval",
+      "type": "table",
+      "name": "cancel_approval",
+      "filePath": "payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql",
+      "summary": "cancel_approval table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql:V21__create_cancel_outbox_redrive",
+      "type": "table",
+      "name": "V21__create_cancel_outbox_redrive.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql",
+      "summary": "payment-service database에서 cancel_outbox_redrive schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql:cancel_outbox_redrive",
+      "type": "table",
+      "name": "cancel_outbox_redrive",
+      "filePath": "payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql",
+      "summary": "cancel_outbox_redrive table은 업무 데이터와 상태을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V22__add_cancel_outbox_redrive_polling_indexes.sql:V22__add_cancel_outbox_redrive_polling_indexes",
+      "type": "table",
+      "name": "V22__add_cancel_outbox_redrive_polling_indexes.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V22__add_cancel_outbox_redrive_polling_indexes.sql",
+      "summary": "payment-service database에서 add cancel outbox redrive polling indexes schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V2__create_cancel.sql:V2__create_cancel",
+      "type": "table",
+      "name": "V2__create_cancel.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V2__create_cancel.sql",
+      "summary": "payment-service database에서 cancel_request, cancel_request_item schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Flyway versioned migration으로 여러 relational table과 index를 함께 정의합니다."
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V2__create_cancel.sql:cancel_request",
+      "type": "table",
+      "name": "cancel_request",
+      "filePath": "payment-service/src/main/resources/db/migration/V2__create_cancel.sql",
+      "summary": "cancel_request table은 id, payment_id, idempotency_key, cancel_amount, cancel_reason, canceller_type 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V2__create_cancel.sql:cancel_request_item",
+      "type": "table",
+      "name": "cancel_request_item",
+      "filePath": "payment-service/src/main/resources/db/migration/V2__create_cancel.sql",
+      "summary": "cancel_request_item table은 id, cancel_request_id, payment_item_id, cancel_amount, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V3__create_outbox.sql:V3__create_outbox",
+      "type": "table",
+      "name": "V3__create_outbox.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V3__create_outbox.sql",
+      "summary": "payment-service database에서 cancel_event_outbox schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V3__create_outbox.sql:cancel_event_outbox",
+      "type": "table",
+      "name": "cancel_event_outbox",
+      "filePath": "payment-service/src/main/resources/db/migration/V3__create_outbox.sql",
+      "summary": "cancel_event_outbox table은 id, cancel_request_id, payload, status, created_at, published_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V4__create_idempotency.sql:V4__create_idempotency",
+      "type": "table",
+      "name": "V4__create_idempotency.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V4__create_idempotency.sql",
+      "summary": "payment-service database에서 idempotency_key schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V4__create_idempotency.sql:idempotency_key",
+      "type": "table",
+      "name": "idempotency_key",
+      "filePath": "payment-service/src/main/resources/db/migration/V4__create_idempotency.sql",
+      "summary": "idempotency_key table은 id, idem_key, request_path, response_status, response_body, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V5__create_compensation.sql:V5__create_compensation",
+      "type": "table",
+      "name": "V5__create_compensation.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V5__create_compensation.sql",
+      "summary": "payment-service database에서 compensation_retry schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V5__create_compensation.sql:compensation_retry",
+      "type": "table",
+      "name": "compensation_retry",
+      "filePath": "payment-service/src/main/resources/db/migration/V5__create_compensation.sql",
+      "summary": "compensation_retry table은 id, cancel_request_id, merchant_id, restore_amount, attempt_count, next_retry_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V6__create_shedlock.sql:V6__create_shedlock",
+      "type": "table",
+      "name": "V6__create_shedlock.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V6__create_shedlock.sql",
+      "summary": "payment-service database에서 shedlock schema를 생성하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V6__create_shedlock.sql:shedlock",
+      "type": "table",
+      "name": "shedlock",
+      "filePath": "payment-service/src/main/resources/db/migration/V6__create_shedlock.sql",
+      "summary": "shedlock table은 name, lock_until, locked_at, locked_by 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V7__add_cancel_period_days_to_payment.sql:V7__add_cancel_period_days_to_payment",
+      "type": "table",
+      "name": "V7__add_cancel_period_days_to_payment.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V7__add_cancel_period_days_to_payment.sql",
+      "summary": "payment-service database에서 add cancel period days to payment schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql:V8__align_cancel_schema",
+      "type": "table",
+      "name": "V8__align_cancel_schema.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql",
+      "summary": "payment-service database에서 cancel_request_history schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql:cancel_request_history",
+      "type": "table",
+      "name": "cancel_request_history",
+      "filePath": "payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql",
+      "summary": "cancel_request_history table은 id, cancel_request_id, status, reason, created_at 등을 저장합니다.",
+      "tags": [
+        "database",
+        "table",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:payment-service/src/main/resources/db/migration/V9__add_cancel_item_ids_and_pg_retry_count.sql:V9__add_cancel_item_ids_and_pg_retry_count",
+      "type": "table",
+      "name": "V9__add_cancel_item_ids_and_pg_retry_count.sql",
+      "filePath": "payment-service/src/main/resources/db/migration/V9__add_cancel_item_ids_and_pg_retry_count.sql",
+      "summary": "payment-service database에서 add cancel item ids and pg retry count schema를 변경하는 Flyway migration입니다.",
+      "tags": [
+        "database",
+        "migration",
+        "schema-definition",
+        "payment-service"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql:V10__replace_outbox_with_failed_kafka_event",
+      "target": "table:payment-service/src/main/resources/db/migration/V10__replace_outbox_with_failed_kafka_event.sql:failed_kafka_event",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql:V12__create_cancel_event_outbox",
+      "target": "table:payment-service/src/main/resources/db/migration/V12__create_cancel_event_outbox.sql:cancel_event_outbox",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql:V17__create_stock_release_retry",
+      "target": "table:payment-service/src/main/resources/db/migration/V17__create_stock_release_retry.sql:stock_release_retry",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql:V19__create_payment_event_outbox",
+      "target": "table:payment-service/src/main/resources/db/migration/V19__create_payment_event_outbox.sql:payment_event_outbox",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:V1__create_payment_core",
+      "target": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:payment",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:V1__create_payment_core",
+      "target": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:payment_item",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:V1__create_payment_core",
+      "target": "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:payment_history",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql:V20__create_cancel_approval",
+      "target": "table:payment-service/src/main/resources/db/migration/V20__create_cancel_approval.sql:cancel_approval",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql:V21__create_cancel_outbox_redrive",
+      "target": "table:payment-service/src/main/resources/db/migration/V21__create_cancel_outbox_redrive.sql:cancel_outbox_redrive",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V2__create_cancel.sql:V2__create_cancel",
+      "target": "table:payment-service/src/main/resources/db/migration/V2__create_cancel.sql:cancel_request",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V2__create_cancel.sql:V2__create_cancel",
+      "target": "table:payment-service/src/main/resources/db/migration/V2__create_cancel.sql:cancel_request_item",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V3__create_outbox.sql:V3__create_outbox",
+      "target": "table:payment-service/src/main/resources/db/migration/V3__create_outbox.sql:cancel_event_outbox",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V4__create_idempotency.sql:V4__create_idempotency",
+      "target": "table:payment-service/src/main/resources/db/migration/V4__create_idempotency.sql:idempotency_key",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V5__create_compensation.sql:V5__create_compensation",
+      "target": "table:payment-service/src/main/resources/db/migration/V5__create_compensation.sql:compensation_retry",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V6__create_shedlock.sql:V6__create_shedlock",
+      "target": "table:payment-service/src/main/resources/db/migration/V6__create_shedlock.sql:shedlock",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "table:payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql:V8__align_cancel_schema",
+      "target": "table:payment-service/src/main/resources/db/migration/V8__align_cancel_schema.sql:cancel_request_history",
+      "type": "defines_schema",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

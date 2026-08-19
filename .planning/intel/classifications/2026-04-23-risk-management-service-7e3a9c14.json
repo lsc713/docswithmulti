@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-04-23-risk-management-service.md",
+  "type": "SPEC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "risk-management-service Implementation Plan",
+  "summary": "Implementation plan defining risk-management-service structure, three internal cancel-limit APIs, Kafka consumer, Redis distributed lock, and CircuitBreaker.",
+  "scope": ["risk-management-service", "validate-and-reserve API", "compensate API", "check-charge API", "merchant.limit.updated Kafka consumer", "Redis distributed lock", "Resilience4j CircuitBreaker", "MerchantCancelUsage data model"],
+  "cross_refs": [],
+  "locked": false,
+  "precedence": null,
+  "notes": "Framed as a task-by-task implementation plan (path /plans/, checkbox steps, code snippets) but dominant content is technical implementation contracts — API DTOs, TX boundaries, schema, concurrency control — so classified SPEC over DOC. Not an ADR (no decision/consequences) and not a PRD (no user stories/acceptance criteria)."
+}

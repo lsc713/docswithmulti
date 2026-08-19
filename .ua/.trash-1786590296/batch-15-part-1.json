@@ -1,0 +1,685 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "type": "file",
+      "name": "CancelPaymentResponse.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "summary": "payment-service의 Cancel Payment Response API 또는 application 계층 데이터를 전달하는 DTO다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java:CancelPaymentResponse",
+      "type": "class",
+      "name": "CancelPaymentResponse",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "lineRange": [
+        16,
+        34
+      ],
+      "summary": "CancelPaymentResponse 구조로 계층 간 데이터를 명확하게 전달한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "type": "file",
+      "name": "CancelHistoryEntry.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "summary": "payment-service의 Cancel History Entry 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java:CancelHistoryEntry",
+      "type": "class",
+      "name": "CancelHistoryEntry",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "lineRange": [
+        7,
+        9
+      ],
+      "summary": "CancelHistoryEntry가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "type": "file",
+      "name": "CancelOutboxSourcePort.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "summary": "payment-service의 Cancel Outbox Source Port event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java:CancelOutboxSourcePort",
+      "type": "class",
+      "name": "CancelOutboxSourcePort",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "lineRange": [
+        8,
+        20
+      ],
+      "summary": "CancelOutboxSourcePort가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "messaging",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "type": "file",
+      "name": "CancelRequestHistoryRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "summary": "payment-service의 Cancel Request History Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java:CancelRequestHistoryRepository",
+      "type": "class",
+      "name": "CancelRequestHistoryRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "lineRange": [
+        6,
+        12
+      ],
+      "summary": "CancelRequestHistoryRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "type": "file",
+      "name": "CancelHistoryRecorder.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "summary": "payment-service의 Cancel History Recorder application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:CancelHistoryRecorder",
+      "type": "class",
+      "name": "CancelHistoryRecorder",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "lineRange": [
+        18,
+        43
+      ],
+      "summary": "CancelHistoryRecorder가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:add",
+      "type": "function",
+      "name": "add",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "lineRange": [
+        27,
+        29
+      ],
+      "summary": "add 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:flush",
+      "type": "function",
+      "name": "flush",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "lineRange": [
+        31,
+        42
+      ],
+      "summary": "flush 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "type": "file",
+      "name": "PaymentSettlementQueryService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "summary": "payment-service의 Payment Settlement Query Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java:PaymentSettlementQueryService",
+      "type": "class",
+      "name": "PaymentSettlementQueryService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "lineRange": [
+        27,
+        95
+      ],
+      "summary": "PaymentSettlementQueryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java:query",
+      "type": "function",
+      "name": "query",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "lineRange": [
+        33,
+        59
+      ],
+      "summary": "query 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "type": "file",
+      "name": "PendingRecoveryService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "summary": "payment-service의 Pending Recovery Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:PendingRecoveryService",
+      "type": "class",
+      "name": "PendingRecoveryService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "lineRange": [
+        22,
+        80
+      ],
+      "summary": "PendingRecoveryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:recoverAll",
+      "type": "function",
+      "name": "recoverAll",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "lineRange": [
+        35,
+        40
+      ],
+      "summary": "recoverAll 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:recoverOne",
+      "type": "function",
+      "name": "recoverOne",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "lineRange": [
+        42,
+        60
+      ],
+      "summary": "recoverOne 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:tryCompensate",
+      "type": "function",
+      "name": "tryCompensate",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "lineRange": [
+        62,
+        71
+      ],
+      "summary": "tryCompensate 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "type": "file",
+      "name": "PaymentSettlementQuery.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "summary": "payment-service에서 Payment Settlement Query 유스케이스의 입력·출력 계약과 실행 경계를 정의한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java:PaymentSettlementQuery",
+      "type": "class",
+      "name": "PaymentSettlementQuery",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "lineRange": [
+        18,
+        33
+      ],
+      "summary": "PaymentSettlementQuery가 담당하는 use-case 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "use-case",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java:CancelPaymentResponse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java:CancelPaymentResponse",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/dto/CancelPaymentResponse.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java:CancelHistoryEntry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java:CancelHistoryEntry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java:CancelOutboxSourcePort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java:CancelOutboxSourcePort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java:CancelRequestHistoryRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java:CancelRequestHistoryRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:CancelHistoryRecorder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:CancelHistoryRecorder",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:add",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:add",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:flush",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java:flush",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelHistoryRecorder.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java:PaymentSettlementQueryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java:PaymentSettlementQueryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java:query",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java:query",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentJpaEntity.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PaymentSettlementQueryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/PaymentSettlementJpaRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:PendingRecoveryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:PendingRecoveryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:recoverAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:recoverAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:recoverOne",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java:tryCompensate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/PendingRecoveryService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java:PaymentSettlementQuery",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/usecase/PaymentSettlementQuery.java:PaymentSettlementQuery",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

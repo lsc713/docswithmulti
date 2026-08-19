@@ -1,0 +1,171 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "language": "java",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/domain/entity/UserStatus.java",
+      "language": "java",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "sizeLines": 37,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java",
+      "language": "java",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java",
+      "language": "java",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java",
+      "language": "java",
+      "sizeLines": 74,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "language": "java",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "language": "java",
+      "sizeLines": 94,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java",
+      "language": "java",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java",
+      "language": "java",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "language": "java",
+      "sizeLines": 66,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/controller/MeController.java",
+      "language": "java",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "language": "java",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java",
+      "language": "java",
+      "sizeLines": 4,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java",
+      "language": "java",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java",
+      "language": "java",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "user-service/src/main/java/com/example/user/domain/entity/UserRole.java": [],
+    "user-service/src/main/java/com/example/user/domain/entity/UserStatus.java": [],
+    "user-service/src/main/java/com/example/user/infrastructure/config/PersistenceConfig.java": [
+      "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java",
+      "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java"
+    ],
+    "user-service/src/main/java/com/example/user/infrastructure/config/WebConfig.java": [
+      "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java"
+    ],
+    "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenJpaEntity.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java"
+    ],
+    "user-service/src/main/java/com/example/user/infrastructure/persistence/RefreshTokenRepositoryImpl.java": [
+      "user-service/src/main/java/com/example/user/application/interfaces/RefreshTokenRepository.java",
+      "user-service/src/main/java/com/example/user/domain/entity/RefreshToken.java"
+    ],
+    "user-service/src/main/java/com/example/user/infrastructure/persistence/UserJpaEntity.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/User.java",
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "user-service/src/main/java/com/example/user/domain/entity/UserStatus.java"
+    ],
+    "user-service/src/main/java/com/example/user/infrastructure/persistence/UserRepositoryImpl.java": [
+      "user-service/src/main/java/com/example/user/application/interfaces/UserRepository.java",
+      "user-service/src/main/java/com/example/user/domain/entity/User.java"
+    ],
+    "user-service/src/main/java/com/example/user/infrastructure/security/BcryptPasswordEncoderAdapter.java": [
+      "user-service/src/main/java/com/example/user/application/interfaces/PasswordEncoder.java"
+    ],
+    "user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java"
+    ],
+    "user-service/src/main/java/com/example/user/presentation/GlobalExceptionHandler.java": [
+      "user-service/src/main/java/com/example/user/common/exception/BusinessException.java"
+    ],
+    "user-service/src/main/java/com/example/user/presentation/controller/AdminController.java": [
+      "user-service/src/main/java/com/example/user/application/usecase/AdminUseCase.java",
+      "user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java",
+      "user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java",
+      "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java"
+    ],
+    "user-service/src/main/java/com/example/user/presentation/controller/AuthController.java": [
+      "user-service/src/main/java/com/example/user/application/usecase/AuthUseCase.java",
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java",
+      "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java"
+    ],
+    "user-service/src/main/java/com/example/user/presentation/controller/MeController.java": [
+      "user-service/src/main/java/com/example/user/application/usecase/UserQueryUseCase.java",
+      "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java"
+    ],
+    "user-service/src/main/java/com/example/user/presentation/dto/ChangeRoleRequest.java": [
+      "user-service/src/main/java/com/example/user/domain/entity/UserRole.java"
+    ],
+    "user-service/src/main/java/com/example/user/presentation/dto/MeResponse.java": [],
+    "user-service/src/main/java/com/example/user/presentation/dto/UserListResponse.java": [],
+    "user-service/src/main/java/com/example/user/presentation/support/AuthCookieFactory.java": []
+  }
+}

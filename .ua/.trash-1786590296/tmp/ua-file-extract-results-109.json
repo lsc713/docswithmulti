@@ -1,0 +1,103 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 2,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 2,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 1,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "results": [
+    {
+      "path": "user-service/src/main/java/com/example/user/presentation/dto/SignupRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 11,
+      "classes": [
+        {
+          "name": "SignupRequest",
+          "startLine": 8,
+          "endLine": 13,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SignupRequest",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "user-service/src/main/resources/application.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 61,
+      "nonEmptyLines": 50,
+      "sections": [
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "server",
+          "level": 1,
+          "line": 30
+        },
+        {
+          "heading": "jwt",
+          "level": 1,
+          "line": 33
+        },
+        {
+          "heading": "auth",
+          "level": 1,
+          "line": 40
+        },
+        {
+          "heading": "app",
+          "level": 1,
+          "line": 45
+        },
+        {
+          "heading": "logging",
+          "level": 1,
+          "line": 50
+        },
+        {
+          "heading": "spring",
+          "level": 1,
+          "line": 55
+        },
+        {
+          "heading": "jwt",
+          "level": 1,
+          "line": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    }
+  ]
+}

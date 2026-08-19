@@ -1,0 +1,186 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 3,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 3
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/workstreams/cancel-restore/REQUIREMENTS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 51,
+      "nonEmptyLines": 38,
+      "sections": [
+        {
+          "heading": "Requirements — v1.0 취소 복원 일관성 (레그 하드닝, B2)",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "v1.0 Requirements",
+          "level": 2,
+          "line": 14
+        },
+        {
+          "heading": "이벤트 무손실 (LOSS)",
+          "level": 3,
+          "line": 16
+        },
+        {
+          "heading": "durable DLQ + 알림 (DLQ)",
+          "level": 3,
+          "line": 19
+        },
+        {
+          "heading": "자동 재구동 수렴 (REDRIVE)",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "취소 코어·도메인 불변 (INV)",
+          "level": 3,
+          "line": 27
+        },
+        {
+          "heading": "Future / Out of Scope (다음 또는 별도)",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "Traceability",
+          "level": 2,
+          "line": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 8
+      }
+    },
+    {
+      "path": ".planning/workstreams/cancel-restore/ROADMAP.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 48,
+      "nonEmptyLines": 38,
+      "sections": [
+        {
+          "heading": "Roadmap: 취소 복원 일관성 (cancel-restore) — v1.0",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Overview",
+          "level": 2,
+          "line": 3
+        },
+        {
+          "heading": "Phases",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Phase Details",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Phase 1: Product 레그 하드닝 (참조 구현)",
+          "level": 3,
+          "line": 18
+        },
+        {
+          "heading": "Phase 2: Order 레그 하드닝 (복제)",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "Progress",
+          "level": 2,
+          "line": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/workstreams/cancel-restore/STATE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 69,
+      "nonEmptyLines": 50,
+      "sections": [
+        {
+          "heading": "Project State",
+          "level": 1,
+          "line": 20
+        },
+        {
+          "heading": "Project Reference",
+          "level": 2,
+          "line": 22
+        },
+        {
+          "heading": "Current Position",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "Performance Metrics",
+          "level": 2,
+          "line": 40
+        },
+        {
+          "heading": "Accumulated Context",
+          "level": 2,
+          "line": 48
+        },
+        {
+          "heading": "Decisions",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "Pending Todos",
+          "level": 3,
+          "line": 57
+        },
+        {
+          "heading": "Blockers/Concerns",
+          "level": 3,
+          "line": 61
+        },
+        {
+          "heading": "Session Continuity",
+          "level": 2,
+          "line": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    }
+  ]
+}

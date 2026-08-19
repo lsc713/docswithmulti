@@ -1,0 +1,331 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 12,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 12,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 12
+    }
+  },
+  "results": [
+    {
+      "path": "infra/load-test/deploy/README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 78,
+      "nonEmptyLines": 64,
+      "sections": [
+        {
+          "heading": "role별 배포 + 사설 IP 배선",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "사설 IP · 포트 맵",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "배포 — SSM 일괄 (권장)",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "수동 배포 (디버깅용)",
+          "level": 3,
+          "line": 47
+        },
+        {
+          "heading": "헬스 체크",
+          "level": 2,
+          "line": 61
+        },
+        {
+          "heading": "주의",
+          "level": 2,
+          "line": 71
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 6
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/cold-db.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 44,
+      "nonEmptyLines": 41,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "volumes",
+          "level": 1,
+          "line": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/cold-svc.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 46,
+      "nonEmptyLines": 44,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/infra.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 56,
+      "nonEmptyLines": 52,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 6
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/mysql-payment.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 25,
+      "nonEmptyLines": 23,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "volumes",
+          "level": 1,
+          "line": 24
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/mysql-product.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 24,
+      "nonEmptyLines": 22,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "volumes",
+          "level": 1,
+          "line": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/mysql-risk.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 24,
+      "nonEmptyLines": 22,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "volumes",
+          "level": 1,
+          "line": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/payment.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 33,
+      "nonEmptyLines": 32,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 6
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/port-forward.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 42,
+      "nonEmptyLines": 38,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/product.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 26,
+      "nonEmptyLines": 25,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 4
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/risk.compose.yml",
+      "language": "yaml",
+      "fileCategory": "config",
+      "totalLines": 33,
+      "nonEmptyLines": 32,
+      "sections": [
+        {
+          "heading": "services",
+          "level": 1,
+          "line": 4
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "infra/load-test/deploy/ssm-deploy.sh",
+      "language": "shell",
+      "fileCategory": "script",
+      "totalLines": 198,
+      "nonEmptyLines": 184,
+      "functions": [
+        {
+          "name": "compose_for",
+          "startLine": 40,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "logging_override",
+          "startLine": 56,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "wait_for_ssm",
+          "startLine": 71,
+          "endLine": 88,
+          "params": []
+        },
+        {
+          "name": "ssm_run",
+          "startLine": 91,
+          "endLine": 126,
+          "params": []
+        },
+        {
+          "name": "clone_header",
+          "startLine": 129,
+          "endLine": 151,
+          "params": []
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 5,
+        "classCount": 0
+      }
+    }
+  ]
+}

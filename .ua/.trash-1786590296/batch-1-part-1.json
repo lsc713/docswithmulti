@@ -1,0 +1,911 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "type": "file",
+      "name": "NonRetryableException.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "summary": "product-service에서 Non Retryable Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java:NonRetryableException",
+      "type": "class",
+      "name": "NonRetryableException",
+      "filePath": "product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "lineRange": [
+        7,
+        7
+      ],
+      "summary": "NonRetryableException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "file",
+      "name": "CancelRestoreDlqRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "summary": "product-service의 Cancel Restore Dlq Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java:CancelRestoreDlqRepository",
+      "type": "class",
+      "name": "CancelRestoreDlqRepository",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "lineRange": [
+        12,
+        34
+      ],
+      "summary": "CancelRestoreDlqRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "type": "file",
+      "name": "OperationAlertPort.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "summary": "product-service의 Operation Alert Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "class",
+      "name": "OperationAlertPort",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "OperationAlertPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "type": "file",
+      "name": "PaymentQueryPort.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "summary": "product-service의 Payment Query Port 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java:PaymentQueryPort",
+      "type": "class",
+      "name": "PaymentQueryPort",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "lineRange": [
+        10,
+        18
+      ],
+      "summary": "PaymentQueryPort가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "file",
+      "name": "ProcessedCancelEventRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "summary": "product-service의 Processed Cancel Event Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java:ProcessedCancelEventRepository",
+      "type": "class",
+      "name": "ProcessedCancelEventRepository",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "lineRange": [
+        9,
+        12
+      ],
+      "summary": "ProcessedCancelEventRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "type": "file",
+      "name": "StockReservationRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "summary": "product-service의 Stock Reservation Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java:StockReservationRepository",
+      "type": "class",
+      "name": "StockReservationRepository",
+      "filePath": "product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "lineRange": [
+        9,
+        32
+      ],
+      "summary": "StockReservationRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "product-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "type": "file",
+      "name": "CancelRestoreLegStatus.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "summary": "product-service의 Cancel Restore Leg Status 관련 domain/application 동작을 구현하며 1개의 주요 구조를 포함한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java:CancelRestoreLegStatus",
+      "type": "class",
+      "name": "CancelRestoreLegStatus",
+      "filePath": "product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "lineRange": [
+        3,
+        8
+      ],
+      "summary": "CancelRestoreLegStatus가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "domain-logic",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "type": "file",
+      "name": "CancelRestoreRedriveService.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "summary": "product-service의 Cancel Restore Redrive Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "class",
+      "name": "CancelRestoreRedriveService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "lineRange": [
+        18,
+        66
+      ],
+      "summary": "CancelRestoreRedriveService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "function",
+      "name": "CancelRestoreRedriveService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "lineRange": [
+        32,
+        38
+      ],
+      "summary": "CancelRestoreRedriveService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:redriveOne",
+      "type": "function",
+      "name": "redriveOne",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "lineRange": [
+        40,
+        60
+      ],
+      "summary": "redriveOne 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "type": "file",
+      "name": "InspectCancelRestoreService.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "summary": "product-service의 Inspect Cancel Restore Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "class",
+      "name": "InspectCancelRestoreService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "lineRange": [
+        14,
+        76
+      ],
+      "summary": "InspectCancelRestoreService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "function",
+      "name": "InspectCancelRestoreService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "lineRange": [
+        19,
+        25
+      ],
+      "summary": "InspectCancelRestoreService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:inspect",
+      "type": "function",
+      "name": "inspect",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "lineRange": [
+        27,
+        61
+      ],
+      "summary": "inspect 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "type": "file",
+      "name": "OrphanReservationRecoveryService.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "summary": "product-service의 Orphan Reservation Recovery Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:OrphanReservationRecoveryService",
+      "type": "class",
+      "name": "OrphanReservationRecoveryService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "lineRange": [
+        27,
+        80
+      ],
+      "summary": "OrphanReservationRecoveryService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:OrphanReservationRecoveryService",
+      "type": "function",
+      "name": "OrphanReservationRecoveryService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "lineRange": [
+        38,
+        44
+      ],
+      "summary": "OrphanReservationRecoveryService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:recoverAll",
+      "type": "function",
+      "name": "recoverAll",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "lineRange": [
+        46,
+        58
+      ],
+      "summary": "recoverAll 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:recoverOne",
+      "type": "function",
+      "name": "recoverOne",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "lineRange": [
+        60,
+        79
+      ],
+      "summary": "recoverOne 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "type": "file",
+      "name": "ProcessCancelledStockService.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "summary": "product-service의 Process Cancelled Stock Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:ProcessCancelledStockService",
+      "type": "class",
+      "name": "ProcessCancelledStockService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "lineRange": [
+        24,
+        53
+      ],
+      "summary": "ProcessCancelledStockService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:ProcessCancelledStockService",
+      "type": "function",
+      "name": "ProcessCancelledStockService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "lineRange": [
+        31,
+        37
+      ],
+      "summary": "ProcessCancelledStockService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:execute",
+      "type": "function",
+      "name": "execute",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "lineRange": [
+        39,
+        52
+      ],
+      "summary": "execute 작업 흐름을 실행하고 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java:NonRetryableException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/exception/NonRetryableException.java:NonRetryableException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java:CancelRestoreDlqRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java:CancelRestoreDlqRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java:OperationAlertPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java:PaymentQueryPort",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java:PaymentQueryPort",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java:ProcessedCancelEventRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java:ProcessedCancelEventRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java:StockReservationRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java:StockReservationRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java:CancelRestoreLegStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java:CancelRestoreLegStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:CancelRestoreRedriveService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:redriveOne",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java:redriveOne",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/CancelRestoreDlqRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/OperationAlertPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/CancelRestoreRedriveService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:InspectCancelRestoreService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:inspect",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java:inspect",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/model/CancelRestoreLegStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/InspectCancelRestoreUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/InspectCancelRestoreService.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/ReservationStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:OrphanReservationRecoveryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:OrphanReservationRecoveryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:OrphanReservationRecoveryService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:OrphanReservationRecoveryService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:recoverAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:recoverAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java:recoverOne",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/PaymentQueryPort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/OrphanReservationRecoveryService.java",
+      "target": "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:ProcessCancelledStockService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:ProcessCancelledStockService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:ProcessCancelledStockService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:ProcessCancelledStockService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java:execute",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProcessedCancelEventRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/ProcessCancelledStockService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/usecase/ProcessCancelledStockUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

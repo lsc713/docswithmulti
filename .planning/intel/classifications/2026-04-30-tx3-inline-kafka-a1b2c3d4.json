@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/plans/2026-04-30-tx3-inline-kafka.md",
+  "type": "DOC",
+  "confidence": "medium",
+  "manifest_override": false,
+  "title": "TX3 Inline Kafka 발행 Implementation Plan",
+  "summary": "Task-by-task implementation plan to replace AFTER_COMMIT event publishing with inline kafkaTemplate.send() at end of TX3, deleting failed_kafka_event machinery.",
+  "scope": ["payment-service", "CancelTxWriter", "TX3", "Kafka publishing", "failed_kafka_event", "Flyway V11", "processing-recovery scheduler"],
+  "cross_refs": ["docs/kafka-design.md", "CLAUDE.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": "Implementation plan under /plans/ with numbered Tasks/Steps, code blocks, and file map. No ADR Status/Decision/Consequences structure, no PRD user stories/acceptance criteria, no SPEC contract/schema tables. Architectural rationale is embedded but framed as a build guide → DOC. Contains a design decision (inline publish vs AFTER_COMMIT) that a synthesizer may want to trace back to an ADR."
+}

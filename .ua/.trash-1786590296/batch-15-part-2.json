@@ -1,0 +1,1746 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "file",
+      "name": "CancelStatus.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "summary": "payment-service의 Cancel Status domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:CancelStatus",
+      "type": "class",
+      "name": "CancelStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "lineRange": [
+        3,
+        16
+      ],
+      "summary": "CancelStatus domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:isFinal",
+      "type": "function",
+      "name": "isFinal",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "lineRange": [
+        9,
+        11
+      ],
+      "summary": "isFinal 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:isProcessing",
+      "type": "function",
+      "name": "isProcessing",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "lineRange": [
+        13,
+        15
+      ],
+      "summary": "isProcessing 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "type": "file",
+      "name": "CancellerType.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "summary": "payment-service의 Canceller Type domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java:CancellerType",
+      "type": "class",
+      "name": "CancellerType",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "lineRange": [
+        3,
+        7
+      ],
+      "summary": "CancellerType domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "type": "file",
+      "name": "PaymentItemStatus.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "summary": "payment-service의 Payment Item Status domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:PaymentItemStatus",
+      "type": "class",
+      "name": "PaymentItemStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "lineRange": [
+        3,
+        18
+      ],
+      "summary": "PaymentItemStatus domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:PaymentItemStatus",
+      "type": "function",
+      "name": "PaymentItemStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "lineRange": [
+        9,
+        11
+      ],
+      "summary": "PaymentItemStatus 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:getDescription",
+      "type": "function",
+      "name": "getDescription",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "lineRange": [
+        13,
+        13
+      ],
+      "summary": "getDescription 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:isCancellable",
+      "type": "function",
+      "name": "isCancellable",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "lineRange": [
+        15,
+        15
+      ],
+      "summary": "isCancellable 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:isFinal",
+      "type": "function",
+      "name": "isFinal",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "lineRange": [
+        17,
+        17
+      ],
+      "summary": "isFinal 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "type": "file",
+      "name": "PaymentStatus.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "summary": "payment-service의 Payment Status domain 상태와 불변식을 표현하는 데이터 모델이다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:PaymentStatus",
+      "type": "class",
+      "name": "PaymentStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "lineRange": [
+        10,
+        40
+      ],
+      "summary": "PaymentStatus domain 상태와 관련 행위를 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:PaymentStatus",
+      "type": "function",
+      "name": "PaymentStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "lineRange": [
+        19,
+        21
+      ],
+      "summary": "PaymentStatus 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:getDescription",
+      "type": "function",
+      "name": "getDescription",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "lineRange": [
+        23,
+        25
+      ],
+      "summary": "getDescription 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:isCancellable",
+      "type": "function",
+      "name": "isCancellable",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "lineRange": [
+        30,
+        32
+      ],
+      "summary": "isCancellable 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:isFinal",
+      "type": "function",
+      "name": "isFinal",
+      "filePath": "payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "lineRange": [
+        37,
+        39
+      ],
+      "summary": "isFinal 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "data-model",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "type": "file",
+      "name": "CancelEventOutboxRepositoryImpl.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "summary": "payment-service의 Cancel Event Outbox Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:CancelEventOutboxRepositoryImpl",
+      "type": "class",
+      "name": "CancelEventOutboxRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        13,
+        110
+      ],
+      "summary": "CancelEventOutboxRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:CancelEventOutboxRepositoryImpl",
+      "type": "function",
+      "name": "CancelEventOutboxRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        19,
+        24
+      ],
+      "summary": "CancelEventOutboxRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:insertPending",
+      "type": "function",
+      "name": "insertPending",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        26,
+        30
+      ],
+      "summary": "insertPending 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "function",
+      "name": "findPendingBatch",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        32,
+        42
+      ],
+      "summary": "findPendingBatch 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:findById",
+      "type": "function",
+      "name": "findById",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        44,
+        67
+      ],
+      "summary": "findById 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:markPublished",
+      "type": "function",
+      "name": "markPublished",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        69,
+        79
+      ],
+      "summary": "markPublished 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:bumpRetry",
+      "type": "function",
+      "name": "bumpRetry",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        81,
+        88
+      ],
+      "summary": "bumpRetry 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:markDead",
+      "type": "function",
+      "name": "markDead",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        90,
+        96
+      ],
+      "summary": "markDead 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:purgePublished",
+      "type": "function",
+      "name": "purgePublished",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "lineRange": [
+        98,
+        105
+      ],
+      "summary": "purgePublished 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "type": "file",
+      "name": "CancelRequestHistoryRepositoryImpl.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "summary": "payment-service의 Cancel Request History Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:CancelRequestHistoryRepositoryImpl",
+      "type": "class",
+      "name": "CancelRequestHistoryRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "lineRange": [
+        15,
+        42
+      ],
+      "summary": "CancelRequestHistoryRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:CancelRequestHistoryRepositoryImpl",
+      "type": "function",
+      "name": "CancelRequestHistoryRepositoryImpl",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "lineRange": [
+        20,
+        22
+      ],
+      "summary": "CancelRequestHistoryRepositoryImpl 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:record",
+      "type": "function",
+      "name": "record",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "lineRange": [
+        24,
+        30
+      ],
+      "summary": "record 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:recordAll",
+      "type": "function",
+      "name": "recordAll",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "lineRange": [
+        32,
+        41
+      ],
+      "summary": "recordAll 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "type": "file",
+      "name": "CancelRequestJpaEntity.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "summary": "payment-service에서 Cancel Request Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:CancelRequestJpaEntity",
+      "type": "class",
+      "name": "CancelRequestJpaEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        20,
+        142
+      ],
+      "summary": "CancelRequestJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:CancelRequestJpaEntity",
+      "type": "function",
+      "name": "CancelRequestJpaEntity",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        82,
+        82
+      ],
+      "summary": "CancelRequestJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        84,
+        103
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        105,
+        117
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        127,
+        127
+      ],
+      "summary": "getId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setId",
+      "type": "function",
+      "name": "setId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        128,
+        128
+      ],
+      "summary": "setId 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getPaymentId",
+      "type": "function",
+      "name": "getPaymentId",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        129,
+        129
+      ],
+      "summary": "getPaymentId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getRequestHash",
+      "type": "function",
+      "name": "getRequestHash",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        130,
+        130
+      ],
+      "summary": "getRequestHash 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getIdempotencyKey",
+      "type": "function",
+      "name": "getIdempotencyKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        131,
+        131
+      ],
+      "summary": "getIdempotencyKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getDedupKey",
+      "type": "function",
+      "name": "getDedupKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        132,
+        132
+      ],
+      "summary": "getDedupKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelAmount",
+      "type": "function",
+      "name": "getCancelAmount",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        133,
+        133
+      ],
+      "summary": "getCancelAmount 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelItemIds",
+      "type": "function",
+      "name": "getCancelItemIds",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        134,
+        134
+      ],
+      "summary": "getCancelItemIds 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelReason",
+      "type": "function",
+      "name": "getCancelReason",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        135,
+        135
+      ],
+      "summary": "getCancelReason 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        136,
+        136
+      ],
+      "summary": "getStatus 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setStatus",
+      "type": "function",
+      "name": "setStatus",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        137,
+        137
+      ],
+      "summary": "setStatus 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCompletedAt",
+      "type": "function",
+      "name": "getCompletedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        138,
+        138
+      ],
+      "summary": "getCompletedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCreatedAt",
+      "type": "function",
+      "name": "getCreatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        139,
+        139
+      ],
+      "summary": "getCreatedAt 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setUpdatedAt",
+      "type": "function",
+      "name": "setUpdatedAt",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        140,
+        140
+      ],
+      "summary": "setUpdatedAt 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getPgTransactionKey",
+      "type": "function",
+      "name": "getPgTransactionKey",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "lineRange": [
+        141,
+        141
+      ],
+      "summary": "getPgTransactionKey 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java",
+      "type": "file",
+      "name": "CancelRequestJpaRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java",
+      "summary": "payment-service의 Cancel Request Jpa Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java:CancelRequestJpaRepository",
+      "type": "class",
+      "name": "CancelRequestJpaRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java",
+      "lineRange": [
+        16,
+        55
+      ],
+      "summary": "CancelRequestJpaRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:CancelStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:CancelStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:isFinal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:isFinal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:isProcessing",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java:isProcessing",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java:CancellerType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/CancellerType.java:CancellerType",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:PaymentItemStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:PaymentItemStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:PaymentItemStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:PaymentItemStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:getDescription",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:getDescription",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:isCancellable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:isCancellable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:isFinal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItemStatus.java:isFinal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:PaymentStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:PaymentStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:PaymentStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:PaymentStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:getDescription",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:getDescription",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:isCancellable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:isCancellable",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:isFinal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java:isFinal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:CancelEventOutboxRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:CancelEventOutboxRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:CancelEventOutboxRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:CancelEventOutboxRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:insertPending",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:insertPending",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:findPendingBatch",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:findById",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:findById",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:markPublished",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:markPublished",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:bumpRetry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:bumpRetry",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:markDead",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:markDead",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:purgePublished",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java:purgePublished",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventOutboxRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelOutboxSourcePort.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelEventOutboxRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:CancelRequestHistoryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:CancelRequestHistoryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:CancelRequestHistoryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:CancelRequestHistoryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:record",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:record",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:recordAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java:recordAll",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelHistoryEntry.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestHistoryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestHistoryRepositoryImpl.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:CancelRequestJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:CancelRequestJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:CancelRequestJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:CancelRequestJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getPaymentId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getPaymentId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getRequestHash",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getRequestHash",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getIdempotencyKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getIdempotencyKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getDedupKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getDedupKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelAmount",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelAmount",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelItemIds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelItemIds",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelReason",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCancelReason",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setStatus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setStatus",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCompletedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCompletedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCreatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getCreatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setUpdatedAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:setUpdatedAt",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getPgTransactionKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java:getPgTransactionKey",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaEntity.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/converter/LongListConverter.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java:CancelRequestJpaRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java:CancelRequestJpaRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/infrastructure/persistence/CancelRequestJpaRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

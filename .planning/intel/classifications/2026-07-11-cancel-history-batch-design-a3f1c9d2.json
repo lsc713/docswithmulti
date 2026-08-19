@@ -1,0 +1,13 @@
+{
+  "source_path": "/Users/juho/Documents/docswithmulti/docs/superpowers/specs/2026-07-11-cancel-history-batch-design.md",
+  "type": "SPEC",
+  "confidence": "high",
+  "manifest_override": false,
+  "title": "취소 이력 배치 — 커밋 감축 (150rps 천장 완화) 설계",
+  "summary": "Technical design batching cancel-history writes from 3 commits to 1 (cancel commits 6→4) to raise the ~150rps throughput ceiling.",
+  "scope": ["cancel_request_history", "CancelHistoryRecorder", "CancelHistoryEntry", "CancelRequestHistoryRepository", "recordAll batch INSERT", "HikariCP connection occupancy", "payment-service throughput"],
+  "cross_refs": ["sysdesign/cancel-design.md", "CLAUDE.md"],
+  "locked": false,
+  "precedence": null,
+  "notes": ""
+}

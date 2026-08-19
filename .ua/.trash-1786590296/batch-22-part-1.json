@@ -1,0 +1,1427 @@
+{
+  "nodes": [
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "type": "file",
+      "name": "MerchantCancelLimitExceededException.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "summary": "risk-management-service에서 Merchant Cancel Limit Exceeded Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "risk-management-service",
+        "exception",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "class",
+      "name": "MerchantCancelLimitExceededException",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "lineRange": [
+        9,
+        22
+      ],
+      "summary": "MerchantCancelLimitExceededException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "risk-management-service",
+        "exception",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "function",
+      "name": "MerchantCancelLimitExceededException",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "lineRange": [
+        16,
+        21
+      ],
+      "summary": "MerchantCancelLimitExceededException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "risk-management-service",
+        "exception",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "type": "file",
+      "name": "CancelLimitDomainService.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "summary": "risk-management-service의 Cancel Limit Domain Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "risk-management-service",
+        "service",
+        "domain",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:CancelLimitDomainService",
+      "type": "class",
+      "name": "CancelLimitDomainService",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "lineRange": [
+        8,
+        30
+      ],
+      "summary": "CancelLimitDomainService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "service",
+        "domain",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:canDeduct",
+      "type": "function",
+      "name": "canDeduct",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "lineRange": [
+        15,
+        17
+      ],
+      "summary": "canDeduct 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "service",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:validateAndDeduct",
+      "type": "function",
+      "name": "validateAndDeduct",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "lineRange": [
+        19,
+        25
+      ],
+      "summary": "validateAndDeduct 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "risk-management-service",
+        "service",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:applyCompensation",
+      "type": "function",
+      "name": "applyCompensation",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "lineRange": [
+        27,
+        29
+      ],
+      "summary": "applyCompensation 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "risk-management-service",
+        "service",
+        "domain",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "type": "file",
+      "name": "RedisDailyLimitCache.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "summary": "risk-management-service의 Redis Daily Limit Cache 관련 domain/application 동작을 구현하며 5개의 주요 구조를 포함한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:RedisDailyLimitCache",
+      "type": "class",
+      "name": "RedisDailyLimitCache",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "lineRange": [
+        15,
+        49
+      ],
+      "summary": "RedisDailyLimitCache가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:get",
+      "type": "function",
+      "name": "get",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "lineRange": [
+        24,
+        28
+      ],
+      "summary": "get 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:set",
+      "type": "function",
+      "name": "set",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "lineRange": [
+        30,
+        34
+      ],
+      "summary": "set 대상 상태를 규칙에 따라 갱신한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "type": "file",
+      "name": "PersistenceConfig.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "summary": "risk-management-service의 Persistence Config Spring 구성과 runtime 의존성 조립을 담당한다.",
+      "tags": [
+        "risk-management-service",
+        "configuration",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "class",
+      "name": "PersistenceConfig",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        15,
+        52
+      ],
+      "summary": "PersistenceConfig가 담당하는 configuration 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "function",
+      "name": "transactionManager",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        20,
+        23
+      ],
+      "summary": "transactionManager 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "function",
+      "name": "transactionTemplate",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        25,
+        28
+      ],
+      "summary": "transactionTemplate 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "configuration",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelLimitDomainService",
+      "type": "function",
+      "name": "cancelLimitDomainService",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        30,
+        33
+      ],
+      "summary": "cancelLimitDomainService 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "risk-management-service",
+        "service",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:merchantCancelUsageRepository",
+      "type": "function",
+      "name": "merchantCancelUsageRepository",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        35,
+        39
+      ],
+      "summary": "merchantCancelUsageRepository 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelUsageHistoryRepository",
+      "type": "function",
+      "name": "cancelUsageHistoryRepository",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        41,
+        45
+      ],
+      "summary": "cancelUsageHistoryRepository 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelUsageCompensationRepository",
+      "type": "function",
+      "name": "cancelUsageCompensationRepository",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "lineRange": [
+        47,
+        51
+      ],
+      "summary": "cancelUsageCompensationRepository 취소 또는 보상 흐름을 실행하고 결과 상태를 반영한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "type": "file",
+      "name": "MerchantLimitRestClient.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "summary": "risk-management-service의 Merchant Limit Rest Client 관련 domain/application 동작을 구현하며 4개의 주요 구조를 포함한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:MerchantLimitRestClient",
+      "type": "class",
+      "name": "MerchantLimitRestClient",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "lineRange": [
+        16,
+        50
+      ],
+      "summary": "MerchantLimitRestClient가 담당하는 domain-logic 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:MerchantLimitRestClient",
+      "type": "function",
+      "name": "MerchantLimitRestClient",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "lineRange": [
+        22,
+        24
+      ],
+      "summary": "MerchantLimitRestClient 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:fetchDailyLimit",
+      "type": "function",
+      "name": "fetchDailyLimit",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "lineRange": [
+        26,
+        42
+      ],
+      "summary": "fetchDailyLimit 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "domain-logic",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "type": "file",
+      "name": "MerchantLimitUpdatedConsumer.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "summary": "risk-management-service의 Merchant Limit Updated Consumer event/outbox 메시지 흐름을 생성하거나 전달한다.",
+      "tags": [
+        "risk-management-service",
+        "messaging",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java:MerchantLimitUpdatedConsumer",
+      "type": "class",
+      "name": "MerchantLimitUpdatedConsumer",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "lineRange": [
+        19,
+        65
+      ],
+      "summary": "MerchantLimitUpdatedConsumer가 담당하는 messaging 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java:consume",
+      "type": "function",
+      "name": "consume",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "lineRange": [
+        30,
+        64
+      ],
+      "summary": "consume 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "messaging",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "type": "file",
+      "name": "CancelUsageCompensationJpaEntity.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "summary": "risk-management-service에서 Cancel Usage Compensation Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:CancelUsageCompensationJpaEntity",
+      "type": "class",
+      "name": "CancelUsageCompensationJpaEntity",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "lineRange": [
+        9,
+        45
+      ],
+      "summary": "CancelUsageCompensationJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:CancelUsageCompensationJpaEntity",
+      "type": "function",
+      "name": "CancelUsageCompensationJpaEntity",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "lineRange": [
+        31,
+        31
+      ],
+      "summary": "CancelUsageCompensationJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "lineRange": [
+        33,
+        40
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "lineRange": [
+        42,
+        44
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "type": "file",
+      "name": "CancelUsageCompensationRepositoryImpl.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "summary": "risk-management-service의 Cancel Usage Compensation Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:CancelUsageCompensationRepositoryImpl",
+      "type": "class",
+      "name": "CancelUsageCompensationRepositoryImpl",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "lineRange": [
+        7,
+        21
+      ],
+      "summary": "CancelUsageCompensationRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "lineRange": [
+        12,
+        15
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:existsByCancelRequestId",
+      "type": "function",
+      "name": "existsByCancelRequestId",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "lineRange": [
+        17,
+        20
+      ],
+      "summary": "existsByCancelRequestId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "type": "file",
+      "name": "CancelUsageHistoryJpaEntity.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "summary": "risk-management-service에서 Cancel Usage History Jpa Entity domain 객체와 저장소 간 변환 및 영속화를 담당한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:CancelUsageHistoryJpaEntity",
+      "type": "class",
+      "name": "CancelUsageHistoryJpaEntity",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "lineRange": [
+        10,
+        50
+      ],
+      "summary": "CancelUsageHistoryJpaEntity가 담당하는 persistence 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:CancelUsageHistoryJpaEntity",
+      "type": "function",
+      "name": "CancelUsageHistoryJpaEntity",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "lineRange": [
+        35,
+        35
+      ],
+      "summary": "CancelUsageHistoryJpaEntity 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:from",
+      "type": "function",
+      "name": "from",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "lineRange": [
+        37,
+        45
+      ],
+      "summary": "from 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:toDomain",
+      "type": "function",
+      "name": "toDomain",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "lineRange": [
+        47,
+        49
+      ],
+      "summary": "toDomain 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "type": "file",
+      "name": "CancelUsageHistoryRepositoryImpl.java",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "summary": "risk-management-service의 Cancel Usage History Repository Impl 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:CancelUsageHistoryRepositoryImpl",
+      "type": "class",
+      "name": "CancelUsageHistoryRepositoryImpl",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "lineRange": [
+        9,
+        24
+      ],
+      "summary": "CancelUsageHistoryRepositoryImpl 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "risk-management-service",
+        "repository",
+        "infrastructure",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:save",
+      "type": "function",
+      "name": "save",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "lineRange": [
+        14,
+        17
+      ],
+      "summary": "save 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:findByCancelRequestId",
+      "type": "function",
+      "name": "findByCancelRequestId",
+      "filePath": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "lineRange": [
+        19,
+        23
+      ],
+      "summary": "findByCancelRequestId 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "risk-management-service",
+        "persistence",
+        "infrastructure",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java:MerchantCancelLimitExceededException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:CancelLimitDomainService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:CancelLimitDomainService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:canDeduct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:canDeduct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:validateAndDeduct",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:validateAndDeduct",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:applyCompensation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java:applyCompensation",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/MerchantCancelUsage.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:RedisDailyLimitCache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:RedisDailyLimitCache",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:get",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:get",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:set",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java:set",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/DailyLimitCache.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:PersistenceConfig",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:transactionManager",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:transactionTemplate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelLimitDomainService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelLimitDomainService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:merchantCancelUsageRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:merchantCancelUsageRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelUsageHistoryRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelUsageHistoryRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelUsageCompensationRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java:cancelUsageCompensationRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:MerchantLimitRestClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:MerchantLimitRestClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:MerchantLimitRestClient",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:MerchantLimitRestClient",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:fetchDailyLimit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java:fetchDailyLimit",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/exception/MerchantCancelLimitNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/exception/ServiceUnavailableException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantLimitClient.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java:MerchantLimitUpdatedConsumer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java:MerchantLimitUpdatedConsumer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java:consume",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java:consume",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/DailyLimitCache.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantCancelUsageRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/MerchantLimitClient.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:CancelUsageCompensationJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:CancelUsageCompensationJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:CancelUsageCompensationJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:CancelUsageCompensationJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageCompensation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:CancelUsageCompensationRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:CancelUsageCompensationRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:existsByCancelRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java:existsByCancelRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/CancelUsageCompensationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageCompensation.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:CancelUsageHistoryJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:CancelUsageHistoryJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:CancelUsageHistoryJpaEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:CancelUsageHistoryJpaEntity",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:from",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:from",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:toDomain",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java:toDomain",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageHistory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:CancelUsageHistoryRepositoryImpl",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "class:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:CancelUsageHistoryRepositoryImpl",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:save",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:findByCancelRequestId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "function:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java:findByCancelRequestId",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/application/interfaces/CancelUsageHistoryRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "target": "file:risk-management-service/src/main/java/com/example/riskmanagement/domain/entity/CancelUsageHistory.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

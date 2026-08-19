@@ -1,0 +1,1255 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "type": "file",
+      "name": "KafkaConsumerConfig.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "summary": "Kafka 메시징 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "function",
+      "name": "KafkaConsumerConfig",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        43,
+        45
+      ],
+      "summary": "Kafka 메시징 흐름에서 KafkaConsumerConfig 작업을 수행한다.",
+      "tags": [
+        "function",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "function",
+      "name": "consumerFactory",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        47,
+        62
+      ],
+      "summary": "Kafka 메시징 흐름에서 consumerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "function",
+      "name": "kafkaListenerContainerFactory",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        73,
+        81
+      ],
+      "summary": "Kafka 메시징 흐름에서 kafkaListenerContainerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:retryConsumerFactory",
+      "type": "function",
+      "name": "retryConsumerFactory",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        83,
+        100
+      ],
+      "summary": "Kafka 메시징 흐름에서 retryConsumerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:retryKafkaListenerContainerFactory",
+      "type": "function",
+      "name": "retryKafkaListenerContainerFactory",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        102,
+        110
+      ],
+      "summary": "Kafka 메시징 흐름에서 retryKafkaListenerContainerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "class",
+      "name": "KafkaConsumerConfig",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "lineRange": [
+        28,
+        111
+      ],
+      "summary": "Kafka 메시징 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "type": "file",
+      "name": "KafkaProducerConfig.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "summary": "Kafka 메시징 service에서 사용하는 Spring bean과 runtime integration 설정을 구성한다.",
+      "tags": [
+        "source-code",
+        "configuration",
+        "integration",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "function",
+      "name": "producerFactory",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        27,
+        38
+      ],
+      "summary": "Kafka 메시징 흐름에서 producerFactory 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "function",
+      "name": "kafkaTemplate",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        40,
+        43
+      ],
+      "summary": "Kafka 메시징 흐름에서 kafkaTemplate 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "class",
+      "name": "KafkaProducerConfig",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "lineRange": [
+        21,
+        44
+      ],
+      "summary": "Kafka 메시징 runtime에 필요한 Spring 구성 요소를 조립한다.",
+      "tags": [
+        "class",
+        "configuration",
+        "spring"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "type": "file",
+      "name": "DlqMessage.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "summary": "상품 경계에서 전달되는 요청·응답 또는 event payload 구조를 정의한다.",
+      "tags": [
+        "source-code",
+        "data-transfer",
+        "serialization",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "lineRange": [
+        27,
+        43
+      ],
+      "summary": "상품 흐름에서 of 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java:DlqMessage",
+      "type": "class",
+      "name": "DlqMessage",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "lineRange": [
+        14,
+        55
+      ],
+      "summary": "상품 경계에서 교환되는 data 구조를 표현한다.",
+      "tags": [
+        "class",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java",
+      "type": "file",
+      "name": "AttributeJpaRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java",
+      "summary": "상품 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java:AttributeJpaRepository",
+      "type": "class",
+      "name": "AttributeJpaRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java",
+      "lineRange": [
+        5,
+        6
+      ],
+      "summary": "상품 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java",
+      "type": "file",
+      "name": "AttributeValueJpaRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java",
+      "summary": "상품 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java:AttributeValueJpaRepository",
+      "type": "class",
+      "name": "AttributeValueJpaRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java",
+      "lineRange": [
+        8,
+        11
+      ],
+      "summary": "상품 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "type": "file",
+      "name": "CancelRestoreDlqJpaEntity.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "summary": "상품 기능을 구현하며 CancelRestoreDlqJpaEntity, CancelRestoreDlqJpaEntity, getId 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "상품",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "function",
+      "name": "CancelRestoreDlqJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        52,
+        52
+      ],
+      "summary": "상품 흐름에서 CancelRestoreDlqJpaEntity 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getId",
+      "type": "function",
+      "name": "getId",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        54,
+        54
+      ],
+      "summary": "상품 흐름에서 getId 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getCancelRequestId",
+      "type": "function",
+      "name": "getCancelRequestId",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        55,
+        55
+      ],
+      "summary": "상품 흐름에서 getCancelRequestId 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLeg",
+      "type": "function",
+      "name": "getLeg",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        56,
+        56
+      ],
+      "summary": "상품 흐름에서 getLeg 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getPayload",
+      "type": "function",
+      "name": "getPayload",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        57,
+        57
+      ],
+      "summary": "상품 흐름에서 getPayload 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-transfer",
+        "serialization"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getRetryCount",
+      "type": "function",
+      "name": "getRetryCount",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        58,
+        58
+      ],
+      "summary": "상품 흐름에서 getRetryCount 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getAttemptCount",
+      "type": "function",
+      "name": "getAttemptCount",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        59,
+        59
+      ],
+      "summary": "상품 흐름에서 getAttemptCount 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getStatus",
+      "type": "function",
+      "name": "getStatus",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        60,
+        60
+      ],
+      "summary": "상품 흐름에서 getStatus 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLastError",
+      "type": "function",
+      "name": "getLastError",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        61,
+        61
+      ],
+      "summary": "상품 흐름에서 getLastError 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "class",
+      "name": "CancelRestoreDlqJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "lineRange": [
+        10,
+        62
+      ],
+      "summary": "상품 상태를 database record로 매핑하는 JPA entity다.",
+      "tags": [
+        "class",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "type": "file",
+      "name": "CancelRestoreDlqJpaRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "summary": "상품 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java:CancelRestoreDlqJpaRepository",
+      "type": "class",
+      "name": "CancelRestoreDlqJpaRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "lineRange": [
+        16,
+        76
+      ],
+      "summary": "상품 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java",
+      "type": "file",
+      "name": "CategoryJpaRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java",
+      "summary": "상품 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java:CategoryJpaRepository",
+      "type": "class",
+      "name": "CategoryJpaRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java",
+      "lineRange": [
+        9,
+        24
+      ],
+      "summary": "상품 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "type": "file",
+      "name": "ProcessedCancelEventJpaEntity.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "summary": "상품 기능을 구현하며 ProcessedCancelEventJpaEntity, ProcessedCancelEventJpaEntity, of 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "상품",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:ProcessedCancelEventJpaEntity",
+      "type": "function",
+      "name": "ProcessedCancelEventJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "lineRange": [
+        23,
+        23
+      ],
+      "summary": "상품 흐름에서 ProcessedCancelEventJpaEntity 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "lineRange": [
+        25,
+        30
+      ],
+      "summary": "상품 흐름에서 of 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:ProcessedCancelEventJpaEntity",
+      "type": "class",
+      "name": "ProcessedCancelEventJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "lineRange": [
+        6,
+        31
+      ],
+      "summary": "상품 상태를 database record로 매핑하는 JPA entity다.",
+      "tags": [
+        "class",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "type": "file",
+      "name": "ProcessedCancelEventJpaRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "summary": "상품 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java:ProcessedCancelEventJpaRepository",
+      "type": "class",
+      "name": "ProcessedCancelEventJpaRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "상품 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java",
+      "type": "file",
+      "name": "ProductAttributeJpaRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java",
+      "summary": "상품 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java:ProductAttributeJpaRepository",
+      "type": "class",
+      "name": "ProductAttributeJpaRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "상품 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "type": "file",
+      "name": "ProductDescriptiveValueJpaEntity.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "summary": "상품 기능을 구현하며 ProductDescriptiveValueJpaEntity, ProductDescriptiveValueJpaEntity, of 구조를 제공한다.",
+      "tags": [
+        "source-code",
+        "상품",
+        "java",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:ProductDescriptiveValueJpaEntity",
+      "type": "function",
+      "name": "ProductDescriptiveValueJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "lineRange": [
+        22,
+        22
+      ],
+      "summary": "상품 흐름에서 ProductDescriptiveValueJpaEntity 작업을 수행한다.",
+      "tags": [
+        "function",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:of",
+      "type": "function",
+      "name": "of",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "lineRange": [
+        24,
+        29
+      ],
+      "summary": "상품 흐름에서 of 작업을 수행한다.",
+      "tags": [
+        "function",
+        "business-logic",
+        "component"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:ProductDescriptiveValueJpaEntity",
+      "type": "class",
+      "name": "ProductDescriptiveValueJpaEntity",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "lineRange": [
+        9,
+        54
+      ],
+      "summary": "상품 상태를 database record로 매핑하는 JPA entity다.",
+      "tags": [
+        "class",
+        "data-model",
+        "jpa"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java",
+      "type": "file",
+      "name": "ProductDescriptiveValueJpaRepository.java",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java",
+      "summary": "상품 domain entity의 조회와 저장을 담당하는 Spring Data repository다.",
+      "tags": [
+        "source-code",
+        "persistence",
+        "spring-data",
+        "project-artifact"
+      ],
+      "complexity": "simple",
+      "languageNotes": "Java 21과 Spring Boot 관례를 따르는 구성 요소다."
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java:ProductDescriptiveValueJpaRepository",
+      "type": "class",
+      "name": "ProductDescriptiveValueJpaRepository",
+      "filePath": "product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java",
+      "lineRange": [
+        9,
+        29
+      ],
+      "summary": "상품 data 접근 계약 또는 persistence adapter를 정의한다.",
+      "tags": [
+        "class",
+        "persistence",
+        "data-access"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:consumerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:kafkaListenerContainerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:retryConsumerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:retryConsumerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:retryKafkaListenerContainerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:retryKafkaListenerContainerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/KafkaConsumerConfig.java:KafkaConsumerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:producerFactory",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:kafkaTemplate",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/config/KafkaProducerConfig.java:KafkaProducerConfig",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java:of",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java:of",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java:DlqMessage",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/messaging/DlqMessage.java:DlqMessage",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java:AttributeJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeJpaRepository.java:AttributeJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java:AttributeValueJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/AttributeValueJpaRepository.java:AttributeValueJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getId",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getId",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getCancelRequestId",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getCancelRequestId",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLeg",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLeg",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getPayload",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getPayload",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getRetryCount",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getRetryCount",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getAttemptCount",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getAttemptCount",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getStatus",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getStatus",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLastError",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:getLastError",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaEntity.java:CancelRestoreDlqJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java:CancelRestoreDlqJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CancelRestoreDlqJpaRepository.java:CancelRestoreDlqJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java:CategoryJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/CategoryJpaRepository.java:CategoryJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:ProcessedCancelEventJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:ProcessedCancelEventJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:of",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:of",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:ProcessedCancelEventJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaEntity.java:ProcessedCancelEventJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java:ProcessedCancelEventJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProcessedCancelEventJpaRepository.java:ProcessedCancelEventJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java:ProductAttributeJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductAttributeJpaRepository.java:ProductAttributeJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:ProductDescriptiveValueJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:ProductDescriptiveValueJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:of",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "target": "function:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:of",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:ProductDescriptiveValueJpaEntity",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaEntity.java:ProductDescriptiveValueJpaEntity",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java:ProductDescriptiveValueJpaRepository",
+      "type": "contains",
+      "weight": 1,
+      "direction": "forward"
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java",
+      "target": "class:product-service/src/main/java/com/example/product/infrastructure/persistence/ProductDescriptiveValueJpaRepository.java:ProductDescriptiveValueJpaRepository",
+      "type": "exports",
+      "weight": 0.8,
+      "direction": "forward"
+    }
+  ]
+}

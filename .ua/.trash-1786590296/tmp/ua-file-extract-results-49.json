@@ -1,0 +1,318 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 5,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 5,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 5
+    }
+  },
+  "results": [
+    {
+      "path": ".planning/intel/SYNTHESIS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 67,
+      "nonEmptyLines": 50,
+      "sections": [
+        {
+          "heading": "Ingest Synthesis Summary",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Doc counts by type",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Decisions locked",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Requirements extracted",
+          "level": 2,
+          "line": 21
+        },
+        {
+          "heading": "Constraints extracted (20)",
+          "level": 2,
+          "line": 25
+        },
+        {
+          "heading": "Context topics (27 DOCs)",
+          "level": 2,
+          "line": 37
+        },
+        {
+          "heading": "Conflicts",
+          "level": 2,
+          "line": 47
+        },
+        {
+          "heading": "Per-type intel files",
+          "level": 2,
+          "line": 55
+        },
+        {
+          "heading": "Status",
+          "level": 2,
+          "line": 63
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 9
+      }
+    },
+    {
+      "path": ".planning/intel/constraints.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 175,
+      "nonEmptyLines": 145,
+      "sections": [
+        {
+          "heading": "Constraints (SPEC intel)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "API / interface contracts",
+          "level": 2,
+          "line": 11
+        },
+        {
+          "heading": "Payment cancellation API spec",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "Error catalog",
+          "level": 2,
+          "line": 20
+        },
+        {
+          "heading": "merchant-limit-service design",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "risk-management-service (implementation plan, SPEC-tier contracts)",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "risk-management-service design",
+          "level": 2,
+          "line": 41
+        },
+        {
+          "heading": "Schema contracts",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "oncall skills target abstraction design",
+          "level": 2,
+          "line": 52
+        },
+        {
+          "heading": "Messaging / protocol contracts",
+          "level": 2,
+          "line": 61
+        },
+        {
+          "heading": "Kafka design",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "order-service design",
+          "level": 2,
+          "line": 73
+        },
+        {
+          "heading": "payment-service scheduler design",
+          "level": 2,
+          "line": 81
+        },
+        {
+          "heading": "scheduler enhancement design",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "Kafka publish-pattern benchmark (impl plan, SPEC-tier contracts)",
+          "level": 2,
+          "line": 97
+        },
+        {
+          "heading": "Kafka publish-pattern benchmark design",
+          "level": 2,
+          "line": 104
+        },
+        {
+          "heading": "Outbox poller dedicated DataSource (impl plan, SPEC-tier contracts)",
+          "level": 2,
+          "line": 111
+        },
+        {
+          "heading": "Outbox poller dedicated DataSource design",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "Non-functional / observability / infra",
+          "level": 2,
+          "line": 128
+        },
+        {
+          "heading": "Load-test white-box observability design",
+          "level": 2,
+          "line": 130
+        },
+        {
+          "heading": "Cancel-history batch design (commits 6→4)",
+          "level": 2,
+          "line": 138
+        },
+        {
+          "heading": "Saturation diagnosis kit (impl plan, SPEC-tier contracts)",
+          "level": 2,
+          "line": 146
+        },
+        {
+          "heading": "Saturation diagnosis kit design",
+          "level": 2,
+          "line": 154
+        },
+        {
+          "heading": "3-view system dashboard design",
+          "level": 2,
+          "line": 162
+        },
+        {
+          "heading": "k3s scale-out design spec",
+          "level": 2,
+          "line": 169
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 25
+      }
+    },
+    {
+      "path": ".planning/intel/context.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 162,
+      "nonEmptyLines": 118,
+      "sections": [
+        {
+          "heading": "Context (DOC intel)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Project foundations / conventions",
+          "level": 2,
+          "line": 10
+        },
+        {
+          "heading": "Cancel flow implementation plans (build guides)",
+          "level": 2,
+          "line": 45
+        },
+        {
+          "heading": "Messaging evolution (historical — see WARNING in INGEST-CONFLICTS.md)",
+          "level": 2,
+          "line": 74
+        },
+        {
+          "heading": "Load-test / observability / capacity",
+          "level": 2,
+          "line": 98
+        },
+        {
+          "heading": "k3s horizontal scale-out",
+          "level": 2,
+          "line": 133
+        },
+        {
+          "heading": "Tooling / content",
+          "level": 2,
+          "line": 154
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": ".planning/intel/decisions.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 23,
+      "nonEmptyLines": 18,
+      "sections": [
+        {
+          "heading": "Decisions (ADR intel)",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": ".planning/intel/requirements.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 32,
+      "nonEmptyLines": 28,
+      "sections": [
+        {
+          "heading": "Requirements (PRD intel)",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "REQ-scale-blog-series",
+          "level": 2,
+          "line": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,1206 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 12,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 12,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 12,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "k6/compensation-test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 76,
+      "nonEmptyLines": 66,
+      "functions": [
+        {
+          "name": "setup",
+          "startLine": 35,
+          "endLine": 38,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "setup",
+          "line": 35,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setup",
+          "callee": "buildPaymentPool",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/config.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 31,
+      "exports": [
+        {
+          "name": "BASE",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "HEADERS",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "POOL_SIZE",
+          "line": 37,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/helpers/data-factory.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 146,
+      "nonEmptyLines": 130,
+      "functions": [
+        {
+          "name": "createMerchant",
+          "startLine": 16,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "createOrder",
+          "startLine": 33,
+          "endLine": 48,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "createPayment",
+          "startLine": 50,
+          "endLine": 68,
+          "params": [
+            "merchantId",
+            "userId",
+            "orderItemId"
+          ]
+        },
+        {
+          "name": "buildPaymentPool",
+          "startLine": 82,
+          "endLine": 146,
+          "params": [
+            "poolSize"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "createMerchant",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "createOrder",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "createPayment",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "buildPaymentPool",
+          "line": 82,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "createMerchant",
+          "callee": "http.post",
+          "lineNumber": 17
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "JSON.stringify",
+          "lineNumber": 19
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "Date.now",
+          "lineNumber": 20
+        },
+        {
+          "caller": "createMerchant",
+          "callee": "JSON.parse",
+          "lineNumber": 30
+        },
+        {
+          "caller": "createOrder",
+          "callee": "http.post",
+          "lineNumber": 34
+        },
+        {
+          "caller": "createOrder",
+          "callee": "JSON.stringify",
+          "lineNumber": 36
+        },
+        {
+          "caller": "createOrder",
+          "callee": "JSON.parse",
+          "lineNumber": 47
+        },
+        {
+          "caller": "createPayment",
+          "callee": "http.post",
+          "lineNumber": 51
+        },
+        {
+          "caller": "createPayment",
+          "callee": "JSON.stringify",
+          "lineNumber": 53
+        },
+        {
+          "caller": "createPayment",
+          "callee": "JSON.parse",
+          "lineNumber": 67
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "console.log",
+          "lineNumber": 83
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "createMerchant",
+          "lineNumber": 88
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "merchantIds.push",
+          "lineNumber": 89
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "console.log",
+          "lineNumber": 91
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "Math.min",
+          "lineNumber": 97
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "Math.floor",
+          "lineNumber": 99
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "Array.from",
+          "lineNumber": 102
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "JSON.stringify",
+          "lineNumber": 105
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "http.batch",
+          "lineNumber": 111
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "orderResps.map",
+          "lineNumber": 114
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "JSON.parse",
+          "lineNumber": 115
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "JSON.stringify",
+          "lineNumber": 120
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "http.batch",
+          "lineNumber": 130
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "JSON.parse",
+          "lineNumber": 134
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "pool.push",
+          "lineNumber": 136
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "console.log",
+          "lineNumber": 140
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "Math.min",
+          "lineNumber": 140
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "sleep",
+          "lineNumber": 141
+        },
+        {
+          "caller": "buildPaymentPool",
+          "callee": "console.log",
+          "lineNumber": 144
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/helpers/product-distribution.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 10,
+      "functions": [
+        {
+          "name": "selectProductId",
+          "startLine": 1,
+          "endLine": 10,
+          "params": [
+            "ids",
+            "distribution"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "selectProductId",
+          "line": 1,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "selectProductId",
+          "callee": "Math.floor",
+          "lineNumber": 3
+        },
+        {
+          "caller": "selectProductId",
+          "callee": "random",
+          "lineNumber": 3
+        },
+        {
+          "caller": "selectProductId",
+          "callee": "Math.floor",
+          "lineNumber": 4
+        },
+        {
+          "caller": "selectProductId",
+          "callee": "random",
+          "lineNumber": 4
+        },
+        {
+          "caller": "selectProductId",
+          "callee": "random",
+          "lineNumber": 6
+        },
+        {
+          "caller": "selectProductId",
+          "callee": "Math.floor",
+          "lineNumber": 7
+        },
+        {
+          "caller": "selectProductId",
+          "callee": "random",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/hot-merchant.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 64,
+      "functions": [
+        {
+          "name": "cancel",
+          "startLine": 48,
+          "endLine": 71,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "cancel",
+          "line": 48,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "cancel",
+          "callee": "exec.test.abort",
+          "lineNumber": 51
+        },
+        {
+          "caller": "cancel",
+          "callee": "Date.now",
+          "lineNumber": 56
+        },
+        {
+          "caller": "cancel",
+          "callee": "http.post",
+          "lineNumber": 57
+        },
+        {
+          "caller": "cancel",
+          "callee": "JSON.stringify",
+          "lineNumber": 59
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelDuration.add",
+          "lineNumber": 62
+        },
+        {
+          "caller": "cancel",
+          "callee": "Date.now",
+          "lineNumber": 62
+        },
+        {
+          "caller": "cancel",
+          "callee": "check",
+          "lineNumber": 64
+        },
+        {
+          "caller": "cancel",
+          "callee": "JSON.parse",
+          "lineNumber": 67
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelSuccess.add",
+          "lineNumber": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/idempotency-test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 115,
+      "nonEmptyLines": 97,
+      "functions": [
+        {
+          "name": "setup",
+          "startLine": 30,
+          "endLine": 45,
+          "params": []
+        },
+        {
+          "name": "teardown",
+          "startLine": 77,
+          "endLine": 115,
+          "params": [
+            "data"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "setup",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "teardown",
+          "line": 77,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setup",
+          "callee": "createMerchant",
+          "lineNumber": 31
+        },
+        {
+          "caller": "setup",
+          "callee": "createOrder",
+          "lineNumber": 34
+        },
+        {
+          "caller": "setup",
+          "callee": "createPayment",
+          "lineNumber": 37
+        },
+        {
+          "caller": "setup",
+          "callee": "console.log",
+          "lineNumber": 39
+        },
+        {
+          "caller": "teardown",
+          "callee": "sleep",
+          "lineNumber": 79
+        },
+        {
+          "caller": "teardown",
+          "callee": "http.get",
+          "lineNumber": 81
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.error",
+          "lineNumber": 87
+        },
+        {
+          "caller": "teardown",
+          "callee": "JSON.parse",
+          "lineNumber": 91
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 96
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 97
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 98
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 99
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 100
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 101
+        },
+        {
+          "caller": "teardown",
+          "callee": "items.map",
+          "lineNumber": 104
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 105
+        },
+        {
+          "caller": "teardown",
+          "callee": "statuses.join",
+          "lineNumber": 105
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 106
+        },
+        {
+          "caller": "teardown",
+          "callee": "statuses.filter",
+          "lineNumber": 106
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 110
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 112
+        },
+        {
+          "caller": "teardown",
+          "callee": "console.log",
+          "lineNumber": 114
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/load-test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 87,
+      "nonEmptyLines": 77,
+      "functions": [
+        {
+          "name": "setup",
+          "startLine": 36,
+          "endLine": 42,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "setup",
+          "line": 36,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "setup",
+          "callee": "buildPaymentPool",
+          "lineNumber": 37
+        },
+        {
+          "caller": "setup",
+          "callee": "console.log",
+          "lineNumber": 39
+        },
+        {
+          "caller": "setup",
+          "callee": "sleep",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/product-detail.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 73,
+      "nonEmptyLines": 68,
+      "functions": [
+        {
+          "name": "detail",
+          "startLine": 57,
+          "endLine": 73,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "detail",
+          "line": 57,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "detail",
+          "callee": "selectProductId",
+          "lineNumber": 58
+        },
+        {
+          "caller": "detail",
+          "callee": "http.get",
+          "lineNumber": 59
+        },
+        {
+          "caller": "detail",
+          "callee": "check",
+          "lineNumber": 62
+        },
+        {
+          "caller": "detail",
+          "callee": "r.json",
+          "lineNumber": 66
+        },
+        {
+          "caller": "detail",
+          "callee": "productDetailSuccess.add",
+          "lineNumber": 72
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/product-distribution-test.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "sequence",
+          "startLine": 5,
+          "endLine": 5,
+          "params": [
+            "...values"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "sequence",
+          "callee": "values.shift",
+          "lineNumber": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/realistic-mix.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 131,
+      "nonEmptyLines": 121,
+      "functions": [
+        {
+          "name": "pickSubset",
+          "startLine": 76,
+          "endLine": 81,
+          "params": [
+            "items"
+          ]
+        },
+        {
+          "name": "cancel",
+          "startLine": 83,
+          "endLine": 101,
+          "params": [
+            "paymentKey",
+            "itemIds",
+            "path",
+            "counter"
+          ]
+        },
+        {
+          "name": "mix",
+          "startLine": 103,
+          "endLine": 131,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "mix",
+          "line": 103,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "pickSubset",
+          "callee": "[...items].sort",
+          "lineNumber": 78
+        },
+        {
+          "caller": "pickSubset",
+          "callee": "Math.random",
+          "lineNumber": 78
+        },
+        {
+          "caller": "pickSubset",
+          "callee": "Math.floor",
+          "lineNumber": 79
+        },
+        {
+          "caller": "pickSubset",
+          "callee": "Math.random",
+          "lineNumber": 79
+        },
+        {
+          "caller": "pickSubset",
+          "callee": "shuffled.slice",
+          "lineNumber": 80
+        },
+        {
+          "caller": "cancel",
+          "callee": "counter.add",
+          "lineNumber": 84
+        },
+        {
+          "caller": "cancel",
+          "callee": "Date.now",
+          "lineNumber": 85
+        },
+        {
+          "caller": "cancel",
+          "callee": "http.post",
+          "lineNumber": 86
+        },
+        {
+          "caller": "cancel",
+          "callee": "JSON.stringify",
+          "lineNumber": 88
+        },
+        {
+          "caller": "cancel",
+          "callee": "itemIds.map",
+          "lineNumber": 89
+        },
+        {
+          "caller": "cancel",
+          "callee": "dur.add",
+          "lineNumber": 94
+        },
+        {
+          "caller": "cancel",
+          "callee": "Date.now",
+          "lineNumber": 94
+        },
+        {
+          "caller": "cancel",
+          "callee": "success.add",
+          "lineNumber": 96
+        },
+        {
+          "caller": "cancel",
+          "callee": "serverError.add",
+          "lineNumber": 98
+        },
+        {
+          "caller": "cancel",
+          "callee": "reject4xx.add",
+          "lineNumber": 99
+        },
+        {
+          "caller": "mix",
+          "callee": "Math.random",
+          "lineNumber": 105
+        },
+        {
+          "caller": "mix",
+          "callee": "Math.floor",
+          "lineNumber": 113
+        },
+        {
+          "caller": "mix",
+          "callee": "Math.random",
+          "lineNumber": 113
+        },
+        {
+          "caller": "mix",
+          "callee": "Math.min",
+          "lineNumber": 113
+        },
+        {
+          "caller": "mix",
+          "callee": "cancel",
+          "lineNumber": 114
+        },
+        {
+          "caller": "mix",
+          "callee": "exec.test.abort",
+          "lineNumber": 120
+        },
+        {
+          "caller": "mix",
+          "callee": "Math.random",
+          "lineNumber": 126
+        },
+        {
+          "caller": "mix",
+          "callee": "cancel",
+          "lineNumber": 127
+        },
+        {
+          "caller": "mix",
+          "callee": "pickSubset",
+          "lineNumber": 127
+        },
+        {
+          "caller": "mix",
+          "callee": "cancel",
+          "lineNumber": 129
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/slo-arrival.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 150,
+      "nonEmptyLines": 137,
+      "functions": [
+        {
+          "name": "cancel",
+          "startLine": 91,
+          "endLine": 116,
+          "params": []
+        },
+        {
+          "name": "handleSummary",
+          "startLine": 119,
+          "endLine": 148,
+          "params": [
+            "data"
+          ]
+        },
+        {
+          "name": "round",
+          "startLine": 149,
+          "endLine": 149,
+          "params": [
+            "v"
+          ]
+        },
+        {
+          "name": "pad",
+          "startLine": 150,
+          "endLine": 150,
+          "params": [
+            "v",
+            "w"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "cancel",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "handleSummary",
+          "line": 119,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "cancel",
+          "callee": "exec.test.abort",
+          "lineNumber": 96
+        },
+        {
+          "caller": "cancel",
+          "callee": "http.post",
+          "lineNumber": 103
+        },
+        {
+          "caller": "cancel",
+          "callee": "JSON.stringify",
+          "lineNumber": 105
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelDuration.add",
+          "lineNumber": 108
+        },
+        {
+          "caller": "cancel",
+          "callee": "check",
+          "lineNumber": 109
+        },
+        {
+          "caller": "cancel",
+          "callee": "JSON.parse",
+          "lineNumber": 112
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelSuccess.add",
+          "lineNumber": 115
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "rows.push",
+          "lineNumber": 124
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "round",
+          "lineNumber": 127
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "round",
+          "lineNumber": 128
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "round",
+          "lineNumber": 129
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "round",
+          "lineNumber": 130
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "round",
+          "lineNumber": 131
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "pad",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "pad",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "pad",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "pad",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "pad",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "pad",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "pad",
+          "lineNumber": 141
+        },
+        {
+          "caller": "handleSummary",
+          "callee": "JSON.stringify",
+          "lineNumber": 146
+        },
+        {
+          "caller": "round",
+          "callee": "Math.round",
+          "lineNumber": 149
+        },
+        {
+          "caller": "pad",
+          "callee": "String(v ?? '-').padStart",
+          "lineNumber": 150
+        },
+        {
+          "caller": "pad",
+          "callee": "String",
+          "lineNumber": 150
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "k6/stages.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 104,
+      "nonEmptyLines": 93,
+      "functions": [
+        {
+          "name": "cancel",
+          "startLine": 77,
+          "endLine": 104,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "options",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "cancel",
+          "line": 77,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "cancel",
+          "callee": "exec.test.abort",
+          "lineNumber": 81
+        },
+        {
+          "caller": "cancel",
+          "callee": "Date.now",
+          "lineNumber": 86
+        },
+        {
+          "caller": "cancel",
+          "callee": "http.post",
+          "lineNumber": 87
+        },
+        {
+          "caller": "cancel",
+          "callee": "JSON.stringify",
+          "lineNumber": 89
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelDuration.add",
+          "lineNumber": 92
+        },
+        {
+          "caller": "cancel",
+          "callee": "Date.now",
+          "lineNumber": 92
+        },
+        {
+          "caller": "cancel",
+          "callee": "check",
+          "lineNumber": 94
+        },
+        {
+          "caller": "cancel",
+          "callee": "JSON.parse",
+          "lineNumber": 97
+        },
+        {
+          "caller": "cancel",
+          "callee": "cancelSuccess.add",
+          "lineNumber": 100
+        },
+        {
+          "caller": "cancel",
+          "callee": "console.log",
+          "lineNumber": 102
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    }
+  ]
+}

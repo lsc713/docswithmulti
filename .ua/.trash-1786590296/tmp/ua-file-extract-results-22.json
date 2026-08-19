@@ -1,0 +1,2311 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 19,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 19,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 19,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/domain/exception/MerchantCancelLimitExceededException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 22,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "MerchantCancelLimitExceededException",
+          "startLine": 16,
+          "endLine": 21,
+          "params": [
+            "dailyLimit",
+            "usedAmount",
+            "requestAmount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelLimitExceededException",
+          "startLine": 9,
+          "endLine": 22,
+          "methods": [
+            "MerchantCancelLimitExceededException"
+          ],
+          "properties": [
+            "dailyLimit",
+            "usedAmount",
+            "requestAmount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantCancelLimitExceededException",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelLimitExceededException",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/domain/service/CancelLimitDomainService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "canDeduct",
+          "startLine": 15,
+          "endLine": 17,
+          "params": [
+            "dailyLimit",
+            "usedAmount",
+            "amount"
+          ]
+        },
+        {
+          "name": "validateAndDeduct",
+          "startLine": 19,
+          "endLine": 25,
+          "params": [
+            "usage",
+            "cancelAmount"
+          ]
+        },
+        {
+          "name": "applyCompensation",
+          "startLine": 27,
+          "endLine": 29,
+          "params": [
+            "usage",
+            "restoreAmount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelLimitDomainService",
+          "startLine": 8,
+          "endLine": 30,
+          "methods": [
+            "canDeduct",
+            "validateAndDeduct",
+            "applyCompensation"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "canDeduct",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "validateAndDeduct",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "applyCompensation",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "CancelLimitDomainService",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "canDeduct",
+          "callee": "usedAmount.add(amount).compareTo",
+          "lineNumber": 16
+        },
+        {
+          "caller": "canDeduct",
+          "callee": "usedAmount.add",
+          "lineNumber": 16
+        },
+        {
+          "caller": "validateAndDeduct",
+          "callee": "canDeduct",
+          "lineNumber": 20
+        },
+        {
+          "caller": "validateAndDeduct",
+          "callee": "usage.getDailyLimit",
+          "lineNumber": 20
+        },
+        {
+          "caller": "validateAndDeduct",
+          "callee": "usage.getUsedAmount",
+          "lineNumber": 20
+        },
+        {
+          "caller": "validateAndDeduct",
+          "callee": "new MerchantCancelLimitExceededException",
+          "lineNumber": 21
+        },
+        {
+          "caller": "validateAndDeduct",
+          "callee": "usage.getDailyLimit",
+          "lineNumber": 22
+        },
+        {
+          "caller": "validateAndDeduct",
+          "callee": "usage.getUsedAmount",
+          "lineNumber": 22
+        },
+        {
+          "caller": "validateAndDeduct",
+          "callee": "usage.deduct",
+          "lineNumber": 24
+        },
+        {
+          "caller": "applyCompensation",
+          "callee": "usage.restore",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/cache/RedisDailyLimitCache.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 40,
+      "functions": [
+        {
+          "name": "get",
+          "startLine": 24,
+          "endLine": 28,
+          "params": [
+            "merchantId",
+            "kstDate"
+          ]
+        },
+        {
+          "name": "set",
+          "startLine": 30,
+          "endLine": 34,
+          "params": [
+            "merchantId",
+            "kstDate",
+            "limit"
+          ]
+        },
+        {
+          "name": "ttlUntilMidnight",
+          "startLine": 40,
+          "endLine": 44,
+          "params": [
+            "kstDate"
+          ]
+        },
+        {
+          "name": "key",
+          "startLine": 46,
+          "endLine": 48,
+          "params": [
+            "merchantId",
+            "kstDate"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RedisDailyLimitCache",
+          "startLine": 15,
+          "endLine": 49,
+          "methods": [
+            "get",
+            "set",
+            "ttlUntilMidnight",
+            "key"
+          ],
+          "properties": [
+            "KST",
+            "MIN_TTL",
+            "redisTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "get",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "set",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "RedisDailyLimitCache",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "get",
+          "callee": "redisTemplate.opsForValue().get",
+          "lineNumber": 26
+        },
+        {
+          "caller": "get",
+          "callee": "redisTemplate.opsForValue",
+          "lineNumber": 26
+        },
+        {
+          "caller": "get",
+          "callee": "key",
+          "lineNumber": 26
+        },
+        {
+          "caller": "get",
+          "callee": "Optional.ofNullable(value).map",
+          "lineNumber": 27
+        },
+        {
+          "caller": "get",
+          "callee": "Optional.ofNullable",
+          "lineNumber": 27
+        },
+        {
+          "caller": "set",
+          "callee": "ttlUntilMidnight",
+          "lineNumber": 32
+        },
+        {
+          "caller": "set",
+          "callee": "redisTemplate.opsForValue().set",
+          "lineNumber": 33
+        },
+        {
+          "caller": "set",
+          "callee": "redisTemplate.opsForValue",
+          "lineNumber": 33
+        },
+        {
+          "caller": "set",
+          "callee": "key",
+          "lineNumber": 33
+        },
+        {
+          "caller": "set",
+          "callee": "limit.toPlainString",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ttlUntilMidnight",
+          "callee": "kstDate.plusDays(1).atStartOfDay",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ttlUntilMidnight",
+          "callee": "kstDate.plusDays",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ttlUntilMidnight",
+          "callee": "Duration.between",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ttlUntilMidnight",
+          "callee": "ZonedDateTime.now",
+          "lineNumber": 42
+        },
+        {
+          "caller": "ttlUntilMidnight",
+          "callee": "remaining.compareTo",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/config/PersistenceConfig.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "transactionManager",
+          "startLine": 20,
+          "endLine": 23,
+          "params": [
+            "emf"
+          ]
+        },
+        {
+          "name": "transactionTemplate",
+          "startLine": 25,
+          "endLine": 28,
+          "params": [
+            "transactionManager"
+          ]
+        },
+        {
+          "name": "cancelLimitDomainService",
+          "startLine": 30,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "merchantCancelUsageRepository",
+          "startLine": 35,
+          "endLine": 39,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "cancelUsageHistoryRepository",
+          "startLine": 41,
+          "endLine": 45,
+          "params": [
+            "jpa"
+          ]
+        },
+        {
+          "name": "cancelUsageCompensationRepository",
+          "startLine": 47,
+          "endLine": 51,
+          "params": [
+            "jpa"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PersistenceConfig",
+          "startLine": 15,
+          "endLine": 52,
+          "methods": [
+            "transactionManager",
+            "transactionTemplate",
+            "cancelLimitDomainService",
+            "merchantCancelUsageRepository",
+            "cancelUsageHistoryRepository",
+            "cancelUsageCompensationRepository"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "transactionManager",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "transactionTemplate",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "cancelLimitDomainService",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "merchantCancelUsageRepository",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "cancelUsageHistoryRepository",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "cancelUsageCompensationRepository",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "PersistenceConfig",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "transactionManager",
+          "callee": "new JpaTransactionManager",
+          "lineNumber": 22
+        },
+        {
+          "caller": "transactionTemplate",
+          "callee": "new TransactionTemplate",
+          "lineNumber": 27
+        },
+        {
+          "caller": "cancelLimitDomainService",
+          "callee": "new CancelLimitDomainService",
+          "lineNumber": 32
+        },
+        {
+          "caller": "merchantCancelUsageRepository",
+          "callee": "new MerchantCancelUsageRepositoryImpl",
+          "lineNumber": 38
+        },
+        {
+          "caller": "cancelUsageHistoryRepository",
+          "callee": "new CancelUsageHistoryRepositoryImpl",
+          "lineNumber": 44
+        },
+        {
+          "caller": "cancelUsageCompensationRepository",
+          "callee": "new CancelUsageCompensationRepositoryImpl",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/http/MerchantLimitRestClient.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "MerchantLimitRestClient",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "merchantLimitRestClient"
+          ]
+        },
+        {
+          "name": "fetchDailyLimit",
+          "startLine": 26,
+          "endLine": 42,
+          "params": [
+            "merchantId",
+            "kstDate"
+          ]
+        },
+        {
+          "name": "fetchDailyLimitFallback",
+          "startLine": 46,
+          "endLine": 49,
+          "params": [
+            "merchantId",
+            "kstDate",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantLimitRestClient",
+          "startLine": 16,
+          "endLine": 50,
+          "methods": [
+            "MerchantLimitRestClient",
+            "fetchDailyLimit",
+            "fetchDailyLimitFallback"
+          ],
+          "properties": [
+            "merchantLimitRestClient"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MerchantLimitRestClient",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "fetchDailyLimit",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantLimitRestClient",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "merchantLimitRestClient.get()\n            .uri(\"/internal/merchants/{merchantId}/cancel-limit\", merchantId)\n            .retrieve()\n            .onStatus(HttpStatusCode::is4xxClientError, (req, res) -> {\n                if (res.getStatusCode().value() == 404)\n                    throw new MerchantCancelLimitNotFoundException(merchantId);\n                throw new RuntimeException(\"merchant-limit 4xx: \" + res.getStatusCode());\n            }).body",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "merchantLimitRestClient.get()\n            .uri(\"/internal/merchants/{merchantId}/cancel-limit\", merchantId)\n            .retrieve().onStatus",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "merchantLimitRestClient.get()\n            .uri(\"/internal/merchants/{merchantId}/cancel-limit\", merchantId).retrieve",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "merchantLimitRestClient.get().uri",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "merchantLimitRestClient.get",
+          "lineNumber": 29
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "res.getStatusCode().value",
+          "lineNumber": 33
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "res.getStatusCode",
+          "lineNumber": 33
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "new MerchantCancelLimitNotFoundException",
+          "lineNumber": 34
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "new RuntimeException",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "res.getStatusCode",
+          "lineNumber": 35
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "ServiceUnavailableException.merchantLimitUnavailable",
+          "lineNumber": 39
+        },
+        {
+          "caller": "fetchDailyLimit",
+          "callee": "response.dailyLimit",
+          "lineNumber": 41
+        },
+        {
+          "caller": "fetchDailyLimitFallback",
+          "callee": "log.warn",
+          "lineNumber": 47
+        },
+        {
+          "caller": "fetchDailyLimitFallback",
+          "callee": "e.getMessage",
+          "lineNumber": 47
+        },
+        {
+          "caller": "fetchDailyLimitFallback",
+          "callee": "ServiceUnavailableException.merchantLimitUnavailable",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/messaging/MerchantLimitUpdatedConsumer.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 65,
+      "nonEmptyLines": 54,
+      "functions": [
+        {
+          "name": "consume",
+          "startLine": 30,
+          "endLine": 64,
+          "params": [
+            "record",
+            "ack"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantLimitUpdatedConsumer",
+          "startLine": 19,
+          "endLine": 65,
+          "methods": [
+            "consume"
+          ],
+          "properties": [
+            "dailyLimitCache",
+            "usageRepository",
+            "merchantLimitClient",
+            "objectMapper",
+            "transactionTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "consume",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantLimitUpdatedConsumer",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "consume",
+          "callee": "objectMapper.readValue",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 36
+        },
+        {
+          "caller": "consume",
+          "callee": "LocalDate.now",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "ZoneId.of",
+          "lineNumber": 38
+        },
+        {
+          "caller": "consume",
+          "callee": "merchantLimitClient.fetchDailyLimit",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.merchantId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "consume",
+          "callee": "dailyLimitCache.set",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.merchantId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "consume",
+          "callee": "transactionTemplate.execute",
+          "lineNumber": 47
+        },
+        {
+          "caller": "consume",
+          "callee": "usageRepository.findByMerchantIdAndKstDate(payload.merchantId(), kstToday)\n                    .map(usage -> {\n                        usage.updateDailyLimit(newLimit);\n                        return usageRepository.save(usage);\n                    }).orElse",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "usageRepository.findByMerchantIdAndKstDate(payload.merchantId(), kstToday).map",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "usageRepository.findByMerchantIdAndKstDate",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.merchantId",
+          "lineNumber": 48
+        },
+        {
+          "caller": "consume",
+          "callee": "usage.updateDailyLimit",
+          "lineNumber": 50
+        },
+        {
+          "caller": "consume",
+          "callee": "usageRepository.save",
+          "lineNumber": 51
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 55
+        },
+        {
+          "caller": "consume",
+          "callee": "log.debug",
+          "lineNumber": 56
+        },
+        {
+          "caller": "consume",
+          "callee": "payload.merchantId",
+          "lineNumber": 57
+        },
+        {
+          "caller": "consume",
+          "callee": "log.error",
+          "lineNumber": 60
+        },
+        {
+          "caller": "consume",
+          "callee": "record.offset",
+          "lineNumber": 61
+        },
+        {
+          "caller": "consume",
+          "callee": "record.value",
+          "lineNumber": 61
+        },
+        {
+          "caller": "consume",
+          "callee": "ack.acknowledge",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "CancelUsageCompensationJpaEntity",
+          "startLine": 31,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 33,
+          "endLine": 40,
+          "params": [
+            "compensation"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 42,
+          "endLine": 44,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelUsageCompensationJpaEntity",
+          "startLine": 9,
+          "endLine": 45,
+          "methods": [
+            "CancelUsageCompensationJpaEntity",
+            "from",
+            "toDomain"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "merchantId",
+            "restoreAmount",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "CancelUsageCompensationJpaEntity",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CancelUsageCompensationJpaEntity",
+          "lineNumber": 34
+        },
+        {
+          "caller": "from",
+          "callee": "compensation.getCancelRequestId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "from",
+          "callee": "compensation.getMerchantId",
+          "lineNumber": 36
+        },
+        {
+          "caller": "from",
+          "callee": "compensation.getRestoreAmount",
+          "lineNumber": 37
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 38
+        },
+        {
+          "caller": "toDomain",
+          "callee": "CancelUsageCompensation.reconstruct",
+          "lineNumber": 43
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageCompensationRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "save",
+          "startLine": 12,
+          "endLine": 15,
+          "params": [
+            "compensation"
+          ]
+        },
+        {
+          "name": "existsByCancelRequestId",
+          "startLine": 17,
+          "endLine": 20,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelUsageCompensationRepositoryImpl",
+          "startLine": 7,
+          "endLine": 21,
+          "methods": [
+            "save",
+            "existsByCancelRequestId"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "save",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "existsByCancelRequestId",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "CancelUsageCompensationRepositoryImpl",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpa.save(CancelUsageCompensationJpaEntity.from(compensation)).toDomain",
+          "lineNumber": 14
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 14
+        },
+        {
+          "caller": "save",
+          "callee": "CancelUsageCompensationJpaEntity.from",
+          "lineNumber": 14
+        },
+        {
+          "caller": "existsByCancelRequestId",
+          "callee": "jpa.existsByCancelRequestId",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "CancelUsageHistoryJpaEntity",
+          "startLine": 35,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 37,
+          "endLine": 45,
+          "params": [
+            "history"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 47,
+          "endLine": 49,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelUsageHistoryJpaEntity",
+          "startLine": 10,
+          "endLine": 50,
+          "methods": [
+            "CancelUsageHistoryJpaEntity",
+            "from",
+            "toDomain"
+          ],
+          "properties": [
+            "id",
+            "cancelRequestId",
+            "merchantId",
+            "kstDate",
+            "cancelAmount",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "CancelUsageHistoryJpaEntity",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CancelUsageHistoryJpaEntity",
+          "lineNumber": 38
+        },
+        {
+          "caller": "from",
+          "callee": "history.getCancelRequestId",
+          "lineNumber": 39
+        },
+        {
+          "caller": "from",
+          "callee": "history.getMerchantId",
+          "lineNumber": 40
+        },
+        {
+          "caller": "from",
+          "callee": "history.getKstDate",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "history.getCancelAmount",
+          "lineNumber": 42
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 43
+        },
+        {
+          "caller": "toDomain",
+          "callee": "CancelUsageHistory.reconstruct",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/CancelUsageHistoryRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "save",
+          "startLine": 14,
+          "endLine": 17,
+          "params": [
+            "history"
+          ]
+        },
+        {
+          "name": "findByCancelRequestId",
+          "startLine": 19,
+          "endLine": 23,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelUsageHistoryRepositoryImpl",
+          "startLine": 9,
+          "endLine": 24,
+          "methods": [
+            "save",
+            "findByCancelRequestId"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "save",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "findByCancelRequestId",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "CancelUsageHistoryRepositoryImpl",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpa.save(CancelUsageHistoryJpaEntity.from(history)).toDomain",
+          "lineNumber": 16
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 16
+        },
+        {
+          "caller": "save",
+          "callee": "CancelUsageHistoryJpaEntity.from",
+          "lineNumber": 16
+        },
+        {
+          "caller": "findByCancelRequestId",
+          "callee": "jpa.findByCancelRequestId(cancelRequestId).map",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findByCancelRequestId",
+          "callee": "jpa.findByCancelRequestId",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageJpaEntity.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "MerchantCancelUsageJpaEntity",
+          "startLine": 38,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "from",
+          "startLine": 40,
+          "endLine": 50,
+          "params": [
+            "usage"
+          ]
+        },
+        {
+          "name": "toDomain",
+          "startLine": 52,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "getId",
+          "startLine": 56,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelUsageJpaEntity",
+          "startLine": 10,
+          "endLine": 57,
+          "methods": [
+            "MerchantCancelUsageJpaEntity",
+            "from",
+            "toDomain",
+            "getId"
+          ],
+          "properties": [
+            "id",
+            "merchantId",
+            "kstDate",
+            "dailyLimit",
+            "usedAmount",
+            "createdAt",
+            "updatedAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "toDomain",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "getId",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelUsageJpaEntity",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new MerchantCancelUsageJpaEntity",
+          "lineNumber": 41
+        },
+        {
+          "caller": "from",
+          "callee": "usage.getId",
+          "lineNumber": 42
+        },
+        {
+          "caller": "from",
+          "callee": "usage.getId",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 43
+        },
+        {
+          "caller": "from",
+          "callee": "usage.getMerchantId",
+          "lineNumber": 44
+        },
+        {
+          "caller": "from",
+          "callee": "usage.getKstDate",
+          "lineNumber": 45
+        },
+        {
+          "caller": "from",
+          "callee": "usage.getDailyLimit",
+          "lineNumber": 46
+        },
+        {
+          "caller": "from",
+          "callee": "usage.getUsedAmount",
+          "lineNumber": 47
+        },
+        {
+          "caller": "from",
+          "callee": "Instant.now",
+          "lineNumber": 48
+        },
+        {
+          "caller": "toDomain",
+          "callee": "MerchantCancelUsage.reconstruct",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 4,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/infrastructure/persistence/MerchantCancelUsageRepositoryImpl.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "save",
+          "startLine": 15,
+          "endLine": 18,
+          "params": [
+            "usage"
+          ]
+        },
+        {
+          "name": "findByMerchantIdAndKstDate",
+          "startLine": 20,
+          "endLine": 24,
+          "params": [
+            "merchantId",
+            "kstDate"
+          ]
+        },
+        {
+          "name": "findByMerchantIdAndKstDateForUpdate",
+          "startLine": 26,
+          "endLine": 30,
+          "params": [
+            "merchantId",
+            "kstDate"
+          ]
+        },
+        {
+          "name": "ensureRow",
+          "startLine": 32,
+          "endLine": 35,
+          "params": [
+            "merchantId",
+            "kstDate",
+            "dailyLimit"
+          ]
+        },
+        {
+          "name": "tryDeduct",
+          "startLine": 37,
+          "endLine": 40,
+          "params": [
+            "merchantId",
+            "kstDate",
+            "amount"
+          ]
+        },
+        {
+          "name": "tryRestore",
+          "startLine": 42,
+          "endLine": 45,
+          "params": [
+            "merchantId",
+            "kstDate",
+            "amount"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MerchantCancelUsageRepositoryImpl",
+          "startLine": 10,
+          "endLine": 46,
+          "methods": [
+            "save",
+            "findByMerchantIdAndKstDate",
+            "findByMerchantIdAndKstDateForUpdate",
+            "ensureRow",
+            "tryDeduct",
+            "tryRestore"
+          ],
+          "properties": [
+            "jpa"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "save",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "findByMerchantIdAndKstDate",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "findByMerchantIdAndKstDateForUpdate",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "ensureRow",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "tryDeduct",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "tryRestore",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "MerchantCancelUsageRepositoryImpl",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "save",
+          "callee": "jpa.save(MerchantCancelUsageJpaEntity.from(usage)).toDomain",
+          "lineNumber": 17
+        },
+        {
+          "caller": "save",
+          "callee": "jpa.save",
+          "lineNumber": 17
+        },
+        {
+          "caller": "save",
+          "callee": "MerchantCancelUsageJpaEntity.from",
+          "lineNumber": 17
+        },
+        {
+          "caller": "findByMerchantIdAndKstDate",
+          "callee": "jpa.findByMerchantIdAndKstDate(merchantId, kstDate).map",
+          "lineNumber": 22
+        },
+        {
+          "caller": "findByMerchantIdAndKstDate",
+          "callee": "jpa.findByMerchantIdAndKstDate",
+          "lineNumber": 22
+        },
+        {
+          "caller": "findByMerchantIdAndKstDateForUpdate",
+          "callee": "jpa.findByMerchantIdAndKstDateForUpdate(merchantId, kstDate).map",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findByMerchantIdAndKstDateForUpdate",
+          "callee": "jpa.findByMerchantIdAndKstDateForUpdate",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ensureRow",
+          "callee": "jpa.ensureRow",
+          "lineNumber": 34
+        },
+        {
+          "caller": "tryDeduct",
+          "callee": "jpa.tryDeduct",
+          "lineNumber": 39
+        },
+        {
+          "caller": "tryRestore",
+          "callee": "jpa.tryRestore",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 7,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/GlobalExceptionHandler.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "handleLimitExceeded",
+          "startLine": 20,
+          "endLine": 33,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleBusiness",
+          "startLine": 35,
+          "endLine": 41,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleValidation",
+          "startLine": 43,
+          "endLine": 50,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "handleUnexpected",
+          "startLine": 52,
+          "endLine": 57,
+          "params": [
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GlobalExceptionHandler",
+          "startLine": 15,
+          "endLine": 58,
+          "methods": [
+            "handleLimitExceeded",
+            "handleBusiness",
+            "handleValidation",
+            "handleUnexpected"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "handleLimitExceeded",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "handleBusiness",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "handleValidation",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "handleUnexpected",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "GlobalExceptionHandler",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "log.warn",
+          "lineNumber": 22
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getDailyLimit",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getUsedAmount",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getRequestAmount",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "new LinkedHashMap<>",
+          "lineNumber": 24
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "detail.put",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getRequestAmount",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "detail.put",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getDailyLimit().subtract",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getDailyLimit",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getUsedAmount",
+          "lineNumber": 26
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "detail.put",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getDailyLimit",
+          "lineNumber": 27
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "new LinkedHashMap<>",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "body.put",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getErrorCode",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "body.put",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "e.getMessage",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "body.put",
+          "lineNumber": 31
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "ResponseEntity.status(422).body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleLimitExceeded",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "log.warn",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 37
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity\n            .status(e.getErrorCode().getHttpStatus()).body",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 38
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getHttpStatus",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "Map.of",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode().getCode",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getErrorCode",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleBusiness",
+          "callee": "e.getMessage",
+          "lineNumber": 40
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage())\n            .findFirst().orElse",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream()\n            .map(err -> err.getDefaultMessage()).findFirst",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream().map",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors().stream",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult().getAllErrors",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "e.getBindingResult",
+          "lineNumber": 45
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "err.getDefaultMessage",
+          "lineNumber": 46
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ResponseEntity.status(HttpStatus.BAD_REQUEST).body",
+          "lineNumber": 48
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 48
+        },
+        {
+          "caller": "handleValidation",
+          "callee": "Map.of",
+          "lineNumber": 49
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "log.error",
+          "lineNumber": 54
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "ResponseEntity.status",
+          "lineNumber": 55
+        },
+        {
+          "caller": "handleUnexpected",
+          "callee": "Map.of",
+          "lineNumber": 56
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/controller/InternalCancelLimitController.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "validateAndReserve",
+          "startLine": 21,
+          "endLine": 26,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "compensate",
+          "startLine": 28,
+          "endLine": 33,
+          "params": [
+            "request"
+          ]
+        },
+        {
+          "name": "check",
+          "startLine": 35,
+          "endLine": 39,
+          "params": [
+            "cancelRequestId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InternalCancelLimitController",
+          "startLine": 12,
+          "endLine": 40,
+          "methods": [
+            "validateAndReserve",
+            "compensate",
+            "check"
+          ],
+          "properties": [
+            "validateAndReserveUseCase",
+            "compensateUseCase",
+            "checkChargeUseCase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "validateAndReserve",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "compensate",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "check",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "InternalCancelLimitController",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "validateAndReserve",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 24
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "ValidateAndReserveResponse.from",
+          "lineNumber": 25
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "validateAndReserveUseCase.execute",
+          "lineNumber": 25
+        },
+        {
+          "caller": "validateAndReserve",
+          "callee": "request.toCommand",
+          "lineNumber": 25
+        },
+        {
+          "caller": "compensate",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 31
+        },
+        {
+          "caller": "compensate",
+          "callee": "CompensateResponse.from",
+          "lineNumber": 32
+        },
+        {
+          "caller": "compensate",
+          "callee": "compensateUseCase.execute",
+          "lineNumber": 32
+        },
+        {
+          "caller": "compensate",
+          "callee": "request.toCommand",
+          "lineNumber": 32
+        },
+        {
+          "caller": "check",
+          "callee": "ResponseEntity.ok",
+          "lineNumber": 37
+        },
+        {
+          "caller": "check",
+          "callee": "CheckChargeResponse.from",
+          "lineNumber": 38
+        },
+        {
+          "caller": "check",
+          "callee": "checkChargeUseCase.execute",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CheckChargeResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 11,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 10,
+          "endLine": 13,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CheckChargeResponse",
+          "startLine": 7,
+          "endLine": 14,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "CheckChargeResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CheckChargeResponse",
+          "lineNumber": 11
+        },
+        {
+          "caller": "from",
+          "callee": "result.cancelRequestId",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "result.charged",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "result.merchantId",
+          "lineNumber": 12
+        },
+        {
+          "caller": "from",
+          "callee": "result.cancelAmount",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "toCommand",
+          "startLine": 15,
+          "endLine": 17,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CompensateRequest",
+          "startLine": 10,
+          "endLine": 18,
+          "methods": [
+            "toCommand"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "toCommand",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "CompensateRequest",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toCommand",
+          "callee": "new CompensateUseCase.Command",
+          "lineNumber": 16
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/CompensateResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 6,
+          "endLine": 8,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CompensateResponse",
+          "startLine": 5,
+          "endLine": 9,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "CompensateResponse",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new CompensateResponse",
+          "lineNumber": 7
+        },
+        {
+          "caller": "from",
+          "callee": "result.cancelRequestId",
+          "lineNumber": 7
+        },
+        {
+          "caller": "from",
+          "callee": "result.restored",
+          "lineNumber": 7
+        },
+        {
+          "caller": "from",
+          "callee": "result.reason",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveRequest.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 20,
+      "functions": [
+        {
+          "name": "toCommand",
+          "startLine": 19,
+          "endLine": 22,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ValidateAndReserveRequest",
+          "startLine": 12,
+          "endLine": 23,
+          "methods": [
+            "toCommand"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "toCommand",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "ValidateAndReserveRequest",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "toCommand",
+          "callee": "new ValidateAndReserveUseCase.Command",
+          "lineNumber": 20
+        },
+        {
+          "caller": "toCommand",
+          "callee": "LocalDate.parse",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "risk-management-service/src/main/java/com/example/riskmanagement/presentation/dto/ValidateAndReserveResponse.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "from",
+          "startLine": 13,
+          "endLine": 16,
+          "params": [
+            "result"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ValidateAndReserveResponse",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [
+            "from"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "from",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "ValidateAndReserveResponse",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "from",
+          "callee": "new ValidateAndReserveResponse",
+          "lineNumber": 14
+        },
+        {
+          "caller": "from",
+          "callee": "result.merchantId",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "result.dailyLimit",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "result.usedAmount",
+          "lineNumber": 15
+        },
+        {
+          "caller": "from",
+          "callee": "result.remainingLimit",
+          "lineNumber": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

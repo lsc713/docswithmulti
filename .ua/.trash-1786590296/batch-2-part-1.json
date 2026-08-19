@@ -1,0 +1,1148 @@
+{
+  "nodes": [
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "type": "file",
+      "name": "ApprovalAuthorizer.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "summary": "payment-service의 Approval Authorizer 권한 조건을 검증해 허용되지 않은 작업을 차단한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:ApprovalAuthorizer",
+      "type": "class",
+      "name": "ApprovalAuthorizer",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "lineRange": [
+        17,
+        49
+      ],
+      "summary": "ApprovalAuthorizer가 담당하는 authorization 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:authorizeDecision",
+      "type": "function",
+      "name": "authorizeDecision",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "lineRange": [
+        19,
+        29
+      ],
+      "summary": "authorizeDecision 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:authorizeRequest",
+      "type": "function",
+      "name": "authorizeRequest",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "lineRange": [
+        31,
+        37
+      ],
+      "summary": "authorizeRequest 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "dto",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:parseLong",
+      "type": "function",
+      "name": "parseLong",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "lineRange": [
+        39,
+        48
+      ],
+      "summary": "parseLong 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "type": "file",
+      "name": "AuthenticatedUser.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "summary": "payment-service의 Authenticated User 권한 조건을 검증해 허용되지 않은 작업을 차단한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java:AuthenticatedUser",
+      "type": "class",
+      "name": "AuthenticatedUser",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "lineRange": [
+        10,
+        11
+      ],
+      "summary": "AuthenticatedUser가 담당하는 authorization 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "authorization",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "type": "file",
+      "name": "CancelApprovalRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "summary": "payment-service의 Cancel Approval Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java:CancelApprovalRepository",
+      "type": "class",
+      "name": "CancelApprovalRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "lineRange": [
+        8,
+        14
+      ],
+      "summary": "CancelApprovalRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java",
+      "type": "file",
+      "name": "CancelRequestRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java",
+      "summary": "payment-service의 Cancel Request Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java:CancelRequestRepository",
+      "type": "class",
+      "name": "CancelRequestRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java",
+      "lineRange": [
+        8,
+        49
+      ],
+      "summary": "CancelRequestRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "type": "file",
+      "name": "PaymentItemRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "summary": "payment-service의 Payment Item Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java:PaymentItemRepository",
+      "type": "class",
+      "name": "PaymentItemRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "lineRange": [
+        6,
+        14
+      ],
+      "summary": "PaymentItemRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "type": "file",
+      "name": "PaymentRepository.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "summary": "payment-service의 Payment Repository 저장소 계약 또는 persistence 구현으로 domain 데이터 접근을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java:PaymentRepository",
+      "type": "class",
+      "name": "PaymentRepository",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "lineRange": [
+        12,
+        26
+      ],
+      "summary": "PaymentRepository 저장소의 조회·저장 연산을 정의하거나 구현한다.",
+      "tags": [
+        "payment-service",
+        "repository",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "type": "file",
+      "name": "CancelApprovalService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "summary": "payment-service의 Cancel Approval Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:CancelApprovalService",
+      "type": "class",
+      "name": "CancelApprovalService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "lineRange": [
+        30,
+        134
+      ],
+      "summary": "CancelApprovalService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:request",
+      "type": "function",
+      "name": "request",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "lineRange": [
+        40,
+        53
+      ],
+      "summary": "request 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:list",
+      "type": "function",
+      "name": "list",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "lineRange": [
+        55,
+        68
+      ],
+      "summary": "list 조건에 맞는 상태나 데이터를 조회해 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:approve",
+      "type": "function",
+      "name": "approve",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "lineRange": [
+        70,
+        87
+      ],
+      "summary": "approve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:reject",
+      "type": "function",
+      "name": "reject",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "lineRange": [
+        89,
+        99
+      ],
+      "summary": "reject 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:parseLong",
+      "type": "function",
+      "name": "parseLong",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "lineRange": [
+        124,
+        133
+      ],
+      "summary": "parseLong 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "type": "file",
+      "name": "CancelAuthorizationService.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "summary": "payment-service의 Cancel Authorization Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:CancelAuthorizationService",
+      "type": "class",
+      "name": "CancelAuthorizationService",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "lineRange": [
+        24,
+        68
+      ],
+      "summary": "CancelAuthorizationService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:authorize",
+      "type": "function",
+      "name": "authorize",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "lineRange": [
+        31,
+        56
+      ],
+      "summary": "authorize 요청이 domain 및 권한 조건을 충족하는지 검증한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:parseLong",
+      "type": "function",
+      "name": "parseLong",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "lineRange": [
+        58,
+        67
+      ],
+      "summary": "parseLong 입력 데이터를 대상 계층의 표현으로 변환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java",
+      "type": "file",
+      "name": "CancelPaymentCommand.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java",
+      "summary": "payment-service의 Cancel Payment Command application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java:CancelPaymentCommand",
+      "type": "class",
+      "name": "CancelPaymentCommand",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java",
+      "lineRange": [
+        5,
+        10
+      ],
+      "summary": "CancelPaymentCommand가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "type": "file",
+      "name": "CancelTxWriter.java",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "summary": "payment-service의 Cancel Tx Writer application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:CancelTxWriter",
+      "type": "class",
+      "name": "CancelTxWriter",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "lineRange": [
+        29,
+        104
+      ],
+      "summary": "CancelTxWriter가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx1",
+      "type": "function",
+      "name": "saveTx1",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "lineRange": [
+        40,
+        43
+      ],
+      "summary": "saveTx1 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx2",
+      "type": "function",
+      "name": "saveTx2",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "lineRange": [
+        45,
+        49
+      ],
+      "summary": "saveTx2 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx3",
+      "type": "function",
+      "name": "saveTx3",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "lineRange": [
+        51,
+        74
+      ],
+      "summary": "saveTx3 입력을 검증하고 새 상태 또는 데이터를 생성·저장한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:buildPayload",
+      "type": "function",
+      "name": "buildPayload",
+      "filePath": "payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "lineRange": [
+        76,
+        103
+      ],
+      "summary": "buildPayload 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "payment-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:ApprovalAuthorizer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:ApprovalAuthorizer",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:authorizeDecision",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:authorizeDecision",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:authorizeRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:authorizeRequest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java:parseLong",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java:AuthenticatedUser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java:AuthenticatedUser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java:CancelApprovalRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java:CancelApprovalRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java:CancelRequestRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java:CancelRequestRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java:PaymentItemRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java:PaymentItemRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java:PaymentRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java:PaymentRepository",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:CancelApprovalService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:CancelApprovalService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:request",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:request",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:list",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:list",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:approve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:approve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:reject",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:reject",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java:parseLong",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/authz/ApprovalAuthorizer.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/exception/PaymentNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelApprovalRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelApprovalUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelPaymentUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelApprovalNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/CancelNotAuthorizedException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/common/exception/domain/DuplicateCancelRequestException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApproval.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelApprovalStatus.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/CancelRequest.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelApprovalService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/PaymentItem.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:CancelAuthorizationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:CancelAuthorizationService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:authorize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:authorize",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java:parseLong",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/authz/AuthenticatedUser.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/exception/PaymentNotFoundException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/usecase/CancelAuthorizationUseCase.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelAuthorizationService.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/service/CancelAuthorizer.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java:CancelPaymentCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentCommand.java:CancelPaymentCommand",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:CancelTxWriter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "class:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:CancelTxWriter",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx1",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx1",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx2",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx2",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx3",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:saveTx3",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "function:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java:buildPayload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelEventPublisher.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/CancelRequestRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentItemRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/application/interfaces/PaymentRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/service/CancelDomainService.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:payment-service/src/main/java/com/example/payment/application/service/CancelTxWriter.java",
+      "target": "file:payment-service/src/main/java/com/example/payment/domain/service/CancelItemCommand.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

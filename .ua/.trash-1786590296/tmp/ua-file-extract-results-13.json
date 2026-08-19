@@ -1,0 +1,2765 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 24,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 24,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 24,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "frontend/src/App.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 89,
+      "nonEmptyLines": 78,
+      "functions": [
+        {
+          "name": "App",
+          "startLine": 13,
+          "endLine": 89,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "App",
+          "line": 13,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "App",
+          "callee": "useState",
+          "lineNumber": 14
+        },
+        {
+          "caller": "App",
+          "callee": "useState",
+          "lineNumber": 15
+        },
+        {
+          "caller": "App",
+          "callee": "useState",
+          "lineNumber": 16
+        },
+        {
+          "caller": "App",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "App",
+          "callee": "useState",
+          "lineNumber": 18
+        },
+        {
+          "caller": "App",
+          "callee": "useEffect",
+          "lineNumber": 20
+        },
+        {
+          "caller": "App",
+          "callee": "api.me().then(setMe).catch",
+          "lineNumber": 20
+        },
+        {
+          "caller": "App",
+          "callee": "api.me().then",
+          "lineNumber": 20
+        },
+        {
+          "caller": "App",
+          "callee": "api.me",
+          "lineNumber": 20
+        },
+        {
+          "caller": "App",
+          "callee": "setMe",
+          "lineNumber": 20
+        },
+        {
+          "caller": "loadCart",
+          "callee": "api.getCart().then(r => setCart(r.items)).catch",
+          "lineNumber": 22
+        },
+        {
+          "caller": "loadCart",
+          "callee": "api.getCart().then",
+          "lineNumber": 22
+        },
+        {
+          "caller": "loadCart",
+          "callee": "api.getCart",
+          "lineNumber": 22
+        },
+        {
+          "caller": "loadCart",
+          "callee": "setCart",
+          "lineNumber": 22
+        },
+        {
+          "caller": "loadCart",
+          "callee": "setCart",
+          "lineNumber": 22
+        },
+        {
+          "caller": "App",
+          "callee": "useEffect",
+          "lineNumber": 23
+        },
+        {
+          "caller": "App",
+          "callee": "loadCart",
+          "lineNumber": 23
+        },
+        {
+          "caller": "loadPayments",
+          "callee": "api.getPayments().then(setPayments).catch",
+          "lineNumber": 25
+        },
+        {
+          "caller": "loadPayments",
+          "callee": "api.getPayments().then",
+          "lineNumber": 25
+        },
+        {
+          "caller": "loadPayments",
+          "callee": "api.getPayments",
+          "lineNumber": 25
+        },
+        {
+          "caller": "loadPayments",
+          "callee": "setPayments",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handleRequestCancel",
+          "callee": "api.requestCancel",
+          "lineNumber": 28
+        },
+        {
+          "caller": "handleRequestCancel",
+          "callee": "alert",
+          "lineNumber": 29
+        },
+        {
+          "caller": "handleRequestCancel",
+          "callee": "loadPayments",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleBuy",
+          "callee": "setAuthOpen",
+          "lineNumber": 34
+        },
+        {
+          "caller": "handleBuy",
+          "callee": "setView",
+          "lineNumber": 35
+        },
+        {
+          "caller": "handleAddToCart",
+          "callee": "setAuthOpen",
+          "lineNumber": 39
+        },
+        {
+          "caller": "handleAddToCart",
+          "callee": "api.addCartItem",
+          "lineNumber": 41
+        },
+        {
+          "caller": "handleAddToCart",
+          "callee": "loadCart",
+          "lineNumber": 44
+        },
+        {
+          "caller": "handleAddToCart",
+          "callee": "setView",
+          "lineNumber": 45
+        },
+        {
+          "caller": "onQty",
+          "callee": "api.updateCartItem",
+          "lineNumber": 48
+        },
+        {
+          "caller": "onQty",
+          "callee": "loadCart",
+          "lineNumber": 48
+        },
+        {
+          "caller": "onRemove",
+          "callee": "api.removeCartItem",
+          "lineNumber": 49
+        },
+        {
+          "caller": "onRemove",
+          "callee": "loadCart",
+          "lineNumber": 49
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 53
+        },
+        {
+          "caller": "App",
+          "callee": "setAuthOpen",
+          "lineNumber": 54
+        },
+        {
+          "caller": "App",
+          "callee": "api.logout",
+          "lineNumber": 55
+        },
+        {
+          "caller": "App",
+          "callee": "setMe",
+          "lineNumber": 55
+        },
+        {
+          "caller": "App",
+          "callee": "cart.reduce",
+          "lineNumber": 56
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 57
+        },
+        {
+          "caller": "App",
+          "callee": "loadPayments",
+          "lineNumber": 58
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 58
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 60
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 62
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 67
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 68
+        },
+        {
+          "caller": "App",
+          "callee": "api.clearCart",
+          "lineNumber": 73
+        },
+        {
+          "caller": "App",
+          "callee": "setCart",
+          "lineNumber": 73
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 74
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 76
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 79
+        },
+        {
+          "caller": "App",
+          "callee": "setView",
+          "lineNumber": 82
+        },
+        {
+          "caller": "App",
+          "callee": "setAuthOpen",
+          "lineNumber": 85
+        },
+        {
+          "caller": "App",
+          "callee": "setMe",
+          "lineNumber": 86
+        },
+        {
+          "caller": "App",
+          "callee": "setAuthOpen",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 10,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/AdminApp.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "AdminApp",
+          "startLine": 12,
+          "endLine": 29,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminApp",
+          "line": 12,
+          "isDefault": true
+        }
+      ],
+      "metrics": {
+        "importCount": 9,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/AdminLayout.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 27,
+      "functions": [
+        {
+          "name": "AdminLayout",
+          "startLine": 5,
+          "endLine": 28,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AdminLayout",
+          "line": 5,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AdminLayout",
+          "callee": "useNavigate",
+          "lineNumber": 6
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "useEffect",
+          "lineNumber": 8
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "api.me().then(me => setRole(me.role)).catch",
+          "lineNumber": 8
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "api.me().then",
+          "lineNumber": 8
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "api.me",
+          "lineNumber": 8
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "setRole",
+          "lineNumber": 8
+        },
+        {
+          "caller": "AdminLayout",
+          "callee": "setRole",
+          "lineNumber": 8
+        },
+        {
+          "caller": "logout",
+          "callee": "api.logout",
+          "lineNumber": 10
+        },
+        {
+          "caller": "logout",
+          "callee": "navigate",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/RequireRole.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "RequireRole",
+          "startLine": 5,
+          "endLine": 17,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RequireRole",
+          "line": 5,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RequireRole",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "useEffect",
+          "lineNumber": 8
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "api.me()\n      .then(me => setState({ loading: false, ok: roles.includes(me.role) }))\n      .catch",
+          "lineNumber": 9
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "api.me()\n      .then",
+          "lineNumber": 9
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "api.me",
+          "lineNumber": 9
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "setState",
+          "lineNumber": 10
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "roles.includes",
+          "lineNumber": 10
+        },
+        {
+          "caller": "RequireRole",
+          "callee": "setState",
+          "lineNumber": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/main.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/pages/CancelRequests.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "CancelRequests",
+          "startLine": 4,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRequests",
+          "line": 4,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CancelRequests",
+          "callee": "useState",
+          "lineNumber": 5
+        },
+        {
+          "caller": "CancelRequests",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "CancelRequests",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "load",
+          "callee": "setLoading",
+          "lineNumber": 10
+        },
+        {
+          "caller": "load",
+          "callee": "api.cancelRequests('REQUESTED')\n      .then(r => { setItems(r.items ?? []); setErr('') })\n      .catch(e => setErr(e.message))\n      .finally",
+          "lineNumber": 11
+        },
+        {
+          "caller": "load",
+          "callee": "api.cancelRequests('REQUESTED')\n      .then(r => { setItems(r.items ?? []); setErr('') })\n      .catch",
+          "lineNumber": 11
+        },
+        {
+          "caller": "load",
+          "callee": "api.cancelRequests('REQUESTED')\n      .then",
+          "lineNumber": 11
+        },
+        {
+          "caller": "load",
+          "callee": "api.cancelRequests",
+          "lineNumber": 11
+        },
+        {
+          "caller": "load",
+          "callee": "setItems",
+          "lineNumber": 12
+        },
+        {
+          "caller": "load",
+          "callee": "setErr",
+          "lineNumber": 12
+        },
+        {
+          "caller": "load",
+          "callee": "setErr",
+          "lineNumber": 13
+        },
+        {
+          "caller": "load",
+          "callee": "setLoading",
+          "lineNumber": 14
+        },
+        {
+          "caller": "CancelRequests",
+          "callee": "useEffect",
+          "lineNumber": 16
+        },
+        {
+          "caller": "approve",
+          "callee": "api.approveCancel",
+          "lineNumber": 19
+        },
+        {
+          "caller": "approve",
+          "callee": "load",
+          "lineNumber": 19
+        },
+        {
+          "caller": "approve",
+          "callee": "setErr",
+          "lineNumber": 19
+        },
+        {
+          "caller": "reject",
+          "callee": "window.prompt",
+          "lineNumber": 22
+        },
+        {
+          "caller": "reject",
+          "callee": "api.rejectCancel",
+          "lineNumber": 24
+        },
+        {
+          "caller": "reject",
+          "callee": "load",
+          "lineNumber": 24
+        },
+        {
+          "caller": "reject",
+          "callee": "setErr",
+          "lineNumber": 24
+        },
+        {
+          "caller": "CancelRequests",
+          "callee": "items.map",
+          "lineNumber": 39
+        },
+        {
+          "caller": "CancelRequests",
+          "callee": "new Date(it.createdAt).toLocaleString",
+          "lineNumber": 44
+        },
+        {
+          "caller": "CancelRequests",
+          "callee": "approve",
+          "lineNumber": 46
+        },
+        {
+          "caller": "CancelRequests",
+          "callee": "reject",
+          "lineNumber": 47
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/pages/Dashboard.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "leaves",
+          "startLine": 4,
+          "endLine": 8,
+          "params": [
+            "tree"
+          ]
+        },
+        {
+          "name": "Dashboard",
+          "startLine": 10,
+          "endLine": 42,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Dashboard",
+          "line": 10,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "leaves",
+          "callee": "(function walk(ns) { ns.forEach(n => (n.children?.length ? walk(n.children) : out.push(n))) })",
+          "lineNumber": 6
+        },
+        {
+          "caller": "leaves",
+          "callee": "ns.forEach",
+          "lineNumber": 6
+        },
+        {
+          "caller": "leaves",
+          "callee": "walk",
+          "lineNumber": 6
+        },
+        {
+          "caller": "leaves",
+          "callee": "out.push",
+          "lineNumber": 6
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "useState",
+          "lineNumber": 11
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "useState",
+          "lineNumber": 12
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "useEffect",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "(async () => {\n      const [users, tree] = await Promise.all([api.adminUsers(0, 1), api.categories()])\n      const ls = leaves(tree)\n      const counts = await Promise.all(ls.map(l => api.productsByCategory(l.id).then(r => r.totalElements)))\n      const catCount = (function count(ns) { return ns.reduce((a, n) => a + 1 + count(n.children ?? []), 0) })(tree)\n      setStats({\n        users: users.totalElements,\n        categories: catCount,\n        products: counts.reduce((a, b) => a + b, 0),\n      })\n    })().catch",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "(async () => {\n      const [users, tree] = await Promise.all([api.adminUsers(0, 1), api.categories()])\n      const ls = leaves(tree)\n      const counts = await Promise.all(ls.map(l => api.productsByCategory(l.id).then(r => r.totalElements)))\n      const catCount = (function count(ns) { return ns.reduce((a, n) => a + 1 + count(n.children ?? []), 0) })(tree)\n      setStats({\n        users: users.totalElements,\n        categories: catCount,\n        products: counts.reduce((a, b) => a + b, 0),\n      })\n    })",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "Promise.all",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "api.adminUsers",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "api.categories",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "leaves",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "Promise.all",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "ls.map",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "api.productsByCategory(l.id).then",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "api.productsByCategory",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "(function count(ns) { return ns.reduce((a, n) => a + 1 + count(n.children ?? []), 0) })",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "ns.reduce",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "count",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "setStats",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "counts.reduce",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "api.cancelRequests('REQUESTED')\n      .then(r => setPending((r.items ?? []).length))\n      .catch",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "api.cancelRequests('REQUESTED')\n      .then",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "api.cancelRequests",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "setPending",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Dashboard",
+          "callee": "setPending",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/pages/Login.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "Login",
+          "startLine": 5,
+          "endLine": 31,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Login",
+          "line": 5,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Login",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "Login",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "Login",
+          "callee": "useNavigate",
+          "lineNumber": 8
+        },
+        {
+          "caller": "set",
+          "callee": "setForm",
+          "lineNumber": 9
+        },
+        {
+          "caller": "submit",
+          "callee": "e.preventDefault",
+          "lineNumber": 12
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 12
+        },
+        {
+          "caller": "submit",
+          "callee": "api.login",
+          "lineNumber": 14
+        },
+        {
+          "caller": "submit",
+          "callee": "api.me",
+          "lineNumber": 15
+        },
+        {
+          "caller": "submit",
+          "callee": "['ADMIN', 'MERCHANT'].includes",
+          "lineNumber": 16
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 16
+        },
+        {
+          "caller": "submit",
+          "callee": "navigate",
+          "lineNumber": 18
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Login",
+          "callee": "set",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Login",
+          "callee": "set",
+          "lineNumber": 26
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/pages/ProductCreate.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 54,
+      "functions": [
+        {
+          "name": "leaves",
+          "startLine": 5,
+          "endLine": 9,
+          "params": [
+            "tree"
+          ]
+        },
+        {
+          "name": "emptySku",
+          "startLine": 10,
+          "endLine": 10,
+          "params": []
+        },
+        {
+          "name": "ProductCreate",
+          "startLine": 12,
+          "endLine": 60,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductCreate",
+          "line": 12,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "leaves",
+          "callee": "(function walk(ns) { ns.forEach(n => (n.children?.length ? walk(n.children) : out.push(n))) })",
+          "lineNumber": 7
+        },
+        {
+          "caller": "leaves",
+          "callee": "ns.forEach",
+          "lineNumber": 7
+        },
+        {
+          "caller": "leaves",
+          "callee": "walk",
+          "lineNumber": 7
+        },
+        {
+          "caller": "leaves",
+          "callee": "out.push",
+          "lineNumber": 7
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "useState",
+          "lineNumber": 13
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "useState",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "useState",
+          "lineNumber": 15
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "useState",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "emptySku",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "useState",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "useNavigate",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "useEffect",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "api.categories().then(t => setCats(leaves(t))).catch",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "api.categories().then",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "api.categories",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setCats",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "leaves",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setCats",
+          "lineNumber": 20
+        },
+        {
+          "caller": "setSku",
+          "callee": "Number",
+          "lineNumber": 23
+        },
+        {
+          "caller": "setSku",
+          "callee": "setSkus",
+          "lineNumber": 24
+        },
+        {
+          "caller": "setSku",
+          "callee": "skus.map",
+          "lineNumber": 24
+        },
+        {
+          "caller": "submit",
+          "callee": "e.preventDefault",
+          "lineNumber": 28
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 28
+        },
+        {
+          "caller": "submit",
+          "callee": "skus.some",
+          "lineNumber": 29
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 29
+        },
+        {
+          "caller": "submit",
+          "callee": "api.createProduct",
+          "lineNumber": 31
+        },
+        {
+          "caller": "submit",
+          "callee": "Number",
+          "lineNumber": 31
+        },
+        {
+          "caller": "submit",
+          "callee": "navigate",
+          "lineNumber": 32
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setName",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setCategoryId",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "cats.map",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "skus.map",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setSku",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setSku",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setSku",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setSku",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setSkus",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "skus.filter",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "setSkus",
+          "lineNumber": 54
+        },
+        {
+          "caller": "ProductCreate",
+          "callee": "emptySku",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/pages/ProductDetail.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 47,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "ProductDetail",
+          "startLine": 6,
+          "endLine": 47,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductDetail",
+          "line": 6,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProductDetail",
+          "callee": "useParams",
+          "lineNumber": 7
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useNavigate",
+          "lineNumber": 8
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useState",
+          "lineNumber": 9
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useState",
+          "lineNumber": 10
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useCallback",
+          "lineNumber": 12
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "api.product(id).then(setProduct).catch",
+          "lineNumber": 13
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "api.product(id).then",
+          "lineNumber": 13
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "api.product",
+          "lineNumber": 13
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setError",
+          "lineNumber": 13
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useEffect",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setProduct",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setError",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "load",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "navigate",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.category?.map(c => c.name).join",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.category?.map",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "navigate",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.images.map",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.skus?.map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "s.price.toLocaleString",
+          "lineNumber": 39
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/pages/ProductList.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 51,
+      "nonEmptyLines": 46,
+      "functions": [
+        {
+          "name": "leaves",
+          "startLine": 5,
+          "endLine": 9,
+          "params": [
+            "tree"
+          ]
+        },
+        {
+          "name": "ProductList",
+          "startLine": 11,
+          "endLine": 51,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductList",
+          "line": 11,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "leaves",
+          "callee": "(function walk(ns) { ns.forEach(n => (n.children?.length ? walk(n.children) : out.push(n))) })",
+          "lineNumber": 7
+        },
+        {
+          "caller": "leaves",
+          "callee": "ns.forEach",
+          "lineNumber": 7
+        },
+        {
+          "caller": "leaves",
+          "callee": "walk",
+          "lineNumber": 7
+        },
+        {
+          "caller": "leaves",
+          "callee": "out.push",
+          "lineNumber": 7
+        },
+        {
+          "caller": "ProductList",
+          "callee": "useState",
+          "lineNumber": 12
+        },
+        {
+          "caller": "ProductList",
+          "callee": "useState",
+          "lineNumber": 13
+        },
+        {
+          "caller": "ProductList",
+          "callee": "useState",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProductList",
+          "callee": "useEffect",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ProductList",
+          "callee": "api.categories().then(tree => {\n      const ls = leaves(tree)\n      setCats(ls)\n      if (ls[0]) setActive(ls[0].id)\n    }).catch",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProductList",
+          "callee": "api.categories().then",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProductList",
+          "callee": "api.categories",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ProductList",
+          "callee": "leaves",
+          "lineNumber": 18
+        },
+        {
+          "caller": "ProductList",
+          "callee": "setCats",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProductList",
+          "callee": "setActive",
+          "lineNumber": 20
+        },
+        {
+          "caller": "ProductList",
+          "callee": "setCats",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ProductList",
+          "callee": "useEffect",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ProductList",
+          "callee": "api.productsByCategory(active).then(r => setItems(r.content)).catch",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ProductList",
+          "callee": "api.productsByCategory(active).then",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ProductList",
+          "callee": "api.productsByCategory",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ProductList",
+          "callee": "setItems",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ProductList",
+          "callee": "setItems",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ProductList",
+          "callee": "cats.map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ProductList",
+          "callee": "setActive",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ProductList",
+          "callee": "items.map",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ProductList",
+          "callee": "p.minPrice.toLocaleString",
+          "lineNumber": 45
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/admin/pages/Users.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "Users",
+          "startLine": 4,
+          "endLine": 46,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Users",
+          "line": 4,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Users",
+          "callee": "useState",
+          "lineNumber": 5
+        },
+        {
+          "caller": "Users",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "Users",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "load",
+          "callee": "api.adminUsers(p, 20).then(setData).catch",
+          "lineNumber": 9
+        },
+        {
+          "caller": "load",
+          "callee": "api.adminUsers(p, 20).then",
+          "lineNumber": 9
+        },
+        {
+          "caller": "load",
+          "callee": "api.adminUsers",
+          "lineNumber": 9
+        },
+        {
+          "caller": "load",
+          "callee": "setErr",
+          "lineNumber": 9
+        },
+        {
+          "caller": "Users",
+          "callee": "useEffect",
+          "lineNumber": 10
+        },
+        {
+          "caller": "Users",
+          "callee": "load",
+          "lineNumber": 10
+        },
+        {
+          "caller": "change",
+          "callee": "setErr",
+          "lineNumber": 13
+        },
+        {
+          "caller": "change",
+          "callee": "api.changeRole",
+          "lineNumber": 14
+        },
+        {
+          "caller": "change",
+          "callee": "load",
+          "lineNumber": 14
+        },
+        {
+          "caller": "change",
+          "callee": "setErr",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Users",
+          "callee": "Math.max",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Users",
+          "callee": "Math.ceil",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Users",
+          "callee": "data.content.map",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Users",
+          "callee": "change",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Users",
+          "callee": "setPage",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Users",
+          "callee": "setPage",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/api.js",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 62,
+      "functions": [
+        {
+          "name": "csrfToken",
+          "startLine": 3,
+          "endLine": 5,
+          "params": []
+        },
+        {
+          "name": "req",
+          "startLine": 7,
+          "endLine": 19,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "putToS3",
+          "startLine": 63,
+          "endLine": 70,
+          "params": [
+            "uploadUrl",
+            "file"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "api",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "putToS3",
+          "line": 63,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "csrfToken",
+          "callee": "document.cookie.split('; ').find(c => c.startsWith('csrf_token='))?.split",
+          "lineNumber": 4
+        },
+        {
+          "caller": "csrfToken",
+          "callee": "document.cookie.split('; ').find",
+          "lineNumber": 4
+        },
+        {
+          "caller": "csrfToken",
+          "callee": "document.cookie.split",
+          "lineNumber": 4
+        },
+        {
+          "caller": "csrfToken",
+          "callee": "c.startsWith",
+          "lineNumber": 4
+        },
+        {
+          "caller": "req",
+          "callee": "csrfToken",
+          "lineNumber": 10
+        },
+        {
+          "caller": "req",
+          "callee": "fetch",
+          "lineNumber": 11
+        },
+        {
+          "caller": "req",
+          "callee": "JSON.stringify",
+          "lineNumber": 14
+        },
+        {
+          "caller": "req",
+          "callee": "res.json().catch",
+          "lineNumber": 16
+        },
+        {
+          "caller": "req",
+          "callee": "res.json",
+          "lineNumber": 16
+        },
+        {
+          "caller": "putToS3",
+          "callee": "fetch",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/AuthModal.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "AuthModal",
+          "startLine": 4,
+          "endLine": 41,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AuthModal",
+          "line": 4,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AuthModal",
+          "callee": "useState",
+          "lineNumber": 5
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "set",
+          "callee": "setForm",
+          "lineNumber": 11
+        },
+        {
+          "caller": "submit",
+          "callee": "e.preventDefault",
+          "lineNumber": 14
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 14
+        },
+        {
+          "caller": "submit",
+          "callee": "api.signup",
+          "lineNumber": 16
+        },
+        {
+          "caller": "submit",
+          "callee": "api.login",
+          "lineNumber": 17
+        },
+        {
+          "caller": "submit",
+          "callee": "onAuthed",
+          "lineNumber": 18
+        },
+        {
+          "caller": "submit",
+          "callee": "api.me",
+          "lineNumber": 18
+        },
+        {
+          "caller": "submit",
+          "callee": "setErr",
+          "lineNumber": 19
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "e.stopPropagation",
+          "lineNumber": 24
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "set",
+          "lineNumber": 27
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "set",
+          "lineNumber": 28
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "set",
+          "lineNumber": 29
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "set",
+          "lineNumber": 30
+        },
+        {
+          "caller": "AuthModal",
+          "callee": "setMode",
+          "lineNumber": 34
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/Cart.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 36,
+      "functions": [
+        {
+          "name": "Cart",
+          "startLine": 1,
+          "endLine": 36,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Cart",
+          "line": 1,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Cart",
+          "callee": "items.reduce",
+          "lineNumber": 2
+        },
+        {
+          "caller": "Cart",
+          "callee": "items.map",
+          "lineNumber": 3
+        },
+        {
+          "caller": "Cart",
+          "callee": "items.map",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Cart",
+          "callee": "it.unitPrice.toLocaleString",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Cart",
+          "callee": "onQty",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Cart",
+          "callee": "Math.max",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Cart",
+          "callee": "Math.floor",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Cart",
+          "callee": "Number",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Cart",
+          "callee": "(it.unitPrice * it.quantity).toLocaleString",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Cart",
+          "callee": "onRemove",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Cart",
+          "callee": "total.toLocaleString",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Cart",
+          "callee": "onOrder",
+          "lineNumber": 31
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/Checkout.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "lineName",
+          "startLine": 4,
+          "endLine": 4,
+          "params": [
+            "l"
+          ]
+        },
+        {
+          "name": "Checkout",
+          "startLine": 6,
+          "endLine": 59,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Checkout",
+          "line": 6,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "lineName",
+          "callee": "`${l.itemName} ${l.optionSummary ?? ''}`.trim",
+          "lineNumber": 4
+        },
+        {
+          "caller": "Checkout",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "Checkout",
+          "callee": "useState",
+          "lineNumber": 8
+        },
+        {
+          "caller": "Checkout",
+          "callee": "lines.reduce",
+          "lineNumber": 9
+        },
+        {
+          "caller": "pay",
+          "callee": "setErr",
+          "lineNumber": 12
+        },
+        {
+          "caller": "pay",
+          "callee": "setBusy",
+          "lineNumber": 12
+        },
+        {
+          "caller": "pay",
+          "callee": "api.createOrder",
+          "lineNumber": 14
+        },
+        {
+          "caller": "pay",
+          "callee": "lines.map",
+          "lineNumber": 15
+        },
+        {
+          "caller": "pay",
+          "callee": "lineName",
+          "lineNumber": 15
+        },
+        {
+          "caller": "pay",
+          "callee": "api.createPayment",
+          "lineNumber": 17
+        },
+        {
+          "caller": "pay",
+          "callee": "lines.map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "pay",
+          "callee": "lineName",
+          "lineNumber": 22
+        },
+        {
+          "caller": "pay",
+          "callee": "onPaid",
+          "lineNumber": 28
+        },
+        {
+          "caller": "pay",
+          "callee": "setErr",
+          "lineNumber": 30
+        },
+        {
+          "caller": "pay",
+          "callee": "setBusy",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Checkout",
+          "callee": "lines.map",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Checkout",
+          "callee": "l.unitPrice.toLocaleString",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Checkout",
+          "callee": "(l.unitPrice * l.quantity).toLocaleString",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Checkout",
+          "callee": "total.toLocaleString",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/Home.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "Home",
+          "startLine": 5,
+          "endLine": 38,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Home",
+          "line": 5,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Home",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "Home",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "Home",
+          "callee": "useState",
+          "lineNumber": 8
+        },
+        {
+          "caller": "Home",
+          "callee": "useEffect",
+          "lineNumber": 10
+        },
+        {
+          "caller": "Home",
+          "callee": "api.categories().then(tree => {\n      const ls = []\n      ;(function walk(nodes) {\n        nodes.forEach(n => (n.children?.length ? walk(n.children) : ls.push(n)))\n      })(tree)\n      setLeaves(ls)\n      if (ls[0]) setActive(ls[0].id)\n    }).catch",
+          "lineNumber": 11
+        },
+        {
+          "caller": "Home",
+          "callee": "api.categories().then",
+          "lineNumber": 11
+        },
+        {
+          "caller": "Home",
+          "callee": "api.categories",
+          "lineNumber": 11
+        },
+        {
+          "caller": "Home",
+          "callee": "(function walk(nodes) {\n        nodes.forEach(n => (n.children?.length ? walk(n.children) : ls.push(n)))\n      })",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Home",
+          "callee": "nodes.forEach",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Home",
+          "callee": "walk",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Home",
+          "callee": "ls.push",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Home",
+          "callee": "setLeaves",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Home",
+          "callee": "setActive",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Home",
+          "callee": "setLeaves",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Home",
+          "callee": "useEffect",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Home",
+          "callee": "api.productsByCategory(active).then(r => setItems(r.content)).catch",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Home",
+          "callee": "api.productsByCategory(active).then",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Home",
+          "callee": "api.productsByCategory",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Home",
+          "callee": "setItems",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Home",
+          "callee": "setItems",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Home",
+          "callee": "leaves.map",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Home",
+          "callee": "setActive",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/ImageManager.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 78,
+      "nonEmptyLines": 70,
+      "functions": [
+        {
+          "name": "ImageManager",
+          "startLine": 4,
+          "endLine": 78,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ImageManager",
+          "line": 4,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ImageManager",
+          "callee": "useState",
+          "lineNumber": 5
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "useEffect",
+          "lineNumber": 9
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "setOrder",
+          "lineNumber": 9
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "setError",
+          "lineNumber": 15
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "setBusy",
+          "lineNumber": 16
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "api.presignImage",
+          "lineNumber": 18
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "putToS3",
+          "lineNumber": 19
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "api.confirmImage",
+          "lineNumber": 20
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "onChanged",
+          "lineNumber": 21
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "setError",
+          "lineNumber": 23
+        },
+        {
+          "caller": "handleUpload",
+          "callee": "setBusy",
+          "lineNumber": 25
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "setError",
+          "lineNumber": 30
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "api.deleteImage",
+          "lineNumber": 32
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "onChanged",
+          "lineNumber": 33
+        },
+        {
+          "caller": "handleDelete",
+          "callee": "setError",
+          "lineNumber": 35
+        },
+        {
+          "caller": "move",
+          "callee": "setOrder",
+          "lineNumber": 45
+        },
+        {
+          "caller": "move",
+          "callee": "api.reorderImages(productId, next.map(img => img.id)).then(onChanged).catch",
+          "lineNumber": 46
+        },
+        {
+          "caller": "move",
+          "callee": "api.reorderImages(productId, next.map(img => img.id)).then",
+          "lineNumber": 46
+        },
+        {
+          "caller": "move",
+          "callee": "api.reorderImages",
+          "lineNumber": 46
+        },
+        {
+          "caller": "move",
+          "callee": "next.map",
+          "lineNumber": 46
+        },
+        {
+          "caller": "move",
+          "callee": "setOrder",
+          "lineNumber": 47
+        },
+        {
+          "caller": "move",
+          "callee": "setError",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "order.map",
+          "lineNumber": 64
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "move",
+          "lineNumber": 68
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "move",
+          "lineNumber": 69
+        },
+        {
+          "caller": "ImageManager",
+          "callee": "handleDelete",
+          "lineNumber": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/NavBar.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "NavBar",
+          "startLine": 1,
+          "endLine": 17,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "NavBar",
+          "line": 1,
+          "isDefault": true
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/OrderHistory.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 54,
+      "functions": [
+        {
+          "name": "OrderHistory",
+          "startLine": 6,
+          "endLine": 56,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderHistory",
+          "line": 6,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OrderHistory",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "request",
+          "callee": "window.prompt",
+          "lineNumber": 9
+        },
+        {
+          "caller": "request",
+          "callee": "setBusyKey",
+          "lineNumber": 11
+        },
+        {
+          "caller": "request",
+          "callee": "onRequestCancel",
+          "lineNumber": 12
+        },
+        {
+          "caller": "request",
+          "callee": "setBusyKey",
+          "lineNumber": 13
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "payments.map",
+          "lineNumber": 21
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "new Date(p.createdAt).toLocaleString",
+          "lineNumber": 24
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "p.items.map",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "Number(it.itemAmount).toLocaleString",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "Number",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "Number(p.totalAmount).toLocaleString",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "Number",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "request",
+          "lineNumber": 34
+        },
+        {
+          "caller": "OrderHistory",
+          "callee": "request",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/OrderSuccess.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 16,
+      "functions": [
+        {
+          "name": "OrderSuccess",
+          "startLine": 1,
+          "endLine": 16,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderSuccess",
+          "line": 1,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OrderSuccess",
+          "callee": "Number(payment.totalAmount).toLocaleString",
+          "lineNumber": 6
+        },
+        {
+          "caller": "OrderSuccess",
+          "callee": "Number",
+          "lineNumber": 6
+        },
+        {
+          "caller": "OrderSuccess",
+          "callee": "payment.items?.map",
+          "lineNumber": 9
+        },
+        {
+          "caller": "OrderSuccess",
+          "callee": "Number(it.itemAmount).toLocaleString",
+          "lineNumber": 10
+        },
+        {
+          "caller": "OrderSuccess",
+          "callee": "Number",
+          "lineNumber": 10
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/ProductDetail.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "ProductDetail",
+          "startLine": 5,
+          "endLine": 66,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductDetail",
+          "line": 5,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProductDetail",
+          "callee": "useState",
+          "lineNumber": 6
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useState",
+          "lineNumber": 7
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useState",
+          "lineNumber": 8
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useCallback",
+          "lineNumber": 10
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "api.product(id).then(setProduct).catch",
+          "lineNumber": 11
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "api.product(id).then",
+          "lineNumber": 11
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "api.product",
+          "lineNumber": 11
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setError",
+          "lineNumber": 11
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "useEffect",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setProduct",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setError",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setQty",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "load",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.category?.map(c => c.name).join",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.category?.map",
+          "lineNumber": 19
+        },
+        {
+          "caller": "setSkuQty",
+          "callee": "Math.max",
+          "lineNumber": 21
+        },
+        {
+          "caller": "setSkuQty",
+          "callee": "Math.min",
+          "lineNumber": 21
+        },
+        {
+          "caller": "setSkuQty",
+          "callee": "Math.floor",
+          "lineNumber": 21
+        },
+        {
+          "caller": "setSkuQty",
+          "callee": "Number",
+          "lineNumber": 21
+        },
+        {
+          "caller": "setSkuQty",
+          "callee": "setQty",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "(product.skus ?? [])\n    .filter(s => (qty[s.skuId] ?? 0) > 0)\n    .map",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "(product.skus ?? [])\n    .filter",
+          "lineNumber": 24
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.images.map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "product.skus?.map",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "s.price.toLocaleString",
+          "lineNumber": 47
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "setSkuQty",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "onBuy",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ProductDetail",
+          "callee": "onAddToCart",
+          "lineNumber": 59
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/components/ProductGrid.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "ProductGrid",
+          "startLine": 1,
+          "endLine": 13,
+          "params": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProductGrid",
+          "line": 1,
+          "isDefault": true
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProductGrid",
+          "callee": "items.map",
+          "lineNumber": 4
+        },
+        {
+          "caller": "ProductGrid",
+          "callee": "onOpen",
+          "lineNumber": 5
+        },
+        {
+          "caller": "ProductGrid",
+          "callee": "p.minPrice.toLocaleString",
+          "lineNumber": 8
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "frontend/src/main.jsx",
+      "language": "javascript",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    }
+  ]
+}

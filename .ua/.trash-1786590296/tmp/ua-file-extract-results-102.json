@@ -1,0 +1,317 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 4,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 0,
+      "failed": 0,
+      "skipped": 4
+    }
+  },
+  "results": [
+    {
+      "path": "sysdesign/detail/cancel-flow.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1324,
+      "nonEmptyLines": 1110,
+      "sections": [
+        {
+          "heading": "4. 코드로 보는 취소 플로우",
+          "level": 2,
+          "line": 1
+        },
+        {
+          "heading": "4-1. PG사 취소 포함 전체 TX 경계",
+          "level": 3,
+          "line": 3
+        },
+        {
+          "heading": "4-2. PG사 성공/실패 케이스",
+          "level": 3,
+          "line": 206
+        },
+        {
+          "heading": "4-3. 락 코드 상세",
+          "level": 3,
+          "line": 354
+        },
+        {
+          "heading": "4-4. 스케줄러 코드",
+          "level": 3,
+          "line": 594
+        },
+        {
+          "heading": "4-5. Kafka Consumer — order-service",
+          "level": 3,
+          "line": 853
+        },
+        {
+          "heading": "4-1. 핵심 전제",
+          "level": 3,
+          "line": 950
+        },
+        {
+          "heading": "4-2. 케이스별 원자성 분석",
+          "level": 3,
+          "line": 961
+        },
+        {
+          "heading": "4-6. 케이스 3, 4 보상 트랜잭션 상세",
+          "level": 3,
+          "line": 1013
+        },
+        {
+          "heading": "5. Circuit Breaker 설정",
+          "level": 2,
+          "line": 1187
+        },
+        {
+          "heading": "5-1. 의존성",
+          "level": 3,
+          "line": 1189
+        },
+        {
+          "heading": "5-2. application.yml",
+          "level": 3,
+          "line": 1196
+        },
+        {
+          "heading": "5-3. RiskManagementService",
+          "level": 3,
+          "line": 1220
+        },
+        {
+          "heading": "5-4. PgCancelClient",
+          "level": 3,
+          "line": 1273
+        },
+        {
+          "heading": "5-5. CB 상태 변경 모니터링",
+          "level": 3,
+          "line": 1305
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": "sysdesign/detail/concurrency.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 378,
+      "nonEmptyLines": 299,
+      "sections": [
+        {
+          "heading": "7. 락 전략 심화",
+          "level": 2,
+          "line": 1
+        },
+        {
+          "heading": "7-1. 락 종류 비교",
+          "level": 3,
+          "line": 3
+        },
+        {
+          "heading": "7-2. 분산락이 필요한 이유",
+          "level": 3,
+          "line": 12
+        },
+        {
+          "heading": "7-3. ShedLock 동작 원리",
+          "level": 3,
+          "line": 40
+        },
+        {
+          "heading": "7-4. ShedLock 대안 비교",
+          "level": 3,
+          "line": 81
+        },
+        {
+          "heading": "7-5. Redis 분산락 vs ShedLock 상세 비교",
+          "level": 3,
+          "line": 109
+        },
+        {
+          "heading": "7-6. 우리 시스템 락 전체 정리",
+          "level": 3,
+          "line": 222
+        },
+        {
+          "heading": "8. PG사 성공 후 Outbox INSERT 실패 케이스",
+          "level": 2,
+          "line": 245
+        },
+        {
+          "heading": "8-1. 이 케이스가 별도 케이스인가",
+          "level": 3,
+          "line": 247
+        },
+        {
+          "heading": "8-2. Outbox INSERT가 실패하는 원인",
+          "level": 3,
+          "line": 269
+        },
+        {
+          "heading": "8-3. 대안 — Outbox INSERT 실패를 별도로 처리해야 하는가",
+          "level": 3,
+          "line": 285
+        },
+        {
+          "heading": "8-4. 현재 설계를 선택한 이유",
+          "level": 3,
+          "line": 350
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 12
+      }
+    },
+    {
+      "path": "sysdesign/detail/daily-limit.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 328,
+      "nonEmptyLines": 257,
+      "sections": [
+        {
+          "heading": "5. daily_limit 조회 전략 비교",
+          "level": 2,
+          "line": 1
+        },
+        {
+          "heading": "5-1. 현재 설계 — DB 스냅샷",
+          "level": 3,
+          "line": 3
+        },
+        {
+          "heading": "5-2. Redis 우선 + DB 폴백",
+          "level": 3,
+          "line": 28
+        },
+        {
+          "heading": "5-3. 다른 대안들",
+          "level": 3,
+          "line": 115
+        },
+        {
+          "heading": "5-4. 전략 비교표",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "5-5. 요구사항 변경 — 당일 즉시 반영이 필요한 경우",
+          "level": 3,
+          "line": 180
+        },
+        {
+          "heading": "6-1. 별도 테이블 vs cancel_request에 합치기",
+          "level": 3,
+          "line": 278
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "sysdesign/detail/data-design.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 428,
+      "nonEmptyLines": 376,
+      "sections": [
+        {
+          "heading": "6. 상태 전이 규칙",
+          "level": 2,
+          "line": 1
+        },
+        {
+          "heading": "6-1. Payment 상태 전이",
+          "level": 3,
+          "line": 3
+        },
+        {
+          "heading": "6-2. PaymentItem 상태 전이",
+          "level": 3,
+          "line": 15
+        },
+        {
+          "heading": "6-3. 취소 불가 상태",
+          "level": 3,
+          "line": 33
+        },
+        {
+          "heading": "6-4. 검증 순서와 이유",
+          "level": 3,
+          "line": 41
+        },
+        {
+          "heading": "7. API 설계",
+          "level": 2,
+          "line": 62
+        },
+        {
+          "heading": "7-1. 취소 요청 API",
+          "level": 3,
+          "line": 64
+        },
+        {
+          "heading": "7-2. 조회 API",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "8. 데이터 설계",
+          "level": 2,
+          "line": 119
+        },
+        {
+          "heading": "8-1. 모듈별 테이블 구조",
+          "level": 3,
+          "line": 121
+        },
+        {
+          "heading": "8-2. 핵심 테이블 관계",
+          "level": 3,
+          "line": 379
+        },
+        {
+          "heading": "8-2. 금액 타입",
+          "level": 3,
+          "line": 397
+        },
+        {
+          "heading": "8-3. 상품 버저닝",
+          "level": 3,
+          "line": 410
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 13
+      }
+    }
+  ]
+}

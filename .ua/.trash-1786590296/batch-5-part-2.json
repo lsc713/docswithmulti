@@ -1,0 +1,1329 @@
+{
+  "nodes": [
+    {
+      "id": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "type": "file",
+      "name": "StockService.java",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "summary": "product-service의 Stock Service application/domain 규칙과 협력 객체 호출을 조정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/application/service/StockService.java:StockService",
+      "type": "class",
+      "name": "StockService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "lineRange": [
+        24,
+        66
+      ],
+      "summary": "StockService가 담당하는 service 책임과 협력 객체 사용을 캡슐화한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:StockService",
+      "type": "function",
+      "name": "StockService",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "lineRange": [
+        30,
+        34
+      ],
+      "summary": "StockService 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:reserve",
+      "type": "function",
+      "name": "reserve",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "lineRange": [
+        38,
+        53
+      ],
+      "summary": "reserve 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:release",
+      "type": "function",
+      "name": "release",
+      "filePath": "product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "lineRange": [
+        55,
+        65
+      ],
+      "summary": "release 관련 규칙을 수행하고 계산된 결과를 반환한다.",
+      "tags": [
+        "product-service",
+        "service",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "file",
+      "name": "BusinessException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "summary": "product-service에서 Business Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/BusinessException.java:BusinessException",
+      "type": "class",
+      "name": "BusinessException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "lineRange": [
+        5,
+        18
+      ],
+      "summary": "BusinessException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/BusinessException.java:BusinessException",
+      "type": "function",
+      "name": "BusinessException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "lineRange": [
+        9,
+        12
+      ],
+      "summary": "BusinessException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "file",
+      "name": "ErrorCode.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "summary": "product-service에서 Error Code 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java:ErrorCode",
+      "type": "class",
+      "name": "ErrorCode",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "lineRange": [
+        6,
+        31
+      ],
+      "summary": "ErrorCode 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "type": "file",
+      "name": "AttributeNameDuplicateException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "summary": "product-service에서 Attribute Name Duplicate Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java:AttributeNameDuplicateException",
+      "type": "class",
+      "name": "AttributeNameDuplicateException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "AttributeNameDuplicateException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java:AttributeNameDuplicateException",
+      "type": "function",
+      "name": "AttributeNameDuplicateException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "AttributeNameDuplicateException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "type": "file",
+      "name": "AttributeNotFoundException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "summary": "product-service에서 Attribute Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java:AttributeNotFoundException",
+      "type": "class",
+      "name": "AttributeNotFoundException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "AttributeNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java:AttributeNotFoundException",
+      "type": "function",
+      "name": "AttributeNotFoundException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "AttributeNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "type": "file",
+      "name": "AttributeValueDuplicateException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "summary": "product-service에서 Attribute Value Duplicate Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java:AttributeValueDuplicateException",
+      "type": "class",
+      "name": "AttributeValueDuplicateException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "AttributeValueDuplicateException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java:AttributeValueDuplicateException",
+      "type": "function",
+      "name": "AttributeValueDuplicateException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "AttributeValueDuplicateException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "type": "file",
+      "name": "CategoryDepthExceededException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "summary": "product-service에서 Category Depth Exceeded Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java:CategoryDepthExceededException",
+      "type": "class",
+      "name": "CategoryDepthExceededException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "CategoryDepthExceededException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java:CategoryDepthExceededException",
+      "type": "function",
+      "name": "CategoryDepthExceededException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "CategoryDepthExceededException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "type": "file",
+      "name": "CategoryNameDuplicateException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "summary": "product-service에서 Category Name Duplicate Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java:CategoryNameDuplicateException",
+      "type": "class",
+      "name": "CategoryNameDuplicateException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "CategoryNameDuplicateException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java:CategoryNameDuplicateException",
+      "type": "function",
+      "name": "CategoryNameDuplicateException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "CategoryNameDuplicateException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "type": "file",
+      "name": "CategoryNotFoundException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "summary": "product-service에서 Category Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java:CategoryNotFoundException",
+      "type": "class",
+      "name": "CategoryNotFoundException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "CategoryNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java:CategoryNotFoundException",
+      "type": "function",
+      "name": "CategoryNotFoundException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "CategoryNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "type": "file",
+      "name": "DescriptiveValueInvalidException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "summary": "product-service에서 Descriptive Value Invalid Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java:DescriptiveValueInvalidException",
+      "type": "class",
+      "name": "DescriptiveValueInvalidException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "DescriptiveValueInvalidException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java:DescriptiveValueInvalidException",
+      "type": "function",
+      "name": "DescriptiveValueInvalidException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "DescriptiveValueInvalidException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "type": "file",
+      "name": "ForbiddenException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "summary": "product-service에서 Forbidden Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java:ForbiddenException",
+      "type": "class",
+      "name": "ForbiddenException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "ForbiddenException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java:ForbiddenException",
+      "type": "function",
+      "name": "ForbiddenException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "ForbiddenException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "type": "file",
+      "name": "ImageNotFoundException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "summary": "product-service에서 Image Not Found Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java:ImageNotFoundException",
+      "type": "class",
+      "name": "ImageNotFoundException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "ImageNotFoundException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java:ImageNotFoundException",
+      "type": "function",
+      "name": "ImageNotFoundException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "ImageNotFoundException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "type": "file",
+      "name": "InvalidImageKeyException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "summary": "product-service에서 Invalid Image Key Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java:InvalidImageKeyException",
+      "type": "class",
+      "name": "InvalidImageKeyException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "lineRange": [
+        7,
+        11
+      ],
+      "summary": "InvalidImageKeyException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java:InvalidImageKeyException",
+      "type": "function",
+      "name": "InvalidImageKeyException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "lineRange": [
+        8,
+        10
+      ],
+      "summary": "InvalidImageKeyException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "type": "file",
+      "name": "ProductCategoryInvalidException.java",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "summary": "product-service에서 Product Category Invalid Exception 오류 상황을 명시적으로 전달하는 예외 타입이다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java:ProductCategoryInvalidException",
+      "type": "class",
+      "name": "ProductCategoryInvalidException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "lineRange": [
+        7,
+        12
+      ],
+      "summary": "ProductCategoryInvalidException 오류를 타입으로 표현해 호출자가 실패 원인을 구분할 수 있게 한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "class"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java:ProductCategoryInvalidException",
+      "type": "function",
+      "name": "ProductCategoryInvalidException",
+      "filePath": "product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "lineRange": [
+        8,
+        11
+      ],
+      "summary": "ProductCategoryInvalidException 인스턴스의 필수 의존성과 초기 상태를 설정한다.",
+      "tags": [
+        "product-service",
+        "exception",
+        "application",
+        "java",
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/StockService.java:StockService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "class:product-service/src/main/java/com/example/product/application/service/StockService.java:StockService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:StockService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:StockService",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:reserve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:reserve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:release",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "function:product-service/src/main/java/com/example/product/application/service/StockService.java:release",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/ProductStockRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "file:product-service/src/main/java/com/example/product/application/interfaces/StockReservationRepository.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/application/StockInsufficientException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/BusinessException.java:BusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/BusinessException.java:BusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/BusinessException.java:BusinessException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/BusinessException.java:BusinessException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java:ErrorCode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java:ErrorCode",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java:AttributeNameDuplicateException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java:AttributeNameDuplicateException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java:AttributeNameDuplicateException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java:AttributeNameDuplicateException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNameDuplicateException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java:AttributeNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java:AttributeNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java:AttributeNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java:AttributeNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeNotFoundException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java:AttributeValueDuplicateException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java:AttributeValueDuplicateException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java:AttributeValueDuplicateException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java:AttributeValueDuplicateException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/AttributeValueDuplicateException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java:CategoryDepthExceededException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java:CategoryDepthExceededException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java:CategoryDepthExceededException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java:CategoryDepthExceededException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryDepthExceededException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java:CategoryNameDuplicateException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java:CategoryNameDuplicateException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java:CategoryNameDuplicateException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java:CategoryNameDuplicateException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNameDuplicateException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java:CategoryNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java:CategoryNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java:CategoryNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java:CategoryNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/CategoryNotFoundException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java:DescriptiveValueInvalidException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java:DescriptiveValueInvalidException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java:DescriptiveValueInvalidException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java:DescriptiveValueInvalidException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/DescriptiveValueInvalidException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java:ForbiddenException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java:ForbiddenException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java:ForbiddenException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java:ForbiddenException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ForbiddenException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java:ImageNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java:ImageNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java:ImageNotFoundException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java:ImageNotFoundException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ImageNotFoundException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java:InvalidImageKeyException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java:InvalidImageKeyException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java:InvalidImageKeyException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java:InvalidImageKeyException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/InvalidImageKeyException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java:ProductCategoryInvalidException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "target": "class:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java:ProductCategoryInvalidException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java:ProductCategoryInvalidException",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "target": "function:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java:ProductCategoryInvalidException",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/BusinessException.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:product-service/src/main/java/com/example/product/common/exception/application/ProductCategoryInvalidException.java",
+      "target": "file:product-service/src/main/java/com/example/product/common/exception/ErrorCode.java",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

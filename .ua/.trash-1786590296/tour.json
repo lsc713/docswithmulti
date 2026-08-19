@@ -1,0 +1,144 @@
+[
+  {
+    "order": 1,
+    "title": "시스템 전체 지도",
+    "description": "먼저 architecture guide와 API 명세로 이 프로젝트가 여러 commerce service를 어떤 경계로 나누는지 살펴봅니다. 이후 tour에서 따라갈 frontend, gateway, 주문, 결제, 재고 흐름과 비동기 후속 처리를 전체 관점에서 잡아 줍니다.",
+    "nodeIds": [
+      "document:docs/architecture.md",
+      "document:docs/api-spec.md"
+    ]
+  },
+  {
+    "order": 2,
+    "title": "Frontend 요청 시작",
+    "description": "React App이 사용자 여정을 구성하고 공통 API client가 backend 호출을 한곳에 모읍니다. 여기서 발생한 checkout 요청이 다음 단계의 gateway로 들어가므로, 화면 상태와 HTTP 경계가 만나는 지점을 먼저 이해할 수 있습니다.",
+    "nodeIds": [
+      "file:frontend/src/App.jsx",
+      "file:frontend/src/api.js"
+    ],
+    "languageLesson": "React component는 UI 상태와 event를 조합하고, 별도 API module은 network 관심사를 분리해 화면 code의 결합도를 낮춥니다."
+  },
+  {
+    "order": 3,
+    "title": "Gateway 진입과 Routing",
+    "description": "Frontend 요청은 Spring Cloud Gateway application에 도착해 RouteConfig가 downstream service로 전달합니다. 이 단계는 외부 API surface를 내부 service 경계와 연결하며, 이후 주문 흐름의 단일 진입점을 제공합니다.",
+    "nodeIds": [
+      "file:api-gateway/src/main/java/com/example/gateway/ApiGatewayApplication.java",
+      "file:api-gateway/src/main/java/com/example/gateway/config/RouteConfig.java"
+    ]
+  },
+  {
+    "order": 4,
+    "title": "주문 생성 경계",
+    "description": "Gateway를 통과한 checkout 요청은 OrderController에서 application 계층으로 전달됩니다. CreateOrderService가 주문 생성 규칙과 협력 service 호출을 조정하고, Order aggregate가 주문 상태와 불변식을 보존합니다.",
+    "nodeIds": [
+      "file:order-service/src/main/java/com/example/order/presentation/controller/OrderController.java",
+      "file:order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "file:order-service/src/main/java/com/example/order/domain/entity/Order.java"
+    ],
+    "languageLesson": "Spring의 controller는 HTTP adapter, application service는 use case 조정자, domain entity는 business invariant의 소유자로 역할을 나눕니다."
+  },
+  {
+    "order": 5,
+    "title": "결제 승인 흐름",
+    "description": "주문 단계에서 이어진 결제 요청은 PaymentController와 CreatePaymentService를 거쳐 승인 절차로 진입합니다. Payment aggregate가 결제와 항목 상태를 관리하므로 주문 처리와 외부 결제 연동 사이의 일관성 기준을 확인할 수 있습니다.",
+    "nodeIds": [
+      "file:payment-service/src/main/java/com/example/payment/presentation/controller/PaymentController.java",
+      "file:payment-service/src/main/java/com/example/payment/application/service/CreatePaymentService.java",
+      "file:payment-service/src/main/java/com/example/payment/domain/entity/Payment.java"
+    ]
+  },
+  {
+    "order": 6,
+    "title": "재고 예약과 차감",
+    "description": "결제가 진행될 때 Product service의 StockController와 StockService가 SKU 재고를 확인하고 변경합니다. ProductStock과 StockReservation을 함께 읽으면 frontend에서 시작한 gateway→order→payment→stock 흐름이 실제 재고 불변식으로 마무리되는 방식을 이해할 수 있습니다.",
+    "nodeIds": [
+      "file:product-service/src/main/java/com/example/product/presentation/controller/StockController.java",
+      "file:product-service/src/main/java/com/example/product/application/service/StockService.java",
+      "file:product-service/src/main/java/com/example/product/domain/entity/ProductStock.java",
+      "file:product-service/src/main/java/com/example/product/domain/entity/StockReservation.java"
+    ]
+  },
+  {
+    "order": 7,
+    "title": "인증과 신뢰 경계",
+    "description": "User service의 AuthController와 AuthService가 login·token lifecycle을 처리하고 JwtTokenProvider가 credential을 서명·검증합니다. Gateway의 JwtTrustHeaderFilter는 검증된 identity를 downstream 요청에 전달해, 앞선 commerce 흐름이 사용자 경계를 안전하게 유지하도록 합니다.",
+    "nodeIds": [
+      "file:user-service/src/main/java/com/example/user/presentation/controller/AuthController.java",
+      "file:user-service/src/main/java/com/example/user/application/service/AuthService.java",
+      "file:user-service/src/main/java/com/example/user/infrastructure/security/JwtTokenProvider.java",
+      "file:api-gateway/src/main/java/com/example/gateway/filter/JwtTrustHeaderFilter.java"
+    ],
+    "languageLesson": "JWT 검증은 edge에서 수행하되 downstream에는 검증 결과만 전달해야 trust boundary와 service 책임이 명확해집니다."
+  },
+  {
+    "order": 8,
+    "title": "위험과 가맹점 한도",
+    "description": "결제 승인 전후의 정책 판단은 Risk service의 charge 검증·예약 use case와 Merchant Limit domain service가 담당합니다. 이 경계를 보면 결제 core가 정책 계산을 직접 소유하지 않고 별도 service의 결정과 보상 계약에 의존하는 이유를 알 수 있습니다.",
+    "nodeIds": [
+      "file:risk-management-service/src/main/java/com/example/riskmanagement/application/service/CheckChargeService.java",
+      "file:risk-management-service/src/main/java/com/example/riskmanagement/application/service/ValidateAndReserveService.java",
+      "file:merchant-limit-service/src/main/java/com/example/merchantlimit/domain/service/MerchantLimitDomainService.java"
+    ]
+  },
+  {
+    "order": 9,
+    "title": "Kafka 취소 복구",
+    "description": "결제 취소는 CancelPaymentService가 시작하고 outbox publisher가 Kafka event로 내보냅니다. Order, Product, Settlement consumer가 각각 주문 항목 복구, 재고 반환, 정산 조정을 수행해 service 간 distributed transaction을 event 기반 보상 흐름으로 완성합니다.",
+    "nodeIds": [
+      "file:payment-service/src/main/java/com/example/payment/application/service/CancelPaymentService.java",
+      "file:payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CancelEventOutboxPublisher.java",
+      "file:order-service/src/main/java/com/example/order/infrastructure/messaging/PaymentCancelledConsumer.java",
+      "file:product-service/src/main/java/com/example/product/infrastructure/messaging/PaymentCancelledStockConsumer.java",
+      "file:settlement-service/src/main/java/com/example/settlement/infrastructure/messaging/PaymentCancelledSettlementConsumer.java"
+    ],
+    "languageLesson": "Transactional outbox는 database commit과 message 발행 사이의 gap을 재시도 가능한 record로 바꾸며, consumer idempotency가 중복 delivery를 안전하게 흡수합니다."
+  },
+  {
+    "order": 10,
+    "title": "정산과 지급 마감",
+    "description": "성공·취소 event는 SaleLedgerService와 CancelLedgerService에서 ledger에 반영됩니다. Reconcile과 Payout service가 집계 결과를 검증하고 실제 지급으로 연결하므로 commerce lifecycle의 재무적 종착점을 확인할 수 있습니다.",
+    "nodeIds": [
+      "file:settlement-service/src/main/java/com/example/settlement/application/service/SaleLedgerService.java",
+      "file:settlement-service/src/main/java/com/example/settlement/application/service/CancelLedgerService.java",
+      "file:settlement-service/src/main/java/com/example/settlement/application/service/SettlementReconcileService.java",
+      "file:settlement-service/src/main/java/com/example/settlement/application/service/PayoutService.java"
+    ]
+  },
+  {
+    "order": 11,
+    "title": "Service별 데이터 소유권",
+    "description": "Order, Payment, Product의 Flyway migration은 각 service가 독립 MySQL schema를 소유하는 구조를 보여 줍니다. 앞선 domain aggregate와 table 정의를 나란히 보면 service 경계를 넘는 join 대신 API와 event를 사용하는 이유가 분명해집니다.",
+    "nodeIds": [
+      "table:order-service/src/main/resources/db/migration/V1__create_order_core.sql:V1__create_order_core",
+      "table:payment-service/src/main/resources/db/migration/V1__create_payment_core.sql:V1__create_payment_core",
+      "table:product-service/src/main/resources/db/migration/V1__create_product_core.sql:V1__create_product_core"
+    ],
+    "languageLesson": "Flyway는 versioned migration을 순서대로 적용합니다. 이미 배포된 migration을 수정하기보다 새 migration으로 schema를 전진시키는 방식이 환경 간 재현성을 지킵니다."
+  },
+  {
+    "order": 12,
+    "title": "배포 Topology와 Infrastructure",
+    "description": "Docker Compose는 Kafka, MySQL, Redis, MinIO와 모든 commerce service를 로컬 topology로 묶습니다. Kubernetes manifest는 gateway·order·payment workload를 운영 cluster에 배치하고, Terraform network 정의는 load-test용 AWS 기반을 선언합니다.",
+    "nodeIds": [
+      "service:docker-compose.yml",
+      "service:infra/k8s/apps/api-gateway.yaml",
+      "service:infra/k8s/apps/order.yaml",
+      "service:infra/k8s/apps/payment.yaml",
+      "resource:infra/load-test/network.tf"
+    ],
+    "languageLesson": "Kubernetes Deployment와 Service는 runtime 복제·발견을 담당하고, Terraform은 그 아래 cloud infrastructure의 desired state를 관리합니다."
+  },
+  {
+    "order": 13,
+    "title": "부하 검증과 Observability",
+    "description": "마지막으로 k6 realistic mix와 product-detail scenario가 실제 traffic 패턴과 병목을 재현합니다. Observability Compose 환경을 함께 사용하면 latency, error, resource 지표를 앞선 service topology와 연결해 capacity와 회귀를 검증할 수 있습니다.",
+    "nodeIds": [
+      "file:k6/realistic-mix.js",
+      "file:k6/product-detail.js",
+      "service:infra/load-test/observability/docker-compose.yml",
+      "config:infra/load-test/observability/prometheus.yml"
+    ],
+    "languageLesson": "k6 scenario는 arrival rate와 virtual user를 분리해 workload를 모델링하며, Prometheus metric과 trace를 함께 보면 saturation 원인을 service 단위로 좁힐 수 있습니다."
+  }
+]

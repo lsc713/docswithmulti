@@ -1,0 +1,1881 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 26,
+  "filesSkipped": [],
+  "analysisOutcomes": {
+    "structure": {
+      "succeeded": 26,
+      "failed": 0
+    },
+    "callGraph": {
+      "succeeded": 26,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "results": [
+    {
+      "path": "order-service/src/main/java/com/example/order/application/exception/NonRetryableException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 7,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "NonRetryableException",
+          "startLine": 7,
+          "endLine": 7,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "NonRetryableException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/exception/OrderItemNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 7,
+      "functions": [
+        {
+          "name": "OrderItemNotFoundException",
+          "startLine": 7,
+          "endLine": 9,
+          "params": [
+            "orderItemIds"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderItemNotFoundException",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [
+            "OrderItemNotFoundException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderItemNotFoundException",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "OrderItemNotFoundException",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/interfaces/CancelRestoreDlqRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 26,
+      "classes": [
+        {
+          "name": "CancelRestoreDlqRepository",
+          "startLine": 12,
+          "endLine": 34,
+          "methods": [
+            "upsertPending",
+            "findRedrivable",
+            "markResolved",
+            "bumpAttempt",
+            "markDead"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreDlqRepository",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/interfaces/OperationAlertPort.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "OperationAlertPort",
+          "startLine": 8,
+          "endLine": 10,
+          "methods": [
+            "alert"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OperationAlertPort",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/interfaces/OrderItemRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "OrderItemRepository",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "insertAll",
+            "findAllByIdIn",
+            "findAllByOrderId",
+            "saveAll"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderItemRepository",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/interfaces/OrderRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "OrderRepository",
+          "startLine": 6,
+          "endLine": 11,
+          "methods": [
+            "insert",
+            "findById",
+            "findByIdForUpdate",
+            "save"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderRepository",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/interfaces/ProcessedCancelEventRepository.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "ProcessedCancelEventRepository",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "existsByCancelRequestId",
+            "save"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessedCancelEventRepository",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/model/CancelRestoreLegStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 7,
+      "classes": [
+        {
+          "name": "CancelRestoreLegStatus",
+          "startLine": 3,
+          "endLine": 8,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreLegStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/service/CancelRestoreRedriveService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 66,
+      "nonEmptyLines": 58,
+      "functions": [
+        {
+          "name": "CancelRestoreRedriveService",
+          "startLine": 32,
+          "endLine": 38,
+          "params": [
+            "processUseCase",
+            "dlqRepository",
+            "operationAlertPort"
+          ]
+        },
+        {
+          "name": "redriveOne",
+          "startLine": 40,
+          "endLine": 60,
+          "params": [
+            "cancelRequestId",
+            "attemptCount",
+            "command"
+          ]
+        },
+        {
+          "name": "truncate",
+          "startLine": 62,
+          "endLine": 65,
+          "params": [
+            "s"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CancelRestoreRedriveService",
+          "startLine": 18,
+          "endLine": 66,
+          "methods": [
+            "CancelRestoreRedriveService",
+            "redriveOne",
+            "truncate"
+          ],
+          "properties": [
+            "LEG",
+            "processUseCase",
+            "dlqRepository",
+            "operationAlertPort",
+            "deadThreshold"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CancelRestoreRedriveService",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "redriveOne",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "CancelRestoreRedriveService",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "redriveOne",
+          "callee": "processUseCase.execute",
+          "lineNumber": 42
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "dlqRepository.markResolved",
+          "lineNumber": 43
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "log.info",
+          "lineNumber": 44
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "truncate",
+          "lineNumber": 46
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "e.getMessage",
+          "lineNumber": 46
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "dlqRepository.markDead",
+          "lineNumber": 50
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "operationAlertPort.alert",
+          "lineNumber": 51
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "log.error",
+          "lineNumber": 53
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "dlqRepository.bumpAttempt",
+          "lineNumber": 55
+        },
+        {
+          "caller": "redriveOne",
+          "callee": "log.warn",
+          "lineNumber": 56
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.length",
+          "lineNumber": 64
+        },
+        {
+          "caller": "truncate",
+          "callee": "s.substring",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/service/CreateOrderCommand.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "CreateOrderCommand",
+          "startLine": 6,
+          "endLine": 15,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateOrderCommand",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/service/CreateOrderService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "create",
+          "startLine": 21,
+          "endLine": 32,
+          "params": [
+            "command"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "CreateOrderService",
+          "startLine": 14,
+          "endLine": 33,
+          "methods": [
+            "create"
+          ],
+          "properties": [
+            "orderRepository",
+            "orderItemRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "CreateOrderService",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "orderRepository.insert",
+          "lineNumber": 24
+        },
+        {
+          "caller": "create",
+          "callee": "Order.create",
+          "lineNumber": 24
+        },
+        {
+          "caller": "create",
+          "callee": "command.userId",
+          "lineNumber": 24
+        },
+        {
+          "caller": "create",
+          "callee": "command.items().stream()\n            .map(item -> OrderItem.create(order.getId(), item.productId(), item.itemName(), item.price())).toList",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create",
+          "callee": "command.items().stream().map",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create",
+          "callee": "command.items().stream",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create",
+          "callee": "command.items",
+          "lineNumber": 26
+        },
+        {
+          "caller": "create",
+          "callee": "OrderItem.create",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "order.getId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "item.productId",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "item.itemName",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "item.price",
+          "lineNumber": 27
+        },
+        {
+          "caller": "create",
+          "callee": "orderItemRepository.insertAll",
+          "lineNumber": 29
+        },
+        {
+          "caller": "create",
+          "callee": "new Result",
+          "lineNumber": 31
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/service/InspectCancelRestoreService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 92,
+      "nonEmptyLines": 80,
+      "functions": [
+        {
+          "name": "InspectCancelRestoreService",
+          "startLine": 22,
+          "endLine": 30,
+          "params": [
+            "processedCancelEventRepository",
+            "orderItemRepository",
+            "orderRepository"
+          ]
+        },
+        {
+          "name": "inspect",
+          "startLine": 32,
+          "endLine": 87,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "inconsistent",
+          "startLine": 89,
+          "endLine": 91,
+          "params": [
+            "evidence"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InspectCancelRestoreService",
+          "startLine": 16,
+          "endLine": 92,
+          "methods": [
+            "InspectCancelRestoreService",
+            "inspect",
+            "inconsistent"
+          ],
+          "properties": [
+            "processedCancelEventRepository",
+            "orderItemRepository",
+            "orderRepository"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InspectCancelRestoreService",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "inspect",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "InspectCancelRestoreService",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "inspect",
+          "callee": "processedCancelEventRepository.existsByCancelRequestId",
+          "lineNumber": 34
+        },
+        {
+          "caller": "inspect",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 35
+        },
+        {
+          "caller": "inspect",
+          "callee": "orderItemRepository.findAllByIdIn",
+          "lineNumber": 36
+        },
+        {
+          "caller": "inspect",
+          "callee": "command.orderItemIds",
+          "lineNumber": 36
+        },
+        {
+          "caller": "inspect",
+          "callee": "new LinkedHashMap<>",
+          "lineNumber": 37
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.forEach",
+          "lineNumber": 38
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundById.put",
+          "lineNumber": 38
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.getId",
+          "lineNumber": 38
+        },
+        {
+          "caller": "inspect",
+          "callee": "new ArrayList<>",
+          "lineNumber": 40
+        },
+        {
+          "caller": "inspect",
+          "callee": "command.orderItemIds",
+          "lineNumber": 41
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundById.containsKey",
+          "lineNumber": 42
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.add",
+          "lineNumber": 43
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 43
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.isEmpty",
+          "lineNumber": 46
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 47
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream()\n                .filter(OrderItem::isCancelled)\n                .map(item -> new Evidence(item.getId(), item.getStatus().name())).forEach",
+          "lineNumber": 51
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream()\n                .filter(OrderItem::isCancelled).map",
+          "lineNumber": 51
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream().filter",
+          "lineNumber": 51
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream",
+          "lineNumber": 51
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 53
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.getId",
+          "lineNumber": 53
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.getStatus().name",
+          "lineNumber": 53
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.getStatus",
+          "lineNumber": 53
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.isEmpty",
+          "lineNumber": 55
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Result",
+          "lineNumber": 56
+        },
+        {
+          "caller": "inspect",
+          "callee": "List.of",
+          "lineNumber": 56
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 57
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream()\n            .filter(item -> !item.isCancelled())\n            .map(item -> new Evidence(item.getId(), item.getStatus().name())).forEach",
+          "lineNumber": 60
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream()\n            .filter(item -> !item.isCancelled()).map",
+          "lineNumber": 60
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream().filter",
+          "lineNumber": 60
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream",
+          "lineNumber": 60
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.isCancelled",
+          "lineNumber": 61
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 62
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.getId",
+          "lineNumber": 62
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.getStatus().name",
+          "lineNumber": 62
+        },
+        {
+          "caller": "inspect",
+          "callee": "item.getStatus",
+          "lineNumber": 62
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.isEmpty",
+          "lineNumber": 64
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 65
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream()\n            .map(OrderItem::getOrderId)\n            .distinct().toList",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream()\n            .map(OrderItem::getOrderId).distinct",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream().map",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspect",
+          "callee": "foundItems.stream",
+          "lineNumber": 68
+        },
+        {
+          "caller": "inspect",
+          "callee": "orderIds.size",
+          "lineNumber": 72
+        },
+        {
+          "caller": "inspect",
+          "callee": "orderIds.forEach",
+          "lineNumber": 73
+        },
+        {
+          "caller": "inspect",
+          "callee": "evidence.add",
+          "lineNumber": 73
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 73
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 74
+        },
+        {
+          "caller": "inspect",
+          "callee": "orderIds.getFirst",
+          "lineNumber": 77
+        },
+        {
+          "caller": "inspect",
+          "callee": "orderRepository.findById(orderId)\n            .map(order -> {\n                OrderStatus status = order.getStatus();\n                if (status == OrderStatus.CANCELLED || status == OrderStatus.PARTIAL_CANCELLED) {\n                    return new Result(CancelRestoreLegStatus.APPLIED, List.of());\n                }\n                return inconsistent(List.of(new Evidence(orderId, status.name())));\n            }).orElseGet",
+          "lineNumber": 78
+        },
+        {
+          "caller": "inspect",
+          "callee": "orderRepository.findById(orderId).map",
+          "lineNumber": 78
+        },
+        {
+          "caller": "inspect",
+          "callee": "orderRepository.findById",
+          "lineNumber": 78
+        },
+        {
+          "caller": "inspect",
+          "callee": "order.getStatus",
+          "lineNumber": 80
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Result",
+          "lineNumber": 82
+        },
+        {
+          "caller": "inspect",
+          "callee": "List.of",
+          "lineNumber": 82
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 84
+        },
+        {
+          "caller": "inspect",
+          "callee": "List.of",
+          "lineNumber": 84
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 84
+        },
+        {
+          "caller": "inspect",
+          "callee": "status.name",
+          "lineNumber": 84
+        },
+        {
+          "caller": "inspect",
+          "callee": "inconsistent",
+          "lineNumber": 86
+        },
+        {
+          "caller": "inspect",
+          "callee": "List.of",
+          "lineNumber": 86
+        },
+        {
+          "caller": "inspect",
+          "callee": "new Evidence",
+          "lineNumber": 86
+        },
+        {
+          "caller": "inconsistent",
+          "callee": "new Result",
+          "lineNumber": 90
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/service/ProcessCancelledItemsService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "execute",
+          "startLine": 23,
+          "endLine": 34,
+          "params": [
+            "command"
+          ]
+        },
+        {
+          "name": "validateAndCancelItems",
+          "startLine": 36,
+          "endLine": 48,
+          "params": [
+            "ids"
+          ]
+        },
+        {
+          "name": "syncOrderStatus",
+          "startLine": 50,
+          "endLine": 61,
+          "params": [
+            "orderId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProcessCancelledItemsService",
+          "startLine": 15,
+          "endLine": 62,
+          "methods": [
+            "execute",
+            "validateAndCancelItems",
+            "syncOrderStatus"
+          ],
+          "properties": [
+            "orderRepository",
+            "orderItemRepository",
+            "processedCancelEventRepository",
+            "transactionTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "execute",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ProcessCancelledItemsService",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "execute",
+          "callee": "transactionTemplate.execute",
+          "lineNumber": 25
+        },
+        {
+          "caller": "execute",
+          "callee": "processedCancelEventRepository.existsByCancelRequestId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "execute",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "execute",
+          "callee": "validateAndCancelItems",
+          "lineNumber": 29
+        },
+        {
+          "caller": "execute",
+          "callee": "command.cancelledOrderItemIds",
+          "lineNumber": 29
+        },
+        {
+          "caller": "execute",
+          "callee": "syncOrderStatus",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "items.get(0).getOrderId",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "items.get",
+          "lineNumber": 30
+        },
+        {
+          "caller": "execute",
+          "callee": "processedCancelEventRepository.save",
+          "lineNumber": 31
+        },
+        {
+          "caller": "execute",
+          "callee": "command.cancelRequestId",
+          "lineNumber": 31
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "orderItemRepository.findAllByIdIn",
+          "lineNumber": 37
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "items.size",
+          "lineNumber": 38
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "ids.size",
+          "lineNumber": 38
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "new OrderItemNotFoundException",
+          "lineNumber": 39
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "items.stream().map(OrderItem::getOrderId).distinct().toList",
+          "lineNumber": 41
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "items.stream().map(OrderItem::getOrderId).distinct",
+          "lineNumber": 41
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "items.stream().map",
+          "lineNumber": 41
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "items.stream",
+          "lineNumber": 41
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "orderIds.size",
+          "lineNumber": 42
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "new IllegalStateException",
+          "lineNumber": 43
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "items.forEach",
+          "lineNumber": 45
+        },
+        {
+          "caller": "validateAndCancelItems",
+          "callee": "orderItemRepository.saveAll",
+          "lineNumber": 46
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "orderRepository.findByIdForUpdate(orderId).orElseThrow",
+          "lineNumber": 51
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "orderRepository.findByIdForUpdate",
+          "lineNumber": 51
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "new IllegalStateException",
+          "lineNumber": 52
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "orderItemRepository.findAllByOrderId(orderId)\n            .stream().allMatch",
+          "lineNumber": 53
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "orderItemRepository.findAllByOrderId(orderId).stream",
+          "lineNumber": 53
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "orderItemRepository.findAllByOrderId",
+          "lineNumber": 53
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "order.cancel",
+          "lineNumber": 56
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "order.partialCancel",
+          "lineNumber": 58
+        },
+        {
+          "caller": "syncOrderStatus",
+          "callee": "orderRepository.save",
+          "lineNumber": 60
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/service/VerifyOrderItemsService.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "verify",
+          "startLine": 24,
+          "endLine": 33,
+          "params": [
+            "orderItemIds",
+            "requesterUserId"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "VerifyOrderItemsService",
+          "startLine": 15,
+          "endLine": 34,
+          "methods": [
+            "verify"
+          ],
+          "properties": [
+            "orderItemRepository",
+            "orderRepository",
+            "orderItemVerifier"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "verify",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "VerifyOrderItemsService",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "verify",
+          "callee": "orderItemRepository.findAllByIdIn",
+          "lineNumber": 27
+        },
+        {
+          "caller": "verify",
+          "callee": "orderItemVerifier.resolveOrderId",
+          "lineNumber": 28
+        },
+        {
+          "caller": "verify",
+          "callee": "orderRepository.findById(orderId).orElseThrow",
+          "lineNumber": 29
+        },
+        {
+          "caller": "verify",
+          "callee": "orderRepository.findById",
+          "lineNumber": 29
+        },
+        {
+          "caller": "verify",
+          "callee": "new IllegalStateException",
+          "lineNumber": 30
+        },
+        {
+          "caller": "verify",
+          "callee": "orderItemVerifier.checkOwnership",
+          "lineNumber": 31
+        },
+        {
+          "caller": "verify",
+          "callee": "new Result",
+          "lineNumber": 32
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/usecase/CreateOrderUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "CreateOrderUseCase",
+          "startLine": 9,
+          "endLine": 12,
+          "methods": [
+            "create"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateOrderUseCase",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/usecase/InspectCancelRestoreUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "InspectCancelRestoreUseCase",
+          "startLine": 7,
+          "endLine": 20,
+          "methods": [
+            "inspect"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InspectCancelRestoreUseCase",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/usecase/ProcessCancelledItemsUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "ProcessCancelledItemsUseCase",
+          "startLine": 5,
+          "endLine": 10,
+          "methods": [
+            "execute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProcessCancelledItemsUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/application/usecase/VerifyOrderItemsUseCase.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "classes": [
+        {
+          "name": "VerifyOrderItemsUseCase",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "verify"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "VerifyOrderItemsUseCase",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/common/exception/BusinessException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 21,
+      "functions": [
+        {
+          "name": "BusinessException",
+          "startLine": 17,
+          "endLine": 20,
+          "params": [
+            "errorCode"
+          ]
+        },
+        {
+          "name": "BusinessException",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "errorCode",
+            "message"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BusinessException",
+          "startLine": 12,
+          "endLine": 26,
+          "methods": [
+            "BusinessException",
+            "BusinessException"
+          ],
+          "properties": [
+            "errorCode"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BusinessException",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BusinessException",
+          "callee": "errorCode.getDefaultMessage",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/common/exception/ErrorCode.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 23,
+      "classes": [
+        {
+          "name": "ErrorCode",
+          "startLine": 12,
+          "endLine": 29,
+          "methods": [],
+          "properties": [
+            "code",
+            "httpStatus",
+            "defaultMessage"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ErrorCode",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/entity/Order.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "Order",
+          "startLine": 12,
+          "endLine": 16,
+          "params": [
+            "id",
+            "userId",
+            "status"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 18,
+          "endLine": 20,
+          "params": [
+            "userId"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 22,
+          "endLine": 24,
+          "params": [
+            "id",
+            "userId",
+            "status"
+          ]
+        },
+        {
+          "name": "cancel",
+          "startLine": 26,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "partialCancel",
+          "startLine": 30,
+          "endLine": 32,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Order",
+          "startLine": 5,
+          "endLine": 33,
+          "methods": [
+            "Order",
+            "create",
+            "of",
+            "cancel",
+            "partialCancel"
+          ],
+          "properties": [
+            "id",
+            "userId",
+            "status"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "of",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "cancel",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "partialCancel",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "Order",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new Order",
+          "lineNumber": 19
+        },
+        {
+          "caller": "of",
+          "callee": "new Order",
+          "lineNumber": 23
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/entity/OrderItem.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "OrderItem",
+          "startLine": 17,
+          "endLine": 25,
+          "params": [
+            "id",
+            "orderId",
+            "productId",
+            "itemName",
+            "price",
+            "status"
+          ]
+        },
+        {
+          "name": "create",
+          "startLine": 27,
+          "endLine": 29,
+          "params": [
+            "orderId",
+            "productId",
+            "itemName",
+            "price"
+          ]
+        },
+        {
+          "name": "of",
+          "startLine": 31,
+          "endLine": 34,
+          "params": [
+            "id",
+            "orderId",
+            "productId",
+            "itemName",
+            "price",
+            "status"
+          ]
+        },
+        {
+          "name": "cancel",
+          "startLine": 36,
+          "endLine": 38,
+          "params": []
+        },
+        {
+          "name": "isCancelled",
+          "startLine": 40,
+          "endLine": 42,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderItem",
+          "startLine": 7,
+          "endLine": 43,
+          "methods": [
+            "OrderItem",
+            "create",
+            "of",
+            "cancel",
+            "isCancelled"
+          ],
+          "properties": [
+            "id",
+            "orderId",
+            "productId",
+            "itemName",
+            "price",
+            "status"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "create",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "of",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "cancel",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "isCancelled",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "OrderItem",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "create",
+          "callee": "new OrderItem",
+          "lineNumber": 28
+        },
+        {
+          "caller": "of",
+          "callee": "new OrderItem",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/entity/OrderItemStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "OrderItemStatus",
+          "startLine": 3,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderItemStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/entity/OrderStatus.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "classes": [
+        {
+          "name": "OrderStatus",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderStatus",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/exception/CartItemNotFoundException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "CartItemNotFoundException",
+          "startLine": 8,
+          "endLine": 10,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "CartItemNotFoundException",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [
+            "CartItemNotFoundException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CartItemNotFoundException",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "CartItemNotFoundException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "order-service/src/main/java/com/example/order/domain/exception/OrderItemsMultipleOrdersException.java",
+      "language": "java",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "OrderItemsMultipleOrdersException",
+          "startLine": 9,
+          "endLine": 11,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OrderItemsMultipleOrdersException",
+          "startLine": 7,
+          "endLine": 12,
+          "methods": [
+            "OrderItemsMultipleOrdersException"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrderItemsMultipleOrdersException",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "OrderItemsMultipleOrdersException",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

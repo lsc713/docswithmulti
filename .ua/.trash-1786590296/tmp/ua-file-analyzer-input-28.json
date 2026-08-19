@@ -1,0 +1,69 @@
+{
+  "projectRoot": "/Users/juho/Documents/docswithmulti",
+  "batchFiles": [
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "language": "java",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "language": "java",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "language": "java",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java",
+      "language": "java",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java",
+      "language": "java",
+      "sizeLines": 123,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java",
+      "language": "java",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java",
+      "language": "java",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java": [],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java": [],
+    "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java": [
+      "payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/http/RiskManagementHttpClient.java": [
+      "payment-service/src/main/java/com/example/payment/application/dto/RiskReserveResult.java",
+      "payment-service/src/main/java/com/example/payment/application/interfaces/RiskManagementPort.java",
+      "payment-service/src/main/java/com/example/payment/infrastructure/exception/RiskServiceException.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/persistence/CompensationRetryRepositoryImpl.java": [
+      "payment-service/src/main/java/com/example/payment/application/interfaces/CompensationRetryRepository.java"
+    ],
+    "payment-service/src/main/java/com/example/payment/infrastructure/scheduler/CompensationRetryScheduler.java": [
+      "payment-service/src/main/java/com/example/payment/application/service/CompensationRetryService.java"
+    ]
+  }
+}
