@@ -1,6 +1,9 @@
 package com.example.product.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.MeterRegistry;
+import jakarta.servlet.Filter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
  * 카테고리 기반 상품 브라우징 end-to-end (PLINK-01, BROWSE-01/02)를 실제 MySQL(Testcontainers)로 관통.
  * Boot 4.0.5: @AutoConfigureMockMvc / TestRestTemplate 미제공 → MockMvcBuilders.webAppContextSetup (CategoryTaxonomy 패턴).
  */
-@SpringBootTest
+@SpringBootTest(properties = "loadtest.query-count.enabled=true")
 @Testcontainers
 @DisplayName("Product browse (link/detail/list aggregation)")
 class ProductBrowseIntegrationTest {
@@ -47,13 +50,18 @@ class ProductBrowseIntegrationTest {
     }
 
     @Autowired WebApplicationContext ctx;
+    @Autowired MeterRegistry registry;
 
     final ObjectMapper om = new ObjectMapper();
     MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(ctx).build();
+        var builder = MockMvcBuilders.webAppContextSetup(ctx);
+        ctx.getBeansOfType(Filter.class).values().stream()
+                .filter(filter -> filter.getClass().getSimpleName().equals("QueryCountFilter"))
+                .forEach(filter -> builder.addFilters(filter));
+        mockMvc = builder.build();
     }
 
     // ---- PLINK-01 / BROWSE-02 (tracer) ----
@@ -83,6 +91,33 @@ class ProductBrowseIntegrationTest {
         assertThat(sku0.get("skuCode")).isEqualTo("TS-001");
         assertThat(sku0.get("optionSummary")).isEqualTo("블랙/M");
         assertThat(((Number) sku0.get("availableQty")).intValue()).isEqualTo(7);
+    }
+
+    @Test
+    @DisplayName("BROWSE-02: 여러 SKU 상품 상세도 요청당 SELECT 6회")
+    void productDetailUsesSixQueriesRegardlessOfSkuCount() throws Exception {
+        String suffix = Long.toString(System.nanoTime());
+        long leaf = buildTaxonomy("쿼리-대-" + suffix, "쿼리-중", "쿼리-소");
+        long productId = registerProduct("""
+                {"name":"쿼리 상품","categoryId":%d,"skus":[
+                  {"skuCode":"Q-%s-1","initialStock":10,"price":1000},
+                  {"skuCode":"Q-%s-2","initialStock":10,"price":2000},
+                  {"skuCode":"Q-%s-3","initialStock":10,"price":3000},
+                  {"skuCode":"Q-%s-4","initialStock":10,"price":4000}
+                ]}""".formatted(leaf, suffix, suffix, suffix, suffix));
+
+        DistributionSummary before = registry.find("db.queries.per_request")
+                .tag("uri", "/v1/products/{id}").summary();
+        long beforeCount = before == null ? 0 : before.count();
+        double beforeTotal = before == null ? 0 : before.totalAmount();
+
+        assertThat(getResp("/v1/products/" + productId).getStatus()).isEqualTo(200);
+
+        DistributionSummary after = registry.find("db.queries.per_request")
+                .tag("uri", "/v1/products/{id}").summary();
+        assertThat(after).isNotNull();
+        assertThat(after.count() - beforeCount).isEqualTo(1);
+        assertThat(after.totalAmount() - beforeTotal).isEqualTo(6);
     }
 
     @Test
