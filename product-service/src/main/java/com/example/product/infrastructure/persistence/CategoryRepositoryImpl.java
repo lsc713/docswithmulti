@@ -33,6 +33,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
+    public List<Category> findPathByLeafId(Long leafId) {
+        return jpa.findPathByLeafId(leafId).stream().map(CategoryJpaEntity::toDomain).toList();
+    }
+
+    @Override
     public List<Category> findAll() {
         return jpa.findAll().stream().map(CategoryJpaEntity::toDomain).toList();
     }

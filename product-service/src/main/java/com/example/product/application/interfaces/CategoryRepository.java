@@ -11,6 +11,9 @@ public interface CategoryRepository {
 
     Optional<Category> findById(Long id);
 
+    /** leaf부터 root까지 조회해 level 오름차순으로 반환. */
+    List<Category> findPathByLeafId(Long leafId);
+
     /** 트리 조립용 전체 조회. */
     List<Category> findAll();
 }
