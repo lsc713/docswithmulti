@@ -27,6 +27,29 @@ resource "aws_vpc_security_group_egress_rule" "all_out" {
   description       = "all egress (via NAT)"
 }
 
+# product 프로필의 NAT 인스턴스: private subnet에서 전달된 패킷만 받는다.
+resource "aws_security_group" "nat" {
+  name        = "${var.project}-nat-instance"
+  description = "NAT instance forwarding from private subnet"
+  vpc_id      = aws_vpc.main.id
+
+  tags = { Name = "${var.project}-nat-instance" }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "nat_private" {
+  security_group_id = aws_security_group.nat.id
+  cidr_ipv4         = var.private_subnet_cidr
+  ip_protocol       = "-1"
+  description       = "forward private subnet traffic"
+}
+
+resource "aws_vpc_security_group_egress_rule" "nat_all_out" {
+  security_group_id = aws_security_group.nat.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+  description       = "NAT instance internet egress"
+}
+
 # ── SSM 접속용 IAM (SSH 키 불필요) ──
 data "aws_iam_policy_document" "ec2_assume" {
   statement {

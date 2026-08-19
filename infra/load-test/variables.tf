@@ -16,13 +16,24 @@ variable "project" {
   default     = "cancel-loadtest"
 }
 
+variable "load_test_profile" {
+  description = "full=전체 취소 리그, product=상품 상세 최소 리그"
+  type        = string
+  default     = "full"
+
+  validation {
+    condition     = contains(["full", "product"], var.load_test_profile)
+    error_message = "load_test_profile must be full or product."
+  }
+}
+
 variable "vpc_cidr" {
   type    = string
   default = "10.0.0.0/16"
 }
 
 variable "public_subnet_cidr" {
-  description = "NAT Gateway 전용 퍼블릭 서브넷"
+  description = "NAT Gateway 또는 NAT 인스턴스용 퍼블릭 서브넷"
   type        = string
   default     = "10.0.0.0/24"
 }
