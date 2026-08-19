@@ -38,8 +38,8 @@
 - [x] **Step 1: Copy only the reviewed Product changes into this isolated worktree.**
 - [x] **Step 2: Run `./gradlew :product-service:cleanTest :product-service:test`.**
 - [x] **Step 3: Verify 97 tests, zero failures, and run `git diff --check`.**
-- [ ] **Step 4: Commit, push `agent/product-detail-query-optimization`, and open a draft PR to `main`.**
-- [ ] **Step 5: Merge the verified PR and fast-forward the isolated worktree to `origin/main`.**
+- [x] **Step 4: Commit, push `agent/product-detail-query-optimization`, and open a draft PR to `main`.**
+- [x] **Step 5: Merge the verified PR and fast-forward the isolated worktree to `origin/main`.**
 
 ### Task 2: Provision and verify the private Product stack
 
@@ -52,11 +52,11 @@
 - Consumes: merged `main`, AWS credentials, the existing Terraform Product-only topology.
 - Produces: same-AZ private k6, Product, MySQL, and observability nodes.
 
-- [ ] **Step 1: Run AWS identity and Terraform validation checks.**
-- [ ] **Step 2: Apply the existing Product-only stack with the cheapest supported Spot configuration.**
-- [ ] **Step 3: Deploy merged Product code and seed 100,000 products with 9 SKUs each.**
-- [ ] **Step 4: Enable query counting for a short smoke request and confirm six SQL statements.**
-- [ ] **Step 5: Restart Product with query counting disabled for capacity measurement.**
+- [x] **Step 1: Run AWS identity and Terraform validation checks.**
+- [x] **Step 2: Apply the existing Product-only stack with the cheapest supported Spot configuration.**
+- [x] **Step 3: Deploy merged Product code and seed 100,000 products with 9 SKUs each.**
+- [x] **Step 4: Enable query counting for a short smoke request and confirm six SQL statements.**
+- [x] **Step 5: Restart Product with query counting disabled for capacity measurement.**
 
 ### Task 3: Measure and compare capacity
 
@@ -68,8 +68,8 @@
 - Consumes: the private Product endpoint and the existing realistic k6 profile.
 - Produces: smoke, baseline, ramp summaries and a comparison with the prior 1.1k RPS/MySQL bottleneck.
 
-- [ ] **Step 1: Run the smoke profile and require zero HTTP failures.**
-- [ ] **Step 2: Run the 10 VU baseline with query counting disabled.**
-- [ ] **Step 3: Run the existing 10→50→100 VU ramp and collect RPS, p95/p99, errors, CPU, and Hikari metrics.**
-- [ ] **Step 4: Compare saturation point and first bottleneck with the prior AWS report.**
-- [ ] **Step 5: Save and publish the result report, then run `terraform destroy` and verify no test instances remain.**
+- [x] **Step 1: Run the smoke profile and require zero HTTP failures.**
+- [x] **Step 2: Run the 10 VU baseline with query counting disabled.**
+- [x] **Step 3: Run the existing 10→50→100 VU ramp and collect RPS, p95/p99, errors, CPU, and Hikari metrics.**
+- [x] **Step 4: Compare saturation point and first bottleneck with the prior AWS report.**
+- [x] **Step 5: Save and publish the result report, then run `terraform destroy` and verify no test instances remain.**

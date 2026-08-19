@@ -34,7 +34,7 @@ locals {
 
   product_instances = {
     k6            = { type = "c7g.large", ip = "10.0.1.10", disk = 30 }
-    product       = { type = "c7g.xlarge", ip = "10.0.1.23", disk = 30 }
+    product       = { type = "c7g.xlarge", ip = "10.0.1.23", disk = 30, spot = false }
     mysql-product = { type = "m7g.large", ip = "10.0.1.33", disk = 50 }
   }
 

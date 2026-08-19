@@ -75,10 +75,11 @@ for ((attempt=1; attempt<=SSM_BOOTSTRAP_ATTEMPTS; attempt++)); do
 done
 [ "$bootstrap_ok" = 1 ] || exit 1
 
-IDS_B64=$(base64 < "$IDS_FILE" | tr -d '\n')
+# ponytail: SSM commands cap at 97KB; 5k evenly spaced IDs cover the full key range without S3.
+IDS_B64=$(jq -c 'if length <= 5000 then . else [range(0; length; (length / 5000 | floor)) as $i | .[$i]][:5000] end' "$IDS_FILE" | base64 | tr -d '\n')
 read -r -d '' REMOTE <<'REMOTE' || true
 set -e
-mkdir -p /opt/loadtest/results
+install -d -m 0777 /opt/loadtest/results
 if [ ! -d /opt/loadtest/repo/.git ]; then git clone --no-checkout "$REPO_URL" /opt/loadtest/repo; fi
 git -C /opt/loadtest/repo fetch --depth 1 origin "$REPO_REF"
 expected_head=$(git -C /opt/loadtest/repo rev-parse 'FETCH_HEAD^{commit}')
