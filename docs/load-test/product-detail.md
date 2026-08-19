@@ -94,11 +94,13 @@ until [ -n "$RUN_ID" ]; do
 done
 gh run watch "$RUN_ID" --exit-status
 
+cp infra/load-test/product-only.tfvars.example infra/load-test/terraform.tfvars
 terraform -chdir=infra/load-test apply
-IMAGE_NS="$IMAGE_NS" IMAGE_TAG="$IMAGE_SHA" REPO_REF="$IMAGE_SHA" ./infra/load-test/deploy/ssm-deploy.sh
+LOAD_TEST_PROFILE=product IMAGE_NS="$IMAGE_NS" IMAGE_TAG="$IMAGE_SHA" REPO_REF="$IMAGE_SHA" \
+  ./infra/load-test/deploy/ssm-deploy.sh
 ```
 
-The unique tag makes the returned run ID unambiguous. `IMAGE_TAG="$IMAGE_SHA"` selects the immutable images and `REPO_REF="$IMAGE_SHA"` makes every host detach-checkout the matching Compose/config revision. Do not continue if the workflow watch or deployment fails.
+`terraform apply` starts billing. This profile creates one small NAT instance plus private `k6`, `product`, and `mysql-product` Spot nodes in the same AZ. The unique tag makes the returned run ID unambiguous. `IMAGE_TAG="$IMAGE_SHA"` selects the immutable image and `REPO_REF="$IMAGE_SHA"` makes every host detach-checkout the matching Compose/config revision. Do not continue if the workflow watch or deployment fails.
 
 ### Wait for product-service and Flyway
 
@@ -148,10 +150,13 @@ Keep the tunnel open until seeding finishes. The seeder writes `k6/seed/productI
 Run one distribution at a time. These smoke runs warm the service and verify the AWS data path; do not include them in the recorded comparison:
 
 ```bash
+export PROM_URL=http://127.0.0.1:9090/api/v1/write
 REPO_REF="$IMAGE_SHA" DISTRIBUTION=hot STAGE=smoke ./k6/run-product-detail-aws.sh
 REPO_REF="$IMAGE_SHA" DISTRIBUTION=uniform STAGE=smoke ./k6/run-product-detail-aws.sh
 REPO_REF="$IMAGE_SHA" DISTRIBUTION=realistic STAGE=smoke ./k6/run-product-detail-aws.sh
 ```
+
+To inspect scrape targets without a public endpoint, run `LOAD_TEST_PROFILE=product ./infra/load-test/deploy/port-forward.sh prometheus` and open `http://localhost:9090/targets`.
 
 ### Record identical comparisons
 
