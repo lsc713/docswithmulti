@@ -1,5 +1,9 @@
 export const ORDER_FLOW_SESSION_KEY = 'fashion-shop:order-flow'
 
+export function isStockInsufficient(error) {
+  return error?.status === 409 && ['STOCK_INSUFFICIENT', 'STOCK_001'].includes(error.code)
+}
+
 const optionalFields = ['imageUrl', 'images', 'variant', 'skuCode']
 
 export function normalizeOrderItems(lines) {

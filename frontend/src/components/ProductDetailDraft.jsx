@@ -1,5 +1,6 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { api } from '../api'
+import { isStockInsufficient } from '../orderFlow'
 import abstractArt from '../assets/detail-draft-art.svg'
 import ImageManager from './ImageManager'
 import './ProductDetailDraft.css'
@@ -70,26 +71,38 @@ function ProductSummary({ product, kicker, production = false }) {
   )
 }
 
-function DraftPurchasePanel({ product, onBuy, onAddToCart, compact = false }) {
+function DraftPurchasePanel({ product, onBuy, onAddToCart, compact = false, initialLine, stockNotice }) {
   const skus = product.skus ?? []
-  const [selectedSkuId, setSelectedSkuId] = useState(null)
-  const [quantity, setQuantity] = useState(1)
+  const [selectedSkuId, setSelectedSkuId] = useState(initialLine?.skuId ?? null)
+  const [quantity, setQuantity] = useState(initialLine?.quantity ?? 1)
   const selectedSku = skus.find(sku => sku.skuId === selectedSkuId)
+  const selectedAvailableQty = selectedSku?.availableQty
+  const purchasableSku = selectedSku?.availableQty > 0 ? selectedSku : null
   const allSoldOut = skus.length === 0 || skus.every(sku => sku.availableQty <= 0)
 
-  const line = selectedSku ? [{
-    skuId: selectedSku.skuId,
+  const line = purchasableSku ? [{
+    skuId: purchasableSku.skuId,
     productId: product.id,
     itemName: product.name,
-    optionSummary: selectedSku.optionSummary,
-    unitPrice: selectedSku.price,
+    optionSummary: purchasableSku.optionSummary,
+    unitPrice: purchasableSku.price,
     quantity,
     imageUrl: product.images?.[0]?.url,
-    variant: selectedSku.variant,
-    availableQty: selectedSku.availableQty,
-    price: selectedSku.price,
-    skuCode: selectedSku.skuCode,
+    variant: purchasableSku.variant,
+    availableQty: purchasableSku.availableQty,
+    price: purchasableSku.price,
+    skuCode: purchasableSku.skuCode,
   }] : []
+
+  useEffect(() => {
+    if (selectedAvailableQty === undefined) return
+    if (selectedAvailableQty <= 0) {
+      setSelectedSkuId(null)
+      setQuantity(1)
+      return
+    }
+    setQuantity(current => Math.min(Math.max(current, 1), selectedAvailableQty))
+  }, [product, selectedAvailableQty])
 
   const selectSku = (sku) => {
     setSelectedSkuId(sku.skuId)
@@ -131,22 +144,23 @@ function DraftPurchasePanel({ product, onBuy, onAddToCart, compact = false }) {
       </label>
 
       <div className="detail-draft-selection-status" role="status" aria-live="polite">
+        {stockNotice && <strong className="detail-draft-stock-notice">{stockNotice}</strong>}
         {allSoldOut
           ? '현재 모든 옵션이 품절되었습니다.'
-          : selectedSku
-            ? `${selectedSku.optionSummary}, ${quantity}개 선택됨`
+          : purchasableSku
+            ? `${purchasableSku.optionSummary}, ${quantity}개 선택됨`
             : '구매할 옵션을 선택해 주세요.'}
       </div>
 
       <div className="detail-draft-actions">
-        <button type="button" className="detail-draft-buy" disabled={!selectedSku} onClick={() => onBuy(line)}>구매하기</button>
-        <button type="button" className="detail-draft-cart" disabled={!selectedSku} onClick={() => onAddToCart(line)}>장바구니 담기</button>
+        <button type="button" className="detail-draft-buy" disabled={!purchasableSku} onClick={() => onBuy(line)}>구매하기</button>
+        <button type="button" className="detail-draft-cart" disabled={!purchasableSku} onClick={() => onAddToCart(line)}>장바구니 담기</button>
       </div>
     </section>
   )
 }
 
-function GalleryPurchasePanel({ product, onBuy, onAddToCart }) {
+function GalleryPurchasePanel({ product, onBuy, onAddToCart, initialLine, stockNotice }) {
   const skus = product.skus ?? []
   const hasStructuredVariants = (product.variantOptions?.length ?? 0) > 0
   const variantOptions = hasStructuredVariants
@@ -155,10 +169,11 @@ function GalleryPurchasePanel({ product, onBuy, onAddToCart }) {
       ? [{ attribute: '옵션', values: skus.map(sku => sku.optionSummary) }]
       : []
   const listboxIdPrefix = useId()
-  const [selectedVariants, setSelectedVariants] = useState({})
+  const [selectedVariants, setSelectedVariants] = useState(() => initialLine?.variant ??
+    (initialLine?.optionSummary ? { 옵션: initialLine.optionSummary } : {}))
   const [openAttributes, setOpenAttributes] = useState({})
   const [pendingFocus, setPendingFocus] = useState(null)
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(initialLine?.quantity ?? 1)
   const triggerRefs = useRef({})
   const listboxRefs = useRef({})
   const selectedSku = hasStructuredVariants
@@ -167,6 +182,7 @@ function GalleryPurchasePanel({ product, onBuy, onAddToCart }) {
       variantOptions.every(({ attribute }) => sku.variant?.[attribute] === selectedVariants[attribute]))
     : skus.find(sku =>
       sku.availableQty > 0 && sku.optionSummary === selectedVariants['옵션'])
+  const selectedAvailableQty = selectedSku?.availableQty
   const allSoldOut = skus.length === 0 || skus.every(sku => sku.availableQty <= 0)
 
   const line = selectedSku ? [{
@@ -192,9 +208,18 @@ function GalleryPurchasePanel({ product, onBuy, onAddToCart }) {
   }, [openAttributes, pendingFocus])
 
   useEffect(() => {
-    if (!selectedSku) return
-    setQuantity(current => Math.min(Math.max(current, 1), selectedSku.availableQty))
-  }, [selectedSku])
+    if (selectedAvailableQty === undefined) return
+    setQuantity(current => Math.min(Math.max(current, 1), selectedAvailableQty))
+  }, [selectedAvailableQty])
+
+  useEffect(() => {
+    if (selectedAvailableQty === undefined) {
+      setSelectedVariants({})
+      setQuantity(1)
+      return
+    }
+    setQuantity(current => Math.min(Math.max(current, 1), selectedAvailableQty))
+  }, [product, selectedAvailableQty])
 
   const closeDisclosure = (attribute) => {
     setOpenAttributes(current => ({ ...current, [attribute]: false }))
@@ -308,6 +333,7 @@ function GalleryPurchasePanel({ product, onBuy, onAddToCart }) {
       </label>
 
       <div className="detail-draft-selection-status" role="status" aria-live="polite">
+        {stockNotice && <strong className="detail-draft-stock-notice">{stockNotice}</strong>}
         {allSoldOut
           ? '현재 모든 옵션이 품절되었습니다.'
           : selectedSku
@@ -383,10 +409,13 @@ const LAYOUTS = {
   compact: CompactLayout,
 }
 
-export default function ProductDetailDraft({ id, variant, production = false, me, onBack, onBuy, onAddToCart }) {
+export default function ProductDetailDraft({ id, variant, production = false, me, onBack, onBuy, onAddToCart, initialLine, stockNotice: initialStockNotice }) {
   const [requestKey, setRequestKey] = useState(0)
   const [state, setState] = useState({ status: 'loading', product: null, error: null })
+  const [stockNotice, setStockNotice] = useState(initialStockNotice ?? '')
   const requestRef = useRef(null)
+
+  useEffect(() => setStockNotice(initialStockNotice ?? ''), [id, initialStockNotice])
 
   useEffect(() => {
     let ignore = false
@@ -405,6 +434,21 @@ export default function ProductDetailDraft({ id, variant, production = false, me
 
   const Layout = useMemo(() => LAYOUTS[variant], [variant])
   const label = production ? '상품 상세' : `${VARIANT_NAMES[variant]} 상품 상세`
+
+  async function refreshProduct(productId) {
+    const product = await api.product(productId)
+    setState({ status: 'ready', product, error: null })
+    setStockNotice('방금 품절됨')
+  }
+
+  async function handleBuy(line) {
+    try {
+      await onBuy(line, refreshProduct)
+    } catch (error) {
+      if (!isStockInsufficient(error)) throw error
+      await refreshProduct(state.product.id)
+    }
+  }
 
   if (state.status === 'loading') {
     return (
@@ -445,7 +489,8 @@ export default function ProductDetailDraft({ id, variant, production = false, me
   return (
     <main className={`detail-draft-main detail-draft-main--${variant}`} aria-label={label}>
       <button type="button" className="detail-draft-back" onClick={onBack}>{production ? '뒤로' : '← 컬렉션으로'}</button>
-      <Layout product={state.product} production={production} onBuy={onBuy} onAddToCart={onAddToCart} />
+      <Layout product={state.product} production={production} onBuy={handleBuy} onAddToCart={onAddToCart}
+              initialLine={initialLine} stockNotice={stockNotice} />
       {production && me?.role === 'ADMIN' && (
         <ImageManager productId={id} images={state.product.images}
                       onChanged={() => setRequestKey(key => key + 1)} />

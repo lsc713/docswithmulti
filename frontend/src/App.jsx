@@ -167,6 +167,16 @@ export default function App() {
     openOrderRoute('checkout', { orderItems, source: 'product', productId: orderItems[0]?.productId })
   }
 
+  function handleStockInsufficient(flowState) {
+    const productId = flowState?.source === 'product' ? flowState.productId : null
+    if (!Number.isInteger(productId) || productId <= 0) return false
+    clearOrderRouteState()
+    sessionStorage.removeItem('paymentAttempt')
+    setPaymentContext(null)
+    openStoreView({ name: 'detail', id: productId, initialLine: flowState.orderItems?.[0], stockNotice: '방금 품절됨' })
+    return true
+  }
+
   async function handleAddToCart(lines) {
     if (!me) { setAuthOpen(true); return }
     for (const l of lines) {
@@ -239,7 +249,7 @@ export default function App() {
       )}
       {view.name === 'detail' && (
         <ProductDetail id={view.id} me={me} onBack={handleHome} onBuy={handleBuy}
-                       onAddToCart={handleAddToCart} />
+                       onAddToCart={handleAddToCart} initialLine={view.initialLine} stockNotice={view.stockNotice} />
       )}
       {view.name === 'cart' && (
         <Cart items={cart} status={cartStatus} onQty={onQty} onRemove={onRemove}
@@ -261,7 +271,7 @@ export default function App() {
       )}
       {view.name === 'payment' && (
         <Payment flowState={view.flowState}
-                 onBack={() => window.history.back()} />
+                 onBack={() => window.history.back()} onStockInsufficient={handleStockInsufficient} />
       )}
       {view.name === 'payment-return' && (
         <PaymentReturn kind={view.kind} context={paymentContext}
