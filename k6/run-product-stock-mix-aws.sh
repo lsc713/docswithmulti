@@ -81,10 +81,13 @@ done
 if [ -s "$summary" ]; then
   tar -czf "$bundle" -C /opt/loadtest/results "${RUN_KEY}.summary.json" "${RUN_KEY}.console.log" "${RUN_KEY}.timing.json" "${RUN_KEY}.observations"
   bytes=$(wc -c < "$bundle" | tr -d ' '); encoded=$(base64 "$bundle" | tr -d '\n')
-  # ponytail: retain remotely if the SSM stdout bundle cap is exceeded; add S3 only when that happens.
-  [ "$(printf '%s' "$encoded" | wc -c | tr -d ' ')" -le 22000 ] || { echo "result artifact exceeds SSM output limit; retained at $bundle" >&2; exit 1; }
+  encoded_chars=$(printf '%s' "$encoded" | wc -c | tr -d ' ')
   checksum=$(sha256sum "$bundle" | awk '{print $1}')
-  printf 'K6_RESULT_BEGIN %s %s\n%s\nK6_RESULT_END\n' "$checksum" "$bytes" "$encoded"
+  if [ "$encoded_chars" -le 22000 ]; then
+    printf 'K6_RESULT_BEGIN %s %s\n%s\nK6_RESULT_END\n' "$checksum" "$bytes" "$encoded"
+  else
+    printf 'K6_RESULT_CHUNKED %s %s %s\n' "$checksum" "$bytes" "$encoded_chars"
+  fi
 else
   echo "k6 summary was not created; console retained at $console" >&2; k6_status=1
 fi
@@ -94,23 +97,53 @@ REMOTE
 PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\n" + $script]}')
 CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" --document-name AWS-RunShellScript --comment "product stock mixed load test" --parameters "$PARAMS" --timeout-seconds 3600 --query 'Command.CommandId' --output text)
 
+wait_for_command() {
+  local command_id=$1 attempt status
+  for ((attempt=1; attempt<=SSM_POLL_ATTEMPTS; attempt++)); do
+    status=$(aws ssm list-command-invocations --region "$REGION" --command-id "$command_id" --query 'CommandInvocations[0].Status' --output text)
+    case "$status" in
+      Success) return 0 ;;
+      Failed|Cancelled|TimedOut) echo "SSM command $command_id failed ($status)" >&2; return 1 ;;
+      None|Pending|InProgress|Delayed|Cancelling) ;;
+      *) echo "Unexpected SSM command status: $status" >&2; return 1 ;;
+    esac
+    [ "$attempt" -lt "$SSM_POLL_ATTEMPTS" ] || { echo "SSM command $command_id did not finish after $((SSM_POLL_ATTEMPTS * 5))s" >&2; return 1; }
+    sleep 5
+  done
+}
+
 result=1
-for ((attempt=1; attempt<=SSM_POLL_ATTEMPTS; attempt++)); do
-  status=$(aws ssm list-command-invocations --region "$REGION" --command-id "$CID" --query 'CommandInvocations[0].Status' --output text)
-  case "$status" in Success) result=0; break ;; Failed|Cancelled|TimedOut) echo "k6 command failed ($status)" >&2; break ;; None|Pending|InProgress|Delayed|Cancelling) ;; *) echo "Unexpected SSM command status: $status" >&2; exit 1 ;; esac
-  [ "$attempt" -lt "$SSM_POLL_ATTEMPTS" ] || { echo "SSM command $CID did not finish after $((SSM_POLL_ATTEMPTS * 5))s" >&2; break; }; sleep 5
-done
-output=$(mktemp); bundle=$(mktemp); trap 'rm -f "$output" "$bundle"' EXIT
+wait_for_command "$CID" && result=0
+output=$(mktemp); bundle=$(mktemp); encoded=$(mktemp)
+trap 'rm -f "$output" "$bundle" "$encoded"' EXIT
 aws ssm get-command-invocation --command-id "$CID" --instance-id "$IID" --query StandardOutputContent --output text --region "$REGION" > "$output"
 header=$(sed -n '/^K6_RESULT_BEGIN /{p;q;}' "$output")
 if [ -n "$header" ] && grep -q '^K6_RESULT_END$' "$output"; then
   expected_checksum=$(printf '%s\n' "$header" | awk '{print $2}'); expected_bytes=$(printf '%s\n' "$header" | awk '{print $3}')
-  sed -n '/^K6_RESULT_BEGIN /,/^K6_RESULT_END$/p' "$output" | sed '1d;$d' | tr -d '\n' | base64 -d > "$bundle"
+  sed -n '/^K6_RESULT_BEGIN /,/^K6_RESULT_END$/p' "$output" | sed '1d;$d' | tr -d '\n' > "$encoded"
+elif header=$(sed -n '/^K6_RESULT_CHUNKED /{p;q;}' "$output"); [ -n "$header" ]; then
+  expected_checksum=$(printf '%s\n' "$header" | awk '{print $2}'); expected_bytes=$(printf '%s\n' "$header" | awk '{print $3}'); encoded_bytes=$(printf '%s\n' "$header" | awk '{print $4}')
+  [[ "$encoded_bytes" =~ ^[1-9][0-9]*$ ]] || { echo "Invalid chunked result header" >&2; exit 1; }
+  for ((offset=0; offset<encoded_bytes; offset+=16000)); do
+    count=$((encoded_bytes - offset)); [ "$count" -le 16000 ] || count=16000
+    CHUNK_PARAMS=$(jq -n --arg run "$RUN_KEY" --argjson offset "$offset" --argjson count "$count" '{commands: ["base64 /opt/loadtest/results/\($run).tgz | tr -d \"\\n\" | dd bs=1 skip=\($offset) count=\($count) status=none"]}')
+    chunk_cid=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" --document-name AWS-RunShellScript --comment "fetch product stock result chunk" --parameters "$CHUNK_PARAMS" --timeout-seconds 60 --query 'Command.CommandId' --output text)
+    wait_for_command "$chunk_cid" || exit 1
+    chunk=$(aws ssm get-command-invocation --command-id "$chunk_cid" --instance-id "$IID" --query StandardOutputContent --output text --region "$REGION" | tr -d '\n')
+    [ "$(printf '%s' "$chunk" | wc -c | tr -d ' ')" -eq "$count" ] || { echo "Result chunk size mismatch at offset $offset" >&2; exit 1; }
+    printf '%s' "$chunk" >> "$encoded"
+  done
+  [ "$(wc -c < "$encoded" | tr -d ' ')" -eq "$encoded_bytes" ] || { echo "Result encoded size mismatch" >&2; exit 1; }
+else
+  echo "Result artifact missing or truncated; inspect /opt/loadtest/results/${RUN_KEY}.* on $IID" >&2; exit 1
+fi
+base64 -d "$encoded" > "$bundle"
+if [ -s "$bundle" ]; then
   actual_checksum=$(shasum -a 256 "$bundle" | awk '{print $1}'); actual_bytes=$(wc -c < "$bundle" | tr -d ' ')
   [ "$actual_checksum:$actual_bytes" = "$expected_checksum:$expected_bytes" ] || { echo "Result artifact checksum/size mismatch; remote copy is /opt/loadtest/results/${RUN_KEY}.tgz" >&2; exit 1; }
   mkdir -p "$RESULT_DIR"; tar -xzf "$bundle" -C "$RESULT_DIR"
   echo "Saved result artifacts to $RESULT_DIR/${RUN_KEY}.{summary.json,console.log,timing.json,observations}"
 else
-  echo "Result artifact missing or truncated; inspect /opt/loadtest/results/${RUN_KEY}.* on $IID" >&2; exit 1
+  echo "Decoded result artifact is empty; inspect /opt/loadtest/results/${RUN_KEY}.* on $IID" >&2; exit 1
 fi
 exit "$result"

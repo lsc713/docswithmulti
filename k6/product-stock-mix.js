@@ -6,7 +6,12 @@ import { BASE, HEADERS } from './config.js';
 const stockInsufficient = new Rate('stock_insufficient_rate');
 const stockServerError = new Rate('stock_server_error_rate');
 const stockUnexpectedClientError = new Rate('stock_unexpected_client_error_rate');
-let products;
+const products = new SharedArray('product stock mix', () => JSON.parse(open('./seed/productIds.json')));
+
+if (!products.length || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
+  Number.isInteger(product.skuId) && product.skuId > 0)) {
+  throw new Error('productIds.json must contain positive productId/skuId pairs');
+}
 
 export const options = {
   scenarios: {
@@ -34,15 +39,12 @@ export function stockRequests(product, iteration) {
   }));
 }
 
+export function selectProduct(vu, iteration) {
+  return products[(vu + iteration) % products.length];
+}
+
 function productForVu() {
-  if (!products) {
-    products = new SharedArray('product stock mix', () => JSON.parse(open('./seed/productIds.json')));
-    if (!products.length || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
-      Number.isInteger(product.skuId) && product.skuId > 0)) {
-      throw new Error('productIds.json must contain positive productId/skuId pairs');
-    }
-  }
-  return products[(__VU + __ITER) % products.length];
+  return selectProduct(__VU, __ITER);
 }
 
 export function writeOutcome(status) {
