@@ -22,7 +22,10 @@ export const options = {
       stages: [{ target: 56, duration: '3m' }, { target: 83, duration: '3m' },
         { target: 111, duration: '3m' }, { target: 139, duration: '3m' }] },
   },
-  thresholds: { stock_server_error_rate: ['rate==0'] },
+  thresholds: {
+    stock_server_error_rate: ['rate==0'],
+    stock_unexpected_client_error_rate: ['rate==0'],
+  },
 };
 
 export function uniquePaymentKey(iteration) {
@@ -30,12 +33,16 @@ export function uniquePaymentKey(iteration) {
 }
 
 export function stockRequests(product, iteration) {
-  const body = JSON.stringify({ paymentKey: uniquePaymentKey(iteration), items: [{ skuId: product.skuId, qty: 1 }] });
+  const paymentKey = uniquePaymentKey(iteration);
+  const bodies = {
+    reserve: JSON.stringify({ paymentKey, items: [{ productId: product.productId, skuId: product.skuId, qty: 1 }] }),
+    release: JSON.stringify({ paymentKey, items: [{ skuId: product.skuId, qty: 1 }] }),
+  };
   return ['reserve', 'release'].map((operation) => ({
     operation,
     url: `${BASE.PRODUCT}/v1/stock/${operation}`,
-    body,
-    params: { headers: HEADERS, tags: { operation } },
+    body: bodies[operation],
+    params: { headers: HEADERS, tags: { operation, workload: 'write' } },
   }));
 }
 
@@ -63,7 +70,7 @@ function addWriteStatus(res, operation) {
 
 export function read() {
   const { productId } = productForVu();
-  http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read' } });
+  http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read', workload: 'read' } });
 }
 
 export function write() {

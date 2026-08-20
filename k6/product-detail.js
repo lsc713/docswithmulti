@@ -5,7 +5,7 @@ import { Rate } from 'k6/metrics';
 import { BASE } from './config.js';
 import { selectProductId } from './helpers/product-distribution.js';
 
-const ids = new SharedArray('products', () => JSON.parse(open('./seed/productIds.json')));
+const products = new SharedArray('products', () => JSON.parse(open('./seed/productIds.json')));
 const STAGE = __ENV.STAGE || 'baseline';
 const DISTRIBUTION = __ENV.DISTRIBUTION || 'realistic';
 const VUS = Number(__ENV.VUS || 10);
@@ -38,8 +38,14 @@ if (!SCENARIOS[STAGE]) throw new Error(`알 수 없는 STAGE=${STAGE}. 가능: $
 if (!['hot', 'uniform', 'realistic'].includes(DISTRIBUTION)) {
   throw new Error(`알 수 없는 DISTRIBUTION=${DISTRIBUTION}. 가능: hot, uniform, realistic`);
 }
-if (ids.length < 10 || !ids.every((id) => Number.isInteger(id) && id > 0)) {
-  throw new Error('상품 ID는 10개 이상의 양의 정수여야 합니다');
+if (products.length < 10 || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
+  Number.isInteger(product.skuId) && product.skuId > 0)) {
+  throw new Error('상품 seed는 10개 이상의 양의 productId/skuId 쌍이어야 합니다');
+}
+const ids = products.map((product) => product.productId);
+
+export function selectDetailProductId(distribution, random = Math.random) {
+  return selectProductId(ids, distribution, random);
 }
 
 const strict = STAGE === 'baseline' || STAGE === 'smoke';
@@ -57,7 +63,7 @@ export const options = {
 };
 
 export function detail() {
-  const id = selectProductId(ids, DISTRIBUTION);
+  const id = selectDetailProductId(DISTRIBUTION);
   const res = http.get(`${BASE.PRODUCT}/v1/products/${id}`, {
     tags: { stage: STAGE, distribution: DISTRIBUTION },
   });

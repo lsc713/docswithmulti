@@ -11,6 +11,15 @@ PRODUCT_URL="${PRODUCT_URL:-}"
 RESULT_DIR="${RESULT_DIR:-$ROOT/k6/results}"
 SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-721}"
 RUN_KEY="$(date -u +%Y%m%dT%H%M%SZ)-product-stock-mix-$$"
+K6_RPS_QUERY='sum by (workload) (rate(k6_http_reqs_total{workload=~"read|write"}[1m]))'
+K6_P95_QUERY='histogram_quantile(0.95, sum by (le, workload) (rate(k6_http_req_duration_bucket{workload=~"read|write"}[1m])))'
+K6_P99_QUERY='histogram_quantile(0.99, sum by (le, workload) (rate(k6_http_req_duration_bucket{workload=~"read|write"}[1m])))'
+K6_ERROR_QUERY='sum by (workload) (rate(k6_http_req_failed_total{workload=~"read|write"}[1m])) / clamp_min(sum by (workload) (rate(k6_http_reqs_total{workload=~"read|write"}[1m])), 1)'
+
+if [ "${PRINT_STAGE_QUERIES:-}" = 1 ]; then
+  printf '%s\n' "$K6_RPS_QUERY" "$K6_P95_QUERY" "$K6_P99_QUERY" "$K6_ERROR_QUERY"
+  exit 0
+fi
 
 case "$PROM_URL" in */api/v1/write) PROM_QUERY_URL="${PROM_URL%/api/v1/write}/api/v1/query_range" ;; *) echo "PROM_URL must end in /api/v1/write" >&2; exit 1 ;; esac
 [[ "$SSM_POLL_ATTEMPTS" =~ ^[1-9][0-9]*$ ]] || { echo "SSM_POLL_ATTEMPTS must be positive" >&2; exit 1; }
@@ -77,6 +86,10 @@ for stage in 1 2 3 4; do
   query_interval memory "1 - avg by (host) (node_memory_MemAvailable_bytes{host=~\"$hosts\"} / node_memory_MemTotal_bytes{host=~\"$hosts\"})" "$start" "$end" "$observations/stage-${stage}-memory.json"
   query_interval mysql_threads 'mysql_global_status_threads_running{db="product"}' "$start" "$end" "$observations/stage-${stage}-mysql-threads.json"
   query_interval stock_cache 'product_stock_cache_total{host=~"product-a|product-b|product-c|product-d"}' "$start" "$end" "$observations/stage-${stage}-stock-cache.json"
+  query_interval k6_rps "$K6_RPS_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-rps.json"
+  query_interval k6_p95 "$K6_P95_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-p95.json"
+  query_interval k6_p99 "$K6_P99_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-p99.json"
+  query_interval k6_error_rate "$K6_ERROR_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-error-rate.json"
 done
 if [ -s "$summary" ]; then
   tar -czf "$bundle" -C /opt/loadtest/results "${RUN_KEY}.summary.json" "${RUN_KEY}.console.log" "${RUN_KEY}.timing.json" "${RUN_KEY}.observations"
@@ -94,7 +107,7 @@ fi
 exit "$k6_status"
 REMOTE
 
-PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\n" + $script]}')
+PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\n" + $script]}')
 CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" --document-name AWS-RunShellScript --comment "product stock mixed load test" --parameters "$PARAMS" --timeout-seconds 3600 --query 'Command.CommandId' --output text)
 
 wait_for_command() {
