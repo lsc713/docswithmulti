@@ -1,5 +1,7 @@
 package com.example.product.infrastructure.cache;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import org.redisson.api.RBucket;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -17,29 +19,33 @@ public class ProductDetailCacheService {
     private final ObjectMapper objectMapper;
     private final ProductDetailCachePolicy policy;
     private final Supplier<Long> clock;
+    private final Timer cacheReadTimer;
 
     @Autowired
     public ProductDetailCacheService(RedissonClient redissonClient,
                                      ObjectMapper objectMapper,
-                                     ProductDetailCachePolicy policy) {
-        this(redissonClient, objectMapper, policy, System::currentTimeMillis);
+                                     ProductDetailCachePolicy policy,
+                                     MeterRegistry meterRegistry) {
+        this(redissonClient, objectMapper, policy, System::currentTimeMillis, meterRegistry);
     }
 
     public ProductDetailCacheService(RedissonClient redissonClient,
                                      ObjectMapper objectMapper,
                                      ProductDetailCachePolicy policy,
-                                     Supplier<Long> clock) {
+                                     Supplier<Long> clock,
+                                     MeterRegistry meterRegistry) {
         this.redissonClient = redissonClient;
         this.objectMapper = objectMapper;
         this.policy = policy;
         this.clock = clock;
+        this.cacheReadTimer = Timer.builder("product.detail.cache.read").register(meterRegistry);
     }
 
     public <T> T getOrLoad(Long productId, Class<T> valueType, Supplier<T> loader) {
         try {
             RBucket<Object> bucket = redissonClient.getBucket(key(productId));
             if (bucket == null) return loader.get();
-            ProductDetailCachePolicy.Envelope<T> envelope = read(bucket, valueType);
+            ProductDetailCachePolicy.Envelope<T> envelope = cacheReadTimer.record(() -> read(bucket, valueType));
             ProductDetailCacheState state = policy.state(envelope, clock.get());
             if (state == ProductDetailCacheState.FRESH) return envelope.value();
             if (state == ProductDetailCacheState.STALE) {
@@ -62,7 +68,7 @@ public class ProductDetailCacheService {
         try {
             if (!lock.tryLock(100, 5_000, TimeUnit.MILLISECONDS)) return loader.get();
             RBucket<Object> bucket = redissonClient.getBucket(key(productId));
-            ProductDetailCachePolicy.Envelope<T> current = read(bucket, valueType);
+            ProductDetailCachePolicy.Envelope<T> current = cacheReadTimer.record(() -> read(bucket, valueType));
             if (policy.state(current, clock.get()) == ProductDetailCacheState.FRESH) return current.value();
             T value = loader.get();
             write(bucket, value);

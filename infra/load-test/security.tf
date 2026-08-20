@@ -19,6 +19,16 @@ resource "aws_vpc_security_group_ingress_rule" "self_all" {
   description                  = "all ports between instances (private IP)"
 }
 
+# Internal NLB health checks originate from subnet addresses, not an instance SG.
+resource "aws_vpc_security_group_ingress_rule" "product_nlb_health" {
+  security_group_id = aws_security_group.internal.id
+  cidr_ipv4         = var.private_subnet_cidr
+  from_port         = 8084
+  to_port           = 8084
+  ip_protocol       = "tcp"
+  description       = "product NLB health checks"
+}
+
 # 아웃바운드 전체 허용 (NAT 경유 이미지 pull + SSM)
 resource "aws_vpc_security_group_egress_rule" "all_out" {
   security_group_id = aws_security_group.internal.id

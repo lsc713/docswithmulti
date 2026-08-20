@@ -1,0 +1,7 @@
+services:
+  product-service:
+    environment:
+      SPRING_DATA_REDIS_HOST: "10.0.1.41"
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "127.0.0.1:9092"
+      SPRING_KAFKA_LISTENER_AUTO_STARTUP: "false"
+      APP_S3_ENDPOINT: "http://127.0.0.1:9000"

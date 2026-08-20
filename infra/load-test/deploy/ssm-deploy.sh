@@ -35,12 +35,14 @@ SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-240}"
 case "$SSM_READY_ATTEMPTS:$SSM_POLL_ATTEMPTS" in
   *[!0-9:]*|0:*|*:0) echo "SSM wait attempts must be positive integers" >&2; exit 1 ;;
 esac
-case "$LOAD_TEST_PROFILE" in full|product) ;; *) echo "LOAD_TEST_PROFILE must be full or product" >&2; exit 1 ;; esac
+case "$LOAD_TEST_PROFILE" in full|product|product-scaleout) ;; *) echo "LOAD_TEST_PROFILE must be full, product, or product-scaleout" >&2; exit 1 ;; esac
 
 # role → compose 파일 (순서 = 배포 순서: 인프라 → DB → 앱)
 # macOS 기본 bash 3.2 는 연관배열(declare -A) 미지원 → case 로 매핑.
 if [ "$LOAD_TEST_PROFILE" = "product" ]; then
   ORDER="mysql-product product"
+elif [ "$LOAD_TEST_PROFILE" = "product-scaleout" ]; then
+  ORDER="mysql-product redis-product product-a product-b"
 else
   ORDER="infra mysql-payment mysql-risk cold-db mysql-product cold-svc risk payment product"
 fi
@@ -55,6 +57,8 @@ compose_for() {
     risk)          echo risk.compose.yml ;;
     payment)       echo payment.compose.yml ;;
     product)       echo product.compose.yml ;;
+    product-a|product-b) echo product.compose.yml ;;
+    redis-product) echo redis-product.compose.yml ;;
     *)             echo "" ;;
   esac
 }
@@ -73,6 +77,8 @@ logging_override() {
 profile_override() {
   if [ "$LOAD_TEST_PROFILE" = "product" ] && [ "$1" = "product" ]; then
     echo "-f product-readonly.compose.yml"
+  elif [ "$LOAD_TEST_PROFILE" = "product-scaleout" ] && { [ "$1" = "product-a" ] || [ "$1" = "product-b" ]; }; then
+    echo "-f product-scaleout.compose.yml"
   else
     echo ""
   fi
@@ -196,9 +202,9 @@ docker compose -f node-exporter.compose.yml ps"
   echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
   obs_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability
-if [ '${LOAD_TEST_PROFILE}' = 'product' ]; then docker compose -f product-only.compose.yml up -d; else docker compose up -d; fi
+if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ]; then docker compose -f product-only.compose.yml up -d; else docker compose up -d; fi
 docker compose -f node-exporter.compose.yml up -d
-if [ '${LOAD_TEST_PROFILE}' = 'product' ]; then docker compose -f product-only.compose.yml ps; else docker compose ps; fi"
+if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ]; then docker compose -f product-only.compose.yml ps; else docker compose ps; fi"
   ssm_run "obs" "$obs_remote"
 fi
 

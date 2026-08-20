@@ -49,7 +49,7 @@ resource "aws_nat_gateway" "nat" {
 }
 
 resource "aws_instance" "nat" {
-  count                       = var.load_test_profile == "product" ? 1 : 0
+  count                       = contains(["product", "product-scaleout"], var.load_test_profile) ? 1 : 0
   ami                         = data.aws_ssm_parameter.al2023_arm.value
   instance_type               = "t4g.nano"
   subnet_id                   = aws_subnet.public.id
@@ -107,7 +107,7 @@ resource "aws_route" "private_nat_gateway" {
 }
 
 resource "aws_route" "private_nat_instance" {
-  count                  = var.load_test_profile == "product" ? 1 : 0
+  count                  = contains(["product", "product-scaleout"], var.load_test_profile) ? 1 : 0
   route_table_id         = aws_route_table.private.id
   destination_cidr_block = "0.0.0.0/0"
   network_interface_id   = aws_instance.nat[0].primary_network_interface_id

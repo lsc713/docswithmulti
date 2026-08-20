@@ -17,12 +17,12 @@ variable "project" {
 }
 
 variable "load_test_profile" {
-  description = "full=전체 취소 리그, product=상품 상세 최소 리그"
+  description = "full=전체 취소 리그, product=상품 상세 단일 노드, product-scaleout=공용 Redis 이중 노드"
   type        = string
   default     = "full"
 
   validation {
-    condition     = contains(["full", "product"], var.load_test_profile)
+    condition     = contains(["full", "product", "product-scaleout"], var.load_test_profile)
     error_message = "load_test_profile must be full or product."
   }
 }

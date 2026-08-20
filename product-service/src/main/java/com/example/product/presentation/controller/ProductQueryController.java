@@ -4,6 +4,8 @@ import com.example.product.application.interfaces.ObjectStoragePort;
 import com.example.product.application.service.ProductQueryService;
 import com.example.product.presentation.dto.ProductDetailResponse;
 import com.example.product.presentation.dto.ProductListResponse;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -15,15 +17,19 @@ public class ProductQueryController {
 
     private final ProductQueryService queryService;
     private final ObjectStoragePort objectStoragePort;
+    private final Timer detailResponseAssemblyTimer;
 
-    public ProductQueryController(ProductQueryService queryService, ObjectStoragePort objectStoragePort) {
+    public ProductQueryController(ProductQueryService queryService, ObjectStoragePort objectStoragePort,
+                                  MeterRegistry meterRegistry) {
         this.queryService = queryService;
         this.objectStoragePort = objectStoragePort;
+        this.detailResponseAssemblyTimer = Timer.builder("product.detail.response.assembly").register(meterRegistry);
     }
 
     @GetMapping("/v1/products/{id}")
     public ProductDetailResponse detail(@PathVariable Long id) {
-        return ProductDetailResponse.from(queryService.detail(id), objectStoragePort::presignDownload);
+        return detailResponseAssemblyTimer.record(
+                () -> ProductDetailResponse.from(queryService.detail(id), objectStoragePort::presignDownload));
     }
 
     @GetMapping("/v1/categories/{id}/products")

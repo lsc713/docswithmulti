@@ -11,6 +11,7 @@ REPO_URL="${REPO_URL:-https://github.com/lsc713/docswithmulti.git}"
 REPO_REF="${REPO_REF:?Exact Git SHA/ref required}"
 REGION="${AWS_REGION:-ap-northeast-2}"
 PROM_URL="${PROM_URL:-http://10.0.1.50:9090/api/v1/write}"
+PRODUCT_URL="${PRODUCT_URL:-}"
 SSM_READY_ATTEMPTS="${SSM_READY_ATTEMPTS:-120}"
 SSM_BOOTSTRAP_ATTEMPTS="${SSM_BOOTSTRAP_ATTEMPTS:-130}"
 SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-721}"
@@ -98,6 +99,7 @@ docker run --rm --network host -v /opt/loadtest/repo:/work -w /work \
   -v /opt/loadtest/results:/results \
   -e TARGET=aws -e STAGE="$STAGE" -e DISTRIBUTION="$DISTRIBUTION" \
   -e VUS="$VUS" -e DURATION="$DURATION" \
+  -e PRODUCT_URL="$PRODUCT_URL" \
   -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" \
   -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' \
   -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' \
@@ -124,9 +126,8 @@ exit "$k6_status"
 REMOTE
 
 PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ids "$IDS_B64" --arg stage "$STAGE" \
-  --arg distribution "$DISTRIBUTION" --arg ref "$REPO_REF" --arg run "$RUN_KEY" --arg prom "$PROM_URL" \
-  --arg vus "$VUS" --arg duration "$DURATION" --arg script "$REMOTE" \
-  '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nIDS_B64=\($ids | @sh)\nSTAGE=\($stage | @sh)\nDISTRIBUTION=\($distribution | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nVUS=\($vus | @sh)\nDURATION=\($duration | @sh)\n" + $script]}')
+  --arg distribution "$DISTRIBUTION" --arg ref "$REPO_REF" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg product "$PRODUCT_URL" --arg vus "$VUS" --arg duration "$DURATION" --arg script "$REMOTE" \
+  '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nIDS_B64=\($ids | @sh)\nSTAGE=\($stage | @sh)\nDISTRIBUTION=\($distribution | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPRODUCT_URL=\($product | @sh)\nVUS=\($vus | @sh)\nDURATION=\($duration | @sh)\n" + $script]}')
 CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" \
   --document-name AWS-RunShellScript --comment "product detail load test" \
   --parameters "$PARAMS" --timeout-seconds 3600 \

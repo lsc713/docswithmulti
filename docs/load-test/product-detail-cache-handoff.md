@@ -1,110 +1,79 @@
-# 상품 상세 캐시·인프라 부하 테스트 Handoff
+# 상품 상세 캐시·부하 측정 handoff
 
-## 1. 현재 상태
+기준일: 2026-08-20. 대상은 사설 IP만 사용하는 AWS `product` 프로파일이다.
 
-- 캐시 구현은 별도 서비스가 아니라 `product-service` 내부에 반영됨.
-- 상품 상세 조회는 Redis 우선 조회를 사용함.
-- `fresh`: 즉시 반환
-- `stale`: 기존 값 즉시 반환 + 비동기 refresh
-- `miss/expired`: 상품 키별 single-flight로 DB 조회 중복을 억제
-- 예약·재고 차감의 권위 데이터는 항상 MySQL
+## 측정 구성
 
-구현 브랜치의 캐시 관련 클래스:
+- product-service 1대 (`c7g.xlarge`), MySQL 1대 (`m7g.large`), k6 1대, Prometheus 1대
+- product 상세 hot-key 요청, 100 VU, 30초
+- Redis read-through 캐시와 single-flight 적용 상태
+- Prometheus readiness 및 `up` 확인 후 부하를 시작했다.
 
-```text
-product-service/src/main/java/com/example/product/infrastructure/cache/
-  ProductDetailCacheService.java
-  ProductDetailCachePolicy.java
-  ProductDetailCacheState.java
-  ProductDetailCacheConfig.java
-  ProductDetailCacheInvalidation.java
-```
+## 결과
 
-## 2. 검증 결과
+| 항목 | 값 |
+|---|---:|
+| 처리량 | 2,686 RPS |
+| HTTP p95 | 72.5ms |
+| HTTP p99 | 104.7ms |
+| 오류율 | 0% |
+| product 최대 CPU | 94.1% |
+| MySQL 최대 CPU | 59.9% |
+| k6 최대 CPU | 61.3% |
+| MySQL 동시 실행 쿼리 최대 | 4 |
 
-### 애플리케이션 테스트
+DB 포화 증거는 없고, 현재 포화 지점은 product JVM/인스턴스다.
 
-캐시 정책·서비스·상품 브라우징 통합 테스트 통과.
+## Micrometer + JFR 수집
 
-```text
-BUILD SUCCESSFUL
-```
+추가한 Micrometer 타이머:
 
-### AWS private AZ baseline
+- `product.detail.cache.read`: Redis 조회와 JSON 역직렬화
+- `product.detail.response.assembly`: `ProductDetailResponse` 조립
 
-`product` 프로필로 NAT instance, k6, product, MySQL을 같은 AZ에 구성하고 직접 product-service를 호출했다.
+같은 100 VU 구간에서 관측된 평균:
 
-| 분포 | 평균 RPS | p95 | 성공률 |
-|---|---:|---:|---:|
-| hot | 3,562 | 3.89ms | 100% |
-| uniform | 3,569 | 3.86ms | 100% |
+| 구간 | 평균 |
+|---|---:|
+| 캐시 읽기·역직렬화 | 0.46ms |
+| 응답 DTO 조립 | 2.16ms |
 
-이전 DB 중심 기준선 약 1,144 RPS 대비 평균 처리량은 약 3.1배다. 이는 평균 RPS 비교이며 peak RPS 비교가 아니다.
+JFR 60초 `profile` 녹화:
 
-### AWS ramp
+- `ExecutionSample`: 4,852건
+- `ObjectAllocationSample`: 14,271건
+- Jackson 역직렬화/직렬화, `HashMap`, `StringBuilder`, `URI`/`URLEncoder`가 상위 CPU 샘플에 나타남
+- G1 evacuation pause가 반복됐고, 일부는 207~288ms였다.
 
-단계: 10 VU → 50 VU → 100 VU, 각 3분.
+## 해석 시 주의
 
-| 최대 VU | 전체 평균 RPS | p95 | p99 | 성공률 |
-|---:|---:|---:|---:|---:|
-| 100 | 2,857 | 40.2ms | 62.6ms | 100% |
+긴 GC pause가 존재하는 것은 확인됐지만, 이것만으로 HTTP p99 104.7ms의 직접 원인이라고 확정할 수는 없다. p99는 상위 1%를 제외하며, JFR 60초 구간은 30초 부하보다 길다. 다음 측정에서는 JFR 시작/종료를 부하와 맞추고 HTTP p99.9/max 및 `jvm_gc_pause_seconds`를 같은 시간축에서 비교한다.
 
-100 VU에서 오류는 없었고 p95/p99는 100~500ms 목표 안에 있다. 다만 결과 파일은 ramp 전체 집계라 각 단계별 knee 지점은 아직 분리되지 않았다.
+현재 타이머는 평균만 확인했다. 캐시 miss/stale refresh, 큰 payload, 이미지 수가 많은 상품의 tail 비용을 판정하려면 histogram p95/p99와 cache state 태그가 필요하다. 평균 0.46ms·2.16ms만으로 캐시 역직렬화나 DTO 조립을 우선 최적화할 근거는 없다.
 
-### VU별 hot baseline (30초)
+## 수평 확장 판단
 
-| VU | 평균 RPS | p95 | p99 | 성공률 |
-|---:|---:|---:|---:|---:|
-| 10 | 3,639 | 3.79ms | 6.87ms | 100% |
-| 15 | 3,788 | 3.53ms | 4.35ms | 100% |
-| 25 | 3,798 | 3.51ms | 4.30ms | 100% |
-| 50 | 3,809 | 3.50ms | 4.30ms | 100% |
-| 100 | 3,818 | 3.48ms | 4.26ms | 100% |
-| 150 | 3,816 | 3.49ms | 4.31ms | 100% |
-| 200 | 3,828 | 3.49ms | 4.29ms | 100% |
+즉시 처리량이 필요하면 product 인스턴스를 2대로 늘리는 것은 유효하다. 다만 현재 product 프로파일은 각 인스턴스가 로컬 Redis를 사용한다. 2대로 확장하면 캐시·single-flight lock·무효화가 인스턴스마다 분리되어 다음 문제가 생긴다.
 
-VU 50 이후 평균 처리량은 약 3.8k RPS에서 평탄해졌지만, VU 200까지 p95/p99와 성공률은 안정적이었다. 따라서 현재 단일 인스턴스 구성의 처리량 knee는 약 50 VU 이후로 보이며, 명시적인 장애 포화점은 확인되지 않았다.
+- 서버별 캐시 불일치와 stale 응답
+- cache hit율 하락 및 DB miss 중복
+- 서버 간 cache stampede 방지 불가
+- API Gateway/LB의 다중 target 라우팅 및 인스턴스별 관측 필요
 
-## 3. 해석
+상품 상세의 가격·재고 정확도를 보장하려면 공용 Redis로 cache key, lock, invalidation을 공유한 뒤 수평 확장하는 방식을 권장한다. 가격/재고는 stale 허용 범위를 별도로 정의한다.
 
-- 현재 측정 범위에서는 단일 product 인스턴스가 부하를 안정적으로 처리한다.
-- VU 증가 시 RPS는 초기에 증가하지만, 포화에 가까워지면 응답시간 증가 때문에 RPS가 정체하거나 감소할 수 있다.
-- baseline 약 3.9ms 대비 ramp 전체 p95 40.2ms로 증가했으므로 100 VU 부근에서 경합이 시작됐을 가능성은 있다.
-- 현재 결과만으로 다중 인스턴스가 필요하다고 판단할 근거는 부족하다.
+## 공용 Redis 이중 노드 재측정 (2026-08-20)
 
-## 4. 다음 측정
+`product-scaleout` 프로파일에서 private NLB를 통해 같은 hot 상품 상세 100 VU·30초를 실행했다.
 
-정확한 포화점 확인을 위해 다음 VU를 개별 실행한다.
+| 항목 | 단일 product | 공용 Redis + product 2대 |
+|---|---:|---:|
+| 처리량 | 2,686 RPS | 4,143 RPS |
+| HTTP p95 | 72.5ms | 59.4ms |
+| HTTP p99 | 104.7ms | 113.6ms |
+| 오류율 | 0% | 0% |
+| product CPU | 94.1% | product-a 86.1%, product-b 84.5% |
+| MySQL CPU | 59.9% | 68.1% |
+| MySQL 동시 실행 쿼리 최대 | 4 | 3 |
 
-```text
-10 → 15 → 25 → 50 → 100 → 150 → 200
-```
-
-각 단계에서 기록할 항목:
-
-- 평균·peak RPS
-- p50/p95/p99
-- 에러율
-- product CPU·메모리
-- Redis hit/miss/stale 비율
-- MySQL CPU·connections·slow query
-
-판단 기준:
-
-- product CPU 포화: 수직 확장 또는 수평 확장
-- Redis miss/stampede 증가: TTL·refresh-ahead·single-flight 조정
-- MySQL CPU/connection 포화: miss 경로·쿼리·풀·읽기 복제 검토
-- 자원 여유인데 RPS 정체: k6 시나리오 또는 애플리케이션 스레드 설정 점검
-
-## 5. 운영 주의사항
-
-- 이번 AWS 테스트는 API Gateway를 거치지 않고 product-service를 직접 호출했다.
-- Prometheus를 배포하지 않아 ramp 실행 중 remote-write 경고가 있었고, 자원별 시계열은 수집하지 못했다.
-- 테스트 종료 후 Terraform 리소스 23개를 모두 destroy했다.
-- 결과 파일:
-
-```text
-k6/results/20260819T160931Z-baseline-hot-18105.summary.json
-k6/results/20260819T161323Z-baseline-uniform-18683.summary.json
-k6/results/20260819T162603Z-ramp-hot-21292.summary.json
-```
+처리량은 약 54% 증가했고 p95도 개선됐다. 다만 두 product 노드가 여전히 85% 수준이므로, 100 VU를 넘기는 다음 포화점에서는 GC/객체 할당과 Redis·MySQL 용량을 다시 확인해야 한다. p99는 소폭 상승했으므로 JFR과 GC pause를 부하 구간에 동기화하는 후속 측정이 필요하다.
