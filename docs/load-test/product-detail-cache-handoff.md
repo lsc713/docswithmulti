@@ -68,3 +68,19 @@ JFR 60초 `profile` 녹화:
 2. cache state(fresh/stale/miss)별 histogram을 추가해 tail의 원인을 확인한다.
 3. `product-scaleout` 프로파일로 product-a/product-b와 `redis-product`를 배포한다. 두 노드는 `10.0.1.41:6379`을 공유하고, private NLB의 TCP 8084 target group 뒤에 등록된다.
 4. NLB DNS를 `PRODUCT_URL`로 k6에 전달해 동일 조건으로 재측정한다. product-a/product-b CPU, 공용 Redis, MySQL CPU와 cache hit/miss를 함께 비교한다.
+
+## 공용 Redis 이중 노드 재측정 (2026-08-20)
+
+`product-scaleout` 프로파일에서 private NLB를 통해 같은 hot 상품 상세 100 VU·30초를 실행했다.
+
+| 항목 | 단일 product | 공용 Redis + product 2대 |
+|---|---:|---:|
+| 처리량 | 2,686 RPS | 4,143 RPS |
+| HTTP p95 | 72.5ms | 59.4ms |
+| HTTP p99 | 104.7ms | 113.6ms |
+| 오류율 | 0% | 0% |
+| product CPU | 94.1% | product-a 86.1%, product-b 84.5% |
+| MySQL CPU | 59.9% | 68.1% |
+| MySQL 동시 실행 쿼리 최대 | 4 | 3 |
+
+처리량은 약 54% 증가했고 p95도 개선됐다. 다만 두 product 노드가 여전히 85% 수준이므로, 100 VU를 넘기는 다음 포화점에서는 GC/객체 할당과 Redis·MySQL 용량을 다시 확인해야 한다. p99는 소폭 상승했으므로 JFR과 GC pause를 부하 구간에 동기화하는 후속 측정이 필요하다.
