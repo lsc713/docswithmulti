@@ -105,7 +105,9 @@ require_workloads() {
   jq -e "$WORKLOAD_RESULT_JQ" "$file" >/dev/null
 }
 required_k6_ok=1
-/opt/loadtest/repo/k6/stage-windows.sh "$started_epoch" "$ended_epoch" "$STAGE_SECONDS" "$STAGE_COUNT" > "$stage_plan"
+stage_count=4
+[ "$MYSQL_THRESHOLD_RAMP" = true ] && stage_count=6
+/opt/loadtest/repo/k6/stage-windows.sh "$started_epoch" "$ended_epoch" "$STAGE_SECONDS" "$stage_count" > "$stage_plan"
 while read -r stage start end; do
   hosts='k6|product-a|product-b|product-c|product-d|mysql-product|redis-product'
   query_interval cpu "1 - avg by (host) (rate(node_cpu_seconds_total{mode=\"idle\",host=~\"$hosts\"}[1m]))" "$start" "$end" "$observations/stage-${stage}-cpu.json" || true
