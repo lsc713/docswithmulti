@@ -42,7 +42,7 @@ case "$LOAD_TEST_PROFILE" in full|product|product-scaleout) ;; *) echo "LOAD_TES
 if [ "$LOAD_TEST_PROFILE" = "product" ]; then
   ORDER="mysql-product product"
 elif [ "$LOAD_TEST_PROFILE" = "product-scaleout" ]; then
-  ORDER="mysql-product redis-product product-a product-b product-c"
+  ORDER="mysql-product redis-product product-a product-b product-c product-d"
 else
   ORDER="infra mysql-payment mysql-risk cold-db mysql-product cold-svc risk payment product"
 fi
@@ -57,7 +57,7 @@ compose_for() {
     risk)          echo risk.compose.yml ;;
     payment)       echo payment.compose.yml ;;
     product)       echo product.compose.yml ;;
-    product-a|product-b|product-c) echo product.compose.yml ;;
+    product-a|product-b|product-c|product-d) echo product.compose.yml ;;
     redis-product) echo redis-product.compose.yml ;;
     *)             echo "" ;;
   esac
@@ -77,7 +77,7 @@ logging_override() {
 profile_override() {
   if [ "$LOAD_TEST_PROFILE" = "product" ] && [ "$1" = "product" ]; then
     echo "-f product-readonly.compose.yml"
-  elif [ "$LOAD_TEST_PROFILE" = "product-scaleout" ] && { [ "$1" = "product-a" ] || [ "$1" = "product-b" ] || [ "$1" = "product-c" ]; }; then
+  elif [ "$LOAD_TEST_PROFILE" = "product-scaleout" ] && { [ "$1" = "product-a" ] || [ "$1" = "product-b" ] || [ "$1" = "product-c" ] || [ "$1" = "product-d" ]; }; then
     echo "-f product-scaleout.compose.yml"
   else
     echo ""

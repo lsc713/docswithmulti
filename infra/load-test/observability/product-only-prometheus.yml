@@ -14,6 +14,8 @@ scrape_configs:
         labels: { host: product-b }
       - targets: ["10.0.1.26:8084"]
         labels: { host: product-c }
+      - targets: ["10.0.1.27:8084"]
+        labels: { host: product-d }
 
   - job_name: node
     static_configs:
@@ -27,6 +29,8 @@ scrape_configs:
         labels: { host: product-b }
       - targets: ["10.0.1.26:9100"]
         labels: { host: product-c }
+      - targets: ["10.0.1.27:9100"]
+        labels: { host: product-d }
       - targets: ["10.0.1.33:9100"]
         labels: { host: mysql-product }
       - targets: ["10.0.1.41:9100"]
