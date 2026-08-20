@@ -66,4 +66,5 @@ JFR 60초 `profile` 녹화:
 
 1. 부하 시작과 동시에 JFR을 시작하고 종료하며 p99.9/max·GC pause를 동기화한다.
 2. cache state(fresh/stale/miss)별 histogram을 추가해 tail의 원인을 확인한다.
-3. 처리량이 즉시 필요하면 공용 Redis와 LB를 준비한 뒤 product 2대에서 동일 조건으로 재측정한다.
+3. `product-scaleout` 프로파일로 product-a/product-b와 `redis-product`를 배포한다. 두 노드는 `10.0.1.41:6379`을 공유하고, private NLB의 TCP 8084 target group 뒤에 등록된다.
+4. NLB DNS를 `PRODUCT_URL`로 k6에 전달해 동일 조건으로 재측정한다. product-a/product-b CPU, 공용 Redis, MySQL CPU와 cache hit/miss를 함께 비교한다.

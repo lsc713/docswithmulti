@@ -7,6 +7,11 @@ scrape_configs:
     metrics_path: /actuator/prometheus
     static_configs:
       - targets: ["10.0.1.23:8084"]
+        labels: { host: product }
+      - targets: ["10.0.1.24:8084"]
+        labels: { host: product-a }
+      - targets: ["10.0.1.25:8084"]
+        labels: { host: product-b }
 
   - job_name: node
     static_configs:
@@ -14,8 +19,14 @@ scrape_configs:
         labels: { host: k6 }
       - targets: ["10.0.1.23:9100"]
         labels: { host: product }
+      - targets: ["10.0.1.24:9100"]
+        labels: { host: product-a }
+      - targets: ["10.0.1.25:9100"]
+        labels: { host: product-b }
       - targets: ["10.0.1.33:9100"]
         labels: { host: mysql-product }
+      - targets: ["10.0.1.41:9100"]
+        labels: { host: redis-product }
 
   - job_name: mysql
     static_configs:
