@@ -1,11 +1,15 @@
 import http from 'k6/http';
 import { SharedArray } from 'k6/data';
-import { Rate } from 'k6/metrics';
+import { Rate, Trend } from 'k6/metrics';
 import { BASE, HEADERS } from './config.js';
 
 const stockInsufficient = new Rate('stock_insufficient_rate');
 const stockServerError = new Rate('stock_server_error_rate');
 const stockUnexpectedClientError = new Rate('stock_unexpected_client_error_rate');
+// Workload-only series provide correct read/write aggregate percentiles. Operation
+// tags remain on the standard HTTP series for reserve/release diagnostics.
+const workloadDuration = new Trend('stock_mix_workload_duration', true);
+const workloadFailure = new Rate('stock_mix_workload_failure');
 const products = new SharedArray('product stock mix', () => JSON.parse(open('./seed/productIds.json')));
 
 if (!products.length || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
@@ -61,6 +65,15 @@ export function writeOutcome(status) {
   return 'ok';
 }
 
+export function writeFailed(status) {
+  return status !== 200 && status !== 409;
+}
+
+function addWorkloadResponse(res, workload, failed) {
+  workloadDuration.add(res.timings.duration, { workload });
+  workloadFailure.add(failed, { workload });
+}
+
 function addWriteStatus(res, operation) {
   const outcome = writeOutcome(res.status);
   stockInsufficient.add(outcome === 'insufficient', { operation });
@@ -70,14 +83,18 @@ function addWriteStatus(res, operation) {
 
 export function read() {
   const { productId } = productForVu();
-  http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read', workload: 'read' } });
+  const res = http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read', workload: 'read' } });
+  addWorkloadResponse(res, 'read', res.status !== 200);
 }
 
 export function write() {
   const [reserve, release] = stockRequests(productForVu(), __ITER);
   const reserved = http.post(reserve.url, reserve.body, reserve.params);
   addWriteStatus(reserved, reserve.operation);
+  addWorkloadResponse(reserved, 'write', writeFailed(reserved.status));
   if (reserved.status === 200) {
-    addWriteStatus(http.post(release.url, release.body, release.params), release.operation);
+    const released = http.post(release.url, release.body, release.params);
+    addWriteStatus(released, release.operation);
+    addWorkloadResponse(released, 'write', writeFailed(released.status));
   }
 }

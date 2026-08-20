@@ -13,27 +13,17 @@ SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-721}"
 RUN_KEY="$(date -u +%Y%m%dT%H%M%SZ)-product-stock-mix-$$"
 STAGE_SECONDS=180
 K6_RPS_QUERY='sum by (workload) (rate(k6_http_reqs_total{workload=~"read|write"}[1m]))'
-K6_P95_QUERY='max by (workload) (k6_http_req_duration_p95{workload=~"read|write"})'
-K6_P99_QUERY='max by (workload) (k6_http_req_duration_p99{workload=~"read|write"})'
-K6_ERROR_QUERY='max by (workload) (k6_http_req_failed_rate{workload=~"read|write"})'
+K6_P95_QUERY='k6_stock_mix_workload_duration_p95{workload=~"read|write"}'
+K6_P99_QUERY='k6_stock_mix_workload_duration_p99{workload=~"read|write"}'
+K6_ERROR_QUERY='k6_stock_mix_workload_failure_rate{workload=~"read|write"}'
 WORKLOAD_RESULT_JQ='.status == "success" and ([.data.result[] | select((.values | length) > 0) | .metric.workload] | unique | sort == ["read", "write"])'
-
-stage_windows() {
-  local started=$1 ended=$2 stage start end
-  for ((stage=1; stage<=4; stage++)); do
-    start=$((started + (stage - 1) * STAGE_SECONDS))
-    end=$((started + stage * STAGE_SECONDS))
-    [ "$ended" -lt "$end" ] && end=$ended
-    [ "$end" -gt "$start" ] && printf '%s %s %s\n' "$stage" "$start" "$end"
-  done
-}
 
 if [ "${PRINT_STAGE_QUERIES:-}" = 1 ]; then
   printf '%s\n' "$K6_RPS_QUERY" "$K6_P95_QUERY" "$K6_P99_QUERY" "$K6_ERROR_QUERY"
   exit 0
 fi
 if [ "${PRINT_STAGE_PLAN:-}" = 1 ]; then
-  stage_windows "${STAGE_START_EPOCH:?STAGE_START_EPOCH required}" "${STAGE_END_EPOCH:?STAGE_END_EPOCH required}"
+  "$ROOT/k6/stage-windows.sh" "${STAGE_START_EPOCH:?STAGE_START_EPOCH required}" "${STAGE_END_EPOCH:?STAGE_END_EPOCH required}" "$STAGE_SECONDS"
   exit 0
 fi
 if [ -n "${VERIFY_WORKLOAD_FILE:-}" ]; then
@@ -81,10 +71,11 @@ summary="/opt/loadtest/results/${RUN_KEY}.summary.json"
 console="/opt/loadtest/results/${RUN_KEY}.console.log"
 timing="/opt/loadtest/results/${RUN_KEY}.timing.json"
 observations="/opt/loadtest/results/${RUN_KEY}.observations"
+stage_plan="/opt/loadtest/results/${RUN_KEY}.stage-plan"
 bundle="/opt/loadtest/results/${RUN_KEY}.tgz"
 started_epoch_file="/opt/loadtest/results/${RUN_KEY}.started-epoch"
 started_utc_file="/opt/loadtest/results/${RUN_KEY}.started-utc"
-rm -rf "$summary" "$console" "$timing" "$observations" "$bundle" "$started_epoch_file" "$started_utc_file"
+rm -rf "$summary" "$console" "$timing" "$observations" "$stage_plan" "$bundle" "$started_epoch_file" "$started_utc_file"
 mkdir -p "$observations"
 docker pull grafana/k6:0.54.0 >"$console" 2>&1
 set +e
@@ -109,11 +100,8 @@ require_workloads() {
   jq -e "$WORKLOAD_RESULT_JQ" "$file" >/dev/null
 }
 required_k6_ok=1
-for stage in 1 2 3 4; do
-  start=$((started_epoch + (stage - 1) * STAGE_SECONDS))
-  end=$((started_epoch + stage * STAGE_SECONDS))
-  [ "$ended_epoch" -lt "$end" ] && end=$ended_epoch
-  [ "$end" -gt "$start" ] || continue
+/work/k6/stage-windows.sh "$started_epoch" "$ended_epoch" "$STAGE_SECONDS" > "$stage_plan"
+while read -r stage start end; do
   hosts='k6|product-a|product-b|product-c|product-d|mysql-product|redis-product'
   query_interval cpu "1 - avg by (host) (rate(node_cpu_seconds_total{mode=\"idle\",host=~\"$hosts\"}[1m]))" "$start" "$end" "$observations/stage-${stage}-cpu.json" || true
   query_interval memory "1 - avg by (host) (node_memory_MemAvailable_bytes{host=~\"$hosts\"} / node_memory_MemTotal_bytes{host=~\"$hosts\"})" "$start" "$end" "$observations/stage-${stage}-memory.json" || true
@@ -132,10 +120,10 @@ for stage in 1 2 3 4; do
       required_k6_ok=0
     fi
   done
-done
+done < "$stage_plan"
 [ "$required_k6_ok" = 1 ] || k6_status=1
 if [ -s "$summary" ]; then
-  tar -czf "$bundle" -C /opt/loadtest/results "${RUN_KEY}.summary.json" "${RUN_KEY}.console.log" "${RUN_KEY}.timing.json" "${RUN_KEY}.observations"
+  tar -czf "$bundle" -C /opt/loadtest/results "${RUN_KEY}.summary.json" "${RUN_KEY}.console.log" "${RUN_KEY}.timing.json" "${RUN_KEY}.stage-plan" "${RUN_KEY}.observations"
   bytes=$(wc -c < "$bundle" | tr -d ' '); encoded=$(base64 "$bundle" | tr -d '\n')
   encoded_chars=$(printf '%s' "$encoded" | wc -c | tr -d ' ')
   checksum=$(sha256sum "$bundle" | awk '{print $1}')

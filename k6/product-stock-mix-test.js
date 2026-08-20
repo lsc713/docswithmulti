@@ -1,5 +1,5 @@
 import { check } from 'k6';
-import { options as mixOptions, selectProduct, stockRequests, uniquePaymentKey, writeOutcome } from './product-stock-mix.js';
+import { options as mixOptions, selectProduct, stockRequests, uniquePaymentKey, writeFailed, writeOutcome } from './product-stock-mix.js';
 
 export const options = {
   scenarios: { checks: { executor: 'shared-iterations', vus: 1, iterations: 1 } },
@@ -25,6 +25,8 @@ export default function () {
     'payment key is unique per iteration': () => uniquePaymentKey(1) !== uniquePaymentKey(2),
     'stock shortage is not a server error': () => writeOutcome(409) === 'insufficient' &&
       writeOutcome(500) === 'server_error',
+    'write failure excludes expected stock shortage': () => !writeFailed(200) && !writeFailed(409) &&
+      writeFailed(0) && writeFailed(400) && writeFailed(500),
     'unexpected stock client errors fail the run': () =>
       JSON.stringify(mixOptions.thresholds.stock_unexpected_client_error_rate) === '["rate==0"]',
     'reserve is paired with release': () => requests.length === 2 &&
