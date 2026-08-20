@@ -12,7 +12,9 @@ const workloadDuration = new Trend('stock_mix_workload_duration', true);
 const workloadFailure = new Rate('stock_mix_workload_failure');
 const products = new SharedArray('product stock mix', () => JSON.parse(open('./seed/productIds.json')));
 const mysqlThreshold = __ENV.MYSQL_THRESHOLD_RAMP === 'true';
-const readTargets = mysqlThreshold ? [250, 300, 350, 400, 450, 500] : [500, 750, 1000, 1250];
+const mysqlThresholdLow = __ENV.MYSQL_THRESHOLD_LOW_RAMP === 'true';
+const readTargets = mysqlThresholdLow ? [100, 125, 150, 175, 200]
+  : mysqlThreshold ? [250, 300, 350, 400, 450, 500] : [500, 750, 1000, 1250];
 const writeTargets = readTargets.map((target) => Math.round(target / 9));
 
 if (!products.length || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
