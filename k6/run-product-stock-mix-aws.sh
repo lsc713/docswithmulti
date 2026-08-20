@@ -11,13 +11,33 @@ PRODUCT_URL="${PRODUCT_URL:-}"
 RESULT_DIR="${RESULT_DIR:-$ROOT/k6/results}"
 SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-721}"
 RUN_KEY="$(date -u +%Y%m%dT%H%M%SZ)-product-stock-mix-$$"
+STAGE_SECONDS=180
 K6_RPS_QUERY='sum by (workload) (rate(k6_http_reqs_total{workload=~"read|write"}[1m]))'
-K6_P95_QUERY='histogram_quantile(0.95, sum by (le, workload) (rate(k6_http_req_duration_bucket{workload=~"read|write"}[1m])))'
-K6_P99_QUERY='histogram_quantile(0.99, sum by (le, workload) (rate(k6_http_req_duration_bucket{workload=~"read|write"}[1m])))'
-K6_ERROR_QUERY='sum by (workload) (rate(k6_http_req_failed_total{workload=~"read|write"}[1m])) / clamp_min(sum by (workload) (rate(k6_http_reqs_total{workload=~"read|write"}[1m])), 1)'
+K6_P95_QUERY='max by (workload) (k6_http_req_duration_p95{workload=~"read|write"})'
+K6_P99_QUERY='max by (workload) (k6_http_req_duration_p99{workload=~"read|write"})'
+K6_ERROR_QUERY='max by (workload) (k6_http_req_failed_rate{workload=~"read|write"})'
+WORKLOAD_RESULT_JQ='.status == "success" and ([.data.result[] | select((.values | length) > 0) | .metric.workload] | unique | sort == ["read", "write"])'
+
+stage_windows() {
+  local started=$1 ended=$2 stage start end
+  for ((stage=1; stage<=4; stage++)); do
+    start=$((started + (stage - 1) * STAGE_SECONDS))
+    end=$((started + stage * STAGE_SECONDS))
+    [ "$ended" -lt "$end" ] && end=$ended
+    [ "$end" -gt "$start" ] && printf '%s %s %s\n' "$stage" "$start" "$end"
+  done
+}
 
 if [ "${PRINT_STAGE_QUERIES:-}" = 1 ]; then
   printf '%s\n' "$K6_RPS_QUERY" "$K6_P95_QUERY" "$K6_P99_QUERY" "$K6_ERROR_QUERY"
+  exit 0
+fi
+if [ "${PRINT_STAGE_PLAN:-}" = 1 ]; then
+  stage_windows "${STAGE_START_EPOCH:?STAGE_START_EPOCH required}" "${STAGE_END_EPOCH:?STAGE_END_EPOCH required}"
+  exit 0
+fi
+if [ -n "${VERIFY_WORKLOAD_FILE:-}" ]; then
+  jq -e "$WORKLOAD_RESULT_JQ" "$VERIFY_WORKLOAD_FILE" >/dev/null
   exit 0
 fi
 
@@ -62,35 +82,58 @@ console="/opt/loadtest/results/${RUN_KEY}.console.log"
 timing="/opt/loadtest/results/${RUN_KEY}.timing.json"
 observations="/opt/loadtest/results/${RUN_KEY}.observations"
 bundle="/opt/loadtest/results/${RUN_KEY}.tgz"
-rm -rf "$summary" "$console" "$timing" "$observations" "$bundle"
+started_epoch_file="/opt/loadtest/results/${RUN_KEY}.started-epoch"
+started_utc_file="/opt/loadtest/results/${RUN_KEY}.started-utc"
+rm -rf "$summary" "$console" "$timing" "$observations" "$bundle" "$started_epoch_file" "$started_utc_file"
 mkdir -p "$observations"
-started_epoch=$(date -u +%s)
-started_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+docker pull grafana/k6:0.54.0 >"$console" 2>&1
 set +e
-docker run --rm --network host -v /opt/loadtest/repo:/work -w /work -v /opt/loadtest/results:/results -e TARGET=aws -e PRODUCT_URL="$PRODUCT_URL" -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' grafana/k6:0.54.0 run --summary-export "/results/${RUN_KEY}.summary.json" -o experimental-prometheus-rw k6/product-stock-mix.js >"$console" 2>&1
+docker run --rm --entrypoint sh --network host -v /opt/loadtest/repo:/work -w /work -v /opt/loadtest/results:/results -e RUN_KEY="$RUN_KEY" -e TARGET=aws -e PRODUCT_URL="$PRODUCT_URL" -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' grafana/k6:0.54.0 -c 'date -u +%s > "/results/${RUN_KEY}.started-epoch"; date -u +%Y-%m-%dT%H:%M:%SZ > "/results/${RUN_KEY}.started-utc"; exec k6 run --summary-export "/results/${RUN_KEY}.summary.json" -o experimental-prometheus-rw k6/product-stock-mix.js' >>"$console" 2>&1
 k6_status=$?
 set -e
+started_epoch=$(cat "$started_epoch_file")
+started_utc=$(cat "$started_utc_file")
 ended_epoch=$(date -u +%s)
 ended_utc=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-printf '{"runKey":"%s","startedUtc":"%s","endedUtc":"%s","stageSeconds":180}\n' "$RUN_KEY" "$started_utc" "$ended_utc" > "$timing"
+printf '{"runKey":"%s","startedUtc":"%s","endedUtc":"%s","stageSeconds":%s}\n' "$RUN_KEY" "$started_utc" "$ended_utc" "$STAGE_SECONDS" > "$timing"
 
 query_interval() {
   name=$1 query=$2 start=$3 end=$4 file=$5
-  curl -fsS --get "$PROM_QUERY_URL" --data-urlencode "query=$query" --data-urlencode "start=$start" --data-urlencode "end=$end" --data-urlencode 'step=15' > "$file" || printf '{"status":"error","error":"Prometheus query failed","query":"%s"}\n' "$name" > "$file"
+  if ! curl -fsS --get "$PROM_QUERY_URL" --data-urlencode "query=$query" --data-urlencode "start=$start" --data-urlencode "end=$end" --data-urlencode 'step=15' > "$file"; then
+    printf '{"status":"error","error":"Prometheus query failed","query":"%s"}\n' "$name" > "$file"
+    return 1
+  fi
 }
+require_workloads() {
+  file=$1
+  jq -e "$WORKLOAD_RESULT_JQ" "$file" >/dev/null
+}
+required_k6_ok=1
 for stage in 1 2 3 4; do
-  start=$((started_epoch + (stage - 1) * 180)); end=$((started_epoch + stage * 180))
-  [ "$end" -le "$ended_epoch" ] || end=$ended_epoch; [ "$end" -gt "$start" ] || continue
+  start=$((started_epoch + (stage - 1) * STAGE_SECONDS))
+  end=$((started_epoch + stage * STAGE_SECONDS))
+  [ "$ended_epoch" -lt "$end" ] && end=$ended_epoch
+  [ "$end" -gt "$start" ] || continue
   hosts='k6|product-a|product-b|product-c|product-d|mysql-product|redis-product'
-  query_interval cpu "1 - avg by (host) (rate(node_cpu_seconds_total{mode=\"idle\",host=~\"$hosts\"}[1m]))" "$start" "$end" "$observations/stage-${stage}-cpu.json"
-  query_interval memory "1 - avg by (host) (node_memory_MemAvailable_bytes{host=~\"$hosts\"} / node_memory_MemTotal_bytes{host=~\"$hosts\"})" "$start" "$end" "$observations/stage-${stage}-memory.json"
-  query_interval mysql_threads 'mysql_global_status_threads_running{db="product"}' "$start" "$end" "$observations/stage-${stage}-mysql-threads.json"
-  query_interval stock_cache 'product_stock_cache_total{host=~"product-a|product-b|product-c|product-d"}' "$start" "$end" "$observations/stage-${stage}-stock-cache.json"
-  query_interval k6_rps "$K6_RPS_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-rps.json"
-  query_interval k6_p95 "$K6_P95_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-p95.json"
-  query_interval k6_p99 "$K6_P99_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-p99.json"
-  query_interval k6_error_rate "$K6_ERROR_QUERY" "$start" "$end" "$observations/stage-${stage}-k6-error-rate.json"
+  query_interval cpu "1 - avg by (host) (rate(node_cpu_seconds_total{mode=\"idle\",host=~\"$hosts\"}[1m]))" "$start" "$end" "$observations/stage-${stage}-cpu.json" || true
+  query_interval memory "1 - avg by (host) (node_memory_MemAvailable_bytes{host=~\"$hosts\"} / node_memory_MemTotal_bytes{host=~\"$hosts\"})" "$start" "$end" "$observations/stage-${stage}-memory.json" || true
+  query_interval mysql_threads 'mysql_global_status_threads_running{db="product"}' "$start" "$end" "$observations/stage-${stage}-mysql-threads.json" || true
+  query_interval stock_cache 'product_stock_cache_total{host=~"product-a|product-b|product-c|product-d"}' "$start" "$end" "$observations/stage-${stage}-stock-cache.json" || true
+  for metric in rps p95 p99 error_rate; do
+    file="$observations/stage-${stage}-k6-${metric}.json"
+    case "$metric" in
+      rps) query=$K6_RPS_QUERY ;;
+      p95) query=$K6_P95_QUERY ;;
+      p99) query=$K6_P99_QUERY ;;
+      error_rate) query=$K6_ERROR_QUERY ;;
+    esac
+    if ! query_interval "k6_${metric}" "$query" "$start" "$end" "$file" || ! require_workloads "$file"; then
+      echo "Missing read/write workload values for stage ${stage} k6_${metric}" >&2
+      required_k6_ok=0
+    fi
+  done
 done
+[ "$required_k6_ok" = 1 ] || k6_status=1
 if [ -s "$summary" ]; then
   tar -czf "$bundle" -C /opt/loadtest/results "${RUN_KEY}.summary.json" "${RUN_KEY}.console.log" "${RUN_KEY}.timing.json" "${RUN_KEY}.observations"
   bytes=$(wc -c < "$bundle" | tr -d ' '); encoded=$(base64 "$bundle" | tr -d '\n')
@@ -107,7 +150,7 @@ fi
 exit "$k6_status"
 REMOTE
 
-PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\n" + $script]}')
+PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg stage_seconds "$STAGE_SECONDS" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg workload_jq "$WORKLOAD_RESULT_JQ" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nSTAGE_SECONDS=\($stage_seconds | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\nWORKLOAD_RESULT_JQ=\($workload_jq | @sh)\n" + $script]}')
 CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" --document-name AWS-RunShellScript --comment "product stock mixed load test" --parameters "$PARAMS" --timeout-seconds 3600 --query 'Command.CommandId' --output text)
 
 wait_for_command() {
