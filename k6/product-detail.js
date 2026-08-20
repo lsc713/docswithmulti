@@ -8,11 +8,13 @@ import { selectProductId } from './helpers/product-distribution.js';
 const ids = new SharedArray('products', () => JSON.parse(open('./seed/productIds.json')));
 const STAGE = __ENV.STAGE || 'baseline';
 const DISTRIBUTION = __ENV.DISTRIBUTION || 'realistic';
+const VUS = Number(__ENV.VUS || 10);
+const DURATION = __ENV.DURATION || '3m';
 const productDetailSuccess = new Rate('product_detail_success_rate');
 
 const SCENARIOS = {
   smoke: { executor: 'shared-iterations', vus: 1, iterations: 20, maxDuration: '2m' },
-  baseline: { executor: 'constant-vus', vus: 10, duration: '3m' },
+  baseline: { executor: 'constant-vus', vus: VUS, duration: DURATION },
   ramp: {
     executor: 'ramping-vus', startVUs: 10, gracefulRampDown: '10s',
     stages: [
