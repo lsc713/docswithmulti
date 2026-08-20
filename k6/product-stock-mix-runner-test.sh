@@ -10,7 +10,7 @@ queries=$(PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-pro
 runner="$ROOT/k6/run-product-stock-mix-aws.sh"
 pull_line=$(rg -n -m1 -F 'docker pull grafana/k6:0.54.0' "$runner" | cut -d: -f1)
 start_line=$(rg -n -m1 -F 'date -u +%s > "/results/${RUN_KEY}.started-epoch"' "$runner" | cut -d: -f1)
-stage_line=$(rg -n -m1 -F '/work/k6/stage-windows.sh "$started_epoch" "$ended_epoch" "$STAGE_SECONDS"' "$runner" | cut -d: -f1)
+stage_line=$(rg -n -m1 -F '/opt/loadtest/repo/k6/stage-windows.sh "$started_epoch" "$ended_epoch" "$STAGE_SECONDS"' "$runner" | cut -d: -f1)
 [[ -n "$pull_line" && -n "$start_line" && -n "$stage_line" ]]
 (( pull_line < start_line && start_line < stage_line ))
 plan=$(PRINT_STAGE_PLAN=1 STAGE_START_EPOCH=1000 STAGE_END_EPOCH=1720 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh")
