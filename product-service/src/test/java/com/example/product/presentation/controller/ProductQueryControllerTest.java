@@ -5,6 +5,7 @@ import com.example.product.application.interfaces.ProductQueryRepository;
 import com.example.product.application.service.ProductQueryService;
 import com.example.product.presentation.GlobalExceptionHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,13 @@ class ProductQueryControllerTest {
     @Mock ObjectStoragePort port;
 
     MockMvc mvc;
+    SimpleMeterRegistry registry;
 
     @BeforeEach
     void setUp() {
         ObjectMapper objectMapper = new ObjectMapper();
-        ProductQueryController controller = new ProductQueryController(queryService, port);
+        registry = new SimpleMeterRegistry();
+        ProductQueryController controller = new ProductQueryController(queryService, port, registry);
         mvc = MockMvcBuilders
                 .standaloneSetup(controller)
                 .setControllerAdvice(new GlobalExceptionHandler())
@@ -56,6 +59,8 @@ class ProductQueryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.images[0].id").value(9))
                 .andExpect(jsonPath("$.images[0].url").value("http://minio/get/k1"));
+        org.assertj.core.api.Assertions.assertThat(registry.find("product.detail.response.assembly").timer().count())
+                .isEqualTo(1);
     }
 
     @Test

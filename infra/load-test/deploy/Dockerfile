@@ -12,8 +12,8 @@ COPY . .
 ARG MODULE
 RUN ./gradlew :${MODULE}:bootJar -x test --no-daemon
 
-# 최종 런타임 스테이지만 타깃 아키텍처(arm64)로 결정 — JRE base만 arm64로 pull.
-FROM eclipse-temurin:21-jre
+# JFR/jcmd 수집이 가능한 arm64 JDK 런타임. 부하테스트 이미지 전용이다.
+FROM eclipse-temurin:21-jdk
 ARG MODULE
 WORKDIR /app
 COPY --from=build /src/${MODULE}/build/libs/*.jar /app/app.jar

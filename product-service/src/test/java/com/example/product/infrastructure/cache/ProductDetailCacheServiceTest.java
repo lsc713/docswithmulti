@@ -1,6 +1,7 @@
 package com.example.product.infrastructure.cache;
 
 import org.junit.jupiter.api.Test;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.redisson.api.RBucket;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -24,11 +25,13 @@ class ProductDetailCacheServiceTest {
         when(redisson.getBucket("product:detail:1")).thenReturn(bucket);
         when(bucket.get()).thenReturn("{\"value\":\"cached\",\"cachedAt\":0,\"softExpiresAt\":9999999999999,\"hardExpiresAt\":9999999999999}");
 
+        var registry = new SimpleMeterRegistry();
         var service = new ProductDetailCacheService(redisson, new ObjectMapper(),
                 new ProductDetailCachePolicy(Duration.ofMinutes(1), Duration.ofMinutes(1), 0),
-                () -> 1_000L);
+                () -> 1_000L, registry);
 
         assertThat(service.getOrLoad(1L, String.class, () -> "database")).isEqualTo("cached");
+        assertThat(registry.find("product.detail.cache.read").timer().count()).isEqualTo(1);
         verify(bucket, never()).set(anyString());
     }
 
@@ -45,7 +48,7 @@ class ProductDetailCacheServiceTest {
 
         var service = new ProductDetailCacheService(redisson, new ObjectMapper(),
                 new ProductDetailCachePolicy(Duration.ofMinutes(1), Duration.ofMinutes(1), 0),
-                () -> 1_000L);
+                () -> 1_000L, new SimpleMeterRegistry());
 
         assertThat(service.getOrLoad(1L, String.class, () -> "database")).isEqualTo("database");
         verify(bucket).set(anyString(), anyLong(), eq(TimeUnit.MILLISECONDS));
