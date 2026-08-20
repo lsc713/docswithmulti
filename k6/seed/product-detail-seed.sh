@@ -86,6 +86,6 @@ CALL seed_product_detail_loadtest(${SEED_COUNT}, '${PREFIX}');
 DROP PROCEDURE seed_product_detail_loadtest;
 SQL
 
-db -N -B -r -e "SELECT JSON_ARRAYAGG(id) FROM (SELECT id FROM product WHERE LEFT(name,CHAR_LENGTH('${PREFIX}'))='${PREFIX}' ORDER BY id) p" > "$OUT"
+db -N -B -r -e "SELECT JSON_ARRAYAGG(JSON_OBJECT('productId', product_id, 'skuId', sku_id)) FROM (SELECT p.id AS product_id, MIN(s.id) AS sku_id FROM product p JOIN product_sku s ON s.product_id=p.id JOIN product_stock st ON st.sku_id=s.id AND st.available_qty > 0 WHERE LEFT(p.name,CHAR_LENGTH('${PREFIX}'))='${PREFIX}' GROUP BY p.id ORDER BY p.id) p" > "$OUT"
 actual=$(jq length "$OUT")
 [ "$actual" -eq "$SEED_COUNT" ] || { echo "기대 $SEED_COUNT != 실제 $actual" >&2; exit 1; }

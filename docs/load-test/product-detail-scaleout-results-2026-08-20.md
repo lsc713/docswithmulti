@@ -79,3 +79,14 @@ product-c/d 추가 후 Prometheus targets에는 a/b만 남아 있었다. 호스�
 ## 자원 정리
 
 측정 종료 후 `terraform destroy`를 실행했다. Product 4대, k6, MySQL, Redis, 관측, NLB, NAT, VPC 및 IAM을 포함한 36개 리소스가 삭제됐고 Terraform state는 0개 리소스다.
+
+## Product stock mixed ramp (AWS 측정 대기)
+
+이 표의 값은 아직 측정하지 않았다. `k6/run-product-stock-mix-aws.sh`는 각 3분 구간의 정확한 UTC 시작·종료 시각, k6/Product-a~d/MySQL/Redis CPU·메모리, Product MySQL `threads_running`, 그리고 `product_stock_cache_total{outcome}`을 결과 번들에 저장한다. Terraform apply 및 readiness가 승인된 뒤 해당 번들을 기준으로만 채운다.
+
+| Read/Write VU | Read RPS | Write RPS | Read p95/p99 | Write p95/p99 | 오류율 | k6 CPU/메모리 | Product-a/b/c/d CPU/메모리 | MySQL CPU/메모리·threads_running | Redis CPU/메모리 | Stock cache outcomes | 첫 포화 구성요소 |
+|---|---:|---:|---|---|---:|---|---|---|---|---|---|
+| 500 / 56 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 |
+| 750 / 83 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 |
+| 1000 / 111 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 |
+| 1250 / 139 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 | 측정 대기 |
