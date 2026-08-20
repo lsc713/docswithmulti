@@ -4,12 +4,13 @@ set -euo pipefail
 started=${1:?started epoch required}
 ended=${2:?ended epoch required}
 stage_seconds=${3:-180}
+stage_count=${4:-4}
 [[ "$started" =~ ^[0-9]+$ && "$ended" =~ ^[0-9]+$ && "$stage_seconds" =~ ^[1-9][0-9]*$ ]] || {
   echo 'stage windows require non-negative epochs and positive stage seconds' >&2
   exit 1
 }
 
-for ((stage=1; stage<=4; stage++)); do
+for ((stage=1; stage<=stage_count; stage++)); do
   start=$((started + (stage - 1) * stage_seconds))
   end=$((started + stage * stage_seconds))
   [ "$ended" -lt "$end" ] && end=$ended

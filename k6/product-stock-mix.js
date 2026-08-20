@@ -11,6 +11,9 @@ const stockUnexpectedClientError = new Rate('stock_unexpected_client_error_rate'
 const workloadDuration = new Trend('stock_mix_workload_duration', true);
 const workloadFailure = new Rate('stock_mix_workload_failure');
 const products = new SharedArray('product stock mix', () => JSON.parse(open('./seed/productIds.json')));
+const mysqlThreshold = __ENV.MYSQL_THRESHOLD_RAMP === 'true';
+const readTargets = mysqlThreshold ? [250, 300, 350, 400, 450, 500] : [500, 750, 1000, 1250];
+const writeTargets = readTargets.map((target) => Math.round(target / 9));
 
 if (!products.length || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
   Number.isInteger(product.skuId) && product.skuId > 0)) {
@@ -19,12 +22,8 @@ if (!products.length || !products.every((product) => Number.isInteger(product.pr
 
 export const options = {
   scenarios: {
-    read: { executor: 'ramping-vus', exec: 'read', startVUs: 500,
-      stages: [{ target: 500, duration: '3m' }, { target: 750, duration: '3m' },
-        { target: 1000, duration: '3m' }, { target: 1250, duration: '3m' }] },
-    write: { executor: 'ramping-vus', exec: 'write', startVUs: 56,
-      stages: [{ target: 56, duration: '3m' }, { target: 83, duration: '3m' },
-        { target: 111, duration: '3m' }, { target: 139, duration: '3m' }] },
+    read: { executor: 'ramping-vus', exec: 'read', startVUs: readTargets[0], stages: readTargets.map((target) => ({ target, duration: '3m' })) },
+    write: { executor: 'ramping-vus', exec: 'write', startVUs: writeTargets[0], stages: writeTargets.map((target) => ({ target, duration: '3m' })) },
   },
   thresholds: {
     stock_server_error_rate: ['rate==0'],
