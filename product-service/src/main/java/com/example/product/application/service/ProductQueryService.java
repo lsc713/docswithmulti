@@ -8,6 +8,7 @@ import com.example.product.common.exception.application.CategoryNotFoundExceptio
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.Product;
 import com.example.product.infrastructure.cache.ProductDetailCacheService;
+import com.example.product.infrastructure.cache.ProductStockSnapshotCacheService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,17 +27,20 @@ public class ProductQueryService {
     private final ProductImageRepository imageRepository;
     private final ProductVariantRepository variantRepository;
     private final ProductDetailCacheService cacheService;
+    private final ProductStockSnapshotCacheService stockSnapshotCacheService;
 
     public ProductQueryService(ProductQueryRepository queryRepository,
                                CategoryRepository categoryRepository,
                                ProductImageRepository imageRepository,
                                ProductVariantRepository variantRepository,
-                               ProductDetailCacheService cacheService) {
+                               ProductDetailCacheService cacheService,
+                               ProductStockSnapshotCacheService stockSnapshotCacheService) {
         this.queryRepository = queryRepository;
         this.categoryRepository = categoryRepository;
         this.imageRepository = imageRepository;
         this.variantRepository = variantRepository;
         this.cacheService = cacheService;
+        this.stockSnapshotCacheService = stockSnapshotCacheService;
     }
 
     public record CategoryPathNode(int level, Long id, String name) {}
@@ -69,7 +73,8 @@ public class ProductQueryService {
     /** BROWSE-02: 상품 상세 = 대/중/소 경로 + SKU(코드/옵션/availableQty/price). 부재 → 404. */
     @Transactional(readOnly = true)
     public ProductDetail detail(Long productId) {
-        return cacheService.getOrLoad(productId, ProductDetail.class, () -> loadDetail(productId));
+        ProductDetail detail = cacheService.getOrLoad(productId, ProductDetail.class, () -> loadDetail(productId));
+        return withAvailability(detail, stockSnapshotCacheService.getOrLoad(productId));
     }
 
     private ProductDetail loadDetail(Long productId) {
@@ -116,5 +121,14 @@ public class ProductQueryService {
         return categoryRepository.findPathByLeafId(leafId).stream()
                 .map(c -> new CategoryPathNode(c.getLevel(), c.getId(), c.getName()))
                 .toList();
+    }
+
+    private static ProductDetail withAvailability(ProductDetail detail, Map<Long, Integer> availability) {
+        List<SkuDetail> skus = detail.skus().stream()
+                .map(sku -> new SkuDetail(sku.skuId(), sku.skuCode(), sku.optionSummary(),
+                        availability.get(sku.skuId()), sku.price(), sku.variant()))
+                .toList();
+        return new ProductDetail(detail.id(), detail.name(), detail.category(), skus, detail.images(),
+                detail.variantOptions(), detail.specs());
     }
 }

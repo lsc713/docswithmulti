@@ -4,6 +4,7 @@ import com.example.product.domain.entity.Product;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /** 읽기 전용 조회 포트 (BROWSE-01/02). 쓰기 경로(ProductRepository, stock)와 분리. */
@@ -13,6 +14,9 @@ public interface ProductQueryRepository {
 
     /** SKU + availableQty (product_stock 읽기 전용 조인, INV-01). */
     List<SkuStock> findSkuStock(Long productId);
+
+    /** 상품 상세 응답의 실시간 재고 snapshot. */
+    Map<Long, Integer> findSkuAvailability(Long productId);
 
     /** BROWSE-01: 루트 + 모든 하위 카테고리 id (재귀 CTE). leaf 는 자기 자신만 반환. */
     List<Long> descendantCategoryIds(Long rootId);

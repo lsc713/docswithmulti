@@ -8,9 +8,11 @@ import com.example.product.common.exception.application.StockInsufficientExcepti
 import com.example.product.domain.entity.ProductSku;
 import com.example.product.domain.entity.StockReservation;
 import org.springframework.stereotype.Service;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.LinkedHashSet;
 
 /**
  * 재고 예약/해제 (STOCK-03/04, D-P1-3·D-P1-4).
@@ -31,13 +33,16 @@ public class StockService {
     private final ProductStockRepository stockRepository;
     private final StockReservationRepository reservationRepository;
     private final ProductSkuRepository skuRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     public StockService(ProductStockRepository stockRepository,
                         StockReservationRepository reservationRepository,
-                        ProductSkuRepository skuRepository) {
+                        ProductSkuRepository skuRepository,
+                        ApplicationEventPublisher eventPublisher) {
         this.stockRepository = stockRepository;
         this.reservationRepository = reservationRepository;
         this.skuRepository = skuRepository;
+        this.eventPublisher = eventPublisher;
     }
 
     public record ReserveItem(long productId, long skuId, int qty) {
@@ -51,6 +56,7 @@ public class StockService {
     @Transactional
     public List<ReservedItem> reserve(String paymentKey, List<ReserveItem> items) {
         var reserved = new java.util.ArrayList<ReservedItem>(items.size());
+        var changedProductIds = new LinkedHashSet<Long>();
         for (ReserveItem item : items) {
             ProductSku sku = skuRepository.findById(item.skuId())
                 .orElseThrow(() -> new InvalidStockReservationException(item.productId(), item.skuId()));
@@ -80,19 +86,30 @@ public class StockService {
             }
             reserved.add(new ReservedItem(
                 item.skuId(), sku.getProductId(), sku.getPrice(), item.qty()));
+            changedProductIds.add(sku.getProductId());
         }
+        publishStockChanged(changedProductIds);
         return reserved;
     }
 
     @Transactional
     public void release(String paymentKey, List<ReserveItem> items) {
+        var changedProductIds = new LinkedHashSet<Long>();
         for (ReserveItem item : items) {
             // W2: 조건부 상태전이가 재고 복원의 유일 트리거 → affected=1일 때만 복원(over-release 불가).
             int transitioned = reservationRepository.releaseIfReserved(paymentKey, item.skuId());
             if (transitioned == 1) {
                 stockRepository.restore(item.skuId(), item.qty());
+                changedProductIds.add(skuRepository.findById(item.skuId())
+                        .orElseThrow(() -> new InvalidStockReservationException(item.productId(), item.skuId()))
+                        .getProductId());
             }
             // transitioned=0: 이미 RELEASED/미존재 → no-op
         }
+        publishStockChanged(changedProductIds);
+    }
+
+    private void publishStockChanged(LinkedHashSet<Long> productIds) {
+        if (!productIds.isEmpty()) eventPublisher.publishEvent(new ProductStockChangedEvent(productIds));
     }
 }
