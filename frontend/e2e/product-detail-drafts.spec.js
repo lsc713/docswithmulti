@@ -582,6 +582,67 @@ test('the production Gallery disables purchase when every SKU is sold out', asyn
   await expect(detail.getByRole('button', { name: '장바구니 담기' })).toBeDisabled()
 })
 
+test('a stock-insufficient checkout returns to refreshed sold-out detail', async ({ page }) => {
+  const soldOutProduct = { ...product, skus: product.skus.map(sku => ({ ...sku, availableQty: 0 })) }
+  let stale = true
+  await mockStorefront(page, {
+    authenticated: true,
+    productHandler: route => route.fulfill({ contentType: 'application/json', json: stale ? product : soldOutProduct }),
+  })
+  await page.route(`${GW}/v1/orders`, route => route.fulfill({ json: { items: [{ orderItemId: 1 }] } }))
+  await page.route(`${GW}/v1/payment-attempts`, route => {
+    stale = false
+    return route.fulfill({ status: 409, json: { code: 'STOCK_INSUFFICIENT', message: '재고가 부족합니다.' } })
+  })
+
+  let detail = await openProductionDetail(page)
+  await detail.getByRole('button', { name: /^색상 ·/ }).click()
+  await detail.getByRole('option', { name: '블랙' }).click()
+  await detail.getByRole('button', { name: /^사이즈 ·/ }).click()
+  await detail.getByRole('option', { name: 'M' }).click()
+  await detail.getByRole('button', { name: '구매하기' }).click()
+  await page.getByRole('button', { name: '결제 수단 선택' }).first().click()
+  await page.getByRole('button', { name: '결제하기' }).first().click()
+
+  detail = page.locator('main')
+  await expect(detail.getByRole('status')).toContainText('방금 품절됨')
+  await detail.getByRole('button', { name: /^색상 ·/ }).click()
+  await expect(detail.getByRole('option', { name: '블랙 · 품절' })).toBeDisabled()
+  await expect(detail.getByRole('button', { name: '구매하기' })).toBeDisabled()
+})
+
+test('a stock-insufficient checkout clamps the restored quantity to refreshed stock', async ({ page }) => {
+  const reducedStockProduct = {
+    ...product,
+    skus: product.skus.map(sku => sku.skuId === 501 ? { ...sku, availableQty: 2 } : sku),
+  }
+  let stale = true
+  await mockStorefront(page, {
+    authenticated: true,
+    productHandler: route => route.fulfill({ contentType: 'application/json', json: stale ? product : reducedStockProduct }),
+  })
+  await page.route(`${GW}/v1/orders`, route => route.fulfill({ json: { items: [{ orderItemId: 1 }] } }))
+  await page.route(`${GW}/v1/payment-attempts`, route => {
+    stale = false
+    return route.fulfill({ status: 409, json: { code: 'STOCK_INSUFFICIENT', message: '재고가 부족합니다.' } })
+  })
+
+  let detail = await openProductionDetail(page)
+  await detail.getByRole('button', { name: /^색상 ·/ }).click()
+  await detail.getByRole('option', { name: '블랙' }).click()
+  await detail.getByRole('button', { name: /^사이즈 ·/ }).click()
+  await detail.getByRole('option', { name: 'M' }).click()
+  await detail.getByRole('spinbutton', { name: '수량' }).fill('7')
+  await detail.getByRole('button', { name: '구매하기' }).click()
+  await page.getByRole('button', { name: '결제 수단 선택' }).first().click()
+  await page.getByRole('button', { name: '결제하기' }).first().click()
+
+  detail = page.locator('main')
+  await expect(detail.getByRole('status')).toContainText('방금 품절됨')
+  await expect(detail.getByRole('spinbutton', { name: '수량' })).toHaveValue('2')
+  await expect(detail.getByRole('spinbutton', { name: '수량' })).toHaveAttribute('max', '2')
+})
+
 test('the production Gallery retries an API error', async ({ page }) => {
   let attempts = 0
   await mockStorefront(page, {

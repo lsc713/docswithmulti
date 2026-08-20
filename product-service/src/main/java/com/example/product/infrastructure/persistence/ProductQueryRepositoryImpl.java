@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /** JpaRepository 들에 위임하는 읽기 전용 어댑터. */
@@ -33,6 +35,14 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
         return skuJpa.findSkuStockByProductId(productId).stream()
                 .map(v -> new SkuStock(v.getSkuId(), v.getSkuCode(), v.getOptionSummary(), v.getAvailableQty(), v.getPrice()))
                 .toList();
+    }
+
+    @Override
+    public Map<Long, Integer> findSkuAvailability(Long productId) {
+        Map<Long, Integer> availability = new LinkedHashMap<>();
+        skuJpa.findSkuAvailabilityByProductId(productId)
+                .forEach(sku -> availability.put(sku.getSkuId(), sku.getAvailableQty()));
+        return availability;
     }
 
     @Override

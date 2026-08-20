@@ -46,6 +46,7 @@ spring:
 
 product:
   cache:
+    stock-ttl-seconds: ${PRODUCT_CACHE_STOCK_TTL_SECONDS:5}
     content-soft-ttl-seconds: ${PRODUCT_CACHE_CONTENT_SOFT_TTL_SECONDS:60}
     content-stale-ttl-seconds: ${PRODUCT_CACHE_CONTENT_STALE_TTL_SECONDS:60}
     ttl-jitter-ratio: ${PRODUCT_CACHE_TTL_JITTER_RATIO:0.1}

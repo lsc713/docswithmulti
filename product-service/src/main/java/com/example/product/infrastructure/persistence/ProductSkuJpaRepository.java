@@ -22,6 +22,15 @@ public interface ProductSkuJpaRepository extends JpaRepository<ProductSkuJpaEnti
             """, nativeQuery = true)
     List<SkuStockView> findSkuStockByProductId(@Param("productId") Long productId);
 
+    @Query(value = """
+            SELECT s.id AS skuId, st.available_qty AS availableQty
+            FROM product_sku s
+            JOIN product_stock st ON st.sku_id = s.id
+            WHERE s.product_id = :productId
+            ORDER BY s.id
+            """, nativeQuery = true)
+    List<SkuAvailabilityView> findSkuAvailabilityByProductId(@Param("productId") Long productId);
+
     /** 네이티브 인터페이스 프로젝션 — 컬럼 alias 가 getter 명과 매칭. */
     interface SkuStockView {
         Long getSkuId();
@@ -29,5 +38,10 @@ public interface ProductSkuJpaRepository extends JpaRepository<ProductSkuJpaEnti
         String getOptionSummary();
         int getAvailableQty();
         long getPrice();
+    }
+
+    interface SkuAvailabilityView {
+        Long getSkuId();
+        int getAvailableQty();
     }
 }

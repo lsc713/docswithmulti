@@ -1,0 +1,100 @@
+import http from 'k6/http';
+import { SharedArray } from 'k6/data';
+import { Rate, Trend } from 'k6/metrics';
+import { BASE, HEADERS } from './config.js';
+
+const stockInsufficient = new Rate('stock_insufficient_rate');
+const stockServerError = new Rate('stock_server_error_rate');
+const stockUnexpectedClientError = new Rate('stock_unexpected_client_error_rate');
+// Workload-only series provide correct read/write aggregate percentiles. Operation
+// tags remain on the standard HTTP series for reserve/release diagnostics.
+const workloadDuration = new Trend('stock_mix_workload_duration', true);
+const workloadFailure = new Rate('stock_mix_workload_failure');
+const products = new SharedArray('product stock mix', () => JSON.parse(open('./seed/productIds.json')));
+
+if (!products.length || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
+  Number.isInteger(product.skuId) && product.skuId > 0)) {
+  throw new Error('productIds.json must contain positive productId/skuId pairs');
+}
+
+export const options = {
+  scenarios: {
+    read: { executor: 'ramping-vus', exec: 'read', startVUs: 500,
+      stages: [{ target: 500, duration: '3m' }, { target: 750, duration: '3m' },
+        { target: 1000, duration: '3m' }, { target: 1250, duration: '3m' }] },
+    write: { executor: 'ramping-vus', exec: 'write', startVUs: 56,
+      stages: [{ target: 56, duration: '3m' }, { target: 83, duration: '3m' },
+        { target: 111, duration: '3m' }, { target: 139, duration: '3m' }] },
+  },
+  thresholds: {
+    stock_server_error_rate: ['rate==0'],
+    stock_unexpected_client_error_rate: ['rate==0'],
+  },
+};
+
+export function uniquePaymentKey(iteration) {
+  return `stock-mix-${__VU}-${iteration}`;
+}
+
+export function stockRequests(product, iteration) {
+  const paymentKey = uniquePaymentKey(iteration);
+  const bodies = {
+    reserve: JSON.stringify({ paymentKey, items: [{ productId: product.productId, skuId: product.skuId, qty: 1 }] }),
+    release: JSON.stringify({ paymentKey, items: [{ skuId: product.skuId, qty: 1 }] }),
+  };
+  return ['reserve', 'release'].map((operation) => ({
+    operation,
+    url: `${BASE.PRODUCT}/v1/stock/${operation}`,
+    body: bodies[operation],
+    params: { headers: HEADERS, tags: { operation, workload: 'write' } },
+  }));
+}
+
+export function selectProduct(vu, iteration) {
+  return products[(vu + iteration) % products.length];
+}
+
+function productForVu() {
+  return selectProduct(__VU, __ITER);
+}
+
+export function writeOutcome(status) {
+  if (status === 409) return 'insufficient';
+  if (status >= 500) return 'server_error';
+  if (status >= 400) return 'unexpected_client_error';
+  return 'ok';
+}
+
+export function writeFailed(status) {
+  return status !== 200 && status !== 409;
+}
+
+function addWorkloadResponse(res, workload, failed) {
+  workloadDuration.add(res.timings.duration, { workload });
+  workloadFailure.add(failed, { workload });
+}
+
+function addWriteStatus(res, operation) {
+  const outcome = writeOutcome(res.status);
+  stockInsufficient.add(outcome === 'insufficient', { operation });
+  stockServerError.add(outcome === 'server_error', { operation });
+  stockUnexpectedClientError.add(outcome === 'unexpected_client_error', { operation });
+}
+
+export function read() {
+  const { productId } = productForVu();
+  const res = http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read', workload: 'read' } });
+  addWorkloadResponse(res, 'read', res.status !== 200);
+}
+
+export function write() {
+  const [reserve, release] = stockRequests(productForVu(), __ITER);
+  const reserved = http.post(reserve.url, reserve.body, reserve.params);
+  addWriteStatus(reserved, reserve.operation);
+  addWorkloadResponse(reserved, 'write', writeFailed(reserved.status));
+  if (reserved.status === 200) {
+    const released = http.post(release.url, release.body, release.params);
+    addWriteStatus(released, release.operation);
+    addWorkloadResponse(released, 'write', writeFailed(released.status));
+  }
+}

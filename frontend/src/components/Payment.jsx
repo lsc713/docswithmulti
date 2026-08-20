@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { api } from '../api'
-import { aggregateOrderItems } from '../orderFlow'
+import { aggregateOrderItems, isStockInsufficient } from '../orderFlow'
 import { createMockPaymentReturnUrl } from '../payment-provider'
 import { OrderItemCard, OrderTotals } from './Checkout'
 
@@ -19,7 +19,7 @@ function loadToss() {
   return tossScript
 }
 
-export default function Payment({ flowState, onBack }) {
+export default function Payment({ flowState, onBack, onStockInsufficient }) {
   const orderItems = flowState?.orderItems ?? []
   const totals = aggregateOrderItems(orderItems)
   const [error, setError] = useState('')
@@ -76,6 +76,7 @@ export default function Payment({ flowState, onBack }) {
           failUrl: `${window.location.origin}/payment/fail`,
         })
     } catch (e) {
+      if (isStockInsufficient(e) && onStockInsufficient?.(flowState)) return
       setError(e.message)
     } finally {
       setBusy(false)

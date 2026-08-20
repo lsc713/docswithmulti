@@ -27,8 +27,8 @@ esac
 for tool in jq aws base64 tar shasum; do
   command -v "$tool" >/dev/null || { echo "$tool is required" >&2; exit 1; }
 done
-jq -e 'type == "array" and length >= 10 and all(.[]; type == "number" and floor == . and . > 0)' "$IDS_FILE" >/dev/null \
-  || { echo "Product ID array must contain at least 10 positive integers: $IDS_FILE" >&2; exit 1; }
+jq -e 'type == "array" and length >= 10 and all(.[]; (.productId|numbers) and (.skuId|numbers) and .productId > 0 and .skuId > 0)' "$IDS_FILE" >/dev/null \
+  || { echo "Product seed must contain at least 10 positive productId/skuId pairs: $IDS_FILE" >&2; exit 1; }
 
 IID=$(aws ec2 describe-instances --region "$REGION" \
   --filters "Name=tag:Role,Values=k6" "Name=instance-state-name,Values=running" \
@@ -78,8 +78,8 @@ for ((attempt=1; attempt<=SSM_BOOTSTRAP_ATTEMPTS; attempt++)); do
 done
 [ "$bootstrap_ok" = 1 ] || exit 1
 
-# ponytail: SSM commands cap at 97KB; 5k evenly spaced IDs cover the full key range without S3.
-IDS_B64=$(jq -c 'if length <= 5000 then . else [range(0; length; (length / 5000 | floor)) as $i | .[$i]][:5000] end' "$IDS_FILE" | base64 | tr -d '\n')
+# ponytail: 1k object pairs fit SSM command input; add an artifact handoff only if a larger read pool is measured necessary.
+IDS_B64=$(jq -c 'if length <= 1000 then . else [range(0; length; (length / 1000 | floor)) as $i | .[$i]][:1000] end' "$IDS_FILE" | base64 | tr -d '\n')
 read -r -d '' REMOTE <<'REMOTE' || true
 set -e
 install -d -m 0777 /opt/loadtest/results
