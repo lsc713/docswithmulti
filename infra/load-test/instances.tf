@@ -36,6 +36,7 @@ locals {
     k6            = { type = "c7g.large", ip = "10.0.1.10", disk = 30 }
     product       = { type = "c7g.xlarge", ip = "10.0.1.23", disk = 30, spot = false }
     mysql-product = { type = "m7g.large", ip = "10.0.1.33", disk = 50 }
+    obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false }
   }
 
   instances = var.load_test_profile == "product" ? local.product_instances : local.full_instances
