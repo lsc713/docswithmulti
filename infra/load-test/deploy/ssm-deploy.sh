@@ -190,19 +190,16 @@ if [ "$DEPLOY_OBS" = "1" ]; then
   k6_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability
 docker compose -f node-exporter.compose.yml up -d
-if [ '${LOAD_TEST_PROFILE}' = 'product' ]; then docker compose -f product-only.compose.yml up -d; fi
 docker compose -f node-exporter.compose.yml ps"
   ssm_run "k6" "$k6_remote"
 
-  if [ "$LOAD_TEST_PROFILE" = "full" ]; then
-    echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
-    obs_remote="$(clone_header)
+  echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
+  obs_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability
-docker compose up -d
+if [ '${LOAD_TEST_PROFILE}' = 'product' ]; then docker compose -f product-only.compose.yml up -d; else docker compose up -d; fi
 docker compose -f node-exporter.compose.yml up -d
-docker compose ps"
-    ssm_run "obs" "$obs_remote"
-  fi
+if [ '${LOAD_TEST_PROFILE}' = 'product' ]; then docker compose -f product-only.compose.yml ps; else docker compose ps; fi"
+  ssm_run "obs" "$obs_remote"
 fi
 
 echo
