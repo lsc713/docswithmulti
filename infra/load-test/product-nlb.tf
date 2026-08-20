@@ -36,7 +36,7 @@ resource "aws_lb_listener" "product" {
 }
 
 resource "aws_lb_target_group_attachment" "product" {
-  for_each         = var.load_test_profile == "product-scaleout" ? toset(["product-a", "product-b"]) : toset([])
+  for_each         = var.load_test_profile == "product-scaleout" ? toset(["product-a", "product-b", "product-c"]) : toset([])
   target_group_arn = aws_lb_target_group.product[0].arn
   target_id        = aws_instance.node[each.key].id
   port             = 8084

@@ -43,6 +43,7 @@ locals {
     k6            = { type = "c7g.large", ip = "10.0.1.10", disk = 30 }
     product-a     = { type = "c7g.xlarge", ip = "10.0.1.24", disk = 30, spot = false }
     product-b     = { type = "c7g.xlarge", ip = "10.0.1.25", disk = 30, spot = false }
+    product-c     = { type = "c7g.xlarge", ip = "10.0.1.26", disk = 30, spot = false }
     mysql-product = { type = "m7g.large", ip = "10.0.1.33", disk = 50 }
     redis-product = { type = "t4g.medium", ip = "10.0.1.41", disk = 20, spot = false }
     obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false }
