@@ -124,8 +124,9 @@ exit "$k6_status"
 REMOTE
 
 PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ids "$IDS_B64" --arg stage "$STAGE" \
-  --arg distribution "$DISTRIBUTION" --arg ref "$REPO_REF" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg script "$REMOTE" \
-  '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nIDS_B64=\($ids | @sh)\nSTAGE=\($stage | @sh)\nDISTRIBUTION=\($distribution | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\n" + $script]}')
+  --arg distribution "$DISTRIBUTION" --arg ref "$REPO_REF" --arg run "$RUN_KEY" --arg prom "$PROM_URL" \
+  --arg vus "$VUS" --arg duration "$DURATION" --arg script "$REMOTE" \
+  '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nIDS_B64=\($ids | @sh)\nSTAGE=\($stage | @sh)\nDISTRIBUTION=\($distribution | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nVUS=\($vus | @sh)\nDURATION=\($duration | @sh)\n" + $script]}')
 CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" \
   --document-name AWS-RunShellScript --comment "product detail load test" \
   --parameters "$PARAMS" --timeout-seconds 3600 \
