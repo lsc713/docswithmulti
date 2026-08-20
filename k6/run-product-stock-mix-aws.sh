@@ -16,7 +16,9 @@ K6_RPS_QUERY='sum by (workload) (rate(k6_http_reqs_total{workload=~"read|write"}
 K6_P95_QUERY='k6_stock_mix_workload_duration_p95{workload=~"read|write"}'
 K6_P99_QUERY='k6_stock_mix_workload_duration_p99{workload=~"read|write"}'
 K6_ERROR_QUERY='k6_stock_mix_workload_failure_rate{workload=~"read|write"}'
-WORKLOAD_RESULT_JQ='.status == "success" and ([.data.result[] | select((.values | length) > 0) | .metric.workload] | unique | sort == ["read", "write"])'
+# Custom workload metrics must return exactly one read and one write series. Any
+# extra label can split a workload into subseries and invalidate the gauge value.
+WORKLOAD_RESULT_JQ='.status == "success" and (.data.result | type == "array" and length == 2 and all(.[]; (.values | type == "array" and length > 0) and (.metric | type == "object" and (.workload == "read" or .workload == "write") and (keys | all(. == "__name__" or . == "workload")))) and ([.[] | .metric.workload] | sort == ["read", "write"]))'
 
 if [ "${PRINT_STAGE_QUERIES:-}" = 1 ]; then
   printf '%s\n' "$K6_RPS_QUERY" "$K6_P95_QUERY" "$K6_P99_QUERY" "$K6_ERROR_QUERY"
