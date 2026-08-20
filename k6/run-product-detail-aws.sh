@@ -5,6 +5,8 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 IDS_FILE="$ROOT/k6/seed/productIds.json"
 STAGE="${STAGE:-baseline}"
 DISTRIBUTION="${DISTRIBUTION:-realistic}"
+VUS="${VUS:-10}"
+DURATION="${DURATION:-3m}"
 REPO_URL="${REPO_URL:-https://github.com/lsc713/docswithmulti.git}"
 REPO_REF="${REPO_REF:?Exact Git SHA/ref required}"
 REGION="${AWS_REGION:-ap-northeast-2}"
@@ -95,6 +97,7 @@ set +e
 docker run --rm --network host -v /opt/loadtest/repo:/work -w /work \
   -v /opt/loadtest/results:/results \
   -e TARGET=aws -e STAGE="$STAGE" -e DISTRIBUTION="$DISTRIBUTION" \
+  -e VUS="$VUS" -e DURATION="$DURATION" \
   -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" \
   -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' \
   -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' \
