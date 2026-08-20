@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -50,5 +51,34 @@ class ProductStockSnapshotCacheServiceTest {
 
         assertThat(service.getOrLoad(10L)).containsEntry(101L, 0);
         assertThat(registry.get("product.stock.cache").tag("outcome", "fallback").counter().count()).isEqualTo(1);
+    }
+
+    @Test
+    void cache_hit_returns_snapshot_without_loading_db() {
+        RedissonClient redisson = mock(RedissonClient.class);
+        RBucket<Map<Long, Integer>> bucket = mock(RBucket.class);
+        ProductQueryRepository repository = mock(ProductQueryRepository.class);
+        when(redisson.<Map<Long, Integer>>getBucket("product:stock:10")).thenReturn(bucket);
+        when(bucket.get()).thenReturn(Map.of(101L, 7));
+
+        var registry = new SimpleMeterRegistry();
+        var service = new ProductStockSnapshotCacheService(redisson, repository, registry, 5);
+
+        assertThat(service.getOrLoad(10L)).containsEntry(101L, 7);
+        org.mockito.Mockito.verifyNoInteractions(repository);
+        assertThat(registry.get("product.stock.cache").tag("outcome", "hit").counter().count()).isEqualTo(1);
+    }
+
+    @Test
+    void redis_failure_does_not_hide_db_error() {
+        RedissonClient redisson = mock(RedissonClient.class);
+        ProductQueryRepository repository = mock(ProductQueryRepository.class);
+        IllegalStateException databaseError = new IllegalStateException("db down");
+        when(redisson.getBucket(anyString())).thenThrow(new RedisException("down"));
+        when(repository.findSkuAvailability(10L)).thenThrow(databaseError);
+
+        var service = new ProductStockSnapshotCacheService(redisson, repository, new SimpleMeterRegistry(), 5);
+
+        assertThatThrownBy(() -> service.getOrLoad(10L)).isSameAs(databaseError);
     }
 }
