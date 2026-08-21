@@ -419,6 +419,50 @@ env MYSQL_THRESHOLD_VERY_LOW_RAMP=true \
 조회 감소는 구조적으로 검증됐고, 6~11 VU 구간에서 처리량/지연 방향도 일관됐다. 더 엄격한
 효과 크기가 필요하면 새 스택마다 실행 순서를 교차한 `A→B→B→A` 중앙값을 사용한다.
 
+## 누적 결론과 다음 최적화 순서
+
+현재 MySQL 부하는 읽기와 쓰기 양쪽에 존재한다. 읽기 경로는 25~50 VU 사이에서 CPU 포화가
+시작하고, 쓰기 경로는 SKU 조회를 줄인 뒤에도 높은 VU에서 MySQL CPU가 약 99%에 도달한다.
+따라서 이번 reserve 개선으로 쓰기 부하 일부를 줄였지만 MySQL 전체 병목이 해소된 것은 아니다.
+
+| 구분 | 현재 확인된 상태 | 다음 조치 |
+|---|---|---|
+| 읽기 | 25~50 VU부터 MySQL CPU 포화, 이후 처리량 정체 | 캐시·조회 쿼리 최적화 후 필요하면 read replica 검토 |
+| reserve SKU 조회 | 단건 10회가 `IN (...)` 1회로 감소 | 적용 완료(`8baa7bf`) |
+| release SKU 조회 | 10-item 요청에서 여전히 `findById` 10회 | reserve와 같은 일괄 조회로 변경 |
+| COMMIT | iteration당 reserve/release 각 1회, 평균 약 4.7ms | 실제 업무 비율 분리 측정 후 트랜잭션 내부 작업 최소화 |
+| refresh 조회 | SKU N+1 제거 뒤에도 item별 재고 스냅샷 조회가 남음 | 정합성 범위를 유지하며 이벤트·캐시 갱신 비용 별도 검토 |
+| 스토리지 | gp3 3,000/125→6,000/250 상향 효과 없음 | IOPS 수치보다 fsync 단건 지연이 낮은 구성만 별도 A/B |
+| replica | 읽기 분산에는 유효 | primary의 COMMIT·행 잠금·쓰기 CPU에는 직접 효과 없음 |
+
+이번 10-item 측정에서 변경 전 SKU 조회 20회는 reserve 10회와 release 10회였다. 변경 후에는
+reserve 1회와 release 10회로 총 11회가 됐다. 따라서 release도 일괄 조회하면 같은 조건에서
+SKU 조회는 이론상 iteration당 2회까지 줄어든다. 다만 SKU 조회만 줄여도 COMMIT 평균은
+변하지 않았으므로, release 개선 이후에도 fsync 기반 커밋 상한은 남는다.
+
+현재 write-only 시나리오는 매 iteration마다 reserve 직후 release해서 항상 COMMIT 2회를
+발생시킨다. 실제 운영에서 release가 취소 시에만 발생한다면 이 부하는 운영 비율보다 무겁다.
+다음 측정은 `reserve-only`, `release-only`, 실제 reserve/release 비율을 분리해야 각 경로의
+비용과 운영 상한을 정확히 판단할 수 있다.
+
+권장 실행 순서는 다음과 같다.
+
+1. `release`의 SKU 조회를 일괄 조회로 변경하고 같은 10-item 조건으로 SQL digest를 검증한다.
+2. reserve-only, release-only, 실제 혼합 비율을 같은 내구성 설정에서 각각 측정한다.
+3. 트랜잭션 안에는 재고 정합성에 필요한 검증·예약 INSERT·조건부 차감/복원만 남긴다.
+   캐시 갱신과 이벤트 후속 처리는 커밋 경계 밖인지 확인하고, 불필요한 `REQUIRES_NEW`나
+   중복 transaction이 있는지도 점검한다. 가격·SKU 검증을 트랜잭션 밖으로 이동할 때는
+   동시 변경 정합성을 먼저 보장해야 한다.
+4. 반복 INSERT/UPDATE의 JDBC batch 효과를 SQL digest로 확인하되 행 잠금 순서와 실패 시
+   전체 롤백 동작을 유지한다.
+5. 내구성 완화나 비동기 재고 반영은 마지막에 검토한다.
+
+`innodb_flush_log_at_trx_commit=2`는 진단 실험에서 transaction 처리량을 21% 늘렸지만 장애 시
+최근 transaction 유실 가능성이 있어 운영 기본안으로 채택하지 않는다. binlog group commit
+delay `200µs/8`, `500µs/16`은 처리량과 지연을 모두 악화시켰으므로 기본 `0/0`을 유지한다.
+비동기 write-behind는 커밋을 요청 경로에서 제거할 수 있지만 즉시 재고 확정, 중복 처리,
+순서 보장, 보상 설계를 바꾸므로 위 최적화 이후에도 상한이 부족할 때만 검토한다.
+
 ## 재현
 
 ```bash
