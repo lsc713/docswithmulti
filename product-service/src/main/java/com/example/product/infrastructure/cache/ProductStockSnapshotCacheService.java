@@ -20,7 +20,6 @@ public class ProductStockSnapshotCacheService {
     private final RedissonClient redissonClient;
     private final ProductQueryRepository repository;
     private final long ttlSeconds;
-    private final boolean refreshAfterCommitEnabled;
     private final Counter hit;
     private final Counter miss;
     private final Counter fallback;
@@ -29,12 +28,10 @@ public class ProductStockSnapshotCacheService {
     public ProductStockSnapshotCacheService(RedissonClient redissonClient,
                                             ProductQueryRepository repository,
                                             MeterRegistry meterRegistry,
-                                            @Value("${product.cache.stock-ttl-seconds:5}") long ttlSeconds,
-                                            @Value("${product.cache.refresh-after-commit-enabled:true}") boolean refreshAfterCommitEnabled) {
+                                            @Value("${product.cache.stock-ttl-seconds:5}") long ttlSeconds) {
         this.redissonClient = redissonClient;
         this.repository = repository;
         this.ttlSeconds = ttlSeconds;
-        this.refreshAfterCommitEnabled = refreshAfterCommitEnabled;
         this.hit = counter(meterRegistry, "hit");
         this.miss = counter(meterRegistry, "miss");
         this.fallback = counter(meterRegistry, "fallback");
@@ -63,7 +60,6 @@ public class ProductStockSnapshotCacheService {
     }
 
     public void refreshAfterCommit(Set<Long> productIds) {
-        if (!refreshAfterCommitEnabled) return;
         productIds.forEach(this::refresh);
     }
 
