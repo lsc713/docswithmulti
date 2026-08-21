@@ -9,6 +9,7 @@ import org.redisson.api.RedissonClient;
 import org.redisson.client.RedisException;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,7 +29,7 @@ class ProductStockSnapshotCacheServiceTest {
         when(repository.findSkuAvailability(10L)).thenReturn(Map.of(101L, 7));
 
         var registry = new SimpleMeterRegistry();
-        var service = new ProductStockSnapshotCacheService(redisson, repository, registry, 5);
+        var service = new ProductStockSnapshotCacheService(redisson, repository, registry, 5, true);
 
         assertThat(service.getOrLoad(10L)).containsEntry(101L, 7);
         ArgumentCaptor<Map<Long, Integer>> snapshot = ArgumentCaptor.forClass(Map.class);
@@ -47,7 +48,7 @@ class ProductStockSnapshotCacheServiceTest {
         when(repository.findSkuAvailability(10L)).thenReturn(Map.of(101L, 0));
 
         var registry = new SimpleMeterRegistry();
-        var service = new ProductStockSnapshotCacheService(redisson, repository, registry, 5);
+        var service = new ProductStockSnapshotCacheService(redisson, repository, registry, 5, true);
 
         assertThat(service.getOrLoad(10L)).containsEntry(101L, 0);
         assertThat(registry.get("product.stock.cache").tag("outcome", "fallback").counter().count()).isEqualTo(1);
@@ -62,7 +63,7 @@ class ProductStockSnapshotCacheServiceTest {
         when(bucket.get()).thenReturn(Map.of(101L, 7));
 
         var registry = new SimpleMeterRegistry();
-        var service = new ProductStockSnapshotCacheService(redisson, repository, registry, 5);
+        var service = new ProductStockSnapshotCacheService(redisson, repository, registry, 5, true);
 
         assertThat(service.getOrLoad(10L)).containsEntry(101L, 7);
         org.mockito.Mockito.verifyNoInteractions(repository);
@@ -77,8 +78,20 @@ class ProductStockSnapshotCacheServiceTest {
         when(redisson.getBucket(anyString())).thenThrow(new RedisException("down"));
         when(repository.findSkuAvailability(10L)).thenThrow(databaseError);
 
-        var service = new ProductStockSnapshotCacheService(redisson, repository, new SimpleMeterRegistry(), 5);
+        var service = new ProductStockSnapshotCacheService(redisson, repository, new SimpleMeterRegistry(), 5, true);
 
         assertThatThrownBy(() -> service.getOrLoad(10L)).isSameAs(databaseError);
+    }
+
+    @Test
+    void disabled_after_commit_refresh_does_not_read_db() {
+        RedissonClient redisson = mock(RedissonClient.class);
+        ProductQueryRepository repository = mock(ProductQueryRepository.class);
+        var service = new ProductStockSnapshotCacheService(
+                redisson, repository, new SimpleMeterRegistry(), 5, false);
+
+        service.refreshAfterCommit(Set.of(10L));
+
+        org.mockito.Mockito.verifyNoInteractions(repository, redisson);
     }
 }
