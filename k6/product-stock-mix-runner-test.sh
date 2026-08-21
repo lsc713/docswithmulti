@@ -7,6 +7,10 @@ queries=$(PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-pro
 [[ "$queries" == *'k6_stock_mix_workload_duration_p99{run="'* ]]
 [[ "$queries" == *'k6_stock_mix_workload_failure_rate{run="'* ]]
 [[ "$queries" != *'_bucket'* && "$queries" != *'k6_http_req_failed_'* && "$queries" != *'max\ by'* ]]
+if STOCK_MIX_DISTRIBUTION=invalid PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
+  echo 'invalid stock distribution unexpectedly passed' >&2
+  exit 1
+fi
 runner="$ROOT/k6/run-product-stock-mix-aws.sh"
 pull_line=$(rg -n -m1 -F 'docker pull grafana/k6:0.54.0' "$runner" | cut -d: -f1)
 start_line=$(rg -n -m1 -F 'date -u +%s > "/results/${RUN_KEY}.started-epoch"' "$runner" | cut -d: -f1)

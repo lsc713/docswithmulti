@@ -24,6 +24,8 @@ export default function () {
       read.stages.every((stage) => stage.duration === '3m') && write.stages.every((stage) => stage.duration === '3m'),
     'selection reads a seeded product pair': () => Number.isInteger(selected.productId) && selected.productId > 0 &&
       Number.isInteger(selected.skuId) && selected.skuId > 0,
+    'hot distribution always selects one seeded sku': () =>
+      selectProduct(1, 0, 'hot').skuId === selectProduct(11, 999, 'hot').skuId,
     'payment key is unique per iteration': () => uniquePaymentKey(1) !== uniquePaymentKey(2),
     'payment key is unique per run': () => uniquePaymentKey(1, 'run-a') !== uniquePaymentKey(1, 'run-b'),
     'stock shortage is not a server error': () => writeOutcome(409) === 'insufficient' &&

@@ -15,6 +15,7 @@ const runTag = __ENV.RUN_KEY || 'local';
 const mysqlThreshold = __ENV.MYSQL_THRESHOLD_RAMP === 'true';
 const mysqlThresholdLow = __ENV.MYSQL_THRESHOLD_LOW_RAMP === 'true';
 const mysqlThresholdVeryLow = __ENV.MYSQL_THRESHOLD_VERY_LOW_RAMP === 'true';
+const stockDistribution = __ENV.STOCK_MIX_DISTRIBUTION || 'uniform';
 const readTargets = mysqlThresholdVeryLow ? [10, 25, 50, 75, 100]
   : mysqlThresholdLow ? [100, 125, 150, 175, 200]
   : mysqlThreshold ? [250, 300, 350, 400, 450, 500] : [500, 750, 1000, 1250];
@@ -23,6 +24,9 @@ const writeTargets = readTargets.map((target) => Math.round(target / 9));
 if (!products.length || !products.every((product) => Number.isInteger(product.productId) && product.productId > 0 &&
   Number.isInteger(product.skuId) && product.skuId > 0)) {
   throw new Error('productIds.json must contain positive productId/skuId pairs');
+}
+if (stockDistribution !== 'uniform' && stockDistribution !== 'hot') {
+  throw new Error('STOCK_MIX_DISTRIBUTION must be uniform or hot');
 }
 
 export function optionsForMode(mode = 'mixed') {
@@ -62,7 +66,8 @@ export function stockRequests(product, iteration) {
   }));
 }
 
-export function selectProduct(vu, iteration) {
+export function selectProduct(vu, iteration, distribution = stockDistribution) {
+  if (distribution === 'hot') return products[0];
   return products[(vu + iteration) % products.length];
 }
 
