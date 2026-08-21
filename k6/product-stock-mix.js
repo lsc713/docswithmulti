@@ -44,8 +44,8 @@ export function optionsForMode(mode = 'mixed') {
 
 export const options = optionsForMode(__ENV.STOCK_MIX_WORKLOAD || 'mixed');
 
-export function uniquePaymentKey(iteration) {
-  return `stock-mix-${__VU}-${iteration}`;
+export function uniquePaymentKey(iteration, run = runTag) {
+  return `stock-mix-${run}-${__VU}-${iteration}`;
 }
 
 export function stockRequests(product, iteration) {

@@ -25,6 +25,7 @@ export default function () {
     'selection reads a seeded product pair': () => Number.isInteger(selected.productId) && selected.productId > 0 &&
       Number.isInteger(selected.skuId) && selected.skuId > 0,
     'payment key is unique per iteration': () => uniquePaymentKey(1) !== uniquePaymentKey(2),
+    'payment key is unique per run': () => uniquePaymentKey(1, 'run-a') !== uniquePaymentKey(1, 'run-b'),
     'stock shortage is not a server error': () => writeOutcome(409) === 'insufficient' &&
       writeOutcome(500) === 'server_error',
     'write failure excludes expected stock shortage': () => !writeFailed(200) && !writeFailed(409) &&
