@@ -11,7 +11,12 @@ if STOCK_MIX_DISTRIBUTION=invalid PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=i
   echo 'invalid stock distribution unexpectedly passed' >&2
   exit 1
 fi
+if STOCK_ITEMS_PER_RESERVATION=0 PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
+  echo 'invalid reservation item count unexpectedly passed' >&2
+  exit 1
+fi
 runner="$ROOT/k6/run-product-stock-mix-aws.sh"
+rg -q -F -- '-e STOCK_ITEMS_PER_RESERVATION="$ITEMS_PER_RESERVATION"' "$runner"
 pull_line=$(rg -n -m1 -F 'docker pull grafana/k6:0.54.0' "$runner" | cut -d: -f1)
 start_line=$(rg -n -m1 -F 'date -u +%s > "/results/${RUN_KEY}.started-epoch"' "$runner" | cut -d: -f1)
 stage_line=$(rg -n -m1 -F '/opt/loadtest/repo/k6/stage-windows.sh "$started_epoch" "$ended_epoch" "$STAGE_SECONDS"' "$runner" | cut -d: -f1)

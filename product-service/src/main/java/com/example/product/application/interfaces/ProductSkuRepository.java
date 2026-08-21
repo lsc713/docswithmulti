@@ -2,6 +2,7 @@ package com.example.product.application.interfaces;
 
 import com.example.product.domain.entity.ProductSku;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductSkuRepository {
@@ -9,4 +10,6 @@ public interface ProductSkuRepository {
     ProductSku save(ProductSku sku);
 
     Optional<ProductSku> findById(long id);
+
+    List<ProductSku> findAllByIdIn(List<Long> ids);
 }

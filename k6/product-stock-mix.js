@@ -16,6 +16,7 @@ const mysqlThreshold = __ENV.MYSQL_THRESHOLD_RAMP === 'true';
 const mysqlThresholdLow = __ENV.MYSQL_THRESHOLD_LOW_RAMP === 'true';
 const mysqlThresholdVeryLow = __ENV.MYSQL_THRESHOLD_VERY_LOW_RAMP === 'true';
 const stockDistribution = __ENV.STOCK_MIX_DISTRIBUTION || 'uniform';
+const itemsPerReservation = Number(__ENV.STOCK_ITEMS_PER_RESERVATION || 1);
 const readTargets = mysqlThresholdVeryLow ? [10, 25, 50, 75, 100]
   : mysqlThresholdLow ? [100, 125, 150, 175, 200]
   : mysqlThreshold ? [250, 300, 350, 400, 450, 500] : [500, 750, 1000, 1250];
@@ -27,6 +28,12 @@ if (!products.length || !products.every((product) => Number.isInteger(product.pr
 }
 if (stockDistribution !== 'uniform' && stockDistribution !== 'hot') {
   throw new Error('STOCK_MIX_DISTRIBUTION must be uniform or hot');
+}
+if (!Number.isInteger(itemsPerReservation) || itemsPerReservation < 1 || itemsPerReservation > products.length) {
+  throw new Error('STOCK_ITEMS_PER_RESERVATION must be between 1 and the seeded product count');
+}
+if (stockDistribution === 'hot' && itemsPerReservation > 1) {
+  throw new Error('multi-item reservations require uniform distribution');
 }
 
 export function optionsForMode(mode = 'mixed') {
@@ -52,11 +59,12 @@ export function uniquePaymentKey(iteration, run = runTag) {
   return `stock-mix-${run}-${__VU}-${iteration}`;
 }
 
-export function stockRequests(product, iteration) {
+export function stockRequests(selectedProducts, iteration) {
+  const requestProducts = Array.isArray(selectedProducts) ? selectedProducts : [selectedProducts];
   const paymentKey = uniquePaymentKey(iteration);
   const bodies = {
-    reserve: JSON.stringify({ paymentKey, items: [{ productId: product.productId, skuId: product.skuId, qty: 1 }] }),
-    release: JSON.stringify({ paymentKey, items: [{ skuId: product.skuId, qty: 1 }] }),
+    reserve: JSON.stringify({ paymentKey, items: requestProducts.map(({ productId, skuId }) => ({ productId, skuId, qty: 1 })) }),
+    release: JSON.stringify({ paymentKey, items: requestProducts.map(({ skuId }) => ({ skuId, qty: 1 })) }),
   };
   return ['reserve', 'release'].map((operation) => ({
     operation,
@@ -71,8 +79,9 @@ export function selectProduct(vu, iteration, distribution = stockDistribution) {
   return products[(vu + iteration) % products.length];
 }
 
-function productForVu() {
-  return selectProduct(__VU, __ITER);
+export function selectProducts(vu, iteration, count = itemsPerReservation, distribution = stockDistribution) {
+  if (distribution === 'hot' && count > 1) throw new Error('multi-item reservations require uniform distribution');
+  return Array.from({ length: count }, (_, offset) => selectProduct(vu, iteration + offset, distribution));
 }
 
 export function writeOutcome(status) {
@@ -99,13 +108,13 @@ function addWriteStatus(res, operation) {
 }
 
 export function read() {
-  const { productId } = productForVu();
+  const { productId } = selectProduct(__VU, __ITER);
   const res = http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read', workload: 'read', run: runTag } });
   addWorkloadResponse(res, 'read', res.status !== 200);
 }
 
 export function write() {
-  const [reserve, release] = stockRequests(productForVu(), __ITER);
+  const [reserve, release] = stockRequests(selectProducts(__VU, __ITER), __ITER);
   const reserved = http.post(reserve.url, reserve.body, reserve.params);
   addWriteStatus(reserved, reserve.operation);
   addWorkloadResponse(reserved, 'write', writeFailed(reserved.status));

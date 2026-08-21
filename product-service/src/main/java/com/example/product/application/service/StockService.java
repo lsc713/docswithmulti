@@ -13,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 재고 예약/해제 (STOCK-03/04, D-P1-3·D-P1-4).
@@ -57,9 +59,15 @@ public class StockService {
     public List<ReservedItem> reserve(String paymentKey, List<ReserveItem> items) {
         var reserved = new java.util.ArrayList<ReservedItem>(items.size());
         var changedProductIds = new LinkedHashSet<Long>();
+        Map<Long, ProductSku> skusById = skuRepository.findAllByIdIn(
+                items.stream().map(ReserveItem::skuId).distinct().toList())
+            .stream()
+            .collect(Collectors.toMap(ProductSku::getId, sku -> sku));
         for (ReserveItem item : items) {
-            ProductSku sku = skuRepository.findById(item.skuId())
-                .orElseThrow(() -> new InvalidStockReservationException(item.productId(), item.skuId()));
+            ProductSku sku = skusById.get(item.skuId());
+            if (sku == null) {
+                throw new InvalidStockReservationException(item.productId(), item.skuId());
+            }
             if (item.productId() > 0 && sku.getProductId() != item.productId()) {
                 throw new InvalidStockReservationException(item.productId(), item.skuId());
             }

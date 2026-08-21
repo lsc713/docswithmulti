@@ -1,5 +1,5 @@
 import { check } from 'k6';
-import { options as mixOptions, optionsForMode, selectProduct, stockRequests, uniquePaymentKey, writeFailed, writeOutcome } from './product-stock-mix.js';
+import { options as mixOptions, optionsForMode, selectProduct, selectProducts, stockRequests, uniquePaymentKey, writeFailed, writeOutcome } from './product-stock-mix.js';
 
 export const options = {
   scenarios: { checks: { executor: 'shared-iterations', vus: 1, iterations: 1 } },
@@ -14,6 +14,10 @@ export default function () {
   const requests = stockRequests({ productId: 1, skuId: 11 }, 1);
   const reserveBody = JSON.parse(requests[0].body);
   const releaseBody = JSON.parse(requests[1].body);
+  const batch = selectProducts(1, 0, 10, 'uniform');
+  const batchRequests = stockRequests(batch, 2);
+  const batchReserveBody = JSON.parse(batchRequests[0].body);
+  const batchReleaseBody = JSON.parse(batchRequests[1].body);
 
   check(null, {
     'read/write ramp ratio': () => JSON.stringify(readTargets) === '[500,750,1000,1250]' &&
@@ -40,5 +44,10 @@ export default function () {
       reserveBody.items[0].productId === 1 && reserveBody.items[0].skuId === 11 && reserveBody.items[0].qty === 1 &&
       releaseBody.items[0].skuId === 11 && releaseBody.items[0].qty === 1 && !('productId' in releaseBody.items[0]) &&
       requests[0].params.tags.operation === 'reserve' && requests[1].params.tags.operation === 'release',
+    'multi-item reserve and release use the same distinct skus': () => batchReserveBody.items.length === 10 &&
+      batchReleaseBody.items.length === 10 &&
+      new Set(batchReserveBody.items.map((item) => item.skuId)).size === 10 &&
+      JSON.stringify(batchReserveBody.items.map((item) => item.skuId)) ===
+        JSON.stringify(batchReleaseBody.items.map((item) => item.skuId)),
   });
 }
