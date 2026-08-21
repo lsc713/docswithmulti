@@ -85,7 +85,8 @@ resource "aws_instance" "node" {
   root_block_device {
     volume_type = "gp3"
     volume_size = each.value.disk
-    # gp3 기본 3000 IOPS / 125 MBps 무료. DB I/O 병목 시 iops/throughput 상향.
+    iops        = each.key == "mysql-product" ? var.mysql_gp3_iops : null
+    throughput  = each.key == "mysql-product" ? var.mysql_gp3_throughput : null
   }
 
   # role별 spot 오버라이드: var.use_spot 이 켜져도 each.value.spot=false 면 온디맨드.

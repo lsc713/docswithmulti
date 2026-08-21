@@ -49,3 +49,25 @@ variable "use_spot" {
   type        = bool
   default     = true
 }
+
+variable "mysql_gp3_iops" {
+  description = "mysql-product gp3 provisioned IOPS (null이면 AWS 기본 3000)"
+  type        = number
+  default     = null
+
+  validation {
+    condition     = var.mysql_gp3_iops == null || (var.mysql_gp3_iops >= 3000 && var.mysql_gp3_iops <= 80000)
+    error_message = "mysql_gp3_iops must be null or between 3000 and 80000."
+  }
+}
+
+variable "mysql_gp3_throughput" {
+  description = "mysql-product gp3 throughput MiB/s (null이면 AWS 기본 125)"
+  type        = number
+  default     = null
+
+  validation {
+    condition     = var.mysql_gp3_throughput == null || (var.mysql_gp3_throughput >= 125 && var.mysql_gp3_throughput <= 2000)
+    error_message = "mysql_gp3_throughput must be null or between 125 and 2000."
+  }
+}
