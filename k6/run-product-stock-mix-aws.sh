@@ -201,7 +201,7 @@ elif header=$(sed -n '/^K6_RESULT_CHUNKED /{p;q;}' "$output"); [ -n "$header" ];
 else
   echo "Result artifact missing or truncated; inspect /opt/loadtest/results/${RUN_KEY}.* on $IID" >&2; exit 1
 fi
-base64 -d "$encoded" > "$bundle"
+base64 -D < "$encoded" > "$bundle"
 if [ -s "$bundle" ]; then
   actual_checksum=$(shasum -a 256 "$bundle" | awk '{print $1}'); actual_bytes=$(wc -c < "$bundle" | tr -d ' ')
   [ "$actual_checksum:$actual_bytes" = "$expected_checksum:$expected_bytes" ] || { echo "Result artifact checksum/size mismatch; remote copy is /opt/loadtest/results/${RUN_KEY}.tgz" >&2; exit 1; }
