@@ -24,16 +24,24 @@ if (!products.length || !products.every((product) => Number.isInteger(product.pr
   throw new Error('productIds.json must contain positive productId/skuId pairs');
 }
 
-export const options = {
-  scenarios: {
+export function optionsForMode(mode = 'mixed') {
+  const scenarios = {
     read: { executor: 'ramping-vus', exec: 'read', startVUs: readTargets[0], stages: readTargets.map((target) => ({ target, duration: '3m' })) },
     write: { executor: 'ramping-vus', exec: 'write', startVUs: writeTargets[0], stages: writeTargets.map((target) => ({ target, duration: '3m' })) },
-  },
+  };
+  if (mode === 'read') delete scenarios.write;
+  else if (mode === 'write') delete scenarios.read;
+  else if (mode !== 'mixed') throw new Error('STOCK_MIX_WORKLOAD must be mixed, read, or write');
+  return {
+    scenarios,
   thresholds: {
     stock_server_error_rate: ['rate==0'],
     stock_unexpected_client_error_rate: ['rate==0'],
   },
+  };
 };
+
+export const options = optionsForMode(__ENV.STOCK_MIX_WORKLOAD || 'mixed');
 
 export function uniquePaymentKey(iteration) {
   return `stock-mix-${__VU}-${iteration}`;

@@ -15,6 +15,7 @@ STAGE_SECONDS=180
 MYSQL_THRESHOLD_RAMP="${MYSQL_THRESHOLD_RAMP:-false}"
 MYSQL_THRESHOLD_LOW_RAMP="${MYSQL_THRESHOLD_LOW_RAMP:-false}"
 MYSQL_THRESHOLD_VERY_LOW_RAMP="${MYSQL_THRESHOLD_VERY_LOW_RAMP:-false}"
+WORKLOAD_MODE="${STOCK_MIX_WORKLOAD:-mixed}"
 STAGE_COUNT=4
 [ "$MYSQL_THRESHOLD_RAMP" = true ] && STAGE_COUNT=6
 [ "$MYSQL_THRESHOLD_LOW_RAMP" = true ] && STAGE_COUNT=5
@@ -26,6 +27,12 @@ K6_ERROR_QUERY='k6_stock_mix_workload_failure_rate{workload=~"read|write"}'
 # Custom workload metrics must return exactly one read and one write series. Any
 # extra label can split a workload into subseries and invalidate the gauge value.
 WORKLOAD_RESULT_JQ='.status == "success" and (.data.result | type == "array" and length == 2 and all(.[]; (.values | type == "array" and length > 0) and (.metric | type == "object" and (.workload == "read" or .workload == "write") and (keys | all(. == "__name__" or . == "workload")))) and ([.[] | .metric.workload] | sort == ["read", "write"]))'
+case "$WORKLOAD_MODE" in
+  mixed) ;;
+  read) WORKLOAD_RESULT_JQ='.status == "success" and (.data.result | type == "array" and length == 1 and .[0].metric.workload == "read" and (.[0].values | length > 0))' ;;
+  write) WORKLOAD_RESULT_JQ='.status == "success" and (.data.result | type == "array" and length == 1 and .[0].metric.workload == "write" and (.[0].values | length > 0))' ;;
+  *) echo "STOCK_MIX_WORKLOAD must be mixed, read, or write" >&2; exit 1 ;;
+esac
 
 if [ "${PRINT_STAGE_QUERIES:-}" = 1 ]; then
   printf '%s\n' "$K6_RPS_QUERY" "$K6_P95_QUERY" "$K6_P99_QUERY" "$K6_ERROR_QUERY"
@@ -88,7 +95,7 @@ rm -rf "$summary" "$console" "$timing" "$observations" "$stage_plan" "$bundle" "
 mkdir -p "$observations"
 docker pull grafana/k6:0.54.0 >"$console" 2>&1
 set +e
-docker run --rm --entrypoint sh --network host -v /opt/loadtest/repo:/work -w /work -v /opt/loadtest/results:/results -e RUN_KEY="$RUN_KEY" -e TARGET=aws -e MYSQL_THRESHOLD_RAMP="$MYSQL_THRESHOLD_RAMP" -e MYSQL_THRESHOLD_LOW_RAMP="$MYSQL_THRESHOLD_LOW_RAMP" -e MYSQL_THRESHOLD_VERY_LOW_RAMP="$MYSQL_THRESHOLD_VERY_LOW_RAMP" -e PRODUCT_URL="$PRODUCT_URL" -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' grafana/k6:0.54.0 -c 'date -u +%s > "/results/${RUN_KEY}.started-epoch"; date -u +%Y-%m-%dT%H:%M:%SZ > "/results/${RUN_KEY}.started-utc"; exec k6 run --summary-export "/results/${RUN_KEY}.summary.json" -o experimental-prometheus-rw k6/product-stock-mix.js' >>"$console" 2>&1
+docker run --rm --entrypoint sh --network host -v /opt/loadtest/repo:/work -w /work -v /opt/loadtest/results:/results -e RUN_KEY="$RUN_KEY" -e TARGET=aws -e MYSQL_THRESHOLD_RAMP="$MYSQL_THRESHOLD_RAMP" -e MYSQL_THRESHOLD_LOW_RAMP="$MYSQL_THRESHOLD_LOW_RAMP" -e MYSQL_THRESHOLD_VERY_LOW_RAMP="$MYSQL_THRESHOLD_VERY_LOW_RAMP" -e STOCK_MIX_WORKLOAD="$WORKLOAD_MODE" -e PRODUCT_URL="$PRODUCT_URL" -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' grafana/k6:0.54.0 -c 'date -u +%s > "/results/${RUN_KEY}.started-epoch"; date -u +%Y-%m-%dT%H:%M:%SZ > "/results/${RUN_KEY}.started-utc"; exec k6 run --summary-export "/results/${RUN_KEY}.summary.json" -o experimental-prometheus-rw k6/product-stock-mix.js' >>"$console" 2>&1
 k6_status=$?
 set -e
 started_epoch=$(cat "$started_epoch_file")
@@ -151,7 +158,7 @@ fi
 exit "$k6_status"
 REMOTE
 
-PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg threshold "$MYSQL_THRESHOLD_RAMP" --arg threshold_low "$MYSQL_THRESHOLD_LOW_RAMP" --arg threshold_very_low "$MYSQL_THRESHOLD_VERY_LOW_RAMP" --arg stage_seconds "$STAGE_SECONDS" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg workload_jq "$WORKLOAD_RESULT_JQ" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nMYSQL_THRESHOLD_RAMP=\($threshold | @sh)\nMYSQL_THRESHOLD_LOW_RAMP=\($threshold_low | @sh)\nMYSQL_THRESHOLD_VERY_LOW_RAMP=\($threshold_very_low | @sh)\nSTAGE_SECONDS=\($stage_seconds | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\nWORKLOAD_RESULT_JQ=\($workload_jq | @sh)\n" + $script]}')
+PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg threshold "$MYSQL_THRESHOLD_RAMP" --arg threshold_low "$MYSQL_THRESHOLD_LOW_RAMP" --arg threshold_very_low "$MYSQL_THRESHOLD_VERY_LOW_RAMP" --arg workload "$WORKLOAD_MODE" --arg stage_seconds "$STAGE_SECONDS" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg workload_jq "$WORKLOAD_RESULT_JQ" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nMYSQL_THRESHOLD_RAMP=\($threshold | @sh)\nMYSQL_THRESHOLD_LOW_RAMP=\($threshold_low | @sh)\nMYSQL_THRESHOLD_VERY_LOW_RAMP=\($threshold_very_low | @sh)\nWORKLOAD_MODE=\($workload | @sh)\nSTAGE_SECONDS=\($stage_seconds | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\nWORKLOAD_RESULT_JQ=\($workload_jq | @sh)\n" + $script]}')
 CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" --document-name AWS-RunShellScript --comment "product stock mixed load test" --parameters "$PARAMS" --timeout-seconds 3600 --query 'Command.CommandId' --output text)
 
 wait_for_command() {

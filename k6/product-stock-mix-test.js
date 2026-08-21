@@ -1,5 +1,5 @@
 import { check } from 'k6';
-import { options as mixOptions, selectProduct, stockRequests, uniquePaymentKey, writeFailed, writeOutcome } from './product-stock-mix.js';
+import { options as mixOptions, optionsForMode, selectProduct, stockRequests, uniquePaymentKey, writeFailed, writeOutcome } from './product-stock-mix.js';
 
 export const options = {
   scenarios: { checks: { executor: 'shared-iterations', vus: 1, iterations: 1 } },
@@ -18,6 +18,8 @@ export default function () {
   check(null, {
     'read/write ramp ratio': () => JSON.stringify(readTargets) === '[500,750,1000,1250]' &&
       JSON.stringify(writeTargets) === '[56,83,111,139]',
+    'read-only mode enables only the read ramp': () => Object.keys(optionsForMode('read').scenarios).join(',') === 'read',
+    'write-only mode enables only the write ramp': () => Object.keys(optionsForMode('write').scenarios).join(',') === 'write',
     'ramp starts and stages last exactly three minutes': () => read.startVUs === 500 && write.startVUs === 56 &&
       read.stages.every((stage) => stage.duration === '3m') && write.stages.every((stage) => stage.duration === '3m'),
     'selection reads a seeded product pair': () => Number.isInteger(selected.productId) && selected.productId > 0 &&
