@@ -2,10 +2,10 @@
 set -euo pipefail
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
 queries=$(PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh")
-[[ "$queries" == *'sum by (workload) (rate(k6_http_reqs_total'* ]]
-[[ "$queries" == *'k6_stock_mix_workload_duration_p95{workload=~"read|write"}'* ]]
-[[ "$queries" == *'k6_stock_mix_workload_duration_p99{workload=~"read|write"}'* ]]
-[[ "$queries" == *'k6_stock_mix_workload_failure_rate{workload=~"read|write"}'* ]]
+[[ "$queries" == *'sum by (workload) (rate(k6_http_reqs_total{run="'* ]]
+[[ "$queries" == *'k6_stock_mix_workload_duration_p95{run="'* ]]
+[[ "$queries" == *'k6_stock_mix_workload_duration_p99{run="'* ]]
+[[ "$queries" == *'k6_stock_mix_workload_failure_rate{run="'* ]]
 [[ "$queries" != *'_bucket'* && "$queries" != *'k6_http_req_failed_'* && "$queries" != *'max\ by'* ]]
 runner="$ROOT/k6/run-product-stock-mix-aws.sh"
 pull_line=$(rg -n -m1 -F 'docker pull grafana/k6:0.54.0' "$runner" | cut -d: -f1)

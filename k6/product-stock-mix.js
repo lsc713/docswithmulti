@@ -11,6 +11,7 @@ const stockUnexpectedClientError = new Rate('stock_unexpected_client_error_rate'
 const workloadDuration = new Trend('stock_mix_workload_duration', true);
 const workloadFailure = new Rate('stock_mix_workload_failure');
 const products = new SharedArray('product stock mix', () => JSON.parse(open('./seed/productIds.json')));
+const runTag = __ENV.RUN_KEY || 'local';
 const mysqlThreshold = __ENV.MYSQL_THRESHOLD_RAMP === 'true';
 const mysqlThresholdLow = __ENV.MYSQL_THRESHOLD_LOW_RAMP === 'true';
 const mysqlThresholdVeryLow = __ENV.MYSQL_THRESHOLD_VERY_LOW_RAMP === 'true';
@@ -57,7 +58,7 @@ export function stockRequests(product, iteration) {
     operation,
     url: `${BASE.PRODUCT}/v1/stock/${operation}`,
     body: bodies[operation],
-    params: { headers: HEADERS, tags: { operation, workload: 'write' } },
+    params: { headers: HEADERS, tags: { operation, workload: 'write', run: runTag } },
   }));
 }
 
@@ -81,8 +82,8 @@ export function writeFailed(status) {
 }
 
 function addWorkloadResponse(res, workload, failed) {
-  workloadDuration.add(res.timings.duration, { workload });
-  workloadFailure.add(failed, { workload });
+  workloadDuration.add(res.timings.duration, { workload, run: runTag });
+  workloadFailure.add(failed, { workload, run: runTag });
 }
 
 function addWriteStatus(res, operation) {
@@ -94,7 +95,7 @@ function addWriteStatus(res, operation) {
 
 export function read() {
   const { productId } = productForVu();
-  const res = http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read', workload: 'read' } });
+  const res = http.get(`${BASE.PRODUCT}/v1/products/${productId}`, { tags: { operation: 'read', workload: 'read', run: runTag } });
   addWorkloadResponse(res, 'read', res.status !== 200);
 }
 
