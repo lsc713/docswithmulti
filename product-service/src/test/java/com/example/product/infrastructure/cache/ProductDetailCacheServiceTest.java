@@ -32,6 +32,7 @@ class ProductDetailCacheServiceTest {
 
         assertThat(service.getOrLoad(1L, String.class, () -> "database")).isEqualTo("cached");
         assertThat(registry.find("product.detail.cache.read").timer().count()).isEqualTo(1);
+        assertThat(registry.get("product.detail.cache").tag("outcome", "fresh").counter().count()).isEqualTo(1);
         verify(bucket, never()).set(anyString());
     }
 
@@ -46,12 +47,28 @@ class ProductDetailCacheServiceTest {
         when(lock.tryLock(anyLong(), anyLong(), eq(TimeUnit.MILLISECONDS))).thenReturn(true);
         when(lock.isHeldByCurrentThread()).thenReturn(true);
 
+        var registry = new SimpleMeterRegistry();
         var service = new ProductDetailCacheService(redisson, new ObjectMapper(),
                 new ProductDetailCachePolicy(Duration.ofMinutes(1), Duration.ofMinutes(1), 0),
-                () -> 1_000L, new SimpleMeterRegistry());
+                () -> 1_000L, registry);
 
         assertThat(service.getOrLoad(1L, String.class, () -> "database")).isEqualTo("database");
+        assertThat(registry.get("product.detail.cache").tag("outcome", "miss").counter().count()).isEqualTo(1);
         verify(bucket).set(anyString(), anyLong(), eq(TimeUnit.MILLISECONDS));
         verify(lock).unlock();
+    }
+
+    @Test
+    void records_redis_failure_as_fallback() {
+        RedissonClient redisson = mock(RedissonClient.class);
+        when(redisson.getBucket("product:detail:1")).thenThrow(new IllegalStateException("redis down"));
+
+        var registry = new SimpleMeterRegistry();
+        var service = new ProductDetailCacheService(redisson, new ObjectMapper(),
+                new ProductDetailCachePolicy(Duration.ofMinutes(1), Duration.ofMinutes(1), 0),
+                () -> 1_000L, registry);
+
+        assertThat(service.getOrLoad(1L, String.class, () -> "database")).isEqualTo("database");
+        assertThat(registry.get("product.detail.cache").tag("outcome", "fallback").counter().count()).isEqualTo(1);
     }
 }

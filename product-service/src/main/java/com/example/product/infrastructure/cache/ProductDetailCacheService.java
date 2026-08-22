@@ -1,6 +1,7 @@
 package com.example.product.infrastructure.cache;
 
 import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Timer;
 import org.redisson.api.RBucket;
 import org.redisson.api.RLock;
@@ -20,6 +21,11 @@ public class ProductDetailCacheService {
     private final ProductDetailCachePolicy policy;
     private final Supplier<Long> clock;
     private final Timer cacheReadTimer;
+    private final Counter fresh;
+    private final Counter stale;
+    private final Counter miss;
+    private final Counter expired;
+    private final Counter fallback;
 
     @Autowired
     public ProductDetailCacheService(RedissonClient redissonClient,
@@ -39,14 +45,28 @@ public class ProductDetailCacheService {
         this.policy = policy;
         this.clock = clock;
         this.cacheReadTimer = Timer.builder("product.detail.cache.read").register(meterRegistry);
+        this.fresh = counter(meterRegistry, "fresh");
+        this.stale = counter(meterRegistry, "stale");
+        this.miss = counter(meterRegistry, "miss");
+        this.expired = counter(meterRegistry, "expired");
+        this.fallback = counter(meterRegistry, "fallback");
     }
 
     public <T> T getOrLoad(Long productId, Class<T> valueType, Supplier<T> loader) {
+        RBucket<Object> bucket;
+        ProductDetailCachePolicy.Envelope<T> envelope;
         try {
-            RBucket<Object> bucket = redissonClient.getBucket(key(productId));
-            if (bucket == null) return loader.get();
-            ProductDetailCachePolicy.Envelope<T> envelope = cacheReadTimer.record(() -> read(bucket, valueType));
-            ProductDetailCacheState state = policy.state(envelope, clock.get());
+            bucket = redissonClient.getBucket(key(productId));
+            if (bucket == null) throw new IllegalStateException("cache bucket unavailable");
+            envelope = cacheReadTimer.record(() -> read(bucket, valueType));
+        } catch (RuntimeException ignored) {
+            fallback.increment();
+            return loader.get();
+        }
+
+        ProductDetailCacheState state = policy.state(envelope, clock.get());
+        record(state);
+        try {
             if (state == ProductDetailCacheState.FRESH) return envelope.value();
             if (state == ProductDetailCacheState.STALE) {
                 CompletableFuture.runAsync(() -> refresh(productId, valueType, loader));
@@ -91,12 +111,7 @@ public class ProductDetailCacheService {
 
     @SuppressWarnings("unchecked")
     private <T> ProductDetailCachePolicy.Envelope<T> read(RBucket<Object> bucket, Class<T> valueType) {
-        Object rawValue;
-        try {
-            rawValue = bucket.get();
-        } catch (RuntimeException ignored) {
-            return null;
-        }
+        Object rawValue = bucket.get();
         if (!(rawValue instanceof String json)) return null;
         try {
             ProductDetailCachePolicy.Envelope<?> raw = objectMapper.readValue(json,
@@ -125,5 +140,18 @@ public class ProductDetailCacheService {
 
     private static String lockKey(Long productId) {
         return "product:detail:lock:" + productId;
+    }
+
+    private void record(ProductDetailCacheState state) {
+        switch (state) {
+            case FRESH -> fresh.increment();
+            case STALE -> stale.increment();
+            case MISS -> miss.increment();
+            case EXPIRED -> expired.increment();
+        }
+    }
+
+    private static Counter counter(MeterRegistry meterRegistry, String outcome) {
+        return Counter.builder("product.detail.cache").tag("outcome", outcome).register(meterRegistry);
     }
 }

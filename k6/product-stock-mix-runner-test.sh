@@ -6,6 +6,8 @@ queries=$(PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-pro
 [[ "$queries" == *'k6_stock_mix_workload_duration_p95{run="'* ]]
 [[ "$queries" == *'k6_stock_mix_workload_duration_p99{run="'* ]]
 [[ "$queries" == *'k6_stock_mix_workload_failure_rate{run="'* ]]
+[[ "$queries" == *'product_detail_cache_total'* ]] || { echo 'detail cache query missing' >&2; exit 1; }
+[[ "$queries" == *'product_stock_cache_total'* ]] || { echo 'stock cache query missing' >&2; exit 1; }
 [[ "$queries" != *'_bucket'* && "$queries" != *'k6_http_req_failed_'* && "$queries" != *'max\ by'* ]]
 if STOCK_MIX_DISTRIBUTION=invalid PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
   echo 'invalid stock distribution unexpectedly passed' >&2
