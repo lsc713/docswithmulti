@@ -10,15 +10,66 @@ import org.redisson.api.RedissonClient;
 import org.redisson.client.RedisException;
 
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.after;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class ProductStockSnapshotCacheServiceTest {
+
+    @Test
+    void concurrent_cache_misses_in_one_jvm_share_one_load() throws Exception {
+        RedissonClient redisson = mock(RedissonClient.class);
+        RBucket<Map<Long, Integer>> bucket = mock(RBucket.class);
+        RLock lock = mock(RLock.class);
+        ProductQueryRepository repository = mock(ProductQueryRepository.class);
+        CyclicBarrier initialReads = new CyclicBarrier(2);
+        CountDownLatch loadStarted = new CountDownLatch(1);
+        CountDownLatch releaseLoad = new CountDownLatch(1);
+        AtomicInteger reads = new AtomicInteger();
+        when(redisson.<Map<Long, Integer>>getBucket("product:stock:10")).thenReturn(bucket);
+        when(redisson.getLock("product:stock:lock:10")).thenReturn(lock);
+        when(bucket.get()).thenAnswer(ignored -> {
+            if (reads.incrementAndGet() <= 2) initialReads.await();
+            return null;
+        });
+        when(lock.tryLock(100, 5_000, TimeUnit.MILLISECONDS)).thenReturn(true);
+        when(lock.isHeldByCurrentThread()).thenReturn(true);
+        when(repository.findSkuAvailability(10L)).thenAnswer(ignored -> {
+            loadStarted.countDown();
+            releaseLoad.await();
+            return Map.of(101L, 7);
+        });
+
+        var service = new ProductStockSnapshotCacheService(
+                redisson, repository, new SimpleMeterRegistry(), 5);
+
+        try (var executor = Executors.newFixedThreadPool(2)) {
+            var first = executor.submit(() -> service.getOrLoad(10L));
+            var second = executor.submit(() -> service.getOrLoad(10L));
+
+            assertThat(loadStarted.await(1, TimeUnit.SECONDS)).isTrue();
+            try {
+                verify(lock, after(200).times(1)).tryLock(100, 5_000, TimeUnit.MILLISECONDS);
+            } finally {
+                releaseLoad.countDown();
+            }
+            assertThat(first.get(2, TimeUnit.SECONDS)).containsEntry(101L, 7);
+            assertThat(second.get(2, TimeUnit.SECONDS)).containsEntry(101L, 7);
+        }
+        verify(repository, times(1)).findSkuAvailability(10L);
+        verify(lock, times(1)).tryLock(100, 5_000, TimeUnit.MILLISECONDS);
+    }
 
     @Test
     void cache_miss_reads_db_and_writes_snapshot() throws Exception {

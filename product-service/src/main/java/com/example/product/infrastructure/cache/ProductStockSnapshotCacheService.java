@@ -14,6 +14,9 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -25,6 +28,8 @@ public class ProductStockSnapshotCacheService {
     private final Counter miss;
     private final Counter fallback;
     private final Counter write;
+    private final ConcurrentHashMap<Long, CompletableFuture<Map<Long, Integer>>> inFlight =
+            new ConcurrentHashMap<>();
 
     public ProductStockSnapshotCacheService(RedissonClient redissonClient,
                                             ProductQueryRepository repository,
@@ -51,7 +56,37 @@ public class ProductStockSnapshotCacheService {
             fallback.increment();
             return load(productId);
         }
-        return loadUnderLock(productId);
+        return loadLocally(productId);
+    }
+
+    private Map<Long, Integer> loadLocally(Long productId) {
+        CompletableFuture<Map<Long, Integer>> pending = new CompletableFuture<>();
+        CompletableFuture<Map<Long, Integer>> existing = inFlight.putIfAbsent(productId, pending);
+        if (existing != null) return await(existing);
+
+        try {
+            Map<Long, Integer> snapshot = loadUnderLock(productId);
+            pending.complete(snapshot);
+            return snapshot;
+        } catch (RuntimeException | Error error) {
+            pending.completeExceptionally(error);
+            throw error;
+        } finally {
+            inFlight.remove(productId, pending);
+        }
+    }
+
+    private static Map<Long, Integer> await(CompletableFuture<Map<Long, Integer>> pending) {
+        try {
+            return pending.get();
+        } catch (InterruptedException error) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted while waiting for stock snapshot", error);
+        } catch (ExecutionException error) {
+            if (error.getCause() instanceof RuntimeException runtimeException) throw runtimeException;
+            if (error.getCause() instanceof Error cause) throw cause;
+            throw new IllegalStateException(error.getCause());
+        }
     }
 
     private Map<Long, Integer> loadUnderLock(Long productId) {
