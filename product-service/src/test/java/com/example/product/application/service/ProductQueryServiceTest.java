@@ -1,9 +1,7 @@
 package com.example.product.application.service;
 
 import com.example.product.application.interfaces.CategoryRepository;
-import com.example.product.application.interfaces.ProductImageRepository;
 import com.example.product.application.interfaces.ProductQueryRepository;
-import com.example.product.application.interfaces.ProductVariantRepository;
 import com.example.product.infrastructure.cache.ProductDetailCacheService;
 import com.example.product.infrastructure.cache.ProductStockSnapshotCacheService;
 import org.junit.jupiter.api.Test;
@@ -30,7 +28,7 @@ class ProductQueryServiceTest {
         when(stockSnapshot.getOrLoad(10L)).thenReturn(Map.of(101L, 0));
 
         var service = new ProductQueryService(mock(ProductQueryRepository.class), mock(CategoryRepository.class),
-                mock(ProductImageRepository.class), mock(ProductVariantRepository.class), detailCache, stockSnapshot);
+                detailCache, stockSnapshot, mock(ProductDetailLoader.class));
 
         assertThat(service.detail(10L).skus()).extracting(ProductQueryService.SkuDetail::availableQty)
                 .containsExactly(0);
