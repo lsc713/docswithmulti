@@ -419,26 +419,116 @@ env MYSQL_THRESHOLD_VERY_LOW_RAMP=true \
 조회 감소는 구조적으로 검증됐고, 6~11 VU 구간에서 처리량/지연 방향도 일관됐다. 더 엄격한
 효과 크기가 필요하면 새 스택마다 실행 순서를 교차한 `A→B→B→A` 중앙값을 사용한다.
 
+## 후속 실험: `release` 일괄 조회와 재고 mutation batch
+
+- 측정일: 2026-08-22 (AWS `ap-northeast-2`)
+- 워크로드: 요청마다 서로 다른 SKU 10개를 reserve한 뒤 같은 10개를 release하는 write-only
+  `1 → 3 → 6 → 8 → 11 VU`, 각 3분
+- 공통 조건: Product 4대, MySQL 1대, 1,000 product/9,000 SKU, gp3 50 GiB
+  3,000 IOPS/125 MiB/s, `flush=1`, `sync_binlog=1`, group commit `0/0`
+- 구현 커밋: `1d7ebe2`(release 일괄 조회·상태 전이, 재고 JDBC batch),
+  `bbb571f`(release UPDATE 인덱스 고정), `1592374`(재고 batch 잠금 순서 고정)
+- 비교 기준: 직전 reserve SKU 일괄 조회 런 `8baa7bf`
+
+`1d7ebe2`에서는 release의 예약행과 SKU를 각각 한 번에 조회하고, 예약 상태를 한 번의
+UPDATE로 전이했다. reserve 재고 차감과 release 재고 복원은 `JdbcTemplate.batchUpdate`로
+전환했다. reserve의 `stock_reservation` upsert는 멱등 소유권 판정 때문에 이번 변경에서
+제외해 기존처럼 item별로 실행했다.
+
+### 측정 중 발견한 데드락과 수정
+
+첫 두 런은 각각 서버 오류 1건이 발생해 성능 결과에서 제외했다.
+
+1. `1d7ebe2` 런에서는 서로 다른 payment key의 release UPDATE가
+   `idx_reservation_status_created(status, created_at)`를 선택했다. RESERVED 보조 인덱스를
+   넓게 스캔하면서 PRIMARY와 status 인덱스 잠금 순서가 교차해 데드락이 발생했다.
+   `bbb571f`에서 `(payment_key, sku_id)` 유니크 인덱스를 `FORCE INDEX`로 지정했다.
+2. `bbb571f` 런에서는 reserve의 `product_stock` batch UPDATE가 요청마다 다른 SKU 순서로
+   행락을 획득해 데드락이 발생했다. `1592374`에서 차감 목록을 `sku_id` 오름차순으로
+   정렬해 모든 트랜잭션의 잠금 순서를 통일했다.
+
+수정 전 잠금 순서 테스트가 실패하는 것을 확인한 뒤 서비스·reserve 동시성·release 동시성
+테스트를 통과시켰다. 최종 `1592374` 런은 145,206 HTTP 요청을 오류 없이 완료했다.
+
+### 최종 결과
+
+| 항목 | reserve 조회만 일괄화 (`8baa7bf`) | release·mutation 개선 (`1592374`) | 변화 |
+|---|---:|---:|---:|
+| iteration | 77,887 | 72,603 | -6.78% |
+| 평균 iteration/s | 86.54 | 80.66 | -6.79% |
+| 평균 HTTP RPS | 173.07 | 161.33 | -6.78% |
+| workload p95 | 36.85ms | 40.89ms | +10.96% |
+| workload p99 | 42.31ms | 45.46ms | +7.44% |
+| workload/server/unexpected 4xx 실패율 | 0% | 0% | 동일 |
+| SKU SELECT/iteration | 10.998 | 2.000 | -81.81% |
+| SKU SELECT 시간/iteration | 1.516ms | 0.380ms | -74.93% |
+| COMMIT 수 / 평균 | 155,728 / 4.735ms | 145,169 / 4.529ms | 평균 -4.35% |
+
+전체 평균 처리량과 지연은 직전 런보다 나빠졌지만 최대 부하 구간은 방향이 달랐다.
+
+| VU | HTTP RPS | workload p95 | workload p99 | MySQL CPU |
+|---:|---:|---:|---:|---:|
+| 1 | 31.02 | 48.96ms | 83.79ms | 19.42% |
+| 3 | 56.26 | 39.78ms | 48.85ms | 33.51% |
+| 6 | 144.27 | 36.40ms | 43.28ms | 63.74% |
+| 8 | 234.34 | 37.12ms | 41.23ms | 84.34% |
+| 11 | 287.49 | 39.23ms | 43.09ms | 92.37% |
+
+11 VU에서 직전 런은 280.93 RPS, p95 32.55ms, MySQL CPU 98.63%였다. 이번 런은
+RPS가 2.33% 높고 CPU는 6.26%p 낮았지만 p95는 20.52% 높았다. 서로 다른 날짜에 한 번씩
+실행한 결과이고 저부하 구간의 워밍 차이도 커서, 전체 처리량 감소나 최대 구간 CPU 감소를
+구현 효과로 단정하지 않는다. 구조적인 쿼리 감소와 오류 없는 정합성만 확정 결과로 사용한다.
+
+### SQL digest와 정합성 검증
+
+| SQL | 실행 수 | iteration당 | 누적 / 평균 |
+|---|---:|---:|---:|
+| reserve/release SKU `IN (...)` 조회 | 145,203 | 2.000 | 27.555초 / 0.190ms |
+| reservation upsert | 725,998 | 10.000 | 147.731초 / 0.203ms |
+| stock 조건부 차감 UPDATE | 725,998 | 10.000 | 121.373초 / 0.167ms |
+| stock 복원 UPDATE | 725,993 | 10.000 | 116.628초 / 0.161ms |
+| release 상태 일괄 UPDATE | 72,603 | 1.000 | 56.229초 / 0.774ms |
+| release 예약행 `FOR UPDATE` | 72,603 | 1.000 | 37.571초 / 0.517ms |
+| refresh 재고 snapshot SELECT | 1,451,824 | 19.997 | 274.286초 / 0.189ms |
+| COMMIT | 145,169 | 1.999 | 657.419초 / 4.529ms |
+
+`JdbcTemplate.batchUpdate`를 적용했어도 Performance Schema에는 재고 차감과 복원이 각각
+item별 10문장으로 집계됐다. 두 번째 실패 스택도 MySQL 드라이버의
+`executeBatchSerially` 경로를 보여 주므로, 현재 구현은 API 수준 batch이지 단일 multi-row
+SQL로 합쳐진 상태는 아니다.
+
+종료 후 `stock_reservation` 726,030건은 전부 `RELEASED`였고 RESERVED는 0건이었다.
+9,000개 `product_stock`의 최솟값·최댓값은 모두 100이고 합계는 900,000으로, 모든 차감과
+복원이 일치했다. 측정 결과는 다음 파일에 보존했다.
+
+- [첫 release 데드락 런](../../k6/results/20260822T044340Z-product-stock-mix-45456.summary.json)
+- [첫 reserve batch 데드락 런](../../k6/results/20260822T052447Z-product-stock-mix-51008.summary.json)
+- [최종 성공 summary](../../k6/results/20260822T054859Z-product-stock-mix-55363.summary.json)
+
+측정 종료 후 `terraform destroy`로 36개 리소스를 제거했고 state가 비어 있음을 확인했다.
+
 ## 누적 결론과 다음 최적화 순서
 
 현재 MySQL 부하는 읽기와 쓰기 양쪽에 존재한다. 읽기 경로는 25~50 VU 사이에서 CPU 포화가
-시작하고, 쓰기 경로는 SKU 조회를 줄인 뒤에도 높은 VU에서 MySQL CPU가 약 99%에 도달한다.
-따라서 이번 reserve 개선으로 쓰기 부하 일부를 줄였지만 MySQL 전체 병목이 해소된 것은 아니다.
+시작한다. 쓰기 경로는 reserve/release SKU 조회를 iteration당 약 2회까지 줄였지만,
+reservation upsert와 재고 UPDATE는 각각 item별로 남아 있고 동기 COMMIT도 약 2회 발생한다.
+따라서 조회 N+1 제거와 batch API 적용만으로 MySQL 전체 병목이 해소됐다고 볼 수 없다.
 
 | 구분 | 현재 확인된 상태 | 다음 조치 |
 |---|---|---|
 | 읽기 | 25~50 VU부터 MySQL CPU 포화, 이후 처리량 정체 | 캐시·조회 쿼리 최적화 후 필요하면 read replica 검토 |
-| reserve SKU 조회 | 단건 10회가 `IN (...)` 1회로 감소 | 적용 완료(`8baa7bf`) |
-| release SKU 조회 | 10-item 요청에서 여전히 `findById` 10회 | reserve와 같은 일괄 조회로 변경 |
-| COMMIT | iteration당 reserve/release 각 1회, 평균 약 4.7ms | 실제 업무 비율 분리 측정 후 트랜잭션 내부 작업 최소화 |
-| refresh 조회 | SKU N+1 제거 뒤에도 item별 재고 스냅샷 조회가 남음 | 정합성 범위를 유지하며 이벤트·캐시 갱신 비용 별도 검토 |
+| reserve/release SKU 조회 | 각각 `IN (...)` 1회, 합계 약 2회/iteration | 적용 완료(`1d7ebe2`) |
+| reservation upsert | item별 10회, 147.731초 누적 | 멱등 winner/loser 판정을 보존하는 batch A/B |
+| 재고 차감·복원 | JDBC batch API지만 digest는 각각 item별 10회 | 실제 multi-row/rewrite 여부를 검증하는 A/B |
+| COMMIT | iteration당 reserve/release 각 1회, 평균 4.529ms | 실제 업무 비율 분리 측정 후 트랜잭션 내부 작업 최소화 |
+| refresh 조회 | 재고 snapshot 약 20회/iteration, 274.286초 누적 | 정합성 범위를 유지하며 이벤트·캐시 갱신 비용 별도 검토 |
 | 스토리지 | gp3 3,000/125→6,000/250 상향 효과 없음 | IOPS 수치보다 fsync 단건 지연이 낮은 구성만 별도 A/B |
 | replica | 읽기 분산에는 유효 | primary의 COMMIT·행 잠금·쓰기 CPU에는 직접 효과 없음 |
 
-이번 10-item 측정에서 변경 전 SKU 조회 20회는 reserve 10회와 release 10회였다. 변경 후에는
-reserve 1회와 release 10회로 총 11회가 됐다. 따라서 release도 일괄 조회하면 같은 조건에서
-SKU 조회는 이론상 iteration당 2회까지 줄어든다. 다만 SKU 조회만 줄여도 COMMIT 평균은
-변하지 않았으므로, release 개선 이후에도 fsync 기반 커밋 상한은 남는다.
+이번 10-item 측정에서 reserve와 release SKU 조회는 실제로 iteration당 약 2회가 됐다.
+이제 반복 쿼리의 다음 대상은 reservation upsert, 재고 차감·복원, refresh snapshot 조회다.
+다만 COMMIT 누적 시간이 657.419초로 가장 크고 평균도 4.529ms이므로, item 쿼리를 줄인 뒤에도
+fsync 기반 커밋 상한은 남는다.
 
 현재 write-only 시나리오는 매 iteration마다 reserve 직후 release해서 항상 COMMIT 2회를
 발생시킨다. 실제 운영에서 release가 취소 시에만 발생한다면 이 부하는 운영 비율보다 무겁다.
@@ -447,14 +537,15 @@ SKU 조회는 이론상 iteration당 2회까지 줄어든다. 다만 SKU 조회�
 
 권장 실행 순서는 다음과 같다.
 
-1. `release`의 SKU 조회를 일괄 조회로 변경하고 같은 10-item 조건으로 SQL digest를 검증한다.
-2. reserve-only, release-only, 실제 혼합 비율을 같은 내구성 설정에서 각각 측정한다.
-3. 트랜잭션 안에는 재고 정합성에 필요한 검증·예약 INSERT·조건부 차감/복원만 남긴다.
+1. reservation upsert를 batch 전송하되 신규/중복 item별 affected 결과와 전체 롤백을 먼저
+   검증하고, 같은 조건에서 현재 `1592374` 런과 A/B 한다.
+2. 재고 차감·복원이 실제 multi-row 또는 드라이버 rewrite로 합쳐지는지 네트워크와 digest로
+   확인한다. 모든 경로의 SKU 잠금 순서는 오름차순을 유지한다.
+3. reserve-only, release-only, 실제 혼합 비율을 같은 내구성 설정에서 각각 측정한다.
+4. 트랜잭션 안에는 재고 정합성에 필요한 검증·예약 INSERT·조건부 차감/복원만 남긴다.
    캐시 갱신과 이벤트 후속 처리는 커밋 경계 밖인지 확인하고, 불필요한 `REQUIRES_NEW`나
    중복 transaction이 있는지도 점검한다. 가격·SKU 검증을 트랜잭션 밖으로 이동할 때는
    동시 변경 정합성을 먼저 보장해야 한다.
-4. 반복 INSERT/UPDATE의 JDBC batch 효과를 SQL digest로 확인하되 행 잠금 순서와 실패 시
-   전체 롤백 동작을 유지한다.
 5. 내구성 완화나 비동기 재고 반영은 마지막에 검토한다.
 
 `innodb_flush_log_at_trx_commit=2`는 진단 실험에서 transaction 처리량을 21% 늘렸지만 장애 시
@@ -467,10 +558,15 @@ delay `200µs/8`, `500µs/16`은 처리량과 지연을 모두 악화시켰으�
 
 ```bash
 env MYSQL_THRESHOLD_VERY_LOW_RAMP=true \
-  REPO_REF=6914746d621cb222079c0e08431e1afe16cd620d \
+  STOCK_MIX_WORKLOAD=write \
+  STOCK_MIX_DISTRIBUTION=uniform \
+  STOCK_ITEMS_PER_RESERVATION=10 \
+  REPO_REF=1592374f8c4b5480138fd61ad35acdc469b7b029 \
   PRODUCT_URL=http://<private-nlb>:8084 \
   PROM_URL=http://<prometheus>:9090/api/v1/write \
   ./k6/run-product-stock-mix-aws.sh
 ```
 
-관련 구현 커밋: `17a6f01`(250→500), `fe00f9b`(100→200), `6914746`(10→100).
+관련 구현 커밋: `17a6f01`(250→500), `fe00f9b`(100→200), `6914746`(10→100),
+`8baa7bf`(reserve SKU 일괄 조회), `1d7ebe2`(release·재고 batch),
+`bbb571f`(release 인덱스), `1592374`(재고 잠금 순서).
