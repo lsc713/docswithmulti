@@ -65,7 +65,7 @@ public interface StockReservationJpaRepository extends JpaRepository<StockReserv
      */
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query(value = """
-        UPDATE stock_reservation
+        UPDATE stock_reservation FORCE INDEX (uk_reservation_paymentkey_sku)
            SET status = 'RELEASED', updated_at = CURRENT_TIMESTAMP(6)
          WHERE payment_key = :paymentKey AND sku_id IN (:skuIds) AND status = 'RESERVED'
         """, nativeQuery = true)
