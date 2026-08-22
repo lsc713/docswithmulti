@@ -3,9 +3,9 @@
   "manifest": {
     "version": 1,
     "surface": "report",
-    "title": "재고 캐시 Local Single-Flight 부하테스트",
-    "description": "분산 single-flight에 JVM별 in-flight 공유를 추가한 전후 비교",
-    "generatedAt": "2026-08-22T10:11:43Z",
+    "title": "상품 재고 읽기 경로 부하테스트",
+    "description": "single-flight와 트랜잭션 경계 최적화의 단계별 비교",
+    "generatedAt": "2026-08-22T11:30:00Z",
     "sources": [
       {
         "id": "load-test-comparison",
@@ -16,24 +16,24 @@
     "cards": [
       {
         "id": "rps-improvement",
-        "description": "local + distributed 대비 distributed-only 평균 처리량 변화",
+        "description": "트랜잭션 경계 최적화 전후 평균 처리량 변화",
         "dataset": "headline",
         "sourceId": "load-test-comparison",
         "metrics": [{"label": "평균 RPS 변화", "field": "rps_delta", "format": "percent", "signed": true}]
       },
       {
         "id": "p95-improvement",
-        "description": "local + distributed 대비 distributed-only HTTP p95 변화",
+        "description": "트랜잭션 경계 최적화 전후 HTTP p95 변화",
         "dataset": "headline",
         "sourceId": "load-test-comparison",
         "metrics": [{"label": "HTTP p95 변화", "field": "p95_delta", "format": "percent", "signed": true}]
       },
       {
-        "id": "db-read-change",
-        "description": "local single-flight 추가 후 재고 DB 조회량 변화",
+        "id": "transaction-control-change",
+        "description": "트랜잭션 경계 최적화 전후 SET autocommit 실행량 변화",
         "dataset": "headline",
         "sourceId": "load-test-comparison",
-        "metrics": [{"label": "재고 SELECT 변화", "field": "stock_select_delta", "format": "percent", "signed": true}]
+        "metrics": [{"label": "트랜잭션 제어문 변화", "field": "transaction_control_delta", "format": "percent", "signed": true}]
       }
     ],
     "charts": [
@@ -54,13 +54,31 @@
         "valueFormat": "number",
         "unit": "ms",
         "maxRows": 10
+      },
+      {
+        "id": "mysql-cpu-stage-chart",
+        "title": "MySQL CPU 단계별 비교",
+        "subtitle": "캐시 hit 트랜잭션 제거 후 100 VU에서 90.73% → 13.33%",
+        "showDescription": true,
+        "type": "bar",
+        "dataset": "mysql_cpu_stages",
+        "sourceId": "load-test-comparison",
+        "layout": "full",
+        "encodings": {
+          "x": {"field": "vu", "type": "ordinal", "label": "VU"},
+          "y": {"field": "cpu_pct", "type": "quantitative", "label": "MySQL CPU", "unit": "%"},
+          "color": {"field": "configuration", "type": "nominal", "label": "구성"}
+        },
+        "valueFormat": "number",
+        "unit": "%",
+        "maxRows": 10
       }
     ],
     "tables": [
       {
         "id": "aggregate-comparison",
         "title": "전체 런 비교",
-        "subtitle": "동일 read-only ramp의 세 구현 상태",
+        "subtitle": "동일 read-only ramp의 네 구현 상태",
         "showDescription": true,
         "dataset": "aggregate",
         "defaultSort": {"field": "order", "direction": "asc"},
@@ -101,34 +119,80 @@
           {"field": "redis_distributed_pct", "label": "Redis CPU 전(%)", "type": "number"},
           {"field": "redis_local_pct", "label": "Redis CPU 후(%)", "type": "number"}
         ]
+      },
+      {
+        "id": "transaction-stage-comparison",
+        "title": "VU 단계별 트랜잭션 경계 최적화 효과",
+        "subtitle": "local + distributed 구성에서 경계 최적화 전후, 각 단계 3분",
+        "showDescription": true,
+        "dataset": "transaction_stages",
+        "defaultSort": {"field": "vu", "direction": "asc"},
+        "density": "dense",
+        "sourceId": "load-test-comparison",
+        "layout": "full",
+        "columns": [
+          {"field": "vu", "label": "VU", "type": "number"},
+          {"field": "rps_before", "label": "RPS 전", "type": "number"},
+          {"field": "rps_after", "label": "RPS 후", "type": "number"},
+          {"field": "rps_delta", "label": "RPS 변화", "format": "percent", "movement": true},
+          {"field": "p95_before_ms", "label": "p95 전(ms)", "type": "number"},
+          {"field": "p95_after_ms", "label": "p95 후(ms)", "type": "number"},
+          {"field": "mysql_before_pct", "label": "MySQL 전(%)", "type": "number"},
+          {"field": "mysql_after_pct", "label": "MySQL 후(%)", "type": "number"},
+          {"field": "product_after_pct", "label": "Product 후(%)", "type": "number"},
+          {"field": "redis_after_pct", "label": "Redis 후(%)", "type": "number"}
+        ]
+      },
+      {
+        "id": "transaction-sql-comparison",
+        "title": "MySQL digest 비교",
+        "subtitle": "전체 런의 트랜잭션 제어문과 실제 재고 SELECT",
+        "showDescription": true,
+        "dataset": "transaction_sql",
+        "density": "dense",
+        "sourceId": "load-test-comparison",
+        "layout": "full",
+        "columns": [
+          {"field": "statement", "label": "구문", "type": "text"},
+          {"field": "before_count", "label": "실행 전", "type": "number"},
+          {"field": "after_count", "label": "실행 후", "type": "number"},
+          {"field": "delta", "label": "변화", "format": "percent", "movement": true},
+          {"field": "before_seconds", "label": "누적 전(초)", "type": "number"},
+          {"field": "after_seconds", "label": "누적 후(초)", "type": "number"}
+        ]
       }
     ],
     "blocks": [
-      {"id": "title", "type": "markdown", "body": "# 재고 캐시 Local Single-Flight 부하테스트", "layout": "full"},
-      {"id": "summary", "type": "markdown", "body": "## Local single-flight가 지연을 회복하면서 DB 보호를 유지했다\n\n분산 single-flight만 사용한 런과 비교해 평균 RPS는 **4.18% 증가**했고 HTTP p95는 **23.48% 감소**했다. 재고 SELECT는 **0.98% 감소**해 MySQL 조회 억제 효과도 유지됐다. 다만 single-flight가 없던 원래 기준선과 비교하면 RPS는 14.20% 낮고 p95는 23.40% 높아 추가 개선 여지가 남는다.", "layout": "full", "sourceId": "load-test-comparison"},
-      {"id": "headline-metrics", "type": "metric-strip", "cardIds": ["rps-improvement", "p95-improvement", "db-read-change"], "layout": "full"},
+      {"id": "title", "type": "markdown", "body": "# 상품 재고 읽기 경로 부하테스트", "layout": "full"},
+      {"id": "summary", "type": "markdown", "body": "## 트랜잭션 경계가 읽기 경로의 주된 MySQL 병목이었다\n\n캐시 hit에서 트랜잭션을 열지 않도록 경계를 실제 DB load 구간으로 좁히자 평균 RPS는 **43.13% 증가**, HTTP p95는 **34.98% 감소**했다. `SET autocommit`과 `COMMIT`은 각각 약 **99.07% 감소**했지만 실제 재고 SELECT는 2.79% 증가에 그쳤다. 100 VU MySQL CPU는 90.73%에서 13.33%로 떨어져 이 읽기 시나리오에서는 replica보다 애플리케이션 처리량 개선이 먼저다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "headline-metrics", "type": "metric-strip", "cardIds": ["rps-improvement", "p95-improvement", "transaction-control-change"], "layout": "full"},
       {"id": "aggregate-finding", "type": "markdown", "body": "## Redis lock convoy는 줄고 DB 조회량은 유지됐다\n\nJVM 내부에서 같은 상품의 요청을 하나의 in-flight 결과로 공유하자 Redis CPU는 10~75 VU 전 구간에서 4.66~9.56%p 낮아졌고, 모든 단계에서 p95가 개선됐다. 재고 cache write는 146,938회에서 145,249회로 사실상 동일했으며 MySQL digest의 재고 SELECT도 147,437회에서 145,987회로 일치했다. 이는 local follower가 분산락에 참여하지 않아도 DB 보호가 약해지지 않았다는 근거다.", "layout": "full", "sourceId": "load-test-comparison"},
       {"id": "aggregate-table-block", "type": "table", "tableId": "aggregate-comparison", "layout": "full"},
       {"id": "stage-finding", "type": "markdown", "body": "## 높은 부하에서 처리량 회복 폭이 가장 컸다\n\n100 VU에서 RPS는 8,817.71에서 9,476.14로 **7.47% 증가**하고 p95는 19.53ms에서 13.60ms로 **30.36% 감소**했다. 반면 MySQL CPU는 78.78%에서 90.73%로 상승했다. 재고 SELECT가 늘지 않았으므로 이 CPU 증가는 주로 회복된 요청량과 요청마다 실행되는 트랜잭션 제어문, 그리고 상세 캐시 SQL 증가의 영향으로 해석한다.", "layout": "full", "sourceId": "load-test-comparison"},
       {"id": "p95-chart-block", "type": "chart", "chartId": "p95-stage-chart", "layout": "full"},
       {"id": "stage-table-block", "type": "table", "tableId": "stage-comparison", "layout": "full"},
+      {"id": "transaction-finding", "type": "markdown", "body": "## 실제 조회량이 아니라 요청당 트랜잭션 제어 비용이 병목이었다\n\n최적화 후 재고 SELECT는 145,987회에서 150,065회로 거의 같았지만 `SET autocommit`은 10,341,871회에서 96,289회, `COMMIT`은 5,170,708회에서 48,142회로 줄었다. 상세 DB 조회 계열 digest도 약 48,140회이고 COMMIT 48,142회와 일치한다. 즉 트랜잭션이 HTTP 요청 738만 건마다가 아니라 실제 상세 캐시 load에만 열렸다는 구조적 근거가 있다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "mysql-cpu-chart-block", "type": "chart", "chartId": "mysql-cpu-stage-chart", "layout": "full"},
+      {"id": "transaction-stage-table-block", "type": "table", "tableId": "transaction-stage-comparison", "layout": "full"},
+      {"id": "transaction-sql-table-block", "type": "table", "tableId": "transaction-sql-comparison", "layout": "full"},
       {"id": "definitions", "type": "markdown", "body": "## 측정 범위와 지표 정의\n\n대상은 `GET /v1/products/{id}` read-only 요청이다. 상품 1,000개와 SKU 9,000개를 uniform하게 조회했으며 Product 4대, 공유 Redis 1대, MySQL `m7g.large` 1대를 사용했다. 10→25→50→75→100 VU를 각 3분 실행했다. RPS와 지연은 k6, 단계별 CPU는 Prometheus 15초 표본 평균, SQL 수와 누적 시간은 MySQL Performance Schema digest를 기준으로 한다.", "layout": "full", "sourceId": "load-test-comparison"},
-      {"id": "methodology", "type": "markdown", "body": "## 비교 방법\n\n직전 distributed-only 커밋 `a7d88a7` 런을 직접 비교군으로, local + distributed 커밋 `572adec` 런을 변경군으로 사용했다. 두 런은 같은 AWS topology, seed 크기, VU 단계, 분포와 지속 시간을 사용했다. 다섯 개 단계의 정확한 값과 자원 지표를 함께 검토하는 것이 핵심이므로 별도 추세 차트보다 단계별 audit table을 선택했다.", "layout": "full", "sourceId": "load-test-comparison"},
-      {"id": "limitations", "type": "markdown", "body": "## 한계와 강건성 확인\n\n각 구성은 한 번씩 순차 실행했으므로 JVM warm-up, 새 스택 상태와 시간대 변동이 포함될 수 있다. 따라서 작은 평균 RPS 차이만으로 인과를 확정하지 않는다. 다만 p95 개선은 5개 VU 단계 모두 같은 방향이고, Redis CPU 감소와 재고 SELECT 유지가 함께 관측돼 lock convoy 완화 설명과 일치한다. 정확한 효과 크기가 필요하면 실행 순서를 교차한 A→B→B→A 중앙값을 사용한다.", "layout": "full", "sourceId": "load-test-comparison"},
-      {"id": "next-steps", "type": "markdown", "body": "## 다음 최적화는 요청당 트랜잭션 경계다\n\n현재 구현은 유지할 가치가 있다. 다음 측정 전에는 새 락 구조를 더 복잡하게 만들기보다, 캐시 hit 요청에서도 발생하는 `SET TRANSACTION`, `SET autocommit`, `COMMIT` 경로를 추적해 read-only 트랜잭션이 실제 DB 조회가 필요한 구간에만 열리도록 줄이는 편이 우선이다. 이 경로가 정리되면 100 VU MySQL CPU 90.73%를 낮추면서 원래 기준선과 남은 RPS·p95 격차를 줄일 수 있다.", "layout": "full", "sourceId": "load-test-comparison"},
-      {"id": "questions", "type": "markdown", "body": "## 남은 질문\n\n- 캐시 hit 요청이 왜 MySQL 트랜잭션 제어문을 실행하는가?\n- `ProductQueryService`의 transaction 경계를 repository miss 경로로 좁히면 CPU와 p95가 얼마나 개선되는가?\n- 교차 실행에서도 local single-flight의 p95 개선 폭이 유지되는가?", "layout": "full"}
+      {"id": "methodology", "type": "markdown", "body": "## 비교 방법\n\n직전 local + distributed 커밋 `572adec` 런을 비교군으로, 트랜잭션 경계를 좁힌 커밋 `780ba6e` 런을 변경군으로 사용했다. 두 런은 같은 AWS topology, seed 크기, VU 단계, uniform 분포와 지속 시간을 사용했다. HTTP 요청·iteration 일치, 오류 0건, 5개 단계와 필수 Prometheus series 존재, SQL digest 집계를 교차 검증했다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "limitations", "type": "markdown", "body": "## 한계와 강건성 확인\n\n각 구성은 한 번씩 순차 실행했으므로 JVM warm-up, 새 스택 상태와 시간대 변동이 포함될 수 있다. 10 VU p99는 30.59ms에서 30.67ms로 0.26% 높아져 모든 지표가 모든 단계에서 개선된 것은 아니다. 다만 MySQL CPU 감소는 전 단계에서 12.61~77.40%p로 크고, 실제 SELECT 유지와 트랜잭션 제어문 99% 감소가 동시에 관측됐다. 정확한 효과 크기가 필요하면 A→B→B→A 교차 실행 중앙값을 사용한다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "next-steps", "type": "markdown", "body": "## 다음 병목은 Product 애플리케이션이다\n\n100 VU에서 MySQL CPU는 13.33%로 여유가 크지만 Product 평균 CPU는 80.76%, k6는 60.63%, Redis는 37.26%였다. 따라서 이 read-only 경로에 replica를 바로 추가할 근거는 부족하다. 다음 용량 단계가 필요하면 Product 인스턴스 처리량을 먼저 확인하고, 이후 MySQL CPU·지연 또는 replica로 분리 가능한 실제 읽기 비중이 다시 한계가 될 때 replica를 검토한다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "questions", "type": "markdown", "body": "## 남은 질문\n\n- 교차 실행에서도 트랜잭션 경계 최적화의 효과 크기가 유지되는가?\n- Product CPU 80% 이후의 처리량 한계는 인스턴스 수, JVM CPU, 직렬화 중 어디에서 먼저 발생하는가?\n- 실제 운영 cache hit ratio와 트래픽 분포에서도 MySQL 여유가 유지되는가?", "layout": "full"}
     ]
   },
   "snapshot": {
     "version": 1,
-    "generatedAt": "2026-08-22T10:11:43Z",
+    "generatedAt": "2026-08-22T11:30:00Z",
     "status": "ready",
     "datasets": {
-      "headline": [{"rps_delta": 0.0418, "p95_delta": -0.2348, "stock_select_delta": -0.0098}],
+      "headline": [{"rps_delta": 0.4313, "p95_delta": -0.3498, "transaction_control_delta": -0.9907}],
       "aggregate": [
         {"order": 1, "configuration": "single-flight 없음", "run_key": "20260822T080427Z-product-stock-mix-78000", "requests": 6009482, "rps": 6677.09, "p95_ms": 14.02, "p99_ms": 23.30, "failure_rate": 0, "stock_misses": 789463, "stock_writes": 789463, "stock_selects": 789155, "stock_select_seconds": 174.334},
         {"order": 2, "configuration": "분산 single-flight", "run_key": "20260822T091505Z-product-stock-mix-88779", "requests": 4949311, "rps": 5499.12, "p95_ms": 22.61, "p99_ms": 31.89, "failure_rate": 0, "stock_misses": 668259, "stock_writes": 146938, "stock_selects": 147437, "stock_select_seconds": 39.388},
-        {"order": 3, "configuration": "local + 분산 single-flight", "run_key": "20260822T095628Z-product-stock-mix-93157", "requests": 5156131, "rps": 5728.92, "p95_ms": 17.30, "p99_ms": 27.70, "failure_rate": 0, "stock_misses": 1220142, "stock_writes": 145249, "stock_selects": 145987, "stock_select_seconds": 36.278}
+        {"order": 3, "configuration": "local + 분산 single-flight", "run_key": "20260822T095628Z-product-stock-mix-93157", "requests": 5156131, "rps": 5728.92, "p95_ms": 17.30, "p99_ms": 27.70, "failure_rate": 0, "stock_misses": 1220142, "stock_writes": 145249, "stock_selects": 145987, "stock_select_seconds": 36.278},
+        {"order": 4, "configuration": "트랜잭션 경계 최적화", "run_key": "20260822T104747Z-product-stock-mix-98866", "requests": 7379676, "rps": 8199.54, "p95_ms": 11.25, "p99_ms": 15.21, "failure_rate": 0, "stock_misses": 2113147, "stock_writes": 149451, "stock_selects": 150065, "stock_select_seconds": 27.175}
       ],
       "stages": [
         {"vu": 10, "rps_distributed": 1238.45, "rps_local": 1265.17, "rps_delta": 0.0216, "p95_distributed_ms": 21.53, "p95_local_ms": 18.54, "p95_delta": -0.1389, "p99_distributed_ms": 32.06, "p99_local_ms": 30.59, "mysql_distributed_pct": 13.96, "mysql_local_pct": 15.81, "redis_distributed_pct": 14.50, "redis_local_pct": 9.84},
@@ -148,6 +212,32 @@
         {"vu": "75", "configuration": "local + 분산", "p95_ms": 11.14},
         {"vu": "100", "configuration": "분산", "p95_ms": 19.53},
         {"vu": "100", "configuration": "local + 분산", "p95_ms": 13.60}
+      ],
+      "transaction_stages": [
+        {"vu": 10, "rps_before": 1265.17, "rps_after": 1855.33, "rps_delta": 0.4665, "p95_before_ms": 18.54, "p95_after_ms": 17.13, "mysql_before_pct": 15.81, "mysql_after_pct": 3.20, "redis_after_pct": 11.30, "product_after_pct": 18.89},
+        {"vu": 25, "rps_before": 2530.02, "rps_after": 4178.89, "rps_delta": 0.6517, "p95_before_ms": 10.55, "p95_after_ms": 8.94, "mysql_before_pct": 29.53, "mysql_after_pct": 3.56, "redis_after_pct": 17.30, "product_after_pct": 27.94},
+        {"vu": 50, "rps_before": 5364.85, "rps_after": 8545.51, "rps_delta": 0.5929, "p95_before_ms": 10.64, "p95_after_ms": 8.46, "mysql_before_pct": 56.11, "mysql_after_pct": 4.04, "redis_after_pct": 26.31, "product_after_pct": 51.50},
+        {"vu": 75, "rps_before": 8229.11, "rps_after": 10784.90, "rps_delta": 0.3106, "p95_before_ms": 11.14, "p95_after_ms": 9.62, "mysql_before_pct": 79.76, "mysql_after_pct": 8.34, "redis_after_pct": 34.14, "product_after_pct": 67.61},
+        {"vu": 100, "rps_before": 9476.14, "rps_after": 13241.43, "rps_delta": 0.3973, "p95_before_ms": 13.60, "p95_after_ms": 10.85, "mysql_before_pct": 90.73, "mysql_after_pct": 13.33, "redis_after_pct": 37.26, "product_after_pct": 80.76}
+      ],
+      "mysql_cpu_stages": [
+        {"vu": "10", "configuration": "최적화 전", "cpu_pct": 15.81},
+        {"vu": "10", "configuration": "경계 최적화", "cpu_pct": 3.20},
+        {"vu": "25", "configuration": "최적화 전", "cpu_pct": 29.53},
+        {"vu": "25", "configuration": "경계 최적화", "cpu_pct": 3.56},
+        {"vu": "50", "configuration": "최적화 전", "cpu_pct": 56.11},
+        {"vu": "50", "configuration": "경계 최적화", "cpu_pct": 4.04},
+        {"vu": "75", "configuration": "최적화 전", "cpu_pct": 79.76},
+        {"vu": "75", "configuration": "경계 최적화", "cpu_pct": 8.34},
+        {"vu": "100", "configuration": "최적화 전", "cpu_pct": 90.73},
+        {"vu": "100", "configuration": "경계 최적화", "cpu_pct": 13.33}
+      ],
+      "transaction_sql": [
+        {"statement": "SET autocommit", "before_count": 10341871, "after_count": 96289, "delta": -0.9907, "before_seconds": 309.716, "after_seconds": 3.267},
+        {"statement": "SET TRANSACTION READ ONLY", "before_count": 5171083, "after_count": 48140, "delta": -0.9907, "before_seconds": 147.663, "after_seconds": 2.085},
+        {"statement": "SET TRANSACTION READ WRITE", "before_count": 5170889, "after_count": 48145, "delta": -0.9907, "before_seconds": 141.661, "after_seconds": 1.368},
+        {"statement": "COMMIT", "before_count": 5170708, "after_count": 48142, "delta": -0.9907, "before_seconds": 127.909, "after_seconds": 1.948},
+        {"statement": "stock availability SELECT", "before_count": 145987, "after_count": 150065, "delta": 0.0279, "before_seconds": 36.278, "after_seconds": 27.175}
       ]
     }
   },

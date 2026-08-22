@@ -1,9 +1,9 @@
 {
   "headline": [
     {
-      "rps_delta": 0.0418,
-      "p95_delta": -0.2348,
-      "stock_select_delta": -0.0098
+      "rps_delta": 0.4313,
+      "p95_delta": -0.3498,
+      "transaction_control_delta": -0.9907
     }
   ],
   "aggregate": [
@@ -48,6 +48,20 @@
       "stock_writes": 145249,
       "stock_selects": 145987,
       "stock_select_seconds": 36.278
+    },
+    {
+      "order": 4,
+      "configuration": "트랜잭션 경계 최적화",
+      "run_key": "20260822T104747Z-product-stock-mix-98866",
+      "requests": 7379676,
+      "rps": 8199.54,
+      "p95_ms": 11.25,
+      "p99_ms": 15.21,
+      "failure_rate": 0,
+      "stock_misses": 2113147,
+      "stock_writes": 149451,
+      "stock_selects": 150065,
+      "stock_select_seconds": 27.175
     }
   ],
   "stages": [
@@ -69,9 +83,36 @@
     {"vu": "100", "configuration": "분산", "p95_ms": 19.53},
     {"vu": "100", "configuration": "local + 분산", "p95_ms": 13.60}
   ],
+  "transaction_stages": [
+    {"vu": 10, "rps_before": 1265.17, "rps_after": 1855.33, "rps_delta": 0.4665, "p95_before_ms": 18.54, "p95_after_ms": 17.13, "p95_delta": -0.0761, "p99_before_ms": 30.59, "p99_after_ms": 30.67, "p99_delta": 0.0026, "mysql_before_pct": 15.81, "mysql_after_pct": 3.20, "mysql_delta_pp": -12.61, "redis_before_pct": 9.84, "redis_after_pct": 11.30, "redis_delta_pp": 1.46, "product_after_pct": 18.89, "k6_after_pct": 9.72},
+    {"vu": 25, "rps_before": 2530.02, "rps_after": 4178.89, "rps_delta": 0.6517, "p95_before_ms": 10.55, "p95_after_ms": 8.94, "p95_delta": -0.1526, "p99_before_ms": 18.48, "p99_after_ms": 15.29, "p99_delta": -0.1726, "mysql_before_pct": 29.53, "mysql_after_pct": 3.56, "mysql_delta_pp": -25.97, "redis_before_pct": 15.04, "redis_after_pct": 17.30, "redis_delta_pp": 2.26, "product_after_pct": 27.94, "k6_after_pct": 20.58},
+    {"vu": 50, "rps_before": 5364.85, "rps_after": 8545.51, "rps_delta": 0.5929, "p95_before_ms": 10.64, "p95_after_ms": 8.46, "p95_delta": -0.2049, "p99_before_ms": 13.69, "p99_after_ms": 11.61, "p99_delta": -0.1519, "mysql_before_pct": 56.11, "mysql_after_pct": 4.04, "mysql_delta_pp": -52.07, "redis_before_pct": 21.82, "redis_after_pct": 26.31, "redis_delta_pp": 4.49, "product_after_pct": 51.50, "k6_after_pct": 39.46},
+    {"vu": 75, "rps_before": 8229.11, "rps_after": 10784.90, "rps_delta": 0.3106, "p95_before_ms": 11.14, "p95_after_ms": 9.62, "p95_delta": -0.1364, "p99_before_ms": 14.05, "p99_after_ms": 13.08, "p99_delta": -0.0690, "mysql_before_pct": 79.76, "mysql_after_pct": 8.34, "mysql_delta_pp": -71.42, "redis_before_pct": 25.81, "redis_after_pct": 34.14, "redis_delta_pp": 8.33, "product_after_pct": 67.61, "k6_after_pct": 49.94},
+    {"vu": 100, "rps_before": 9476.14, "rps_after": 13241.43, "rps_delta": 0.3973, "p95_before_ms": 13.60, "p95_after_ms": 10.85, "p95_delta": -0.2022, "p99_before_ms": 21.37, "p99_after_ms": 14.66, "p99_delta": -0.3140, "mysql_before_pct": 90.73, "mysql_after_pct": 13.33, "mysql_delta_pp": -77.40, "redis_before_pct": 22.96, "redis_after_pct": 37.26, "redis_delta_pp": 14.30, "product_after_pct": 80.76, "k6_after_pct": 60.63}
+  ],
+  "mysql_cpu_stages": [
+    {"vu": "10", "configuration": "최적화 전", "cpu_pct": 15.81},
+    {"vu": "10", "configuration": "경계 최적화", "cpu_pct": 3.20},
+    {"vu": "25", "configuration": "최적화 전", "cpu_pct": 29.53},
+    {"vu": "25", "configuration": "경계 최적화", "cpu_pct": 3.56},
+    {"vu": "50", "configuration": "최적화 전", "cpu_pct": 56.11},
+    {"vu": "50", "configuration": "경계 최적화", "cpu_pct": 4.04},
+    {"vu": "75", "configuration": "최적화 전", "cpu_pct": 79.76},
+    {"vu": "75", "configuration": "경계 최적화", "cpu_pct": 8.34},
+    {"vu": "100", "configuration": "최적화 전", "cpu_pct": 90.73},
+    {"vu": "100", "configuration": "경계 최적화", "cpu_pct": 13.33}
+  ],
+  "transaction_sql": [
+    {"statement": "SET autocommit", "before_count": 10341871, "after_count": 96289, "delta": -0.9907, "before_seconds": 309.716, "after_seconds": 3.267},
+    {"statement": "SET TRANSACTION READ ONLY", "before_count": 5171083, "after_count": 48140, "delta": -0.9907, "before_seconds": 147.663, "after_seconds": 2.085},
+    {"statement": "SET TRANSACTION READ WRITE", "before_count": 5170889, "after_count": 48145, "delta": -0.9907, "before_seconds": 141.661, "after_seconds": 1.368},
+    {"statement": "COMMIT", "before_count": 5170708, "after_count": 48142, "delta": -0.9907, "before_seconds": 127.909, "after_seconds": 1.948},
+    {"statement": "stock availability SELECT", "before_count": 145987, "after_count": 150065, "delta": 0.0279, "before_seconds": 36.278, "after_seconds": 27.175}
+  ],
   "provenance": [
     {"run_key": "20260822T080427Z-product-stock-mix-78000", "summary": "k6/results/20260822T080427Z-product-stock-mix-78000.summary.json", "observations": "k6/results/20260822T080427Z-product-stock-mix-78000.observations", "mysql_digest": "k6/results/20260822T080427Z-product-stock-mix-78000.mysql-digests.tsv"},
     {"run_key": "20260822T091505Z-product-stock-mix-88779", "summary": "k6/results/20260822T091505Z-product-stock-mix-88779.summary.json", "observations": "k6/results/20260822T091505Z-product-stock-mix-88779.observations", "mysql_digest": "k6/results/20260822T091505Z-product-stock-mix-88779.mysql-digests.tsv"},
-    {"run_key": "20260822T095628Z-product-stock-mix-93157", "summary": "k6/results/20260822T095628Z-product-stock-mix-93157.summary.json", "observations": "k6/results/20260822T095628Z-product-stock-mix-93157.observations", "mysql_digest": "k6/results/20260822T095628Z-product-stock-mix-93157.mysql-digests.tsv"}
+    {"run_key": "20260822T095628Z-product-stock-mix-93157", "summary": "k6/results/20260822T095628Z-product-stock-mix-93157.summary.json", "observations": "k6/results/20260822T095628Z-product-stock-mix-93157.observations", "mysql_digest": "k6/results/20260822T095628Z-product-stock-mix-93157.mysql-digests.tsv"},
+    {"run_key": "20260822T104747Z-product-stock-mix-98866", "summary": "k6/results/20260822T104747Z-product-stock-mix-98866.summary.json", "observations": "k6/results/20260822T104747Z-product-stock-mix-98866.observations", "mysql_digest": "k6/results/20260822T104747Z-product-stock-mix-98866.mysql-digests.tsv", "implementation_commit": "780ba6ed857b74e0b86a2724861c292b502dfb09"}
   ]
 }
