@@ -5,6 +5,7 @@ import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.redisson.api.RBucket;
+import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.redisson.client.RedisException;
 
@@ -20,11 +21,15 @@ import static org.mockito.Mockito.when;
 class ProductStockSnapshotCacheServiceTest {
 
     @Test
-    void cache_miss_reads_db_and_writes_snapshot() {
+    void cache_miss_reads_db_and_writes_snapshot() throws Exception {
         RedissonClient redisson = mock(RedissonClient.class);
         RBucket<Map<Long, Integer>> bucket = mock(RBucket.class);
+        RLock lock = mock(RLock.class);
         ProductQueryRepository repository = mock(ProductQueryRepository.class);
         when(redisson.<Map<Long, Integer>>getBucket("product:stock:10")).thenReturn(bucket);
+        when(redisson.getLock("product:stock:lock:10")).thenReturn(lock);
+        when(lock.tryLock(100, 5_000, TimeUnit.MILLISECONDS)).thenReturn(true);
+        when(lock.isHeldByCurrentThread()).thenReturn(true);
         when(repository.findSkuAvailability(10L)).thenReturn(Map.of(101L, 7));
 
         var registry = new SimpleMeterRegistry();
@@ -34,6 +39,7 @@ class ProductStockSnapshotCacheServiceTest {
         ArgumentCaptor<Map<Long, Integer>> snapshot = ArgumentCaptor.forClass(Map.class);
         org.mockito.Mockito.verify(bucket).set(snapshot.capture(), org.mockito.ArgumentMatchers.eq(5L),
                 org.mockito.ArgumentMatchers.eq(TimeUnit.SECONDS));
+        org.mockito.Mockito.verify(lock).unlock();
         assertThat(snapshot.getValue()).containsEntry(101L, 7);
         assertThat(registry.get("product.stock.cache").tag("outcome", "miss").counter().count()).isEqualTo(1);
         assertThat(registry.get("product.stock.cache").tag("outcome", "write").counter().count()).isEqualTo(1);
@@ -67,6 +73,26 @@ class ProductStockSnapshotCacheServiceTest {
         assertThat(service.getOrLoad(10L)).containsEntry(101L, 7);
         org.mockito.Mockito.verifyNoInteractions(repository);
         assertThat(registry.get("product.stock.cache").tag("outcome", "hit").counter().count()).isEqualTo(1);
+    }
+
+    @Test
+    void cache_miss_rechecks_after_lock_before_loading_db() throws Exception {
+        RedissonClient redisson = mock(RedissonClient.class);
+        RBucket<Map<Long, Integer>> bucket = mock(RBucket.class);
+        RLock lock = mock(RLock.class);
+        ProductQueryRepository repository = mock(ProductQueryRepository.class);
+        when(redisson.<Map<Long, Integer>>getBucket("product:stock:10")).thenReturn(bucket);
+        when(redisson.getLock("product:stock:lock:10")).thenReturn(lock);
+        when(bucket.get()).thenReturn(null, Map.of(101L, 7));
+        when(lock.tryLock(100, 5_000, TimeUnit.MILLISECONDS)).thenReturn(true);
+        when(lock.isHeldByCurrentThread()).thenReturn(true);
+
+        var service = new ProductStockSnapshotCacheService(
+                redisson, repository, new SimpleMeterRegistry(), 5);
+
+        assertThat(service.getOrLoad(10L)).containsEntry(101L, 7);
+        org.mockito.Mockito.verifyNoInteractions(repository);
+        org.mockito.Mockito.verify(lock).unlock();
     }
 
     @Test

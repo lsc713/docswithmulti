@@ -5,6 +5,7 @@ import com.example.product.application.service.ProductStockChangedEvent;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.redisson.api.RBucket;
+import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,40 @@ public class ProductStockSnapshotCacheService {
             miss.increment();
         } catch (RuntimeException ignored) {
             fallback.increment();
+            return load(productId);
         }
+        return loadUnderLock(productId);
+    }
+
+    private Map<Long, Integer> loadUnderLock(Long productId) {
+        RLock lock;
+        try {
+            lock = redissonClient.getLock("product:stock:lock:" + productId);
+            if (!lock.tryLock(100, 5_000, TimeUnit.MILLISECONDS)) return load(productId);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return load(productId);
+        } catch (RuntimeException ignored) {
+            return load(productId);
+        }
+        try {
+            try {
+                Map<Long, Integer> cached = bucket(productId).get();
+                if (cached != null) return cached;
+            } catch (RuntimeException ignored) {
+                // Redis is optional; the authoritative DB read remains available.
+            }
+            return load(productId);
+        } finally {
+            try {
+                if (lock.isHeldByCurrentThread()) lock.unlock();
+            } catch (RuntimeException ignored) {
+                // An expired or unavailable lock must not hide the DB result.
+            }
+        }
+    }
+
+    private Map<Long, Integer> load(Long productId) {
         Map<Long, Integer> fresh = repository.findSkuAvailability(productId);
         write(productId, fresh);
         return fresh;

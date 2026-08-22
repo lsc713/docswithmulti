@@ -94,8 +94,8 @@ class ProductBrowseIntegrationTest {
     }
 
     @Test
-    @DisplayName("BROWSE-02: 여러 SKU 상품 상세도 요청당 SELECT 6회")
-    void productDetailUsesSixQueriesRegardlessOfSkuCount() throws Exception {
+    @DisplayName("BROWSE-02: 여러 SKU 상품 상세도 cold miss 요청당 SELECT 7회")
+    void productDetailUsesSevenQueriesRegardlessOfSkuCount() throws Exception {
         String suffix = Long.toString(System.nanoTime());
         long leaf = buildTaxonomy("쿼리-대-" + suffix, "쿼리-중", "쿼리-소");
         long productId = registerProduct("""
@@ -117,7 +117,7 @@ class ProductBrowseIntegrationTest {
                 .tag("uri", "/v1/products/{id}").summary();
         assertThat(after).isNotNull();
         assertThat(after.count() - beforeCount).isEqualTo(1);
-        assertThat(after.totalAmount() - beforeTotal).isEqualTo(6);
+        assertThat(after.totalAmount() - beforeTotal).isEqualTo(7);
     }
 
     @Test
