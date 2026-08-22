@@ -13,6 +13,8 @@ public interface StockReservationRepository {
 
     Optional<StockReservation> findByPaymentKeyAndSkuIdForUpdate(String paymentKey, long skuId);
 
+    List<StockReservation> findAllByPaymentKeyAndSkuIdInForUpdate(String paymentKey, List<Long> skuIds);
+
     /**
      * orphan 복구 스캔 (RST-03, D-P3-3): threshold보다 오래된 RESERVED 예약을 배치 조회.
      * idx_reservation_status_created(status, created_at) 활용. created_at 오름차순 LIMIT 배치.
@@ -27,8 +29,8 @@ public interface StockReservationRepository {
     int upsertReserved(String paymentKey, long skuId, int qty, long unitPrice);
 
     /**
-     * release 원자 조건부 전이 RESERVED→RELEASED (W2).
-     * @return 1 = 전이 성공(복원 트리거), 0 = 이미 RELEASED/미존재(no-op)
+     * release 원자 조건부 일괄 전이 RESERVED→RELEASED (W2).
+     * @return 전이된 행 수
      */
-    int releaseIfReserved(String paymentKey, long skuId);
+    int releaseAllReserved(String paymentKey, List<Long> skuIds);
 }

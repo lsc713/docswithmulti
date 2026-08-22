@@ -20,6 +20,15 @@ public interface StockReservationJpaRepository extends JpaRepository<StockReserv
     Optional<StockReservationJpaEntity> findByPaymentKeyAndSkuIdForUpdate(
         String paymentKey, long skuId);
 
+    @Query(value = """
+        SELECT * FROM stock_reservation
+         WHERE payment_key = :paymentKey AND sku_id IN (:skuIds)
+         ORDER BY sku_id
+         FOR UPDATE
+        """, nativeQuery = true)
+    List<StockReservationJpaEntity> findAllByPaymentKeyAndSkuIdInForUpdate(
+        @Param("paymentKey") String paymentKey, @Param("skuIds") List<Long> skuIds);
+
     /**
      * orphan 스캔 (RST-03): status='RESERVED' AND created_at &lt; threshold, idx_reservation_status_created 활용.
      * created_at 오름차순 LIMIT 500 배치 — 오래된 것부터 정리, 한 주기 처리량 상한.
@@ -58,7 +67,7 @@ public interface StockReservationJpaRepository extends JpaRepository<StockReserv
     @Query(value = """
         UPDATE stock_reservation
            SET status = 'RELEASED', updated_at = CURRENT_TIMESTAMP(6)
-         WHERE payment_key = :paymentKey AND sku_id = :skuId AND status = 'RESERVED'
+         WHERE payment_key = :paymentKey AND sku_id IN (:skuIds) AND status = 'RESERVED'
         """, nativeQuery = true)
-    int releaseIfReserved(String paymentKey, long skuId);
+    int releaseAllReserved(@Param("paymentKey") String paymentKey, @Param("skuIds") List<Long> skuIds);
 }

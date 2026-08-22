@@ -11,7 +11,7 @@ import java.util.List;
  * 취소 이벤트 → SKU 재고 복원 (RST-02).
  *
  * <p>Phase 1 의 원자 상태전이 {@link StockService#release}를 재사용해 위임한다.
- * release 는 releaseIfReserved 조건부 전이(affected=1 일 때만 복원)로 over-release 불가·멱등.
+ * release 는 RESERVED 예약행만 잠금·전이한 뒤 복원하므로 over-release 불가·멱등.
  *
  * <p><b>멱등 게이트(D-P3-2/D-P3-4, order ProcessCancelledItemsService 동형)</b>: 단일 TX 안에서
  * cancelRequestId 를 processed_cancel_event UK 로 선체크 → 이미 처리면 즉시 no-op(release 재호출 자체를

@@ -34,6 +34,13 @@ public class StockReservationRepositoryImpl implements StockReservationRepositor
     }
 
     @Override
+    public List<StockReservation> findAllByPaymentKeyAndSkuIdInForUpdate(String paymentKey, List<Long> skuIds) {
+        return jpa.findAllByPaymentKeyAndSkuIdInForUpdate(paymentKey, skuIds).stream()
+            .map(StockReservationJpaEntity::toDomain)
+            .toList();
+    }
+
+    @Override
     public List<StockReservation> findStaleReserved(Instant threshold) {
         LocalDateTime ldt = LocalDateTime.ofInstant(threshold, ZoneOffset.UTC);
         return jpa.findStaleReserved(ldt).stream().map(StockReservationJpaEntity::toDomain).toList();
@@ -45,7 +52,7 @@ public class StockReservationRepositoryImpl implements StockReservationRepositor
     }
 
     @Override
-    public int releaseIfReserved(String paymentKey, long skuId) {
-        return jpa.releaseIfReserved(paymentKey, skuId);
+    public int releaseAllReserved(String paymentKey, List<Long> skuIds) {
+        return jpa.releaseAllReserved(paymentKey, skuIds);
     }
 }

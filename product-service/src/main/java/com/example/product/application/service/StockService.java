@@ -6,6 +6,7 @@ import com.example.product.application.interfaces.StockReservationRepository;
 import com.example.product.common.exception.application.InvalidStockReservationException;
 import com.example.product.common.exception.application.StockInsufficientException;
 import com.example.product.domain.entity.ProductSku;
+import com.example.product.domain.entity.ReservationStatus;
 import com.example.product.domain.entity.StockReservation;
 import org.springframework.stereotype.Service;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,6 +17,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.example.product.application.interfaces.ProductStockRepository.Adjustment;
+
 /**
  * 재고 예약/해제 (STOCK-03/04, D-P1-3·D-P1-4).
  *
@@ -23,11 +26,11 @@ import java.util.stream.Collectors;
  * uk_reservation_paymentkey_sku 가 winner/loser를 직렬화 → affected=1(신규 소유)만 차감,
  * affected=0(이미 예약됨)은 재사용(차감 없음). 동시 same-key도 500 없이 정확히 1회만 차감.
  *
- * <p><b>전-items 원자(D-P1-3)</b>: 단일 @Transactional — 하나라도 부족(tryReserve=0)하면
+ * <p><b>전-items 원자(D-P1-3)</b>: 단일 @Transactional — 하나라도 부족(batch affected=0)하면
  * 예외 전파로 앞서 INSERT/차감한 item까지 전부 롤백(부분 예약 없음).
  *
- * <p><b>release 원자(W2)</b>: releaseIfReserved(조건부 상태전이) affected=1일 때만 재고 복원.
- * 동시 이중 release라도 DB가 전이를 직렬화 → 복원 1회(over-release 불가), 이미 RELEASED/미존재는 no-op.
+ * <p><b>release 원자(W2)</b>: 예약행을 일괄 잠근 뒤 RESERVED만 일괄 전이·복원한다.
+ * 동시 이중 release라도 DB 행락이 직렬화 → 복원 1회(over-release 불가), 이미 RELEASED/미존재는 no-op.
  */
 @Service
 public class StockService {
@@ -58,6 +61,7 @@ public class StockService {
     @Transactional
     public List<ReservedItem> reserve(String paymentKey, List<ReserveItem> items) {
         var reserved = new java.util.ArrayList<ReservedItem>(items.size());
+        var adjustments = new java.util.ArrayList<Adjustment>(items.size());
         var changedProductIds = new LinkedHashSet<Long>();
         Map<Long, ProductSku> skusById = skuRepository.findAllByIdIn(
                 items.stream().map(ReserveItem::skuId).distinct().toList())
@@ -86,15 +90,19 @@ public class StockService {
                     item.skuId(), sku.getProductId(), existing.getUnitPrice(), existing.getQty()));
                 continue;
             }
-            // inserted=1: 이 요청이 예약 소유 → 원자 조건부 차감
-            int affected = stockRepository.tryReserve(item.skuId(), item.qty());
-            if (affected == 0) {
-                // 부족 → 전체 롤백(방금 INSERT한 예약행 + 앞선 item 차감/예약 모두 원복)
-                throw new StockInsufficientException(item.skuId());
-            }
+            adjustments.add(new Adjustment(item.skuId(), item.qty()));
             reserved.add(new ReservedItem(
                 item.skuId(), sku.getProductId(), sku.getPrice(), item.qty()));
             changedProductIds.add(sku.getProductId());
+        }
+        if (!adjustments.isEmpty()) {
+            int[] affected = stockRepository.tryReserveAll(adjustments);
+            for (int i = 0; i < affected.length; i++) {
+                if (affected[i] == 0) throw new StockInsufficientException(adjustments.get(i).skuId());
+            }
+            if (affected.length != adjustments.size()) {
+                throw new IllegalStateException("재고 일괄 차감 결과 수가 일치하지 않습니다.");
+            }
         }
         publishStockChanged(changedProductIds);
         return reserved;
@@ -102,17 +110,41 @@ public class StockService {
 
     @Transactional
     public void release(String paymentKey, List<ReserveItem> items) {
+        List<Long> requestedSkuIds = items.stream().map(ReserveItem::skuId).distinct().sorted().toList();
+        if (requestedSkuIds.isEmpty()) return;
+
+        List<StockReservation> reservations = reservationRepository
+            .findAllByPaymentKeyAndSkuIdInForUpdate(paymentKey, requestedSkuIds)
+            .stream()
+            .filter(r -> r.getStatus() == ReservationStatus.RESERVED)
+            .sorted(java.util.Comparator.comparingLong(StockReservation::getSkuId))
+            .toList();
+        if (reservations.isEmpty()) return;
+
+        List<Long> reservedSkuIds = reservations.stream().map(StockReservation::getSkuId).toList();
+        Map<Long, ProductSku> skusById = skuRepository.findAllByIdIn(reservedSkuIds).stream()
+            .collect(Collectors.toMap(ProductSku::getId, sku -> sku));
         var changedProductIds = new LinkedHashSet<Long>();
-        for (ReserveItem item : items) {
-            // W2: 조건부 상태전이가 재고 복원의 유일 트리거 → affected=1일 때만 복원(over-release 불가).
-            int transitioned = reservationRepository.releaseIfReserved(paymentKey, item.skuId());
-            if (transitioned == 1) {
-                stockRepository.restore(item.skuId(), item.qty());
-                changedProductIds.add(skuRepository.findById(item.skuId())
-                        .orElseThrow(() -> new InvalidStockReservationException(item.productId(), item.skuId()))
-                        .getProductId());
+        var adjustments = new java.util.ArrayList<Adjustment>(reservations.size());
+        for (StockReservation reservation : reservations) {
+            ProductSku sku = skusById.get(reservation.getSkuId());
+            if (sku == null) {
+                throw new InvalidStockReservationException(0, reservation.getSkuId());
             }
-            // transitioned=0: 이미 RELEASED/미존재 → no-op
+            adjustments.add(new Adjustment(reservation.getSkuId(), reservation.getQty()));
+            changedProductIds.add(sku.getProductId());
+        }
+
+        int transitioned = reservationRepository.releaseAllReserved(paymentKey, reservedSkuIds);
+        if (transitioned != reservations.size()) {
+            throw new IllegalStateException("예약 일괄 해제 결과 수가 일치하지 않습니다.");
+        }
+        int[] restored = stockRepository.restoreAll(adjustments);
+        if (restored.length != adjustments.size()) {
+            throw new IllegalStateException("재고 일괄 복원 결과 수가 일치하지 않습니다.");
+        }
+        for (int count : restored) {
+            if (count == 0) throw new IllegalStateException("복원할 재고를 찾을 수 없습니다.");
         }
         publishStockChanged(changedProductIds);
     }
