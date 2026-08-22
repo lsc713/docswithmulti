@@ -96,6 +96,7 @@ public class StockService {
             changedProductIds.add(sku.getProductId());
         }
         if (!adjustments.isEmpty()) {
+            adjustments.sort(java.util.Comparator.comparingLong(Adjustment::skuId));
             int[] affected = stockRepository.tryReserveAll(adjustments);
             for (int i = 0; i < affected.length; i++) {
                 if (affected[i] == 0) throw new StockInsufficientException(adjustments.get(i).skuId());
