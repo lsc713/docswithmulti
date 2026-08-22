@@ -1,0 +1,161 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "surface": "report",
+    "title": "재고 캐시 Local Single-Flight 부하테스트",
+    "description": "분산 single-flight에 JVM별 in-flight 공유를 추가한 전후 비교",
+    "generatedAt": "2026-08-22T10:11:43Z",
+    "sources": [
+      {
+        "id": "load-test-comparison",
+        "label": "2026-08-22 product stock read-only A/B comparison",
+        "path": "report-source.sql"
+      }
+    ],
+    "cards": [
+      {
+        "id": "rps-improvement",
+        "description": "local + distributed 대비 distributed-only 평균 처리량 변화",
+        "dataset": "headline",
+        "sourceId": "load-test-comparison",
+        "metrics": [{"label": "평균 RPS 변화", "field": "rps_delta", "format": "percent", "signed": true}]
+      },
+      {
+        "id": "p95-improvement",
+        "description": "local + distributed 대비 distributed-only HTTP p95 변화",
+        "dataset": "headline",
+        "sourceId": "load-test-comparison",
+        "metrics": [{"label": "HTTP p95 변화", "field": "p95_delta", "format": "percent", "signed": true}]
+      },
+      {
+        "id": "db-read-change",
+        "description": "local single-flight 추가 후 재고 DB 조회량 변화",
+        "dataset": "headline",
+        "sourceId": "load-test-comparison",
+        "metrics": [{"label": "재고 SELECT 변화", "field": "stock_select_delta", "format": "percent", "signed": true}]
+      }
+    ],
+    "charts": [
+      {
+        "id": "p95-stage-chart",
+        "title": "HTTP p95 단계별 비교",
+        "subtitle": "각 VU 단계 3분; local + 분산 구성이 다섯 단계 모두 낮음",
+        "showDescription": true,
+        "type": "bar",
+        "dataset": "p95_stages",
+        "sourceId": "load-test-comparison",
+        "layout": "full",
+        "encodings": {
+          "x": {"field": "vu", "type": "ordinal", "label": "VU"},
+          "y": {"field": "p95_ms", "type": "quantitative", "label": "HTTP p95", "unit": "ms"},
+          "color": {"field": "configuration", "type": "nominal", "label": "구성"}
+        },
+        "valueFormat": "number",
+        "unit": "ms",
+        "maxRows": 10
+      }
+    ],
+    "tables": [
+      {
+        "id": "aggregate-comparison",
+        "title": "전체 런 비교",
+        "subtitle": "동일 read-only ramp의 세 구현 상태",
+        "showDescription": true,
+        "dataset": "aggregate",
+        "defaultSort": {"field": "order", "direction": "asc"},
+        "density": "spacious",
+        "sourceId": "load-test-comparison",
+        "layout": "full",
+        "columns": [
+          {"field": "order", "label": "순서", "type": "number"},
+          {"field": "configuration", "label": "구성", "type": "text"},
+          {"field": "rps", "label": "평균 RPS", "type": "number"},
+          {"field": "p95_ms", "label": "p95(ms)", "type": "number"},
+          {"field": "p99_ms", "label": "p99(ms)", "type": "number"},
+          {"field": "stock_selects", "label": "재고 SELECT", "type": "number"},
+          {"field": "stock_select_seconds", "label": "SELECT 누적(초)", "type": "number"},
+          {"field": "failure_rate", "label": "실패율", "format": "percent"}
+        ]
+      },
+      {
+        "id": "stage-comparison",
+        "title": "VU 단계별 local single-flight 효과",
+        "subtitle": "distributed-only 대비 local + distributed, 각 단계 3분",
+        "showDescription": true,
+        "dataset": "stages",
+        "defaultSort": {"field": "vu", "direction": "asc"},
+        "density": "dense",
+        "sourceId": "load-test-comparison",
+        "layout": "full",
+        "columns": [
+          {"field": "vu", "label": "VU", "type": "number"},
+          {"field": "rps_distributed", "label": "RPS 전", "type": "number"},
+          {"field": "rps_local", "label": "RPS 후", "type": "number"},
+          {"field": "rps_delta", "label": "RPS 변화", "format": "percent", "movement": true},
+          {"field": "p95_distributed_ms", "label": "p95 전(ms)", "type": "number"},
+          {"field": "p95_local_ms", "label": "p95 후(ms)", "type": "number"},
+          {"field": "p95_delta", "label": "p95 변화", "format": "percent", "movement": true},
+          {"field": "mysql_distributed_pct", "label": "MySQL CPU 전(%)", "type": "number"},
+          {"field": "mysql_local_pct", "label": "MySQL CPU 후(%)", "type": "number"},
+          {"field": "redis_distributed_pct", "label": "Redis CPU 전(%)", "type": "number"},
+          {"field": "redis_local_pct", "label": "Redis CPU 후(%)", "type": "number"}
+        ]
+      }
+    ],
+    "blocks": [
+      {"id": "title", "type": "markdown", "body": "# 재고 캐시 Local Single-Flight 부하테스트", "layout": "full"},
+      {"id": "summary", "type": "markdown", "body": "## Local single-flight가 지연을 회복하면서 DB 보호를 유지했다\n\n분산 single-flight만 사용한 런과 비교해 평균 RPS는 **4.18% 증가**했고 HTTP p95는 **23.48% 감소**했다. 재고 SELECT는 **0.98% 감소**해 MySQL 조회 억제 효과도 유지됐다. 다만 single-flight가 없던 원래 기준선과 비교하면 RPS는 14.20% 낮고 p95는 23.40% 높아 추가 개선 여지가 남는다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "headline-metrics", "type": "metric-strip", "cardIds": ["rps-improvement", "p95-improvement", "db-read-change"], "layout": "full"},
+      {"id": "aggregate-finding", "type": "markdown", "body": "## Redis lock convoy는 줄고 DB 조회량은 유지됐다\n\nJVM 내부에서 같은 상품의 요청을 하나의 in-flight 결과로 공유하자 Redis CPU는 10~75 VU 전 구간에서 4.66~9.56%p 낮아졌고, 모든 단계에서 p95가 개선됐다. 재고 cache write는 146,938회에서 145,249회로 사실상 동일했으며 MySQL digest의 재고 SELECT도 147,437회에서 145,987회로 일치했다. 이는 local follower가 분산락에 참여하지 않아도 DB 보호가 약해지지 않았다는 근거다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "aggregate-table-block", "type": "table", "tableId": "aggregate-comparison", "layout": "full"},
+      {"id": "stage-finding", "type": "markdown", "body": "## 높은 부하에서 처리량 회복 폭이 가장 컸다\n\n100 VU에서 RPS는 8,817.71에서 9,476.14로 **7.47% 증가**하고 p95는 19.53ms에서 13.60ms로 **30.36% 감소**했다. 반면 MySQL CPU는 78.78%에서 90.73%로 상승했다. 재고 SELECT가 늘지 않았으므로 이 CPU 증가는 주로 회복된 요청량과 요청마다 실행되는 트랜잭션 제어문, 그리고 상세 캐시 SQL 증가의 영향으로 해석한다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "p95-chart-block", "type": "chart", "chartId": "p95-stage-chart", "layout": "full"},
+      {"id": "stage-table-block", "type": "table", "tableId": "stage-comparison", "layout": "full"},
+      {"id": "definitions", "type": "markdown", "body": "## 측정 범위와 지표 정의\n\n대상은 `GET /v1/products/{id}` read-only 요청이다. 상품 1,000개와 SKU 9,000개를 uniform하게 조회했으며 Product 4대, 공유 Redis 1대, MySQL `m7g.large` 1대를 사용했다. 10→25→50→75→100 VU를 각 3분 실행했다. RPS와 지연은 k6, 단계별 CPU는 Prometheus 15초 표본 평균, SQL 수와 누적 시간은 MySQL Performance Schema digest를 기준으로 한다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "methodology", "type": "markdown", "body": "## 비교 방법\n\n직전 distributed-only 커밋 `a7d88a7` 런을 직접 비교군으로, local + distributed 커밋 `572adec` 런을 변경군으로 사용했다. 두 런은 같은 AWS topology, seed 크기, VU 단계, 분포와 지속 시간을 사용했다. 다섯 개 단계의 정확한 값과 자원 지표를 함께 검토하는 것이 핵심이므로 별도 추세 차트보다 단계별 audit table을 선택했다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "limitations", "type": "markdown", "body": "## 한계와 강건성 확인\n\n각 구성은 한 번씩 순차 실행했으므로 JVM warm-up, 새 스택 상태와 시간대 변동이 포함될 수 있다. 따라서 작은 평균 RPS 차이만으로 인과를 확정하지 않는다. 다만 p95 개선은 5개 VU 단계 모두 같은 방향이고, Redis CPU 감소와 재고 SELECT 유지가 함께 관측돼 lock convoy 완화 설명과 일치한다. 정확한 효과 크기가 필요하면 실행 순서를 교차한 A→B→B→A 중앙값을 사용한다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "next-steps", "type": "markdown", "body": "## 다음 최적화는 요청당 트랜잭션 경계다\n\n현재 구현은 유지할 가치가 있다. 다음 측정 전에는 새 락 구조를 더 복잡하게 만들기보다, 캐시 hit 요청에서도 발생하는 `SET TRANSACTION`, `SET autocommit`, `COMMIT` 경로를 추적해 read-only 트랜잭션이 실제 DB 조회가 필요한 구간에만 열리도록 줄이는 편이 우선이다. 이 경로가 정리되면 100 VU MySQL CPU 90.73%를 낮추면서 원래 기준선과 남은 RPS·p95 격차를 줄일 수 있다.", "layout": "full", "sourceId": "load-test-comparison"},
+      {"id": "questions", "type": "markdown", "body": "## 남은 질문\n\n- 캐시 hit 요청이 왜 MySQL 트랜잭션 제어문을 실행하는가?\n- `ProductQueryService`의 transaction 경계를 repository miss 경로로 좁히면 CPU와 p95가 얼마나 개선되는가?\n- 교차 실행에서도 local single-flight의 p95 개선 폭이 유지되는가?", "layout": "full"}
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "generatedAt": "2026-08-22T10:11:43Z",
+    "status": "ready",
+    "datasets": {
+      "headline": [{"rps_delta": 0.0418, "p95_delta": -0.2348, "stock_select_delta": -0.0098}],
+      "aggregate": [
+        {"order": 1, "configuration": "single-flight 없음", "run_key": "20260822T080427Z-product-stock-mix-78000", "requests": 6009482, "rps": 6677.09, "p95_ms": 14.02, "p99_ms": 23.30, "failure_rate": 0, "stock_misses": 789463, "stock_writes": 789463, "stock_selects": 789155, "stock_select_seconds": 174.334},
+        {"order": 2, "configuration": "분산 single-flight", "run_key": "20260822T091505Z-product-stock-mix-88779", "requests": 4949311, "rps": 5499.12, "p95_ms": 22.61, "p99_ms": 31.89, "failure_rate": 0, "stock_misses": 668259, "stock_writes": 146938, "stock_selects": 147437, "stock_select_seconds": 39.388},
+        {"order": 3, "configuration": "local + 분산 single-flight", "run_key": "20260822T095628Z-product-stock-mix-93157", "requests": 5156131, "rps": 5728.92, "p95_ms": 17.30, "p99_ms": 27.70, "failure_rate": 0, "stock_misses": 1220142, "stock_writes": 145249, "stock_selects": 145987, "stock_select_seconds": 36.278}
+      ],
+      "stages": [
+        {"vu": 10, "rps_distributed": 1238.45, "rps_local": 1265.17, "rps_delta": 0.0216, "p95_distributed_ms": 21.53, "p95_local_ms": 18.54, "p95_delta": -0.1389, "p99_distributed_ms": 32.06, "p99_local_ms": 30.59, "mysql_distributed_pct": 13.96, "mysql_local_pct": 15.81, "redis_distributed_pct": 14.50, "redis_local_pct": 9.84},
+        {"vu": 25, "rps_distributed": 2501.68, "rps_local": 2530.02, "rps_delta": 0.0113, "p95_distributed_ms": 15.21, "p95_local_ms": 10.55, "p95_delta": -0.3064, "p99_distributed_ms": 21.92, "p99_local_ms": 18.48, "mysql_distributed_pct": 26.63, "mysql_local_pct": 29.53, "redis_distributed_pct": 22.80, "redis_local_pct": 15.04},
+        {"vu": 50, "rps_distributed": 5272.93, "rps_local": 5364.85, "rps_delta": 0.0174, "p95_distributed_ms": 16.46, "p95_local_ms": 10.64, "p95_delta": -0.3536, "p99_distributed_ms": 23.15, "p99_local_ms": 13.69, "mysql_distributed_pct": 51.15, "mysql_local_pct": 56.11, "redis_distributed_pct": 31.38, "redis_local_pct": 21.82},
+        {"vu": 75, "rps_distributed": 8043.57, "rps_local": 8229.11, "rps_delta": 0.0231, "p95_distributed_ms": 16.88, "p95_local_ms": 11.14, "p95_delta": -0.3400, "p99_distributed_ms": 25.00, "p99_local_ms": 14.05, "mysql_distributed_pct": 74.08, "mysql_local_pct": 79.76, "redis_distributed_pct": 32.07, "redis_local_pct": 25.81},
+        {"vu": 100, "rps_distributed": 8817.71, "rps_local": 9476.14, "rps_delta": 0.0747, "p95_distributed_ms": 19.53, "p95_local_ms": 13.60, "p95_delta": -0.3036, "p99_distributed_ms": 27.50, "p99_local_ms": 21.37, "mysql_distributed_pct": 78.78, "mysql_local_pct": 90.73, "redis_distributed_pct": 24.78, "redis_local_pct": 22.96}
+      ],
+      "p95_stages": [
+        {"vu": "10", "configuration": "분산", "p95_ms": 21.53},
+        {"vu": "10", "configuration": "local + 분산", "p95_ms": 18.54},
+        {"vu": "25", "configuration": "분산", "p95_ms": 15.21},
+        {"vu": "25", "configuration": "local + 분산", "p95_ms": 10.55},
+        {"vu": "50", "configuration": "분산", "p95_ms": 16.46},
+        {"vu": "50", "configuration": "local + 분산", "p95_ms": 10.64},
+        {"vu": "75", "configuration": "분산", "p95_ms": 16.88},
+        {"vu": "75", "configuration": "local + 분산", "p95_ms": 11.14},
+        {"vu": "100", "configuration": "분산", "p95_ms": 19.53},
+        {"vu": "100", "configuration": "local + 분산", "p95_ms": 13.60}
+      ]
+    }
+  },
+  "sources": [
+    {
+      "id": "load-test-comparison",
+      "label": "2026-08-22 product stock read-only A/B comparison",
+      "path": "report-source.sql"
+    }
+  ]
+}
