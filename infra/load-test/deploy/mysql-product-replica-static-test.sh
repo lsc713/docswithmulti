@@ -49,13 +49,18 @@ require 'SOURCE_AUTO_POSITION=1' ssm-deploy.sh
 require 'GET_SOURCE_PUBLIC_KEY=1' ssm-deploy.sh
 require 'SHOW REPLICA STATUS' ssm-deploy.sh
 require 'mysql-product-replica-smoke.sh' ssm-deploy.sh
-require 'SET GLOBAL read_only=ON; SET GLOBAL super_read_only=ON' ssm-deploy.sh
+require 'SET PERSIST read_only=ON; SET PERSIST super_read_only=ON' ssm-deploy.sh
+if rg -q 'SET GLOBAL (read_only|super_read_only)' "$HERE/ssm-deploy.sh"; then
+  echo 'replica read-only state must be persisted across restarts' >&2
+  exit 1
+fi
 require 'SELECT @@GLOBAL.read_only, @@GLOBAL.super_read_only' ssm-deploy.sh
 require '/opt/loadtest/.product-replica-source-initialized' ssm-deploy.sh
+require '/opt/loadtest/.product-replica-source-fresh' ssm-deploy.sh
 require 'docker volume inspect deploy_mysql-product-data' ssm-deploy.sh
 require 'unproven mysql-product volume' ssm-deploy.sh
-rg -Uq 'SET GLOBAL read_only=ON; SET GLOBAL super_read_only=ON;.[\s\S]*SELECT @@GLOBAL\.read_only, @@GLOBAL\.super_read_only.[\s\S]*SHOW REPLICA STATUS' "$HERE/ssm-deploy.sh"
-rg -Uq 'if docker volume inspect deploy_mysql-product-data[^\n]*; then\n  \[ -f "\$source_marker" \][\s\S]*else\n  rm -f "\$source_marker"\nfi' "$HERE/ssm-deploy.sh"
+rg -Uq 'SET PERSIST read_only=ON; SET PERSIST super_read_only=ON;.[\s\S]*SELECT @@GLOBAL\.read_only, @@GLOBAL\.super_read_only.[\s\S]*SHOW REPLICA STATUS' "$HERE/ssm-deploy.sh"
+rg -Uq 'if docker volume inspect deploy_mysql-product-data[^\n]*; then\n  \[ -f "\\\$source_marker" \] \|\| \[ -f "\\\$fresh_marker" \][\s\S]*else\n  rm -f "\\\$source_marker" "\\\$fresh_marker"[\s\S]*touch "\\\$fresh_marker"\nfi' "$HERE/ssm-deploy.sh"
 rg -Uq 'if \[ "\$source_host" = .10\.0\.1\.33. \]; then[\s\S]*START REPLICA;[\s\S]*else[\s\S]*STOP REPLICA;[\s\S]*CHANGE REPLICATION SOURCE TO' "$HERE/ssm-deploy.sh"
 rg -Uq '\./mysql-product-replica-smoke\.sh\nEOF' "$HERE/ssm-deploy.sh"
 rg -Uq 'ssm_run "\$role" "\$remote"\n  if \[ "\$LOAD_TEST_PROFILE" = "product-replica" \] && \[ "\$role" = "mysql-product-replica" \]; then[\s\S]*touch /opt/loadtest/\.product-replica-source-initialized' "$HERE/ssm-deploy.sh"
@@ -89,3 +94,74 @@ if docker compose version >/dev/null 2>&1; then
     and ((.services["mysql-product-replica"].environment | has("MYSQL_DATABASE")) == false)
     and ((.services["mysql-product-replica"].environment | has("MYSQL_USER")) == false)' <<<"$replica" >/dev/null
 fi
+
+(
+  fake_bin=$(mktemp -d)
+  trap 'rm -rf "$fake_bin"' EXIT
+  log="$fake_bin/ssm.log"
+
+  cat >"$fake_bin/aws" <<'AWS'
+#!/usr/bin/env bash
+set -euo pipefail
+
+case "${1:-} ${2:-}" in
+  'ec2 describe-instances') echo i-task4-test ;;
+  'ssm describe-instance-information') echo Online ;;
+  'ssm send-command')
+    shift 2
+    comment='' params=''
+    while [ "$#" -gt 0 ]; do
+      case "$1" in
+        --comment) comment="$2"; shift 2 ;;
+        --parameters) params="$2"; shift 2 ;;
+        *) shift ;;
+      esac
+    done
+    printf '%s\t%s\n' "$comment" "$(jq -cn --arg value "$params" '$value')" >>"$SSM_TEST_LOG"
+    if [ "${SSM_TEST_FAIL_PREFLIGHT:-0}" = 1 ]; then
+      case "$params" in *"source_volume_required='1'"*) echo command-preflight-fail; exit ;; esac
+    fi
+    echo command-task4-test
+    ;;
+  'ssm list-command-invocations')
+    case " $* " in
+      *' --details '*) : ;;
+      *'command-preflight-fail'*) echo Failed ;;
+      *) echo Success ;;
+    esac
+    ;;
+  *) echo "unexpected fake aws call: $*" >&2; exit 1 ;;
+esac
+AWS
+  chmod +x "$fake_bin/aws"
+
+  SSM_TEST_LOG="$log" PATH="$fake_bin:$PATH" \
+    IMAGE_NS=test REPO_REF=deadbeef LOAD_TEST_PROFILE=product-replica \
+    ROLES=mysql-product-replica DEPLOY_OBS=0 SSM_READY_ATTEMPTS=1 SSM_POLL_ATTEMPTS=1 \
+    bash "$HERE/ssm-deploy.sh" >/dev/null
+
+  count=$(wc -l <"$log" | tr -d ' ')
+  [ "$count" = 3 ] || {
+    echo "replica-only deploy must send source preflight, replica, then success marker; got $count commands" >&2
+    exit 1
+  }
+  first=$(sed -n '1p' "$log")
+  second=$(sed -n '2p' "$log")
+  third=$(sed -n '3p' "$log")
+  case "$first" in *'loadtest deploy mysql-product'*'source_volume_required='"'"'1'"'"''*) ;; *) echo 'replica-only source preflight is missing or not strict' >&2; exit 1 ;; esac
+  case "$second" in *'loadtest deploy mysql-product-replica'*'./mysql-product-replica-smoke.sh'*) ;; *) echo 'replica command must follow source preflight and run smoke' >&2; exit 1 ;; esac
+  case "$third" in *'loadtest deploy mysql-product'*'.product-replica-source-initialized'*) ;; *) echo 'success marker command must be last' >&2; exit 1 ;; esac
+
+  : >"$log"
+  if SSM_TEST_LOG="$log" SSM_TEST_FAIL_PREFLIGHT=1 PATH="$fake_bin:$PATH" \
+    IMAGE_NS=test REPO_REF=deadbeef LOAD_TEST_PROFILE=product-replica \
+    ROLES=mysql-product-replica DEPLOY_OBS=0 SSM_READY_ATTEMPTS=1 SSM_POLL_ATTEMPTS=1 \
+    bash "$HERE/ssm-deploy.sh" >/dev/null 2>&1; then
+    echo 'replica-only deploy must stop when source preflight fails' >&2
+    exit 1
+  fi
+  [ "$(wc -l <"$log" | tr -d ' ')" = 1 ] || {
+    echo 'failed source preflight must not send replica or success-marker commands' >&2
+    exit 1
+  }
+)

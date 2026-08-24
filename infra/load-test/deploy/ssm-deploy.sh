@@ -186,7 +186,7 @@ for attempt in $(seq 1 120); do
 done
 
 timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot \
-  -e 'SET GLOBAL read_only=ON; SET GLOBAL super_read_only=ON;'
+  -e 'SET PERSIST read_only=ON; SET PERSIST super_read_only=ON;'
 read_only_state=$(timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica \
   mysql --batch --skip-column-names -uroot -e 'SELECT @@GLOBAL.read_only, @@GLOBAL.super_read_only' | tr '\t' ' ')
 [ "$read_only_state" = '1 1' ] || { echo 'replica read_only configuration failed' >&2; exit 1; }
@@ -215,16 +215,24 @@ fi
 EOF
 }
 
-source_provenance_guard() {
-  cat <<'EOF'
+source_provenance_preflight() {
+  local source_volume_required="$1"
+  cat <<EOF
+source_volume_required='${source_volume_required}'
 source_marker=/opt/loadtest/.product-replica-source-initialized
+fresh_marker=/opt/loadtest/.product-replica-source-fresh
 if docker volume inspect deploy_mysql-product-data >/dev/null 2>&1; then
-  [ -f "$source_marker" ] || {
+  [ -f "\$source_marker" ] || [ -f "\$fresh_marker" ] || {
     echo 'refusing unproven mysql-product volume; remove it before the first product-replica deployment' >&2
     exit 1
   }
 else
-  rm -f "$source_marker"
+  rm -f "\$source_marker" "\$fresh_marker"
+  [ "\$source_volume_required" = 0 ] || {
+    echo 'mysql-product source volume is missing; deploy the source role first' >&2
+    exit 1
+  }
+  touch "\$fresh_marker"
 fi
 EOF
 }
@@ -235,9 +243,9 @@ for role in $ROLES; do
   extra="$(logging_override "$role") $(profile_override "$role")"
   echo "── [$role] ${file} 배포${extra:+ (+CloudWatch 로그)} ──"
 
-  provenance_guard=""
+  source_preflight=""
   if [ "$LOAD_TEST_PROFILE" = "product-replica" ] && [ "$role" = "mysql-product" ]; then
-    provenance_guard="$(source_provenance_guard)"
+    source_preflight="$(source_provenance_preflight 0)"
   fi
 
   remote="$(clone_header)
@@ -245,7 +253,7 @@ export IMAGE_NS='${IMAGE_NS}' IMAGE_TAG='${IMAGE_TAG}' AWS_REGION='${REGION}'
 # 실측 토글 포워딩 (로컬 env → 원격 compose). 미설정 시 안전한 기본값(off).
 export SERVER_TOMCAT_MBEANREGISTRY_ENABLED='${SERVER_TOMCAT_MBEANREGISTRY_ENABLED:-false}' OTEL_JAVAAGENT='${OTEL_JAVAAGENT:-}' LOADTEST_QUERYCOUNT_ENABLED='${LOADTEST_QUERYCOUNT_ENABLED:-false}' CANCEL_PUBLISH_MODE='${CANCEL_PUBLISH_MODE:-INLINE}' CANCEL_OUTBOX_POLL_MS='${CANCEL_OUTBOX_POLL_MS:-10000}' CANCEL_OUTBOX_BATCH_SIZE='${CANCEL_OUTBOX_BATCH_SIZE:-1000}'
 cd /opt/loadtest/repo/infra/load-test/deploy
-${provenance_guard}
+${source_preflight}
 docker compose -f '${file}' ${extra} pull
 docker compose -f '${file}' ${extra} up -d
 # 호스트 지표: node-exporter (관측용, 항상)
@@ -255,11 +263,16 @@ docker compose -f '${file}' ${extra} ps"
     remote="$remote
 $(replica_configuration)"
   fi
+  if [ "$LOAD_TEST_PROFILE" = "product-replica" ] && [ "$role" = "mysql-product-replica" ]; then
+    ssm_run "mysql-product" "set -e
+$(source_provenance_preflight 1)"
+  fi
   ssm_run "$role" "$remote"
   if [ "$LOAD_TEST_PROFILE" = "product-replica" ] && [ "$role" = "mysql-product-replica" ]; then
     ssm_run "mysql-product" "set -e
 mkdir -p /opt/loadtest
-touch /opt/loadtest/.product-replica-source-initialized"
+touch /opt/loadtest/.product-replica-source-initialized
+rm -f /opt/loadtest/.product-replica-source-fresh"
   fi
 done
 

@@ -40,9 +40,9 @@ LOAD_TEST_PROFILE=product-replica IMAGE_NS=<dockerhub-user> IMAGE_TAG=<sha> REPO
 ```
 > 앱은 Flyway로 스키마 생성 후 기동. DB/Kafka 준비 전이면 재시도로 수렴(`restart: unless-stopped`). 기동까지 1~3분.
 
-`product-replica` 프로파일에서만 source Compose에 GTID/ROW binlog와 복제 사용자 초기화를 덧붙인다. replica는 첫 entrypoint 초기화 동안 쓰기 가능하게 시작한 뒤 SSM이 두 read-only 전역 변수를 켜고 확인한다. 승격/연쇄 복제는 범위 밖이므로 replica 자체 binlog는 켜지 않는다. `product_replicator/product_replicator`, `product_reader/product_reader`, MySQL root 비밀번호 `root`는 폐기 가능한 부하 테스트 전용 자격 증명이며 운영에 사용하지 않는다.
+`product-replica` 프로파일에서만 source Compose에 GTID/ROW binlog와 복제 사용자 초기화를 덧붙인다. replica는 첫 entrypoint 초기화 동안 쓰기 가능하게 시작한 뒤 SSM이 `SET PERSIST`로 두 read-only 전역 변수를 켜고 확인한다. 승격/연쇄 복제는 범위 밖이므로 replica 자체 binlog는 켜지 않는다. `product_replicator/product_replicator`, `product_reader/product_reader`, MySQL root 비밀번호 `root`는 폐기 가능한 부하 테스트 전용 자격 증명이며 운영에 사용하지 않는다.
 
-GTID auto-position은 기존 데이터를 복사하지 않는다. 따라서 source 호스트에 검증 marker 없이 `deploy_mysql-product-data` 볼륨이 이미 있으면 배포가 중단되며, marker는 replication smoke가 성공한 뒤에만 생성된다. replica 구성은 같은 source가 이미 설정돼 있으면 멈춘 thread만 다시 시작하고, 배포 중 `mysql-product-replica-smoke.sh`가 thread 상태, marker 복제, reader SELECT/쓰기 거부, marker 삭제 복제를 확인한다. 수동 재검증은 replica 호스트의 deploy 디렉터리에서 다음처럼 실행한다.
+GTID auto-position은 기존 데이터를 복사하지 않는다. 따라서 source 호스트에 fresh/success marker 없이 `deploy_mysql-product-data` 볼륨이 이미 있으면 배포가 중단된다. fresh marker는 빈 source 볼륨 경로에서만 생기고, success marker는 replication smoke 성공 뒤에만 생긴다. replica-only 부분 배포도 source preflight가 먼저 통과해야 한다. replica 구성은 같은 source가 이미 설정돼 있으면 멈춘 thread만 다시 시작하고, 배포 중 `mysql-product-replica-smoke.sh`가 thread 상태, marker 복제, reader SELECT/쓰기 거부, marker 삭제 복제를 확인한다. 수동 재검증은 replica 호스트의 deploy 디렉터리에서 다음처럼 실행한다.
 
 ```bash
 ./mysql-product-replica-smoke.sh
