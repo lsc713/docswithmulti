@@ -342,7 +342,7 @@ git commit -m "feat(load): add product replica terraform profile"
 ### Task 4: MySQL GTID Source/Replica Deployment and Smoke
 
 **Files:**
-- Modify: `infra/load-test/deploy/mysql-product.compose.yml`
+- Create: `infra/load-test/deploy/mysql-product-replication.compose.yml`
 - Create: `infra/load-test/deploy/mysql-product-init/01-replication-users.sql`
 - Create: `infra/load-test/deploy/mysql-product-replica.compose.yml`
 - Create: `infra/load-test/deploy/mysql-product-replica-smoke.sh`
@@ -360,8 +360,8 @@ git commit -m "feat(load): add product replica terraform profile"
 Assert source flags, replica flags, role mapping, and deployment order:
 
 ```bash
-rg -q -- '--server-id=1' mysql-product.compose.yml
-rg -q -- '--gtid-mode=ON' mysql-product.compose.yml
+rg -q -- '--server-id=1' mysql-product-replication.compose.yml
+rg -q -- '--gtid-mode=ON' mysql-product-replication.compose.yml
 rg -q -- '--server-id=2' mysql-product-replica.compose.yml
 rg -q -- '--super-read-only=ON' mysql-product-replica.compose.yml
 rg -q 'SOURCE_AUTO_POSITION=1' ssm-deploy.sh
@@ -376,9 +376,10 @@ bash infra/load-test/deploy/mysql-product-replica-static-test.sh
 
 Expected: missing replica compose/deployment contracts fail.
 
-- [ ] **Step 3: Enable GTID on the disposable source**
+- [ ] **Step 3: Enable GTID only through the replica-profile source override**
 
-Keep the existing buffer pool and connection flags and add:
+Keep `mysql-product.compose.yml` unchanged. Create `mysql-product-replication.compose.yml`, repeat the
+existing buffer pool and connection flags because Compose replaces the command list, and add:
 
 ```yaml
 command:
@@ -389,7 +390,11 @@ command:
   - --enforce-gtid-consistency=ON
 ```
 
-Mount `mysql-product-init/01-replication-users.sql` read-only into `/docker-entrypoint-initdb.d/`. The SQL creates `product_replicator` with `REPLICATION SLAVE, REPLICATION CLIENT` and `product_reader` with `SELECT` on `product_db.*`. Use the existing disposable test credentials and document that they are non-production.
+Mount `mysql-product-init/01-replication-users.sql` read-only into `/docker-entrypoint-initdb.d/` from
+this override. Select the override only for the source role under `product-replica`; existing profiles
+continue using the base Compose without binlog/GTID changes. The SQL creates `product_replicator` with
+`REPLICATION SLAVE, REPLICATION CLIENT` and `product_reader` with `SELECT` on `product_db.*`. Use the
+existing disposable test credentials and document that they are non-production.
 
 - [ ] **Step 4: Add the blank read-only replica compose**
 
@@ -454,7 +459,7 @@ Expected: all commands exit 0.
 - [ ] **Step 8: Commit replication deployment**
 
 ```bash
-git add infra/load-test/deploy/mysql-product.compose.yml \
+git add infra/load-test/deploy/mysql-product-replication.compose.yml \
   infra/load-test/deploy/mysql-product-init/01-replication-users.sql \
   infra/load-test/deploy/mysql-product-replica.compose.yml \
   infra/load-test/deploy/mysql-product-replica-smoke.sh \
@@ -469,8 +474,8 @@ git commit -m "feat(load): deploy mysql product read replica"
 - Modify: `infra/load-test/deploy/product.compose.yml`
 - Modify: `infra/load-test/deploy/product-scaleout.compose.yml`
 - Modify: `infra/load-test/deploy/ssm-deploy.sh`
-- Modify: `infra/load-test/observability/product-only.compose.yml`
-- Modify: `infra/load-test/observability/product-only-prometheus.yml`
+- Create: `infra/load-test/observability/product-replica.compose.yml`
+- Create: `infra/load-test/observability/product-replica-prometheus.yml`
 - Modify: `k6/run-product-stock-mix-aws.sh`
 - Modify: `k6/product-stock-mix-runner-test.sh`
 
@@ -506,11 +511,16 @@ In `ssm-deploy.sh`, default `PRODUCT_DATASOURCE_REPLICA_ENABLED` to `true` only 
 `LOAD_TEST_PROFILE=product-replica`, but preserve an explicitly supplied `true` or `false` so the same
 topology can run the primary-only A/B control. All other profiles force the value to `false`.
 
-- [ ] **Step 4: Add replica host and exporter observation**
+- [ ] **Step 4: Add replica-only host and exporter observation**
 
-Add replica node-exporter target `10.0.1.34:9100`. Add a second mysqld-exporter pointed at
-`10.0.1.34:3306` and scrape it with `db: product-replica`; keep the source exporter label
-`db: product`. Extend runner CPU/memory host regex and add:
+Keep `product-only.compose.yml` and `product-only-prometheus.yml` unchanged. Create a
+`product-replica.compose.yml` override that adds the second exporter and points Prometheus at a complete
+`product-replica-prometheus.yml` config. The replica config retains every existing Product/source/Redis
+target, adds node-exporter target `10.0.1.34:9100`, and scrapes a second mysqld-exporter pointed at
+`10.0.1.34:3306` with `db: product-replica`; the source exporter remains `db: product`.
+
+Select these observation files only for `LOAD_TEST_PROFILE=product-replica`. Extend runner CPU/memory
+host regex and add:
 
 ```bash
 DATASOURCE_ROUTE_QUERY='product_datasource_route_total{host=~"product-a|product-b|product-c|product-d"}'
@@ -525,7 +535,8 @@ bash k6/product-stock-mix-runner-test.sh
 bash -n infra/load-test/deploy/ssm-deploy.sh
 IMAGE_NS=test docker compose -f infra/load-test/deploy/product.compose.yml \
   -f infra/load-test/deploy/product-scaleout.compose.yml config >/dev/null
-docker compose -f infra/load-test/observability/product-only.compose.yml config >/dev/null
+docker compose -f infra/load-test/observability/product-only.compose.yml \
+  -f infra/load-test/observability/product-replica.compose.yml config >/dev/null
 ```
 
 Expected: all checks exit 0.
@@ -536,8 +547,8 @@ Expected: all checks exit 0.
 git add infra/load-test/deploy/product.compose.yml \
   infra/load-test/deploy/product-scaleout.compose.yml \
   infra/load-test/deploy/ssm-deploy.sh \
-  infra/load-test/observability/product-only.compose.yml \
-  infra/load-test/observability/product-only-prometheus.yml \
+  infra/load-test/observability/product-replica.compose.yml \
+  infra/load-test/observability/product-replica-prometheus.yml \
   k6/run-product-stock-mix-aws.sh k6/product-stock-mix-runner-test.sh
 git commit -m "feat(load): observe product replica routing"
 ```
