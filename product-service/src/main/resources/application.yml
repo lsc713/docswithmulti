@@ -45,6 +45,14 @@ spring:
     active: local
 
 product:
+  datasource:
+    replica:
+      enabled: ${PRODUCT_DATASOURCE_REPLICA_ENABLED:false}
+      url: ${PRODUCT_DATASOURCE_REPLICA_URL:}
+      username: ${PRODUCT_DATASOURCE_REPLICA_USERNAME:product_reader}
+      password: ${PRODUCT_DATASOURCE_REPLICA_PASSWORD:product_reader}
+      hikari:
+        connection-timeout: ${PRODUCT_DATASOURCE_REPLICA_CONNECTION_TIMEOUT_MS:500}
   cache:
     stock-ttl-seconds: ${PRODUCT_CACHE_STOCK_TTL_SECONDS:5}
     content-soft-ttl-seconds: ${PRODUCT_CACHE_CONTENT_SOFT_TTL_SECONDS:60}

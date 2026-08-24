@@ -12,6 +12,8 @@ flyway {
 dependencies {
     implementation project(':common-observability')
 
+    implementation 'org.springframework.boot:spring-boot-starter-aspectj'
+
     // Kafka consumer (payment.cancelled 구독 → 재고 복원). 03-01: consume-only.
     implementation 'org.springframework.kafka:spring-kafka'
 
