@@ -1,0 +1,12 @@
+services:
+  mysql-product:
+    command:
+      - --max-connections=500
+      - --innodb-buffer-pool-size=4G
+      - --server-id=1
+      - --log-bin=mysql-bin
+      - --binlog-format=ROW
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+    volumes:
+      - ./mysql-product-init/01-replication-users.sql:/docker-entrypoint-initdb.d/01-replication-users.sql:ro

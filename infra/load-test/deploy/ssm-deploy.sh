@@ -19,7 +19,7 @@
 #   AWS_REGION     (기본 ap-northeast-2)
 #   LOG_CLOUDWATCH (기본 0) 1이면 앱 컨테이너 로그를 awslogs→CloudWatch 로 전송
 #   DEPLOY_OBS     (기본 1) node-exporter(전 호스트)+obs 스택 배포. ROLES 지정 시 자동 0.
-#   LOAD_TEST_PROFILE (기본 full) full | product
+#   LOAD_TEST_PROFILE (기본 full) full | product | product-scaleout | product-replica
 # ─────────────────────────────────────────────────────────────
 set -euo pipefail
 
@@ -35,7 +35,7 @@ SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-240}"
 case "$SSM_READY_ATTEMPTS:$SSM_POLL_ATTEMPTS" in
   *[!0-9:]*|0:*|*:0) echo "SSM wait attempts must be positive integers" >&2; exit 1 ;;
 esac
-case "$LOAD_TEST_PROFILE" in full|product|product-scaleout) ;; *) echo "LOAD_TEST_PROFILE must be full, product, or product-scaleout" >&2; exit 1 ;; esac
+case "$LOAD_TEST_PROFILE" in full|product|product-scaleout|product-replica) ;; *) echo "LOAD_TEST_PROFILE must be full, product, product-scaleout, or product-replica" >&2; exit 1 ;; esac
 
 # role → compose 파일 (순서 = 배포 순서: 인프라 → DB → 앱)
 # macOS 기본 bash 3.2 는 연관배열(declare -A) 미지원 → case 로 매핑.
@@ -43,6 +43,8 @@ if [ "$LOAD_TEST_PROFILE" = "product" ]; then
   ORDER="mysql-product product"
 elif [ "$LOAD_TEST_PROFILE" = "product-scaleout" ]; then
   ORDER="mysql-product redis-product product-a product-b product-c product-d"
+elif [ "$LOAD_TEST_PROFILE" = "product-replica" ]; then
+  ORDER="mysql-product mysql-product-replica redis-product product-a product-b product-c product-d"
 else
   ORDER="infra mysql-payment mysql-risk cold-db mysql-product cold-svc risk payment product"
 fi
@@ -53,6 +55,7 @@ compose_for() {
     mysql-risk)    echo mysql-risk.compose.yml ;;
     cold-db)       echo cold-db.compose.yml ;;
     mysql-product) echo mysql-product.compose.yml ;;
+    mysql-product-replica) echo mysql-product-replica.compose.yml ;;
     cold-svc)      echo cold-svc.compose.yml ;;
     risk)          echo risk.compose.yml ;;
     payment)       echo payment.compose.yml ;;
@@ -77,7 +80,9 @@ logging_override() {
 profile_override() {
   if [ "$LOAD_TEST_PROFILE" = "product" ] && [ "$1" = "product" ]; then
     echo "-f product-readonly.compose.yml"
-  elif [ "$LOAD_TEST_PROFILE" = "product-scaleout" ] && { [ "$1" = "product-a" ] || [ "$1" = "product-b" ] || [ "$1" = "product-c" ] || [ "$1" = "product-d" ]; }; then
+  elif [ "$LOAD_TEST_PROFILE" = "product-replica" ] && [ "$1" = "mysql-product" ]; then
+    echo "-f mysql-product-replication.compose.yml"
+  elif { [ "$LOAD_TEST_PROFILE" = "product-scaleout" ] || [ "$LOAD_TEST_PROFILE" = "product-replica" ]; } && { [ "$1" = "product-a" ] || [ "$1" = "product-b" ] || [ "$1" = "product-c" ] || [ "$1" = "product-d" ]; }; then
     echo "-f product-scaleout.compose.yml"
   else
     echo ""
@@ -171,6 +176,38 @@ actual_head=\$(git -C /opt/loadtest/repo rev-parse HEAD)
 EOF
 }
 
+replica_configuration() {
+  cat <<'EOF'
+for attempt in $(seq 1 120); do
+  health=$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{end}}' mysql-product-replica 2>/dev/null || true)
+  [ "$health" = healthy ] && break
+  [ "$attempt" -lt 120 ] || { echo 'mysql-product-replica did not become healthy after 120s' >&2; exit 1; }
+  sleep 1
+done
+
+status=$(docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'SHOW REPLICA STATUS\G')
+source_host=$(printf '%s\n' "$status" | awk '/^[[:space:]]*Source_Host:/{print $2; exit}')
+io_running=$(printf '%s\n' "$status" | awk '/^[[:space:]]*Replica_IO_Running:/{print $2; exit}')
+sql_running=$(printf '%s\n' "$status" | awk '/^[[:space:]]*Replica_SQL_Running:/{print $2; exit}')
+
+if [ "$source_host" = '10.0.1.33' ]; then
+  if [ "$io_running" != Yes ] || [ "$sql_running" != Yes ]; then
+    docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'START REPLICA;'
+  fi
+else
+  [ -z "$source_host" ] || docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'STOP REPLICA;'
+  docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e "CHANGE REPLICATION SOURCE TO
+    SOURCE_HOST='10.0.1.33',
+    SOURCE_USER='product_replicator',
+    SOURCE_PASSWORD='product_replicator',
+    SOURCE_AUTO_POSITION=1;
+    START REPLICA;"
+fi
+
+./mysql-product-replica-smoke.sh
+EOF
+}
+
 for role in $ROLES; do
   file="$(compose_for "$role")"
   [ -n "$file" ] || { echo "알 수 없는 role: $role" >&2; exit 1; }
@@ -187,6 +224,10 @@ docker compose -f '${file}' ${extra} up -d
 # 호스트 지표: node-exporter (관측용, 항상)
 docker compose -f ../observability/node-exporter.compose.yml up -d >/dev/null
 docker compose -f '${file}' ${extra} ps"
+  if [ "$role" = "mysql-product-replica" ]; then
+    remote="$remote
+$(replica_configuration)"
+  fi
   ssm_run "$role" "$remote"
 done
 
@@ -202,9 +243,9 @@ docker compose -f node-exporter.compose.yml ps"
   echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
   obs_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability
-if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ]; then docker compose -f product-only.compose.yml up -d; else docker compose up -d; fi
+if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ] || [ '${LOAD_TEST_PROFILE}' = 'product-replica' ]; then docker compose -f product-only.compose.yml up -d; else docker compose up -d; fi
 docker compose -f node-exporter.compose.yml up -d
-if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ]; then docker compose -f product-only.compose.yml ps; else docker compose ps; fi"
+if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ] || [ '${LOAD_TEST_PROFILE}' = 'product-replica' ]; then docker compose -f product-only.compose.yml ps; else docker compose ps; fi"
   ssm_run "obs" "$obs_remote"
 fi
 

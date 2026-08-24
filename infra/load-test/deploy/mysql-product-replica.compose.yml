@@ -1,0 +1,27 @@
+services:
+  mysql-product-replica:
+    image: mysql:8.0
+    container_name: mysql-product-replica
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: "%"
+    command:
+      - --server-id=2
+      - --relay-log=mysql-relay-bin
+      - --gtid-mode=ON
+      - --enforce-gtid-consistency=ON
+      - --read-only=ON
+      - --super-read-only=ON
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 24
+    volumes:
+      - mysql-product-replica-data:/var/lib/mysql
+
+volumes:
+  mysql-product-replica-data:

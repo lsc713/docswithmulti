@@ -17,6 +17,7 @@
 | mysql-risk | 10.0.1.31 | MySQL risk_db | 3306 |
 | cold-db | 10.0.1.32 | MySQL merchant_db / order_db | 3306 / **3307** |
 | mysql-product | 10.0.1.33 | MySQL product_db | 3306 |
+| mysql-product-replica | 10.0.1.34 | MySQL product_db 읽기 복제본 | 3306 |
 | payment | 10.0.1.20 | payment-service | 8080 |
 | risk | 10.0.1.21 | risk-management-service | 8083 |
 | cold-svc | 10.0.1.22 | merchant-limit / order | 8082 / 8081 |
@@ -31,11 +32,19 @@
 ```bash
 # 로컬(aws cli 인증된 곳)에서 실행. IMAGE_NS = Docker Hub 사용자명.
 IMAGE_NS=<dockerhub-user> IMAGE_TAG=<sha> REPO_REF=<same-sha> ./infra/load-test/deploy/ssm-deploy.sh
+# 상품 GTID 읽기 복제본 실측: source → replica/configure/smoke → Redis → 앱 순으로 배포
+LOAD_TEST_PROFILE=product-replica IMAGE_NS=<dockerhub-user> IMAGE_TAG=<sha> REPO_REF=<same-sha> ./infra/load-test/deploy/ssm-deploy.sh
 # 특정 role만:  IMAGE_NS=<user> REPO_REF=<sha> ROLES="payment risk" ./ssm-deploy.sh
 # 특정 revision: IMAGE_NS=<user> IMAGE_TAG=<sha> REPO_REF=<same-sha> ./ssm-deploy.sh
 # 로그를 CloudWatch로: IMAGE_NS=<user> REPO_REF=<sha> LOG_CLOUDWATCH=1 ./ssm-deploy.sh
 ```
 > 앱은 Flyway로 스키마 생성 후 기동. DB/Kafka 준비 전이면 재시도로 수렴(`restart: unless-stopped`). 기동까지 1~3분.
+
+`product-replica` 프로파일에서만 source Compose에 GTID/binlog와 복제 사용자 초기화를 덧붙인다. `product_replicator/product_replicator`, `product_reader/product_reader`, MySQL root 비밀번호 `root`는 폐기 가능한 부하 테스트 전용 자격 증명이며 운영에 사용하지 않는다. replica 구성은 같은 source가 이미 설정돼 있으면 멈춘 thread만 다시 시작하고, 배포 중 `mysql-product-replica-smoke.sh`가 thread 상태, marker 복제, reader SELECT/쓰기 거부, marker 삭제 복제를 확인한다. 수동 재검증은 replica 호스트의 deploy 디렉터리에서 다음처럼 실행한다.
+
+```bash
+./mysql-product-replica-smoke.sh
+```
 
 **관측 자동 포함** — ssm-deploy가 node-exporter(전 호스트)+obs 스택까지 배포. 확인:
 ```bash
