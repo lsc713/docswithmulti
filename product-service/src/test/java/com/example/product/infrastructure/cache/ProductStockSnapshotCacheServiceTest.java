@@ -1,6 +1,8 @@
 package com.example.product.infrastructure.cache;
 
 import com.example.product.application.interfaces.ProductQueryRepository;
+import com.example.product.application.service.ProductStockChangedEvent;
+import com.example.product.infrastructure.config.ReplicaRead;
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -26,6 +28,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class ProductStockSnapshotCacheServiceTest {
+
+    @Test
+    void only_cache_read_boundary_is_routed_to_replica() throws NoSuchMethodException {
+        assertThat(ProductStockSnapshotCacheService.class.getMethod("getOrLoad", Long.class)
+                .isAnnotationPresent(ReplicaRead.class)).isTrue();
+        assertThat(ProductStockSnapshotCacheService.class
+                .getMethod("refreshAfterCommit", ProductStockChangedEvent.class)
+                .isAnnotationPresent(ReplicaRead.class)).isFalse();
+    }
 
     @Test
     void concurrent_cache_misses_in_one_jvm_share_one_load() throws Exception {

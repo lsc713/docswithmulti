@@ -6,8 +6,8 @@ import com.example.product.application.interfaces.ProductQueryRepository;
 import com.example.product.application.interfaces.ProductVariantRepository;
 import com.example.product.common.exception.application.ProductNotFoundException;
 import com.example.product.domain.entity.Product;
+import com.example.product.infrastructure.config.ReplicaRead;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -37,7 +37,7 @@ public class ProductDetailLoader {
         this.variantRepository = variantRepository;
     }
 
-    @Transactional(readOnly = true)
+    @ReplicaRead
     public ProductDetail load(Long productId) {
         Product product = queryRepository.findProductById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));

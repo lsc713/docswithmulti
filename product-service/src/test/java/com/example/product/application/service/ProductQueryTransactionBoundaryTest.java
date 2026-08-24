@@ -7,11 +7,14 @@ import com.example.product.application.interfaces.ProductVariantRepository;
 import com.example.product.domain.entity.Product;
 import com.example.product.infrastructure.cache.ProductDetailCacheService;
 import com.example.product.infrastructure.cache.ProductStockSnapshotCacheService;
+import com.example.product.infrastructure.config.ReplicaReadAspect;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -35,16 +38,18 @@ import static org.mockito.Mockito.when;
 class ProductQueryTransactionBoundaryTest {
     @Autowired ProductQueryService service;
     @Autowired ProductDetailCacheService detailCache;
-    @Autowired ProductStockSnapshotCacheService stockCache;
+    ProductStockSnapshotCacheService stockCache = Config.STOCK_CACHE;
     @Autowired ProductQueryRepository queryRepository;
     @Autowired CategoryRepository categoryRepository;
     @Autowired ProductImageRepository imageRepository;
     @Autowired ProductVariantRepository variantRepository;
     @Autowired RecordingTransactionManager transactionManager;
+    @Autowired SimpleMeterRegistry meterRegistry;
 
     @BeforeEach
     void clearTransactions() {
         transactionManager.readOnlyTransactions.clear();
+        meterRegistry.clear();
     }
 
     @Test
@@ -75,14 +80,31 @@ class ProductQueryTransactionBoundaryTest {
 
         assertThat(service.detail(20L).name()).isEqualTo("loaded");
         assertThat(transactionManager.readOnlyTransactions).containsExactly(true);
+        assertThat(meterRegistry.get("product.datasource.route")
+                .tags("target", "replica", "outcome", "success")
+                .counter().count()).isEqualTo(1);
     }
 
     @Configuration
     @EnableTransactionManagement
+    @EnableAspectJAutoProxy
     static class Config {
+        private static final ProductStockSnapshotCacheService STOCK_CACHE = mock(ProductStockSnapshotCacheService.class);
+
         @Bean
         RecordingTransactionManager transactionManager() {
             return new RecordingTransactionManager();
+        }
+
+        @Bean
+        SimpleMeterRegistry meterRegistry() {
+            return new SimpleMeterRegistry();
+        }
+
+        @Bean
+        ReplicaReadAspect replicaReadAspect(RecordingTransactionManager transactionManager,
+                                            SimpleMeterRegistry meterRegistry) {
+            return new ReplicaReadAspect(transactionManager, meterRegistry, true);
         }
 
         @Bean
@@ -111,17 +133,12 @@ class ProductQueryTransactionBoundaryTest {
         }
 
         @Bean
-        ProductStockSnapshotCacheService stockCache() {
-            return mock(ProductStockSnapshotCacheService.class);
-        }
-
-        @Bean
         ProductQueryService productQueryService(ProductQueryRepository queryRepository,
                                                 CategoryRepository categoryRepository,
                                                 ProductDetailCacheService detailCache,
-                                                ProductStockSnapshotCacheService stockCache,
                                                 ProductDetailLoader detailLoader) {
-            return new ProductQueryService(queryRepository, categoryRepository, detailCache, stockCache, detailLoader);
+            return new ProductQueryService(
+                    queryRepository, categoryRepository, detailCache, STOCK_CACHE, detailLoader);
         }
 
         @Bean

@@ -2,6 +2,7 @@ package com.example.product.infrastructure.cache;
 
 import com.example.product.application.interfaces.ProductQueryRepository;
 import com.example.product.application.service.ProductStockChangedEvent;
+import com.example.product.infrastructure.config.ReplicaRead;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.redisson.api.RBucket;
@@ -44,6 +45,7 @@ public class ProductStockSnapshotCacheService {
         this.write = counter(meterRegistry, "write");
     }
 
+    @ReplicaRead
     public Map<Long, Integer> getOrLoad(Long productId) {
         try {
             Map<Long, Integer> cached = bucket(productId).get();
