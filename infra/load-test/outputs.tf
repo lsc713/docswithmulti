@@ -19,10 +19,10 @@ output "region" {
 
 output "egress_mode" {
   description = "private subnet 인터넷 출구"
-  value       = contains(["product", "product-scaleout"], var.load_test_profile) ? "nat-instance" : "nat-gateway"
+  value       = contains(["product", "product-scaleout", "product-replica"], var.load_test_profile) ? "nat-instance" : "nat-gateway"
 }
 
 output "product_load_balancer_dns" {
-  description = "product-scaleout private NLB endpoint"
+  description = "product-scaleout/product-replica private NLB endpoint"
   value       = try(aws_lb.product[0].dns_name, null)
 }

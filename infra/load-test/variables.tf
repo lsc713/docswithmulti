@@ -17,13 +17,13 @@ variable "project" {
 }
 
 variable "load_test_profile" {
-  description = "full=전체 취소 리그, product=상품 상세 단일 노드, product-scaleout=공용 Redis 이중 노드"
+  description = "full=전체 취소 리그, product=상품 상세 단일 노드, product-scaleout=공용 Redis 이중 노드, product-replica=상품 읽기 복제본"
   type        = string
   default     = "full"
 
   validation {
-    condition     = contains(["full", "product", "product-scaleout"], var.load_test_profile)
-    error_message = "load_test_profile must be full or product."
+    condition     = contains(["full", "product", "product-scaleout", "product-replica"], var.load_test_profile)
+    error_message = "load_test_profile must be full, product, product-scaleout, or product-replica."
   }
 }
 
@@ -51,7 +51,7 @@ variable "use_spot" {
 }
 
 variable "mysql_gp3_iops" {
-  description = "mysql-product gp3 provisioned IOPS (null이면 AWS 기본 3000)"
+  description = "product MySQL gp3 provisioned IOPS (null이면 AWS 기본 3000)"
   type        = number
   default     = null
 
@@ -62,7 +62,7 @@ variable "mysql_gp3_iops" {
 }
 
 variable "mysql_gp3_throughput" {
-  description = "mysql-product gp3 throughput MiB/s (null이면 AWS 기본 125)"
+  description = "product MySQL gp3 throughput MiB/s (null이면 AWS 기본 125)"
   type        = number
   default     = null
 

@@ -50,7 +50,19 @@ locals {
     obs           = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false }
   }
 
-  instances = var.load_test_profile == "product" ? local.product_instances : var.load_test_profile == "product-scaleout" ? local.product_scaleout_instances : local.full_instances
+  product_replica_instances = {
+    k6                    = { type = "c7g.xlarge", ip = "10.0.1.10", disk = 30 }
+    product-a             = { type = "c7g.xlarge", ip = "10.0.1.24", disk = 30, spot = false }
+    product-b             = { type = "c7g.xlarge", ip = "10.0.1.25", disk = 30, spot = false }
+    product-c             = { type = "c7g.xlarge", ip = "10.0.1.26", disk = 30, spot = false }
+    product-d             = { type = "c7g.xlarge", ip = "10.0.1.27", disk = 30, spot = false }
+    mysql-product         = { type = "m7g.large", ip = "10.0.1.33", disk = 50 }
+    mysql-product-replica = { type = "m7g.large", ip = "10.0.1.34", disk = 50 }
+    redis-product         = { type = "t4g.medium", ip = "10.0.1.41", disk = 20, spot = false }
+    obs                   = { type = "t4g.medium", ip = "10.0.1.50", disk = 30, spot = false }
+  }
+
+  instances = var.load_test_profile == "product" ? local.product_instances : var.load_test_profile == "product-scaleout" ? local.product_scaleout_instances : var.load_test_profile == "product-replica" ? local.product_replica_instances : local.full_instances
 }
 
 # 도커 + compose 부트스트랩 (배포는 SSM 접속 후 role별로 수행)
@@ -85,8 +97,8 @@ resource "aws_instance" "node" {
   root_block_device {
     volume_type = "gp3"
     volume_size = each.value.disk
-    iops        = each.key == "mysql-product" ? var.mysql_gp3_iops : null
-    throughput  = each.key == "mysql-product" ? var.mysql_gp3_throughput : null
+    iops        = contains(["mysql-product", "mysql-product-replica"], each.key) ? var.mysql_gp3_iops : null
+    throughput  = contains(["mysql-product", "mysql-product-replica"], each.key) ? var.mysql_gp3_throughput : null
   }
 
   # role별 spot 오버라이드: var.use_spot 이 켜져도 each.value.spot=false 면 온디맨드.

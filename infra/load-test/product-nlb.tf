@@ -1,5 +1,5 @@
 resource "aws_lb" "product" {
-  count              = var.load_test_profile == "product-scaleout" ? 1 : 0
+  count              = contains(["product-scaleout", "product-replica"], var.load_test_profile) ? 1 : 0
   name               = "${var.project}-product"
   internal           = true
   load_balancer_type = "network"
@@ -9,7 +9,7 @@ resource "aws_lb" "product" {
 }
 
 resource "aws_lb_target_group" "product" {
-  count       = var.load_test_profile == "product-scaleout" ? 1 : 0
+  count       = contains(["product-scaleout", "product-replica"], var.load_test_profile) ? 1 : 0
   name        = "${var.project}-product"
   port        = 8084
   protocol    = "TCP"
@@ -24,7 +24,7 @@ resource "aws_lb_target_group" "product" {
 }
 
 resource "aws_lb_listener" "product" {
-  count             = var.load_test_profile == "product-scaleout" ? 1 : 0
+  count             = contains(["product-scaleout", "product-replica"], var.load_test_profile) ? 1 : 0
   load_balancer_arn = aws_lb.product[0].arn
   port              = 8084
   protocol          = "TCP"
@@ -36,7 +36,7 @@ resource "aws_lb_listener" "product" {
 }
 
 resource "aws_lb_target_group_attachment" "product" {
-  for_each         = var.load_test_profile == "product-scaleout" ? toset(["product-a", "product-b", "product-c", "product-d"]) : toset([])
+  for_each         = contains(["product-scaleout", "product-replica"], var.load_test_profile) ? toset(["product-a", "product-b", "product-c", "product-d"]) : toset([])
   target_group_arn = aws_lb_target_group.product[0].arn
   target_id        = aws_instance.node[each.key].id
   port             = 8084
