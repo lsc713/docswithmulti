@@ -179,32 +179,53 @@ EOF
 replica_configuration() {
   cat <<'EOF'
 for attempt in $(seq 1 120); do
-  health=$(docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{end}}' mysql-product-replica 2>/dev/null || true)
+  health=$(timeout --foreground 5s docker inspect --format '{{if .State.Health}}{{.State.Health.Status}}{{end}}' mysql-product-replica 2>/dev/null || true)
   [ "$health" = healthy ] && break
   [ "$attempt" -lt 120 ] || { echo 'mysql-product-replica did not become healthy after 120s' >&2; exit 1; }
   sleep 1
 done
 
-status=$(docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'SHOW REPLICA STATUS\G')
+timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot \
+  -e 'SET GLOBAL read_only=ON; SET GLOBAL super_read_only=ON;'
+read_only_state=$(timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica \
+  mysql --batch --skip-column-names -uroot -e 'SELECT @@GLOBAL.read_only, @@GLOBAL.super_read_only' | tr '\t' ' ')
+[ "$read_only_state" = '1 1' ] || { echo 'replica read_only configuration failed' >&2; exit 1; }
+
+status=$(timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'SHOW REPLICA STATUS\G')
 source_host=$(printf '%s\n' "$status" | awk '/^[[:space:]]*Source_Host:/{print $2; exit}')
 io_running=$(printf '%s\n' "$status" | awk '/^[[:space:]]*Replica_IO_Running:/{print $2; exit}')
 sql_running=$(printf '%s\n' "$status" | awk '/^[[:space:]]*Replica_SQL_Running:/{print $2; exit}')
 
 if [ "$source_host" = '10.0.1.33' ]; then
   if [ "$io_running" != Yes ] || [ "$sql_running" != Yes ]; then
-    docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'START REPLICA;'
+    timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'START REPLICA;'
   fi
 else
-  [ -z "$source_host" ] || docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'STOP REPLICA;'
-  docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e "CHANGE REPLICATION SOURCE TO
+  [ -z "$source_host" ] || timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e 'STOP REPLICA;'
+  timeout --foreground 10s docker exec -e MYSQL_PWD=root mysql-product-replica mysql -uroot -e "CHANGE REPLICATION SOURCE TO
     SOURCE_HOST='10.0.1.33',
     SOURCE_USER='product_replicator',
     SOURCE_PASSWORD='product_replicator',
-    SOURCE_AUTO_POSITION=1;
+    SOURCE_AUTO_POSITION=1,
+    GET_SOURCE_PUBLIC_KEY=1;
     START REPLICA;"
 fi
 
 ./mysql-product-replica-smoke.sh
+EOF
+}
+
+source_provenance_guard() {
+  cat <<'EOF'
+source_marker=/opt/loadtest/.product-replica-source-initialized
+if docker volume inspect deploy_mysql-product-data >/dev/null 2>&1; then
+  [ -f "$source_marker" ] || {
+    echo 'refusing unproven mysql-product volume; remove it before the first product-replica deployment' >&2
+    exit 1
+  }
+else
+  rm -f "$source_marker"
+fi
 EOF
 }
 
@@ -214,11 +235,17 @@ for role in $ROLES; do
   extra="$(logging_override "$role") $(profile_override "$role")"
   echo "── [$role] ${file} 배포${extra:+ (+CloudWatch 로그)} ──"
 
+  provenance_guard=""
+  if [ "$LOAD_TEST_PROFILE" = "product-replica" ] && [ "$role" = "mysql-product" ]; then
+    provenance_guard="$(source_provenance_guard)"
+  fi
+
   remote="$(clone_header)
 export IMAGE_NS='${IMAGE_NS}' IMAGE_TAG='${IMAGE_TAG}' AWS_REGION='${REGION}'
 # 실측 토글 포워딩 (로컬 env → 원격 compose). 미설정 시 안전한 기본값(off).
 export SERVER_TOMCAT_MBEANREGISTRY_ENABLED='${SERVER_TOMCAT_MBEANREGISTRY_ENABLED:-false}' OTEL_JAVAAGENT='${OTEL_JAVAAGENT:-}' LOADTEST_QUERYCOUNT_ENABLED='${LOADTEST_QUERYCOUNT_ENABLED:-false}' CANCEL_PUBLISH_MODE='${CANCEL_PUBLISH_MODE:-INLINE}' CANCEL_OUTBOX_POLL_MS='${CANCEL_OUTBOX_POLL_MS:-10000}' CANCEL_OUTBOX_BATCH_SIZE='${CANCEL_OUTBOX_BATCH_SIZE:-1000}'
 cd /opt/loadtest/repo/infra/load-test/deploy
+${provenance_guard}
 docker compose -f '${file}' ${extra} pull
 docker compose -f '${file}' ${extra} up -d
 # 호스트 지표: node-exporter (관측용, 항상)
@@ -229,6 +256,11 @@ docker compose -f '${file}' ${extra} ps"
 $(replica_configuration)"
   fi
   ssm_run "$role" "$remote"
+  if [ "$LOAD_TEST_PROFILE" = "product-replica" ] && [ "$role" = "mysql-product-replica" ]; then
+    ssm_run "mysql-product" "set -e
+mkdir -p /opt/loadtest
+touch /opt/loadtest/.product-replica-source-initialized"
+  fi
 done
 
 # ── 관측 스택 (obs 인스턴스: Prometheus + Grafana + exporters) + obs 호스트 node-exporter ──

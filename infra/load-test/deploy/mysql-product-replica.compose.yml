@@ -13,8 +13,6 @@ services:
       - --relay-log=mysql-relay-bin
       - --gtid-mode=ON
       - --enforce-gtid-consistency=ON
-      - --read-only=ON
-      - --super-read-only=ON
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
       interval: 5s
