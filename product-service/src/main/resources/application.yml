@@ -45,6 +45,8 @@ spring:
     active: local
 
 product:
+  orphan-recovery:
+    enabled: ${PRODUCT_ORPHAN_RECOVERY_ENABLED:true}
   datasource:
     replica:
       enabled: ${PRODUCT_DATASOURCE_REPLICA_ENABLED:false}
