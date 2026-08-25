@@ -34,4 +34,13 @@ if docker compose version >/dev/null 2>&1; then
     <<<"$product" >/dev/null
   jq -e '.services["product-service"].environment.PRODUCT_ORPHAN_RECOVERY_ENABLED == "false"' \
     <<<"$scaleout" >/dev/null
+  jq -e '((.services["product-service"].environment | has("SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE")) == false)
+    and ((.services["product-service"].environment | has("PRODUCT_DATASOURCE_REPLICA_HIKARI_MAXIMUM_POOL_SIZE")) == false)' \
+    <<<"$full" >/dev/null
+  jq -e '((.services["product-service"].environment | has("SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE")) == false)
+    and ((.services["product-service"].environment | has("PRODUCT_DATASOURCE_REPLICA_HIKARI_MAXIMUM_POOL_SIZE")) == false)' \
+    <<<"$product" >/dev/null
+  jq -e '.services["product-service"].environment.SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE == "50"
+    and .services["product-service"].environment.PRODUCT_DATASOURCE_REPLICA_HIKARI_MAXIMUM_POOL_SIZE == "50"' \
+    <<<"$scaleout" >/dev/null
 fi
