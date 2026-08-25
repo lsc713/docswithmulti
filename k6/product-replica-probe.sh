@@ -64,7 +64,9 @@ wait_until() {
   while [ "$(monotonic_ms)" -lt "$deadline" ]; do sleep_for 0.1; done
 }
 
-utc_now() { date -u +%Y-%m-%dT%H:%M:%SZ; }
+utc_now() {
+  if [ -n "${UTC_NOW:-}" ]; then "$UTC_NOW"; else date -u +%Y-%m-%dT%H:%M:%S.%6NZ; fi
+}
 
 mkdir -p "$RESULT_DIR"
 LAG_FILE="$RESULT_DIR/$RUN_KEY.replica-lag.tsv"
@@ -136,15 +138,29 @@ wait_for_marker() {
   return 1
 }
 
+wait_for_heartbeat_schema() {
+  local expected=$1 deadline=$(( $(monotonic_ms) + PROBE_RECOVERY_TIMEOUT_SECONDS * 1000 )) primary_key
+  while [ "$(monotonic_ms)" -lt "$deadline" ]; do
+    primary_key=$(replica_mysql --skip-column-names -e \
+      "SELECT COALESCE(GROUP_CONCAT(column_name ORDER BY seq_in_index),'') FROM information_schema.statistics WHERE table_schema = 'product_db' AND table_name = 'loadtest_replication_heartbeat' AND index_name = 'PRIMARY'" 2>/dev/null || true)
+    [ "$primary_key" = "$expected" ] && return 0
+    sleep_for 0.1
+  done
+  echo 'timed out waiting for heartbeat schema on replica' >&2
+  return 1
+}
+
+source_mysql -e 'DROP TABLE IF EXISTS product_db.loadtest_replication_heartbeat'
+wait_for_heartbeat_schema ''
 source_mysql -e '
-  CREATE TABLE IF NOT EXISTS product_db.loadtest_replication_heartbeat (
+  CREATE TABLE product_db.loadtest_replication_heartbeat (
     run_key VARCHAR(64) NOT NULL,
     sequence BIGINT NOT NULL,
     sent_at TIMESTAMP(6) NOT NULL,
     PRIMARY KEY (run_key, sequence)
   ) ENGINE=InnoDB
 '
-source_mysql -e "DELETE FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY'"
+wait_for_heartbeat_schema run_key,sequence
 
 collector_pid=
 reservation_key="replica-probe-$RUN_KEY"

@@ -61,20 +61,21 @@ mkdir -p "$artifacts/test.observations"
 write_lag_artifacts() {
   printf '%s\n' \
     $'run_key\tsequence\tsent_monotonic_ms\tobserved_monotonic_ms\tlag_ms\tobserved_utc' \
-    $'test\t1\t1000\t2000\t1000\t2026-08-25T00:01:01Z' \
-    $'test\t2\t2000\t32000\t30000\t2026-08-25T00:02:32Z' \
-    $'test\t3\t3000\t63000\t60000\t2026-08-25T00:04:03Z' > "$artifacts/test.replica-lag.tsv"
+    $'test\t1\t1000\t2000\t1000\t2026-08-25T00:01:01.300000Z' \
+    $'test\t2\t2000\t32000\t30000\t2026-08-25T00:02:32.300000Z' \
+    $'test\t3\t3000\t63000\t60000\t2026-08-25T00:04:03.300000Z' > "$artifacts/test.replica-lag.tsv"
   printf '%s\n' $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' > "$artifacts/test.replica-status.tsv"
-  for second in 1 2 3 4; do printf '2026-08-25T00:01:%02dZ\tYes\tNo\t%s\tsource:1-3\tsource:1\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
-  for second in $(seq 1 29); do printf '2026-08-25T00:02:%02dZ\tYes\tNo\t%s\tsource:1-3\tsource:1\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
-  for second in $(seq 1 59); do printf '2026-08-25T00:04:%02dZ\tYes\tNo\t%s\tsource:1-3\tsource:2\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
-  printf '2026-08-25T00:07:05Z\tYes\tYes\t0\tsource:1-3\tsource:1-3\n' >> "$artifacts/test.replica-status.tsv"
+  printf '2026-08-25T00:01:00.100000Z\tYes\tYes\t0\tsource:1-3\tsource:1\n' >> "$artifacts/test.replica-status.tsv"
+  for second in 0 1 2 3 4; do printf '2026-08-25T00:01:%02d.300000Z\tYes\tNo\t%s\tsource:1-3\tsource:1\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
+  for second in $(seq 0 29); do printf '2026-08-25T00:02:%02d.300000Z\tYes\tNo\t%s\tsource:1-3\tsource:1\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
+  for second in $(seq 0 59); do printf '2026-08-25T00:04:%02d.300000Z\tYes\tNo\t%s\tsource:1-3\tsource:2\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
+  printf '2026-08-25T00:07:05.300000Z\tYes\tYes\t0\tsource:1-3\tsource:1-3\n' >> "$artifacts/test.replica-status.tsv"
   printf '%s\n' \
     $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-    $'lag\tsql_thread\t5\t2026-08-25T00:01:00Z\t2026-08-25T00:01:05Z' \
-    $'lag\tsql_thread\t30\t2026-08-25T00:02:00Z\t2026-08-25T00:02:30Z' \
-    $'lag\tsql_thread\t60\t2026-08-25T00:04:00Z\t2026-08-25T00:05:00Z' \
-    $'lag\tsource_final\t3\t2026-08-25T00:07:05Z\t2026-08-25T00:07:05Z' > "$artifacts/test.replica-faults.tsv"
+    $'lag\tsql_thread\t5\t2026-08-25T00:01:00.200000Z\t2026-08-25T00:01:05.200000Z' \
+    $'lag\tsql_thread\t30\t2026-08-25T00:02:00.200000Z\t2026-08-25T00:02:30.200000Z' \
+    $'lag\tsql_thread\t60\t2026-08-25T00:04:00.200000Z\t2026-08-25T00:05:00.200000Z' \
+    $'lag\tsource_final\t3\t2026-08-25T00:07:05.300000Z\t2026-08-25T00:07:05.300000Z' > "$artifacts/test.replica-faults.tsv"
   printf '%s\n' \
     $'pause_seconds\treplica_visible_qty\tprimary_reserve_http_status\tconvergence_qty\tfinal_restored_qty' \
     $'30\t100\t409\t0\t100' > "$artifacts/test.replica-stale.tsv"
@@ -90,6 +91,9 @@ expect_invalid_artifacts() {
 
 write_lag_artifacts
 validate_artifacts lag
+sed -i.bak 's/00:01:00.100000Z\tYes\tYes/00:01:00.300000Z\tYes\tYes/' "$artifacts/test.replica-status.tsv"
+expect_invalid_artifacts lag 'post-stop Yes/Yes boundary sample'
+write_lag_artifacts
 sed -i.bak '1s/run_key/bad_key/' "$artifacts/test.replica-lag.tsv"
 expect_invalid_artifacts lag 'malformed lag header'
 write_lag_artifacts
@@ -102,7 +106,7 @@ write_lag_artifacts
 printf '30\t100\t409\t0\t100\textra\n' >> "$artifacts/test.replica-stale.tsv"
 expect_invalid_artifacts lag 'malformed stale width'
 write_lag_artifacts
-sed -i.bak 's/00:02:29Z\tYes\tNo/00:02:29Z\tNo\tNo/' "$artifacts/test.replica-status.tsv"
+sed -i.bak 's/00:02:29.300000Z\tYes\tNo/00:02:29.300000Z\tNo\tNo/' "$artifacts/test.replica-status.tsv"
 expect_invalid_artifacts lag 'I/O stopped during 30-second pause'
 write_lag_artifacts
 sed -i.bak 's/lag\tsource_final\t3/lag\tsource_final\t4/' "$artifacts/test.replica-faults.tsv"
@@ -111,7 +115,7 @@ expect_invalid_artifacts lag 'mismatched final marker'
 write_lag_artifacts
 printf '%s\n' \
   $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'outage\tcontainer\t60\t2026-08-25T00:01:00Z\t2026-08-25T00:02:00Z' > "$artifacts/test.replica-faults.tsv"
+  $'outage\tcontainer\t60\t2026-08-25T00:01:00.200000Z\t2026-08-25T00:02:00.200000Z' > "$artifacts/test.replica-faults.tsv"
 printf '%s\n' '{"status":"success","data":{"result":[' \
   '{"metric":{"host":"product-a","target":"primary","outcome":"fallback"},"values":[[1,"10"],[2,"12"]]},' \
   '{"metric":{"host":"product-b","target":"primary","outcome":"fallback"},"values":[[1,"4"],[2,"4"]]}]}}' | tr -d '\n' > "$artifacts/test.observations/stage-1-datasource-route.json"
@@ -152,13 +156,13 @@ make_probe_bundle() {
   mkdir -p "$dir"
   printf '%s\n' \
     $'run_key\tsequence\tsent_monotonic_ms\tobserved_monotonic_ms\tlag_ms\tobserved_utc' \
-    "$run"$'\t3\t1000\t1200\t200\t2026-08-25T00:00:00Z' > "$dir/$run.replica-lag.tsv"
+    "$run"$'\t3\t1000\t1200\t200\t2026-08-25T00:00:00.300000Z' > "$dir/$run.replica-lag.tsv"
   printf '%s\n' \
     $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' \
-    $'2026-08-25T00:00:00Z\tYes\tYes\t0\tsource:1-3\tsource:1-3' > "$dir/$run.replica-status.tsv"
+    $'2026-08-25T00:00:00.300000Z\tYes\tYes\t0\tsource:1-3\tsource:1-3' > "$dir/$run.replica-status.tsv"
   printf '%s\n' \
     $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-    $'steady\tsource_final\t3\t2026-08-25T00:00:00Z\t2026-08-25T00:00:00Z' > "$dir/$run.replica-faults.tsv"
+    $'steady\tsource_final\t3\t2026-08-25T00:00:00.300000Z\t2026-08-25T00:00:00.300000Z' > "$dir/$run.replica-faults.tsv"
   printf '%s\n' $'pause_seconds\treplica_visible_qty\tprimary_reserve_http_status\tconvergence_qty\tfinal_restored_qty' > "$dir/$run.replica-stale.tsv"
   tar -czf "$orchestration/$run.probe.tgz" -C "$dir" \
     "$run.replica-lag.tsv" "$run.replica-status.tsv" "$run.replica-faults.tsv" "$run.replica-stale.tsv"
