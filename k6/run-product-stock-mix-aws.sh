@@ -8,6 +8,7 @@ REPO_REF="${REPO_REF:?Exact Git SHA/ref required}"
 REGION="${AWS_REGION:-ap-northeast-2}"
 PROM_URL="${PROM_URL:-http://10.0.1.50:9090/api/v1/write}"
 PRODUCT_URL="${PRODUCT_URL:-}"
+SOURCE_HOST="${SOURCE_HOST:-10.0.1.33}"
 RESULT_DIR="${RESULT_DIR:-$ROOT/k6/results}"
 SSM_POLL_ATTEMPTS="${SSM_POLL_ATTEMPTS:-721}"
 RUN_KEY="${RUN_KEY:-$(date -u +%Y%m%dT%H%M%SZ)-product-stock-mix-$$}"
@@ -53,6 +54,36 @@ validate_replica_artifacts() {
   for file in "$lag" "$status" "$faults" "$stale"; do
     [ -f "$file" ] || { echo "Missing replica artifact: $file" >&2; return 1; }
   done
+  [ "$(head -n 1 "$lag")" = $'run_key\tsequence\tsent_monotonic_ms\tobserved_monotonic_ms\tlag_ms\tobserved_utc' ] &&
+    [ "$(head -n 1 "$status")" = $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' ] &&
+    [ "$(head -n 1 "$faults")" = $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' ] &&
+    [ "$(head -n 1 "$stale")" = $'pause_seconds\treplica_visible_qty\tprimary_reserve_http_status\tconvergence_qty\tfinal_restored_qty' ] || {
+      echo 'Replica artifact header mismatch' >&2
+      return 1
+    }
+  awk -F '\t' -v run="$RUN_KEY" 'NR > 1 {
+    if (NF != 6 || $1 != run || $2 !~ /^[1-9][0-9]*$/ || $3 !~ /^[0-9]+$/ ||
+        $4 !~ /^[0-9]+$/ || $5 !~ /^[0-9]+$/ || $4 < $3 || $5 != $4 - $3 ||
+        $6 !~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$/) exit 1
+  }' "$lag" &&
+  awk -F '\t' 'NR > 1 {
+    if (NF != 6 || $1 !~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$/ ||
+        ($2 != "Yes" && $2 != "No") || ($3 != "Yes" && $3 != "No") ||
+        ($4 != "" && $4 != "NULL" && $4 !~ /^[0-9]+$/)) exit 1
+  }' "$status" &&
+  awk -F '\t' -v mode="$REPLICA_EXPERIMENT" 'NR > 1 {
+    if (NF != 5 || $1 != mode || ($2 != "sql_thread" && $2 != "container" && $2 != "source_final") ||
+        $3 !~ /^[1-9][0-9]*$/ ||
+        $4 !~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$/ ||
+        $5 !~ /^[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]Z$/ || $5 < $4) exit 1
+  }' "$faults" &&
+  awk -F '\t' 'NR > 1 {
+    if (NF != 5 || $1 !~ /^[1-9][0-9]*$/ || $2 !~ /^[0-9]+$/ ||
+        $3 !~ /^[1-9][0-9][0-9]$/ || $4 !~ /^[0-9]+$/ || $5 !~ /^[0-9]+$/) exit 1
+  }' "$stale" || {
+    echo 'Replica artifact row schema mismatch' >&2
+    return 1
+  }
   if [ "$REPLICA_EXPERIMENT" = steady ] || [ "$REPLICA_EXPERIMENT" = lag ]; then
     [ "$(wc -l < "$lag")" -gt 1 ] && [ "$(wc -l < "$status")" -gt 1 ] || {
       echo 'Replica lag/status artifact has no samples' >&2
@@ -72,10 +103,18 @@ validate_replica_artifacts() {
       echo 'Lag fault schedule must pause SQL apply for 5, 30, and 60 seconds' >&2
       return 1
     }
-    awk -F '\t' 'NR > 1 && $2 == "Yes" && $3 == "No" {paused=1} END {exit !paused}' "$status" || {
-      echo 'Lag status did not prove replica I/O remained running while SQL apply stopped' >&2
-      return 1
-    }
+    while IFS=$'\t' read -r duration started ended; do
+      awk -F '\t' -v started="$started" -v ended="$ended" -v minimum="$((duration - 1))" '
+        NR > 1 && $1 >= started && $1 < ended {
+          samples++
+          if ($2 != "Yes" || $3 != "No") bad=1
+        }
+        END {exit bad || samples < minimum}
+      ' "$status" || {
+        echo "Lag status did not prove I/O Yes / SQL No throughout ${duration}s pause" >&2
+        return 1
+      }
+    done < <(awk -F '\t' '$2 == "sql_thread" {print $3 FS $4 FS $5}' "$faults")
     awk -F '\t' 'NR > 1 && $1 == 30 && $2 == 100 && $3 == 409 && $4 == 0 && $5 == 100 {ok=1} END {exit !ok}' "$stale" || {
       echo 'Lag stale-read proof must be 100 -> primary 409 -> 0 -> restored 100' >&2
       return 1
@@ -87,16 +126,35 @@ validate_replica_artifacts() {
       return 1
     }
     local route_files=()
+    local error_files=()
     shopt -s nullglob
     route_files=("$dir/$RUN_KEY.observations"/stage-*-datasource-route.json)
+    error_files=("$dir/$RUN_KEY.observations"/stage-*-k6-error_rate.json)
     shopt -u nullglob
     [ "${#route_files[@]}" -gt 0 ] && jq -es '
-      [.[] | .data.result[]? | select(.metric.outcome == "fallback") | .values[]? |
-        {time: .[0], value: (.[1] | tonumber)}]
-      | sort_by(.time) | group_by(.time)
-      | map({time: .[0].time, value: (map(.value) | add)})
-      | length >= 2 and (.[-1].value > .[0].value)
+      [.[] | .data.result[]? | select(.metric.outcome == "fallback") |
+        {key: (.metric | del(.__name__) | to_entries | sort_by(.key) | from_entries | tojson),
+         values: [.values[]? | {time: (.[0] | tonumber), value: (.[1] | tonumber)}]}]
+      | sort_by(.key) | group_by(.key)
+      | map(
+          [.[].values[]] | sort_by(.time) |
+          reduce .[] as $sample ({previous: null, increase: 0};
+            if .previous == null then .previous = $sample.value
+            elif $sample.value >= .previous then
+              .increase += ($sample.value - .previous) | .previous = $sample.value
+            else .increase += $sample.value | .previous = $sample.value
+            end) | .increase)
+      | (add // 0) > 0
     ' "${route_files[@]}" >/dev/null || { echo 'Replica outage did not increase primary fallback routing' >&2; return 1; }
+    [ "${#error_files[@]}" -gt 0 ] && jq -es '
+      length > 0 and all(.[];
+        .status == "success" and
+        ([.data.result[]? | select(.metric.workload == "read")] |
+          length == 1 and (.[0].values | length > 0) and all(.[0].values[]; (.[1] | tonumber) == 0)))
+    ' "${error_files[@]}" >/dev/null || {
+      echo 'Replica outage produced read workload failures' >&2
+      return 1
+    }
     jq -e '.metrics.stock_server_error_rate.values.rate == 0' "$dir/$RUN_KEY.summary.json" >/dev/null || {
       echo 'Replica outage produced stock server errors' >&2
       return 1
@@ -186,8 +244,29 @@ started_utc_file="/opt/loadtest/results/${RUN_KEY}.started-utc"
 rm -rf "$summary" "$console" "$timing" "$observations" "$stage_plan" "$bundle" "$started_epoch_file" "$started_utc_file"
 mkdir -p "$observations"
 docker pull grafana/k6:0.54.0 >"$console" 2>&1
+if [ "$REPLICA_EXPERIMENT" != baseline ]; then docker pull mysql:8.0 >>"$console" 2>&1; fi
+if [ "$REPLICA_EXPERIMENT" != baseline ]; then
+  ready=0
+  for ((attempt=1; attempt<=240; attempt++)); do
+    ready=$(timeout --foreground 10s docker run --rm --network host -e MYSQL_PWD=root mysql:8.0 \
+      mysql --batch --skip-column-names -uroot --connect-timeout=5 -h "$SOURCE_HOST" -e \
+      "SELECT COUNT(*) FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY' AND sequence = -1" 2>/dev/null || true)
+    [ "$ready" = 1 ] && break
+    [ "$attempt" -lt 240 ] || { echo 'replica probe did not become ready after 120s' >&2; exit 1; }
+    sleep 0.5
+  done
+fi
+k6_command='date -u +%s > "/results/${RUN_KEY}.started-epoch"; date -u +%Y-%m-%dT%H:%M:%SZ > "/results/${RUN_KEY}.started-utc"; exec k6 run --summary-export "/results/${RUN_KEY}.summary.json" -o experimental-prometheus-rw k6/product-stock-mix.js'
+if [ "$REPLICA_EXPERIMENT" != baseline ]; then
+  date -u +%s > "$started_epoch_file"
+  date -u +%Y-%m-%dT%H:%M:%SZ > "$started_utc_file"
+  timeout --foreground 10s docker run --rm --network host -e MYSQL_PWD=root mysql:8.0 \
+    mysql --batch --raw -uroot --connect-timeout=5 -h "$SOURCE_HOST" -e \
+    "INSERT INTO product_db.loadtest_replication_heartbeat(run_key,sequence,sent_at) VALUES ('$RUN_KEY',0,UTC_TIMESTAMP(6))"
+  k6_command='exec k6 run --summary-export "/results/${RUN_KEY}.summary.json" -o experimental-prometheus-rw k6/product-stock-mix.js'
+fi
 set +e
-docker run --rm --entrypoint sh --network host -v /opt/loadtest/repo:/work -w /work -v /opt/loadtest/results:/results -e RUN_KEY="$RUN_KEY" -e TARGET=aws -e MYSQL_THRESHOLD_RAMP="$MYSQL_THRESHOLD_RAMP" -e MYSQL_THRESHOLD_LOW_RAMP="$MYSQL_THRESHOLD_LOW_RAMP" -e MYSQL_THRESHOLD_VERY_LOW_RAMP="$MYSQL_THRESHOLD_VERY_LOW_RAMP" -e STOCK_MIX_WORKLOAD="$WORKLOAD_MODE" -e STOCK_MIX_DISTRIBUTION="$DISTRIBUTION" -e STOCK_ITEMS_PER_RESERVATION="$ITEMS_PER_RESERVATION" -e PRODUCT_URL="$PRODUCT_URL" -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' grafana/k6:0.54.0 -c 'date -u +%s > "/results/${RUN_KEY}.started-epoch"; date -u +%Y-%m-%dT%H:%M:%SZ > "/results/${RUN_KEY}.started-utc"; exec k6 run --summary-export "/results/${RUN_KEY}.summary.json" -o experimental-prometheus-rw k6/product-stock-mix.js' >>"$console" 2>&1
+docker run --rm --entrypoint sh --network host -v /opt/loadtest/repo:/work -w /work -v /opt/loadtest/results:/results -e RUN_KEY="$RUN_KEY" -e TARGET=aws -e MYSQL_THRESHOLD_RAMP="$MYSQL_THRESHOLD_RAMP" -e MYSQL_THRESHOLD_LOW_RAMP="$MYSQL_THRESHOLD_LOW_RAMP" -e MYSQL_THRESHOLD_VERY_LOW_RAMP="$MYSQL_THRESHOLD_VERY_LOW_RAMP" -e STOCK_MIX_WORKLOAD="$WORKLOAD_MODE" -e STOCK_MIX_DISTRIBUTION="$DISTRIBUTION" -e STOCK_ITEMS_PER_RESERVATION="$ITEMS_PER_RESERVATION" -e PRODUCT_URL="$PRODUCT_URL" -e K6_PROMETHEUS_RW_SERVER_URL="$PROM_URL" -e 'K6_PROMETHEUS_RW_TREND_STATS=p(50),p(95),p(99)' -e 'K6_SUMMARY_TREND_STATS=med,p(95),p(99)' grafana/k6:0.54.0 -c "$k6_command" >>"$console" 2>&1
 k6_status=$?
 set -e
 started_epoch=$(cat "$started_epoch_file")
@@ -252,7 +331,7 @@ fi
 exit "$k6_status"
 REMOTE
 
-PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg threshold "$MYSQL_THRESHOLD_RAMP" --arg threshold_low "$MYSQL_THRESHOLD_LOW_RAMP" --arg threshold_very_low "$MYSQL_THRESHOLD_VERY_LOW_RAMP" --arg workload "$WORKLOAD_MODE" --arg distribution "$DISTRIBUTION" --arg items_per_reservation "$ITEMS_PER_RESERVATION" --arg stage_seconds "$STAGE_SECONDS" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg detail_cache "$DETAIL_CACHE_QUERY" --arg stock_cache "$STOCK_CACHE_QUERY" --arg datasource_route "$DATASOURCE_ROUTE_QUERY" --arg workload_jq "$WORKLOAD_RESULT_JQ" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nMYSQL_THRESHOLD_RAMP=\($threshold | @sh)\nMYSQL_THRESHOLD_LOW_RAMP=\($threshold_low | @sh)\nMYSQL_THRESHOLD_VERY_LOW_RAMP=\($threshold_very_low | @sh)\nWORKLOAD_MODE=\($workload | @sh)\nDISTRIBUTION=\($distribution | @sh)\nITEMS_PER_RESERVATION=\($items_per_reservation | @sh)\nSTAGE_SECONDS=\($stage_seconds | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\nDETAIL_CACHE_QUERY=\($detail_cache | @sh)\nSTOCK_CACHE_QUERY=\($stock_cache | @sh)\nDATASOURCE_ROUTE_QUERY=\($datasource_route | @sh)\nWORKLOAD_RESULT_JQ=\($workload_jq | @sh)\n" + $script]}')
+PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg source_host "$SOURCE_HOST" --arg experiment "$REPLICA_EXPERIMENT" --arg threshold "$MYSQL_THRESHOLD_RAMP" --arg threshold_low "$MYSQL_THRESHOLD_LOW_RAMP" --arg threshold_very_low "$MYSQL_THRESHOLD_VERY_LOW_RAMP" --arg workload "$WORKLOAD_MODE" --arg distribution "$DISTRIBUTION" --arg items_per_reservation "$ITEMS_PER_RESERVATION" --arg stage_seconds "$STAGE_SECONDS" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg detail_cache "$DETAIL_CACHE_QUERY" --arg stock_cache "$STOCK_CACHE_QUERY" --arg datasource_route "$DATASOURCE_ROUTE_QUERY" --arg workload_jq "$WORKLOAD_RESULT_JQ" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nSOURCE_HOST=\($source_host | @sh)\nREPLICA_EXPERIMENT=\($experiment | @sh)\nMYSQL_THRESHOLD_RAMP=\($threshold | @sh)\nMYSQL_THRESHOLD_LOW_RAMP=\($threshold_low | @sh)\nMYSQL_THRESHOLD_VERY_LOW_RAMP=\($threshold_very_low | @sh)\nWORKLOAD_MODE=\($workload | @sh)\nDISTRIBUTION=\($distribution | @sh)\nITEMS_PER_RESERVATION=\($items_per_reservation | @sh)\nSTAGE_SECONDS=\($stage_seconds | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\nDETAIL_CACHE_QUERY=\($detail_cache | @sh)\nSTOCK_CACHE_QUERY=\($stock_cache | @sh)\nDATASOURCE_ROUTE_QUERY=\($datasource_route | @sh)\nWORKLOAD_RESULT_JQ=\($workload_jq | @sh)\n" + $script]}')
 PROBE_CID=
 if [ "$REPLICA_EXPERIMENT" != baseline ]; then
   read -r -d '' PROBE_REMOTE <<'REMOTE' || true
@@ -317,12 +396,14 @@ result=0
 wait_for_command "$CID" || result=1
 if [ -n "$PROBE_CID" ]; then wait_for_command "$PROBE_CID" || result=1; fi
 
+fetch_temps=()
 fetch_bundle() {
   local command_id=$1 instance_id=$2 remote_file=$3 destination=$4
   local output encoded header expected_checksum expected_bytes encoded_bytes offset count chunk_params chunk_cid chunk
   local actual_checksum actual_bytes
   output=$(mktemp)
   encoded=$(mktemp)
+  fetch_temps+=("$output" "$encoded")
   aws ssm get-command-invocation --command-id "$command_id" --instance-id "$instance_id" \
     --query StandardOutputContent --output text --region "$REGION" > "$output"
   header=$(sed -n '/^K6_RESULT_BEGIN /{p;q;}' "$output")
@@ -368,7 +449,7 @@ fetch_bundle() {
 
 bundle=$(mktemp)
 probe_bundle=$(mktemp)
-trap 'rm -f "$bundle" "$probe_bundle"' EXIT
+trap 'rm -f "$bundle" "$probe_bundle" "${fetch_temps[@]}"' EXIT
 fetch_bundle "$CID" "$IID" "/opt/loadtest/results/${RUN_KEY}.tgz" "$bundle"
 mkdir -p "$RESULT_DIR"
 tar -xzf "$bundle" -C "$RESULT_DIR"

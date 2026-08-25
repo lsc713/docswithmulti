@@ -12,10 +12,11 @@ args="$*"
 printf '%s\n' "$args" >> "$FAKE_SOURCE_LOG"
 case "$args" in
   *'INSERT INTO product_db.loadtest_replication_heartbeat'*)
-    sequence=$(printf '%s\n' "$args" | sed -E "s/.*VALUES \('[^']*',([0-9]+),.*/\1/")
+    sequence=$(printf '%s\n' "$args" | sed -E "s/.*VALUES \('[^']*',(-?[0-9]+),.*/\1/")
     printf '%s\n' "$sequence" > "$FAKE_SOURCE_SEQUENCE"
     ;;
-  *'SELECT COALESCE(sequence,0)'*)
+  *'SELECT COUNT(*)'*'sequence = 0'*) printf '1\n' ;;
+  *'SELECT COALESCE(MAX(sequence),0)'*)
     cat "$FAKE_SOURCE_SEQUENCE"
     ;;
 esac
@@ -34,11 +35,14 @@ Retrieved_Gtid_Set: source:1-3
 Executed_Gtid_Set: source:1-3
 STATUS
     ;;
-  *'SELECT COALESCE(sequence,0)'*)
+  *'SELECT COALESCE(MIN(sequence),0)'*)
     count=$(cat "$FAKE_REPLICA_COUNT")
-    case "$count" in 0) value=0 ;; 1) value=1 ;; *) value=3 ;; esac
+    case "$count" in 0) value=0 ;; 1) value=1 ;; 2) value=2 ;; *) value=3 ;; esac
     printf '%s\n' "$((count + 1))" > "$FAKE_REPLICA_COUNT"
     printf '%s\n' "$value"
+    ;;
+  *'SELECT COALESCE(MAX(sequence),0)'*)
+    printf '3\n'
     ;;
   *'START REPLICA SQL_THREAD'*)
     printf 'start-sql-thread\n' >> "$FAKE_CLEANUP_LOG"
@@ -50,9 +54,8 @@ cat > "$TMP/monotonic-ms" <<'FAKE'
 #!/usr/bin/env bash
 set -euo pipefail
 count=$(cat "$FAKE_CLOCK_COUNT")
-case "$count" in 0|1) value=0 ;; 2) value=1000 ;; *) value=2000 ;; esac
 printf '%s\n' "$((count + 1))" > "$FAKE_CLOCK_COUNT"
-printf '%s\n' "$value"
+printf '%s\n' "$((count * 1000))"
 FAKE
 
 cat > "$TMP/sleep" <<'FAKE'
@@ -94,6 +97,15 @@ stale="$TMP/results/probe-test.replica-stale.tsv"
 [ "$(head -n 1 "$status")" = $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' ]
 [ -f "$faults" ] && [ -f "$stale" ]
 awk -F '\t' 'NR > 1 { if ($5 < 0) exit 1; rows++ } END { exit rows == 0 }' "$lag"
+[ "$(awk -F '\t' 'NR > 1 {printf "%s ", $2}' "$lag")" = '1 2 3 ' ] || {
+  echo 'replica catch-up skipped an unseen marker' >&2
+  exit 1
+}
+[ "$(awk -F '\t' 'NR > 1 {printf "%s:%s:%s:%s ", $2, $3, $4, $5}' "$lag")" = \
+  '1:4000:7000:3000 2:6000:9000:3000 3:8000:11000:3000 ' ] || {
+  echo 'marker lag timestamps were not measured after each replica observation' >&2
+  exit 1
+}
 [ "$(tail -n 1 "$lag" | cut -f2)" = 3 ]
 [ "$(sed -n -E "s/.*VALUES \('[^']*',([0-9]+),.*/\1/p" "$TMP/source.log" | tr '\n' ' ')" = '1 2 3 ' ]
 grep -q 'DELETE FROM product_db.loadtest_replication_heartbeat' "$TMP/source.log"
@@ -109,3 +121,141 @@ if SOURCE_MYSQL="$TMP/source-mysql" REPLICA_MYSQL="$TMP/replica-mysql" \
   exit 1
 fi
 [ "$(wc -l < "$TMP/source.log")" -eq "$source_calls" ]
+
+cat > "$TMP/fault-source-mysql" <<'FAKE'
+#!/usr/bin/env bash
+set -euo pipefail
+args="$*"
+printf '%s\n' "$args" >> "$FAKE_FAULT_SOURCE_LOG"
+case "$args" in
+  *'INSERT INTO product_db.loadtest_replication_heartbeat'*'VALUES ('*)
+    sequence=$(printf '%s\n' "$args" | sed -E "s/.*VALUES \('[^']*',(-?[0-9]+),.*/\1/")
+    printf '%s\n' "$sequence" > "$FAKE_FAULT_SOURCE_SEQUENCE"
+    ;;
+  *'SELECT COALESCE(MAX(sequence),0)'*) cat "$FAKE_FAULT_SOURCE_SEQUENCE" ;;
+  *'SELECT COUNT(*)'*'sequence = 0'*) printf '1\n' ;;
+  *'SELECT available_qty'*) printf '100\n' ;;
+esac
+FAKE
+
+cat > "$TMP/fault-replica-mysql" <<'FAKE'
+#!/usr/bin/env bash
+set -euo pipefail
+args="$*"
+case "$args" in
+  *'SHOW REPLICA STATUS'*)
+    printf '%s\n' 'Replica_IO_Running: Yes' 'Replica_SQL_Running: Yes' \
+      'Seconds_Behind_Source: 0' 'Retrieved_Gtid_Set: source:1-3' 'Executed_Gtid_Set: source:1-3'
+    ;;
+  *'SELECT COALESCE(MIN(sequence),0)'*) cat "$FAKE_FAULT_SOURCE_SEQUENCE" ;;
+  *'SELECT COALESCE(MAX(sequence),0)'*) cat "$FAKE_FAULT_SOURCE_SEQUENCE" ;;
+  *'STOP REPLICA SQL_THREAD'*) printf 'stop-sql-thread\n' >> "$FAKE_FAULT_LIFECYCLE_LOG" ;;
+  *'START REPLICA SQL_THREAD'*) printf 'start-sql-thread\n' >> "$FAKE_FAULT_LIFECYCLE_LOG" ;;
+esac
+FAKE
+
+cat > "$TMP/fault-monotonic-ms" <<'FAKE'
+#!/usr/bin/env bash
+set -euo pipefail
+while ! mkdir "$FAKE_CLOCK_LOCK" 2>/dev/null; do :; done
+count=$(cat "$FAKE_FAULT_CLOCK_COUNT")
+printf '%s\n' "$((count + 1))" > "$FAKE_FAULT_CLOCK_COUNT"
+rmdir "$FAKE_CLOCK_LOCK"
+printf '%s\n' "$((count * 10000))"
+FAKE
+
+cat > "$TMP/curl" <<'FAKE'
+#!/usr/bin/env bash
+set -euo pipefail
+printf '%s\n' "$*" >> "$FAKE_HTTP_LOG"
+case "$*" in
+  *'/v1/stock/reserve'*) exit 28 ;;
+  *'/v1/stock/release'*) printf '200' ;;
+  *) printf '{"skus":[{"skuId":101,"availableQty":100}]}' ;;
+esac
+FAKE
+chmod +x "$TMP/fault-source-mysql" "$TMP/fault-replica-mysql" "$TMP/fault-monotonic-ms" "$TMP/curl"
+
+: > "$TMP/fault-source.log"
+: > "$TMP/fault-lifecycle.log"
+: > "$TMP/http.log"
+printf '0\n' > "$TMP/fault-source-sequence"
+printf '0\n' > "$TMP/fault-clock-count"
+if PATH="$TMP:$PATH" FAKE_FAULT_SOURCE_LOG="$TMP/fault-source.log" \
+  FAKE_FAULT_SOURCE_SEQUENCE="$TMP/fault-source-sequence" \
+  FAKE_FAULT_LIFECYCLE_LOG="$TMP/fault-lifecycle.log" \
+  FAKE_FAULT_CLOCK_COUNT="$TMP/fault-clock-count" FAKE_CLOCK_LOCK="$TMP/clock.lock" \
+  FAKE_HTTP_LOG="$TMP/http.log" FAKE_SLEEP_LOG="$TMP/sleep.log" SOURCE_MYSQL="$TMP/fault-source-mysql" \
+  REPLICA_MYSQL="$TMP/fault-replica-mysql" MONOTONIC_MS="$TMP/fault-monotonic-ms" \
+  SLEEP="$TMP/sleep" RESULT_DIR="$TMP/fault-results" RUN_KEY=probe-failure \
+  REPLICA_EXPERIMENT=lag PROBE_PRODUCT_ID=1 PROBE_SKU_ID=101 \
+  PRODUCT_URL=http://product.example PROBE_MAX_SEQUENCE=1 PROBE_DURATION_SECONDS=1 \
+  PROBE_RECOVERY_TIMEOUT_SECONDS=30 "$ROOT/k6/product-replica-probe.sh"; then
+  echo 'timed-out reserve unexpectedly passed' >&2
+  exit 1
+fi
+grep -q 'stop-sql-thread' "$TMP/fault-lifecycle.log"
+grep -q 'start-sql-thread' "$TMP/fault-lifecycle.log"
+grep -q 'replica-probe-probe-failure.*stock/release' "$TMP/http.log" || {
+  echo 'timed-out primary reservation was not released' >&2
+  exit 1
+}
+grep -q 'replica-probe-reject-probe-failure.*stock/release' "$TMP/http.log" || {
+  echo 'second idempotency key was not cleanup-eligible' >&2
+  exit 1
+}
+grep -q 'SELECT available_qty' "$TMP/fault-source.log" || {
+  echo 'cleanup did not verify restored source stock' >&2
+  exit 1
+}
+grep -q 'SELECT COUNT(\*) FROM product_db.loadtest_replication_heartbeat.*sequence = 0' "$TMP/fault-source.log" || {
+  echo 'probe did not wait for the workload-start coordination marker' >&2
+  exit 1
+}
+
+cat > "$TMP/docker" <<'FAKE'
+#!/usr/bin/env bash
+set -euo pipefail
+case "$1" in
+  stop)
+    printf 'stop-container\n' >> "$FAKE_CONTAINER_LOG"
+    [ "${FAKE_DOCKER_FAIL_STOP:-0}" != 1 ]
+    ;;
+  start) printf 'start-container\n' >> "$FAKE_CONTAINER_LOG" ;;
+  *) echo "unexpected docker command: $*" >&2; exit 1 ;;
+esac
+FAKE
+chmod +x "$TMP/docker"
+: > "$TMP/container.log"
+printf '0\n' > "$TMP/fault-source-sequence"
+printf '0\n' > "$TMP/fault-clock-count"
+PATH="$TMP:$PATH" FAKE_CONTAINER_LOG="$TMP/container.log" \
+  FAKE_FAULT_SOURCE_LOG="$TMP/fault-source.log" FAKE_FAULT_SOURCE_SEQUENCE="$TMP/fault-source-sequence" \
+  FAKE_FAULT_LIFECYCLE_LOG="$TMP/fault-lifecycle.log" FAKE_FAULT_CLOCK_COUNT="$TMP/fault-clock-count" \
+  FAKE_CLOCK_LOCK="$TMP/clock.lock" FAKE_SLEEP_LOG="$TMP/sleep.log" \
+  SOURCE_MYSQL="$TMP/fault-source-mysql" REPLICA_MYSQL="$TMP/fault-replica-mysql" \
+  MONOTONIC_MS="$TMP/fault-monotonic-ms" SLEEP="$TMP/sleep" RESULT_DIR="$TMP/outage-results" \
+  RUN_KEY=probe-outage REPLICA_EXPERIMENT=outage PROBE_MAX_SEQUENCE=1 PROBE_DURATION_SECONDS=1 \
+  PROBE_RECOVERY_TIMEOUT_SECONDS=30 "$ROOT/k6/product-replica-probe.sh"
+[ "$(head -n 2 "$TMP/container.log" | tr '\n' ' ')" = 'stop-container start-container ' ]
+awk -F '\t' '$2 == "container" && $3 == 60 {ok=1} END {exit !ok}' \
+  "$TMP/outage-results/probe-outage.replica-faults.tsv"
+
+: > "$TMP/container.log"
+printf '0\n' > "$TMP/fault-source-sequence"
+printf '0\n' > "$TMP/fault-clock-count"
+if PATH="$TMP:$PATH" FAKE_CONTAINER_LOG="$TMP/container.log" FAKE_DOCKER_FAIL_STOP=1 \
+  FAKE_FAULT_SOURCE_LOG="$TMP/fault-source.log" FAKE_FAULT_SOURCE_SEQUENCE="$TMP/fault-source-sequence" \
+  FAKE_FAULT_LIFECYCLE_LOG="$TMP/fault-lifecycle.log" FAKE_FAULT_CLOCK_COUNT="$TMP/fault-clock-count" \
+  FAKE_CLOCK_LOCK="$TMP/clock.lock" FAKE_SLEEP_LOG="$TMP/sleep.log" \
+  SOURCE_MYSQL="$TMP/fault-source-mysql" REPLICA_MYSQL="$TMP/fault-replica-mysql" \
+  MONOTONIC_MS="$TMP/fault-monotonic-ms" SLEEP="$TMP/sleep" RESULT_DIR="$TMP/outage-failure-results" \
+  RUN_KEY=probe-outage-failure REPLICA_EXPERIMENT=outage PROBE_MAX_SEQUENCE=1 PROBE_DURATION_SECONDS=1 \
+  PROBE_RECOVERY_TIMEOUT_SECONDS=30 "$ROOT/k6/product-replica-probe.sh"; then
+  echo 'failed container stop unexpectedly passed' >&2
+  exit 1
+fi
+grep -q 'start-container' "$TMP/container.log" || {
+  echo 'outage failure did not invoke container recovery trap' >&2
+  exit 1
+}

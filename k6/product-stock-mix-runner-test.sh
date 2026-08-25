@@ -58,113 +58,78 @@ done
 artifacts=$(mktemp -d)
 trap 'rm -f "$good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series"; rm -rf "$artifacts"' EXIT
 mkdir -p "$artifacts/test.observations"
-printf '%s\n' \
-  $'run_key\tsequence\tsent_monotonic_ms\tobserved_monotonic_ms\tlag_ms\tobserved_utc' \
-  $'test\t3\t1000\t1200\t200\t2026-08-25T00:00:00Z' > "$artifacts/test.replica-lag.tsv"
-printf '%s\n' \
-  $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' \
-  $'2026-08-24T23:59:59Z\tYes\tNo\t1\tsource:1-3\tsource:1' \
-  $'2026-08-25T00:00:00Z\tYes\tYes\t0\tsource:1-3\tsource:1-3' > "$artifacts/test.replica-status.tsv"
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'lag\tsql_thread\t5\t2026-08-24T23:50:00Z\t2026-08-24T23:50:05Z' \
-  $'lag\tsql_thread\t30\t2026-08-24T23:52:00Z\t2026-08-24T23:52:30Z' \
-  $'lag\tsql_thread\t60\t2026-08-24T23:55:00Z\t2026-08-24T23:56:00Z' \
-  $'lag\tsource_final\t3\t2026-08-25T00:00:00Z\t2026-08-25T00:00:00Z' > "$artifacts/test.replica-faults.tsv"
-printf '%s\n' \
-  $'pause_seconds\treplica_visible_qty\tprimary_reserve_http_status\tconvergence_qty\tfinal_restored_qty' \
-  $'30\t100\t409\t0\t100' > "$artifacts/test.replica-stale.tsv"
+write_lag_artifacts() {
+  printf '%s\n' \
+    $'run_key\tsequence\tsent_monotonic_ms\tobserved_monotonic_ms\tlag_ms\tobserved_utc' \
+    $'test\t1\t1000\t2000\t1000\t2026-08-25T00:01:01Z' \
+    $'test\t2\t2000\t32000\t30000\t2026-08-25T00:02:32Z' \
+    $'test\t3\t3000\t63000\t60000\t2026-08-25T00:04:03Z' > "$artifacts/test.replica-lag.tsv"
+  printf '%s\n' $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' > "$artifacts/test.replica-status.tsv"
+  for second in 1 2 3 4; do printf '2026-08-25T00:01:%02dZ\tYes\tNo\t%s\tsource:1-3\tsource:1\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
+  for second in $(seq 1 29); do printf '2026-08-25T00:02:%02dZ\tYes\tNo\t%s\tsource:1-3\tsource:1\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
+  for second in $(seq 1 59); do printf '2026-08-25T00:04:%02dZ\tYes\tNo\t%s\tsource:1-3\tsource:2\n' "$second" "$second"; done >> "$artifacts/test.replica-status.tsv"
+  printf '2026-08-25T00:07:05Z\tYes\tYes\t0\tsource:1-3\tsource:1-3\n' >> "$artifacts/test.replica-status.tsv"
+  printf '%s\n' \
+    $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
+    $'lag\tsql_thread\t5\t2026-08-25T00:01:00Z\t2026-08-25T00:01:05Z' \
+    $'lag\tsql_thread\t30\t2026-08-25T00:02:00Z\t2026-08-25T00:02:30Z' \
+    $'lag\tsql_thread\t60\t2026-08-25T00:04:00Z\t2026-08-25T00:05:00Z' \
+    $'lag\tsource_final\t3\t2026-08-25T00:07:05Z\t2026-08-25T00:07:05Z' > "$artifacts/test.replica-faults.tsv"
+  printf '%s\n' \
+    $'pause_seconds\treplica_visible_qty\tprimary_reserve_http_status\tconvergence_qty\tfinal_restored_qty' \
+    $'30\t100\t409\t0\t100' > "$artifacts/test.replica-stale.tsv"
+}
+validate_artifacts() {
+  RUN_KEY=test REPLICA_EXPERIMENT=$1 VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
+    REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"
+}
+expect_invalid_artifacts() {
+  local mode=$1 message=$2
+  if validate_artifacts "$mode"; then echo "$message unexpectedly passed" >&2; exit 1; fi
+}
 
-RUN_KEY=test REPLICA_EXPERIMENT=lag VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'lag\tsql_thread\t5\t2026-08-24T23:50:00Z\t2026-08-24T23:50:05Z' \
-  $'lag\tsql_thread\t30\t2026-08-24T23:52:00Z\t2026-08-24T23:52:30Z' \
-  $'lag\tsql_thread\t60\t2026-08-24T23:55:00Z\t2026-08-24T23:56:00Z' \
-  $'lag\tsource_final\t4\t2026-08-25T00:00:00Z\t2026-08-25T00:00:00Z' > "$artifacts/test.replica-faults.tsv"
-if RUN_KEY=test REPLICA_EXPERIMENT=lag VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
-  echo 'mismatched final marker unexpectedly passed' >&2
-  exit 1
-fi
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'lag\tsql_thread\t5\t2026-08-24T23:50:00Z\t2026-08-24T23:50:05Z' \
-  $'lag\tsql_thread\t30\t2026-08-24T23:52:00Z\t2026-08-24T23:52:30Z' \
-  $'lag\tsql_thread\t60\t2026-08-24T23:55:00Z\t2026-08-24T23:56:00Z' \
-  $'lag\tsource_final\t3\t2026-08-25T00:00:00Z\t2026-08-25T00:00:00Z' > "$artifacts/test.replica-faults.tsv"
-printf '%s\n' \
-  $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' \
-  $'2026-08-24T23:59:59Z\tYes\tNo\t1\tsource:1-3\tsource:1' \
-  $'2026-08-25T00:00:00Z\tYes\tNo\t1\tsource:1-3\tsource:1' > "$artifacts/test.replica-status.tsv"
-if RUN_KEY=test REPLICA_EXPERIMENT=lag VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
-  echo 'unrecovered replica threads unexpectedly passed' >&2
-  exit 1
-fi
-printf '%s\n' \
-  $'observed_utc\treplica_io_running\treplica_sql_running\tseconds_behind_source\tretrieved_gtid_set\texecuted_gtid_set' \
-  $'2026-08-24T23:59:59Z\tYes\tNo\t1\tsource:1-3\tsource:1' \
-  $'2026-08-25T00:00:00Z\tYes\tYes\t0\tsource:1-3\tsource:1-3' > "$artifacts/test.replica-status.tsv"
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'lag\tsql_thread\t5\t2026-08-24T23:50:00Z\t2026-08-24T23:50:05Z' \
-  $'lag\tsql_thread\t30\t2026-08-24T23:52:00Z\t2026-08-24T23:52:30Z' \
-  $'lag\tsql_thread\t61\t2026-08-24T23:55:00Z\t2026-08-24T23:56:01Z' \
-  $'lag\tsource_final\t3\t2026-08-25T00:00:00Z\t2026-08-25T00:00:00Z' > "$artifacts/test.replica-faults.tsv"
-if RUN_KEY=test REPLICA_EXPERIMENT=lag VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
-  echo 'invalid lag fault schedule unexpectedly passed' >&2
-  exit 1
-fi
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'lag\tsql_thread\t5\t2026-08-24T23:50:00Z\t2026-08-24T23:50:05Z' \
-  $'lag\tsql_thread\t30\t2026-08-24T23:52:00Z\t2026-08-24T23:52:30Z' \
-  $'lag\tsql_thread\t60\t2026-08-24T23:55:00Z\t2026-08-24T23:56:00Z' \
-  $'lag\tsource_final\t3\t2026-08-25T00:00:00Z\t2026-08-25T00:00:00Z' > "$artifacts/test.replica-faults.tsv"
-printf '%s\n' \
-  $'pause_seconds\treplica_visible_qty\tprimary_reserve_http_status\tconvergence_qty\tfinal_restored_qty' \
-  $'30\t99\t409\t0\t100' > "$artifacts/test.replica-stale.tsv"
-if RUN_KEY=test REPLICA_EXPERIMENT=lag VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
-  echo 'invalid stale-read proof unexpectedly passed' >&2
-  exit 1
-fi
+write_lag_artifacts
+validate_artifacts lag
+sed -i.bak '1s/run_key/bad_key/' "$artifacts/test.replica-lag.tsv"
+expect_invalid_artifacts lag 'malformed lag header'
+write_lag_artifacts
+printf 'bad\trow\n' >> "$artifacts/test.replica-status.tsv"
+expect_invalid_artifacts lag 'malformed status width'
+write_lag_artifacts
+sed -i.bak 's/lag\tsql_thread\t30/lag\tsql_thread\tthirty/' "$artifacts/test.replica-faults.tsv"
+expect_invalid_artifacts lag 'non-numeric fault duration'
+write_lag_artifacts
+printf '30\t100\t409\t0\t100\textra\n' >> "$artifacts/test.replica-stale.tsv"
+expect_invalid_artifacts lag 'malformed stale width'
+write_lag_artifacts
+sed -i.bak 's/00:02:29Z\tYes\tNo/00:02:29Z\tNo\tNo/' "$artifacts/test.replica-status.tsv"
+expect_invalid_artifacts lag 'I/O stopped during 30-second pause'
+write_lag_artifacts
+sed -i.bak 's/lag\tsource_final\t3/lag\tsource_final\t4/' "$artifacts/test.replica-faults.tsv"
+expect_invalid_artifacts lag 'mismatched final marker'
 
-printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"target":"primary","outcome":"fallback"},"values":[[1,"0"],[2,"0"]]}]}}' > "$artifacts/test.observations/stage-1-datasource-route.json"
-printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"target":"primary","outcome":"fallback"},"values":[[3,"0"],[4,"2"]]}]}}' > "$artifacts/test.observations/stage-2-datasource-route.json"
+write_lag_artifacts
+printf '%s\n' \
+  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
+  $'outage\tcontainer\t60\t2026-08-25T00:01:00Z\t2026-08-25T00:02:00Z' > "$artifacts/test.replica-faults.tsv"
+printf '%s\n' '{"status":"success","data":{"result":[' \
+  '{"metric":{"host":"product-a","target":"primary","outcome":"fallback"},"values":[[1,"10"],[2,"12"]]},' \
+  '{"metric":{"host":"product-b","target":"primary","outcome":"fallback"},"values":[[1,"4"],[2,"4"]]}]}}' | tr -d '\n' > "$artifacts/test.observations/stage-1-datasource-route.json"
+printf '\n' >> "$artifacts/test.observations/stage-1-datasource-route.json"
+printf '%s\n' '{"status":"success","data":{"result":[' \
+  '{"metric":{"host":"product-a","target":"primary","outcome":"fallback"},"values":[[3,"1"],[4,"2"]]},' \
+  '{"metric":{"host":"product-b","target":"primary","outcome":"fallback"},"values":[[3,"4"],[4,"4"]]},' \
+  '{"metric":{"host":"product-c","target":"primary","outcome":"fallback"},"values":[[3,"5"],[4,"5"]]}]}}' | tr -d '\n' > "$artifacts/test.observations/stage-2-datasource-route.json"
+printf '\n' >> "$artifacts/test.observations/stage-2-datasource-route.json"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"workload":"read"},"values":[[1,"0"],[2,"0"]]},{"metric":{"workload":"write"},"values":[[1,"0"],[2,"0"]]}]}}' > "$artifacts/test.observations/stage-1-k6-error_rate.json"
 printf '%s\n' '{"metrics":{"stock_server_error_rate":{"values":{"rate":0}}}}' > "$artifacts/test.summary.json"
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'outage\tcontainer\t60\t2026-08-24T23:50:00Z\t2026-08-24T23:51:00Z' > "$artifacts/test.replica-faults.tsv"
-RUN_KEY=test REPLICA_EXPERIMENT=outage VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'outage\tcontainer\t61\t2026-08-24T23:50:00Z\t2026-08-24T23:51:01Z' > "$artifacts/test.replica-faults.tsv"
-if RUN_KEY=test REPLICA_EXPERIMENT=outage VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
-  echo 'invalid outage fault duration unexpectedly passed' >&2
-  exit 1
-fi
-printf '%s\n' \
-  $'mode\tfault\tduration_seconds\tstarted_utc\tended_utc' \
-  $'outage\tcontainer\t60\t2026-08-24T23:50:00Z\t2026-08-24T23:51:00Z' > "$artifacts/test.replica-faults.tsv"
-printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"target":"primary","outcome":"fallback"},"values":[[3,"2"],[4,"0"]]}]}}' > "$artifacts/test.observations/stage-2-datasource-route.json"
-if RUN_KEY=test REPLICA_EXPERIMENT=outage VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
-  echo 'falling fallback counter unexpectedly passed' >&2
-  exit 1
-fi
-printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"target":"primary","outcome":"fallback"},"values":[[3,"0"],[4,"2"]]}]}}' > "$artifacts/test.observations/stage-2-datasource-route.json"
-printf '%s\n' '{"metrics":{"stock_server_error_rate":{"values":{"rate":0.01}}}}' > "$artifacts/test.summary.json"
-if RUN_KEY=test REPLICA_EXPERIMENT=outage VALIDATE_REPLICA_ARTIFACT_DIR="$artifacts" \
-  REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
-  echo 'outage server errors unexpectedly passed' >&2
-  exit 1
-fi
+validate_artifacts outage
+sed -i.bak 's/\[2,"0"\]/[2,"0.01"]/' "$artifacts/test.observations/stage-1-k6-error_rate.json"
+expect_invalid_artifacts outage 'replica read failure'
+sed -i.bak 's/\[2,"0.01"\]/[2,"0"]/' "$artifacts/test.observations/stage-1-k6-error_rate.json"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"host":"product-a","target":"primary","outcome":"fallback"},"values":[[1,"10"],[2,"10"]]},{"metric":{"host":"product-b","target":"primary","outcome":"fallback"},"values":[[1,"4"],[2,"4"]]}]}}' > "$artifacts/test.observations/stage-1-datasource-route.json"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"host":"product-a","target":"primary","outcome":"fallback"},"values":[[3,"10"],[4,"10"]]},{"metric":{"host":"product-c","target":"primary","outcome":"fallback"},"values":[[3,"5"],[4,"5"]]}]}}' > "$artifacts/test.observations/stage-2-datasource-route.json"
+expect_invalid_artifacts outage 'flat multi-series fallback counters'
 
 orchestration=$(mktemp -d)
 trap 'rm -f "$good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series"; rm -rf "$artifacts" "$orchestration"' EXIT
@@ -212,7 +177,13 @@ case "$service $operation" in
     esac
     ;;
   'ssm describe-instance-information') printf 'Online\n' ;;
-  'ssm list-command-invocations') printf 'Success\n' ;;
+  'ssm list-command-invocations')
+    command_id=
+    while [ "$#" -gt 0 ]; do
+      case "$1" in --command-id) command_id=$2; shift 2 ;; *) shift ;; esac
+    done
+    if [ "$command_id" = "${FAKE_FAILED_COMMAND_ID:-}" ]; then printf 'Failed\n'; else printf 'Success\n'; fi
+    ;;
   'ssm send-command')
     comment= parameters=
     while [ "$#" -gt 0 ]; do
@@ -228,9 +199,26 @@ case "$service $operation" in
       'product stock mixed load test')
         printf 'send k6\n' >> "$FAKE_AWS_LOG"
         command=$(printf '%s\n' "$parameters" | jq -r '.commands[0]')
+        printf '%s\n' "$command" | grep -q 'sequence = -1' || {
+          echo 'k6 command does not wait for probe readiness' >&2
+          exit 1
+        }
+        printf '%s\n' "$command" | grep -q "VALUES ('\$RUN_KEY',0,UTC_TIMESTAMP(6))" || {
+          echo 'k6 command does not publish workload start' >&2
+          exit 1
+        }
         seed=$(printf '%s\n' "$command" | sed -n "s/^SEED_B64='\([^']*\)'$/\1/p")
         printf '%s' "$seed" | base64 -D > "$FAKE_SEED_CAPTURE"
         printf 'k6-command\n'
+        ;;
+      'fetch product stock result chunk')
+        command=$(printf '%s\n' "$parameters" | jq -r '.commands[0]')
+        offset=$(printf '%s\n' "$command" | sed -n 's/.*skip=\([0-9][0-9]*\).*/\1/p')
+        count=$(printf '%s\n' "$command" | sed -n 's/.*count=\([0-9][0-9]*\).*/\1/p')
+        case "$command" in *replica.tgz*) bundle=$FAKE_PROBE_BUNDLE ;; *) bundle=$FAKE_MAIN_BUNDLE ;; esac
+        printf '%s\n%s\n%s\n' "$bundle" "$offset" "$count" > "$FAKE_CHUNK_PARAMS"
+        printf 'fetch chunk\n' >> "$FAKE_AWS_LOG"
+        printf 'chunk-command\n'
         ;;
       *) printf 'unexpected send-command comment: %s\n' "$comment" >&2; exit 1 ;;
     esac
@@ -240,6 +228,15 @@ case "$service $operation" in
     while [ "$#" -gt 0 ]; do
       case "$1" in --command-id) command_id=$2; shift 2 ;; *) shift ;; esac
     done
+    if [ "$command_id" = chunk-command ]; then
+      bundle=$(sed -n '1p' "$FAKE_CHUNK_PARAMS")
+      offset=$(sed -n '2p' "$FAKE_CHUNK_PARAMS")
+      count=$(sed -n '3p' "$FAKE_CHUNK_PARAMS")
+      chunk=$(base64 < "$bundle" | tr -d '\n' | dd bs=1 skip="$offset" count="$count" 2>/dev/null)
+      if [ "${FAKE_BAD_CHUNK:-0}" = 1 ]; then chunk=${chunk%?}; fi
+      printf '%s\n' "$chunk"
+      exit 0
+    fi
     case "$command_id" in
       k6-command) bundle=$FAKE_MAIN_BUNDLE ;;
       probe-command) bundle=$FAKE_PROBE_BUNDLE ;;
@@ -247,6 +244,11 @@ case "$service $operation" in
     esac
     checksum=$(shasum -a 256 "$bundle" | awk '{print $1}')
     bytes=$(wc -c < "$bundle" | tr -d ' ')
+    if [ "$command_id" = "${FAKE_CHUNKED_COMMAND_ID:-}" ]; then
+      encoded_chars=$(base64 < "$bundle" | tr -d '\n' | wc -c | tr -d ' ')
+      printf 'K6_RESULT_CHUNKED %s %s %s\n' "$checksum" "$bytes" "$encoded_chars"
+      exit 0
+    fi
     printf 'K6_RESULT_BEGIN %s %s\n' "$checksum" "$bytes"
     base64 < "$bundle" | tr -d '\n'
     printf '\nK6_RESULT_END\n'
@@ -255,13 +257,19 @@ case "$service $operation" in
 esac
 FAKE
 chmod +x "$orchestration/bin/aws"
+cat > "$orchestration/bin/mktemp" <<'FAKE'
+#!/usr/bin/env bash
+exec /usr/bin/mktemp "$FAKE_TMPDIR/fetch.XXXXXX"
+FAKE
+chmod +x "$orchestration/bin/mktemp"
 
 run_fake_aws() {
   local run=$1 mode=$2 results="$orchestration/results-$1"
   : > "$orchestration/aws.log"
-  mkdir -p "$results"
+  mkdir -p "$results" "$orchestration/fetch-tmp"
   PATH="$orchestration/bin:$PATH" FAKE_AWS_LOG="$orchestration/aws.log" \
     FAKE_SEED_CAPTURE="$orchestration/captured-seed.json" \
+    FAKE_CHUNK_PARAMS="$orchestration/chunk.params" FAKE_TMPDIR="$orchestration/fetch-tmp" \
     FAKE_MAIN_BUNDLE="$orchestration/$run.main.tgz" \
     FAKE_PROBE_BUNDLE="$orchestration/$run.probe.tgz" \
     SEED_FILE="$orchestration/seed.json" RESULT_DIR="$results" RUN_KEY="$run" \
@@ -285,3 +293,27 @@ for suffix in replica-lag.tsv replica-status.tsv replica-faults.tsv replica-stal
   [ -f "$orchestration/results-steady-test/steady-test.$suffix" ]
   tar -tzf "$orchestration/results-steady-test/steady-test.tgz" | grep -qx "steady-test.$suffix"
 done
+
+make_main_bundle chunk-test
+make_probe_bundle chunk-test
+FAKE_CHUNKED_COMMAND_ID=probe-command run_fake_aws chunk-test steady
+grep -q 'fetch chunk' "$orchestration/aws.log"
+[ -f "$orchestration/results-chunk-test/chunk-test.replica-lag.tsv" ]
+
+make_main_bundle failed-test
+make_probe_bundle failed-test
+if FAKE_FAILED_COMMAND_ID=probe-command run_fake_aws failed-test steady; then
+  echo 'failed probe command did not fail the runner' >&2
+  exit 1
+fi
+
+make_main_bundle bad-chunk-test
+make_probe_bundle bad-chunk-test
+if FAKE_CHUNKED_COMMAND_ID=probe-command FAKE_BAD_CHUNK=1 run_fake_aws bad-chunk-test steady; then
+  echo 'short SSM chunk unexpectedly passed' >&2
+  exit 1
+fi
+[ -z "$(find "$orchestration/fetch-tmp" -type f -print -quit)" ] || {
+  echo 'fetch temporary files leaked after a chunk failure' >&2
+  exit 1
+}

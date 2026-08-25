@@ -12,15 +12,16 @@ PROBE_SKU_ID="${PROBE_SKU_ID:-}"
 PROBE_DURATION_SECONDS="${PROBE_DURATION_SECONDS:-720}"
 PROBE_MAX_SEQUENCE="${PROBE_MAX_SEQUENCE:-0}"
 PROBE_RECOVERY_TIMEOUT_SECONDS="${PROBE_RECOVERY_TIMEOUT_SECONDS:-120}"
+PROBE_START_TIMEOUT_SECONDS="${PROBE_START_TIMEOUT_SECONDS:-300}"
 SQL_TIMEOUT_SECONDS="${SQL_TIMEOUT_SECONDS:-10}"
 
 [[ "$RUN_KEY" =~ ^[A-Za-z0-9._-]+$ ]] || { echo 'RUN_KEY contains unsupported characters' >&2; exit 1; }
 [ "${#RUN_KEY}" -le 64 ] || { echo 'RUN_KEY must be at most 64 characters' >&2; exit 1; }
 case "$MODE" in steady|lag|outage) ;; *) echo 'REPLICA_EXPERIMENT must be steady, lag, or outage' >&2; exit 1 ;; esac
-for value in "$PROBE_DURATION_SECONDS" "$PROBE_MAX_SEQUENCE" "$PROBE_RECOVERY_TIMEOUT_SECONDS" "$SQL_TIMEOUT_SECONDS"; do
+for value in "$PROBE_DURATION_SECONDS" "$PROBE_MAX_SEQUENCE" "$PROBE_RECOVERY_TIMEOUT_SECONDS" "$PROBE_START_TIMEOUT_SECONDS" "$SQL_TIMEOUT_SECONDS"; do
   [[ "$value" =~ ^[0-9]+$ ]] || { echo 'probe durations and sequence limit must be non-negative integers' >&2; exit 1; }
 done
-[ "$PROBE_DURATION_SECONDS" -gt 0 ] && [ "$PROBE_RECOVERY_TIMEOUT_SECONDS" -gt 0 ] && [ "$SQL_TIMEOUT_SECONDS" -gt 0 ] || {
+[ "$PROBE_DURATION_SECONDS" -gt 0 ] && [ "$PROBE_RECOVERY_TIMEOUT_SECONDS" -gt 0 ] && [ "$PROBE_START_TIMEOUT_SECONDS" -gt 0 ] && [ "$SQL_TIMEOUT_SECONDS" -gt 0 ] || {
   echo 'probe duration and timeouts must be positive' >&2
   exit 1
 }
@@ -58,6 +59,11 @@ sleep_for() {
   if [ -n "${SLEEP:-}" ]; then "$SLEEP" "$1"; else sleep "$1"; fi
 }
 
+wait_until() {
+  local deadline=$1
+  while [ "$(monotonic_ms)" -lt "$deadline" ]; do sleep_for 0.1; done
+}
+
 utc_now() { date -u +%Y-%m-%dT%H:%M:%SZ; }
 
 mkdir -p "$RESULT_DIR"
@@ -77,12 +83,18 @@ printf 'pause_seconds\treplica_visible_qty\tprimary_reserve_http_status\tconverg
 
 source_marker() {
   source_mysql --skip-column-names -e \
-    "SELECT COALESCE(sequence,0) FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY'"
+    "SELECT COALESCE(MAX(sequence),0) FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY'"
 }
 
 replica_marker() {
   replica_mysql --skip-column-names -e \
-    "SELECT COALESCE(sequence,0) FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY'"
+    "SELECT COALESCE(MAX(sequence),0) FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY'"
+}
+
+replica_next_marker() {
+  local last=$1
+  replica_mysql --skip-column-names -e \
+    "SELECT COALESCE(MIN(sequence),0) FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY' AND sequence > $last"
 }
 
 read_status() {
@@ -126,50 +138,74 @@ wait_for_marker() {
 
 source_mysql -e '
   CREATE TABLE IF NOT EXISTS product_db.loadtest_replication_heartbeat (
-    run_key VARCHAR(64) PRIMARY KEY,
+    run_key VARCHAR(64) NOT NULL,
     sequence BIGINT NOT NULL,
-    sent_at TIMESTAMP(6) NOT NULL
+    sent_at TIMESTAMP(6) NOT NULL,
+    PRIMARY KEY (run_key, sequence)
   ) ENGINE=InnoDB
 '
 source_mysql -e "DELETE FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY'"
 
 collector_pid=
-reservation_active=0
 reservation_key="replica-probe-$RUN_KEY"
+reject_key="replica-probe-reject-$RUN_KEY"
+reservation_cleanup=0
+reject_cleanup=0
 
-release_reservation() {
-  [ "$reservation_active" = 1 ] || return 0
-  curl --silent --show-error --connect-timeout 3 --max-time 10 -o /dev/null \
-    -H 'Content-Type: application/json' \
-    -d "{\"paymentKey\":\"$reservation_key\",\"items\":[{\"skuId\":$PROBE_SKU_ID,\"qty\":100}]}" \
-    "$PRODUCT_URL/v1/stock/release" || true
-  reservation_active=0
+release_reservations() {
+  local attempt value
+  [ "$reservation_cleanup" = 1 ] || [ "$reject_cleanup" = 1 ] || return 0
+  for attempt in 1 2 3; do
+    if [ "$reservation_cleanup" = 1 ]; then
+      curl --silent --show-error --connect-timeout 3 --max-time 10 -o /dev/null \
+        -H 'Content-Type: application/json' \
+        -d "{\"paymentKey\":\"$reservation_key\",\"items\":[{\"skuId\":$PROBE_SKU_ID,\"qty\":100}]}" \
+        "$PRODUCT_URL/v1/stock/release" >/dev/null 2>&1 || true
+    fi
+    if [ "$reject_cleanup" = 1 ]; then
+      curl --silent --show-error --connect-timeout 3 --max-time 10 -o /dev/null \
+        -H 'Content-Type: application/json' \
+        -d "{\"paymentKey\":\"$reject_key\",\"items\":[{\"skuId\":$PROBE_SKU_ID,\"qty\":1}]}" \
+        "$PRODUCT_URL/v1/stock/release" >/dev/null 2>&1 || true
+    fi
+    value=$(stock_qty source 2>/dev/null || true)
+    if [ "$value" = 100 ]; then
+      reservation_cleanup=0
+      reject_cleanup=0
+      return 0
+    fi
+    [ "$attempt" -eq 3 ] || sleep_for 1
+  done
+  echo 'failed to restore probe source stock to 100' >&2
+  return 1
 }
 
 cleanup() {
-  local status=$?
+  local status=$? cleanup_status=0
   trap - EXIT INT TERM
+  set +e
   if [ -n "$collector_pid" ]; then kill "$collector_pid" >/dev/null 2>&1 || true; wait "$collector_pid" >/dev/null 2>&1 || true; fi
-  release_reservation
-  if [ "$MODE" = outage ]; then timeout --foreground 30s docker start mysql-product-replica >/dev/null 2>&1 || true; fi
-  wait_for_threads >/dev/null 2>&1 || true
+  if [ "$MODE" = outage ]; then timeout --foreground 30s docker start mysql-product-replica >/dev/null 2>&1 || cleanup_status=1; fi
+  wait_for_threads >/dev/null 2>&1 || cleanup_status=1
+  release_reservations || cleanup_status=1
   source_mysql -e "DELETE FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY'" >/dev/null 2>&1 || true
   rm -f "$SENT_FILE" "$HTTP_BODY"
   rmdir "$STATE_DIR" >/dev/null 2>&1 || true
+  [ "$cleanup_status" = 0 ] || status=1
   exit "$status"
 }
 trap cleanup EXIT INT TERM
 
 collect_markers() {
-  local started now next_write next_status sequence=0 observed=0 last_observed=0 sent lag final_source final_replica
+  local started now observed_at next_write next_status sequence=0 observed=0 last_observed=0 sent lag final_source final_replica
   started=$(monotonic_ms)
   next_write=$started
   next_status=$started
   while :; do
     now=$(monotonic_ms)
-    if [ "$now" -ge "$next_write" ]; then
+    if [ "$now" -ge "$next_write" ] && { [ "$PROBE_MAX_SEQUENCE" -eq 0 ] || [ "$sequence" -lt "$PROBE_MAX_SEQUENCE" ]; }; then
       sequence=$((sequence + 1))
-      source_mysql -e "INSERT INTO product_db.loadtest_replication_heartbeat(run_key,sequence,sent_at) VALUES ('$RUN_KEY',$sequence,UTC_TIMESTAMP(6)) ON DUPLICATE KEY UPDATE sequence=VALUES(sequence),sent_at=VALUES(sent_at)"
+      source_mysql -e "INSERT INTO product_db.loadtest_replication_heartbeat(run_key,sequence,sent_at) VALUES ('$RUN_KEY',$sequence,UTC_TIMESTAMP(6))"
       printf '%s\t%s\n' "$sequence" "$now" >> "$SENT_FILE"
       next_write=$((now + 1000))
     fi
@@ -177,18 +213,19 @@ collect_markers() {
       read_status >> "$STATUS_FILE"
       next_status=$((now + 1000))
     fi
-    observed=$(replica_marker 2>/dev/null || printf '0\n')
+    observed=$(replica_next_marker "$last_observed" 2>/dev/null || printf '0\n')
+    observed_at=$(monotonic_ms)
     if [[ "$observed" =~ ^[0-9]+$ ]] && [ "$observed" -gt "$last_observed" ] && [ "$observed" -le "$sequence" ]; then
       sent=$(awk -F '\t' -v sequence="$observed" '$1 == sequence {print $2; exit}' "$SENT_FILE")
       if [ -n "$sent" ]; then
-        lag=$((now - sent)); [ "$lag" -ge 0 ] || lag=0
-        printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$RUN_KEY" "$observed" "$sent" "$now" "$lag" "$(utc_now)" >> "$LAG_FILE"
+        lag=$((observed_at - sent)); [ "$lag" -ge 0 ] || lag=0
+        printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$RUN_KEY" "$observed" "$sent" "$observed_at" "$lag" "$(utc_now)" >> "$LAG_FILE"
         last_observed=$observed
       fi
     fi
     if [ "$PROBE_MAX_SEQUENCE" -gt 0 ]; then
       [ "$sequence" -ge "$PROBE_MAX_SEQUENCE" ] && [ "$last_observed" -ge "$sequence" ] && break
-    elif [ $((now - started)) -ge $((PROBE_DURATION_SECONDS * 1000)) ]; then
+    elif [ $((observed_at - started)) -ge $((PROBE_DURATION_SECONDS * 1000)) ]; then
       break
     fi
     sleep_for 0.1
@@ -242,29 +279,43 @@ wait_for_next_source_marker() {
   return 1
 }
 
+wait_for_workload_start() {
+  local deadline=$(( $(monotonic_ms) + PROBE_START_TIMEOUT_SECONDS * 1000 )) ready
+  while [ "$(monotonic_ms)" -lt "$deadline" ]; do
+    ready=$(source_mysql --skip-column-names -e \
+      "SELECT COUNT(*) FROM product_db.loadtest_replication_heartbeat WHERE run_key = '$RUN_KEY' AND sequence = 0" 2>/dev/null || true)
+    if [ "$ready" = 1 ]; then monotonic_ms; return 0; fi
+    sleep_for 0.1
+  done
+  echo 'timed out waiting for workload-start marker' >&2
+  return 1
+}
+
 pause_sql() {
   local seconds=$1 prove_stale=$2 started_ms started_utc ended_utc status target previous source_qty_value replica_qty_value
   local replica_visible_qty= convergence_qty= final_restored_qty=
+  replica_mysql -e 'STOP REPLICA SQL_THREAD'
   started_ms=$(monotonic_ms)
   started_utc=$(utc_now)
-  replica_mysql -e 'STOP REPLICA SQL_THREAD'
   if [ "$prove_stale" = 1 ]; then
+    reservation_cleanup=1
+    reject_cleanup=1
     status=$(http_post_status /v1/stock/reserve \
       "{\"paymentKey\":\"$reservation_key\",\"items\":[{\"productId\":$PROBE_PRODUCT_ID,\"skuId\":$PROBE_SKU_ID,\"qty\":100}]}")
     [ "$status" = 200 ] || { echo "probe reserve returned HTTP $status" >&2; return 1; }
-    reservation_active=1
     sleep_for 6
     replica_visible_qty=$(displayed_qty)
     [ "$replica_visible_qty" = 100 ] || { echo "expected stale quantity 100, got $replica_visible_qty" >&2; return 1; }
     status=$(http_post_status /v1/stock/reserve \
-      "{\"paymentKey\":\"replica-probe-reject-$RUN_KEY\",\"items\":[{\"productId\":$PROBE_PRODUCT_ID,\"skuId\":$PROBE_SKU_ID,\"qty\":1}]}")
+      "{\"paymentKey\":\"$reject_key\",\"items\":[{\"productId\":$PROBE_PRODUCT_ID,\"skuId\":$PROBE_SKU_ID,\"qty\":1}]}")
     [ "$status" = 409 ] || { echo "expected primary HTTP 409, got $status" >&2; return 1; }
   fi
-  while [ $(( $(monotonic_ms) - started_ms )) -lt $((seconds * 1000)) ]; do sleep_for 0.1; done
-  replica_mysql -e 'START REPLICA SQL_THREAD'
-  wait_for_threads
+  wait_until "$((started_ms + seconds * 1000))"
   ended_utc=$(utc_now)
   printf '%s\tsql_thread\t%s\t%s\t%s\n' "$MODE" "$seconds" "$started_utc" "$ended_utc" >> "$FAULTS_FILE"
+  replica_mysql -e 'START REPLICA SQL_THREAD'
+  wait_for_threads
+  PAUSE_RECOVERY_STARTED_MS=$(monotonic_ms)
 
   if [ "$prove_stale" = 1 ]; then
     target=$(source_marker)
@@ -278,7 +329,6 @@ pause_sql() {
     status=$(http_post_status /v1/stock/release \
       "{\"paymentKey\":\"$reservation_key\",\"items\":[{\"skuId\":$PROBE_SKU_ID,\"qty\":100}]}")
     [ "$status" = 200 ] || { echo "probe release returned HTTP $status" >&2; return 1; }
-    reservation_active=0
     target=$(wait_for_next_source_marker "$previous")
     wait_for_marker "$target"
     wait_for_stock source 100
@@ -286,6 +336,7 @@ pause_sql() {
     source_qty_value=$(stock_qty source)
     replica_qty_value=$(stock_qty replica)
     [ "$source_qty_value" = 100 ] && [ "$replica_qty_value" = 100 ] || return 1
+    reservation_cleanup=0
     sleep_for 6
     final_restored_qty=$(displayed_qty)
     [ "$final_restored_qty" = 100 ] || { echo "expected restored quantity 100, got $final_restored_qty" >&2; return 1; }
@@ -293,28 +344,32 @@ pause_sql() {
   fi
 }
 
+source_mysql -e "INSERT INTO product_db.loadtest_replication_heartbeat(run_key,sequence,sent_at) VALUES ('$RUN_KEY',-1,UTC_TIMESTAMP(6))"
+workload_started_ms=$(wait_for_workload_start)
 collect_markers &
 collector_pid=$!
 
 case "$MODE" in
   steady) ;;
   lag)
-    sleep_for 60
+    wait_until "$((workload_started_ms + 60000))"
     pause_sql 5 0
-    sleep_for 60
+    wait_until "$((PAUSE_RECOVERY_STARTED_MS + 60000))"
     pause_sql 30 1
-    sleep_for 90
+    wait_until "$((PAUSE_RECOVERY_STARTED_MS + 90000))"
     pause_sql 60 0
-    sleep_for 120
+    wait_until "$((PAUSE_RECOVERY_STARTED_MS + 120000))"
     ;;
   outage)
-    sleep_for 60
-    outage_started=$(utc_now)
+    wait_until "$((workload_started_ms + 60000))"
     timeout --foreground 30s docker stop mysql-product-replica >/dev/null
-    sleep_for 60
+    outage_started_ms=$(monotonic_ms)
+    outage_started=$(utc_now)
+    wait_until "$((outage_started_ms + 60000))"
+    outage_ended=$(utc_now)
     timeout --foreground 30s docker start mysql-product-replica >/dev/null
     wait_for_threads
-    printf '%s\tcontainer\t60\t%s\t%s\n' "$MODE" "$outage_started" "$(utc_now)" >> "$FAULTS_FILE"
+    printf '%s\tcontainer\t60\t%s\t%s\n' "$MODE" "$outage_started" "$outage_ended" >> "$FAULTS_FILE"
     ;;
 esac
 
