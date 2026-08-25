@@ -69,8 +69,4 @@ LOADTEST_QUERYCOUNT_ENABLED=true
 - `product-service` 테스트: 97개, 실패 0, 오류 0
 - 코드 스타일 검사: `git diff --check` 이상 없음
 
-<<<<<<< HEAD
-이번 결과는 SQL 왕복 감소와 실행계획 검증까지다. 실제 인프라에서의 RPS, p95, CPU 개선 폭은 같은 seed와 부하 프로파일로 재측정해야 확정할 수 있다.
-=======
 AWS 재측정에서도 요청당 SQL 6회를 확인했다. 쿼리 계측을 끈 기준 처리량은 1,143.75 RPS, ramp 처리량은 1,190.85 RPS였고 이전보다 각각 3.63%, 6.61% 증가했다. 상세 결과와 자원 병목은 [AWS 재측정 보고서](product-detail-query-aws-results-2026-08-19.md)에 기록했다.
->>>>>>> agent/product-detail-cache-strategy

@@ -12,13 +12,14 @@
       .mermaid { background: #fafafa; padding: 1rem; border-radius: 8px; overflow-x: auto; }
       code { background: #f0f0f0; padding: 0.1em 0.3em; border-radius: 3px; font-size: 0.9em; }
       .note { background: #f0fdf4; border-left: 3px solid #16a34a; padding: 0.6rem 1rem; font-size: 0.9rem; margin: 1rem 0; }
+      table { border-collapse: collapse; width: 100%; font-size: 0.85rem; margin: 1rem 0; } th, td { border: 1px solid #e5e7eb; padding: 0.4rem 0.6rem; text-align: left; } th { background: #f9fafb; } h3 { margin-top: 1.8rem; font-size: 1rem; }
       .warn { background: #fff7ed; border-left: 3px solid #ea580c; padding: 0.6rem 1rem; font-size: 0.9rem; margin: 1rem 0; }
     </style>
   </head>
   <body>
     <h1>상품 상세 캐시 전략</h1>
-    <p class="meta">product-detail-cache v1.0 · product-service :8084 · Redis read-through · refresh-ahead · cache-aside</p>
-    <nav>▸ <a href="./index.html">← 아키텍처 개요</a> · <a href="./product-catalog.html">상품 카탈로그</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a></nav>
+    <p class="meta">product-detail-cache v1.0 · product-service :8084 · Redis read-through · refresh-ahead · cache-aside · 실측 반영 2026-08-20</p>
+    <nav>▸ <a href="./index.html">← 아키텍처 개요</a> · <a href="./product-catalog.html">상품 카탈로그</a> · <a href="./service-flows.html">서비스별 메서드 흐름 →</a> · <a href="../load-test/topology.html">부하 실측 토폴로지 →</a></nav>
 
     <p class="legend">상품 상세 조회는 캐시를 우선 사용하되, 가격과 재고의 최종 정합성은 DB 쓰기 경계가 책임진다. 인기 상품은 refresh-ahead, 나머지는 cache-aside로 운영한다.</p>
 
@@ -87,7 +88,68 @@ flowchart TD
       <li>키: <code>product:detail:{productId}</code>; 값: 상세 응답 envelope.</li>
       <li>측정: cache hit/miss/stale 비율, refresh 성공률, single-flight 대기시간, DB fallback 비율, 상세 API p95.</li>
       <li>무효화: 상품·가격·재고 변경 경로에서 같은 상품 키를 제거한다.</li>
+      <li>부하 실측 계측: <code>LOADTEST_QUERYCOUNT_ENABLED=true</code>(요청당 SQL 수 <code>db.queries.per_request</code>) — 기준 처리량 측정 시에는 오버헤드 제외를 위해 끈다.</li>
+      <li>Micrometer 타이머: <code>product.detail.cache.read</code>(Redis 조회+역직렬화), <code>product.detail.response.assembly</code>(DTO 조립).</li>
     </ul>
+
+    <h2>6. AWS 실측으로 확인한 병목 이동</h2>
+    <p class="legend">
+      아래 값은 모두 <code>ap-northeast-2a</code> 동일 AZ 사설망, API Gateway 미경유, <code>GET /v1/products/{id}</code> 실측이다.
+      원본: <a href="../load-test/product-detail-aws-results-2026-08-19.md">기준선</a> ·
+      <a href="../load-test/product-detail-query-aws-results-2026-08-19.md">쿼리 최적화 재측정</a> ·
+      <a href="../load-test/product-detail-cache-handoff.md">캐시 handoff</a> ·
+      <a href="../load-test/product-detail-scaleout-results-2026-08-20.md">수평 확장</a> ·
+      <a href="../load-test/product-stock-mysql-threshold-2026-08-20.md">MySQL 포화점</a>.
+    </p>
+
+    <div class="mermaid">
+flowchart LR
+  S1["1. 기준선<br/>SQL 8회 · 단일 노드<br/>~1.1k RPS"] --> S2["2. 재귀 CTE<br/>SQL 8→6회<br/>~1.2k RPS"]
+  S2 --> S3["3. Redis read-through<br/>+ single-flight<br/>2,686 RPS"]
+  S3 --> S4["4. 공용 Redis + 2대<br/>private NLB<br/>4,143 RPS"]
+  S4 --> S5["5. 4대 + k6 4 vCPU<br/>11,021 RPS"]
+  S5 --> S6["6. read/write 9:1 혼합<br/>~7.8k RPS 상한"]
+  S1 --- B1["병목: MySQL CPU 98%<br/>Hikari pending 86"]
+  S2 --- B2["병목: MySQL CPU 98%<br/>Hikari pending 87"]
+  S3 --- B3["병목 이동<br/>product JVM CPU 94%<br/>MySQL 59.9%"]
+  S4 --- B4["병목: product 2대 85%대"]
+  S5 --- B5["측정기 병목이었음<br/>k6 2 vCPU → 4 vCPU"]
+  S6 --- B6["병목: 공용 MySQL CPU 99.5%<br/>읽기 25~50 VU에서 포화 시작"]
+  classDef db fill:#fee2e2,stroke:#dc2626,color:#7f1d1d;
+  classDef app fill:#dbeafe,stroke:#2563eb,color:#1e3a5f;
+  classDef rig fill:#fef3c7,stroke:#d97706,color:#78350f;
+  class B1,B2,B6 db; class B3,B4 app; class B5 rig;
+    </div>
+
+    <h3>단계별 수치</h3>
+    <table>
+      <thead><tr><th>단계</th><th>구성</th><th>RPS</th><th>p95</th><th>p99</th><th>첫 포화 구성요소</th></tr></thead>
+      <tbody>
+        <tr><td>1. 기준선 (08-19)</td><td>단일 product + MySQL, 상품 1천, SQL 8회, ramp 10→100 VU</td><td>1,116.99</td><td>85.53ms</td><td>139.43ms</td><td>MySQL CPU 98.38% · Hikari pending 86</td></tr>
+        <tr><td>2. 재귀 CTE (08-19)</td><td>동일 구성, 상품 10만, SQL 6회, ramp 10→100 VU</td><td>1,190.85 <b>(+6.61%)</b></td><td>78.10ms (-8.68%)</td><td>125.53ms (-9.98%)</td><td>MySQL CPU 98.47% · Hikari pending 87</td></tr>
+        <tr><td>3. 캐시 도입 (08-20)</td><td>Redis read-through + single-flight, hot key 100 VU·30초</td><td>2,686</td><td>72.5ms</td><td>104.7ms</td><td>product CPU 94.1% (MySQL 59.9%)</td></tr>
+        <tr><td>4. 공용 Redis 2대 (08-20)</td><td>private NLB + product 2대, 공용 Redis</td><td>4,143 <b>(+54%)</b></td><td>59.4ms</td><td>113.6ms</td><td>product-a 86.1% / b 84.5%</td></tr>
+        <tr><td>5. 4대 확장 (08-20)</td><td>product 4대, k6 4 vCPU, 1,000 VU</td><td>11,021 <b>(+39.4%)</b></td><td>290ms</td><td>377ms</td><td>product JVM CPU 78~83% (후보)</td></tr>
+        <tr><td>6. 읽기/쓰기 혼합 (08-20)</td><td>read:write 약 9:1, product 4대 + 공용 MySQL</td><td>~7,850 정체</td><td>13.6~26.4ms</td><td>27.2ms(전체)</td><td>공용 MySQL CPU 99.5%</td></tr>
+      </tbody>
+    </table>
+    <p class="legend">모든 구간 오류율 0%. 상한은 오류가 아니라 CPU 포화와 대기 증가로 형성됐다.</p>
+
+    <h3>설계에 남는 결론</h3>
+    <ul>
+      <li><b>캐시가 병목을 옮겼다.</b> 1·2단계의 첫 포화는 MySQL이었으나, read-through 도입 후 MySQL CPU는 59.9%로 내려가고 포화 지점이 product JVM으로 이동했다. 쿼리 최적화(SQL 8→6)만으로는 +6.61%에 그쳤다.</li>
+      <li><b>로컬 Redis로는 수평 확장할 수 없다.</b> 인스턴스별 캐시는 stale 응답·hit율 하락·인스턴스 간 stampede 미방지를 부른다. 공용 Redis로 키·락·무효화를 공유한 뒤 확장해 4,143 RPS를 얻었다(§3의 single-flight 락이 공용 Redis 전제).</li>
+      <li><b>쓰기는 캐시를 우회한다.</b> reserve/release는 §4대로 MySQL 조건부 UPDATE가 권위이므로, 적중률을 올려도 혼합 워크로드의 상한은 공용 MySQL CPU가 정한다(읽기 25~50 VU 사이 포화 시작).</li>
+      <li><b>인스턴스 증설은 이 상한을 넘지 못한다.</b> product 2→4대에서도 ~7.8k RPS가 유지됐다. 다음 조치는 노드 추가가 아니라 느린 쿼리·트랜잭션 범위·행 잠금 경합 검토다.</li>
+    </ul>
+
+    <div class="warn">
+      <b>해석 한계(원본 보고서 명시):</b>
+      1·2단계는 데이터셋이 1천 → 10만으로 달라 순수한 코드 A/B가 아니다 ·
+      3단계 G1 evacuation pause 207~288ms가 관측됐으나 p99 104.7ms의 직접 원인으로 확정되지 않았다(JFR 60초 ≠ 부하 30초) ·
+      캐시 타이머는 평균만 확인됐다(0.46ms / 2.16ms) — tail 판정에는 histogram과 cache state 태그가 필요 ·
+      6단계 <code>threads_running</code>은 번들에서 결측이라 연결·락 대기는 재측정 대상.
+    </div>
 
     <script type="module">
       import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';

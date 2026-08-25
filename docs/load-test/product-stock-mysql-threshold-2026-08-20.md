@@ -570,3 +570,67 @@ env MYSQL_THRESHOLD_VERY_LOW_RAMP=true \
 관련 구현 커밋: `17a6f01`(250→500), `fe00f9b`(100→200), `6914746`(10→100),
 `8baa7bf`(reserve SKU 일괄 조회), `1d7ebe2`(release·재고 batch),
 `bbb571f`(release 인덱스), `1592374`(재고 잠금 순서).
+
+## 재고 캐시 distributed single-flight A/B
+
+- 측정일: 2026-08-22 (AWS `ap-northeast-2`)
+- 워크로드: read-only, `10 → 25 → 50 → 75 → 100 VU`, 각 3분
+- 공통 조건: Product 4대, 공유 Redis 1대, MySQL `m7g.large`, 상품 1,000개/재고
+  9,000개, 동일한 uniform 분포
+- 기준 런: `20260822T080427Z-product-stock-mix-78000`
+- 변경 런: `20260822T091505Z-product-stock-mix-88779`, 구현 커밋 `a7d88a7`
+
+재고 캐시 miss 시 상품별 Redisson lock을 얻은 요청만 MySQL을 조회하고, 나머지 요청은 lock을
+기다린 뒤 캐시를 다시 확인하도록 변경했다. 오류는 두 런 모두 0건이었다.
+
+### 전체 결과
+
+| 항목 | 변경 전 | single-flight 적용 | 변화 |
+|---|---:|---:|---:|
+| 평균 HTTP RPS | 6,677.09 | 5,499.12 | **-17.64%** |
+| HTTP p95 | 14.02ms | 22.61ms | **+61.26%** |
+| HTTP p99 | 23.30ms | 31.89ms | **+36.88%** |
+| `stock_availability` SELECT | 789,155회 | 147,437회 | **-81.32%** |
+| 해당 SELECT 누적 시간 | 174.334초 | 39.388초 | **-77.41%** |
+| 해당 SELECT 반환 행 | 7,108,830 | 1,326,933 | **-81.33%** |
+
+### VU 단계별 결과
+
+| VU | RPS 전 → 후 | p95 전 → 후 | MySQL CPU 전 → 후 |
+|---:|---:|---:|---:|
+| 10 | 1,953.13 → 1,238.45 | 13 → 22ms | 27.25 → 13.96% |
+| 25 | 3,711.12 → 2,501.68 | 5 → 15ms | 50.02 → 26.63% |
+| 50 | 6,449.09 → 5,272.93 | 6 → 16ms | 81.72 → 51.15% |
+| 75 | 9,258.59 → 8,043.57 | 8 → 17ms | 93.21 → 74.08% |
+| 100 | 10,041.77 → 8,817.71 | 12 → 20ms | 94.50 → 78.78% |
+
+전체 stage에서 관측한 재고 cache miss는 변경 전 789,463회, 변경 후 668,259회였다. DB
+cache write는 변경 전 miss와 같은 789,463회였지만 변경 후에는 146,938회로 줄었다. 변경
+후 DB write/miss 비율은 21.99%로, miss 요청 약 78.01%가 DB 조회 전에 합쳐졌다. MySQL
+digest의 실제 SELECT 147,437회도 cache write 수와 0.34% 이내로 일치한다.
+
+### 판단
+
+single-flight가 캐시 스탬피드로 인한 MySQL 조회와 CPU를 줄인 것은 확인됐다. 특히 100 VU
+구간에서 MySQL CPU는 94.50%에서 78.78%로 15.72%p 내려갔다. 따라서 DB 보호 효과는
+있지만 현재 구현을 최종 설정으로 채택하기에는 HTTP 처리량과 tail latency 회귀가 크다.
+
+현재 miss 요청들은 leader가 캐시를 채운 뒤에도 같은 분산락을 차례로 획득하고 캐시를 다시
+확인한다. 이 lock convoy와 Redis 왕복이 병목으로 이동한 것으로 보인다. 실제로 Redis CPU도
+10~75 VU 구간에서 변경 전보다 높았다. 다음 A/B에서는 먼저 lock 획득·대기·timeout 시간을
+계측하고, 동일 JVM 요청을 local single-flight로 합친 뒤 노드별 leader만 분산락에 참여하게
+하는 최소 변경을 검증한다. 또는 follower는 lock을 순차 획득하지 않고 bounded cache re-read만
+수행하게 한다.
+
+한 번의 순차 A/B이고 새 스택의 JVM warm-up 차이가 포함될 수 있으므로 정확한 효과 크기는
+교차 실행으로 재검증해야 한다. 다만 DB 조회 감소는 cache write와 MySQL digest가 함께
+확인했고, 응답 성능 회귀도 전 VU 단계에서 같은 방향이었다. 각 점이 5개뿐이고 정확한 값의
+비교가 핵심이라 별도 차트 대신 단계별 표를 사용했다.
+
+- [변경 전 summary](../../k6/results/20260822T080427Z-product-stock-mix-78000.summary.json)
+- [변경 전 MySQL digest](../../k6/results/20260822T080427Z-product-stock-mix-78000.mysql-digests.tsv)
+- [변경 후 summary](../../k6/results/20260822T091505Z-product-stock-mix-88779.summary.json)
+- [변경 후 MySQL digest](../../k6/results/20260822T091505Z-product-stock-mix-88779.mysql-digests.tsv)
+
+측정 종료 후 `terraform destroy`로 36개 리소스를 제거했고 `terraform state list`가 비어
+있음을 확인했다.
