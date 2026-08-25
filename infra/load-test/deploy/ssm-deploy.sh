@@ -36,6 +36,11 @@ case "$SSM_READY_ATTEMPTS:$SSM_POLL_ATTEMPTS" in
   *[!0-9:]*|0:*|*:0) echo "SSM wait attempts must be positive integers" >&2; exit 1 ;;
 esac
 case "$LOAD_TEST_PROFILE" in full|product|product-scaleout|product-replica) ;; *) echo "LOAD_TEST_PROFILE must be full, product, product-scaleout, or product-replica" >&2; exit 1 ;; esac
+if [ "$LOAD_TEST_PROFILE" = "product-replica" ]; then
+  PRODUCT_DATASOURCE_REPLICA_ENABLED="${PRODUCT_DATASOURCE_REPLICA_ENABLED:-true}"
+else
+  PRODUCT_DATASOURCE_REPLICA_ENABLED=false
+fi
 
 # role → compose 파일 (순서 = 배포 순서: 인프라 → DB → 앱)
 # macOS 기본 bash 3.2 는 연관배열(declare -A) 미지원 → case 로 매핑.
@@ -251,7 +256,7 @@ for role in $ROLES; do
   remote="$(clone_header)
 export IMAGE_NS='${IMAGE_NS}' IMAGE_TAG='${IMAGE_TAG}' AWS_REGION='${REGION}'
 # 실측 토글 포워딩 (로컬 env → 원격 compose). 미설정 시 안전한 기본값(off).
-export SERVER_TOMCAT_MBEANREGISTRY_ENABLED='${SERVER_TOMCAT_MBEANREGISTRY_ENABLED:-false}' OTEL_JAVAAGENT='${OTEL_JAVAAGENT:-}' LOADTEST_QUERYCOUNT_ENABLED='${LOADTEST_QUERYCOUNT_ENABLED:-false}' CANCEL_PUBLISH_MODE='${CANCEL_PUBLISH_MODE:-INLINE}' CANCEL_OUTBOX_POLL_MS='${CANCEL_OUTBOX_POLL_MS:-10000}' CANCEL_OUTBOX_BATCH_SIZE='${CANCEL_OUTBOX_BATCH_SIZE:-1000}'
+export SERVER_TOMCAT_MBEANREGISTRY_ENABLED='${SERVER_TOMCAT_MBEANREGISTRY_ENABLED:-false}' OTEL_JAVAAGENT='${OTEL_JAVAAGENT:-}' LOADTEST_QUERYCOUNT_ENABLED='${LOADTEST_QUERYCOUNT_ENABLED:-false}' PRODUCT_DATASOURCE_REPLICA_ENABLED='${PRODUCT_DATASOURCE_REPLICA_ENABLED}' CANCEL_PUBLISH_MODE='${CANCEL_PUBLISH_MODE:-INLINE}' CANCEL_OUTBOX_POLL_MS='${CANCEL_OUTBOX_POLL_MS:-10000}' CANCEL_OUTBOX_BATCH_SIZE='${CANCEL_OUTBOX_BATCH_SIZE:-1000}'
 cd /opt/loadtest/repo/infra/load-test/deploy
 ${source_preflight}
 docker compose -f '${file}' ${extra} pull
@@ -288,9 +293,9 @@ docker compose -f node-exporter.compose.yml ps"
   echo "── [obs] 관측 스택(Prometheus/Grafana/exporters) + node-exporter ──"
   obs_remote="$(clone_header)
 cd /opt/loadtest/repo/infra/load-test/observability
-if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ] || [ '${LOAD_TEST_PROFILE}' = 'product-replica' ]; then docker compose -f product-only.compose.yml up -d; else docker compose up -d; fi
+if [ '${LOAD_TEST_PROFILE}' = 'product-replica' ]; then docker compose -f product-only.compose.yml -f product-replica.compose.yml up -d; elif [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ]; then docker compose -f product-only.compose.yml up -d; else docker compose up -d; fi
 docker compose -f node-exporter.compose.yml up -d
-if [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ] || [ '${LOAD_TEST_PROFILE}' = 'product-replica' ]; then docker compose -f product-only.compose.yml ps; else docker compose ps; fi"
+if [ '${LOAD_TEST_PROFILE}' = 'product-replica' ]; then docker compose -f product-only.compose.yml -f product-replica.compose.yml ps; elif [ '${LOAD_TEST_PROFILE}' = 'product' ] || [ '${LOAD_TEST_PROFILE}' = 'product-scaleout' ]; then docker compose -f product-only.compose.yml ps; else docker compose ps; fi"
   ssm_run "obs" "$obs_remote"
 fi
 

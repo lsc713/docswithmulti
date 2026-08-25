@@ -28,6 +28,7 @@ K6_P99_QUERY="k6_stock_mix_workload_duration_p99{run=\"$RUN_KEY\",workload=~\"re
 K6_ERROR_QUERY="k6_stock_mix_workload_failure_rate{run=\"$RUN_KEY\",workload=~\"read|write\"}"
 DETAIL_CACHE_QUERY='product_detail_cache_total{host=~"product|product-a|product-b|product-c|product-d"}'
 STOCK_CACHE_QUERY='product_stock_cache_total{host=~"product|product-a|product-b|product-c|product-d"}'
+DATASOURCE_ROUTE_QUERY='product_datasource_route_total{host=~"product-a|product-b|product-c|product-d"}'
 # Custom workload metrics must return exactly one read and one write series. Any
 # extra label can split a workload into subseries and invalidate the gauge value.
 WORKLOAD_RESULT_JQ='.status == "success" and (.data.result | type == "array" and length == 2 and all(.[]; (.values | type == "array" and length > 0) and (.metric | type == "object" and (.workload == "read" or .workload == "write") and (keys | all(. == "__name__" or . == "workload")))) and ([.[] | .metric.workload] | sort == ["read", "write"]))'
@@ -41,7 +42,7 @@ case "$DISTRIBUTION" in uniform|hot) ;; *) echo "STOCK_MIX_DISTRIBUTION must be 
 [[ "$ITEMS_PER_RESERVATION" =~ ^[1-9][0-9]*$ ]] || { echo "STOCK_ITEMS_PER_RESERVATION must be positive" >&2; exit 1; }
 
 if [ "${PRINT_STAGE_QUERIES:-}" = 1 ]; then
-  printf '%s\n' "$K6_RPS_QUERY" "$K6_P95_QUERY" "$K6_P99_QUERY" "$K6_ERROR_QUERY" "$DETAIL_CACHE_QUERY" "$STOCK_CACHE_QUERY"
+  printf '%s\n' "$K6_RPS_QUERY" "$K6_P95_QUERY" "$K6_P99_QUERY" "$K6_ERROR_QUERY" "$DETAIL_CACHE_QUERY" "$STOCK_CACHE_QUERY" "$DATASOURCE_ROUTE_QUERY"
   exit 0
 fi
 if [ "${PRINT_STAGE_PLAN:-}" = 1 ]; then
@@ -128,12 +129,13 @@ stage_count=4
 [ "$MYSQL_THRESHOLD_VERY_LOW_RAMP" = true ] && stage_count=5
 /opt/loadtest/repo/k6/stage-windows.sh "$started_epoch" "$ended_epoch" "$STAGE_SECONDS" "$stage_count" > "$stage_plan"
 while read -r stage start end; do
-  hosts='k6|product-a|product-b|product-c|product-d|mysql-product|redis-product'
+  hosts='k6|product-a|product-b|product-c|product-d|mysql-product|mysql-product-replica|redis-product'
   query_interval cpu "1 - avg by (host) (rate(node_cpu_seconds_total{mode=\"idle\",host=~\"$hosts\"}[1m]))" "$start" "$end" "$observations/stage-${stage}-cpu.json" || true
   query_interval memory "1 - avg by (host) (node_memory_MemAvailable_bytes{host=~\"$hosts\"} / node_memory_MemTotal_bytes{host=~\"$hosts\"})" "$start" "$end" "$observations/stage-${stage}-memory.json" || true
   query_interval mysql_threads 'mysql_global_status_threads_running{db="product"}' "$start" "$end" "$observations/stage-${stage}-mysql-threads.json" || true
   query_interval detail_cache "$DETAIL_CACHE_QUERY" "$start" "$end" "$observations/stage-${stage}-detail-cache.json" || true
   query_interval stock_cache "$STOCK_CACHE_QUERY" "$start" "$end" "$observations/stage-${stage}-stock-cache.json" || true
+  query_interval datasource_route "$DATASOURCE_ROUTE_QUERY" "$start" "$end" "$observations/stage-${stage}-datasource-route.json" || true
   for metric in rps p95 p99 error_rate; do
     file="$observations/stage-${stage}-k6-${metric}.json"
     case "$metric" in
@@ -165,7 +167,7 @@ fi
 exit "$k6_status"
 REMOTE
 
-PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg threshold "$MYSQL_THRESHOLD_RAMP" --arg threshold_low "$MYSQL_THRESHOLD_LOW_RAMP" --arg threshold_very_low "$MYSQL_THRESHOLD_VERY_LOW_RAMP" --arg workload "$WORKLOAD_MODE" --arg distribution "$DISTRIBUTION" --arg items_per_reservation "$ITEMS_PER_RESERVATION" --arg stage_seconds "$STAGE_SECONDS" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg detail_cache "$DETAIL_CACHE_QUERY" --arg stock_cache "$STOCK_CACHE_QUERY" --arg workload_jq "$WORKLOAD_RESULT_JQ" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nMYSQL_THRESHOLD_RAMP=\($threshold | @sh)\nMYSQL_THRESHOLD_LOW_RAMP=\($threshold_low | @sh)\nMYSQL_THRESHOLD_VERY_LOW_RAMP=\($threshold_very_low | @sh)\nWORKLOAD_MODE=\($workload | @sh)\nDISTRIBUTION=\($distribution | @sh)\nITEMS_PER_RESERVATION=\($items_per_reservation | @sh)\nSTAGE_SECONDS=\($stage_seconds | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\nDETAIL_CACHE_QUERY=\($detail_cache | @sh)\nSTOCK_CACHE_QUERY=\($stock_cache | @sh)\nWORKLOAD_RESULT_JQ=\($workload_jq | @sh)\n" + $script]}')
+PARAMS=$(jq -n --arg repo "$REPO_URL" --arg ref "$REPO_REF" --arg seed "$SEED_B64" --arg run "$RUN_KEY" --arg prom "$PROM_URL" --arg prom_query "$PROM_QUERY_URL" --arg product "$PRODUCT_URL" --arg threshold "$MYSQL_THRESHOLD_RAMP" --arg threshold_low "$MYSQL_THRESHOLD_LOW_RAMP" --arg threshold_very_low "$MYSQL_THRESHOLD_VERY_LOW_RAMP" --arg workload "$WORKLOAD_MODE" --arg distribution "$DISTRIBUTION" --arg items_per_reservation "$ITEMS_PER_RESERVATION" --arg stage_seconds "$STAGE_SECONDS" --arg rps "$K6_RPS_QUERY" --arg p95 "$K6_P95_QUERY" --arg p99 "$K6_P99_QUERY" --arg error "$K6_ERROR_QUERY" --arg detail_cache "$DETAIL_CACHE_QUERY" --arg stock_cache "$STOCK_CACHE_QUERY" --arg datasource_route "$DATASOURCE_ROUTE_QUERY" --arg workload_jq "$WORKLOAD_RESULT_JQ" --arg script "$REMOTE" '{commands: ["REPO_URL=\($repo | @sh)\nREPO_REF=\($ref | @sh)\nSEED_B64=\($seed | @sh)\nRUN_KEY=\($run | @sh)\nPROM_URL=\($prom | @sh)\nPROM_QUERY_URL=\($prom_query | @sh)\nPRODUCT_URL=\($product | @sh)\nMYSQL_THRESHOLD_RAMP=\($threshold | @sh)\nMYSQL_THRESHOLD_LOW_RAMP=\($threshold_low | @sh)\nMYSQL_THRESHOLD_VERY_LOW_RAMP=\($threshold_very_low | @sh)\nWORKLOAD_MODE=\($workload | @sh)\nDISTRIBUTION=\($distribution | @sh)\nITEMS_PER_RESERVATION=\($items_per_reservation | @sh)\nSTAGE_SECONDS=\($stage_seconds | @sh)\nK6_RPS_QUERY=\($rps | @sh)\nK6_P95_QUERY=\($p95 | @sh)\nK6_P99_QUERY=\($p99 | @sh)\nK6_ERROR_QUERY=\($error | @sh)\nDETAIL_CACHE_QUERY=\($detail_cache | @sh)\nSTOCK_CACHE_QUERY=\($stock_cache | @sh)\nDATASOURCE_ROUTE_QUERY=\($datasource_route | @sh)\nWORKLOAD_RESULT_JQ=\($workload_jq | @sh)\n" + $script]}')
 CID=$(aws ssm send-command --region "$REGION" --instance-ids "$IID" --document-name AWS-RunShellScript --comment "product stock mixed load test" --parameters "$PARAMS" --timeout-seconds 3600 --query 'Command.CommandId' --output text)
 
 wait_for_command() {

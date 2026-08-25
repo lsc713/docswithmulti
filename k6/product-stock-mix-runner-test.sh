@@ -8,6 +8,7 @@ queries=$(PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-pro
 [[ "$queries" == *'k6_stock_mix_workload_failure_rate{run="'* ]]
 [[ "$queries" == *'product_detail_cache_total'* ]] || { echo 'detail cache query missing' >&2; exit 1; }
 [[ "$queries" == *'product_stock_cache_total'* ]] || { echo 'stock cache query missing' >&2; exit 1; }
+[[ "$queries" == *'product_datasource_route_total'* ]] || { echo 'route metric query missing' >&2; exit 1; }
 [[ "$queries" != *'_bucket'* && "$queries" != *'k6_http_req_failed_'* && "$queries" != *'max\ by'* ]]
 if STOCK_MIX_DISTRIBUTION=invalid PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
   echo 'invalid stock distribution unexpectedly passed' >&2
@@ -18,6 +19,13 @@ if STOCK_ITEMS_PER_RESERVATION=0 PRINT_STAGE_QUERIES=1 REPO_REF=test PROM_URL=in
   exit 1
 fi
 runner="$ROOT/k6/run-product-stock-mix-aws.sh"
+rg -q -F 'mysql-product-replica' "$runner"
+product_compose="$ROOT/infra/load-test/deploy/product.compose.yml"
+rg -q -F 'PRODUCT_DATASOURCE_REPLICA_ENABLED:' "$product_compose"
+rg -q -F 'PRODUCT_DATASOURCE_REPLICA_URL:' "$product_compose"
+rg -q -F 'PRODUCT_DATASOURCE_REPLICA_USERNAME:' "$product_compose"
+rg -q -F 'PRODUCT_DATASOURCE_REPLICA_PASSWORD:' "$product_compose"
+rg -q -F 'SPRING_DATASOURCE_URL: "jdbc:mysql://10.0.1.33:3306/product_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true&useAffectedRows=true"' "$product_compose"
 rg -q -F -- '-e STOCK_ITEMS_PER_RESERVATION="$ITEMS_PER_RESERVATION"' "$runner"
 pull_line=$(rg -n -m1 -F 'docker pull grafana/k6:0.54.0' "$runner" | cut -d: -f1)
 start_line=$(rg -n -m1 -F 'date -u +%s > "/results/${RUN_KEY}.started-epoch"' "$runner" | cut -d: -f1)

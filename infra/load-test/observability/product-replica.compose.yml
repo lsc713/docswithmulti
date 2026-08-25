@@ -1,0 +1,11 @@
+services:
+  prometheus:
+    volumes:
+      - ./product-replica-prometheus.yml:/etc/prometheus/prometheus.yml:ro
+
+  mysqld-exporter-product-replica:
+    image: prom/mysqld-exporter:v0.14.0
+    container_name: mysqld-exporter-product-replica
+    restart: unless-stopped
+    environment:
+      DATA_SOURCE_NAME: "root:root@(10.0.1.34:3306)/"
