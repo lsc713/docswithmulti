@@ -78,7 +78,10 @@ if rg -q '^[[:space:]]*docker exec' "$HERE/mysql-product-replica-smoke.sh"; then
   echo 'smoke docker exec must be wrapped by a process timeout' >&2
   exit 1
 fi
-rg -Uq 'DELETE FROM product_db\.loadtest_replication_smoke WHERE run_key = .\$run_key.[\s\S]*wait_for .replicated marker cleanup.[\s\S]* 0\ntrap - EXIT' "$HERE/mysql-product-replica-smoke.sh"
+rg -Uq 'DROP TABLE IF EXISTS product_db\.loadtest_replication_smoke[\s\S]*wait_for .replicated smoke table cleanup.[\s\S]*information_schema\.tables[\s\S]* 0\ntrap - EXIT' "$HERE/mysql-product-replica-smoke.sh" || {
+  echo 'successful replication smoke must remove its temporary table from source and replica' >&2
+  exit 1
+}
 
 if docker compose version >/dev/null 2>&1; then
   base=$(docker compose -f "$HERE/mysql-product.compose.yml" config --format json)

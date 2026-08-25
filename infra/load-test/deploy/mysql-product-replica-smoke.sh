@@ -75,7 +75,7 @@ source_root_sql "$SMOKE_COMMAND_TIMEOUT_SECONDS" -e '
 '
 source_root_sql "$SMOKE_COMMAND_TIMEOUT_SECONDS" -e "INSERT INTO product_db.loadtest_replication_smoke(run_key) VALUES ('$run_key')"
 cleanup() {
-  source_root_sql "$SMOKE_COMMAND_TIMEOUT_SECONDS" -e "DELETE FROM product_db.loadtest_replication_smoke WHERE run_key = '$run_key'" >/dev/null 2>&1 || true
+  source_root_sql "$SMOKE_COMMAND_TIMEOUT_SECONDS" -e 'DROP TABLE IF EXISTS product_db.loadtest_replication_smoke' >/dev/null 2>&1 || true
 }
 trap cleanup EXIT
 
@@ -105,9 +105,9 @@ case "$reader_status" in
     ;;
 esac
 
-source_root_sql "$SMOKE_COMMAND_TIMEOUT_SECONDS" -e "DELETE FROM product_db.loadtest_replication_smoke WHERE run_key = '$run_key'"
-wait_for 'replicated marker cleanup' \
-  "SELECT COUNT(*) FROM product_db.loadtest_replication_smoke WHERE run_key = '$run_key'" 0
+source_root_sql "$SMOKE_COMMAND_TIMEOUT_SECONDS" -e 'DROP TABLE IF EXISTS product_db.loadtest_replication_smoke'
+wait_for 'replicated smoke table cleanup' \
+  "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'product_db' AND table_name = 'loadtest_replication_smoke'" 0
 trap - EXIT
 
 echo "replication smoke passed: $run_key"
