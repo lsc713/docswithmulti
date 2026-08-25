@@ -38,25 +38,31 @@ stage_line=$(rg -n -m1 -F '/opt/loadtest/repo/k6/stage-windows.sh "$started_epoc
 (( pull_line < start_line && start_line < stage_line ))
 plan=$(PRINT_STAGE_PLAN=1 STAGE_START_EPOCH=1000 STAGE_END_EPOCH=1720 REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh")
 [[ "$plan" == $'1 1000 1180\n2 1180 1360\n3 1360 1540\n4 1540 1720' ]]
-good=$(mktemp); empty=$(mktemp); missing_read=$(mktemp); missing_write=$(mktemp); empty_values=$(mktemp); failed=$(mktemp); operation_series=$(mktemp)
-trap 'rm -f "$good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series"' EXIT
+good=$(mktemp); labeled_good=$(mktemp); empty=$(mktemp); missing_read=$(mktemp); missing_write=$(mktemp); empty_values=$(mktemp); failed=$(mktemp); operation_series=$(mktemp); unexpected_label=$(mktemp); bad_scenario=$(mktemp); bad_run=$(mktemp); null_labels=$(mktemp)
+trap 'rm -f "$good" "$labeled_good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series" "$unexpected_label" "$bad_scenario" "$bad_run" "$null_labels"' EXIT
 printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"workload":"read"},"values":[[1,"1"]]},{"metric":{"workload":"write"},"values":[[1,"1"]]}]}}' > "$good"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"__name__":"k6_stock_mix_workload_duration_p95","run":"test","scenario":"read","workload":"read"},"values":[[1,"1"]]},{"metric":{"__name__":"k6_stock_mix_workload_duration_p95","run":"test","scenario":"write","workload":"write"},"values":[[1,"1"]]}]}}' > "$labeled_good"
 printf '%s\n' '{"status":"success","data":{"result":[]}}' > "$empty"
 printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"workload":"write"},"values":[[1,"1"]]}]}}' > "$missing_read"
 printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"workload":"read"},"values":[[1,"1"]]}]}}' > "$missing_write"
 printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"workload":"read"},"values":[]},{"metric":{"workload":"write"},"values":[]}]}}' > "$empty_values"
 printf '%s\n' '{"status":"error","data":{"result":[{"metric":{"workload":"read"},"values":[[1,"1"]]},{"metric":{"workload":"write"},"values":[[1,"1"]]}]}}' > "$failed"
 printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"workload":"read"},"values":[[1,"1"]]},{"metric":{"workload":"write"},"values":[[1,"1"]]},{"metric":{"workload":"write","operation":"reserve"},"values":[[1,"1"]]},{"metric":{"workload":"write","operation":"release"},"values":[[1,"1"]]}]}}' > "$operation_series"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"workload":"read","operation":"detail"},"values":[[1,"1"]]},{"metric":{"workload":"write","operation":"reserve"},"values":[[1,"1"]]}]}}' > "$unexpected_label"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"run":"test","scenario":"write","workload":"read"},"values":[[1,"1"]]},{"metric":{"run":"test","scenario":"write","workload":"write"},"values":[[1,"1"]]}]}}' > "$bad_scenario"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"run":"other","scenario":"read","workload":"read"},"values":[[1,"1"]]},{"metric":{"run":"other","scenario":"write","workload":"write"},"values":[[1,"1"]]}]}}' > "$bad_run"
+printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"run":null,"scenario":null,"workload":"read"},"values":[[1,"1"]]},{"metric":{"run":null,"scenario":null,"workload":"write"},"values":[[1,"1"]]}]}}' > "$null_labels"
 VERIFY_WORKLOAD_FILE="$good" REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"
-for invalid in "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series"; do
-  if VERIFY_WORKLOAD_FILE="$invalid" REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
+RUN_KEY=test VERIFY_WORKLOAD_FILE="$labeled_good" REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"
+for invalid in "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series" "$unexpected_label" "$bad_scenario" "$bad_run" "$null_labels"; do
+  if RUN_KEY=test VERIFY_WORKLOAD_FILE="$invalid" REPO_REF=test PROM_URL=invalid "$ROOT/k6/run-product-stock-mix-aws.sh"; then
     echo 'invalid workload query unexpectedly passed' >&2
     exit 1
   fi
 done
 
 artifacts=$(mktemp -d)
-trap 'rm -f "$good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series"; rm -rf "$artifacts"' EXIT
+trap 'rm -f "$good" "$labeled_good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series" "$unexpected_label" "$bad_scenario" "$bad_run" "$null_labels"; rm -rf "$artifacts"' EXIT
 mkdir -p "$artifacts/test.observations"
 write_lag_artifacts() {
   printf '%s\n' \
@@ -136,7 +142,7 @@ printf '%s\n' '{"status":"success","data":{"result":[{"metric":{"host":"product-
 expect_invalid_artifacts outage 'flat multi-series fallback counters'
 
 orchestration=$(mktemp -d)
-trap 'rm -f "$good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series"; rm -rf "$artifacts" "$orchestration"' EXIT
+trap 'rm -f "$good" "$labeled_good" "$empty" "$missing_read" "$missing_write" "$empty_values" "$failed" "$operation_series" "$unexpected_label" "$bad_scenario" "$bad_run" "$null_labels"; rm -rf "$artifacts" "$orchestration"' EXIT
 mkdir -p "$orchestration/bin"
 printf '%s\n' '[{"productId":1,"skuId":101},{"productId":2,"skuId":102},{"productId":3,"skuId":103},{"productId":4,"skuId":104},{"productId":5,"skuId":105},{"productId":6,"skuId":106},{"productId":7,"skuId":107},{"productId":8,"skuId":108},{"productId":9,"skuId":109},{"productId":10,"skuId":110}]' > "$orchestration/seed.json"
 

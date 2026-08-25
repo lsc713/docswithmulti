@@ -31,9 +31,10 @@ K6_ERROR_QUERY="k6_stock_mix_workload_failure_rate{run=\"$RUN_KEY\",workload=~\"
 DETAIL_CACHE_QUERY='product_detail_cache_total{host=~"product|product-a|product-b|product-c|product-d"}'
 STOCK_CACHE_QUERY='product_stock_cache_total{host=~"product|product-a|product-b|product-c|product-d"}'
 DATASOURCE_ROUTE_QUERY='product_datasource_route_total{host=~"product-a|product-b|product-c|product-d"}'
-# Custom workload metrics must return exactly one read and one write series. Any
-# extra label can split a workload into subseries and invalidate the gauge value.
-WORKLOAD_RESULT_JQ='.status == "success" and (.data.result | type == "array" and length == 2 and all(.[]; (.values | type == "array" and length > 0) and (.metric | type == "object" and (.workload == "read" or .workload == "write") and (keys | all(. == "__name__" or . == "workload")))) and ([.[] | .metric.workload] | sort == ["read", "write"]))'
+# Custom workload metrics must return exactly one read and one write series.
+# Prometheus preserves run/scenario on raw custom metrics but aggregation may
+# remove them; accept only those expected labels and validate them when present.
+WORKLOAD_RESULT_JQ='.status == "success" and (.data.result | type == "array" and length == 2 and all(.[]; (.values | type == "array" and length > 0) and (.metric | type == "object" and (.workload == "read" or .workload == "write") and (keys | all(. == "__name__" or . == "run" or . == "scenario" or . == "workload")) and ((has("scenario") | not) or .scenario == .workload) and ((has("run") | not) or .run == $expected_run))) and ([.[] | .metric.workload] | sort == ["read", "write"]))'
 case "$REPLICA_EXPERIMENT" in baseline|steady|lag|outage) ;; *) echo 'REPLICA_EXPERIMENT must be baseline, steady, lag, or outage' >&2; exit 1 ;; esac
 [[ "$RUN_KEY" =~ ^[A-Za-z0-9._-]+$ ]] || { echo 'RUN_KEY contains unsupported characters' >&2; exit 1; }
 [ "${#RUN_KEY}" -le 64 ] || { echo 'RUN_KEY must be at most 64 characters' >&2; exit 1; }
@@ -176,7 +177,7 @@ if [ "${PRINT_STAGE_PLAN:-}" = 1 ]; then
   exit 0
 fi
 if [ -n "${VERIFY_WORKLOAD_FILE:-}" ]; then
-  jq -e "$WORKLOAD_RESULT_JQ" "$VERIFY_WORKLOAD_FILE" >/dev/null
+  jq -e --arg expected_run "$RUN_KEY" "$WORKLOAD_RESULT_JQ" "$VERIFY_WORKLOAD_FILE" >/dev/null
   exit 0
 fi
 
@@ -284,7 +285,7 @@ query_interval() {
 }
 require_workloads() {
   file=$1
-  jq -e "$WORKLOAD_RESULT_JQ" "$file" >/dev/null
+  jq -e --arg expected_run "$RUN_KEY" "$WORKLOAD_RESULT_JQ" "$file" >/dev/null
 }
 required_k6_ok=1
 stage_count=4
