@@ -92,7 +92,8 @@ if docker compose version >/dev/null 2>&1; then
     and .volumes["mysql-product-data"].name == "deploy_mysql-product-data"' <<<"$source" >/dev/null
   jq -e '.services["mysql-product-replica"].command == ["--server-id=2", "--relay-log=mysql-relay-bin", "--gtid-mode=ON", "--enforce-gtid-consistency=ON"]
     and ((.services["mysql-product-replica"].environment | has("MYSQL_DATABASE")) == false)
-    and ((.services["mysql-product-replica"].environment | has("MYSQL_USER")) == false)' <<<"$replica" >/dev/null
+    and ((.services["mysql-product-replica"].environment | has("MYSQL_USER")) == false)
+    and .services["mysql-product-replica"].healthcheck.test == ["CMD-SHELL", "MYSQL_PWD=root mysql -uroot -e '\''SELECT 1'\''"]' <<<"$replica" >/dev/null
 fi
 
 (

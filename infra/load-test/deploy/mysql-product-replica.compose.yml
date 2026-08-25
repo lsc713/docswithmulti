@@ -14,7 +14,7 @@ services:
       - --gtid-mode=ON
       - --enforce-gtid-consistency=ON
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
+      test: ["CMD-SHELL", "MYSQL_PWD=root mysql -uroot -e 'SELECT 1'"]
       interval: 5s
       timeout: 5s
       retries: 24
