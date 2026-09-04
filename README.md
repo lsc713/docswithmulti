@@ -1,8 +1,76 @@
-# multicommerce
+# 이커머스 결제 취소 시스템 (multicommerce)
 
-주문, 결제, 결제 취소 승인 흐름을 로컬에서 실행하는 멀티 모듈 Spring Boot + React 예제입니다.
+분산 환경에서 결제 취소가 만드는 **멱등성 · 동시성 · 분산 트랜잭션** 문제를 다루는 시스템입니다.
+네트워크 재시도로 인한 중복 환불, 가맹점 한도 동시 차감, 서버 재시작 시 상태 불일치를
+각각 다른 수단으로 해결하고, 그 선택을 부하 실측으로 검증했습니다.
 
-## 준비물
+`2026.04 ~ 진행 중` · 1인 설계 · 구현
+Java 21 · Spring Boot 3 · Spring Data JPA · MySQL 8 · Kafka 3 · Redis · Flyway · Gradle 멀티 모듈 · React
+
+8개 서비스(api-gateway · user · product · order · payment · risk-management · merchant-limit · settlement)가
+각자 독립 DB를 씁니다. 취소 한 건이 지나는 경로는 그중 4개입니다 —
+**payment → risk-management → merchant-limit** 까지가 동기 HTTP, 이후 **order** 는 Kafka 이벤트로 상태를 맞춥니다.
+
+---
+
+## 무엇을 읽으면 되나
+
+이 저장소는 코드보다 **결정 기록**이 더 많습니다. 관심사에 따라 들어가는 문이 다릅니다.
+
+| 궁금한 것 | 문서 |
+|---|---|
+| 왜 이 구조인가 · 모듈 경계 · 취소 플로우 | [docs/architecture.md](docs/architecture.md) |
+| **무엇을 고르고 무엇을 기각했나** | [sysdesign/design-decisions.md](sysdesign/design-decisions.md) |
+| 문제 8건과 해결 요약 | [sysdesign/resume-project.md](sysdesign/resume-project.md) |
+| 부하를 어떻게 쟀나 · 원칙과 여정 | [docs/load-test/measurement-journey.md](docs/load-test/measurement-journey.md) |
+| 그 처리량이 충분한가 (수요 ↔ 공급) | [docs/load-test/capacity-planning.md](docs/load-test/capacity-planning.md) |
+| 스케일아웃은 천장을 밀었나 | [docs/load-test/k3s-scaleout-results.md](docs/load-test/k3s-scaleout-results.md) |
+| 예상 질문과 답변 | [sysdesign/interview-qa.md](sysdesign/interview-qa.md) |
+| 부하 스크립트 실물 | [k6/](k6/) |
+
+선택의 배경이 된 정리는 블로그에 따로 있습니다 —
+[InnoDB Durability · Concurrency · 동시성 제어 방식 비교 · 멱등성](https://lsc713.github.io/quarSync/posts/notes/)
+
+---
+
+## 핵심 결정 셋
+
+**1. 멱등성 — Redis가 아니라 DB 유니크 키**
+Idempotency-Key + DB UK를 API · Kafka Consumer · 보상 트랜잭션 · 보상 재시도 4개 레이어에 적용했습니다.
+Redis를 쓰지 않은 이유는 단순합니다 — 캐시가 죽으면 멱등성이 깨지고, 그건 환불 2회, 즉 금융 사고입니다.
+
+**2. 한도 차감 — 비관적 락, 낙관적 락이 아니라**
+`SELECT ... FOR UPDATE` 로 조회와 차감을 한 트랜잭션에 묶었습니다.
+낙관적 락은 한도 초과 시 재시도해도 결과가 같아 재시도 횟수만 늘고, Redis 분산락은 Redis 장애가 곧 취소 전체 중단입니다.
+
+**3. 트랜잭션 경계 — 외부 호출마다 끊기**
+HTTP 경계를 넘으면 원자성이 깨지므로 취소 한 건을 TX 3단계로 나누고 사이에 외부 호출을 뒀습니다.
+끊긴 자리는 `CancelRequest` 상태 머신(PENDING · PROCESSING · COMPLETED · FAILED)이 이어받아,
+서버가 어디서 죽어도 복구 스케줄러가 이어서 처리합니다. 실패 시에는 보상 트랜잭션이 한도를 되돌립니다.
+
+---
+
+## 측정
+
+| 항목 | 값 | 근거 |
+|---|---|---|
+| 취소 경로 천장 | **~220 rps** | 이력 커밋 6회 → 4회로 줄인 뒤 재측정 |
+| 운용 기준선(knee) | ~190 rps | 220은 p95 ~2s 라 SLO 로는 못 씀 |
+| 병목 | payment_db 커밋 fsync | 앱 티어가 아님 — replica ×3 이 천장을 18%만 밀었음 |
+| 핫 가맹점 거부율 | **99.9% → 0%** | 경합을 거부가 아니라 지연으로 흡수 |
+
+### 측정에서 한 번 틀렸던 것
+
+`×1 replica 가 210 rps 에서 이미 포화(221ms)` 라고 판정한 적이 있습니다. **거짓이었습니다.**
+간섭 요인을 격리하고 다시 재니 같은 조건에서 57ms 였고, 원래의 가설(앱 티어는 천장이 아니다)이
+오히려 지지됐습니다. 오염된 런 하나가 옳은 결론을 거짓으로 반증할 뻔한 사례라
+[k3s-scaleout-results.md](docs/load-test/k3s-scaleout-results.md) 에 남겼습니다.
+
+---
+
+## 로컬 기동
+
+### 준비물
 
 - Java 21
 - Node.js 22+
@@ -23,9 +91,9 @@ APP_ADMIN_BOOTSTRAP_EMAILS=admin@example.com
 
 `APP_ADMIN_BOOTSTRAP_EMAILS`에 등록한 이메일은 **처음 회원가입할 때만** `ADMIN`이 됩니다. 이미 가입된 계정의 역할은 자동 변경되지 않습니다.
 
-## 로컬 기동 순서
+### 실행 순서
 
-### 1. 인프라
+#### 1. 인프라
 
 ```bash
 docker compose up -d
@@ -33,7 +101,7 @@ docker compose up -d
 
 MySQL, Redis, Kafka, MinIO가 준비될 때까지 기다린 뒤 애플리케이션을 실행합니다.
 
-### 2. 백엔드
+#### 2. 백엔드
 
 각 명령은 별도 터미널에서 실행합니다. 의존 순서는 `merchant-limit → risk → payment → gateway`이고, 나머지는 인프라 준비 후 병렬 실행해도 됩니다.
 
@@ -66,7 +134,7 @@ set -a; source .env; set +a; ./gradlew :user-service:bootRun    # 8085
 ./gradlew :settlement-service:bootRun # 8086
 ```
 
-### 3. 프론트엔드
+#### 3. 프론트엔드
 
 ```bash
 cd frontend
